@@ -1,0 +1,109 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#aac_et_itunes_music_store" class="toc"> AAC et iTunes Music Store </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#decoder_du_aac" class="toc"> Décoder du AAC </a></span></li>
+<li class="level2"><span class="li"><a href="#encoder_en_aac" class="toc"> Encoder en AAC </a></span></li>
+<li class="level2"><span class="li"><a href="#itunes_music_store" class="toc"> iTunes Music Store </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#crossover_office" class="toc"> CrossOver Office </a></span></li>
+<li class="level3"><span class="li"><a href="#pymusique" class="toc"> PyMusique </a></span></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+Traduit par RFM
+</p>
+
+<a name="aac_et_itunes_music_store"></a><h1> AAC et iTunes Music Store </h1>
+<div class="level1">
+
+</div>
+<!-- SECTION [48-88] -->
+<a name="decoder_du_aac"></a><h2> Décoder du AAC </h2>
+<div class="level2">
+
+<p>
+ Par défaut, le format audio utilisé par le logiciel <em>iTunes</em> d&rsquo;Apple et donc par l&rsquo;<a href="/materiel/ipod" class="wikilink1" title="materiel:ipod" onclick="return svchk()" onkeypress="return svchk()">iPod</a> est le format <strong>AAC</strong>. Il s&rsquo;agit d&rsquo;une variante du standard <acronym title="Motion Picture Experts Group">MPEG</acronym> (format non libre). Cependant, il est possible d&rsquo;écouter des fichiers au format <strong>AAC</strong> dans <a href="/applications/lecture_et_encodage_de_fichiers_audio" class="wikilink1" title="applications:lecture_et_encodage_de_fichiers_audio" onclick="return svchk()" onkeypress="return svchk()">rhythmbox</a> ou dans <a href="/applications/amarok" class="wikilink1" title="applications:amarok" onclick="return svchk()" onkeypress="return svchk()">amaroK</a> en installant <code>gstreamer0.8-faad</code> (depuis le <a href="/installation/depots" class="wikilink1" title="installation:depots" onclick="return svchk()" onkeypress="return svchk()">dépôt backports HOARY-EXTRAS</a>). Vous en aurez besoin pour écouter n&rsquo;importe quel fichier <strong>AAC</strong>, même ceux achetés sur l&rsquo;<em>iTunes Music Store</em> (voir ci-dessous la façon d&rsquo;utiliser l&rsquo;<em>iTunes Music Store</em> sous Linux). 
+</p>
+
+<p>
+<em>Remarque : </em> Les chansons achetées sur l&rsquo;iTunes Music Store (extension .m4p) sont cryptées et <code>gstreamer0.8-faad</code> ne sera pas capable de les lire. Il faudra d&rsquo;abord les décrypter.
+</p>
+
+</div>
+<!-- SECTION [89-977] -->
+<a name="encoder_en_aac"></a><h2> Encoder en AAC </h2>
+<div class="level2">
+
+<p>
+ FAAC peut être utilisé pour encoder en AAC (à l&rsquo;heure actuelle, c&rsquo;est encore assez expérimental par rapport à l&rsquo;encodage en <acronym title="Motion Picture Experts Group Layer 3">MP3</acronym>). Pour les programmes d&rsquo;encodage qui se servent de <code>gstreamer</code> (<a href="/applications/lecture_et_encodage_de_fichiers_audio" class="wikilink1" title="applications:lecture_et_encodage_de_fichiers_audio" onclick="return svchk()" onkeypress="return svchk()">SoundJuicer</a> par exemple), il existe un plugin nommé <code>gstreamer0.8-faac</code> (à installer depuis le <a href="/installation/depots" class="wikilink1" title="installation:depots" onclick="return svchk()" onkeypress="return svchk()">dépôt backports HOARY-EXTRAS</a>). 
+</p>
+
+<p>
+Cependant, pour le moment, son utilisation reste problématique (les fichiers AAC créés ne sont pas toujours utilisables) mais cette situation pourrait changer dans un futur proche.
+</p>
+
+<p>
+Pour les autres programmes, vous pouvez utiliser directement <strong>FAAC</strong> pour encoder en AAC (installez juste le package <code>faac</code>). De cette façon, vous pourrez créer des fichiers AAC compatibles avec l&rsquo;iPod mais cela nécessitera quelques réglages supplémentaires dans votre utilitaire de <em>ripping</em>.
+</p>
+
+</div>
+<!-- SECTION [978-1907] -->
+<a name="itunes_music_store"></a><h2> iTunes Music Store </h2>
+<div class="level2">
+
+<p>
+ L&rsquo;iTunes Music Store d&rsquo;Apple permet d&rsquo;acheter de la musique en ligne parmi une très grande variété d&rsquo;artistes. Les chansons achetées sont au format <strong>AAC</strong> (128K) et le coût varie selon les pays. Pour le moment, Apple a seulement développé des clients Mac et Windows mais l&rsquo;iTMS peut être aussi utilisé avec Linux. Cela peut se faire de 2 façons différentes.
+</p>
+
+</div>
+<!-- SECTION [1908-2310] -->
+<a name="crossover_office"></a><h3> CrossOver Office </h3>
+<div class="level3">
+
+<p>
+ Premièrement, on peut utiliser <em>CodeWeavers CrossOver Office</em> (disponible sur <a href="http://www.codeweavers.com" class="urlextern" title="http://www.codeweavers.com" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.codeweavers.com</a>) pour installer la version Windows d&rsquo;iTunes sur Ubuntu. Cela permet d&rsquo;acheter des chansons puis de les écouter. Cependant, cette approche présente 2 inconvénients majeurs :
+</p>
+<ol>
+<li class="level1"><span class="li"> ce n&rsquo;est pas gratuit (licence de CrossOver Office à payer)</span>
+</li>
+<li class="level1"><span class="li"> ce n&rsquo;est pas une solution linux native.</span>
+</li>
+</ol>
+
+</div>
+<!-- SECTION [2311-2731] -->
+<a name="pymusique"></a><h3> PyMusique </h3>
+<div class="level3">
+
+<p>
+ L&rsquo;autre alternative est d&rsquo;employer <strong>PyMusique</strong>, programme gratuit qui permet d&rsquo;utiliser les fonctions basiques de l&rsquo;iTunes Music Store sur Linux. Cela fonctionne mieux que la solution iTunes avec CrossOver mais pour le moment, <strong>PyMusique</strong> a moins de fonctionnalités que le client officiel iTunes et peut enfreindre les conditions d&rsquo;utilisation de l&rsquo;iTunes Music Store.
+</p>
+
+<p>
+Pour l&rsquo;utiliser avec Ubuntu, veuillez d&rsquo;abord installer <code>gstreamer0.8-faad</code> (depuis le <a href="/installation/depots" class="wikilink1" title="installation:depots" onclick="return svchk()" onkeypress="return svchk()">dépôt backports HOARY-EXTRAS</a>) ainsi que <code>libmcrypt4</code> (depuis le <a href="/installation/depots" class="wikilink1" title="installation:depots" onclick="return svchk()" onkeypress="return svchk()">dépôt UNIVERSE</a>). Il suffit ensuite d&rsquo;aller sur ce <a href="http://kitaurawauzura.mydns.jp/~uzura/tips/pymusique/pymusique-0.5/" class="urlextern" title="http://kitaurawauzura.mydns.jp/~uzura/tips/pymusique/pymusique-0.5/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">site</a> ou sur l&rsquo;un des sites mirroirs (google <code>pymusique 0.5</code> pour les trouver) et de télécharger les paquets suivants : 
+</p>
+<pre class="code">
+pymusique python2.4-mcrypt python2.4-vlc python2.4-mp4ff
+</pre>
+
+<p>
+Pour finir, installez tous les paquets que vous venez de télécharger.  
+</p>
+<pre class="code">sudo dpkg -i *.deb</pre>
+
+<p>
+ Vous pouvez maintenant lancer <strong>PyMusique</strong> depuis le menu Applications &rArr; Internet et commencer à acheter des morceaux de musique (il se peut que vous ayez à relancer votre système pour que cela fonctionne). 
+</p>
+
+</div>
+<!-- SECTION [2732-] -->

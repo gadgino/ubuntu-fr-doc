@@ -1,0 +1,173 @@
+{{tag>Precise Trusty mac personnalisation apple}}
+----
+
+====== Comment métamorphoser Ubuntu en OS X ? ======
+
+
+Dans cette page vous apprendrez à changer l'interface d'Ubuntu et d'un ensemble d'autres logiciels pour rendre leur graphismes similaire à ceux sous mac. Cela fonctionne également au moins en partie, avec [[:Xubuntu]] et [[:Lubuntu]].
+
+=====Le dock=====
+Pour avoir un dock semble à OSX, vous avez l'embarras du choix.\\
+Le plus simple est d'[[:tutoriel:comment_installer_un_paquet|installer]] [[:docky]], mais [[:cairo-dock]] ou [[:avant-window-navigator]] sont également des solutions possibles.\\
+
+Si vous avez choisi :
+  * [[:docky]], téléchargez le thème Mac pour Docky [[http://drive.noobslab.com/data/Mac-14.04/Mac-OS-Lion%28Docky%29.tar|ici]].
+  * **Pour Cairo Dock**, [[:tutoriel:comment_installer_un_paquet|installer les paquets]] **[[apt://cairo-dock,cairo-dock-plug-ins|cairo-dock et cairo-dock-plug-ins]]**, et choisir le thème //MacOSX//.
+  * **Pour Avant window navigator**, [[:tutoriel:comment_installer_un_paquet|installer le paquet]] [[apt://avant-window-navigator|Avant window navigator]].\\ Dans AWN -> préférences -> thèmes :
+    * Ajouter //AWN_MAC_Transparent//, et l’activer.
+    * Ajouter les applets qui vous plaisent.
+
+=====Les fonds d'écrans=====
+Vous pouvez télécharger tous les fonds d'écran mac à cette [[http://drive.noobslab.com/data/Mac-13.10/MBuntu-Wallpapers.zip|adresse]]. Une fois téléchargés il vous faut encore [[:archivage#graphiquement|décompresser]] l'archive pour utiliser les images.
+=====Thèmes et icônes=====
+Il est possible d'installer les thèmes Mac de deux manières, celle qui utilise des paquets **deb** présents sur des [[:ppa|dépôts]] dédiés, ou celle qui utilise un pack installable via un script. La première méthode est certainement la plus simple et la plus facile à désinstaller.
+
+<note tip>Si vous utilisez la seconde méthode, les thèmes peuvent être difficile à désinstaller proprement. C'est pourquoi il pourrait être utile de faire un nouveau compte utilisateur sur votre machine pour n'appliquer ces modifications que pour ce compte.</note>
+
+====Installation via un dépôt====
+
+Pour installer le thème, les icônes et les curseurs mac osx Lion :
+  * [[:ppa#ajout_d_un_ppa_a_vos_sources_logicielles|Ajoutez le PPA]] **ppa:noobslab/themes**((https://launchpad.net/~noobslab/themes/+archive/ppa)) dans vos sources de logiciels,
+  * Puis [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]],
+  * Et [[:tutoriel:comment_installer_un_paquet|installez les paquets]] **[[apt>mac-ithemes-v3,mac-icons-v3]]** pour [[:trusty|Ubuntu 14.04]], **[[apt>mac-os-lion-icons-v2,mac-os-lion-theme-v2]]** pour [[:precise|Ubuntu 12.04]]. Pour les versions supérieures faites une recherche dans votre [[:gestionnaire_de_paquets|gestionnaire de logiciel]] avec le mot clé **mac-os**.\\
+
+Pour changer les thèmes, les icônes et les curseurs en thème Mac il ne vous reste plus qu'à installer et utiliser [[:ubuntu_tweak|Ubuntu-tweak]] ou **[[apt>unity-tweak-tool]]**.
+
+====Pack de thème====
+
+{{:tutoriel:mac.png?300|}}
+
+Ce pack contient un script d'installation graphique, qui se chargera de tout, et reconnaîtra votre langue, paramétrera votre installation selon vos choix, sinon vous pouvez juste laisser les paramètres par défaut.
+
+Télécharger le [[http://sourceforge.net/projects/macbuntu/files/|pack de transformation]] pour votre [[:versions|version d'Ubuntu]].
+
+   * Décompressez l'archive.
+   * Dans le répertoire décompressé, double-cliquez sur le fichier **install.sh**, puis sur le bouton « Lancer dans un terminal ».
+
+{{http://gnome-look.org/CONTENT/content-pre1/129021-1.png?175}}
+
+Votre environnement s'en trouvera bien changé !!!
+
+===== Polices Mac =====
+Pour installer les polices Mac, entrez les commandes suivantes dans un [[:terminal]] : <code>
+wget -O mac-fonts.zip http://drive.noobslab.com/data/Mac-14.04/macfonts.zip
+sudo unzip mac-fonts.zip -d /usr/share/fonts; rm mac-fonts.zip
+sudo fc-cache -f -v
+</code>
+Puis dans [[:ubuntu_tweak|Ubuntu-tweak]] allez dans //Apparence -> Polices de caractères// et choisissez les polices Mac.
+
+=====Écran de démarrage=====
+
+====Avec le ppa====
+MBuntu Slash est un logo au thème Mac qui s'affiche au démarrage du système à la place du logo Ubuntu.\\ [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>mbuntu-bscreen-v3]]** pour [[:trusty|Ubuntu 14.04]], **[[apt>mbuntu-bscreen-v2]]** pour [[:precise|Ubuntu 12.04]]. Pour les versions supérieures faites une recherche dans votre gestionnaire de logiciel avec le mot clé **mbuntu**.
+
+====Avec le script====
+
+Utilisez toujours [[:ubuntu_tweak|Ubuntu-tweak]] :
+  * Allez dans  **//Réglage de l'écran de connexion -> Dévérouiller//**,
+    * Cliquez sur l'image de l'écran de connexion actuel,
+    * Sélectionner //mac-splash// (dans répertoire bundle).
+=====Écran de connexion=====
+
+Il existe également un thème Mac pour [[:LightDM]]. \\
+Pour l'utiliser, [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>mbuntu-lightdm-v3]]** pour [[:trusty|Ubuntu 14.04]], **[[apt>mbuntu-lightdm-v2]]** pour [[:precise|Ubuntu 12.04]]. Pour les versions supérieures faites une recherche dans votre gestionnaire de logiciel avec le mot clé **mbuntu-lightdm**.
+
+
+
+=====Indicator Synapse (équivalent de Spotlight)=====
+**Indicator Synapse** peut remplacer avantageusement Spotlight, il a été développé à l'origine pour ElementaryOS :
+  * [[:ppa#ajout_d_un_ppa_a_vos_sources_logicielles|Ajoutez le PPA]] **ppa:noobslab/apps**((https://launchpad.net/~noobslab/apps/+archive/ppa)) dans vos sources de logiciels,
+  * Puis [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]],
+  * Et [[:tutoriel:comment_installer_un_paquet|installez les
+ paquet]] **[[apt>indicator-synapse]]**.
+
+
+=====Remplacer le texte dans le tableau de bord=====
+Si vous souhaitez remplacer le texte du tableau de bord //Bureau Ubuntu// par //Mac// entrez les commandes suivantes dans un [[:terminal]]:
+<code>cd && wget -O Mac.po http://drive.noobslab.com/data/Mac-14.04/change-name-on-panel/mac.po
+cd /usr/share/locale/en/LC_MESSAGES; sudo msgfmt -o unity.mo ~/Mac.po;rm ~/Mac.po;cd</code>
+Pour revenir au texte par défaut : <code>cd && wget -O Ubuntu.po http://drive.noobslab.com/data/Mac-14.04/change-name-on-panel/ubuntu.po
+cd /usr/share/locale/en/LC_MESSAGES; sudo msgfmt -o unity.mo ~/Ubuntu.po;rm ~/Ubuntu.po;cd</code>
+
+
+=====Barre de défilement=====
+Pour désactiver le cache de la barre de défilement dans les fenêtres, entrez la commande suivante dans un [[:terminal]]:
+<code>gsettings set com.canonical.desktop.interface scrollbar-mode normal</code>
+Pour revenir aux choix par défaut : <code>gsettings reset com.canonical.desktop.interface scrollbar-mode</code>
+
+=====Écran de verrouillage=====
+Il est possible d'enlever les points blanc et le logo Ubuntu de l'écran de verrouillage. Entrez les commandes suivantes dans un [[:terminal]]: <code>
+sudo xhost +SI:localuser:lightdm
+sudo su lightdm -s /bin/bash
+gsettings set com.canonical.unity-greeter draw-grid false;exit
+sudo mv /usr/share/unity-greeter/logo.png /usr/share/unity-greeter/logo.png.backup</code>
+
+Pour revenir aux choix par défaut :
+<code>
+sudo xhost +SI:localuser:lightdm
+sudo su lightdm -s /bin/bash
+gsettings set com.canonical.unity-greeter draw-grid true;exit
+sudo mv /usr/share/unity-greeter/logo.png.backup /usr/share/unity-greeter/logo.png</code>
+
+
+=====Logo Apple dans le tableau de bord Unity=====
+
+Si vous souhaitez mettre le logo Apple dans le tableau de bord à la place de celui d'Ubuntu entrez les commandes suivantes dans un [[:terminal]] : <code>
+wget -O launcher_bfb.png http://drive.noobslab.com/data/Mac-14.04/launcher-logo/apple/launcher_bfb.png
+sudo mv launcher_bfb.png /usr/share/unity/icons/</code>
+
+Si vous souhaitez revenir au logo Ubuntu entrez dans un [[:terminal]]: <code>wget -O launcher_bfb.png http://drive.noobslab.com/data/Mac-14.04/launcher-logo/ubuntu/launcher_bfb.png
+sudo mv launcher_bfb.png /usr/share/unity/icons/</code>
+
+
+=====Cacher automatiquement le lanceur=====
+
+Vous pouvez cacher le lanceur [[:Unity]] en allant dans //Apparence -> Comportement -> activer//.
+
+=====Thèmes pour applications=====
+
+====Libreoffice====
+
+Pour rendre [[:LibreOffice]] plus semblable aux icônes monochromes de Mac [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>libreoffice-style-sifr]]**, puis aller dans //Outils -> Options -> LibreOffice -> Affichage// dans le champs //Style et taille d'icônes// choisisssez **Sifr**.
+
+==== Thème pour Firefox ====
+
+Les modules complémentaires suivants étaient disponibles jusqu'à Firefox 20 :
+  * [[https://addons.mozilla.org/en-US/firefox/addon/12782|Theme firefox.]]
+  * [[https://addons.mozilla.org/en-US/firefox/addon/1951|Extension Firefox.]]
+
+==== Thème pour VLC ====
+Installer un [[http://www.videolan.org/vlc/skins.php|thème OS X pour VLC]].
+
+==== Thème pour Thunderbird ====
+
+Jusqu'à Thunderbird 20 : Installez [[https://addons.mozilla.org/fr/thunderbird/addon/6125|ce thème]].
+
+=====Menu intégré=====
+Sous [[:Unity]], le menu des applications est déjà intégré au tableau de bord supérieur comme sous Mac grâce à [[:unity_global_menu|Unity globalmenu]].
+
+
+
+=====Désinstallation=====
+====Via le ppa====
+Pour supprimer les paquets d'apparence Mac, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+==== Désinstallation du pack MacBuntu ====
+
+Si vous souhaitez revenir au thème de base, lancez le script **uninstall.sh** qui se trouve dans le dossier d'installation (de la même façon que vous avez lancé le script d'installation).
+
+
+===== Voir aussi =====
+
+  * [[http://www.le-libriste.fr/2009/05/lin-x-distribution-ubuntu-look-and-feel-macosx/|Lin-X, une distribution basée sur Ubuntu et transformée en MacOS X]]
+  * [[http://pinguy-os.sourceforge.net/|Pinguy OS]], une autre distribution basée sur Ubuntu et qui présente une interface semblable à MacOS X
+  * Le pack pour vivid [[http://www.noobslab.com/2015/11/macbuntu-1510-transformation-pack-for.html|la procédure pour Vivid]],
+  * [[http://www.noobslab.com/2012/06/mac-os-x-lion-theme-for-ubuntu.html|la procédure pour Precise]].
+
+Voir des vidéos :
+  * [[http://www.youtube.com/watch?v=n5aDB0fUjiA|Ubuntu Leopard Mac OS X]]
+  * [[http://www.youtube.com/watch?v=T2yO0sUMjag|Mac4Lin]]
+
+----
+
+//Contributeurs principaux : [[:contributeurs|Les contributeurs d'Ubuntu-fr]], [[:utilisateurs:Spelth|Spelth]].// Edouard973, mise en forme : [[:utilisateurs:draco31.fr]], maj : [[:utilisateurs:l_africain|L'Africain]] .

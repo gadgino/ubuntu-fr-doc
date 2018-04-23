@@ -1,0 +1,91 @@
+{{tag>Precise Trusty programmation}}
+----
+
+
+====== KompoZer ======
+
+KompoZer est un programme de [[programmation#le_developpement_web|conception de sites web]] entièrement graphique (WYSIWYG - //What You See Is What You Get//). C'est à dire qu'avec ce logiciel, vous serez en mesure de créer un site web simple sans devoir connaître le HTML ! À partir du moment où vous avez les bases de connaissance pour écrire du texte mis en forme dans un logiciel de traitement de texte tel que [[:LibreOffice]], vous pouvez prétendre arriver assez facilement à la création de pages web. 
+
+
+{{application:kompozer.png?400|}}
+
+<note important> Kompozer ne semble plus être maintenu. [[:BlueGriffon]] semble être son successeur en supportant la nouvelle technologie fournie par l'HTML5. [[Bluefish]] est une autre alternative (non WYSIWYG) à Kompozer. </note>
+
+===== Installation =====
+
+====Precise====
+
+Kompozer se trouve encore dans les [[:depots|dépôts officiels]] sous [[Precise]], il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>kompozer]]**.
+
+==== Sous Trusty et ultérieures ====
+===En téléchargement direct===
+Kompozer n'est plus dans les dépôts de Trusty et des versions supérieures. Il faut donc télécharger et installer les 2 paquets **deb** de la version 12.04 :
+  * [[http://packages.ubuntu.com/precise/kompozer-data|Kompozer-data]],
+  * Puis [[http://packages.ubuntu.com/precise/kompozer|Kompozer]].
+
+Pour mettre Kompozer en français:
+  *  Téléchargez [[http://kompozer.sourceforge.net/l10n/langpacks/kompozer-0.8b3/|ici]] l'extension disponible sur sourceforge;
+  * Lancez //Kompozer > Tool > extension > Install//, cliquez sur le fichier kompozer-0.8b3.fr.xpi. Au redémarrage Kompozer sera en français.
+
+===Depuis le PPA===
+Vous pouvez également utiliser le [[:ppa]] prévu initialement pour des versions antérieures à Precise. Pour cela:
+  * [[:tutoriel:comment_modifier_sources_maj|Modifiez vos sources de mises à jour]] pour y ajouter le dépôt suivant :
+<file>deb http://ppa.launchpad.net/giuseppe-iuculano/ppa/ubuntu lucid main</file>
+  * [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste des paquets]].
+  * [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>kompozer]]**.
+
+==== Sous XENIAL (16.04) ====
+Kompozer n'est plus dans les dépots. Il faut donc l'installer en ligne de commande. Trois étapes sont nécessaires.
+
+
+1 Installation des prérequis :
+<code>
+wget http://fr.archive.ubuntu.com/ubuntu/pool/main/libi/libidl/libidl0_0.8.14-1_$(uname -m | sed -e 's/x86_64/amd64/' -e 's/i686/i386/').deb 
+sudo dpkg -i libidl0_0.8.14-1_*.deb && rm libidl0_0.8.14-1_*.deb
+sudo apt install libatk1.0-0 libc6 libcairo2 libfontconfig1 libfreetype6 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk2.0-0 libnspr4 libnss3 libpango1.0-0 libpng12-0 libstdc++6 libx11-6 libxft2 libxinerama1 libxrender1 libxt6 zlib1g
+</code>
+
+2 Installation des paquets Kompozer :
+
+<code>
+wget http://fr.archive.ubuntu.com/ubuntu/pool/universe/k/kompozer/kompozer-data_0.8~b3.dfsg.1-0.1ubuntu2_all.deb
+wget http://fr.archive.ubuntu.com/ubuntu/pool/universe/k/kompozer/kompozer_0.8~b3.dfsg.1-0.1ubuntu2_$(uname -m | sed -e 's/x86_64/amd64/' -e 's/i686/i386/').deb
+sudo dpkg -i kompozer-data_0.8~b3.dfsg.1-0.1ubuntu2_all.deb kompozer_0.8~b3.dfsg.1-0.1ubuntu2_*.deb && rm kompozer*.deb
+</code>
+
+3 Téléchargement de la traduction en français (le fichier kompozer-0.8b3.fr.xpi se télécharge dans le dossier où est ouvert le terminal, par défaut dans votre dossier personnel) :
+<code>
+wget http://kompozer.sourceforge.net/l10n/langpacks/kompozer-0.8b3/kompozer-0.8b3.fr.xpi
+</code>
+Lancez Kompozer (section "Internet" du menu des applications).
+
+Dans le menu de Kompozer, sélectionner Tools > Add-ons > Extensions, cliquez sur "Install..." et sélectionnez le fichier kompozer-0.8b3.fr.xpi pour l'installer. Puis redémarrez Kompozer, les textes sont maintenant en français !
+
+=====Configuration=====
+====Mettre KompoZer en français ====
+
+KompoZer installé depuis les dépôts est en anglais ([[https://bugs.launchpad.net/ubuntu/+source/kompozer/+bug/598944|bug]]). 
+
+Pour avoir KompoZer en Français :
+  * **Si vous avez déjà installé la version officielle de KompoZer :** rendez vous à [[http://kompozer.sourceforge.net/l10n/langpacks/|cette adresse]] puis téléchargez le fichier *.xpi correspondant à votre version. Puis allez dans "Tools»Add-ons", cliquez sur "Install", sélectionnez le fichier téléchargé précédemment, cliquez sur "Open", puis enfin sur "Install Now". Redémarrez Kompozer, il est maintenant en français. (Note: [[https://bugs.launchpad.net/ubuntu/+source/kompozer/+bug/598949|ne fonctionne pas pour KompoZer PPA]])
+  
+
+==== Installation du dictionnaire ====
+//Astuce trouvée sur [[http://www.geckozone.org/forum/viewtopic.php?t=19937&sid=7b23cebcfc200f5614a06466ee20ef79|geckozone.org]]//
+
+  - Télécharger le [[http://downloads.mozdev.org/dictionaries/spell-fr-FR.xpi|dictionnaire français]] sur www.dictionaries.mozdev.org
+  - Lancer Kompozer, Outils > Extensions > Installer > spell-fr-FR.xpi
+  - Fermer et relancer, le dictionnaire est installé.
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. 
+
+===== Voir aussi =====
+  * **(en)** [[http://kompozer.net/|Site officiel du projet]]
+  * [[http://linuxfr.org/news/nvu-kompozer-et-mozilla-composer|Information sur la relation entre NVU et KompoZer]] sur Linuxfr.org
+  * **(en,fr)** [[http://kazhack.org/?tag/editor|Blog de Kazé (le développeur)]]
+  * [[programmation#le_developpement_web|Concevoir des sites web]] avec Ubuntu
+
+----
+//Contributeurs : [[utilisateurs:FLOZz]], [[utilisateurs:mimilus]], [[utilisateurs:Fabien26]], [[utilisateurs:KaoT]], [[:utilisateurs:qazer]], [[:utilisateurs:vince06fr]].//

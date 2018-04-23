@@ -1,0 +1,86 @@
+<pre class="code">
+page pour Hoary
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/manu" class="wikilink1" title="utilisateurs:manu" onclick="return svchk()" onkeypress="return svchk()">manu</a>.
+</p>
+
+<a name="imprimer_tout_en_pdf_avec_cups-pdf"></a><h1> Imprimer tout en PDF avec Cups-pdf ! </h1>
+<div class="level1">
+
+<p>
+ Pour installer une imprimante <acronym title="Portable Document Format">PDF</acronym> avec Cups, bien pratique pour imprimer plus tard si on a pas d&rsquo;imprimante sous la main par exemple, rien de plus simple : il suffit d&rsquo;installer le package <strong>cups-pdf</strong> (du répertoire <em>Ubuntu Universe</em>).
+</p>
+
+<p>
+Via Synaptic ou une console root:
+</p>
+<pre class="code">
+     sudo apt-get install cups-pdf
+</pre>
+
+<p>
+Ensuite il est nécessaire d&rsquo;installer l&rsquo;imprimante, pour cela allez voir dans l&rsquo;utilitaire de configuration des imprimante de Gnome via le menu:
+</p>
+
+<p>
+<strong>Système &rArr; Administration &rArr; Impression</strong>
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=installation%3Amenu_imp.png" class="media" title="installation:menu_imp.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=installation%3Amenu_imp.png" class="media" alt="" /></a>
+</p>
+
+<p>
+La fenêtre de sélection d&rsquo;imprimante:
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=installation%3Afenetre_imp.png" class="media" title="installation:fenetre_imp.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=installation%3Afenetre_imp.png" class="media" alt="" /></a>
+</p>
+
+<p>
+Commencez l&rsquo;installation par cliquer sur <strong>Nouvelle imprimante</strong>, une nouvelle imprimante locale apparaît alors à l&rsquo;étape 1 de l&rsquo;assistant (en plus de celles déjà détectées si vous en avez) et s&rsquo;appelle <strong><acronym title="Portable Document Format">PDF</acronym> Printer</strong>.
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=installation%3Aajout_imp.png" class="media" title="installation:ajout_imp.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=installation%3Aajout_imp.png" class="media" alt="" /></a>
+</p>
+
+<p>
+Il faut la sélectionner, avant de passer à l&rsquo;étape suivante qui implique le choix du driver. Celui-ci est classé sous la rubrique <strong>Generic</strong> est sera de préférence <strong>postscript color printer</strong> (<em>PostScript Printer</em> peut lui être utilisé). Appliquer les modifications... et c&rsquo;est fini, enfin presque !
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=installation%3Aajout_imp2.png" class="media" title="installation:ajout_imp2.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=installation%3Aajout_imp2.png" class="media" alt="" /></a>
+</p>
+
+<p>
+L&rsquo;imprimante <strong>postscript color printer</strong> est dorénavant accessible depuis la plupart des applications, et les documents imprimés sont enregistrés dans le dossier <em>~/cups-pdf</em> (il faut le créer si cela n&rsquo;a pas été fait automatiquement).
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=installation%3Afenetre_imp2.png" class="media" title="installation:fenetre_imp2.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=installation%3Afenetre_imp2.png" class="media" alt="" /></a>
+</p>
+
+<p>
+Toutefois tout s&rsquo;est peut-être passé parfaitement, mais l&rsquo;impression se bloque à chaque fois que vous utilisez cette imprinante (ce qui m&rsquo;est arrivé !). Pas de panique, la cause se trouve dans la configuration de cups (/etc/cups/cupsd.conf) qui par défaut (Pour des raisons de sécurité) contient la ligne :
+</p>
+<pre class="code">
+     RunAsUser Yes
+</pre>
+
+<p>
+Il suffit de replacer <strong>Yes</strong> par <strong>No</strong> avec un éditeur de texte (nano par exemple voir FrNanoHowTo ) et de redémarrer cups pour prendre ne compte la modification
+</p>
+<pre class="code">
+     sudo /etc/init.d/cupsys restart
+</pre>
+
+<p>
+Et voilà, vous pouvez dorénavent imprimer presque n&rsquo;importe quoi en pdf tout en étant assuré que le document ressemblera toujours à l&rsquo;original, autant à l&rsquo;affichage qu&rsquo;à l&rsquo;impression sur papier (là réside l&rsquo;avantage du pdf !). Et pour ceux qui utilisaient déjà cette fonction avec Openoffice, il est possible maintenant de le faire avec les pages web, les mail, etc... 
+</p>
+
+</div>
+<!-- SECTION [70-] -->

@@ -1,0 +1,50 @@
+{{tag>Precise Trusty téléphonie voip visioconférence communication}}
+
+----
+
+======Tox : une alternative libre à Skype======
+
+Tox est une alternative open source à Skype, c’est surtout très sécurisé : pas de serveur (c’est du peer to peer) et entièrement chiffré.
+
+
+Tox est multi plate-formes, vous pourrez donc l’utiliser avec des interlocuteurs sous MacOs ou Windows et en bientôt sous Android, il leur suffit de télécharger qTox  [[https://wiki.tox.chat/Binaries|ici]].
+
+
+===== Pré-requis =====
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir [[:tutoriel:comment_installer_un_paquet|installé le paquet]] **[[apt>apt-transport-https]]**.
+ 
+
+===== Installation =====
+Pour installer **Tox** il faut ajouter un [[:depots|depot]] à vos sources de logiciel.\\
+Pour cela entrez successivement les commandes suivantes dans un [[:terminal]]: <code>sudo sh -c 'echo "deb https://pkg.tox.chat/debian nightly release" | sudo tee /etc/apt/sources.list.d/tox.list'
+wget -qO - https://pkg.tox.chat/debian/pkg.gpg.key | sudo apt-key add -
+sudo apt-get update</code>
+
+
+Il ne vous reste plus qu'à [[:tutoriel:comment_installer_un_paquet|Installer le paquet]] **[[apt>qtox-unity]]**, si vous êtes sous [[:Unity|Ubuntu classique]] ou les paquets **[[apt>qtox]]** et **[[apt>utox]]** au choix si vous utilisez des [[:variantes|variantes d'Ubuntu]].
+
+====Création d'un lanceur====
+Il est conseillé de créer un lanceur comme indiqué sur [[:raccourci-lanceur|cette page]].
+
+===== Utilisation =====
+
+Lancez l'application via le [[:unity#tableau_de_bord_dash|tableau de bord Unity]] si vous avez créé un raccourci, ou via le [[:terminal]] (toutes versions d'Ubuntu) avec la [[:commande_shell|commande]] suivante :
+<code>qtox</code>
+Dans la fenêtre qui s'ouvre, entrez le nom de votre choix et un mot de passe pour créer un nouveau profil. Cliquez sur //Créer//.
+Tox se lance. Pour appeler un contact, cliquez en haut à gauche sur votre profil.\\
+Sur la page qui apparaît, vous pouvez changer votre nom et surtout, vous obtenez votre code ou votre image QR, qu’il suffit de transmettre à vos interlocuteurs (ils doivent cliquer sur le + en bas à gauche et coller le code).\\
+Vous pouvez alors communiquer avec vos interlocuteurs de façon sécurisée.
+
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi =====
+  * [[:visioconference|La page de la doc sur la visioconférence]],
+  * [[https://wiki.tox.chat/start|Le wiki officiel]].
+----
+
+//Contributeurs principaux : [[:utilisateurs:l_africain|L'Africain]] //

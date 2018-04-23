@@ -1,0 +1,52 @@
+{{tag>mao audio Vétuste}}
+----
+
+====== Neo Keyboard ======
+
+**Neo Keyboard** est un logiciel très simple de Piano Virtuel, utilisé avec votre clavier.
+===== Installation =====
+
+Il va falloir installer le logiciel à partir des sources. Ce n'est vraiment pas compliqué. Mais pourant ça ne MARCHE PAS. Pas de fichier make.
+
+
+=== Installation de la bibliothèque SDL et le compilateur ===
+Il faut installer la librairie SDL pour compiler le logiciel (il est un peu graphique).
+Lancez en ligne de commande :
+<code bash>sudo apt-get install libsdl1.2debian libsdl-image1.2 libsdl-image1.2-dev libsdl-ttf2.0-0 libsdl-ttf2.0-dev libsdl-mixer1.2 libsdl-mixer1.2-dev</code>
+
+Et Build-Essential installera le compilateur C++ :
+<code bash>sudo apt-get install build-essential</code>
+
+=== Installation du logiciel ===
+
+Vous pouvez [[http://3m3rg3nc3.free.fr/prog/source_Neo_Keyboard.tar.gz|télécharger directement le logiciel ici]].
+Décompressez l'archive dans votre dossier utilisateur, vous y verrez apparaître un dossier ''source_Neo_Keyboard''.
+
+<note tip>Cette version est très ancienne. Une toute nouvelle version du logiciel, d'un tout autre développeur, est disponible ici, et l'installation est la même !
+https://github.com/Salamandar/neokeyboard</note>
+
+Dans un terminal, lancez :
+  * Pour vous déplacer dans le dossier correspondant :<code bash>cd ~/neokeyboard-master</code>
+  * Pour compiler finalement le logiciel :<code bash>make</code>
+
+Voilà la compilation est terminée.
+
+=== Exécuter Neo Keyboard ===
+Vous pouvez double-cliquer sur l'exécutable qui vient d'apparaître ou taper dans la console :
+<code bash>./NeoKeyboard</code>
+
+==== Diverses informations sur Neo Keyboard ====
+**Neo Keyboard** est distribué sous licence //GPL//.
+IL est actuellement dans sa première version, il comporte donc quelques bugs...
+Le principal bug est un petit temps de latence, au niveau de la sortie audio, quand la même touche est appuyée 5 ou 6 fois de façon consécutive, mais ce n'est pas trop gênant.
+Dans les versions à venir, ce bug devrait disparaitre.
+Les futures versions apporteront, les améliorations suivantes :
+  * Choix entre plusieurs instruments.
+  * La possibilité d'intégrer un rythme de batterie
+=== A propos de l'auteur ===
+**Neo Keyboard** a été créé par **Hervé Beraud**
+=== Ressources ===
+[[http://3m3rg3nc3.free.fr|Le site officiel en français (3m3rg3nc3)]]
+
+
+

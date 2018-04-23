@@ -1,0 +1,136 @@
+{{tag>dépôts launchpad paquet ppa}}
+----
+
+{{  http://pix.toile-libre.org/upload/original/1298159427.png?90|Les PPA sont des dépôts de paquet .deb pour Ubuntu.}}
+====== Personal Package Archives (PPA) ======
+
+Les **[[https://help.launchpad.net/Packaging/PPA|Personal Package Archives]]** (abrégés **PPA**) sont des [[:depots|dépôts de paquets logiciels]] offerts aux individus et aux équipes de développeurs désireux de proposer facilement leurs logiciels pour les utilisateurs d'Ubuntu. Le service, proposé dans le cadre de la plate-forme [[https://launchpad.net|LaunchPad]], prend le code source déposé par les développeurs de logiciels et génère des [[:paquet|paquets]] ''.deb'' que les utilisateurs d'Ubuntu pourront installer à travers leur [[:gestionnaire de paquets]] logiciels. \\
+Avantage d'un paquet provenant d'un PPA par rapport à un paquet isolé : Si un paquet installé à partir d'un PPA subit une mise à jour, vous en bénéficierez automatiquement.
+<note important>**Avertissement à lire avant toute utilisation des PPA**\\
+  * Bien que proposé dans le cadre de la plate-forme Launchpad, chaque PPA est maintenu par des contributeurs et des équipes de développement spécifiques à chaque projet. En activant l'accès dans votre ordinateur à un PPA, vous reconnaissez faire confiance aux mainteneurs de ce PPA spécifique.
+  * En aucun cas, les paquets en provenance d'un PPA ne sont maintenus par [[:Canonical]], Ils ne bénéficient  non plus de la validation officielle Ubuntu, ni du support des développeurs des équipes officielles Ubuntu . ((La création d'un PPA étant possible par //n'importe qui//, il donc est possible que vous activiez l'accès à des PPA contenant des logiciels en développement ou dont la qualité est discutable. De plus, ces PPA pourraient contenir des logiciels de type malwares (virus, vers, rootkits...), placés dans ces dépôts par inadvertance par les mainteneurs du PPA. Rappelez-vous néanmoins que chaque mainteneur de PPA a signé le code de conduite d'Ubuntu.))
+  * Les PPA contiennent généralement plusieurs logiciels et des bibliothèques mises à jour pour ces logiciels. Il est donc possible que des mises à jour ayant un impact majeur sur votre système Ubuntu vous soient proposées suite à l'activation de l'accès à un PPA. N'activez l'accès qu'à des PPA essentiels et pour lesquels vous avez confiance.((À ce sujet, lisez la discussion [[http://forum.ubuntu-fr.org/viewtopic.php?pid=2709442#p2709442|dans le forum d'Ubuntu-FR]].))
+</note>
+
+
+<note tip>Une application non-officielle **[[:yppamanager|Y-PPA-Manager]]** (en anglais uniquement) permet de gérer ses PPA facilement. (( [[http://www.clapico.com/2011/06/17/ppa/]] )) Pour plus d'information, se rendre sur la [[:yppamanager|page dédiée pour Y-PPA-Manager]].</note>
+
+===== Lister les dépôts PPA installés ====
+
+Pour lister les dépôts PPA présents sur votre système, dans un [[:terminal]], saisir la [[:commande_shell|commande]] suivante :
+<code>ls -l /etc/apt/sources.list.d/</code>
+<note tip>Pour avoir le détail de tous les dépôts en une seule fois, saisir la [[:commande_shell|commande]] suivante dans un [[:terminal]] :
+<code>find /etc/apt -type f -name '*.list*' -exec bash -c 'echo -e "\n$1\n"; nl -ba "$1"' _ '{}' \;</code></note>
+===== Ajout d'un PPA à vos sources logicielles =====
+  * Pour plus de sécurité, le service Launchpad génère une clé unique pour chaque PPA et l'utilise pour signer les paquets construits dans ce PPA. L'ajout d'un dépôt PPA et de sa clef [[:gnupg|GPG]] est simplifié en une seule opération. Si vous rencontrez des problèmes de validation de la clé, se reporter au chapitre [[#Problèmes connus]].
+  * Une fois le PPA ajouté, il faut [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|recharger la liste des paquets]] pour que vos [[:gestionnaire_de_paquets|gestionnaires de paquets]] le prennent en compte. Il ne reste plus alors qu'à [[:tutoriel:comment_installer_un_paquet|installer le ou les paquets]] désirés.
+<note>
+A chaque ajout de PPA, deux fichiers sont générés, nommés respectivement **<nom_du_ppa>.list** et **<nom_du_ppa.list>.save** dans le dossier **/etc/apt/sources.list.d**</note>
+
+====Graphiquement==== 
+
+Il suffit d'ajouter le nom du dépôt PPA (commençant par **ppa:**) à vos sources de mises à jour à l'aide de [[:tutoriel:comment_modifier_sources_maj#avec_une_interface_graphique|ce tutoriel]].\\
+{{ :tutoriel:ajouter_ppa.png?350 |Ajout d'un PPA}}\\
+
+====En ligne de commandes====
+<note tips>
+Si la commande add-apt-repository n'est pas disponible il vous faut le paquet: 
+
+[[apt>python-software-properties]] et au moins depuis [[:trusty|ubuntu 14.04]] [[apt>software-properties-common]]
+
+</note>
+
+  * Ouvrir un [[:terminal]] et saisir la [[:commande_shell|commande]] suivante : <code>sudo add-apt-repository ppa:<nom_du_dépôt></code>
+  * Recharger la liste des paquets avec la [[:commande_shell|commande]] suivante : <code>sudo apt-get update</code>
+Par exemple pour l'ajout du PPA de [[ :YPPaManager|Y PPA Manager]] :
+<code>sudo add-apt-repository ppa:webupd8team/y-ppa-manager
+sudo apt-get update</code>
+//(Toujours saisir les [[:commande_shell|commandes]] une à une. Celle qui ajoute un dépôt PPA bloque l'enchaînement automatique des deux autres.)//
+====  add-apt-repository derrière un proxy d'entreprise ====
+  - Ouvrir un  [[:terminal]], vérifier les variables d'environnement en saisissant la [[:commande_shell|commande]] suivante:<code bash>env | grep -i proxy</code> La réponse doit être quelque chose proche de <code>
+HTTPS_PROXY=http://proxy:8080
+HTTP_PROXY=http://proxy:8080
+http_proxy=http://proxy:8080
+https_proxy=http://proxy:8080</code>
+  - Lancer ensuite la [[:commande_shell|commande]] suivante: <code bash>sudo -E add-apt-repository ppa:linaro-maintainers/toolchain</code>Vous aurez alors pour réponse <code>
+Executing: gpg --ignore-time-conflict --no-options --no-default-keyring --secret-keyring /etc/apt/secring.gpg --trustdb-name /etc/apt/trustdb.gpg --keyring /etc/apt/trusted.gpg --primary-keyring /etc/apt/trusted.gpg --keyserver keyserver.ubuntu.com --recv 1DD749B890A6F66D050D985CF1FCBACA7BE1F97B
+gpg: requesting key 7BE1F97B from hkp server keyserver.ubuntu.com
+gpgkeys: HTTP fetch error 7: couldn't connect to host
+gpg: no valid OpenPGP data found.
+gpg: Total number processed: 0</code>
+    * Si votre Proxy d'entreprise bloque le port 11371 du serveur Launchpad PPA pour l’utilisation des clés, nous allons forcer la connexion sur le port 80 avec la [[:commande_shell|commande]]:<code bash>sudo -E gpg --ignore-time-conflict --no-options --no-default-keyring --secret-keyring /etc/apt/secring.gpg --trustdb-name /etc/apt/trustdb.gpg --keyring /etc/apt/trusted.gpg --primary-keyring /etc/apt/trusted.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv 1DD749B890A6F66D050D985CF1FCBACA7BE1F97B</code>
+
+<note>L'option **-E** donnée à la commande **sudo** permet de préserver l'environnement de l'utilisateur et donc la configuration proxy</note>
+
+===== Suppression d'un PPA =====
+====Sans désinstaller les paquets du PPA====
+
+Il suffit de saisir dans un [[:terminal]] la [[:commande_shell|commande]] suivante:
+
+<code>sudo add-apt-repository --remove ppa:<nom_du_dépôt></code>
+
+ou
+
+<code>sudo rm /etc/apt/sources.list.d/<nom_du_fichier_dépôt></code>
+
+==== En désinstallant les paquets de ce PPA====
+
+  * [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>ppa-purge|ppa-purge]]**
+  * Puis dans un [[:terminal]], saisir la [[:commande_shell|commande]] suivante :
+<code>sudo ppa-purge ppa:<nom_du_dépôt></code>
+
+
+===== Créer son dépôt PPA =====
+
+Pour créer votre propre PPA, vous devez lire, accepter et signer [[https://launchpad.net/codeofconduct|le code de conduite Ubuntu]]. 
+
+Après avoir signé le code de conduite Ubuntu, rendez vous sur votre page Launchpad et cliquez sur "Create a new PPA". Vous devrez ensuite donner un nom à votre PPA (par défaut, le nom est ppa) et un nom d'affichage qui sera inclus dans la clé PGP de votre premier dépôt. Vous pouvez ensuite rentrer une description sur le contenu de votre PPA.
+
+Votre PPA sera activé et vous pourrez ensuite y télécharger vos paquets grâce à la commande 
+<code>dput ppa:<login launchpad>/<nom du ppa> <source.changes></code>.
+Voir cette : [[ :tutoriel:creer_et_administrer_un_ppa_sur_launchpad|page dédiée à la gestion d'un PPA]].
+
+=====Problèmes connus=====
+
+
+====Erreur du serveur de clés====
+FIXME à lier avec [[:apt-key]].
+
+Si vous avez une erreur de type:
+<code>W: Erreur GPG : http://ppa.launchpad.net lucid Release: Les signatures suivantes n'ont pas pu être vérifiées car la clé publique n'est pas disponible : NO_PUBKEY D6B6DB186A68F637</code>
+Ouvrir un [[:terminal]] et saisir la [[:commande_shell|commande]] suivante : (Vous remplacerez //D6B6DB186A68F637// par la valeur qui suit //NO_PUBKEY// de votre message d'erreur).
+
+<code>sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys D6B6DB186A68F637
+</code>
+[[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Recharger la liste des paquets]]: <code>sudo apt-get update</code>
+
+**Si ça ne fonctionne toujours pas :**
+
+Pour pouvoir récupérer une clé PPA des dépôts Launchpad il est IMPÉRATIF d'avoir une connexion ouverte sur le port 11371. Voir [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3315189#p3315189|cette discussion]].
+
+  * Une solution est possible en forçant le port 80 dans la requête de la clé. Il faut suivre la [[:ppa#add-apt-repository_derriere_un_proxy_d_entreprise|procédure]] [[http://rforge.org/2011/09/07/add-public-key-behind-a-firewall-in-ubuntu-shell/|2 lien]]
+
+  * Ceci a été corrigé dans la version [[:Natty|11.04]] d'Ubuntu : https://launchpad.net/ubuntu/natty/+source/software-properties/0.78.1
+
+Modification permanente :
+Pour ceux qui utilisent une version antérieure à [[:natty]]:
+  - [[:tutoriel:comment_modifier_un_fichier|ouvrez avec les droits d'administration]] le fichier **/usr/lib/python2.6/dist-packages/softwareproperties/ppa.py**
+  - Chercher la ligne où est mentionné : <file>keyserver.ubuntu.com  (DEFAULT_KEYSERVER = "keyserver.ubuntu.com")</file>
+  - Remplacez-la par <file>hkp://keyserver.ubuntu.com:80/ (DEFAULT_KEYSERVER = "hkp://keyserver.ubuntu.com:80/")</file>
+  - [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste des paquets]].
+
+[[http://superuser.com/questions/64922/how-to-work-around-blocked-outbound-hkp-port-for-apt-keys|Source]]
+   
+Vous pouvez sinon saisir: 
+<code>
+gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv 3E5C1192
+gpg --export --armor 3E5C1192 | sudo apt-key add -
+sudo apt-get update
+</code>où 3E5C1192 sera remplacé par votre numéro de clé en erreur.
+
+=====Voir aussi=====
+  * Tutoriel [[:tutoriel:comment_modifier_sources_maj|Comment modifier les sources de mises à jour ?]]
+  * [[https://launchpad.net/ubuntu/+ppas|Rechercher un PPA]]
+
+----
+//Contributeur : [[:utilisateurs:mathieu_comandon]]

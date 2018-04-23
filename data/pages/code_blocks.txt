@@ -1,0 +1,228 @@
+{{tag>IDE C/C++ programmation}}
+
+----
+
+{{ codeblock_icon.jpg}}
+
+
+====== Code::Blocks ======
+
+**Code::Blocks** est un [[wpfr>Environnement_de_développement_intégré|IDE]] (environnement de développement intégré, ou IDE en anglais) gratuit pour le développement en C/C++. Il est facilement configurable à l'aide d'extensions et est mis à jour quasi-quotidiennement.
+
+Pour en savoir plus, rendez-vous sur [[http://www.codeblocks.org|le site officiel]].
+
+
+
+
+==== Qu'est ce qu'un IDE ? ====
+
+Un [[wpfr>Environnement_de_développement_intégré|IDE]] est un logiciel permettant au développeur d'écrire, compiler et déboguer son programme avec un seul logiciel. 
+
+Une alternative à l'utilisation d'un tel logiciel est le développement à l'aide d'un éditeur de texte suivi d'une compilation manuelle, et le débogage à l'aide de l'outil [[:gdb|GDB (GNUDeBugger)]].
+
+
+
+
+
+
+
+
+===== Installation de CodeBlocks =====
+
+==== Depuis les dépôts officiels ====
+
+Il suffit d'[[:tutoriel:comment_installer_un_paquet|installer les paquets]] **[[apt://codeblocks|codeblocks]]** et **[[apt://build-essential|build-essential]]**.
+
+
+==== Depuis le dépôt LGP ====
+Pour connaître le dépôt à rajouter à vos sources rendez-vous à l'adresse [[http://lgp203.free.fr/ubuntu/]] et  sélectionner votre version d'ubuntu dans la liste déroulante.
+
+Dans la réponse fournie ne sélectionner que la première ligne.
+
+Modifier votre liste de sources de mises à jour [[:tutoriel:comment_modifier_sources_maj|Modifiez vos sources de mises à jour]]
+
+Récupérez la clé publique du dépôt :
+  wget -q http://lgp203.free.fr/public.key -O- | sudo apt-key add -
+
+[[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets| mettre à jour la liste des paquets]], puis [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt://codeblocks|codeblocks]]**.
+
+==== Depuis un paquet .tar.gz ====
+
+Installer le compilateur et le débuggeur en [[:tutoriel:comment_installer_un_paquet|installant les paquets]] ** [[apt://build-essential gdb|build-essential gdb]]**.
+
+Code::Blocks nécessite [[wxWidgets]] 2.8.x pour fonctionner correctement (dernière version de préférence).
+
+Maintenant il faut [[:tutoriel:comment_installer_un_paquet|installer]] les composants de wxWidgets disponibles dans le nouveau dépôt :
+**libwxgtk2.8-0 libwxgtk2.8-dev wx2.8-headers wx-common**.
+<code>sudo apt-get install libwxgtk2.8-0 libwxgtk2.8-dev wx2.8-headers wx-common</code>
+
+Il faut configurer wxWidgets 2.8 par défaut pour le système.
+<code>sudo update-alternatives --config wx-config</code>
+
+Tout est prêt pour accueillir Code::Blocks. Il faut l'installer soit comme précédemment
+
+<note warning>La rubrique suivante nécessite une révision !
+Se rendre sur [[http://www.codeblocks.org/downloads/binaries]] semble plus efficace pour récupérer un tar.gz
+</note>
+  - Rendez-vous sur [[http://forums.codeblocks.org/index.php|le forum du site de Code::Blocks]].
+  - Entrez dans la rubrique [[http://forums.codeblocks.org/index.php/board,20.0.html|Nightly builds]] et rendez-vous dans le sujet le plus récent pour y télécharger le paquet .tar.gz pour Ubuntu.
+  - Une fois le paquet téléchargé, [[:tutoriel:comment_installer_un_paquet|installez-le]].
+
+Extraire le fichier .tar.gz. Il contient les différents paquets. Deux solutions se présentent alors :
+  - Installer Code::Blocks dans son intégralité (paquets optionnels compris) : <code>sudo dpkg -i /le/dossier/extrait/*.deb</code>
+  - Installer uniquement le paquet Code::Blocks sans les paquets optionnels. Il faut tout d'abord installer le paquet ''libcodeblocks0'' puis le paquet ''codeblock''. Pour installer les paquets optionnels par la suite, il faut commencer par le paquet ''libwxsmithlib0''.
+
+
+==== Depuis les sources ====
+<note>Le 27 octobre 2014 les sources téléchargeables étaient :
+  * Pour le svn  : [[http://svn.code.sf.net/p/codeblocks/code/trunk]]
+  * Pour le tarball  : [[http://sourceforge.net/projects/codeblocks/files/Sources/13.12/codeblocks_13.12-1.tar.gz]]
+
+
+</note>
+
+En gros 4 étapes :
+
+  - Installer la bibliothèque **wxGTK**
+  - Installer l'interface **wxWidgets**
+  - récupérer le projet de codeblocks à l'aide d'un client SVN ou d'une archive tarball
+  - compiler codeblocks
+
+
+<note help> Pour plus détails se reporter au wiki officiel anglais sur le sujet :
+[[http://wiki.codeblocks.org/index.php?title=Installing_Code::Blocks_from_source_on_Linux | wiki d'installation GNU/Linux de codeblocks depuis les sources ]]
+</note>
+
+
+Code::Blocks est opérationnel.
+
+===== Utiliser la bibliothèque GTK+ avec Code::blocks =====
+
+<note tip>Notez que les dernières versions de Code::blocks gèrent nativement les projets GTK+, l'option étant disponible dans l'assistant de création d'un nouveau projets (//File -> New -> Project...//)</note>
+
+Pour créer un projet en GTK+, suivez les étapes suivantes :
+
+  * [[:tutoriel:comment_installer_un_paquet|Installez les paquets]] **libgtk2.0-dev** et  **build-essential** [[apt://libgtk2.0-dev,build-essential|{{apt.png}}]]
+<code>sudo apt-get install libgtk2.0-dev build-essential</code>
+
+  * Ouvrez un projet de type « console application » dans code::blocks
+  * Sous //Project -> Build options -> Compiler settings -> Other options//, collez ceci (avec les apostrophes) :<file>`pkg-config --cflags gtk+-2.0`</file>
+
+  * Sous //Project -> Build options -> Linker settings -> Other linker options//, collez (avec les apostrophes) :<file>`pkg-config --libs gtk+-2.0`</file>
+
+  * Rédigez un fichier **main.c** de base pour Gtk+ :<file>#include <stdlib.h>
+#include <gtk/gtk.h>
+int main(int argc, char **argv)
+{
+  /* Initialisation de GTK+ */
+    gtk_init(&argc, &argv);
+  /*fermeture de  GTK+ (ligne ajoutée) */
+    gtk_exit(EXIT_SUCCESS); 
+    return EXIT_SUCCESS; 
+}</file>
+
+  * Enregistrez ce fichier comme template : //File -> save project as user template//
+  * Fermez le projet sans l'enregistrer.
+
+Désormais, pour ouvrir un projet GTK+ sous code blocks, ouvrez un nouveau projet en choisissant le Template que vous avez créé dans « User Templates ».
+
+Maintenant vous pouvez développer avec la bibliothèque GTK+.
+
+Pour supprimer la console allez dans //Project -> Properties -> Build Target -> Select built Target Options -> Type// et choisissez GUI application.
+
+Pour contrôler votre code dans la console pendant l'exécution de votre application, faites la même chose mais à la place de GUI application choisissez Console application.
+
+
+
+
+===== Compiler le C++ avec Code::blocks =====
+Pour cela vous devez installer ce paquet supplémentaire: [[apt://build-essential|build-essential]].(ou par terminal tapez apt-get install build-essential)
+Dans le cas ou ça ne n'aboutirait pas, entrez dans le terminal(Applications->Accessoires->Terminal) et taper sudo dpkg --configure -a
+Attendez un peu et ça devrait marcher.
+REMARQUES : On peut vous proposer de garder votre version actuelle de grub ou d'installer la nouvelle pendant le "dpkg configure", si vous ne voulez pas prendre de risques, gardez votre version actuelle.
+
+
+===== Code::blocks en français ===== 
+
+<note help>
+Afin d'obtenir un meilleur support, nous vous déconseillons d'activer la traduction française
+</note>
+
+Note: Sur 10.10, le simple fait de relancer Code Blocks le met en français! Enjoy!
+
+<note tip>
+Vous devrez savoir ou créer un compte "Launchpad" ou "Ubuntu Single Sing On" pour télécharger la traduction
+</note>
+
+Tout d'abord, rendez vous sur [[https://translations.launchpad.net/codeblocks/trunk/+pots/codeblocks|le Launchpad de code:blocks]]
+
+Connectez-vous ou créez un compte.
+
+Sélectionnez la langue française (cliquez sur "french") et téléchargez la traduction (cliquez sur "Download translation")
+
+Dans format choisir "MO format" puis demander le téléchargement (cliquez sur "Request Download").
+
+Vous devriez recevoir rapidement un mail avec un lien pour télécharger le fichier "fr_LC_MESSAGES_codeblocks.mo"
+
+Il faut alors créer le dossier qui accueillera la traduction:
+<code>sudo mkdir -p /usr/share/codeblocks/locale/fr_FR</code>
+
+Puis copier la traduction dans le dossier créé :
+<code>sudo cp Téléchargements/fr_LC_MESSAGES_codeblocks.mo /usr/share/codeblocks/locale/fr_FR/</code>
+
+Enfin il faut donner le droit aux utilisateurs de la machine de lire le fichier:
+<code>sudo chmod +r /usr/share/codeblocks/locale/fr_FR/fr_LC_MESSAGES_codeblocks.mo</code>
+
+Maintenant que notre fichier est en place il faut relancer Code::Blocks puis aller dans le menu:
+
+Settings -> Environment -> View, cochez la case "Internationalization" et sélectionner "French"
+
+N'oublier pas de quitter le menu en cliquant sur valider, puis relancer Code::Blocks
+
+Maintenant votre Code::Blocks est en français ;-)
+===== Problèmes =====
+
+==== Problème avec la touche "espace" ====
+
+<note tip> Le problème est résolu dans la version 12.11 de codeblocks ! 
+
+voir [[http://wiki.codeblocks.org/index.php?title=FAQ-Issues_and_Workarounds#Q:_Sometime.2C_in_the_text_editor.2C_space_bar_triggers_Code_Completion.2C_how_do_I_fix_that.3F | Codeblock FAQ-Issues and Workarounds ]] 
+</note>
+
+
+== Sous Ubuntu 8.10 et ultérieurs ==
+
+Pour Gnome : Système -> Préférences -> Clavier -> Agencements -> Options de l'agencement... -> "Utiliser la barre d'espacement peut insérer un espace insécable"
+Choisir "La barre d'espacement renvoie une espace ordinaire à tous les niveaux".
+
+Pour Kde4 : Dans configurer votre systèmes -> Régions et langues -> Disposition du clavier. Activez la disposition et dans l'onglet expert, Utiliser la barre d'espacement pour insérer un espace insécable, cocher "La barre d'espacement renvoie un espace à tous les niveaux"
+
+<note>Dans certains cas, cela ne marche pas. Il faut alors désactiver le plugin Code Completion dans CodeBlocks.</note> 
+
+**Désactivation du plugin Code Completion:** 
+
+Plugins -> Manage Plugins puis sélectionnez Code Completion et cliquez sur le bouton Disable 
+
+==== Problème de lancement Code Blocks 10.05====
+
+Il se peut que codeblocks ne se lance pas. Si vous ouvrez codeblocks dans un terminal et qu'il vous renvoie :
+
+<code>
+"codeblocks: relocation error: /usr/lib/libcodeblocks.so.0: symbol _Z18wxSafeConvertWX2MBPKw, version WXU_2.8 not defined in file libwx_baseu-2.8.so.0 with link time reference" 
+</code>
+
+rendez-vous sur le forum. Lancement de Code Blocks 10.05  [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3687080#p3687080|Lancement de Code Blocks 10.05]]
+
+==== Format d'un point d'arrêt non reconnu lors du déboggage ====
+
+Un caractère dans un nom de répertoire peut causer ce problème :
+  * **/home/user/C:B** : Le caractère ":"
+
+==== Références ====
+[[http://www.codeblocks.org/|Codeblocks site officiel]]
+
+[[https://fr.wikipedia.org/wiki/C%2B%2B| Wikipedia langage C++]]
+
+[[https://fr.wikipedia.org/wiki/C_langage |Wikipedia langage C ]]
+----
+//Contributeurs: ..., Vinc14, [[utilisateurs:Nementon]], tintou, [[:utilisateurs: Lifala]], [[:utilisateurs: albanmartel]],.//

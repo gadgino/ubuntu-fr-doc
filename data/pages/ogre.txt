@@ -1,0 +1,139 @@
+{{tag>programmation développement_de_jeux_vidéo}}
+
+----
+
+====== Ogre 3D ======
+
+[[http://www.ogre3d.org/|Ogre3d]] est un moteur de rendu graphique 3D multiplateformes, sa puissance et sa modularité en font un bon choix pour développer un jeu multi-plateformes en C++ ( mais permet aussi de l'utiliser dans d'autres langages, tels que .Net, python ... ). Disponible en LGPL ou en licence commerciale [[http://www.ogre3d.org/index.php?option=com_content&task=view&id=418&Itemid=156|OUL]], il conviendra tant aux projets libres que commerciaux.
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+==== Depuis les dépôts =====
+
+Ogre est disponible via les dépôts officiels d'Ubuntu, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt://libogre-dev|libogre-dev]]**.
+
+Cependant, si vous désirez la toute dernière version, préférez une des autres méthodes d'installation.
+
+==== Depuis le PPA ====
+
+Pour obtenir la dernière version de Ogre, ainsi que celle de CEGUI (l'interface recommandée de Ogre) et de nvidia-cg-toolkit, vous pouvez utiliser l'un ou l'autre de deux [[ppa|dépôts PPA]] ci-dessous.
+
+<note important>Attention, les paquets sur ces dépôts ne sont pas certifiés par Ubuntu. Vous les installez donc à vos risques et périls.</note>
+
+[[:PPA|Ajoutez le PPA]] **ppa:ogre-team/ogre**((https://launchpad.net/~ogre-team/+archive/ogre)) ou **ppa:andrewfenn/ogredev**((https://launchpad.net/~andrewfenn/+archive/ogredev)) dans vos sources de logiciels, puis [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]].
+
+Ensuite, installez simplement le méta-paquet **[[apt://libogre-dev|libogre-dev]]**.
+
+
+==== Depuis les sources ====
+L'installation n'est pas très compliquée, bien qu'elle demande un peu de compilation.
+
+=== Installation des dépendances disponibles dans les dépôts ===
+
+[[:tutoriel:comment_installer_un_paquet|Installez les paquets]] **[[apt://cmake,automake,build-essential,libcppunit-dev,libmng-dev,libsdl-dev,libtool,libxaw7-dev,libfreetype6-dev,libpcre3-dev,libzzip-dev,libxrandr-dev,libxxf86vm-dev,freeglut3-dev|cmake automake build-essential libcppunit-dev libmng-dev libsdl-dev libtool libxaw7-dev libfreetype6-dev libpcre3-dev libzzip-dev libxrandr-dev libxxf86vm-dev freeglut3-dev]]**.
+
+
+
+=== Installation des dépendances non présentes dans les dépôts ===
+(attention dans Ubuntu 10.10 les dépendances suivantes se trouvent dans les dépôts [[apt://libfreeimage3 libois-1.2.0 libceguiogrerenderer-1.6.4 nvidia-cg-toolkit| libfreeimage3 libois-1.2.0 libceguiogrerenderer-1.6.4 nvidia-cg-toolkit]], et les paquets de développement [[apt://libfreeimage-dev libois-dev libceguiogre-dev | libfreeimage-dev libois-dev libceguiogre-dev]])
+
+Téléchargez [[http://sourceforge.net/project/showfiles.php?group_id=11504&package_id=54579|Freeimage]], [[http://www.cegui.org.uk/wiki/index.php/CEGUI_Downloads_0.6.1|CEGUI]] (la version 0.6.2 ne compile pas sous Jaunty), [[http://sourceforge.net/project/showfiles.php?group_id=149835|OIS]] et le [[http://developer.nvidia.com/object/cg_toolkit.html|CG toolkit de nvidia]] (celui-ci est optionnel si on ne compte pas utiliser les shaders cependant).
+
+== Freeimage ==
+Compiler freeimage est très simple :
+  make 
+  sudo make install
+Il est néanmoins possible que le make install ne copie pas les fichiers (version 3.12.0 sous Ubuntu Jaunty). Si c'est le cas, le ./configure de Ogre vous le fera savoir. Retournez alors dans le dossier de FreeImage et tapez :
+  sudo cp Source/FreeImage.h /usr/include/
+  sudo cp libfreeimage.a /usr/lib/
+  sudo cp libfreeimage-3.12.0.so /usr/lib/
+
+== OIS ==
+Il y a un petit problème d'encodage DOS avec OIS (les fins de lignes ne sont pas gérées de la même manière entre les deux OS et cela peut causer des problèmes, notamment des erreurs assez obscures pendant le ./configure), le plus simple est d'installer **tofrodos** et de convertir les fichier en codage Unix :\\ [[:tutoriel/comment_installer_un_paquet|Installez le paquet]] **[[apt://tofrodos|tofrodos]]** puis tapez <code>fromdos *.* bootstrap</code>
+
+puis on compile :
+  ./bootstrap
+  ./configure
+  make
+  sudo make install
+
+== CEGUI ==
+
+Pour que CEGUI fonctionne correctement sous Ubuntu, il faut utiliser TinyXML comme parser, et non Xerces (ils sont fournis dans les fichiers à compiler). Nous allons donc désactiver Xerces lors de la configuration.
+
+  aclocal
+  ./configure --disable-xerces-c
+  make 
+  sudo make install
+
+== Le CG Toolit de Nvidia ==
+  sudo dpkg -i Cg-3.1_April2012_x86.deb (remplacer par votre version si nécessaire)
+
+== Installation d'Ogre à proprement parler ==
+Téléchargez et décompressez-le [[http://www.ogre3d.org/download/source|code source de Ogre]].
+Placez-vous dans le dossier ogre et tapez :
+  cmake CMakeLists.txt
+  make
+  sudo make install
+
+<note important>Avec Ogre 1.4 et Ubuntu 8.04 ou plus, le bootstrap peut bloquer avec la librairie libtool (Libtool 1.4 or above is required. Aborting build...), la solution se trouve sur le forum à l'adresse suivante : [[http://forum.ubuntu-fr.org/viewtopic.php?id=264859|http://forum.ubuntu-fr.org/viewtopic.php?id=264859]]. Le problème semble réglé avec Ogre 1.6 et Ubuntu 9.04</note>
+
+== Remarque ==
+Vous pouvez aussi souhaiter faire un paquet, en utilisant la commande **checkinstall** au lieu du **make install**.
+
+Pour cela, il vous faudra utiliser la commande suivante : 
+  sudo checkinstall --exclude /lib,/bin,/usr/share,/usr/bin,/usr/lib/gcc/i486-linux-gnu/4.1.2
+
+<note important>Un paquet créé avec checkinstall n'est installable que sur votre machine, dans l'état où elle était lorsque vous avez créé ce paquet.</note>
+
+=== Configuration et test ===
+En dernier lieu il faut configurer l'éditeur de liens (ld) pour qu'il trouve les bibliothèques au moment de créer vos programmes : éditer (créez) le fichier /etc/ld.so.conf.d/libc.conf et ajoutez y :
+  /usr/local/lib/
+sauvegardez et quittez, puis lancez
+  sudo ldconfig
+
+Vous pouvez lancer les démos dans ogre/Samples/Common/bin (je vous conseille notamment Fresnel)
+
+===Remarque ===
+Si vous utilisez l'IDE [[:code_blocks|Code::Blocks]], il faudra penser lors de la compilation à utiliser le profil "Release" dans l'option "Build Target". Sinon, rendez-vous dans le menu "Project->Build Options", sélectionnez "Debug" dans la liste de gauche, dans l'onglet "Linker Settings", et remplacez "OgreMain_d" par "OgreMain"
+
+===== Autre méthode =====
+Je ne sais pas quelles sont les dépendances requises, j'ai donc installé toutes les dépendances de cette page: http://www.ogre3d.org/tikiwiki/tiki-index.php?page=Prerequisites&tikiversion=Linux
+J'ai réussi à installer ogre3d en version 1.9 assez facilement et surtout la faire fonctionner (ce qui n'est pas le cas de la 1.10) sur xubuntu 16.04 32 bits, voici ma méthode
+
+  hg clone https://bitbucket.org/sinbad/ogre/
+  cd ogre
+  hg up v1-9
+  mkdir build
+  cd build
+  cmake ..
+  make
+  sudo make install
+
+
+===== Utilisation =====
+Vous trouverez des tutoriels en français sur [[http://openclassrooms.com/courses/decouvrez-ogre-3d]] et en anglais sur [[http://ogre3d.org]]. Parés à faire le jeu du siècle?
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leur dossier personnel sont toujours conservés.
+
+
+
+=====Voir aussi=====
+  * l'éditeur [[gamekit|Ogrekit(gamekit)]]
+  * [[développement de jeux vidéo]]
+  * (en) [[http://www.ogre3d.org/tikiwiki/tiki-index.php?page=Home|Wiki officiel]]
+  * (en) [[http://www.ogre3d.org/t|Site officiel]]
+  * (en) [[http://www.ogre3d.org/tikiwiki/Tutorials|Tutoriel officiel]]
+  * [[http://www.ogre3d.fr/|Communauté française]]
+  * [[http://jeux.developpez.com/tutoriels/?page=mot#ogre|tutoriel sur développez.com]]
+
+----
+
+ //Contributeurs : [[:utilisateurs:Tshirtman]], [[http://www.joelcogen.com|Joel Cogen]]//

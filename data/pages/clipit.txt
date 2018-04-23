@@ -1,0 +1,50 @@
+{{tag>Trusty Precise presse-papier}}
+----
+ 
+====== Clipit ======
+
+ {{ clipit.png|Clipit dans le systray d'Ubuntu 11.10}}
+
+**Clipit** est un gestionnaire de  [[:presse-papier]], il fonctionne notamment sur les versions récentes d'Ubuntu qui disposent de l'interface Unity. Il est traduit en français et est relativement simple à configurer. Il offre la possibilité d'éditer le contenu du presse-papier. Le menu Préférences permet de régler finement son utilisation. 
+ 
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]]. 
+  * Disposer d'une connexion à Internet configurée et activée. 
+
+===== Installation =====
+ 
+**Clipit** est présent dans les dépôts, pour l'installer, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>clipit]]**. 
+ 
+===== Configuration =====
+Sous [[Precise]] au premier lancement de Clipit, celui-ci créé automatiquement un fichier de démarrage dans ''/etc/xdg/autostart/'' nommé clipit-startup.desktop
+
+Mais dans ce fichier (clipit 1.4.1) il est précisé que Clipit ne démarre pas automatiquement sous Unity : OnlyShowIn=GNOME;XFCE;LXDE;
+Pour résoudre ce problème :
+    * [[:tutoriel:comment_modifier_un_fichier|Ouvrez le fichier]] **/etc/xdg/autostart/clipit-startup.desktop** avec les [[:sudo|droits super-utilisateur]],
+    * Ajouter //Unity//; dans la ligne concernée, ce qui donne : <file>OnlyShowIn=Unity;GNOME;XFCE;LXDE;</file>
+  
+  <note>Bug Corrigé dans la version 1.4.2 disponible dans les dépôts d'Ubuntu [[:Trusty]] et des versions ultérieures</note>
+
+===== Utilisation=====
+ 
+Lancez l'application depuis le [[:unity#tableau_de_bord_dash|tableau de bord]] ou //via// la [[:commande_shell|commande]] suivante : 
+
+<code>clipit</code>
+ 
+===== Désinstallation =====
+ 
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. 
+Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés. 
+ 
+===== Voir aussi =====
+ 
+  * **(en)** [[http://clipit.rspwn.com/|Site officiel de Clipit]]
+  * La page de documentation [[:presse-papier|Presse-papier]], avec d'autres gestionnaires de presse papier. 
+
+----
+
+//Contributeurs principaux : [[utilisateurs:mydjey|mydjey]].//
+
+//Contributeurs secondaires : [[utilisateurs:fodoc22]]//
+ 

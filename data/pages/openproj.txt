@@ -1,0 +1,49 @@
+{{tag>Trusty Precise gestion_de_projet entreprise}}
+----
+====== OpenProj ======
+
+<note>Ce logiciel plus maintenu depuis 2009, a été repris (fork) et se nomme dorénavant [[:ProjectLibre]].</note>
+
+**OpenProj** est un logiciel gratuit et libre de [[wpfr>gestion de projet]]. Il a pour but de remplacer MS Project, d'où une interface utilisateur similaire et une possibilité d'ouvrir les fichiers MS Project. OpenProj est interopérable Project, les diagrammes de Gantt et les tableaux PERT.
+
+OpenProj fonctionne sur la plate-forme [[:Java]], ce qui lui permet de fonctionner sur une variété importante de systèmes d'exploitation. Son interface est en français.
+
+{{ :applications:openproj_trusty.png?400 }}
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+ 
+
+
+===== Installation =====
+OpenProj n'est pas disponibles dans les dépôts officiels. Un paquet DEB est disponible sur le site du projet.
+
+  * Téléchargez le paquet **openproj_1.4-2.deb** <del>[[http://sourceforge.net/project/showfiles.php?group_id=199315|la page de téléchargement SourceForge]]</del> [[http://usitility.com/fr/telecharger-openproj/ubuntu|ici]];
+  * [[:/tutoriel/comment_installer_un_paquet#installer_un_paquet_hors_depots_non_recommande|Installez-le]]. 
+
+===== Utilisation =====
+
+Lancez l'application en faisant une recherche dans [[unity#tableau_de_bord_dash|le tableau de bord Unity]] avec le mot clé //OpenProj// ou //via// la [[:commande_shell|commande]] suivante : <code>openproj</code>
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Problème de version Java =====
+L'utilisation de Openjdk en version 7 provoque l'erreur suivante lors du lancement d'openproj :
+  Your Java vendor is "Oracle Corporation" [...]
+  
+Pour pouvoir lancer l'application sans repasser à une version antérieure de Java, il faut lancer Openproj avec les [[http://sourceforge.net/p/openproj/discussion/708856/thread/a7243567/|commandes suivantes]] (à mettre dans un script) :
+<code>cd /usr/share/openproj/
+  java -Djava.vendor="Sun Microsystems Inc." -jar openproj.jar
+</code>
+Le programme se lance alors sans problème.
+
+===== Voir aussi =====
+  * **(en)** [[http://openproj.org|Site Web officiel de OpenProj]]
+  * **(en)** [[https://sourceforge.net/projects/openproj/|Site SourceForge - OpenProj]]
+  * **(en)** [[http://en.wikipedia.org/wiki/OpenProj|Fiche descriptive de OpenProj sur Wikipedia]]
+
+----
+//Contributeurs principaux : [[:utilisateurs:l_africain|L'Africain]]//

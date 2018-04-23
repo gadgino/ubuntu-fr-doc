@@ -1,0 +1,171 @@
+{{tag>obsolète partage administration personnalisation windows samba}}
+
+----
+<note warning>Obsolète, les infos à jours sont à la page [[autofs#samba_-_cifs|autofs - Samba - CIFS]]</note>
+
+====== Utiliser AutoFs avec Samba ======
+
+
+===== Objectifs =====
+
+Sur [[samba|cette autre page du wiki]], il vous a été expliqué comment accéder à un partage réseau manuellement ou en montant systématiquement au démarrage la ressource réseau en modifiant le fichier ///etc/fstab//. Le montage manuel ou par fstab a plusieurs inconvénients. Le principal, c'est qu'il n'est pas toujours possible de rendre le montage automatique : si lors du montage vous n'êtes pas encore connecté (en Wi-Fi par exemple), et bien le montage ne se fait pas, et il faut effectuer le montage manuellement. Un autre inconvénient, moins important, est que même si vous ne les utilisez pas, les dossiers indiqués dans ///etc/fstab// sont montés systématiquement et ils consomment des ressources, voire du courant si le montage sort de veille les disques durs d'un serveur de fichier. 
+
+**AutoFs** permet de résoudre ces 2 problèmes.
+
+
+===== Installation =====
+
+[[:tutoriel:comment_installer_un_paquet|Installez les paquets]] **[[apt>autofs]]** et **[[apt>smbfs]]**
+
+Attention en 14.04 remplacer smbfs par **[[apt>cifs-utils]]**
+===== Configuration =====
+
+ Tout d'abord, [[:tutoriel:comment_modifier_un_fichier|supprimez (ou commentez)]] dans ///etc/fstab// les montages que vous voulez gérer par **AutoFs** (si vous en aviez écrit auparavant).
+
+ Vous devez être capable de pinguer le serveur de fichier par son nom, [[:tutoriel:comment_configurer_son_reseau_local#renseigner_le_fichier_etchosts|cela peut impliquer de modifier le fichier /etc/hosts]].
+==== Accès aux partages sans authentification ====
+
+ Si les répertoires partagés auxquels vous voulez accéder sont accessibles en lecture seule à tout le monde, [[:tutoriel:comment_modifier_un_fichier|éditez le fichier (avec les droits d'administration)]] ///etc/auto.master// pour y ajouter la ligne :
+<code>/net/smb_ro /etc/auto.smb  --ghost,--timeout=30</code>
+
+<note>Quelques explications : le fichier auto.master peut contenir plusieurs lignes. Il est utile pour réaliser des montages automatiques sur des systèmes de fichier différents, par exemple samba, nfs et sshfs.
+
+///net// est le répertoire où les montages seront effectués. Il est recommandé d'utiliser un répertoire dédié aux montages autofs, n'utilisez pas ///home// par exemple. Si le répertoire n'existe pas, autofs le créera.</note>
+
+L'option ghost permet de toujours afficher les dossiers, mêmes lorsqu'ils ne sont pas montés. 30 correspond au temps pour démonter automatiquement : ne mettez pas une valeur trop importante, parce que si l'ordinateur distant est éteint le démontage plante ; il faut donc attendre au moins 30 secondes entre le dernier accès au partage samba et l'extinction de l'ordinateur distant.
+
+Il ne reste plus qu'à lancer le serveur :
+<code>sudo service autofs start</code>
+
+Si vous faites un changement dans auto.master ou auto.smb :
+<code>sudo service autofs reload</code>
+
+Vous pouvez par exemple accédez au partage //documents// de l'ordinateur //serveur_windows// en vous rendant explicitement dans ///net/smb_ro/serveur_windows/documents//
+
+<note>
+Le répertoire ///net/smb_ro// va dans un premier temps apparaître vide tant que vous n'aurez pas essayé d'accéder explicitement à un chemin ///net/smb_ro/clé// où clé correspond à un nom d'ordinateur partageant des fichiers. Il est recommandé de faire un lien depuis votre répertoire personnel vers les ressources réseaux que vous utilisez fréquemment avec les commandes :
+
+<code>
+cd
+mkdir net
+cd net
+ln -s //net/smb_ro/serveur_windows
+</code>
+
+L'accès à //~/net/serveur_windows// dans le navigateur de fichier montera et affichera automatiquement l'ensemble des partages de //serveur_windows//
+</note>
+<note warning>Edit : Attention contrairement à ce qui est dit au dessus, il n'est pas recommandé de faire un lien depuis votre répertoire personnel vers les ressources réseaux que vous utilisez fréquemment. Dans le cas de Nautilus (je n'ai pas testé autre chose), passer par le lien provoque immédiatement le remontage automatique de la ressource à l'issue de la période d'inactivité, annulant un des intérêts de autofs (permettre la mise en sommeil des disques d'un NAS). Si vous passez par le chemin normal (ici /net/smb_ro/serveur_windows), la ressource ne se remontera pas automatiquement.</note>
+==== Accès aux partages avec authentification ====
+
+ Si les répertoires partagés auxquels vous voulez accéder sont protégés par mot de passe, [[:tutoriel:comment_modifier_un_fichier|éditez le fichier (avec les droits d'administration)]] ///etc/auto.master// pour y ajouter la ligne :
+<code>/net/smb /etc/auto.smb2  --ghost,--timeout=30</code>
+
+[[:tutoriel:comment_modifier_un_fichier|Editez le fichier (avec les droits d'administration)]] **/etc/auto.smb2**
+<file>
+#!/bin/bash
+
+# This file must be executable to work! chmod 755!
+
+# key="$1"
+key=`echo $1|sed -r "s/(.*):(.*)/\2/"`
+
+user=`echo $1|sed -r "s/(.*):(.*)/\1/"`
+
+[ $user ] || exit 1
+
+uid=`getent passwd $user|sed -r "s/(.*):(.*):(.*):(.*):(.*):(.*):(.*)/\3/"`
+gid=`getent passwd $user|sed -r "s/(.*):(.*):(.*):(.*):(.*):(.*):(.*)/\4/"`
+home=`getent passwd $user|sed -r "s/(.*):(.*):(.*):(.*):(.*):(.*):(.*)/\6/"`
+
+[ $uid$gid$home ] || exit 1
+
+cred="$home/.autofs.smbpasswd."$key
+opts="-fstype=cifs,nounix,nosuid,nodev,sec=ntlmv2,iocharset=utf8,file_mode=0600,dir_mode=0700,uid=$uid,gid=$gid"
+
+for P in /bin /sbin /usr/bin /usr/sbin
+do
+	if [ -x $P/smbclient ]
+	then
+		SMBCLIENT=$P/smbclient
+		break
+	fi
+done
+
+[ -x $SMBCLIENT ] || exit 1
+
+if [ -e "$cred" ]
+then
+        opts=$opts",credentials=$cred"
+        smbopts="-A "$cred
+else
+        smbopts="-N"
+fi
+
+$SMBCLIENT $smbopts -gL $key 2>/dev/null| awk -v key="$key" -v opts="$opts" -F'|' -- '
+	BEGIN	{ ORS=""; first=1 }
+	/Disk/	{
+		  if (first)
+			print opts; first=0
+		  dir = $2
+		  loc = $2
+		  # Enclose mount dir and location in quotes
+		  # Double quote "$" in location as it is special
+		  gsub(/\$$/, "\\$", loc);
+                  gsub(/ /, "\\ ", dir);
+                  gsub(/ /, "\\ ", loc);
+                  gsub(/ /, "\\ ", key);
+		  print " \\\n\t /" dir , "://" key "/" loc
+		}
+	END 	{ if (!first) print "\n"; else exit 1 }
+	'
+
+</file>
+
+<note>
+Veillez à adapter la ligne
+<code>opts="-fstype=cifs,nounix,nosuid,nodev,sec=ntlmv2,iocharset=utf8,file_mode=0600,dir_mode=0700,uid=$uid,gid=$gid"</code>
+avec les options de montage qui vous conviennent
+</note>
+
+Rendez ce fichier exécutable : 
+<code>
+sudo chmod 755 /etc/auto.smb2
+</code>
+
+Il ne reste plus qu'à lancer le serveur :
+<code>sudo service autofs start</code>
+
+Si vous faites un changement dans auto.master ou auto.smb2 :
+<code>sudo service autofs reload</code>
+
+Pour chaque ordinateur partageant des fichiers, que l'on nommera //serveur_windows//, les utilisateurs qui voudront accéder aux partages de //serveur_windows// devront [[:tutoriel:comment_modifier_un_fichier|créer un fichier]] **.autofs.smbpasswd.serveur_windows** à la racine de leur répertoire personnel contenant les informations suivantes :
+<file>
+username=mon_nom_d_utilisateur_windows
+password=mon_mot_de_passe_windows_en_clair
+domain=domain_ou_groupe_de_travail_du_serveur_windows
+</file>
+
+Pensez à protéger ce fichier contre la lecture avec la commande :
+<code>
+chmod 600 ~/.autofs.smbpasswd.serveur_windows
+</code>
+
+Vous et vous seul pouvez par exemple accéder au partage //documents// de l'ordinateur //serveur_windows// en vous rendant dans ///net/smb/mon_nom_d_utilisateur_linux:serveur_windows/documents//
+
+<note>
+Le répertoire ///net/smb// va dans un premier temps apparaître vide tant que vous n'aurez pas essayé d'accéder explicitement à un chemin ///net/smb/mon_nom_d_utilisateur_linux:serveur_windows//. Il est recommandé de faire un lien depuis votre répertoire personnel vers les ressources réseaux que vous utilisez fréquemment avec les commandes :
+<code>
+cd
+mkdir net
+cd net
+ln -s /net/smb/mon_nom_d_utilisateur_linux:serveur_windows serveur_windows
+</code>
+L'accès à //~/net/serveur_windows// dans le navigateur de fichier montera et affichera automatiquement l'ensemble des partages de //serveur_windows// qui vous sont accessibles
+</note>
+===== Liens =====
+  * [[:autofs]]
+  * [[:samba]]
+  * [[du>Autofs]]
+
+----
+//Contributeurs principaux :**guillaumebarberousse**//

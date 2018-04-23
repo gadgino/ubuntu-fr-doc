@@ -1,0 +1,265 @@
+{{tag>tutoriel installation windows droits}}
+
+====== Astuces Wubi ======
+===== Préambule =====
+
+Wubi est un système d'installation alternatif destiné principalement aux utilisateurs de Windows (XP ou Vista) qui souhaitent tester Ubuntu en conditions réelles avant de //"franchir le pas"// !
+
+Son orientation est donc qu'il est __très très simple__ d'installer une distribution avec Wubi. On ne vous posera pas de question //compliquée// comme "Comment voulez-vous partitionner votre disque ?". Ce genre de question, si on ne la comprend pas, ou si on y répond mal, risque d'avoir pour conséquence la perte totale du système déjà installé sur le PC (Windows).
+En réalité toutes les questions que Wubi vous pose tiennent dans une seule boîte de dialogue très légère que vous trouverez détaillée ici : [[:wubi|tutoriel d'installation Wubi]]
+
+Wubi est donc conçu avant tout pour être **simple**.
+
+Cependant, une fois qu'on a compris son principe de fonctionnement il permet de faire beaucoup de choses que ne permettent pas (ou de façon moins commode) les installations classiques en "partition".
+
+Les tutoriels développés ici ne sont donc pas pour le "coeur de cible" de Wubi car ils vous obligeront à mettre les mains sur des lignes de commande (voire à compiler des programmes... quelle horreur !)
+
+Donc si vous êtes arrivés ici et que votre seul but est d'installer Ubuntu en dual boot de façon simple, [[:wubi|consultez plutôt ce tutoriel]].
+
+Par contre, si vous voulez **aller plus loin avec Wubi**, vous êtes au bon endroit. :-)
+
+===== Comment installer Ubuntu sur un ordinateur où vous n'avez pas de droits administrateur (Windows®). =====
+
+<note important>À fusionner (en partie) dans [[:live_usb_persistant]] !</note>
+
+==== Introduction ====
+En entreprise, très souvent, pour éviter que les ordinateurs ne soient pollués trop rapidement de logiciels qui gênent leur fonctionnement, vous n'avez pas les //droits administrateur// sur votre PC.
+Cela signifie, entre autres, que vous ne pouvez pas modifier de répertoires comme : C:\, C:\Windows, C:\Program Files, etc...
+
+Les possibilités d'installation sont donc très limitées !
+
+Sur un tel ordinateur, si vous voulez utiliser Ubuntu, vous pouvez bien sûr :
+  * utiliser un Live CD
+  * utiliser une clé USB équivalente à un Live CD (tutoriel officieux pour hardy, et fonction officielle à partir d'Intrepid).
+
+
+
+Nous allons voir ici comment **installer** Ubuntu : c'est à dire sur le disque dur du PC, et en mode persistant, comme vous pourriez l'installer chez vous.
+
+<note important>**Avertissement** : si vous utilisez ce tutoriel dans le cadre de votre entreprise, c'est certainement contraire au règlement intérieur et vous risquez une sanction sévère.
+Si vous n'êtes pas sûr de vouloir prendre ce risque, n'utilisez pas la méthode décrite ici, mais préférez le Live CD ou clé USB, ou mieux... utilsez votre PC tel qu'il est configuré par votre entreprise !</note>
+
+==== Pré-requis ====
+  * **Important :** vérifiez en premier que vous avez la possibilité de démarrer le PC sur lequel vous voulez installer à partir d'une clé USB. Sur les PC "modernes" il y a en général une option pour changer l'ordre de boot //à la volée// (F8 ou F12 au démarrage), et si ce n'est pas verrouillé, vous pouvez le spécifier dans le BIOS. Vérifiez alors, en mettant une clé dans le PC, que le démarrage sur clé USB est proposé.
+  * il faut bien sûr que vous puissiez copier des données utilisateurs sur le PC ciblé à partir de supports externes (clé USB, CD, DVD...), mais en principe, si le point ci-dessus est OK, vous devriez pouvoir le faire !
+Et vous devez disposer :
+  * d'un PC muni de Windows sur lequel vous pouvez faire une installation (un PC "chez vous" par exemple).
+  * d'une clé USB (capacité et performances importent peu, un vieille clé de 512MB est largement suffisante)
+  * de support de stockage temporaire suffisant -environ 5GB- (une clé USB est l'idéal, éventuellement la même que ci-dessus, sinon des DVD-RW)
+
+==== Principe de fonctionnement ====
+
+Bien sûr, comme vous n'avez pas les droits administrateur, il est hors de question de faire des choses comme //partitionner// le disque !
+Nous allons donc nous contenter de faire des actions que vous pouvez faire avec les simples droits utilisateur, c'est à dire copier des fichiers dans les répertoires où vous pouvez les copier.
+
+Nous allons donc utiliser une installation Wubi, tout indiquée pour cela.
+
+Cependant Wubi a besoin pour démarrer de :
+  * copier deux fichiers à la racine du disque (C:\)
+  * modifier boot.ini (ou BCD) pour proposer l'option de démarrer sur Ubuntu en plus de Windows.
+Ces deux opérations ne sont pas possible puisque vous n'avez pas de droit administrateur.
+
+En outre, la modification pour rajouter un dual boot est bien plus //grave// qu'une installation de logiciel, et vous exposerait à des sanctions dans la plupart des entreprises qui verrouillent les PC.
+
+Nous allons donc procéder ainsi en cinq étapes :
+  * installer Wubi "chez soi"
+  * se servir de la clé comme un dongle pour démarrer Wubi sur le PC cible
+  * copier le Wubi-Ubuntu de son PC vers un support de sauvegarde
+  * coller cette sauvegarde sur le PC cible
+  * ajuster les paramètres de boot
+
+
+==== Tutoriel ====
+=== Etape 1 sur 5 ===
+//Sur le PC muni de Windows// (XP ou Vista) procédez à l'installation d'Ubuntu en mode **Wubi**.
+
+Pour cela, vous pouvez vous référer à l'excellent [[:wubi|tutoriel d'installation Wubi]]
+
+Vous pouvez choisir la distribution que vous souhaitez.
+Pour la taille de l'installation, vous devez avoir la place sur le PC où vous installez, et sur le PC ciblé.
+Vous devez aussi avoir suffisamment de supports de stockage temporaire pour la copie.
+Evitez donc des tailles trop importantes. 5GB est un bon compromis.
+
+=== Etape 2 sur 5 ===
+//Sur un PC démarré avec Ubuntu.// (Vous pouvez utiliser l'installation d'Ubuntu que vous venez de faire en Wubi par exemple).
+Ici nous allons utiliser le même principe que pour les tutoriels permettant d'installer une distribution GNU/Linux sur clé.
+Le seul problème est que tous ces tutoriels utilisent un amorceur Linux (Grub, Lilo,...) et qu'aucun de ces amorceurs ne sait lire une partition NTFS, chose qui est nécessaire puisqu'on veut utiliser notre installation Wubi qui sera stockée sur une partition NTFS.
+
+Nous allons donc utiliser, au lieu des amorceurs Linux, le logiciel **Grub4DOS**.
+  - Sauvegardez les données présente sur la clé le cas échéant.
+  - Formatez la clé en FAT 16 ou 32 et rendez la amorçable (par exemple [[:tutoriel/formater_une_cle_usb|tutoriel]] ou [[:gparted|gparted]])
+   - Téléchargez et décompressez les sources de GrubInst [[http://sourceforge.net/projects/grub4dos|la home du projet Grub4DOS]], [[http://downloads.sourceforge.net/grub4dos/grubinst_1.0.1_src.zip|les sources de GrubInst]] (au moment où le tutoriel est écrit version 1.0.1). Nous supposerons par la suite que vous avez décompressé dans votre "home", ce qui a dû créer un répertoire **~/grubinst**
+  - Nous allons maintenant compiler le programme GrubInst. Adaptez les commandes ci-dessous si vous n'avez pas n'avez pas décompressé le source dans **~/grubinst**. Nous noterons le nom symbolique de la clé : **/media/cleUSB** (adaptez les commandes au nom de votre clé). De même nous notons la clé USB : **/dev/sdX**. Il convient de donner la lettre adéquate... sinon vous risquez d'écraser le MBR de votre disque. Nous allons néanmoins sauvegarder celui-ci, ainsi au cas où la mésaventure vous arrive, vous pourrez le restaurer. Pour repérer votre clé : <code>sudo fdisk -l</code>
+  - Pour compiler/sauvegarder/installer le mbr/préparer la clé : <code>cd ~/grunbinst
+make -f Makefile.lnx
+sudo ./grubinst --save-mbr=usb.mbr /dev/sdX
+sudo ./grubinst /dev/sdX
+cp /host/wubildr /media/cleUSB/grldr
+mkdir /media/cleUSB/ubuntu
+mkdir /media/cleUSB/ubuntu/winboot
+cp /host/ubuntu/winboot/menu.lst /media/cleUSB/ubuntu/winboot</code>
+
+Voila, votre clé est prête pour jouer le rôle de "dongle" afin de booter Ubuntu !
+
+<note tip>Grubinst existe aussi tout compilé pour Windows. Cependant, il fonctionne en indiquant les volumes sous la forme 0x81, 0x82 etc... Dans la mesure où ceci est peu documenté, je vous suggère plutôt le procédure ci-dessus qui évitera de tout casser en installant le MBR sur un mauvais volume... néanmoins les plus courageux peuvent essayer le GrubInst Windows !</note>
+
+=== Etape 3 sur 5 ===
+//Redémarrez votre PC en Windows.//
+Vous devez maintenant sauvegarder **l'ensemble du répertoire C:\ubuntu** (remplacer éventuellement C:\ par la lettre de volume adéquate) pour pouvoir le copier sur le PC cible.
+
+Si la clé USB utilisée ci-dessus dispose de suffisamment d'espace libre, vous pouvez utiliser cette même clé.
+
+Sinon, soit une autre clé, soit des DVD... ou tout moyen de votre choix.
+
+Une fois la sauvegarde effectuée, vous pouvez désinstaller Wubi sur ce PC... ou le garder, c'est vous qui voyez LOL
+
+=== Etape 4 sur 5 ===
+//Sur le PC cible démarré en Windows (pour le moment ! LOL)//, vous devez recopier l'ensemble du répertoire ainsi sauvegardé sur C:\ubuntu
+
+<note>Si vous n'avez pas l'autorisation de créer un répertoire C:\ubuntu, copiez-le sur le disque, là où vous avez le droit de créer un répertoire. Dans ce cas il vous faudra adapter le fichier menu.lst qui se trouve sur la clé pour lui indiquer le répertoire où vous avez copié.
+Il faudra aussi modifier les chemins pour le Grub en rajoutant devant ubuntu/disk le répertoire où vous avez mis les fichiers</note>
+
+Une fois la copie effectué sur le PC cible, vous n'aurez plus besoin des sauvegardes (sauf pour les réinstaller si vous cassez tout !)
+
+=== Etape 5 sur 5 ===
+Insérez la clé "dongle" et redémarrez le PC cible sur la clé.
+Sur les PC modernes, vous pouvez en général spécifier un ordre de boot particulier pour ce démarrage (souvent touche F8 ou F12). Si vous avez accès au BIOS vous pouvez demander de tester en premier les USB avant de démarrer sur le disque.
+
+Et là... miracle... ça ne marche pas :-\
+
+Pas de panique, nous allons corriger tout ça !
+En réalité, la sauvegarde a emporté les paramètres du PC sur lequel vous avez installé, et le PC cible est souvent différent.
+
+En outre, lorsqu'on boote avec le système de la clé Grub4DOS, pendant la phase de boot la clé est connue comme hd0, ce qui décale les autres volumes.
+Vous allez donc en général avoir une **erreur 15** (fichier non trouvé).
+
+A partir du menu grub, passez en édition (touche e) sur la première ligne qui doit être quelques chose comme :
+<code>root (hd0,4)/ubuntu/disks</code>
+Corrigez par
+<code>root (hd1,0)/ubuntu/disks</code>
+ + entrée et b pour réessayer de booter.
+Si ça ne marche pas, essayez (hd1,1), etc... bref tout dépend de la configuration de votre PC cible !
+
+Une fois que vous aurez trouvé le bon paramètre (en général hd1,0 sur un PC à 1 disque avec 1 partition), vous verrez le logo Ubuntu...
+
+et là miracle... non ça ne marche toujours pas :-/
+
+Cette fois il vous dit qu'il n'a pas trouvé le disque système. En réalité Ubuntu se sert du UUID du disque, et il n'y a aucune raison que le UUID de votre disque chez vous soit le même que celui du PC cible.
+Vous allez donc arriver dans le superbe initramfs.
+
+Là vous tapez :
+<code>ls -l /dev/disk/by-uuid</code>
+Vous devriez avoir un résultat vous indiquant au moins le UUID de votre disque, ainsi que la clé USB.
+Notez le UUID du disque.
+
+Rebootez le PC
+
+Modifiez à nouveau la ligne root
+Modifiez les autres lignes pour remplacer le UUID par celui que vous avez noté.
+
+Normalement tout devrait marcher... enfin ! :-)
+
+Pour éviter d'avoir à modifier à chaque fois les paramètres de boot (sauf si vous aimez ça !), éditez le fichier /host/ubuntu/disks/grub/boot/menu.lst et reportez-y les modifications que vous venez de faire sur le root, et sur le UUID, partout où vous avez un UUID.
+
+Pensez aussi à sauvegarder ce fichier ainsi modifié car Ubuntu va vous le réinitialiser si vous chargez un nouveau noyau.
+
+==== Résultat ====
+Vous démarrez le PC sans la clé insérée => il démarre dans son système Windows
+
+Vous démarrez le PC avec la clé insérée => il démarre en Ubuntu
+
+
+==== Problèmes potentiels ====
+Le PC sur lequel vous avez fait l'installation en Wubi et le PC cible n'ayant pas les mêmes matériels, il est possible qu'il y ait des problèmes de pilotes.
+
+Donc lorsque vous faites l'installation, ne rajoutez rien, ni pilote propriétaire de carte graphique, ni mise à jour. Vous ferez tout cela sur la cible.
+
+En général les PC d'entreprise sont "simples" et cela se passe plutôt bien.
+
+Si vous avez des problèmes... direction les excellents forums d'Ubuntu !
+
+---------------------------------------------------------------- 
+
+===== Comment réaliser une installation "cachée" d'Ubuntu. =====
+Vous avez un PC avec Windows (XP ou Vista).
+
+Vous souhaitez installer Ubuntu sur ce PC, mais, pour ne pas perturber les autres utilisateurs de Windows, vous voulez être le seul à pouvoir démarrer sur Ubuntu.
+
+Donc pour les autres utilisateurs, ils n'auront pas le choix de démarrer sur votre Ubuntu (ça ne perturbe pas leurs habitudes au démarrage), ils arrivent directement sur leur environnement familier.
+
+//Remarque : en réalité il serait plus judicieux de cacher Windows... ça éviterait la prolifération des virus :-) Je vous laisse le soin d'en faire un tutoriel !//
+
+==== Principe de fonctionnement ====
+Le principe est exactement le même que ci-dessus, mais c'est bien plus simple et bien plus fiable puisque la machine d'installation et la machine cible sont les mêmes.
+
+==== Tutoriel ====
+=== Etape 1 sur 5 ===
+Même chose que ci-dessus.
+
+Cette fois, vous pouvez cependant spécifier la taille qui vous convient pour Wubi, sans vous limiter à 5GB.
+
+Pensez qu'on va tout de même en faire une sauvegarde, donc si vous spécifiez 10GB, il vous faut au moins 20GB disponibles sur votre disque.
+
+=== Etape 2 sur 5 ===
+Même chose que ci-dessus.
+
+=== Etape 3 sur 5 ===
+//Redémarrez votre PC en Windows.//
+
+Là nous allons faire une sauvegarde.
+
+Avec l'explorateur de fichier, réalisez une **copie** de votre répertoire \Ubuntu
+
+Appelez la copie par exemple \Ubuntu.svg
+
+=== Etape 4 sur 5 ===
+Allez dans le panneau de configuration.
+
+Ajouter/Supprimer des applications.
+
+Supprimez Ubuntu ! :-)
+
+Rassurez-vous, on fait juste ça pour éviter qu'un utilisateur de Windows qui passerait sur ce panneau de configuration ait la mauvaise idée de supprimer votre Wubi car il ne sait pas ce qu'est Ubuntu !
+
+Une fois la suppression faite, Windows a dû :
+
+-1) supprimer toute trace d'Ubuntu dans des propres menus de démarrage (BCD, boot.ini)
+
+-2) supprimer les fichiers Wubi à la racine
+
+-3) supprimer le répertoire Ubuntu.
+
+Pour 1 et 2, ils ont été sauvegardés sur la clé (étape 2), on n'en a plus besoin.
+Pour 3, on a réalisé une sauvegarde à l'étape 3.
+
+Vous devez donc maintenant récupérer votre sauvegarde.
+
+Cette fois il n'est pas nécessaire de faire une copie, **renommez** simplement le répertoire \ubuntu.svg devient donc à nouveau \ubuntu
+
+//Facultatif : vous pouvez cacher ce répertoire. Ce n'est pas une protection ultime contre un effacement inopiné... mais c'est mieux que rien !
+//
+
+=== Etape 5 sur 5 ===
+Il ne vous reste plus qu'à booter sur la clé.
+
+En principe cette fois vous n'avez rien à changer, cela devrait marcher directement puisque vous êtes sur le PC où vous avez installé, les menus de démarrage sont donc corrects.
+
+Il n'y a pas non plus de problème potentiel de matériel différent.
+
+==== Résultat ====
+Les utilisateurs qui démarrent le PC sans la clé insérée => Système Windows directement, ils ne "voient" pas qu'il y a un deuxième système sur le PC.
+
+Vous possédez la clé et vous voulez aller dans votre session Ubuntu : démarrez le PC avec la clé insérée => Système Ubuntu
+
+<note important>Bien évidemment il est toujours possible, même si vous avez caché le répertoire, qu'un utilisateur puisse -sciemment ou par une fausse manipulation- effacer ou corrompre votre répertoire \ubuntu.
+
+Un bon conseil donc, pensez à en faire des sauvegardes sur un autre support : disque externe, DVD...
+
+Ca vous servira dans le cas cité ci-dessus, et pour vous même si, en abusant du sudo, vous rendez votre Ubuntu instable => restauration de la sauvegarde... et c'est reparti !
+
+Pensez-donc à faire cette sauvegarde de façon régulière et fréquente.
+
+La sauvegarde se fait simplement depuis Windows, en copiant le répertoire \ubuntu vers votre support de sauvegarde. Et pour restaurer, l'opération inverse.</note>
+
+----
+//Contribution : [[utilisateurs:Zakhar]]//

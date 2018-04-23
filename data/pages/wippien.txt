@@ -1,0 +1,86 @@
+{{tag>vpn jabber}}
+
+----
+
+====== Wippien : Réseau local sur Internet (VPN) ======
+
+<note help>Cet article est une ébauche en cours de rédaction. En gras italique les question en suspens et les choses à compléter.</note>
+
+Wippien est un logiciel Open-source gratuit qui facilite énormément la création d'un réseau privé virtuel entre vos contacts [[Jabber]].
+
+__Présentation du logiciel issue du site officiel :__
+
+//**  A rédiger**//
+
+__Fonctionnalités actuelles:__
+
+  * Réseau local sur Internet  Placez plusieurs ordinateurs sur leur propre réseau sécurisé, comme s'ils étaient connectés par un câble.
+  * Accès à distance  Contrôlez à distance tout ordinateur sur votre réseau grâce au bureau à distance.
+  * Lecteurs réseau et fichiers  Accédez aux lecteurs réseau et aux fichiers importants.
+  * //Aucune configuration nécessaire  Fonctionne sans avoir à configurer un pare-feu ou routeur.// //**A vérifier**//
+  * Sécurité par Cryptage.
+  * **//Liste à compléter//**
+
+__Fonctionnalités manquantes par rapport à la version Windows:__
+  * Ajout/suppression de contacts
+  * Interface graphique
+  * **//Liste à compléter//**
+
+
+
+
+===== Pré-requis =====
+
+  * Savoir utiliser le terminal.
+  * Ouvrir un compte [[Jabber]]
+
+===== Installation =====
+
+  * [[http://wippien.com/linux.php|Télécharger le logiciel]].
+
+  * Décompresser l'archive dans le répertoire de votre choix à l'aide des commandes suivantes :
+<code>
+$ gzip -d wiplinux.tgz
+$ tar -xvf wiplinux.tar
+</code>
+
+
+===== Utilisation =====
+<note>
+Wippien est découpé en deux exécutables:
+  * **wiptun :** Ajoute une carte réseau virtuelle VPN à votre système 
+  * **wipclnt :** Client Jabber limité, connecte l'utilisateur au reseau [[jabber]], affecte une adresse IP à la carte reseau VPN créée précédement (donnée par un serveur externe selon disponibilités), connecte l'utilisateur aux autres contacts [[jabber]] également utilisateurs de wippien.
+</note>
+
+  * Dans un terminal, depuis le répertoire ou vous avez décompressé les fichiers, exécuter le serveur **wiptun** (Ne le lancez pas à l'arrière plan pour obtenir les messages d'erreur eventuels):
+<code>
+$ sudo ./wiptun
+</code>
+
+  * Puis __dans un autre terminal__, exécuter le client **wipclnt** :
+<code>
+$ ./wipclnt votre@jabberId votrePassword
+</code>
+
+<note important>Avec la version Linux de Wippien, vous ne pouvez pas ajouter ou supprimer des contacts - Vous devez réaliser ces tâches depuis le "big" Wippien. 
+
+//**Pas clair, comment utiliser le "big" wippien depuis linux ? Le client de messagerie [[Pidgin]] permet d'ajouter ou de supprimer des utilisateurs, mais la connexion à ceux-ci ne fonctionne pas dans mes tests.**//</note>
+
+===== Messages d'erreur =====
+
+Si vous obtenez le message suivant depuis wipclnt :
+<code>IP 5.0.xxx.xxx
+Netmask 255.0.0.0
+MAC xx:xx:xx:xx:xx:xx
+Disconnected from XMPP server </code>
+
+Executer wipclnt en mode débug et analyser sa sortie :
+<code>
+$ ./wipclnt -d votre@jabberId votrePassword
+</code>
+
+Dans la majorité des cas il s'agit d'un problème de firewall ou de mauvais login/mot de passe.
+
+===== Liens =====
+  * [[http://wippien.com|Site officiel]]
+  * [[http://wippien.com/forum.php?forum=1&action=topics&fid=4|Forum Linux du site officiel]]

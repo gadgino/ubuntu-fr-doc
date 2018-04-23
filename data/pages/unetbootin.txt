@@ -1,0 +1,153 @@
+{{tag>installation tutoriel}}
+
+----
+
+====== Installation de Ubuntu avec UNetbootin ======
+
+
+                          
+Unetbootin (abréviation de Universal Netboot Installer) est un programme très simple, utilisable depuis Windows ou Ubuntu, permettant notamment :
+
+  * de créer une [[live_usb|Live-usb]]
+  * d'installer Ubuntu sans passer par un CD : soit en passant par une clé-USB, soit en passant par un support contenant l'image ISO.
+
+<note tip>Pour éviter d'effacer des données par erreur, n'hésitez pas à poser vos questions sur [[http://forum.ubuntu-fr.org/post.php?fid=9|ce forum]]. </note>
+
+<note warning>
+Attention, Unetbootin génère des live-usb avec un menu "maison", vous n'avez alors pas accès aux options de réglages linguistiques et clavier du menu du live-cd, entre autres. 
+Le mode persistance n'a pas l'air de marcher en UEFI</del> //n'importe quoi//  __Mais c'est certainement vrai  que la persistance ne fonctionne pas en EFI__ !!!!  NB auteur #3 : l'uefi par défaut intègre un mode legacy autorisant le démarrage d'unetbootin. Cependant, configuré en Full-UEFI (sans support legacy/bios), impossible de démarrer unetbootin avec un appareil UEFI de classe 3 (cad sans CSM)
+</note>
+<note warning>Vous devez obligatoirement reformater votre clé afin d'éliminer la trace d'une ancienne version d'installation sinon votre installation plantera lamentablement. Voir [[https://bugs.launchpad.net/ubuntu/+source/ubiquity/+bug/1565520|ici]].</note>
+===== Depuis Windows =====
+on peut ecrire ce qu,on veut ici
+
+=====  Créer une clé usb-live Ubuntu à partir d'internet =====
+
+  - Vérifiez que votre connexion internet fonctionne
+  - Vérifiez que votre support USB fait 2Go minimum et est préalablement formaté en FAT32
+  - Les données présentes sur la clé USB peuvent être détruites, sauvegardez-les sur un autre support par précaution
+  - Introduisez la clé USB dans le PC afin qu'elle soit reconnue par Windows, avec attribution d'une lettre ("K:" par exemple).
+  - Téléchargez la version Windows d'Unetbootin sur [[http://unetbootin.sourceforge.net/|le site officiel]], puis installez-la
+  - Lancez Unetbootin et cliquez sur "Distribution" et sélectionnez la version d'Ubuntu désirée (par exemple "11.10_live")
+  - Vérifiez en bas que la destination pour l'installation est bien votre support USB (il faut sélectionner la "lettre" trouvée à l'item 4)  mais  **__surtout pas un disque dur__** (généralement **c:** ou **d:** )
+  - Puis lancez l'installation (clic sur "Ok").
+
+
+{{:applications:unetbootin_windows.jpg}}
+
+
+==== Créer une clé usb-live Ubuntu à partir d'une image ISO précédemment téléchargée ====
+
+  - Vérifiez que votre connexion internet fonctionne
+  - Vérifiez que votre support USB fait 2Go minimum et est préalablement formaté en FAT32
+  - Les données présentes sur la clé USB peuvent être détruites, sauvegardez-les sur un autre support par précaution
+  - Introduisez la clé USB dans le PC afin qu'elle soit reconnue par Windows, avec attribution d'une lettre ("K:" par exemple).
+  - Téléchargez la version Windows d'Unetbootin sur [[http://unetbootin.sourceforge.net/|le site officiel]], puis installez-la.
+  - Lancez Unetbootin puis cliquez sur "Disk Image" et sélectionnez l'[[http://www.ubuntu-fr.org/telechargement|image ISO d'Ubuntu]] précédemment téléchargée sur le disque dur. (par exemple ubuntu-16.04-desktop-i386.iso).
+  - Vérifiez en bas que la destination pour l'installation est bien votre support USB (il faut sélectionner la "lettre" trouvée à l'item 4)  mais  **__surtout pas un disque dur__** (généralement **c:** ou **d:** ).
+  - Puis lancez l'installation ( clic sur "Ok").
+
+==== Installer Ubuntu sur disque dur à partir d'internet====
+
+Pour cela vous devez avoir 1 partition prête à accueillir l'installation d'Ubuntu (par exemple **d:**), distincte de votre partition windows.
+
+  - Vérifiez que votre connexion internet fonctionne
+  - Vérifiez que votre partition de destination fait <del>1Go</del> 2Go minimum et est préalablement formatée en FAT32 (Formater votre support USB supprimera toutes ses données, pensez donc à les sauvegarder. Unetbootin ne supprimera aucune donnée.)
+  - Téléchargez la version Windows d'Unetbootin sur [[http://unetbootin.sourceforge.net/|le site officiel]], puis installez-la
+  - Lancez Unetbootin et cliquez sur "Distribution" et sélectionnez la version d'Ubuntu désirée (par exemple "14.04_live")
+  - Vérifiez en bas que la destination pour l'installation est bien votre partition de destination (par exemple "d:")  mais  **__surtout pas la partition sur laquelle se trouve windows__** (généralement **c:** ou **d:** )
+  - Puis lancez l'installation (clic sur "Ok").
+
+==== Installer Ubuntu sur disque dur à partir d'une image ISO précédemment téléchargée ====
+
+Pour cela vous devez avoir :
+  * 1 partition prête à accueillir l'installation d'Ubuntu (par exemple **d:**), distincte de votre partition windows
+  * 1 support (support USB, ou partition différente de celle accueillant l'installation d'Ubuntu) sur lequel se trouve une [[http://www.ubuntu-fr.org/telechargement|image ISO d'Ubuntu]]
+
+  - Vérifiez votre connexion internet
+  - Vérifiez que votre partition de destination fait <del>1Go</del> 2Go minimum et est préalablement formatée en FAT32 /!\ (Formater votre support USB supprimera toutes ses données, pensez donc à les sauvegarder. Unetbootin ne conservera aucune donnée).
+  - Téléchargez la version Windows d'Unetbootin sur [[http://unetbootin.sourceforge.net/|le site officiel]], puis installez-la
+  - Lancez Unetbootin puis cliquez sur "Disk Image" et sélectionnez l'[[http://www.ubuntu-fr.org/telechargement|image ISO d'Ubuntu]] précédemment téléchargée sur le disque dur. (par exemple ubuntu-10.04-desktop-i386.iso)
+  - Vérifiez en bas que la destination pour l'installation est bien votre partition de destination (par exemple "e:")  mais  **__surtout pas la partition sur laquelle se trouve windows__** (généralement **c:** ou **d:** )
+  - Puis lancez l'installation (clic sur "Ok").
+
+===== Depuis Ubuntu =====
+
+La procédure est quasiment la même que depuis Windows (ci-dessus). Ci-dessous les différences :
+==== Installer Unetbootin ====
+
+Il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>unetbootin]]**
+ 
+Si vous souhaitez la dernière version de Unetbootin :                                                           
+  - téléchargez Unetbootin depuis [[http://unetbootin.sourceforge.net/|ce lien sur Sourceforge]] (en cliquant sur Linux version)
+  - sélectionnez le fichier téléchargé depuis le [[:gestionnaire de fichiers]], puis clic droit et dans Propriétés, onglet Permissions, cochez « Autoriser l'exécution du fichier comme un programme ».
+  - fermez puis faites un double clic sur le fichier pour lancer le programme.
+
+Vous pouvez également utiliser le *[[:PPA|PPA]] **ppa:gezakovacs/ppa** ((https://launchpad.net/~gezakovacs/+archive/ppa)) !
+<code>sudo add-apt-repository ppa:gezakovacs/ppa && sudo apt update && sudo apt install unetbootin --yes</code>
+
+<note important>Dans une session Live USB les dépôts universe et multiverse ne sont pas installés, ce qui peut poser problème lors de l'installation d'Unetbootin. Voici la commande permettant d'installer ces dépôts (à adapter selon la version d'Ubuntu) :
+<code>	sudo add-apt-repository deb http://fr.archive.ubuntu.com/ubuntu/ xenial universe multiverse
+	sudo add-apt-repository deb deb http://security.ubuntu.com/ubuntu xenial-security universe multiverse
+	sudo add-apt-repository deb deb http://fr.archive.ubuntu.com/ubuntu/ xenial-updates universe multiverse
+	sudo apt-get update
+</code>
+</note>
+==== Créer une clé usb-live Ubuntu ====
+**Version téléchargée sur le net:**
+UNetbootin n'est pas forcément géré par Ubuntu Mate. Utilisez le créateur de disque de démarrage que vous trouverez dans le menu d'Ubuntu Mate et vérifiez à l'ouverture si la version téléchargée au format .iso correspond (ex: Xubuntu, Lubunut, Linux Mint, etc...), puis vérifiez si la clé USB est bien celle sur laquelle vous souhaiter installer la nouvelle version. Ensuite, valider pour confirmer. Redémarrer votre ordinateur et au démarrage choisissez dans le GRUB la clé USB contenant la nouvelle vesion.
+
+Idem que depuis Windows, sauf :
+  * l'installation d'Unetbootin (voir ci-dessus)
+  * votre support USB est généralement noté /dev/sdb
+  * le disque dur est généralement noté **/ ou /dev/sda**
+
+Pour être certain de la destination, tapez la commande 'mount' dans le terminal, ceci affichera les noms des volumes.
+==== Installer Ubuntu sur disque dur ====
+
+Idem que depuis Windows, sauf :
+  * l'installation d'Unetbootin (voir ci-dessus)
+  * votre support USB est généralement noté /dev/sdb
+  * le disque dur est généralement noté **/ ou /dev/sda**
+
+
+{{:applications:UNetbootin_disque.png}}
+
+
+==== Problèmes ====
+=== Erreur : "Failed to load COM32 file menu.c32" ===
+Si l'erreur "Failed to load COM32 file menu.c32" s'affiche toutes les 10 secondes lors du boot sur la clé préparée avec Unetbootin, alors il faut upgrader unetbootin à la version 6.08 disponible à partir de Ubuntu 15.04 (corrige les bugs debian #752178 et #762841) :
+http://changelogs.ubuntu.com/changelogs/pool/universe/u/unetbootin/unetbootin_608-1/changelog.
+
+Supprimer le dossier "isolinux" de la clé USB puis lancer la nouvelle version de unetbootin pour recréer la clé.
+
+=== Vérification de l'installation de la persistance ===
+== en LEGACY ==
+C'est dans le fichier   **syslinux.cfg**   qu'il  y a  le mot __persistent__
+<code>menu label ^Try Ubuntu without installing
+kernel /casper/vmlinuz.efi
+append initrd=/casper/initrd.lz file=/cdrom/preseed/ubuntu.seed boot=casper  quiet splash --- persistent </code>
+== en EFI ==
+C'est dans le fichier  **BOOT/grub/grub.cfg**  qu'il faudrait trouver la présence du mot __persistent__  dans cette entrée
+<code>menuentry "Install Ubuntu" {:
+	set gfxpayload=keep
+	linux	/casper/vmlinuz.efi  file=/cdrom/preseed/ubuntu.seed boot=casper only-ubiquity quiet splash ---
+	initrd	/casper/initrd.lz
+} </code>
+
+====La clé n'est pas proposé au démarre de l'ordinateur====
+Sur certains ordinateurs le bios a besoin d'un exécutable en 32 bits sur la clé pour démarrer, or par défaut Ubuntu le propose en 64 bits. Voir la solution [[:live_usb#cas_des_bios_uefi_en_32_bits|ici]].
+
+
+===== Voir aussi =====
+
+  * **(en)** [[http://unetbootin.sourceforge.net/|Site officiel]]
+  * [[tutoriel:installer_ubuntu_sans_cd|Installer Ubuntu sans CD]]
+  * [[http://www.tutoriels-video.fr/installer-linux-sur-une-cle-usb/|Tutoriel vidéo : Installer ubuntu sur une clé USB]]
+  * [[https://launchpad.net/~gezakovacs/+archive/ppa|PPA d'Unetbootin]]
+  * [[multisystem|Multisystem LiveUSB MultiBoot]]
+  * [[http://www.tuxboot.org|TuxBoot]], un clône d'Unetbootin
+
+----
+
+//Contributeurs : [[utilisateurs:PTCH-7777]], [[utilisateurs:traaf]], [[utilisateurs:llwynrt]], Guyms, [[utilisateurs:nlcf]], Havok Novak, [[:utilisateurs:YannUbuntu]]//

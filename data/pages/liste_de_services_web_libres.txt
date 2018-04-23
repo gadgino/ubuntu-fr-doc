@@ -1,0 +1,279 @@
+{{tag>logiciels internet}}
+
+----
+
+
+====== Services internet libres ======
+
+
+//Cette page répertorie les services web libres (service de courriel par exemple) ainsi que les logiciels d'Ubuntu permettant d'accéder à de tels services (navigateur internet ou serveur de mail par exemple).//
+
+<note tip>Cet article a été créé à partir de [[http://forum.ubuntu-fr.org/viewtopic.php?pid=1739288|ce topic du forum ubuntu-fr]]. Toutes les contributions sont les bienvenues.</note>
+
+Le but est de permettre aux utilisateurs d'Ubuntu soucieux de leur liberté de pouvoir utiliser des services internet tels que le partage de vidéo ou la recherche sans être soumis à un monopole et sans être limités lors de l'utilisation de ces services.
+
+Nous listerons principalement les services internet libres répondant aux critères suivants:
+  * fourni par des serveurs fonctionnant avec des logiciels libres ;
+  * respecte autant que possible (légalement) la vie privée de l'utilisateur (pas de collecte de données personnelles sans avertissement) ;
+  * accès gratuit de préférence, ou communautaire lorsque sa mise en place nécessite des frais trop importants (hébergement par exemple) ;
+  * accessible en utilisant des logiciels libres.
+
+Cela permet de garantir les libertés suivantes :
+  * **Liberté de choix** : L'utilisateur peut fournir un service quasi identique pour peu qu'il possède un ordinateur et une connexion à internet, ce qui permet d'avoir le choix parmi divers sites proposant le service ;
+  * **Liberté d'entreprendre** : L'utilisateur peut créer un service dérivé en modifiant/remplaçant/supprimant certains logiciels utilisés ;
+  * **Respect de la vie privée** : L'utilisateur n'est pas inquiété par des atteintes à sa vie privée, car il peut vérifier le code source des logiciels fournissant le code en question, et s'il craint que le fournisseur du service n'utilise pas exactement ces versions, il peut monter son propre serveur ;
+  * **Liberté d'utilisation** : Si le service n'est pas gratuit et que le tarif lui paraît excessif, si le serveur est en panne, ou si l'accès au service lui est refusé pour une quelconque autre raison, l'utilisateur peut recréer un service identique ;
+  * **Liberté d'accès** : Le service ne nécessitant pas l'utilisation de logiciels non libres, l'utilisateur n'est pas contraint lors de l'accès au service en question.
+===== Moteurs de recherche =====
+
+  * [[https://searx.me/|Searx]] - Méta-moteur libre (toutes langues) sous licence publique générale Affero version 3 ayant pour but de protéger la vie privée de ses utilisateurs inspiré de seeks ([[https://fr.wikipedia.org/wiki/Searx|source wikipedia]]), Framasoft, la quadrature du net mettent à disposition searx pour des recherches non fliqué sur internet ==> [[https://framabee.org/|Framabee]] ou [[https://searx.laquadrature.net/|searx la quadrature du net]] ou [[https://searx.ch/|searx.ch]] ou [[https://www.searx.de/|searx.de]]
+  * [[https://duckduckgo.com/ | DuckDuckGo ]] - Moteur de recherche respectueux de la vie privée de l'utilisateur, mais non libre.
+  * [[https://eu3.startpage.com/ | Startpage ]] - Page intermédiaire de recherche sur Google qui empêche le pistage.
+  * [[:yacy|YaCY]] - Moteur de recherche libre et distribué (c'est le programme permettant de construire un tel moteur). Sciencenet (champ de recherche à droite sur la page de YaCY) est un moteur de recherche utilisable (sur lequel on peut taper des mots-clés et avoir des réponses) utilisant YaCY. ((http://yacy.net/))
+  * [[http://www.valiz.org/|Valiz]] - Projet pour un moteur de recherche libre. Le projet semble arrêté, le domaine étant en vente.
+  * [[http://alpha.search.wikia.com/|Wikia Search]] - **Projet officiellement arrêté (malheureusement) depuis le 31 mars 2009**. Moteur de recherche s'inspirant du mode de fonctionnement d'un wiki : un court article éditable par tout le monde est proposé pour chaque recherche, et les résultats de recherche sont directement influencés par les utilisateurs (suggestion d'une page qui devrait apparaître dans les résultats d'un mot-clé donné, par exemple). La base de pages (non indexées, à l'état brut) est libre d'accès et les algorithmes de recherche sont diffusés.
+  * [[http://lucene.apache.org/nutch/|nutch]] (apache)
+  * [[http://www.grub.org|Grub]] - Le moteur de crawl de Wikia Search. Sans lui Wikia Search vivrait dans un monde clos sans connaître un seul site.
+  * [[http://www.seeks-project.info|Seeks]] - (**projet arrêter voir searx**) Méta moteur de recherche libre, disponible sous Licence publique générale Affero. C'est un proxy web, qui intercepte les requêtes faites aux moteurs de recherche, les soumet lui-même aux moteurs activés dans la configuration, recueille et recoupe les résultats pour les présenter à l'utilisateur. La particularité de Seeks réside dans la récupération de résultats par un réseau pair à pair. Cette fonctionnalité est en cours d'implémentation. [[http://www.seeks-project.info/wiki/index.php/List_of_Web_Seeks_nodes|Liste des noeuds publics Seeks]]
+  * [[https://search.jesuislibre.net/|MySearch]] Projet de Tuxicoman meta moteur à installer, utilise google/yacy et d'autres via un proxy ce qui garantie un respect de la vie privée [[https://framagit.org/tuxicoman/mysearch|le projet est à découvrir ainsi que le .deb sur Framagit]], **pour personne avancée.**
+  
+
+===== Communication =====
+
+==== Messagerie instantanée ====
+   * [[https://qtox.github.io/fr.html|QTox]] est un protocole de messagerie instantané et de téléphonie web en peer to peer, ayant la particularité de fonctionner sans avoir à se connecter sur un serveur, peut aussi utiliser Tor et le chiffrement pour garantir sa vie privée.
+{{ :qtox.png?direct&200 |}}
+  * [[https://ricochet.im/|ricochet]] protocole de messagerie garantissant la vie privée par le chiffrement des conversations le protocole passe par tor, projet soutenu par torprojet et l'EFF.
+  {{ :ricochetscreen.png?direct&200 |}}
+  * [[https://blog.torproject.org/blog/tor-messenger-beta-chat-over-tor-easily|Tor messager]] basé sur instantbird de mozilla, est un protocole de messagerie utilisant jabber, IRC, facebook, twitter, yahoo etc..., utilise le protocole Tor pour garantir la vie privée avec le chiffrement OTR, projet soutenu par torproject.
+  {{ ::tor-messenger_158314_full.png.jpeg?direct&200 |}}  
+  * [[https://ring.cx/fr/|Ring GNU]] projet GNU depuis octobre 2016 est aussi depuis fin juin 2016 dans [[https://tracker.debian.org/pkg/ring|les dépôts Debian testing]], logiciel pour communiquer de multiples façons entre utilisateurs. C’est à la fois un téléphone, une station de conférence, une plate-forme d’échanges et de partage multimédia, un lien vers les objets connectés, fonctionne sur un réseau distribué et chiffré de bout en bout ([[https://fr.wikipedia.org/wiki/Blockchain|blockchain]]), Ring est distribué sous licence GPLv3, en version beta actuellement ce qui garantie son développement !
+ {{ :sfl_ring_captureecrandesktop-fr-gnome-3users.jpg?direct&200 |}}
+  * [[http://www.jabber.org/|Jabber]] - Un protocole (langage permettant à deux ordinateurs de communiquer) libre. Peut être utilisé 
+    * avec de multiples logiciels libres : [[:pidgin]], [[:gajim]], [[:psi]], [[:kopete]] (voir la page [[messagerie_instantanee]])...  
+    * ou via des clients en ligne (nécessitant uniquement un navigateur internet, et permettent de créer un compte en quelques clics sans même sortir du navigateur.) :
+      * [[http://jappix.com|Jappix]], un client Web moderne et très complet, permettant de discuter à ses contacts, rejoindre des salons (MUC) et utiliser le microblogage via XMPP.
+      * [[http://jabber.apinc.org/jwchat.php|Jabber par le web]], sur le site de l'[[http://apinc.org/|Apinc]] (utilise le projet [[http://sourceforge.net/projects/jwchat/|JWChat]]);
+      * [[http://www.webjabber.net/test.html|Démo]] de [[http://www.webjabber.net|WebJabber]].
+  * [[http://www.soashable.com/|Soashable]] - Accès à Jabber, AIM, MSN, Yahoo! IM depuis un navigateur internet, de la même manière que son concurrent propriétaire meebo. FIXME //Ce service semble interrompu depuis le 24Nov2008.//
+ 
+==== Courriel ====
+
+=== Fournisseurs d'adresse courriel ===
+
+  * [[https://tutanota.com/fr/|tutanota]] - Fournisseur mail libre sous licence GPL v3 avec création d'adresse, gratuite jusqu’à 1 Go de stockage, possibilité de chiffré ses courriels, possibilité de passer à plus de stockage par exemple 10GO pour 2 Euros par mois et 5 alias.
+  * [[https://kolabnow.com/|kolabnow]] - Fournisseur mail et d'adresse, utilise des logiciels libre, garantie la sécurité et la confidentialité des échanges, gratuit sur une période d’essai de 30 jours puis pour un abonnement individuel il faudra s'acquitté de 4.55 Franc suisse.
+  * [[http://www.linternaute.com/moncompte/webmail/inscription/|LeWebMail.com]] - Vous propose la création d'une adresse courriel gratuite et fonctionnant avec [[http://www.roundcube.net/|RoundCube]]. :-/__Ce fournisseur ferme le 31 mars 2012, dommage malgré quelques bugs récurent il était correcte__
+  * [[http://free.fr/|Free.fr]] ([[http://subscribe.free.fr/accesgratuit/index.html|inscription]], [[http://zimbra.free.fr/|accès avec zimbra]], [[http://imp.free.fr/|accès avec imp]]) propose un service de webcourriel utilisant la plateforme libre zimbra (ou horde imp, mais la migration est en cours, et on ne peut pas avoir les deux en même temps). Il suffit de se créer un compte free "accès gratuit". **Attention :** il est nécessaire de donner son adresse physique (ils envoient le mot de passe initial par la poste).
+  * [[http://www.mailoo.org/|Mailoo.org]] - Vous propose la création d'une adresse courriel gratuite et fonctionnant avec des logiciels libres. La création d'un compte demande 24 heures. POP, POPS, IMAP et IMAPS sont supportés. Le service est aussi rapide que des webcourriels propriétaires.
+  * [[http://openmailbox.org/|OpenMailBox]] Propose adresses courriel, compte XMPP et compte OwnCloud chiffré gratuitement. IMAP, IMAPS, POP, POPS, SMTP, SMTPS sont supportés pour le courriel, et XMPP est également sécurisé. N'utilise que des logiciels libres.
+  * [[http://no-log.org/|no-log]] - Propose la création d'une adresse courriel **L'ouverture de compte No-Log est impossible pour l'instant**
+  * [[http://sud-ouest.org|Sud-Ouest]] Sans rapport avec le journal quotidien. Service associatif d'hébergement de comptes ou de domaines mails à prix libre.
+  * [[http://webmail.ovh.net/ovh.net|Webmail OVH]] - propose un service de webcourriel avec les interfaces RoundCube, Atmail, Horde IMP, SquirrelMail et IlohaMail, au choix. //***note par HexenAnge : Sert uniquement pour les comptes courriel d'un Plan OVH (hébergement)***//
+  * [[http://amcpl.net/]] - Utilise l'interface [[http://openwebmail.org/|Open WebMail]] - **Pour les PME**
+  * [[http://www.postman.net/|postman.net]] - Utilise l'interface [[http://openwebmail.org/|Open WebMail]] - **Pas réussi à obtenir un compte**
+  * [[https://www.teria.org/]] - **Inscriptions suspendues**. POP + IMAP + webcourriel + hébergement PHP & MySQL 50Mo, tout tourne avec des logiciels libres :)
+  * [[https://gozmail.bzh/|gozmail.bzh]] - service respectueux de la vie privée, hébergé en Bretagne, IMAPs + webcourriel, sous logiciels libres (Linux Debian, postfix, dovecot, roundcube, SpamAssassin, …). Association GozData.
+
+=== Logiciels serveurs ===
+
+  * [[http://squirrelmail.org/|SquirrelMail]] - Un webcourriel écrit en PHP. Interface simple et sobre en HTML 4.0, pas de JavaScript, pas de flash, etc. Utilise des cadres par contre.
+  * [[http://ilohamail.org/main.php|IlohaMail]] - webcourriel écrit en PHP, ne nécessite que PHP4, aucune librairie. Support IMAP/POP3
+  * [[http://www.roundcube.net/|RoundCube]] - webcourriel reprenant le moteur d'ilohamail avec look "web2.0" à la sauce Apple. Très réussi et actif. Note: Nécessite l'installation des modules php-pear, php-mdb2, php-mdb2-driver-mysql, php-net-smtp, et php-mail-mime. Eventullement il est possible d'utiliser le module fileinfo de php: http://doc.ubuntu-fr.org/modules_php#fileinfo . Il est aussi optionnellement utile de retirer d'activer date.timezone dans le fichier /etc/php5/apache2 (retirer le ; pour que la ligne soit "date.timezone = CET" et redémarrez apache).
+  * [[http://atmail.org/|Atmail]] - Interface très jolie de style Apple avec un "menu circulaire"
+  * [[http://www.horde.org/imp/|Horde IMP]] - Interface webcourriel de Horde. Voir aussi le [[http://www.horde.org/groupware/|groupware]] ci-dessous.
+  * [[http://cyrusimap.web.cmu.edu/|Project Cyrus]] - Serveur de courriel supportant IMAP(4), IMSP, SMTP, SASL, ACAP. Tout plein de beaux protocoles :)
+  * [[http://openwebmail.org/|Open WebMail]]
+  * Voir aussi la section collecticiel ci-dessous. Les collecticiels incluent en général un service de webcourriel.
+
+
+==== Diffusion libre de textes ou d'évènements ====
+
+  * [[http://www.indymedia.org]] - Réseau indépendant et ouvert de médias libres. Techniquement, les différents collectifs utilisent souvent Drupal ou SPIP pour les francophones.
+  * [[http://demosphere.eu]] - Réseau et logiciel libre d'agendas militants et culturels alternatifs. Existe dans une une trentaine de villes ou régions européennes.
+====Echange de gros fichiers====
+
+  * [[http://www.freetorrent.fr/|FreeTorrent]] : permet de créer gratuitement des torrents de fichiers libres. 
+  * [[http://thepiratebay.org|Pirate Bay]] propose gratuitement ses "trackers torrents", sans forcément les publier sur leur site Web.
+  * [[http://openbittorrent.com|OpenBitTorrent]] tracker torrent libre d'utilisation lié à aucun site de torrent.
+  * [[http://torrage.com|Torrage]] hébergement de torrent sans aucun stockage d'information sur le contenu, source,... code source disponible
+
+==== Collecticiels ====
+  * [[http://www.horde.org/groupware/|Horde Groupware]] - Permet de créer son propre webcourriel, calendrier, etc. Nécessite un hébergement existant.
+  * [[http://dev.libresource.org/|LibreSource]] - "Particulièrement adapté au développement de logiciels, à la gestion d'une communauté et à la publication web"
+  * [[http://www.open-xchange.com/|Open-Xchange]]
+  * [[http://www.opengroupware.org/|OpenGroupware.org]]
+  * [[http://www.phpgroupware.org/|PhpGroupWare]]
+  * [[http://bongo-project.org/|Bongo]] - courriel et calendrier seulement. Interface simple et attractive. Fork du projet Hula.
+  * [[http://obm.org/doku.php|OBM]] - Une démo est accessible sur la page d'accueil du site officiel.
+  * [[http://www.zimbra.com/|Zimbra]] - N'est pas vraiment libre. Obligation d'afficher le logo "zimbra", etc.
+  * [[http://www.kolab.org/|Kolab]]
+  * [[http://www.openchange.org/|OpenChange]] - Alternative à exchange server. Compatible avec Outlook.
+  * [[http://www.phprojekt.com/|PHProjekt]]
+  * [[http://www.mioga2.org/|Mioga 2]] - Doté d'une interface assez agréable, mais vieillotte, le projet, qui avait l'ambition d'ajouter un wiki et d'embarquer sa propre base de données, ne semble plus vraiment évoluer.
+  * [[http://www.agora-project.net/|agora Project]] - Un collecticiel très vivant à l'interface séduisante rappelant celle d'un WebOS. Le projet est doublé d'une offre d'hébergement gratuit de 300 Mo de stockage sur [[http://www.omnispace.fr/|Omnispace]] qui permet d'utiliser la dernière version du logiciel, automatiquement mise et jour et sauvegardée sans avoir à l'installer sur son propre serveur.
+  * [[http://www.egroupware.org/|EGroupWare]]
+  * [[http://opengoo.org/|OpenGoo]](Feng Office) - Projet jeune mais très ambitieux voulant explicitement constituer une alternative aux Google Apps afin de permettre le contrôle de ses données personnelles. A ce titre, ajoute des outils de bureautique intéressants comme un éditeur WYSIWYG, une application de présentation, bientôt un tableur, en plus des modules traditionnels des collecticiels (courriel, carnet d'adresses, calendriers partagés, tâches, liens web, notes,etc.)
+  * [[http://toutateam.com/|Toutateam]] - Toutateam est un outil de travail collaboratif en ligne, ou collecticiel. C'est un outil de travail permettant à un groupe de personnes de partager des informations essentielles : contacts, calendrier, fichiers et documents, et bien plus encore.
+  * [[http://www.citadel.org/doku.php|Citadel]]
+===== Multimédia =====
+
+==== Diffusion de contenu Audio/Vidéo ====
+    *[[:streaming]] - Doc ubuntu pour diffuser en streaming en utilisant des solutions libres.
+    * [[http://blip.tv/|blip.tv]]
+    * [[http://www.archive.org/details/movies|archive.org]]
+    * [[https://tube.devosi.org/|devositube]] le youtube libre, utilise des logiciels libre garantie de ne pas diffuser d'infos sur ses utilisateurs dans la limite de la loi française, accepte et conseille de se connecter via tor, le moins du site est la capacité limité d'une vidéo à poster, très utile pour diffuser un tuto vidéo.
+
+
+==== Musique libre ====
+
+Les sites suivants proposent notamment de la musique sous licence libre (creative commons, free art licence, ...) en téléchargement et en streaming :
+
+  * [[http://www.dogmazic.net/|Dogmazic]]
+  *  [[http://www.revolutionsoundrecords.org/|Collectif d'artistes Revolution Sound Records]]
+  * [[http://www.jamendo.com/fr/|Jamendo]]
+  * [[http://oxyradio.net|OxyRadio]]
+
+==== Livres audio ====
+
+  * [[http://librivox.org/|LibriVox]] - Lecture (par des humains) de livres dans le domaine public.
+  * [[http://www.litteratureaudio.com/|Littérature audio]]
+
+==== Galerie photo ====
+
+  * [[http://jimmac.musichall.cz/original.php|O.r.i.g.i.n.a.l.]] - Moteur de galerie assez simple (simpliste ?). L'apparence est entièrement personnalisable (fichier CSS). F-Spot peut exporter vers des galeries Original. Nécessite d'avoir son propre hébergement.
+  * [[http://gallery.menalto.com/|Gallery]] - Moteur de galerie plus évolué. F-Spot peut exporter vers des galeries Galery. Nécessite d'avoir son propre hébergement.
+  * [[http://commons.wikimedia.org/wiki/Main_Page|Wikimedia.org]] Des clichés libres de droits.
+  * [[http://www.pixelpost.org/|Pixelpost]] - Moteur de galerie photo léger. Nécessite d'avoir son propre hébergement.
+
+==== Vidéo ====
+  * [[http://www.getmiro.com/|Miro]] - Client pour la VOD (Video On Demand). Se connecte à n'importe quelle "chaîne" (libre ou non), mais le client lui-même est libre.
+  * [[http://commons.wikimedia.org/wiki/Category:Video|Vidéos sur wikimédia commons]] - Vidéos hébergées par projet wikimedia commons.
+
+===== Social =====
+
+
+==== Partage de signets ====
+
+  * [[http://sebsauvage.net/wiki/doku.php?id=php:shaarli|Shaarli]] - Clone minimaliste de delicious.com créé par  [[http://sebsauvage.net/|Sebsauvage]].
+
+Alternative possible : utiliser [[http://www.netvibes.com|Netvibes]]. Ce portail Web2.0 dispose d'une extension (greffon) appelé **Bookmarkr** qui permet l'enregistrement gratuit en ligne de ses Marque-pages (signets)
+
+Détails sur Netvibes sur [[http://fr.wikipedia.org/wiki/Netvibes|Wikipedia]]
+
+<note help> Netvibes est-il considéré comme libre ? Même si elle est propriétaire, Netvibes met à disposition une API permettant de programmer ses propres modules.</note>
+
+
+
+==== Réseau social ====
+Voir: [[Réseau_social | Réseau Social]]
+  *[[https://www.jappix.com/|Jappix]] - client web Jabber avec flux social
+  *[[http://www.witzing.net/|Witzing]] - Un jeune réseau social très prometteur
+  * [[https://joindiaspora.com/|Diaspora]] - Réseau social décentralisé libre (voir aussi [[http://diasporaproject.org/]])
+  * [[http://friendica.com/|Friendica]] - Réseau social décentralisé libre, utilise la messagerie instantanée Jabber, s'interconnecte avec Diaspora et StatusNet (identi.ca, GNU social), s'interface avec Facebook, Twitter, //etc//., peut aussi intégrer vos courriels.
+  *[[http://movim.eu/|MOVIM]] - Réseau social décentralisé libre, utilise la messagerie instantanée Jabber
+  * [[http://identoo.com/|Identoo]] - Réseau social libre — sous licence X11 — et gratuit que vous pouvez intégrer à votre site internet. Projet créé par [[http://noserub.com/|Noserub]].
+  * [[http://libre.fm/|libre.fm]] - Site communautaire sous licence AGPL. Permet de communiquer ses habitudes d'écoute au sein d'une communauté, à la manière de last.fm. Projet très récent — annoncé début avril — et actuellement en version alpha. Devrait à terme intégrer une webradio voire permettre de télécharger de la musique libre.
+  * [[http://mugshot.org/|Mugshot]] - Permet de partager toute sa vie numérique — ce que vous postez sur votre blog, la musique que vous écoutez, vos nouvelles photos, … — en un seul endroit.
+  * [[http://socialze.sourceforge.net/|SocialZE]] - Réseau social décentralisé sous licence GPLv3 avec toutes les fonctions de n'importe quel réseau social : blogging, albums, groupes, ...
+  * [[http://bewelcome.org|BeWelcome.org]] - Réseau mondial d'entraide et d'hébergement, similaire au commercial Couchsurfing, mais géré par une association développant un logiciel libre ;
+
+====gestionnaire de mots de passe en ligne====
+  *[[http://www.clipperz.com|Clipperz, online password manager]]
+  *[[http://openid.org|Openid]] Permet de se connecter à de nombreux sites avec un seul mot de passe. Le standard est ouvert, et des clients et serveurs libres existent.
+
+===== Sites internet =====
+
+
+==== Hébergement ====
+
+  * [[http://www.TuxFamily.org|TuxFamily]]  est une association fournissant des services d'hébergement gratuits pour tous projets de logiciels ou contenus en rapport avec la philosophie du libre. Tous les projets sous licence libre peuvent être acceptés. Support FTP mais aussi et surtout SSH. Une aubaine pour les projets qui souhaitent être présents sur le Net.
+  * [[http://www.ouvaton.coop/|Ouvaton]] - Hébergement payant, mais communautaire.
+  * [[http://www.toile-libre.org/|Toile Libre]] - Hébergeur associatif à prix libre
+  * [[http://www.lautre.net/|L'autre net]] - Hébergeur associatif, payant.
+  * [[http://www.marsnet.org|Marsnet]] -  Hébergeur associatif pour les associations de Marseille et environ (forfaits gratuits et payants)
+  * [[http://www.hebergeurslibres.net/wakka.php?wiki=ListeHebergeurs|hebergeurslibres.net]] Liste des Hébergeurs associatifs et indépendants
+  * [[https://shost.ca/|sHost]] - Hébergement de site web gratuit et sans pub !
+  * [[http://www.site-gratuit.ch|site-gratuit.ch]] - Hébergement de site web gratuit et sans pub, pour les particuliers et organismes sans but lucratif
+==== Forum ====
+
+  * [[http://fluxbb.fr/|FluxBB]] - Moteur de forum simple et léger, utilisé pour le forum ubuntu-fr
+
+==== Blog ====
+
+  * [[http://dotclear.net/|Dotclear]]
+  * [[http://wordpress.org/|WordPress]]
+  *[[http://lehollandaisvolant.net/blogotext/|Blogotext]]
+  *[[http://julien-et-nel.be/UAG/|UAG CMS]]
+  *[[http://pluxml.org/|PluXML]]
+  *[[http://flatpress.org/home/|Flatpress]]
+
+
+==== SGC (Système de Gestion de Contenu) ====
+
+Certains SGC libres (CMS en anglais) ne requièrent pas d'installation. FIXME a vérifier
+
+//Voir le portail [[CMS]].//
+
+==== Wiki ====
+
+Un wiki est un système d'articles que chacun peut éditer (selon les droits dont il dispose). Cela permet par exemple d'écrire la documentation d'un programme tout en permettant aux utilisateurs de corriger les fautes, donner des détails sur les nouvelles fonctionnalités, etc.
+
+  * [[http://www.mediawiki.org/|Mediawiki]] - C'est le logiciel qui fait tourner Wikipedia, entre autres. Il permet la création de votre propre wiki.
+  * [[http://tiddlywiki.com/|TiddlyWiki]] - Un wiki assez particulier, composé de notes et/ou d'articles interconnectés qui s'ouvrent et se ferment dans la même page. Voir le site pour comprendre de quoi il s'agit. Il est d'un design soigné et offre de nombreuses fonctions, notamment grâce aux divers plugins disponibles : //Timeline// --- //Mind-Map// --- //Kanban// --- //Flowchart//, //etc// ...\\ Il est __idéal__ pour : //gérer la prise de notes// ; //préparer un projet// ; //faire un storyboard// ; //préparer une thèse// ...  \\ Il peut fonctionner sans serveur (donc avec seulement votre navigateur) si vous n'avez pas besoin que vos articles soient accessibles à tout le monde (mémos, notes, ...).
+  * [[http://www.dokuwiki.org/dokuwiki|DokuWiki]] - Tout en PHP, facile a installer parce qu'il n'utilise pas de base de données.
+===== Jeux en ligne =====
+
+Ces jeux peuvent être joués avec un simple navigateur.
+
+[[http://darkcitygame.free.fr/|DarkCity]] - Jeu de rôle et d'aventure en mode texte. [[http://darken33.free.fr/index.php?cat=8&rub=41|Les sources]] sont sous licence GPL v2. En les modifiant, il est possible de créer d'autres jeux du même style (mais avec des règles différentes).
+
+===== Application en ligne =====
+
+Ces applications peuvent être utilisées avec un simple navigateur.
+==== Retouche d'image ====
+  * [[http://www.ajax-image-editor.com/|Ajax Image Editor]] est un éditeur de photos simple : redimensionnement, découpage, filtres (flou, …), etc.
+  * [[http://jsvectoreditor.googlecode.com/svn/trunk/index.html|JSVectorEditor]] est un logiciel de dessin en ligne simple : formes géométriques, pinceaux, … [[http://jsvectoreditor.googlecode.com/|La page du projet]] permet de télécharger le code source.
+==== Cartographie ====
+  * [[http://openstreetmap.org/|OpenStreetMap]], comme google maps, mais les cartes sont modifiables et libres de droit.
+  * [[http://www.upct.org/|Un Point C'est Tout (UPCT)]] est un projet de cartographie libre. Vous pouvez [[http://www.upct.org/cartov2/cartographie.php|visualiser les cartes]] (pensez à ajouter des "calques" : routes, lieux etc.) et y ajouter vos traces GPS. Nettement moins complet et moins joli que OpenStreetMap, mais intéressant tout de même. FIXME projet mort ?
+
+==== Alimentation ====
+
+  * [[http://fr.openfoodfacts.org/|Open Food Facts]], indexation libre et communautaire des produits alimentaires.
+====Application opensource "cloud"====
+  * http://bitnami.org/
+
+===== Système d'exploitation en ligne ("SE en ligne", "SE web") =====
+
+[[http://www.exoplatform.com/portal/public/en/|Exo Enterprise Web OS]]
+Assez lourd et lent (du moins la dernière fois que je l'ai utilisé les données du programme étant sur un serveur distant, donc ça n'a pas dû améliorer les choses :-p), mais très complet.
+<note tip>Pour quelques explications, voir [[http://blogs.sun.com/bblfish/entry/exo_ecm_the_web_os|cet article de blog]], qui permet entre autres de savoir où trouver la "chose" dans le dédale du site officiel...</note>
+[[https://www.youos.com/|YouOs]] - Assez avancé, permettait l'écriture de nouvelles applications open-source en JavaScript
+
+<note importante> "As of July 30, 2008, YouOS has been shut down by its developers."</note>
+
+[[http://eyeos.com/|eyeOS]] - Assez avancé aussi, permet l'écriture de nouvelles applis sous forme d'eyePack. Chose intéressante à noter : il existe, sous le nom d'eyeOpenGoo, en version 1.0, une application permettant de faire d'OpenGoo une application tournant sous eyeOS et d'y accéder au moyen d'une authentification unique. Voir : [[http://eyeos-apps.org/content/show.php/eyeOpenGoo?content=87018|sous eyeos-apps.org]] ainsi que cette discussion sur le forum du projet OpenGoo : [[http://forums.opengoo.org/index.php?topic=49.msg329#msg329|OpenGoo for eyeOS]]. Voici un tutoriel video pour ceux qui sont intéressé par eyeOS : [[http://www.tutoriels-video.fr/decouverte-et-installation-de-eyeos/|Tutoriel video]]
+
+<note important>Depuis septembre 2011, EyeOS n'est plus open source  et est devenu un logiciel propriétaire et commercial destiné aux entreprises. Il existe tout de fois un fork, baptisé **OneEye** et basé sur la branche 1.x de EyeOS
+[[http://oneye-project.org]]</note>
+
+
+
+[[http://www.x-desktop.org/|X-desktop]] - Un gestionnaire de fenêtres libre écrit en javascript.
+
+<note importante> Projet abandonné, site et forum complètement désaffectés.</note>
+
+[[http://robin.sourceforge.net/|Robin]] - Autre gestionnaire de fenêtres libre écrit en javascript.
+
+<note importante> Projet abandonné et resté à l'état embryonnaire.</note>
+
+[[http://live.oszoo.org/|Free Live OS Zoo]] (expérimental) - Test de différentes distributions Linux au travers d'une machine virtuelle accessible depuis le web
+<note importante> Non pas un service à proprement parler, puisqu'on ne peut rien conserver de ce qu'on a créé, exactement comme pour une démo en ligne de logiciel, mais bien plutôt l'équivalent en ligne d'un Live CD permettant d'essayer une distribution sans rien installer sur son ordinateur. A noter toutefois que pour installer la distribution de votre choix, vous devrez ensuite procéder de manière traditionnelle, FLOZ n'offrant pas une telle possibilité.</note>
+
+[[http://www.ulteo.com/|Ulteo]] - La suite OpenOffice.org accessible en ligne (documents et application accessibles n'importe où). C'est aussi un service (gratuit dans sa version de base) offrant un système GNU/Linux (KDE) complet en ligne disposant de possibilités poussées de synchronisation avec une distribution Ulteo installée en local sur son ordinateur personnel.
+
+[[http://firefrogz.free.fr/webubuntu/|Webubuntu]] <note important>
+Lien mort!
+</note>- Projet qui vise à pouvoir contrôler et utiliser ubuntu depuis un navigateur. Écrit en JavaScript. Pensez à double-cliquer sur "Essayez". Comme tel, pourrait devenir à terme un concurrent pour Ulteo.
+<note importante> Ne semble pas fonctionner avec le navigateur epiphany.</note>

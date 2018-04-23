@@ -1,0 +1,153 @@
+{{tag>Hardy sécurité}}
+
+----
+====== Nessus : scanner de vulnérabilité ======
+
+Nessus est un outil de sécurité informatique. 
+
+Il signale les faiblesses potentielles ou avérées du matériel testé (machines, équipement réseau).
+
+Nessus est capable de scanner un équipement (machine ou matériel réseau), un ensemble d'équipements (à partir d'un fichier ou d'une plage IP) ou encore un réseau entier. 
+
+Le résultat du scan fournira :
+  * la liste des vulnérabilités par niveaux de criticité, 
+  * une description des vulnérabilités,
+  * et surtout la méthode ou un lien pour solutionner le problème.
+
+Il s'appuie pour cela sur une base de signatures des failles connues sur un large panel de systèmes.
+
+La procédure ci-après décrit l'installation de Nessus dans sa version 3 et supérieure. Les versions décrites dans l'installation ne sont pas disponibles dans les dépôts Ubuntu, mais des paquets spécifiques pour Ubuntu x86 et AMD64 sont à télécharger auprès de l'éditeur (http://www.nessus.org/download/).
+
+<note help>Nessus est devenu un logiciel propriétaire à partir de la version 3. Cependant, il est resté gratuit pour usage non commercial. Un fork libre a été créé: [[OpenVAS]].</note>
+
+<note important> Ceci est à l'origine un tutoriel d'installation de Nessus 3. La plupart des informations contenues dans ce tutoriel sont valides. Néanmoins, vous devriez consulter le cas échéant la documentation officielle en anglais pour plus d'informations: [[http://www.nessus.org/documentation/|la documentation officielle]].</note>
+===== Pré-requis =====
+
+Pour la suite des opérations, des pré-requis sont nécessaires : 
+  * Disposer des [[:sudo|droits d'administration]] ;
+  * Disposer d'une connexion à Internet configurée et activée pour télécharger le logiciel ;
+
+
+
+===== Installation/Configuration =====
+
+Nessus se divise en deux parties : nessusd qui est un daemon (**serveur**) exécutant les requêtes ainsi que la communication avec la cible, et nessus, une application **client** qui récupère les données et affiche le résultat. Ce découpage est classique, le daemon tournant avec des privilèges élevés (root) alors que l'interface graphique, plus complexe et donc vulnérable, tourne sous l'identité d'un utilisateur non privilégié. Les tests sont joués par des **greffons** (ou plugins).
+
+Le serveur nessus (et ses greffons) ne se suffit pas à lui même dans le sens où il n'est pas possible de lancer un scan en ligne de commande. Il est indispensable d'installer une interface graphique pour 'piloter' nessusd. Par contre, il est tout à fait envisageable d'installer la partie serveur sur une machine et l'interface graphique sur une autre.
+
+Note : Les greffons sont fournis gratuitement ou contre un abonnement payant. La différence réside dans le fait que le système payant met à disposition quasi immédiate des serveurs Nessus les dernieres failles découvertes. A l'inverse (sans abonnement), les greffons qui permettent de tester les failles sont publiés avec un retard de 7 jours.
+====  Le serveur ====
+
+Le paquet serveur est à récupérer directement sur le site de l'éditeur Tenable : http://www.nessus.org 
+
+Les instructions consistent à partir de la rubrique [[http://www.nessus.org/download/|Download]] à sélectionner la version **//Nessus 4.0.1 for Linux//** puis à télécharger la version au format .deb
+
+Une fois le paquet téléchargé sur votre disque dur, l'installer avec la commande suivante (à adapter à votre version) :
+
+<code>sudo dpkg -i Nessus-4.0.1-ubuntu804_i386.deb</code>
+
+==  Validation du code d'activation de Nessus ==
+
+Un code d'activation est à récupérer à partir de [[http://www.nessus.org/products/nessus/nessus-plugins/obtain-an-activation-code|cette page]], en cliquant sur le lien //Register a HomeFeed//
+
+Il est impératif de **fournir une adresse email valide**. Celle-ci sera utilisée pour recevoir la clé d'activation du logiciel et ainsi pouvoir obtenir les dernières versions de signatures.
+
+L'email reçu contient votre code d'activation pour votre compte. Sur Linux, pour activer votre compte, exécutez simplement la commande (XXXX est à remplacer par votre code) :
+<code>sudo /opt/nessus/bin/nessus-fetch --register xxxx-xxxx-xxxx-xxxx-xxxx</code>
+
+<note tip>
+En ce qui concerne la version de nessus dans les dépots (2.2.10 à ce jour sur Jaunty) il semblerai que le code ci-dessus ne fonctionne pas car nessus-fetch se trouverai dans /usr/bin/nessus-fetch… de plus il suffit de faire 
+<code>sudo nessus-fetch --register xxxx-xxxx-xxxx-xxxx-xxxx</code>
+</note>
+
+
+Ceci aura pour effet non seulement d'activer votre compte, mais aussi de télécharger automatiquement les derniers greffons depuis //plugins.nessus.org//
+
+== Création d'un compte utilisateur  ==
+
+Le serveur Nessus nouvellement installé nécessite la création d'un compte utilisateur interne au logiciel lui-même. Cela permet par exemple de créer plusieurs comptes avec des accès plus ou moins limités aux plages IP réseau. Pour cela exécuter la commande : 
+
+<code>sudo /opt/nessus/sbin/nessus-adduser</code>
+
+== Enregistrement auprès du Centre de Sécurité (obligatoire avant le premier lancement sinon Nessus ne démarre pas) - version 4.2.1 et suivantes ==
+
+<code>sudo /opt/nessus/bin/nessus-fetch --security-center</code>
+
+==  Le script d'initialisation du service nessusd ==
+
+Par défaut, le script d'initialisation (/etc/init.d/nessusd) s'exécute dans les runlevel 4 et 6, qui correspondent respectivement à un mode de démarrage que l'on peut se configurer (4) et au redémarrage (6). Pour que le daemon nessusd soit lancé à chaque démarrage de la machine, nous allons le retirer des runlevels 4 et 6 puis l'ajouter dans tous les runlevels (vous pouvez aussi l'ajouter uniquement au runlevel 2 qui correspond mode de démarrage normal).
+
+<code>sudo update-rc.d -f nessusd remove
+sudo update-rc.d nessusd defaults</code>
+
+==  Les actions sur le service nessusd ==
+
+La lanceur de Nessus accepte les paramètres //start stop// et //restart// qui peuvent lui être passés par la commande (exemple d'un démarrage) :
+<code>sudo /etc/init.d/nessusd start</code>
+
+Le démarrage peut aussi se faire via la commande suivante qui a pour effet de mettre à jour les greffons au démarrage :
+<code>sudo /opt/nessus/sbin/nessus-service -D</code>
+
+
+====  Les greffons ====
+
+
+Il est important de tenir la liste des greffons à jour afin que Nessus soit capable de détecter les dernières failles.
+
+A partir de la version 3 de Nessus, les greffons se mettent à jour automatiquement toutes les 24 heures après que vous avez exécuté la procédure d'enregistrement (voir plus haut).
+
+Si vous ne souhaitez pas de mise à jour automatique des greffons, éditez simplement le fichier //nessusd.conf// et changez '//auto_update//' par '//no//'.
+
+Et pour lancer manuellement une mise à jour des greffons, exécutez le script //nessus-update-plugins// à l'aide de la commande : <code>sudo /opt/nessus/sbin/nessus-update-plugins</code>
+
+====  L'interface graphique cliente ====
+
+<note important> Avec la nouvelle version de nessus (4.2 et supérieure), il n'y a plus de client local mais on utilise directement un navigateur web (voir la remarque ci-dessous). Cependant, avant la première connexion, on doit enregistrer son serveur auprès du centre de sécurité via la commande /opt/nessus/bin/nessus-fetch --security-center. Une fois cela fait, on peut lancer le serveur (/etc/init.d/nessusd start). Et à ce moment là on se connecte sur https://adresseIP:8834</note>
+
+<note importante>Pour les utilisateurs de KDE 4.4 SC, Konqueror 4.4 ne permet pas d'utiliser le client web de Nessus 4.2 et supérieur. Il faut impérativement passer par un autre navigateur (firefox par exemple).</note>
+
+Pour les versions antérieures à la versions 4.2, l'éditeur Tenable propose l'interface graphique cliente (GUI) //NessusClient// pour utiliser le logiciel nessusd. Pour l'utiliser, on télécharge le paquet au format .deb depuis le site http://www.nessus.org/download/
+
+Les instructions consistent à partir de la rubrique //Download// à sélectionner la version **//NessusClient 4.0.1 (the Linux graphical interface for nessusd) //** puis à télécharger la version //NessusClient-4.0.1-ubuntu804.i386.deb (Ubuntu 8.04)// au format .deb
+
+Une fois le paquet téléchargé sur votre disque dur, l'installer à l'aide de la commande //dpkg// ([[:tutoriel:comment_installer_un_paquet|installez le paquet]])
+
+===== Utilisation =====
+
+Note : le daemon serveur de nessus n'est pas lancé à chaque démarrage ; il est donc indispensable de le démarrer manuellement (cf plus haut).
+
+Le raccourcis pour lancer l'interface graphique est situé dans le menu //Applications/Internet/NessusClient//
+
+<note important>Par défaut, Nessus **simule** une exploitation des failles sur les hôtes distants. En décochant la case **Safe checks** dans les politiques de scan, Nessus exécute tous les checks même ceux **susceptibles de causer des dommages irrémédiables** sur l'hôte ciblé.</note>
+
+Les étapes qui caractérisent un scan :
+  * Lancement de l'application
+  * Connexion au serveur nessusd (local ou distant) à l'aide du bouton //Connect//
+  * Ajout d'hôtes ou réseau à scanner à l'aide du bouton //+//
+  * Sélection d'une politique de scan (ex. Par défaut, Patch Microsoft ou personnalisée)
+  * Éventuellement édition de la politique pour la personnaliser (généralement pour adapter les greffons à exécuter en fonction des hôtes, fournir des identifications de compte...)
+  * Démarrer le scan à l'aide du bouton //Scan Now//
+  * Patienter pendant la durée du scan puis accéder au rapport :)
+
+
+{{nessus-gui.png?513*349}}
+
+//Résultat d'un scan sur une plage d'adresses IP//
+
+== Le score CVSS (Common Vulnerability Scoring System) ==
+
+Le système CVSS évalue le niveau de gravité d'une faille et lui attribue un score de 1 (faible) à 10 (élevé) en fonction de trois types du métrique distincts : les niveaux basiques, temporels & environnementaux.
+
+L'objectif est d'accorder l'ensemble des éditeurs et constructeurs sur le même barème afin de bénéficier d'un cadre standard sur les informations relatives aux  vulnérabilités logicielles et ainsi adapter l'urgence des correctifs sur les parcs informatiques.
+
+Nessus affiche bien évidemment ce score comme vous pouvez le voir en bas de la copie d'écran ci-dessus.
+===== Liens =====
+
+  * [[http://www.nessus.org/nessus/|Site officiel]]
+  * [[http://www.nessus.org/documentation/|Centre de documentation Nessus]]
+  * [[wpfr>Nessus_(logiciel)|Page sur l'encyclopédie libre Wikipedia]]
+
+
+----
+
+//Contributeurs// : [[:utilisateurs/sidney_v|sidney_v]] | [[:utilisateurs/spierrel|spierrel]]

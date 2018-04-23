@@ -1,0 +1,201 @@
+{{tag>Hardy media_center multimédia tutoriel}}
+
+----
+
+====== Configurer Apache pour le mediacenter de Neuf sur un serveur? ======
+
+<note warning>Cette page décrit la configuration du MediaCenter sur un **serveur**. Un utilisateur préfèrera la méthode décrite sur la page [[neufpctv|neuf PC TV]]</note>
+
+===== Versions concernées =====
+
+  * Hardy
+  * Jaunty Jackalope
+  * :!: non testé sur d'autres versions
+
+===== Introduction =====
+
+SFR, dans l'offre 100% Neuf Box issue de Neuf Telecom, propose un "media center" complet qui permet de visualiser depuis la TV les fichiers multimédia stockés sur un PC ou d'autres périphériques.
+
+L'installation sur Ubuntu est assez simple en tant qu'utilisateur standard, mais les choses se compliquent quand on veut automatiser les choses... surtout si on  veut le faire //proprement//.
+
+Ce tuto propose donc une méthode pour configurer Apache pour qu'il puisse communiquer avec la Neuf Box... 
+
+=====Prérequis====
+
+Pour commencer, vous devez récupérer le media center de SFR [[http://tv.sfr.fr/mediacenter/mediacenter-neufbox/installation.php|ici]].
+
+Vous devez avoir également Apache d'installé. Il faut installer [[:tutoriel:comment_installer_un_paquet|installer les paquets]] **[[apt://apache2|apache2]]** et **[[apt://php5|php5]]**
+
+
+===== Fonctionnement du Media Center =====
+
+En fait, le Media Center de Neuf est composé de deux éléments : 
+
+  * le navigateur, intégré à la Neuf Box, et qui permet l'affichage des fichiers sur la TV.
+  * le serveur, un simple serveur web qui écoute les requêtes sur le port 26180 et qui met à disposition des dossiers par la mécanique des Alias
+
+Apache permet d'héberger sur une même machine différents sites webs. La distinction peut se faire sur le nom utilisé pour se connecter, l'IP utilisée, ou bien le port. En termes Apache, ces sites sont des "sites virtuels" ou ''VirtualHost''.
+
+Pour configurer Apache, nous allons donc très simplement mettre à jour la configuration par défaut de Apache pour ajouter un nouveau ''Virtual Host'' avec le bon paramétrage.
+
+===== Installation des fichiers du Media Center =====
+
+Par défaut, le dossier de publication web est ''/var/www/''. Les différents sites sont logés dans ce dossier et nous allons donc décompresser l'archive de Neuf dans ce dossier. 
+
+<code>
+cd /var/www/
+sudo tar xvzf mediacenter.tgz
+</code>
+
+Cette commande va décompresser l'archive dans le dossier /var/www/mediacenter/.
+
+===== Création des partages =====
+
+La configuration du media center utilise plusieurs fichiers situés dans le dossier d'installation. 
+
+Editez le fichier ''/var/www/mediacenter/data/httpserver.conf'' :
+<code>
+gksudo gedit /var/www/mediacenter/data/httpserver.conf &
+</code>
+
+La première ligne doit comporter la mention (à remplacer éventuellement si l'IP n'est pas bonne) :
+<code>
+Listen 192.168.1.10:26180
+</code>
+Editez le fichier ''/var/www/mediacenter/data/shares.conf'' :
+<code>
+gksudo gedit /var/www/mediacenter/data/shares.conf &
+</code>
+
+
+Il doit contenir des lignes comme ci-dessous : 
+  * 1 ligne par partage
+  <del>* ne pas oublier le ''/'' en fin de chemin d'accès</del>
+  * éviter les accents et caractères spéciaux
+
+
+<code>
+<?php
+addShareFolder(1, "Videos", "/public/Commun/Videos");
+addShareFolder(2, "Musique", "/public/Commun/Musique");
+addShareFolder(3, "Photos", "/public/Commun/Photos");
+?>
+</code>
+
+
+Editez le fichier ''/var/www/mediacenter/data/httpshares.conf'' :
+<code>
+gksudo gedit /var/www/mediacenter/data/httpshares.conf &
+</code>
+
+
+Il doit contenir des lignes comme ci-dessous : 
+  * 1 ligne par partage
+  <del>* **ne pas renseigner** le ''/'' en fin de chemin d'accès</del>
+  * éviter les accents et caractères spéciaux
+  * chaque partage nommé ''mp9ctl_share_x'' ou ''x'' est un numéro d'ordre
+
+<code>
+Alias /__mp9ctl_share_1/ "/public/Commun/Videos/"
+Alias /__mp9ctl_share_2/ "/public/Commun/Musique/"
+Alias /__mp9ctl_share_3/ "/public/Commun/Photos/"
+</code>
+
+===== Configuration Apache =====
+
+Les sites virtuels sont tous configurés par des fichiers indépendants logés dans ''/etc/apache2/sites-available''. Le dossier ''/etc/apache2/sites-enabled'' contient des liens symboliques vers ces fichiers de configuration, pour tous les sites effectivement activés. Il faut donc : 
+
+
+  * créer le fichier de configuration
+  * activer le site
+
+
+=== Création du fichier de configuration ===
+
+Créer un fichier nommé ''mediacenter'' dans ''/etc/apache2/sites-available'' : 
+
+<code>
+cd /etc/apache2/sites-available/
+gksudo gedit mediacenter &
+</code>
+
+Copier-coller le code ci-dessous dans le fichier : 
+
+<code>
+Listen 26180
+
+<VirtualHost *:26180>
+	DocumentRoot    /var/www/mediacenter/httpd/
+	ServerName    mediacenter
+
+	SetEnv ConfigFile /var/www/mediacenter/data/shares.conf
+	SetEnv OSType linux
+
+	# Types MIME
+	TypesConfig /etc/mime.types
+	DefaultType application/octet-stream
+
+	# Directory settings
+	DirectoryIndex index.html index.php
+
+	# Support PHP MP9Ctl
+	AddType application/x-httpd-php .php
+
+	# Les alias avec les partages sont dans les fichiers de configuration
+        # du media center. Il ne faut pas les redéfinir ici.
+	
+	# Securité : l'accès doit être possible pour
+        # - la Neuf Box, traditionnellement sur 192.168.1.1
+        # - le ou les PC de bureau
+	<Directory />
+		Order Allow,Deny
+		Options FollowSymLinks
+
+		Allow from 172.16.255.252/30
+	        Allow from 192.168.1.1
+		Allow from 192.168.1.2
+                Allow from 127.0.0.0/255.0.0.0 ::1/128
+	</Directory>
+
+	# Shares configuration file
+	Include /var/www/mediacenter/data/httpshares.conf
+</VirtualHost>
+</code>
+
+Sauvegardez les modifications et fermez ''gedit''.
+
+=== Activation du site ===
+
+Dans le shell, tapez les commandes suivantes :
+
+<code>
+sudo a2ensite mediacenter
+sudo /etc/init.d/apache2 reload
+</code>
+
+La première ligne crée le lien symbolique dans ''/etc/apache2/sites-enabled''.
+La deuxième ligne recharge la configuration de Apache pour rendre actif le site.
+
+
+===== Vérification des droits ====
+
+Le media center doit avoir accès en lecture aux dossiers partagés. Cela peut sembler trivial, mais si vous stockez les fichiers multimédia sur un disque externe, monté en VFAT, il faut spécifier les bonnes options ! 
+
+:!: Réf. nécessaire :!:
+===== Fin d'installation ====
+
+Pour vérifier que tout fonctionne, rendez-vous à l'adresse suivante depuis votre navigateur : [[http://127.0.0.1:26180/]]
+
+La page d'accueil indiquant le bon fonctionnement de neuf media center devrait s'afficher.
+
+Voilà ! Vous devriez maintenant avoir accès à vos fichiers directement depuis votre télévision !
+
+=====Voir aussi=====
+  * [[:tutoriel:installer_imprimante_partage|Partage d'une imprimante]] - sur une [[serveur_impression_neufbox|NeufBox]] - sur une [[serveur_impression_freebox|FreeBox]].
+  * [[:Partage]]
+  * [[neufpctv]]
+  * [[neufbox_partage_ftp]]
+
+----
+
+// Contributeurs : [[utilisateurs:Nikomiko]],[[utilisateurs:Sirjuh]]//

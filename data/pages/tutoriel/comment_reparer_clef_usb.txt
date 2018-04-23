@@ -1,0 +1,123 @@
+{{tag>Trusty usb}}
+
+----
+
+====== Comment « réparer » une clé USB, ou une carte sd bloquée en lecture seule ? ======
+
+<note>Ce tutoriel s'applique //a priori// à tout support en FAT32, donc pourquoi pas les mp3-usb. Attention toutefois, certains lecteurs MP3 stockent --soit sous forme de fichier, soit sous forme de partition cachée-- des informations vitales à leur fonctionnement. Il est donc sage en tout état de cause de commencer par faire une image disque de votre clé pour conserver l'état initial.</note>
+
+===== Le bug : une histoire de partition =====
+
+==== Présentation du problème ====
+
+Du fait d'inconsistances dans la gestion des systèmes de fichiers, il peut arriver que l'utilisation conjointe d'un support en FAT32 sur un OS GNU/Linux d'une part et Windows d'autre part entraine des problèmes. Cela se traduit généralement par l'impossibilité d'accéder à la clé en écriture, puisque un système de fichiers endommagé est généralement remonté automatiquement en « ReadOnly » (lecture seule).
+
+Concrètement, à la copie de fichiers de votre ordinateur vers votre clé, vous obtenez un message d'erreur de ce type : 
+> Impossible d'écrire dans un dossier en lecture seule.
+
+
+==== Que faut-il faire ? ====
+
+Il va falloir recréer un système de fichier sain après avoir mis ses données en sécurité.
+La démarche est donc la suivante :
+  - Vérifications préalables,
+  - Sécurisation des données existantes,
+  - Tentative de réparation avec l'outil théoriquement approprié,
+  - En dernier recours, destruction et reconstruction du système de fichiers.
+
+===== Vérifications préalables =====
+
+À essayer et vérifier avant toute manipulation potentiellement destructrice...
+
+  * Si vous utilisez une rallonge USB pour brancher votre périphérique essayez de le brancher directement sur un port USB de votre ordinateur. Certains périphériques ne fonctionnent pas sur un **câble USB trop long**.
+  * Si vous utilisez un port usb en façade pour brancher votre périphérique sur une tour, essayez un port usb à l'arrière, directement sur la carte mère. Parfois la gestion des alimentations usb ou le partage des périphérique pose des problèmes avec certains matériels.
+  * Vérifiez si votre clé n'est pas équipée d'un interrupteur manuel empêchant l'écriture. Celui-ci est parfois à peine plus gros qu'une tête d'épingle. Pour les lecteurs mp3/usb vérifiez qu'il n'existe pas une option logicielle permettant de verrouiller le matériel en écriture.
+
+De manière générale, si dans des conditions matérielles identiques vous pouvez écrire avec Windows mais plus avec Ubuntu, vous pouvez éliminer ces cas de figure.
+
+<note>Il se peut aussi tout simplement que l'usage de la commande **sudo** à la place de **gksudo** pour des applications graphiques ne corrompe vos droits sur votre périphérique. Dans ce cas essayez de supprimer ou de renommer le fichier **.Xauthority** de votre [[:arborescence#consideration|dossier personnel]] avant tout autre chose avec cette commande par exemple : <code>mv .Xauthority .Xauthority_vieux</code>\\ Redémarrez votre ordinateur.</note>
+
+===== Mettre les données existantes en sécurité =====
+
+Les tentatives de réparation présentées aux chapitres suivants peuvent être destructrices. Il vous faut donc commencer par sauvegarder vos données. Comme certains lecteurs mp3 n'apprécient pas du tout que leurs partitions soient modifiées et pourraient ne plus fonctionner, choisissez ci-dessous parmi les deux options de sauvegarde proposées en fonction de votre type de média. Attention toutefois, la sauvegarde de l'ensemble de la clé ne permet pas très facilement d'aller y récupérer les données intuitivement, c'est plus une sécurité pour faire l'opération inverse en cas de souci. Nota : Si vous n'arrivez plus du tout à accéder à vos données même en forçant le montage, tournez-vous d'abord vers des outils de récupération de données ([[:testdisk]], [[:photorec]]) avant de reconstruire votre système de fichier.
+
+  * Sauvegardez vos fichiers par copie classique : normalement votre clé se monte automatiquement à l'insertion. Utilisez votre explorateur de fichier pour copier les données dans un dossier de votre espace personnel.
+
+et/ou
+
+  * Sauvegardez l'ensemble de la clé (MBR + Partitionnement + données) dans un fichier "image" grâce à un outil adapté. Vous pouvez le faire avec [[:dd]], [[:partimage]], [[:clonezilla]] et d'autres... par exemple, avec dd vous pouvez utiliser une commande du type 
+<code>sudo dd if=/dev/sdf of=/home/mondossier/monimage.img</code>
+Bien sûr il faudra personnaliser cette commande en remplaçant par les valeurs appropriées "sdf" "mondossier" et "monimage.img"
+
+<note help>
+Pour identifier quel //périphérique (dev)// occupe votre clé (/dev/sd**?**) vous pouvez utiliser: <code>mount | grep vfat</code> si celle-ci est montée automatiquement, ou <code>sudo fdisk -u -l</code> et la repérer avec sa taille si ce n'est pas le cas. Ou tout simple utiliser l'outil de partitionnement graphique [[:gparted]].
+</note>
+
+
+===== Tenter de réparer le système de fichiers =====
+Après avoir identifié votre clé (voir paragraphe précédent au besoin), vous allez pouvoir essayer de réparer le système de fichier qui vous pose problème. L'outil théoriquement adapté est [[:fsck]], et en particulier sa variante prévue pour les partitions FAT.
+
+Commencez par démonter votre clé, **il ne faut pas réparer un système monté** : <code>sudo umount /dev/sdx</code>
+où ''/dev/sdx'' doit être adapté à votre cas (x represente une lettre minuscule: a,b.)
+Ensuite, réparez le système de fichier :<code>sudo dosfsck -yfv /dev/sdx</code>où ''/dev/sdx'' doit être adapté à votre cas. **Attention** les options passées forcent la vérification et la réparation sans votre consentement. Pour plus d'infos, consultez le man de fsck ou [[:fsck|sa page de documentation Ubuntu-fr]].
+
+Si après cette étape, en éjectant la clé et en la rebranchant le montage ne s'effectue toujours pas en "rw" (//ReadWrite//, lecture-écriture) et que l'erreur persiste, il ne vous reste plus que l'option "brutale" du chapitre à suivre...
+ 
+
+===== Reconstruction d'un système de fichier =====
+<note warning>Si vous avez loupé le début… reprenez ce tutoriel et assurez vous d'avoir sauvegardé vos données.</note>
+
+Nous allons ici en dernier recours détruire le système de fichier existant et le reconstruire.
+Il est possible de le faire graphiquement ou en ligne de commande dans un [[:terminal]] ou une [[:console]].
+
+==== Graphiquement ====
+
+=== Sous Unity ===
+  - Ouvrez l'éditeur de partition, en faisant une recherche dans votre [[:unity#tableau_de_bord_dash|tableau de bord]] avec le mot clé "partition". Pour cela vous devez avoir [[:tutoriel:comment_installer_un_paquet|installé le paquet]] **[[apt>gparted]]**.
+  - Dans le menu Gparted>Périphérique choisissez votre clé USB.
+  - Ensuite, si elle ne l'est pas, démontez votre clé : allez dans Partition>Démonter.
+  - Créez maintenant une nouvelle table de partitions : //Périphérique → Créer une table de partitions//
+  - Puis créez une nouvelle partition et formatez la en FAT32 //Partition → Nouveau//
+  - Appliquez toutes les opérations dans le menu « Édition ».
+
+Normalement à ce stade votre clé est à nouveau fonctionnelle. Débranchez et rebranchez puis copiez vos données en sécurité.
+
+=== Sous KDE ===
+
+Pré-requis : Vous devez avoir [[:tutoriel:comment_installer_un_paquet|installé le paquet]] **[[apt>partitionmanager]]**.
+
+  - Ouvrez l'éditeur de partition, //Applications → Système → Partition Editor (KDE partition Manager)//.
+  - Dans la fenêtre Périphériques, sélectionnez votre clé USB
+  - Ensuite démonter votre clé, clic droit puis Libérer.
+  - Et recréer la partition Fat32, clic droit, Nouvelle.
+  - Dans la nouvelle fenêtre choisir le système de fichier fat32, puis OK.
+  - Et enfin dans le menu cliquez sur « Appliquer ».
+
+
+==== Dans un terminal ou une console====
+
+Démonter avant tout la clé :<code>sudo umount /dev/sdx</code>
+où il faudra adapter /dev/sdx à votre cas (x représente une lettre minuscule ex:a,b.).
+
+Puis,  recréer un système de fichier : <code>sudo mkfs.fat -I -F 32 /dev/sdx</code>
+où il faudra adapter ///dev/sdx// à votre cas, et éventuellement la valeur du paramètre -F si vous souhaitez de la FAT16 ou FAT32. 
+=====Si ça ne fonctionne toujours pas=====
+Essayez ces commandes (en adaptant le chiffre du disque au votre,ici b) : <code>sudo dd if=/dev/zero of=/dev/sdb bs=512 count=1
+sudo apt install mbr
+sudo install-mbr /dev/sdb --force -t 0 -e 1</code>
+Puis réessayer de formater : <code>sudo umount /dev/sdx
+sudo mkfs.fat -I -F 32 /dev/sdb1</code>
+
+
+
+===== Le problème entre Linux et FAT32 =====
+Sans entrer dans les détails, des problèmes peuvent survenir du fait de l'usage de FAT32 car ce système de fichier ne gère ni les droits (lecture, écriture, exécution) ni les attributions (groupe, propriétaire). 
+Pour contourner cette imperfection et s'assurer de pouvoir accéder à la clé en FAT32, il est donc parfois utile de la remonter avec l'option « ''umask=0'' »: <code>sudo umount /dev/sdf1 && sudo mount -o umask=0 /dev/sdf1 /media/usbdisk</code>
+À partir de [[:trusty]]:<code>sudo umount /dev/sdf1 && sudo mount -o umask=0 /dev/sdf1 /media/$USER/usbdisk</code>
+où il faudra adapter ///dev/sdf1// et ///media/usbdisk// à votre situation.
+
+Voilà, votre clé devrait être pleinement fonctionnelle.
+
+----
+
+//Contributeurs principaux : [[:utilisateurs:Rmy]], maj de la page [[:utilisateurs:l_africain|L'Africain]].// 

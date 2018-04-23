@@ -1,0 +1,63 @@
+{{tag>Xenial Trusty Precise programmation plugin_navigateur }}
+----
+
+{{ :application:java:logo.png?80|Logo OpenJDK}}
+======OpenJDK, l'implémentation libre de Java ======
+**[[wpfr>OpenJDK]]** est l'implémentation libre de la société [[wpfr>Oracle_(entreprise)|Oracle®]] du standard Java sous [[wpfr>Licence_publique_générale_GNU|Licence Publique Générale]].\\
+Avant d'installer les paquets nécessaires, consultez la [[:java|page de la documentation consacrée à Java]].
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+=====Installation=====
+
+Pour installer la plate-forme d'exécution %%JRE%% d'**OpenJDK**, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer les paquets]] **[[apt>default-jre]]** et son greffon pour les [[:navigateur|navigateurs internet]]: **[[apt>icedtea-plugin]]**. \\
+Cette procédure installera la version 8 sous [[:xenial|Ubuntu Xenial 16.04]], et la version 7 sous [[:trusty|Ubuntu Trusty 14.04]] et [[:precise|Precise 12.04]]((Pour [[:trusty|Ubuntu Trusty 14.04]] et [[:precise|Precise 12.04]], la version 8 n'est pas disponible dans les dépôts officiels mais [[#Version 8 pour Trusty 14.04 et Precise 12.04|depuis un PPA (ci-dessous)]].)).
+<note>Le greffon **Icedtea** fonctionne avec les principaux [[:navigateur|navigateurs internet]]: [[:Firefox]],  [[ :Epiphany]], [[:Chromium]] et ses dérivés [[:Google Chrome]] et [[:Opera]]. Pour [[:Konqueror]], une fois installé, allez à **Paramètres** → **Configurer Konqueror **... et à partir du menu de sélection Java et JavaScript, cochez **Activer l'option Java environnement**. </note>
+Redémarrez votre navigateur internet, et voilà, ça marche.=)
+
+====Autres versions====
+
+  * Une version 8 plus récente est disponible dans les [[:depôts#depots_officiels|dépôts]] pour [[:xenial|Xenial 16.04]]. Il suffit alors d'[[:tutoriel:comment_installer_un_paquet|installer les paquets]] **[[apt>openjdk-8-jre]]** et son greffon pour les [[:navigateur|navigateurs internet]]: **[[apt>icedtea-8-plugin]]** \\  //(Pour [[:trusty|Ubuntu Trusty 14.04]] et [[:precise|Precise 12.04]], la version 8 n'est pas disponilbe dans les dépôts officiels mais [[#Version 8 pour Trusty 14.04 et Precise 12.04|depuis un PPA ci-dessous]])//
+  * Si l'application Java utilisée le nécessite, vous pouvez aussi installer la version 6 plus ancienne en [[:tutoriel:comment_installer_un_paquet|installant le paquet]] **[[apt>openjdk-6-jre]]**\\  __À noter pour la version 6__: Le greffon pour les [[:navigateur|navigateurs internet]] **Icedtea** correspondant sera installé automatiquement.
+
+
+====Version 8 pour Trusty 14.04 et Precise 12.04====
+La version 8 de la plate-forme d'exécution %%JRE%% d'OpenJDK est disponible pour [[:precise|Precise 12.04]] et [[:trusty|Trusty 14.04]] depuis un [[:PPA|dépôt PPA]]. 
+<note important>Les [[:PPA|dépôts PPA]] ne sont pas des [[:dépôts]] officiels. Installer un paquet hors des [[:dépôts]] officiels peut présenter un risque d'instabilité pour votre système.</note>
+
+  - [[:ppa|Ajoutez le PPA]] **ppa:openjdk-r/ppa**((https://launchpad.net/~openjdk-r/+archive/ubuntu/ppa)) à vos sources de logiciels;
+  - [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste de vos paquets]];
+  - [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>openjdk-8-jre]]**
+Ou bien dans un [[:terminal]], saisir les [[:commande_shell|commandes]] suivantes: <code>sudo add-apt-repository ppa:openjdk-r/ppa
+sudo apt-get update
+sudo apt-get install openjdk-8-jre</code>
+__À noter:__ Le greffon pour les navigateurs internet **icedtea** correspondant sera installé automatiquement.
+
+=====Développer en Java=====
+Tous les dépôts ci-dessus possèdent aussi les outils de développement %%JDK%% (**J**ava **D**eveloppement **Kit**). Pour les installer, il suffit simplement de suivre les mêmes procédures mais en modifiant les dernières lettres des noms du paquet, de **''jre''** en **''jdk''**. Soient:
+  * version 8: **[[apt>openjdk-8-jdk]]**
+  * version 7: **[[apt>openjdk-7-jdk]]**
+  * version 6: **[[apt>openjdk-6-jdk]]**
+__À noter__: L'installation des outils de développement %%JDK%% installera automatiquement la plate-forme d'exécution %%JRE%% si elle n'est pas déjà installée.
+
+==== Décompiler un fichier JAR ====
+[[android_sdk#java_decompileur_project]]
+
+===== Connaître puis changer la version de Java utilisée par défaut =====
+Plusieurs versions de Java peuvent cohabiter sans problèmes particuliers.\\
+Pour connaître ou changer la version de Java utilisée par défaut, voir [[:java#connaitre_la_version_de_java_utilisee_par_defaut|ce chapitre de la page Java]].
+
+===== Désinstallation =====
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.\\
+Si vous aviez installé les paquets depuis le PPA, vous pouvez [[:ppa#suppression_d_un_ppa|supprimer ce PPA de vos sources de logiciels]].
+ 
+=====Voir aussi=====
+  * **(en)** [[http://openjdk.java.net/|Le site officiel d'OpenJDK]]
+  * [[:java_propriétaire|La page consacré à la version propriétaire de Java]]
+
+ ----
+
+//Contributeurs : //

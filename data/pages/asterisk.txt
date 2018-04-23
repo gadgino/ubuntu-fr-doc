@@ -1,0 +1,223 @@
+{{tag>réseau téléphonie sip voip}}
+
+
+====== Asterisk ======
+
+{{ http://upload.wikimedia.org/wikipedia/fr/7/7f/Asterisk_logo4.png?200}}
+
+
+
+===== Préambule =====
+
+Asterisk permet de transformer un ordinateur en commutateur téléphonique performant. Il se présente sous la forme d'un logiciel libre édité par la société américaine Digium.
+La configuration d'un serveur Asterisk n'est pas relativement aisée, surtout pour les néophytes, c'est pour cette raison que certaines sociétés dont Digium éditent maintenant des distributions entièrement consacrée à Asterisk parmi lesquelles on peut citer :
+  * Asterisk Now (édité par Digium)
+  * Trixbox (anciennement Asterisk@home)
+  * Xivo (édité par Avencall, société française et basée sur Debian)
+
+
+<note>Pour utiliser Asterisk sur un serveur virtuel, cf. [[AsteriskNow]]</note>
+===== Présentation =====
+
+
+<note>Testé sous Ubuntu 12.10 Server (autre méthode)</note>
+
+
+===== Installation =====
+Tout d'abord, veillez à avoir une distribution à jour : 
+<code>sudo apt-get update
+sudo apt-get upgrade </code>
+
+Nous procédons ensuite à l'[[:tutoriel:comment_installer_un_paquet|installation]] des dépendances : 
+<code>sudo apt-get install build-essential libxml2-dev libncurses5-dev linux-headers-`uname -r` libsqlite3-dev libssl-dev</code>
+
+On télécharge la dernière version d’Asterisk et on l’installe : 
+<code>mkdir /usr/src/asterisk
+cd /usr/src/asterisk
+wget http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-11-current.tar.gz
+tar -xvzf asterisk-11-current.tar.gz
+cd asterisk-11.4.0                          # <--- Modifiez cette ligne en fonction de la version d'Asterisk
+./configure
+make menuselect</code>
+
+Dans le menu qui s'affiche, allez dans **Core Sound Package** et cochez à l'aide de la touche Espace **CORE-SOUNDS-FR-ULAW**. Quittez en pressant la touche Echap.
+Allez ensuite dans **Music On Hold File Packages**, décochez **MOH-OPSOUND-WAV** et cochez **MOH-OPSOUND-ULAW**. Enfin, allez dans **Extras Sound Packages** et cochez **EXTRA-SOUNDS-FR-ULAW**.
+
+Revenez à l'écran principal et appuyez sur Echap pour terminer et pressez S pour sauvegarder.
+
+Enfin tapez les commandes suivantes pour terminer l’installation :
+
+<note important>Avant d'effectuer ces commandes, assurez vous que vous avez une connexion Internet configurée et active.</note>
+
+<code>make
+make install
+make samples
+make config</code>
+
+Enfin, lancez Asterisk avec la commande suivante : 
+
+<code>/etc/init.d/asterisk start</code>
+
+Lancez la console Asterisk avec la commande suivante : 
+
+<code>asterisk -rvvvv</code>
+
+==== Autre méthode ====
+L'installation qui suit a été effectuée avec Ubuntu 6.06.1 LTS depuis des paquets debian. Tout d'abord, il faut installer les pilotes Zaptel qui vous permettront ensuite d'ajouter des cartes analogique, T0... de marque Digium.
+
+<code> sudo vim /etc/udev/rules.d/50-zaptel.rules</code>
+Ajoutez dans ce fichier les lignes suivantes :
+
+<code>KERNEL=="zapctl", NAME="zap/ctl", OWNER="asterisk", GROUP="asterisk", MODE="0660"
+KERNEL=="zaptimer", NAME="zap/timer", OWNER="asterisk", GROUP="asterisk", MODE="0660"
+KERNEL=="zapchannel", NAME="zap/channel", OWNER="asterisk", GROUP="asterisk", MODE="0660"
+KERNEL=="zappseudo", NAME="zap/pseudo", OWNER="asterisk", GROUP="asterisk", MODE="0660"
+KERNEL=="zap[0-9]*", NAME="zap/%n", OWNER="asterisk", GROUP="asterisk", MODE="0660"</code>
+
+Ensuite, il faut compiler et installer les pilotes :
+<code> sudo apt-get install gcc zaptel zaptel-source
+ sudo module-assistant auto-install zaptel</code>
+
+Fin de l'installation des pilotes Zaptel, redémarrez maintenant votre ordinateur a l'aide de la commande :
+<code> sudo reboot</code>
+
+Ensuite nous allons procéder à l'installation de Asterisk :
+<code> sudo apt-get install asterisk</code>
+
+Un fois installé, modifiez ces paramètres pour que Asterisk demarre au démarrage de l'ordinateur :
+<code> sudo vim /etc/default/asterisk</code>
+<code>RUNASTERISK=yes
+RUNASTSAFE=no</code>
+
+Pour installer les paquets français de Asterisk, vous devez lancer cette commande :
+<code>sudo apt-get install asterisk-prompt-fr</code>
+
+===== Configuration =====
+La configuration d'Asterisk s'articule sur les fichiers de configuration suivants : 
+
+  * **''/etc/asterisk/sip.conf''** : Configuration globale d'Asterisk
+  * **''/etc/asterisk/users.conf''** : Configuration des utilisateurs
+  * **''/etc/asterisk/extensions.conf''** : Configuration du Dialplan
+
+
+<note important>Chaque modification dans la configuration devra être suivie par la commande
+<code>reload</code>
+saisie dans la console d'Asterisk</note>
+==== Paramétrer les sons en français ====
+[[:tutoriel:comment_modifier_un_fichier|Modifier le fichier]]  **''/etc/asterisk/sip.conf''** et modifiez la ligne : 
+
+<code>;language=en                     ; Default language setting for all users/peers</code>
+
+en : 
+
+<code>language=fr                     ; Default language setting for all users/peers</code>
+<note important>N'oubliez pas d'enlever le point-virgule au début de la ligne.</note>
+==== Modifier les utilisateurs ====
+[[:tutoriel:comment_modifier_un_fichier|Modifier le fichier]]  **''/etc/asterisk/users.conf''** et veillez que la configuration de la rubrique général corresponde avec ce qui suit : 
+
+<code>[general]
+hasvoicemail = yes
+hassip = yes
+hasiax = yes
+callwaiting = yes
+threewaycalling = yes
+callwaitingcallerid = yes
+transfer = yes
+canpark = yes
+cancallforward = yes
+callreturn = yes
+callgroup = 1
+pickupgroup = 1
+nat = yes</code>
+
+=== Méthode sans template ===
+Pour chaque utilisateur, ajoutez le code suivant (avec les modifications nécessaires) : 
+
+<code>[6001]				; Numéro SIP
+type=friend			; Type d'objet SIP (friend = utilisateur)
+host=dynamic			; Vous pouvez vous connecter a ce compte SIP a partir de n’importe quelle adresse IP
+dtmfmode=rfc2833		; Mode du DTMF
+disallow=all			; Désactiver tous les codecs
+allow=ulaw			; Activer les codecs µlaw
+fullname = John DOE		; Nom complet de l'utilisateur (ce qui s'affichera sur le téléphone)
+username = jdoe			; Nom d'utilisateur
+secret=secret			; Mot de passe
+context = work			; Contexte (exploité par le fichier extensions.conf)</code>
+
+=== Méthode avec template ===
+Pour chaque template, ajoutez le code suivant (avec les modifications nécessaires) : 
+<code>
+[template](!)			; Nom du template (ici template)
+type=friend			; Type d'objet SIP (friend = utilisateur)
+host=dynamic			; Vous pouvez vous connecter a ce compte SIP a partir de n’importe quelle adresse IP
+dtmfmode=rfc2833		; Mode du DTMF
+disallow=all			; Désactiver tous les codecs
+allow=ulaw			; Activer les codecs µlaw
+context = work			; Contexte (exploité par le fichier extensions.conf)
+</code>
+
+Pour chaque utilisateur, ajoutez le code suivant (avec les modifications nécessaires) : 
+<code>[6001](template)		; Numéro SIP et template utilisé
+fullname = John DOE		; Nom complet de l'utilisateur (ce qui s'affichera sur le téléphone)
+username = jdoe			; Nom d'utilisateur
+secret=secret			; Mot de passe
+</code>
+==== Configuration du Dialplan ====
+[[:tutoriel:comment_modifier_un_fichier|Modifier le fichier]]  **''/etc/asterisk/extensions.conf''** et ajoutez le code suivant (avec les modifications nécessaires) : 
+
+<code>[work]			; Nom du contexte
+exten => _6XXX,1,Dial(SIP/${EXTEN},20)	
+exten => _6XXX,2,Hangup()</code>
+
+Dans ces trois lignes nous allons voir deux choses, les contextes et les extensions.
+**[work]** est le contexte c’est une sorte de conteneur dans lequel les utilisateurs faisant partis de ce contexte pourrons communiquer entre eux.
+Lors de la création de nos deux utilisateurs nous avons spécifié le contexte work.
+
+  * exten => : déclare l’extension (on peut aussi simplement dire numéros)
+  * _6XXX : Prend les extensions (ou numéros) de 6000 a 6999 le « _ » permet d’utiliser des regex
+  * 1 : Ordre de l’extension
+  * Dial : application qui va être utilisé
+  * SIP: Protocol qui va être utilisé
+  * ${EXTEN} : variable de l’extension composé, si on appelle le 6001 la variable ${EXTEN} prendra comme valeur 6001
+  * 20: temps d’attente avant de passer a l’étape suivante.
+
+Donc la ligne ''exten => _6XXX,1,Dial(SIP/${EXTEN},20)'' se traduit par:
+Quand on compose le numéro (par exemple) 6001, on appelle le numéro 6001 et si au bout de 20 secondes il n’y a pas de réponses on passe à la ligne du dessous.
+
+La seconde ligne : ''exten => _6XXX,2,Hangup()'' permet de raccrocher si il n’y a pas de réponses au bout des 20 secondes.
+
+$==== Configuration des clients ====
+
+Les clients "logiciels" n'ont généralement besoin que de quelques infos : Un nom (qui apparaitra en clair sur le client de destination lors d'un appel) ,  un login et son mot de passe associé, et l'adresse du serveur VOIP. Leur configuration étant assez simple et disponible sur beaucoup de pages internet, elle ne sera pas détaillée ici.
+
+En revanche, si on utilise un appareil type combiné téléphonique IP, il y a un peu plus de travail...
+
+Comme tout périphérique IP, il doit avoir une adresse. Soit le réseau VOIP dispose d'un serveur DHCP, dans ce cas l'appareil en obtiendra une automatiquement (ces appareils sont par défaut en recherche dhcp), soit il faut lui en donner une avant de le relier au réseau. Cela se fait avec les touches et les menus internes (voir notice du téléphone).
+Une fois l'adresse IP connue,  l'entrer dans un navigateur internet pour accéder à l'interface web. C'est avec qu'on va configurer l'appareil et surtout l'enregistrer sur le serveur VOIP.
+
+Les informations nécessaires sont généralement dans un onglet ou menu "Login" ou "Identity".  Les plus importantes sont :
+
+  * Le compte ou l'ID de connexion (souvent le numéro du poste pour des raisons de simplicité, qui est défini entre les [ ] dans le users.conf )
+  * Le mot de passe associé à ce compte (qui est défini dans le users.conf à la ligne "secret ="
+  * L'adresse du serveur VOIP (appelé généralement "registrar")
+  * Les options de cryptage et encodages des appels, qui doivent être compatibles avec celles du serveur VOIP. Si la sécurité des appels n'est pas critique, autant simplement désactiver ces fonctions.
+
+Une fois ces infos indiquées, enregistrer l'appareil sur le serveur VOIP (un bouton d'enregistrement ou "register" est normalement présent sur l'interface web).  Si la console Asterisk est ouverte, elle indiquera par un message que le serveur a bien enregistré l'appareil. S'il y a un soucis, elle indiquera une description du problème (par exemple un mauvais nom d'utilisateur, un cryptage non pris en charge, etc etc). De plus, le numéro du poste s'affiche alors à l'écran de l'appareil.
+
+Remarque : S'il y a beaucoup de téléphones IP sur le réseau, leur interface permet généralement d'exporter la configuration pour la dupliquer.
+
+Ensuite, plus facultatif :
+
+  * Le nom qui apparaitra sur le téléphone appelé (Displayname en général)
+  * Eventuellement une IP d'un proxy ou passerelle si le réseau VIOP interne peut communiquer avec l'extérieur
+  * des sonneries et messages personnalisés, etc etc.
+
+===== Liens =====
+   * [[http://www.asterisk.org/|Asterisk]]
+   * [[http://www.asterisk.org/downloads/asterisknow|AsteriskNow]]
+   * [[https://projects.xivo.fr/|Xivo]]
+   * [[https://wiki.koumbit.net/Asterisk14SurOpenWRT|Asterisk14SurOpenWRT]]
+   * [[http://www.lululaberlu.com/category/Asterisk|TP Asterisk Base]]
+   * [[http://oxydables.free.fr/page5.html|Informations sur la VOIP et installation d'asterisk, avec le sip de free]]
+   * [[http://people.via.ecp.fr/~alexis/asterisk/|Expérience de déploiements Asterisk dans des entreprises françaises]]
+   * [[http://denisrosenkranz.com/tuto-installer-et-configurer-asterisk-sous-debian-6-et-ubuntu/|Tutoriel sur lequel est basé cette documentation]]

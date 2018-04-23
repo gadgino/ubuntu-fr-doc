@@ -1,0 +1,69 @@
+{{tag>Karmic Lucid visioconférence jabber}}
+----
+
+====== Muji ======
+
+Muji est une extension d'[[Empathy]] qui permet de faire de la [[visioconférence]] à 3 (ou plus) avec le protocole [[Jabber]]. (Note : Muji est aussi le nom de la [[http://xmpp.org/extensions/xep-0272.html|spécification MUltiparty JIngle de XMPP]]).
+
+Muji est en développement, donc présente encore des bugs. Vous pouvez nous rejoindre [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3489264|sur cette discussion]] pour nous aider à le tester et l'améliorer.
+
+{{http://blogs.gnome.org/danni/files/2010/06/muji-1024x640.png?350|Muji}}
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir installé [[empathy#version_de_developpement|Empathy version PPA]] puis redémarré son ordinateur
+  * Avoir un compte [[Jabber]] (ou une adresse Gmail).
+  * Avoir [[:tutoriel:comment_installer_un_paquet|installé le paquet]] **[[apt://python-twisted|python-twisted]]**
+
+===== Installation =====
+
+Pour installer ce logiciel, il suffit de télécharger [[http://telepathy.freedesktop.org/muji/new-call-demo-0.0.1.tar.gz|cette archive]], et l'extraire dans votre Dossier personnel.
+
+
+===== Utilisation=====
+
+  *Lancez Empathy et connectez-vous à votre compte [[Jabber]] ou Gtalk.
+  *Ouvrez un [[terminal]] et saisissez la commande suivante : 
+<code>VIDEO_DEVICE=/dev/video0 python new-call-demo/callui.py</code>
+  * Dans la fenêtre qui s'ouvre :
+    * 1ere ligne : sélectionnez "Conference", 
+    * 2eme ligne : sélectionnez votre adresse Jabber
+    * 3eme ligne : inscrivez l'adresse du salon de discussion que vous souhaitez rejoindre (par exemple ubuntu-fr@chat.jabberfr.org)
+
+{{ muji_lucid.png |Fenetre de connexion de Muji}}
+
+  * Puis cliquez sur "Audio call" ("Video call" a le même effet, mais buggue parfois)
+  * Une nouvelle fenêtre devrait apparaitre (vous devriez voir votre webcam)
+  * Cliquez sur le bouton "Accept" pour rejoindre le salon (vous devriez voir s'afficher l'état "Pending Initiator", puis "Accepted")
+  * Vos interlocuteurs doivent suivre la même procédure pour se connecter au salon.
+
+
+=====Problèmes connus=====
+
+====Je ne vois pas mon compte jabber dans Muji====
+
+Dans ce cas, mettez bien vos paquets à jour (via Synaptic par exemple), puis redémarrez votre PC avant de relancer Empathy puis Muji.
+
+
+====État bloqué à "Pending receiver"====
+
+Selon [[http://telepathy.freedesktop.org/wiki/MujiDemoClient|le site de Muji]], certains salons (comme jabber.org) ne fonctionnent pas encore avec Muji, ce qui se traduit par un blocage de l'état à "Pending receiver". Essayez un autre salon (par exemple ubuntu-fr@chat.jabberfr.org).
+
+
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de supprimer son dossier.
+
+===== Voir aussi =====
+
+  * **(en)** [[http://telepathy.freedesktop.org/wiki/Muji|Site officiel du logiciel]]
+  * **(en)** [[http://blogs.gnome.org/danni/2010/06/07/muji-multi-user-jingle/|Presentation]]
+  * **(en)** [[http://live.gnome.org/Empathy#Bugs|Rapporter un bug pour Muji]] : idem que pour Empathy, mais il faut indiquer [Muji] dans le titre du rapport de bug
+  * **(fr)** [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3489264|Groupe de testeurs Jabber]] sur le forum ubuntu-fr
+
+----
+
+//Contributeurs principaux : [[:utilisateurs:YannUbuntu]].//

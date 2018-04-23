@@ -1,0 +1,81 @@
+{{tag>jeu gestionnaire_de_jeux}}
+----
+
+====== Desura, gestionnaire de jeux ======
+
+Desura est une plate-forme de distribution de jeux-vidéos open source sous licence GPLv3. [[http://www.desura.com/|{{ :jeux:desura_01.png?200|}}]]
+
+C'est la première plate-forme à proposer des jeux pour GNU/Linux, Windows et OS X. 
+
+Desura est principalement connu pour proposer un grand nombre de jeux indépendants, dont certains sont libres, ainsi que des mods de jeux, le tout sans DRM.
+
+Desura ayant fait l'objet de problèmes judiciaires, il n'est désormais plus possible de s'y inscrire et donc de télécharger des jeux, de plus de nombreux joueurs et développeurs se sont plaint de non respect des termes du contrat les liant à Desura.
+=====Installation du client=====
+====Installation basique====
+Pour installer Desura il suffit de télécharger l'archive sur le site de [[http://www.desura.com|Desura]], d'extraire le dossier (à l'emplacement que vous désirez) puis de lancer le script d'installation nommé desura. 
+Créez un compte puis connectez vous. 
+Il est possible de mettre Desura en français.
+
+=== Mettre à jour Desura ===
+Si vous n'arrivez pas à mettre Desura à jour, ouvrez un [[terminal|terminal]] puis rendez-vous avec la commande [[console#cd|cd]] dans le répertoire contenant l'installateur Desura et rentrez la commande suivante: 
+<code>./desura -f</code> 
+
+
+====Installation avancée====
+Plutôt que d'installer le client n'importe où dans votre dossier personnel, il est plus intéressant de l'installer dans //'/opt'//. En effet, les jeux que vous téléchargerez se trouveront dans un répertoire //'common'// dans le répertoire d'installation du client. Il faudra aussi veiller à ce que vous ayez toutes les [[permissions]] nécessaires sur le répertoire d'installation du client Desura. Celà est particulièrement utile si vous n'êtes pas le seul à utiliser cet ordinateur, les autres utilisateurs pourront jouer aux jeux que vous avez installés via Desura.
+
+<code>sudo mkdir /opt/desura
+sudo chown utilisateur:groupe /opt/desura
+chmod 755 /opt/desura</code>
+
+Il faut bien entendu remplacer //utilisateur:groupe// par votre nom d'utilisateur et le groupe d'utilisateurs de votre choix, et de même, libre à vous d'opter pour des [[droits]] différents.
+Téléchargez l'archive d'installation sur [[http://www.desura.com/install|le site de Desura]], et décompressez l'archive dans //'/opt/desura'//. Il ne vous reste plus qu'à lancer l'installation par un double clic sur le script d'installation ou bien via la ligne de commande.
+
+<code>cd /opt/desura
+./desura</code>
+
+<note tip>Si vous êtes le seul à disposer d'un compte Desura, vous pourriez changer les droits en conséquence, voire créer un groupe d'utilisateurs, afin que tous les utilisateurs puissent lancer les jeux, mais être le seul à pouvoir lancer le client. Dans le même ordre d'idées, vous pouvez changer les [[droits]] pour un jeu en particulier, si vous estimez que son contenu n'est pas adapté à certains membres de votre foyer (surtout les plus jeunes). S'il vous faut un contrôle très fin, regardez du côté des [[acl]].</note>
+<note important>Le client stocke ses fichiers de configuration dans ~/.desura, donc si plusieurs utilisateurs disposent chacun d'un compte Desura, et lancent le même client, il ne devrait pas y avoir de problèmes à ce sujet. Cependant, il faudrait que des utilisateurs aguerris testent ça.</note>
+
+=====Installer un jeu=====
+Pour trouver un jeu, vous pouvez passer par le client, ou visiter le site de Desura depuis votre navigateur internet et vous rendre à la section [[http://www.desura.com/games|games]]. En vous rendant sur la page d'un jeu, il vous suffira de cliquer sur l'un des liens à la section « releases » pour installer le jeu.
+Si vous visitez la page d'un jeu depuis votre navigateur internet, en cliquant sur le lien d'installation, il vous sera proposé :
+  * d'installer le client Desura
+  * d'ouvrir la page du jeu dans le client, s'il est déjà installé
+  * de télécharger une version standalone du jeu (cette option est écrite en petit, comparée aux deux autres)
+Si vous choisissez d'installer le jeu par l'intermédiaire du client, le jeu sera disponible dans l'onglet « Play » une fois l'installation terminée. Pour la version standalone, il vous faudra ensuite décompresser l'archive obtenue à l'emplacement de votre choix, puis éxécuter manuellement le jeu. 
+
+=====Jouer=====
+Il suffit d'utiliser le client et de lancer les jeux à partir de celui-ci. Cependant il est également possible de se passer du client une fois qu'un jeu est installé. Les jeux se trouvent dans le répertoire //'common'// qui se trouve dans le répertoire d'installation de Desura. Vous pouvez donc y chercher le jeu de votre choix, et le lancer directement. Pour éviter de répéter cette recherche fastidieuse, vous pouvez ajouter un raccourci dans votre menu, à l'aide du programme [[alacarte]], ou bien en créant vous-même un fichier //'.desktop'// dans votre répertoire //'~/.local/share/applications'// si vous ne voulez pas installer un programme juste pour ça.
+
+=====Sauvegarde=====
+====Progression dans un jeu====
+Les jeux sauvegardent leur progression dans votre répetertoire personnel. Il faudra partir à la pêche dans les répertoires et fichiers cachés de votre répertoire personnel. Essayez tout d'abord de voir s'il n'existe pas un répertoire portant le nom du jeu en question, ou bien le nom de l'équipe ou studio ayant développé le jeu, directement à la racine de votre répertoire personnel. Si vous n'y trouvez pas ce que vous cherchez, sachez que la plupart des jeux récents n'enregistrent plus leurs données directement dans le répertoire personnel, mais dans //'~∕.local/share/'//.
+<note help>Le raccourci clavier pour afficher les fichiers cachés dans [[Nautilus]], l'explorateur de fichiers par défaut dans Ubuntu, est Ctrl+H. Pour plus d'informations à ce sujet, je vous invite à lire la documentation sur les [[fichier_cache|fichiers cachés]].</note>
+
+====Sauvegarde des jeux====
+Les jeux disponibles sur Desura ne comportent pas de DRM, vous pourrez les télécharger et installer autant de fois que vous voudrez. Cependant, certains jeux pouvant être assez volumineux, il peut-être préférable d'en faire une sauvegarde locale.
+
+Les jeux étant installés dans le répertoire //'common'// du répertoire d'installation du client Desura, il vous suffit de les copier depuis cet endroit. Certaines bibliothèques additionnelles, et autres fichiers sont parfois installées pour certains jeux, en supplément dans le répertoire //'lib'//, mais leur taille étant généralement petite, il n'est pas nécessaire de les garder (d'autant plus qu'il y a de nombreux liens qui risqueraient d'être brisés).
+
+Pour les restaurer, il faudra simplement les (re)mettre dans ce fameux répertoire //'common'//. Ensuite, depuis Desura, dans la liste de vos jeux, il faudra procéder à une vérification des fichiers, ou bien carrément lui demander d'installer le(s) jeux, s'ils n'avaient pas encore été installés sur cet ordinateur. Dans le cas de la ré-installation, étant donné que les fichiers sont déjà présents, il vous sera proposé :
+  * de réinstaller le jeu en supprimant les fichiers (recommandé par le client)
+  * de réinstaller le jeu en gardant les fichiers
+  * vérifier les fichiers présents et installer les fichiers manquants
+Sélectionnez la 3ème option afin de télécharger un minimum de fichiers.
+
+
+=====Liste des jeux =====
+Retrouvez la liste des jeux disponibles, les nouveautés et les prochaines sorties sur le [[http://www.desura.com/games|site officiel dans la section Games]]. Pensez à [[http://www.desura.com/platforms/selection|sélectionner la bonne plate-forme]] pour filtrer l'affichage suivant le système que vous utilisez (linux 32 bits ou linux 64 bits ). Ces informations sont également disponibles depuis le client.
+
+
+=====Voir aussi =====
+  * [[http://www.desura.com/groups/desura/linux|Documentation desura linux sur le site officiel]]
+  * [[http://www.desura.com/forum/thread/linux-client-first-round-of-beta-testing-starts-december-231| Informations sur la version Béta]]
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?pid=7220991|Sur le forum]]
+  * [[https://github.com/desura/desura-app|Code source de Desura]]
+
+----
+
+**Contributeurs principaux :** //[[:utilisateurs:psychederic|Psychederic]],[[:utilisateurs:kshegzyaj|Kshegzyaj]]//
+Contributeur secondaire: [[:utilisateurs:malt]]

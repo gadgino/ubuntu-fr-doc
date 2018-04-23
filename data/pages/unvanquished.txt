@@ -1,0 +1,71 @@
+{{tag>jeu fps tremulous}}
+----
+
+====== Unvanquished ======
+
+[[:_detail/jeux/unvanquished0.6.jpg?id=unvanquished|{{:jeux:unvanquished0.6_450.jpg|}}]]
+
+**Unvanquished** est un jeu Open-Source de tir à la première personne (fps) en mode multijoueur. Unvanquished est un fork de [[:tremulous]] (dont le développement semble arrêté((http://tremulous.net/forum/index.php?topic=16536.0)) ) qui devait initialement s'appeler TremZ. Il est basé sur le moteur Daemon.
+
+=== Nouveautés par rapport à Tremulous ===
+  * Un nouveau moteur, avec de nouvelles fonctionnalités
+  * Une interface entièrement refondue pour les deux équipes, avec de nouveaux menus pour l’achat
+  * Des nouveaux sons, qui incluent des effets d’ambiance et les commandes à la voix
+  * De nouvelles cartes mais également certaines anciennes cartes de Tremulous
+  * De nouveaux modèles
+  * Équilibrage des équipes 
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir l'[[:accélération graphique]] activée.
+
+===== Installation =====
+==== Avec un paquet deb ====
+
+Téléchargez directement le paquet deb [[http://debs.unvanquished.net/|ici]]
+==== Depuis le PPA (Ubuntu 12.04 et supérieur uniquement) ====
+[[:ppa|Ajoutez le dépôt]] dans vos sources:
+
+  deb http://debs.unvanquished.net RELEASE main
+
+Remplacez RELEASE par le nom de votre [[:versions|version d'Ubuntu]] (precise pour la 12.04, trusty pour la 14.04)
+
+Puis copiez la clé [[http://debs.unvanquished.net/unvanquished-archive-key.gpg.asc|de ce site]]
+
+Entrez alors dans un [[:terminal|terminal]]:
+
+  cd repertoire/de/votre/fichier
+  apt-key add nom_de_votre_fichier
+  apt-get update && apt-get install unvanquished
+==== Depuis l’exécutable ====
+
+Téléchargez le fichier .run depuis [[http://sourceforge.net/projects/unvanquished/files/Linux/|sourceforge]], 
+cliquez droit sur le fichier et allez dans **Propriétés ⇒ Permissions** et cochez **Autoriser l'exécution du fichier comme un programme** puis cliquez sur le fichier téléchargé.
+Ou en ligne de commande:
+<code>bash Unvanquished-0.7.0-linux-installer.run</code>
+remplacez 0.7.0 par la version que vous avez téléchargée.
+
+===== Utilisation =====
+ 
+Lancez l'application via le [[:unity#tableau_de_bord_dash|dash]] (Ubuntu 11.04 et ultérieures) ou via le [[:terminal]] (toutes versions d'Ubuntu) avec la [[:commande_shell|commande]] suivante :  (si installé depuis le ppa ou un paquet deb)
+<code>unvanquished</code>
+si non par celle-ci:
+<code>/chemin/du/jeux/unvanquished</code>
+
+ 
+===== Désinstallation =====
+==== Version du PPA et du paquet deb ====
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+==== Version installée depuis l'exécutable ====
+Allez dans le dossier du jeux et lancez le fichier uninstall
+===== Voir aussi =====
+
+  * [[http://unvanquished.net/|Site officiel: unvanquished.net]]
+  * [[http://www.jeuxlinux.fr/b1254-TremZ_une_premiere_version_disponible.html?var_recherche=unvanquished|Jeux Linux]]
+
+----
+
+// Contributeur(s) : [[utilisateurs:daufinsyd]]//

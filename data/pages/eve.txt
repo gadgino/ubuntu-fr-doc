@@ -1,0 +1,71 @@
+{{tag>Karmic navigateur enlightenment}}
+
+----
+====== Eve ======
+
+[[http://trac.enlightenment.org/e/wiki/Eve|Eve]] est un navigateur web en cours de développement pour e17, basé sur les EFL et Webkit. Pour consulter des information à ce propos, vous pouvez vous référer au [[http://tonikitoo.blogspot.com/|blog du développeur de Eve]], ou encore consulter la page du [[http://trac.webkit.org/wiki/EFLWebKit|wiki de EFLWebkit]].
+
+===== Pré-requis =====
+
+Pour installer Eve, il est nécessaire d'avoir [[installation_e17_sources|installé e17 par svn]] et non par les dépôts. Notez cependant qu'avec [[:enlightenment#elive_basee_sur_debian|Elive]], vous pouvez installer Eve tout simplement avec synaptic.
+
+{{  http://pagesperso-orange.fr/dazibaldo/Pics/eve.png?250}}
+
+Tout d'abord, [[:tutoriel:comment_installer_un_paquet|installez les dépendances]] :
+[[apt://autoconf|autoconf]], [[apt://automake|automake]], [[apt://libtool|libtool]], [[apt://libgtk2.0-dev|libgtk2.0-dev]], [[apt://libpango1.0-dev|libpango1.0-dev]], [[apt://libicu-dev|libicu-dev]], [[apt://libxslt-dev|libxslt-dev]], [[apt://libsoup2.4-dev|libsoup2.4-dev]], [[apt://libsqlite3-dev|libsqlite3-dev]], [[apt://gperf|gperf]], [[apt://bison|bison]], [[apt://flex|flex]], [[apt://libjpeg62-dev|libjpeg62-dev]], [[apt://libpng12-dev|libpng12-dev]], [[apt://libxt-dev|libxt-dev]], [[apt://autotools-dev|autotools-dev]], [[apt://libgstreamer-plugins-base0.10-dev|libgstreamer-plugins-base0.10-dev]], [[apt://libenchant-dev|libenchant-dev]], [[apt://libgail-dev|libgail-dev]], [[apt://git-core|git-core]], [[apt://libenchant-dev|libenchant-dev]], [[apt://libsoup2.4-dev|libsoup2.4-dev]]
+^ Installer en 1 clic |
+| [[apt://autoconf,automake,libtool,libgtk2.0-dev,libpango1.0-dev,libicu-dev,libxslt-dev,libsoup2.4-dev,libsqlite3-dev,gperf,bison,flex,libjpeg62-dev,libpng12-dev,libxt-dev,autotools-dev,libgstreamer-plugins-base0.10-dev,libenchant-dev,libgail-devgit-core,libenchant-dev,libsoup2.4-dev|{{  apt.png  }}]]|
+
+Installer la version de développement de WebKit :
+<code>git clone git://code.staikos.net/webkit webkit
+cd ~/webkit
+git checkout origin/master
+git checkout -b webkit-efl-0.1
+./autogen.sh --with-port=efl --disable-video
+sudo make all install
+sudo ldconfig</code>
+
+**
+Ce qui précède est obsolète, voir plutôt ici : http://trac.webkit.org/wiki/EFLWebKit**
+
+===== Installation =====
+
+Dans un terminal, utilisez la commande « ''cd'' » pour aller dans le répertoire contenant la version svn de e17.  Dirigez vous dans le "''trunk''" pour aller dans "''PROTO''" puis dans "''eve''".
+
+<note tip>Pour trouver cet emplacement, tapez « ''locate PROTO'' » dans un [[terminal]], ou bien référez vous au site suivant : [[http://trac.enlightenment.org/e/browser/trunk/PROTO/eve]|tracker du site d'Enlightenment]].</note>
+
+Lancez la compilation des sources :
+<code>./autogen.sh && make</code>
+
+Puis, au choix, pour installer les binaires :
+  * avec make <code>sudo make install</code>
+  * avec checkinstall, pour créer un paquet désinstallable depuis votre gestionnaire de paquet <code>sudo checkinstall</code> 
+
+===== Configuration =====
+
+<note>à terminer</note>
+
+===== Utilisation =====
+
+===== Désinstallation =====
+
+==== Si vous avez installé Eve par make ====
+
+Depuis le dossier des source de **eve**, tapez :
+<code>sudo make uninstall</code>
+
+==== Si vous avez installé Eve par checkinstall ou depuis les dépôts ====
+
+Il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer le paquet]] **eve**. La configuration de l'application sera conservée ou supprimée selon la méthode de désinstallation que vous choisirez.
+
+===== Liens =====
+
+[[http://trac.webkit.org/wiki/EFLWebKit|méthode d'installation pour webkit-efl]]\\
+[[http://trac.webkit.org/wiki/BuildingQtOnLinux|méthode d'installation pour le port qt]]\\
+[[http://trac.webkit.org/wiki/BuildingGtk|méthode d'installation pour le port gtk]]\\
+[[http://trac.webkit.org/wiki/BuildingGtk|méthode d'installation pour le port gtk]]\\
+[[http://webkit.org/|site de webkit]]\\
+
+----
+
+//Contributeurs principaux : mondai//

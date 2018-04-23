@@ -1,0 +1,292 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#ssh" class="toc"> SSH </a></span></li>
+<li class="level1"><span class="li"><a href="#installation_du_serveur_ssh" class="toc"> Installation du serveur SSH </a></span></li>
+<li class="level1"><span class="li"><a href="#copier_des_fichiers_via_ssh" class="toc"> Copier des fichiers via ssh </a></span></li>
+<li class="level1"><span class="li"><a href="#navigation_avec_nautilus_via_ssh" class="toc"> Navigation avec Nautilus via ssh </a></span></li>
+<li class="level1"><span class="li"><a href="#se_connecter_a_un_ordinateur_a_distance_via_ssh" class="toc"> Se connecter à un ordinateur à distance via ssh </a></span></li>
+<li class="level1"><span class="li"><a href="#authentification_par_cle_publique" class="toc"> Authentification par clé publique </a></span></li>
+<li class="level1"><span class="li"><a href="#restriction_d_acces_ssh" class="toc"> Restriction d'accès Ssh </a></span></li>
+<li class="level1"><span class="li"><a href="#acces_automatique_pour_des_scripts" class="toc"> Accès automatique pour des scripts </a></span></li>
+<li class="level1"><span class="li"><a href="#utiliser_le_ssh-agent" class="toc"> Utiliser le ssh-agent </a></span></li>
+</ul>
+</div>
+</div>
+
+<p>
+Traduction libre de <a href="http://wiki.ubuntu.com/SSHHowto" class="urlextern" title="http://wiki.ubuntu.com/SSHHowto" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">SSHHowto </a>
+</p>
+
+<p>
+Rédigé par <a href="/utilisateurs/manu" class="wikilink1" title="utilisateurs:manu" onclick="return svchk()" onkeypress="return svchk()">manu</a>.
+</p>
+
+<a name="ssh"></a><h1> SSH </h1>
+<div class="level1">
+
+<p>
+  <strong>Openssh</strong> est une version LIBRE de la suite de protocole de <acronym title="Secure Shell">SSH</acronym>, des outils de connectivité de réseau sur lesquels un nombre croissant de personnes sur l&rsquo;Internet viennent s&rsquo;appuyer. Beaucoup d&rsquo;utilisateurs de, telnet, rlogin, ftp, ou d&rsquo;autres programmes identiques ne se rendent pas compte que leur mot de passe est transmis à travers l&rsquo;Internet non codé, mais il est. <strong>Openssh</strong> chiffre tout le trafic (mots de passe y compris) pour éliminer efficacement l&rsquo;écoute clandestine, le raccordement détourné, ou d&rsquo;autres attaques au niveau du réseau. En plus, <strong>Openssh</strong> fournit une myriade de possibilités pour bloquer le perçage d&rsquo;un tunnel, aussi bien qu&rsquo;une variété de méthodes d&rsquo;authentification.
+</p>
+
+</div>
+<!-- SECTION [105-841] -->
+<a name="installation_du_serveur_ssh"></a><h1> Installation du serveur SSH </h1>
+<div class="level1">
+
+<p>
+ Ubuntu utilise <strong>openssh-server</strong>.  Vous pouvez l&rsquo;installer en utilisant la commande:
+</p>
+<pre class="code">
+    bash:~$ sudo apt-get install openssh-server
+</pre>
+
+<p>
+Ainsi vous aurez installé <strong>ssh-server</strong> sur votre poste.
+</p>
+
+</div>
+<!-- SECTION [842-1095] -->
+<a name="copier_des_fichiers_via_ssh"></a><h1> Copier des fichiers via ssh </h1>
+<div class="level1">
+
+<p>
+ Pour copier un fichier à partir d&rsquo;un ordinateur sur un autre avec ssh, vous devrez utiliser la commande <strong>scp</strong>. Cela ressemblera à ceci:
+</p>
+<pre class="code">
+   bash:~$ scp &lt;fichier&gt; &lt;username&gt;@&lt;ipaddress&gt;:&lt;DestinationDirectory&gt;
+</pre>
+
+<p>
+Ou en termes profanes, si je désirais copier un fichier d&rsquo;un de mes ordinateurs à l&rsquo;autre je procéde de cette manière:
+</p>
+<pre class="code">
+   bash:~$ scp fichier.txt hornbeck@192.168.1.103:/home/hornbeck
+</pre>
+
+<p>
+Vous pouvez aussi bien copier des fichiers à partir des ordinateurs à distance sur votre disque local:
+</p>
+<pre class="code">
+   bash:~$ scp hornbeck@192.168.1.103:/home/hornbeck/urls.txt .
+</pre>
+
+<p>
+Le <strong>.</strong> (à la fin de commande) indique de copier le fichier dans le répertoire courant. Vous pouvez aussi le renommer  en le copiant (<em>mon.txt</em>) sur le disque local.
+</p>
+<pre class="code">
+   bash:~$ scp hornbeck@192.168.1.103:/home/hornbeck/urls.txt ./mon.txt
+</pre>
+
+<p>
+<strong>Important:</strong>  vous ne pouvez pas déplacer des fichiers entre deux ordinateurs distants.  La source ou la destination doit être un fichier local.
+</p>
+
+</div>
+<!-- SECTION [1096-2167] -->
+<a name="navigation_avec_nautilus_via_ssh"></a><h1> Navigation avec Nautilus via ssh </h1>
+<div class="level1">
+
+<p>
+ En utilisant <strong>Nautilus</strong>, vous pouvez également accéder aux emplacements à distance par l&rsquo;intermédiaire de ssh pour passer en revue, éditer et copier, des fichiers. Ouvrez <strong>Nautilus</strong> navigateur de fichier (Poste de travail &rarr; Dossier personnel), puis taper CTRL-L. Entrez l&rsquo;<acronym title="Uniform Resource Locator">URL</acronym> suivante:
+</p>
+<pre class="code">
+   ssh://&lt;username&gt;@&lt;hostname&gt;
+</pre>
+
+<p>
+(replacez username and hostname en conséquence)
+</p>
+
+<p>
+La copie de fichier se fait avec le glisser/déposer dans la fenêtre de Nautilus comme sur votre système de fichier local.
+</p>
+
+</div>
+<!-- SECTION [2168-2735] -->
+<a name="se_connecter_a_un_ordinateur_a_distance_via_ssh"></a><h1> Se connecter à un ordinateur à distance via ssh </h1>
+<div class="level1">
+
+<p>
+ Pour ouvrir une session sur un ordinateur distant ayant un serveur ssh, vous devez écrire quelque chose comme ceci:
+</p>
+<pre class="code">
+    bash:~$ ssh &lt;username&gt;@&lt;ipaddress&gt;
+</pre>
+
+<p>
+exemple:
+</p>
+<pre class="code">
+    bash:~$ ssh phyrex@192.168.23.42
+</pre>
+
+<p>
+<u><strong>Note:</strong></u> 
+</p>
+<ul>
+<li class="level1"><span class="li"> Vous pouvez toujours employer le hostname (s&rsquo;il est connu du système <em>/etc/hosts</em> ) au lieu des adresses IP.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [2736-3168] -->
+<a name="authentification_par_cle_publique"></a><h1> Authentification par clé publique </h1>
+<div class="level1">
+
+<p>
+ Autrefois tout le monde employait l&rsquo;authentification typique via <em>username/password</em>. Cependant si quelqu&rsquo;un devine ou sniffe votre mot de passe, la sécurité est compromise. Pour être débarassé du problème, <acronym title="Secure Shell">SSH</acronym> offre l&rsquo; <strong>Authentification par clé publique/privée</strong> au lieu des mots de passe simples.
+</p>
+
+<p>
+À moins que vous n&rsquo;ayez déjà une clef privée vous devez d&rsquo;abord en créer une. Tapez:
+</p>
+<pre class="code">
+ ssh-keygen -t dsa
+</pre>
+
+<p>
+Il vous sera alors demandé où sauver la clef privée (acceptez juste l&rsquo;endroit par défaut) puis de choisir une passphrase. La passphrase est employée pour chiffrer votre clef privée. Toute personne qui obtiendrait l&rsquo;accès à votre clef privée (non protégée) aurait vos permissions sur d&rsquo;autres ordinateurs. Veuillez prendre un instant et choisissez une trés bonne passphrase.
+</p>
+
+<p>
+Les ordinateurs distants feront confiance à votre clé publique. Votre clef publique a été créée avec la nouvelle clef privée. Elle est habituellement localisée à:
+</p>
+<pre class="code">
+ ~/.ssh/id_dsa.pub
+</pre>
+
+<p>
+L&rsquo;utilisateur distant doit avoir cette clef (c&rsquo;est une ligne des caractères en code Ascii) dans son fichier de clé d&rsquo;authorisation situé à:
+</p>
+<pre class="code">
+ ~/.ssh/authorized_keys2
+</pre>
+
+<p>
+sur le système distant.  Ainsi vous copiez et collez juste la ligne dans le fichier <em>authorized_keys2</em> ou employez la commande <em>ssh-copy-id</em> comme ceci:
+</p>
+<pre class="code">
+ ssh-copy-id root@fileserver01
+</pre>
+
+<p>
+Vous devrez donner le mot de passe root de cet ordinateur. Si l&rsquo;authentification par mot de passe est désactivée alors vous aurez besoin de copier et coller votre clé suivant un autre moyen.  Après que votre clef publique ait été ajoutée vous devenez un hôte de confiance. Lancez:
+</p>
+<pre class="code">
+ ssh root@fileserver01
+</pre>
+
+<p>
+et vous serez tentés de taper votre mot de passe mais c&rsquo;est votre <strong>passphrase</strong> qui vous est demandée. Il y a une différence entre votre mot de passe et la passphrase. Le mot de passe est situé dans <em>/etc/passwd</em> du système distant alors que la <strong>passphrase</strong>sert à décrypter votre <em>clé privée</em> de votre système local.
+</p>
+
+<p>
+ Pour reprendre:: Deux choses sont nécéssaire pour obtenir un accés réellement sécurisant(et sécurisé <img src="/smileys/icon_wink.gif" align="middle" alt=";-)" /> ) par authentification à clé publique au dessus de l&rsquo;authentification par mot de passe classique: 
+</p>
+<ul>
+<li class="level1"><span class="li"> <strong>Votre clé privée</strong> (cryptée)</span>
+</li>
+<li class="level1"><span class="li"> <strong>Votre passphrase</strong> (Elle est utilisée pour décrypter votre clé privée)</span>
+</li>
+</ul>
+
+<p>
+ Ainsi si vous choisissez de ne pas avoir de mot de passe  (ce qui est possible - voyez la prochaine section) vous aurez un minimun de sécurité autant qu&rsquo;en utilisant seulement une authentification par mot de passe.
+</p>
+
+<p>
+<u><strong>Note:</strong></u> 
+</p>
+<ul>
+<li class="level1"><span class="li"> Vous pouvez vouloir neutraliser l&rsquo;authentification par mot de passe pour des raisons de sécurité en plaçant dans le fichier de configuration <em>/etc/ssh/sshd_config</em> la ligne <strong>PasswordAuthentication</strong> à <strong>no</strong>. N&rsquo;oubliez pas de relancer votre serveur <strong>sshd</strong> après avoir changé la configuration.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [3169-6182] -->
+<a name="restriction_d_acces_ssh"></a><h1> Restriction d'accès Ssh </h1>
+<div class="level1">
+
+<p>
+ Quand on utilise <acronym title="Secure Shell">SSH</acronym> avec l&rsquo;authentification par clé il y a d&rsquo;autre dispositions. Le serveur distant peut limiter l&rsquo;utilisation de certaines commandes permises. Si vous maintenez un dépôt <acronym title="Concurrent Versions System">CVS</acronym>, vous pourriez utiliser des lignes comme ceci dans le fichier authorized_keys2:
+</p>
+<pre class="code">
+ command=&quot;/usr/bin/cvs server&quot; ssh-dss AAAAB3N....
+</pre>
+
+<p>
+Ceci permettrait que seule cette commande puisse être utilisée. Rien d&rsquo;autre.
+</p>
+
+</div>
+<!-- SECTION [6183-6646] -->
+<a name="acces_automatique_pour_des_scripts"></a><h1> Accès automatique pour des scripts </h1>
+<div class="level1">
+
+<p>
+ L&rsquo;authentification par clé publique (voir ci-dessus) peut également être employée pour automatiser les tâches qui exigeraient habituellement l&rsquo;introduction au clavier d&rsquo;un mot de passe. Imaginez vouloir copier un dossier à partir d&rsquo;un ordinateur distant tous les jours à minuit. Tout que vous avez à faire c&rsquo;est d&rsquo;établir la confiance entre ces deux ordinateurs. Créez un compte de service sur un ordinateur, créez une paire de clé (ssh-keygen - t DSA) et quand on vous demande de rentrer la passphrase parter juste sur la touche <em>Entrée</em>. Ceci fera que votre clé privé ne sera pas protégée. Ajoutez la clef publique de l&rsquo;autre ordinateur dans le fichier authorized_keys2 (ssh-copy-id). Maintenant vous pouvez utiliser <acronym title="Secure Shell">SSH</acronym> sur cette machine sans une passphrase à taper. Ajoutez une référence à <acronym title="Secure Shell">SSH</acronym> dans votre crontab et vous êtes prét.
+</p>
+
+<p>
+ <u><strong>Faites attention</strong></u> 
+</p>
+<ul>
+<li class="level1"><span class="li"> Avoir une clef privée non protégée peut être un trou de sécurité. Les intrus devront seulement obtenir l&rsquo;accès à la clef privée et pourront accéder aux ordinateurs distants.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [6647-7775] -->
+<a name="utiliser_le_ssh-agent"></a><h1> Utiliser le ssh-agent </h1>
+<div class="level1">
+
+<p>
+ Si vous devez fréquemment copier des fichiers avec <acronym title="Secure Shell">SSH</acronym> ou accéder à d&rsquo;autres ordinateurs de votre réseau (qui est une tâche commune pour des administrateurs) vous vous demandez probablement s&rsquo;il y a une manière de simplifier l&rsquo;utilisation de la passphrase. En fait il y a - <strong> <acronym title="Secure Shell">SSH</acronym> agent </strong>. Vous devez seulement entrer votre passphrase une fois en employant <strong>ssh-add</strong> et tout ce que vous commencez comme sous-processus de <strong><acronym title="Secure Shell">SSH</acronym> agent</strong> se rappellera cette passphrase.
+</p>
+
+<p>
+Trop théorique ? Bien, vous n&rsquo;aurez pas besoin de vous inquiéter de l&rsquo;agent. Votre session X est prête pour avoir le <strong>ssh-agent</strong> en session automatiquement. Tout que vous devez faire c&rsquo;est lancer <strong>ssh-add</strong> et saisir votre passphrase. La prochaine fois que vous utiliserez <strong><acronym title="Secure Shell">SSH</acronym></strong> pour accéder à un autre ordinateur, vous n&rsquo;aurez pas à entrer anouveau votre passphrase. Cool, non ? <img src="/smileys/icon_smile.gif" align="middle" alt=":-)" />
+</p>
+
+<p>
+ <u><strong>Important</strong></u> 
+</p>
+<ul>
+<li class="level1"><span class="li"> Vous devrez bloquer votre session pendant vos absences car d&rsquo;autres pourraient accéder aux ordinateurs distants à partir de votre machine sans savoir votre passphrase.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Si vous voulez rentrer votre passphrase une fois juste après l&rsquo;ouverture de session, vous pouvez ajouter un appel à <strong>ssh-add</strong> comme ceci:(pour Hoary)</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Cliquez sur <strong>Système</strong></span>
+</li>
+<li class="level1"><span class="li"> Choisissez <strong>Préferences</strong></span>
+</li>
+<li class="level1"><span class="li"> Choisissez <strong>Sessions</strong></span>
+</li>
+<li class="level1"><span class="li"> Selectionnez l&rsquo;onglet <strong>Programme au démarrage</strong></span>
+</li>
+<li class="level1"><span class="li"> Cliquez sur <strong>Ajouter</strong></span>
+</li>
+<li class="level1"><span class="li"> Entrée la commande <strong>ssh-add</strong></span>
+</li>
+</ul>
+
+<p>
+ A la prochaine ouverture de session, vous devrez taper votre passphrase.
+</p>
+
+<p>
+Document written by: Alexander Poslavsky &amp; Christoph Haas
+</p>
+
+<p>
+Traduction française <a href="/utilisateurs/manu" class="wikilink1" title="utilisateurs:manu" onclick="return svchk()" onkeypress="return svchk()">manu</a> 
+</p>
+
+</div>
+<!-- SECTION [7776-] -->

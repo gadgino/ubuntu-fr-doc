@@ -1,0 +1,47 @@
+{{tag>}}
+
+----
+
+====== LotoEduc : Créer des cartes de Loto éducatives======
+
+**LotoEduc** est un script python qui permet, à partir d'une série d'images, de générer 25 grilles de loto, toutes différentes.
+
+Le résultat est un document PDF, prêt à être imprimé.
+
+**LotoEduc** est une création du [[http://www.bipede.fr/contrib/index.php?page=OpenSource|Bipède]]
+
+===== Installation =====
+
+[[:tutoriel:comment_installer_un_paquet|Installez]] d'abord les paquets **[[apt://python-wxgtk2.8,python-reportlab,python-imaging|python-wxgtk2.8 python-reportlab python-imaging]]**
+
+Puis rendez vous sur [[http://www.bipede.fr/contrib/index.php?page=LotoEduc-downloads|la page de téléchargement]] du site de l'auteur pour y télécharger **l'archive tar.gz** de la dernière version (à l'heure d'aujourd'hui, en [[http://www.bipede.fr/contrib/uploads/logiciels/LotoEduc2.02.tar.gz|version 2.02]]) que vous allez [[:archivage|extraire]].
+
+===== Utilisation =====
+
+Le principe est de réaliser une carte modèle comportant six (3x2), huit (4x2), douze (4x3) ou 15 (5x3) images sur un thème donné et d'en tirer 25 exemplaires (15 dans le cas de modèle de 6 images) dont la moitié des images sont masquées de manière aléatoire. Bien entendu, aucun des tirages n'est identique.
+
+Le logiciel vous demande d'abord de saisir le nom que vous voulez donner à votre nouvelle grille, et le nombre de cases désirées.
+
+{{lotoeduc_params.png}}
+
+Une fois ces informations renseignées, il vous présente une grille vide.
+
+{{lotoeduc_grille.png?400}}
+
+A partir de là, rien de plus simple, il suffit de glisser-déposer à la souris les fichiers images désirés sur chacune des cases affichées par le logiciel (peu importe la taille des images originales, elles sont redimensionnées automatiquement), puis de cliquer sur le bouton **Fabriquer le PDF**.
+
+{{lotoeduc_grille2.png?400}}
+
+Un fichier au format PDF portant le nom que vous avez indiqué à la première étape, comportant les 16 ou 26 cartes (deux par page), est généré et placé dans le répertoire **modeles** de l'application.
+
+Une boite de dialogue vous propose alors de visualiser ce fichier.
+
+{{lotoeduc_fin.png?400}}
+
+===== Liens =====
+
+[[http://www.bipede.fr/contrib/index.php?page=lotoeduc-creer-des-cartes-de-loto-educatives|Site officiel de l'application]]
+
+----
+
+//Contributeur : Arnaud Champollion//

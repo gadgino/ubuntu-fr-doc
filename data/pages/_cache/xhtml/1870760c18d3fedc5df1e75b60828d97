@@ -1,0 +1,155 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#comment_optimiser_les_transferts_des_peripheriques_ide" class="toc"> Comment optimiser les transferts des périphériques IDE ? </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#verifier_si_les_transferts_dma_sont_actifs" class="toc"> Vérifier si les transferts DMA sont actifs </a></span></li>
+<li class="level2"><span class="li"><a href="#activer_le_dma_directement" class="toc"> Activer le DMA directement </a></span></li>
+<li class="level2"><span class="li"><a href="#activer_le_dma_au_demarrage_de_la_machine" class="toc"> Activer le DMA au démarrage de la machine </a></span></li>
+<li class="level2"><span class="li"><a href="#remarques" class="toc"> Remarques </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Versions Warty et Hoary
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/ostaquet" class="wikilink1" title="utilisateurs:ostaquet" onclick="return svchk()" onkeypress="return svchk()">ostaquet</a>.
+</p>
+
+<a name="comment_optimiser_les_transferts_des_peripheriques_ide"></a><h1> Comment optimiser les transferts des périphériques IDE ? </h1>
+<div class="level1">
+
+<p>
+ Par défaut, les périphériques IDE ne sont pas toujours optimisés au niveau performance sous Ubuntu. Pour ma part, les disques durs ont toujours été reconnu sur les machines que j&rsquo;ai installée mais les lecteurs DVD ne l&rsquo;était pas.
+</p>
+
+<p>
+Néanmoins, voici la marche à suivre pour vérifier si les transferts DMA sont actifs sur votre configuration et comment les rendre actif s&rsquo;ils ne le sont pas.
+</p>
+
+</div>
+<!-- SECTION [82-556] -->
+<a name="verifier_si_les_transferts_dma_sont_actifs"></a><h2> Vérifier si les transferts DMA sont actifs </h2>
+<div class="level2">
+
+<p>
+ Il faut donc connaître les caractéristiques de ses périphériques IDE et de sa carte mère : si vous voyez que vos périphériques IDE ne sont pas bien optimisés par défaut au démarrage, il faudra créer un script shell avec des commandes hdparm pour optimiser les périphériques et configurer le système pour que ce script soit exécuté à chaque démarrage. 
+</p>
+
+<p>
+Nous prendrons comme exemple un ordinateur qui n&rsquo;a qu&rsquo;un seul périphérique IDE : un disque dur branché en Primary Master, donc accessible par /dev/hda. Cet exemple s&rsquo;applique également aux lecteurs de CD, DVD et graveurs IDE.
+</p>
+
+<p>
+Vous allez commencer par recueillir des informations sur votre périphérique :
+</p>
+<pre class="code">
+sudo hdparm -I /dev/hda
+</pre>
+
+<p>
+Il faut regarder en particulier dans la section Capabilities ce qui concerne le DMA. Par exemple, pour notre disque-dur, nous avons :
+</p>
+<pre class="code">
+DMA: mdma0 mdma1 mdma2 udma0 udma1 udma2 udma3 udma4 *udma5 udma6
+</pre>
+
+<p>
+L&rsquo;étoile sur udma5 signifie que mon disque dur supporte le DMA, et que, si le DMA est activé, il se mettra en mode UDMA 5.
+</p>
+
+<p>
+Maintenant, regardez si le DMA est activé :
+</p>
+<pre class="code">
+sudo hdparm -d /dev/hda
+</pre>
+
+<p>
+Vous devriez obtenir une ligne de la sorte :
+</p>
+<pre class="code">
+/dev/hda:
+using_dma = 1 (on)
+</pre>
+
+<p>
+Ici, le DMA est activé, donc le périphérique est configuré en UDMA  - Cependant, le DMA peut ne pas être activé (<code>using_dma = 0</code>). Dans ce cas, examiner la section suivante pour l&rsquo;activer.
+</p>
+
+</div>
+<!-- SECTION [557-2054] -->
+<a name="activer_le_dma_directement"></a><h2> Activer le DMA directement </h2>
+<div class="level2">
+
+<p>
+ Si votre périphérique supporte le DMA et que celui-ci n&rsquo;était pas activé, alors il faut absolument le faire, vous gagnerez énormément en performance :
+</p>
+<pre class="code">
+sudo hdparm -d1 /dev/hda
+</pre>
+
+<p>
+Remarquez que cette commande n&rsquo;active le DMA que jusqu&rsquo;au prochain redémarrage de la machine.
+</p>
+
+</div>
+<!-- SECTION [2055-2389] -->
+<a name="activer_le_dma_au_demarrage_de_la_machine"></a><h2> Activer le DMA au démarrage de la machine </h2>
+<div class="level2">
+
+<p>
+ Pour activer le DMA au démarrage de la machine, vous devez éditer le fichier <code>/etc/hdparm.conf</code> à l&rsquo;aide de la commande suivante :
+</p>
+<pre class="code">
+sudo gedit /etc/hdparm.conf
+</pre>
+
+<p>
+Vous pouvez ajouter (dans notre cas) les lignes suivantes :
+</p>
+<pre class="code">
+/dev/hda {
+dma = on
+}
+</pre>
+
+</div>
+<!-- SECTION [2390-2725] -->
+<a name="remarques"></a><h2> Remarques </h2>
+<div class="level2">
+
+<p>
+ Toutes les commandes reprises ci-dessus portent sur le périphérique IDE <code>hda</code>. Pour connaître l&rsquo;identifiant de votre périphérique sur votre système, vous pouvez utiliser la commande suivante :
+</p>
+<pre class="code">
+sudo dmesg | grep hd
+</pre>
+
+<p>
+Vous obtiendrez des lignes similaires à celles-ci qui vous permettront de connaitre les identifiants de vos périphériques IDE.
+</p>
+<pre class="code">
+hda: Maxtor 6Y080P0, ATA DISK drive
+hdb: LITE-ON LTR-40125S, ATAPI CD/DVD-ROM drive
+</pre>
+
+<p>
+Pour tester la vitesse de votre disque dur :
+</p>
+<pre class="code">
+sudo hdparm -tT /dev/hda
+</pre>
+
+<p>
+Exemple de résultat :
+</p>
+<pre class="code">/dev/hda:
+Timing buffered disk reads:   70 MB in  3.07 seconds =  22.78 MB/sec</pre>
+
+</div>
+<!-- SECTION [2726-] -->

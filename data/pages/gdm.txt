@@ -1,0 +1,62 @@
+{{tag>Trusty fenêtre_de_connexion}}
+
+----
+
+====== GDM, l'écran de connexion alternatif ======
+
+**GDM** est la [[:fenêtre de connexion]] de l'[[:environnements#gnome_shell|environnement Gnome 3]]. Elle est une alternative à celle installée par défaut, [[:Lightdm]]. La modification de son fichier de configuration est pour le moment incontournable.
+
+{{ :applications:gdm3_trusty.png?400 }}
+
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+Il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>gdm]]** qui entraîne inévitablement l'installation de [[:Gnome-shell]].
+
+===== Configuration de GDM =====
+
+La configuration de GDM est très complexe, ce document n'abordera que le point de vue de l'utilisateur : fichier de configuration // /etc/gdm/custom.conf //. Pour une documentation complète, [[#voir_aussi|voir ici pour plus d'informations]].
+
+Le fichier //custom.conf// se compose de plusieurs sections de paramètres délimitées par des titres de sections entre les crochets [ et ] :
+  * [chooser] option multicast
+  * [daemon] options TimedLoginEnable, TimedLogin, TimedLoginDelay, AutomaticLogin, User, Group
+  * [debug] option Enable
+  * [greeter] options IncludeAll, Include, Exclude
+  * [security] option DisallowTCP
+  * [xdmcp] options DisplaysPerHost, Enable, HonorIndirect, MaxPending, MaxSessions, MaxWait, MaxWaitIndirect, PingIntervalSeconds, Port, Willing
+
+Les options les plus utilisées par les utilisateurs sont celles figurant dans [greeter] et [daemon], les autres étant surtout utilisées par les administrateurs de réseaux. Pour ces derniers, la lecture de la documentation officielle sera plus instructive.
+
+==== Configuration de [daemon] ====
+
+^ Option | **TimedLoginEnable** | active/désactive la connexion automatique temporisée |
+^ Option | **TimedLogin** | utilisateur connecté après le délai de temporisation |
+^ Option | **TimedLoginDelay** | délai de temporisation avant connexion automatique|
+^ Option | **AutomaticLoginEnable** | active/désactive la connexion immédiate |
+^ Option | **AutomaticLogin** | utilisateur connecté immédiatement|
+^ Option | **User** | en général et par défaut gdm |
+^ Option | **Group** | en général et par défaut gdm |
+
+==== Configuration de [greeter] ====
+
+^ Option | **IncludeAll** | vrai : tous les utilisateurs de l'ordinateur local | faux : utilisateurs connectés seulement récemment |
+^ Option | **Include** | liste des utilisateurs toujours visibles | le symbole de séparation est la virgule |
+^ Option | **Exclude** | liste des utilisateurs toujours exclus | ce paramètre remplace complètement le réglage d'origine |
+
+===== Changer le fond d'écran GDM =====
+Installez [[:GDM3Setup]].
+
+===== Voir aussi =====
+
+  * ** fr ** [[https://wiki.debian.org/fr/GDM|Documentation sur GDM pour la personnalisation]],
+  * [[https://wiki.gnome.org/Projects/GDM|Documentation officielle en anglais]],
+  * [[http://gdm3.sourcearchive.com/documentation/2.29.92/main.html|documentation à télécharger]].
+
+----
+
+//Contributeurs principaux : [[:utilisateurs:J5012]], [[:utilisateurs:claudiux]] 

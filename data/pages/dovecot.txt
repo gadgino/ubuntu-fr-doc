@@ -1,0 +1,42 @@
+{{tag>serveur réseau mail BROUILLON}}
+
+----
+====== Dovecot - Serveurs POP =====
+
+
+<note important>Cette page est incomplète, peu utile pour un novice, en plus de ne pas se conformer au modèle. Les utilisateurs expérimentés sont invités à améliorer cette page.</note>
+
+
+Dovecot est un logiciel sous licence libre de serveur IMAP et POP3 pour Linux / UNIX, écrit avec comme première préoccupation la sécurité.
+
+Dovecot est une excellente alternative pour la mise en place de petites ou grandes structures.
+
+Rapide, simple à installer, il ne nécessite pas une charge d'administration extraordinaire et utilise très peu de mémoire. 
+
+Pour une (k)ubuntu
+On va utiliser dovecot, [[:tutoriel:comment_installer_un_paquet|installez les paquets]] **[[apt>dovecot-common,dovecot-pop3d]]**.
+
+
+[[:tutoriel:comment_editer_un_fichier|On édite]] ensuite le fichier de configuration **/etc/dovecot/dovecot.conf** et on modifie les lignes :
+<file>
+protocols =  pop3
+pop3_uidl_format = %08Xu%08Xv
+mail_location = mbox:/var/spool/mail/%u
+disable_plaintext_auth = no
+</file>
+
+Éditez donc cette ligne comme cela :
+<file>
+mail_location = mbox:~/mail:INBOX=/var/mail/%u
+</file>
+
+Du coté poste client, configurer votre logiciel de mail favori pour que votre serveur Linux soit le serveur POP (il suffit de rajouter le nom du poste en question dans le champ qui va bien), et puis c'est tout, les courriers seront récupérés dans /var/mail/%u du serveur.
+
+===== Voir aussi =====
+
+  * **(en)** [[http://wiki.dovecot.org/BasicConfiguration]]
+  * [[https://help.ubuntu.com/8.04/serverguide/C/dovecot-server.html]]
+  * [[http://lists.debian.org/debian-user-french/2011/04/msg00147.html]]
+
+----
+//Contributeurs principaux : ...//

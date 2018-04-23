@@ -1,0 +1,783 @@
+{{tag>p2p }}
+
+----
+
+====== Transmission ======
+
+{{ transmission-logo.png?80nolink| Logo de Transmission}}
+
+**Transmission** est le client [[wpfr>BitTorrent]] installé par défaut sur Ubuntu. Il se veut intuitif, fonctionnel et très léger. Il dispose de fonctionnalités comme le chiffrement des échanges de données, l'échange de pairs, le support des blocklists, la limitation des débits en émission et en réception, etc. Il possède une interface graphique très épurée en GTK et d'une seconde en QT. Il est disponible sous licence [[wpfr>Licence_publique_générale_GNU|GPL]]v2 ou [[wpfr>Licence_X11|X11]].
+
+{{:transmission.png?500|L'interface de Transmission sous Ubuntu 15.10}}
+
+----
+
+===== Installation =====
+
+==== Par les dépôts officiels ====
+
+Transmission est le client BitTorrent par défaut d'Ubuntu. Vous le trouverez dans le menu //Applications → Internet//, ou en tapant //transmission// dans le [[:unity#tableau_de_bord_dash|dash]] d'Unity.
+
+Sinon, pour l'installer il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>transmission|transmission]]**.
+
+
+==== Par un des dépôts PPA ====
+
+<note warning>Les versions bêta et expérimentales sont à utiliser à vos risques et périls. </note>
+
+[[ppa|Ajouter à vos sources de logiciels l'un des PPA suivants]] :
+  * Version stable : **ppa:transmissionbt/ppa**((https://launchpad.net/~transmissionbt/+archive/ppa))
+  * Version bêta : **ppa:transmissionbt/beta**((https://launchpad.net/~transmissionbt/+archive/beta))
+  * Version expérimentale : **ppa:transmissionbt/nightly**((https://launchpad.net/~transmissionbt/+archive/nightly))
+
+Puis [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|recharger la liste des paquets]] et [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>transmission]]**.
+
+----
+
+
+===== Configuration =====
+
+Veillez à ce que le port TCP sélectionné dans //Édition → Préférences → Réseaux// soit ouvert (le port de base est le 51413).
+ ; vous pouvez vous servir de [[:gufw]] pour configurer vos ports.
+Vous pouvez aussi configurer transmission en modifiant le fichier **~/.config/transmission(-daemon)/settings.json**.
+
+→ [[http://trac.transmissionbt.com/wiki/EditConfigFiles|Documentation des options paramétrables dans settings.json]]
+
+==== Intégration de Transmission au launcher Unity ====
+<note>Basé sur [[http://www.webupd8.org/2011/09/integrate-transmission-with-unity.html|ce tutoriel]], réalisé avec succès sous [[saucy|Ubuntu 13.10 (« The Saucy Salamander »)]]</note>
+Il est possible d'ajouter une fonctionnalité à Transmission afin d'afficher une petite barre de progression et le nombre de téléchargements en cours sur sa tuile du launcher [[unity|Unity]], comme sur l'image ci-dessous.
+
+{{  :tuile_transmission_progress.png   }}
+
+Pour obtenir ce résultat, voici comment procéder :
+  - Ouvrez un [[terminal|terminal]], et [[:tutoriel:comment_installer_un_paquet|installer les paquets]] **[[apt>python-transmissionrpc,git-core|python-transmissionrpc et git-core]]** :<code>sudo apt-get install python-gobject python-transmissionrpc git-core</code>
+  - Retournez sur votre dossier HOME si vous n'y êtes pas (avec la commande ''cd''), puis clonez le dépôt Git du projet :<code>git clone https://github.com/kriomant/transmission-unity-launcher.git</code>
+  - Copiez le script Python dans le dossier ''/urs/local/bin'', puis donnez-lui les droits d'exécution :<code>sudo cp transmission-unity-launcher/transmission-unity-launcher.py /usr/local/bin/
+sudo chmod +x /usr/local/bin/transmission-unity-launcher.py</code>
+  - Créez les dossiers manquants dans votre HOME (FIXME ne sont-ils pas déjà présents dès l'installation d'Ubuntu ?) :<code>mkdir -p ~/.local/share/applications</code>
+  - Copiez le fichier icône de Transmission dans ce nouveau dossier :<code>cp /usr/share/applications/transmission-gtk.desktop ~/.local/share/applications/</code>
+  - Modifiez le contenu de ce fichier pour qu'il exécute automatiquement le script Python précédemment installé :<code>sed -i 's/^Exec=transmission-gtk/Exec=\/usr\/local\/bin\/transmission-unity-launcher.py transmission-gtk/' ~/.local/share/applications/transmission-gtk.desktop</code>
+  - Donnez-lui les droits d'exécution :<code>chmod +x ~/.local/share/applications/transmission-gtk.desktop</code>
+
+Une fois ces étapes complétées, vous pouvez fermer le terminal. Il ne reste plus qu'à activer le plugin que nous venons d'installer. Pour cela, rendez-vous dans les préférences de Transmission (//Édition -> Préférences//), onglet //Accès à distance//, et cochez la case //Autoriser l'accès à distance//.\\ Vérifiez que l'authentification est désactivée, et que l'adresse IP 127.0.0.1 est bien indiquée dans la zone //Autoriser uniquement ces adresses IP :// (la case correspondante doit être cochée) :
+
+{{  :transmission_preferences_remote_tuileprogress.png?600 }}
+
+----
+
+===== Utilisation =====
+
+Transmission est une application complète comprenant service de téléchargement + interface de téléchargement + web UI depuis la version 1.30. Cela signifie que si vous installez aussi transmission-daemon, alors vous aurez 2 services de téléchargement et 2 web UI sur le même port ce qui cause des problèmes. Les deux applications ne se parlent pas ; donc, si vous ne comprenez pas un mot de ce charabia, installez uniquement Transmission.
+
+===== transmission-gtk =====
+
+Pour lancer Transmission, allez dans //Applications → Internet// et cliquez sur //Transmission BitTorrent Client//. Vous pouvez aussi saisir dans un [[terminal]] :
+
+  transmission-gtk
+
+ou
+
+  transmission
+
+selon votre version (vous pouvez essayer les deux).
+
+<note tip>Pour lancer Transmission dans la barre des tâches (la fenêtre ne s'affiche pas), tapez dans un [[terminal]] :
+
+  transmission-gtk -m
+  
+ou
+  
+  transmission -m
+</note>
+
+==== Compiler transmission-gtk sous Ubuntu ====
+
+<note>La version de transmission-gtk sous Ubuntu 12.04.3 est : 2.51-0ubuntu1.3.</note>
+<note>La version de transmission-gtk sous Debian Wheezy est : transmission-gtk/wheezy uptodate 2.52-3+nmu1</note>
+
+  * build-essential
+  
+  * ca-certificates
+  
+  * libcurl4-openssl-dev
+  
+  * libssl-dev
+  
+  * pkg-config
+  
+  * build-essential
+  
+  * checkinstall
+  
+  * libevent-2.0.5((Le package libevent-2.0-5 (2.0.21-stable-1ubuntu1) est disponible sous Ubuntu 14.04, merci d'adapter la chose selon la version de votre Ubuntu.))
+
+  * intltool 
+
+  * libgtk-3-dev
+
+Pour installer les paquets mentionnés on va faire:
+
+  sudo apt-get build-dep transmission
+  
+<note>Pour compiler transmission-gtk sous Ubuntu 12.04.3, Debian Squeeze/Wheezy, il vous faudra une version de la libevent > ou = à la version 2.0.18.</note>
+
+Ensuite:
+
+  wget http://​download.transmissionbt.com/​files/​transmission-2.84.tar.xz	 
+  tar -Jxf transmission-2.84.tar.xz	 
+  cd transmission-2.84	 
+  ./configure --with-gtk --enable-lightweight && make && sudo make install	
+
+Pour vérifier la version de transmission-gtk on va faire :	 
+	 
+{{transmission-gtk.png?​nolink}}	 
+		 
+Nous voyons bien qu'on utilise la dernière version de transmission-gtk ;-).
+
+==== Compiler la libevent sous Ubuntu (indispensable si vous souhaitez compiler transmission-gtk sous Ubuntu 12.04 et <) ====
+  
+  wget https://sourceforge.net/projects/levent/files/libevent/libevent-2.0/libevent-2.0.22-stable.tar.gz
+  tar xzf libevent-2.0.22-stable.tar.gz
+  cd libevent-2.0.22-stable
+  ./configure && make && sudo make install
+
+===== transmission-cli =====
+
+Transmission-cli est une version ligne de commande. 
+Pour l'utiliser, installez-le (si besoin) :
+   sudo apt-get install transmission-cli
+
+Puis, tapez dans un terminal :
+
+  transmission-cli /le/chemin/de/votre/fichier.torrent
+
+Plusieurs options sont disponibles, afin de les connaître, tapez : <code>man transmission-cli</code>
+À noter que transmission-cli sauvegarde ses téléchargements dans le dossier où il a été lancé, par défaut votre répertoire personnel.
+
+
+===== transmission-create =====
+
+transmission-create est fourni avec transmission-cli et s'utilise en ligne de commande, il permet de **créer** un torrent. 
+S'il n'est pas installé (transmission-create -V retourne une erreur), [[:tutoriel:comment_installer_un_paquet|installez le paquet]] :
+   sudo apt-get install transmission-cli
+
+Pour créer un torrent, tapez dans un terminal :
+
+  transmission-create -o ~/le_torrent_cree.torrent -t http://le-tracker.fr/ -p -c "Mon commentaire" ~/Le_contenu_du_torrent
+
+Voici les options que vous devez changer :
+<code>  -o "destination" — Mettez le fichier .torrent désiré
+  -t "tracker" — L'adresse du tracker
+  -p — Défini si le torrent est privé (enlever dans la majorité des cas)
+  -c "commentaire" — Un commentaire associé (entièrement facultatif)</code>
+
+La destination peut-être un dossier ou un fichier, comme désiré.
+
+===== transmission-daemon =====
+
+Transmission-daemon est un service en fond pour gérer les téléchargements. Installez-le (si besoin), et pour le lancer, tapez dans un terminal (ou en appuyant sur les touches Alt+F2) :
+
+  transmission-daemon
+
+Transmission-daemon permet aussi d'avoir une [[#web-ui_clutch|interface Web]] pour gérer ses téléchargements lorsque transmission-gtk n'est pas installé comme sur une machine sans serveur graphique.
+Notez que Transmission-daemon a sa propre instance indépendante de toute autre installation de Transmission.
+
+Pour connaître les différentes options, tapez :
+
+  transmission-daemon --help
+
+Pour lancer et arrêter le daemon, tapez :
+
+  sudo service transmission-daemon start|stop
+
+Le fichier de conf se trouve dans « /var/lib/transmission-daemon/info/settings.json », ne pas oublier de couper le daemon pendant son édition si vous ne voulez pas que les modifications soient écrasées !
+
+==== transmission-daemon et le fichier settings.json ====
+
+<note warning>Veuillez stopper votre transmission-daemon avant d'éditer votre settings.json, sinon au prochain redémarrage du daemon l'ancienne configuration sera restaurée ! ;-).</note>
+
+<note warning>Si vous n'avez jamais lancé transmission-daemon, veuillez utiliser la commande suivante : <code>sudo service transmission-daemon start</code>cette commande va permettre de lancer transmission-daemon et par ce fait, créer votre ~/.config/transmission-daemon/</note>
+
+
+Ici nous aborderons une configuration dite <<minimale>>, car comme vous avez pu le constater le settings.json a énormément d'options, si vous voulez en savoir plus je vous invite sur [[https://trac.transmissionbt.com/wiki/EditConfigFiles|EditConfigFiles]].
+
+Pour que transmission-daemon fonctionne correctement il vous faudra éditer votre fichier **~/.config/transmission-daemon/settings.json** avec les options suivantes:
+
+  *"rpc-username" == Le nom de l'utilisateur.
+  *"rpc-password" == Le mot de passe.
+  *"rpc-whitelist-enabled" == Active ou non la limitation d’accès aux IPS spécifiées dans rpc-whitelist.
+  *"rpc-enabled" == Activer le Web-UI.
+  *"rpc-authentication-required" == Activer l'authentification du Web-UI.
+  *"download-dir" == Dossier où seront stockés les données téléchargées.
+  *"rpc-whitelist" == Liste d’adresses IP autorisés à accéder à l’interface web, séparées par des virgules, le caractère * permet de définir une plage d’adresse (192.168.*.*).
+  *"incomplete-dir" == Dossier où seront stockés temporairement les données en cours de téléchargement.
+  *"dht-enabled" == Vous devez mettre cette valeur à false pour désactiver le [[wpfr>Table_de_hachage_distribu%C3%A9e|DHT]] de votre daemon.
+  *"pex-enabled" == Vous devez mettre cette valeur à false pour désactiver le [[wpfr>Peer_exchange|PEX]] de votre daemon.
+
+Quand toutes les options seront configurées, il vous restera plus qu'à faire :
+
+<code>sudo service transmission-daemon start</code>
+
+Votre Seedbox sera alors accessible via:
+
+<code>http://votreip:9091/transmission/web/</code>
+
+<note tip>Si votre [[wpfr>Seedbox|Seedbox]] n'est pas accessible, ceci voudra sûrement dire que vous avez un [[wpfr>Pare-feu_%28informatique%29|Firewall]], il vous faudra donc ouvrir le port 9091/TCP en entrée, vous devez également ouvrir le port du peer-port en TCP/UDP.</note>
+
+==== Explication du fichier settings.json (avancé) ====
+
+<file txt transmission-daemon>
+
+
+  "blocklist-enabled": "true",  // Activer la blocklist (optionnel).
+  "blocklist-url": "URL d'une blocklist", // L'URL de la blocklist (si active).
+  "dht-enabled": "false",  //Désactiver le [[http://fr.wikipedia.org/wiki/Table_de_hachage_distribu%C3%A9e|DHT]].
+  "download-dir": "/home/user/download", // Le dossier de téléchargement.
+  "download-queue-enabled": "true",  // Activer la file d'attente.
+  "download-queue-size": "8",   // À modifier en fonction de votre ratio.
+  "idle-seeding-limit-enabled": "false",  // Pour ne pas mettre en pause les torrents qui ne seed pas en continue.
+  "incomplete-dir": "/home/user/incomplete",  // Dossier des torrents incomplets.
+  "incomplete-dir-enabled": "true",  // Activer le dossier incomplet.
+  "lpd-enabled": "false",  // Désactiver LPD.
+  "peer-port": "51413",  // Le port pour les échanges (à modifier à votre convenance et ne pas oublier de l'ouvrir dans le firewall).
+  "peer-port-random-on-start": "false", // Désactiver le port aléatoire au démarrage.
+  "pex-enabled": "false", // Désactiver le  [[http://fr.wikipedia.org/wiki/Peer_exchange|PEX]].
+  "ratio-limit-enabled": "false",  // Désactiver la limite du ratio.
+  "rpc-authentication-required": "true",  // Activer l'authentification du Web-UI.
+  "rpc-bind-address": "0.0.0.0",  // Adresse sur lesquels activer le Web-UI (0.0.0.0 pour toutes les adresses).
+  "rpc-enabled": "true", // Activer le Web-UI.
+  "rpc-password": "votre_mot_de_passe",  // Le mot de passe (à votre guise, il sera chiffré à l'enregistrement du fichier).
+  "rpc-port": "9091",  // Le port pour accéder au Web-UI (à modifier à votre convenance et ne pas oublier de l'ouvrir dans le firewall).
+  "rpc-username": "beaver",  // Votre identifiant (à votre guise).
+  "rpc-whitelist:"ip",   // Liste d’adresses IP autorisées à accéder à l’interface web, séparées par des virgules, le caractère "*" permet de définir une plage d’adresse (192.168.*.*).
+  "speed-limit-down": "6000",   // Limite de débit en download (ici 6Mo/s, à adapter).
+  "speed-limit-down-enabled": "true",   // Activer la limite (remplacer true par false pour déactiver).
+  "speed-limit-up": "6000",  // Limite de débit en upload (ici 6Mo/s, à adapter).
+  "speed-limit-up-enabled": "true",  // Activer la limite (remplacer true par false pour déactiver).
+  "start-added-torrents": "true",  // Démarrer les torrents à l'ajout.
+  
+</file>
+==== Compiler transmission-daemon sous Ubuntu ====  
+  
+  sudo apt-get build-dep transmission
+  wget https://transmission.cachefly.net/transmission-2.84.tar.xz
+  tar -Jxf transmission-2.84.tar.xz
+  cd transmission-2.84
+  ./configure --enable-lightweight --enable-daemon && make && sudo make install
+  
+Et voilà pour connaitre la version de votre transmission-daemon on ferra:
+
+{{cheeeeeese.jpg?nolink}}
+
+Nous voyons bien que nous utilisons la dernière version de transmission-daemon :-D.
+
+
+<note important>Si vous avez l'erreur suivante en lançant transmission-daemon : 
+
+Starting bittorrent daemon: transmission-daemon/usr/bin/transmission-daemon: error while loading shared libraries: libevent-2.0.so.5: cannot open shared object file: No such file or directory
+
+
+Tapez cette commande dans le terminal :
+
+sudo ln -s /usr/local/lib/libevent-2.0.so.5 /usr/lib64/libevent-2.0.so.5 (Si vous êtes en 64 bit.)
+
+sudo ln -s /usr/local/lib/libevent-2.0.so.5 /usr/lib/libevent-2.0.so.5 (Si vous êtes en 32 bit.)
+
+</note>
+
+Votre settings.json se trouvera ici:
+
+  ~/.config/transmission-daemon/settings.json
+  
+<note warning>Veuillez stopper votre transmission-daemon avant d'éditer votre settings.json, sinon au prochain redémarrage du daemon l'ancienne configuration sera restaurée ! ;-).</note>
+
+<note warning>Si vous n'avez jamais lancé transmission-daemon, veuillez utiliser la commande suivante : <code>sudo service transmission-daemon start</code>cette commande va permettre de lancer transmission-daemon et par ce fait, créer votre ~/.config/transmission-daemon/</note>
+
+==== Script init.d ====
+
+Après avoir compilé votre transmission-daemon, vous n'aurez aucun script [[wpfr>Run_level|init.d]], vous ne pourrez donc pas utiliser la commande suivante par exemple:
+
+<code>sudo service transmission-daemon start</code>
+
+Pour remédier à cela, voici le script [[wpfr>Run_level|init.d]] que vous devez mettre dans:
+
+<code>/etc/init.d</code>
+
+<file bash transmission-daemon>
+
+#!/bin/sh -e
+### BEGIN INIT INFO
+# Provides:          transmission-daemon
+# Required-Start:    $local_fs $remote_fs $network
+# Required-Stop:     $local_fs $remote_fs $network
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start or stop the transmission-daemon.
+### END INIT INFO
+
+NAME=transmission-daemon
+DAEMON=/usr/bin/$NAME
+USER=transmission
+# FIXME: no pidfile support; forks, so --make-pidfile doesn't work either
+#PIDFILE=/var/run/$NAME.pid
+STOP_TIMEOUT=3
+
+export PATH="${PATH:+$PATH:}/sbin"
+
+[ -x $DAEMON ] || exit 0
+
+[ -e /etc/default/$NAME ] && . /etc/default/$NAME
+
+. /lib/lsb/init-functions
+
+start_daemon () {
+    if [ $ENABLE_DAEMON != 1 ]; then
+        log_progress_msg "(disabled, see /etc/default/${NAME})"
+    else
+        start-stop-daemon --start \
+        --chuid $USER \
+        --exec $DAEMON -- $OPTIONS
+    fi
+}
+
+case "$1" in
+    start)
+        log_daemon_msg "Starting bittorrent daemon" "$NAME"
+        start_daemon
+        log_end_msg 0
+        ;;
+    stop)
+        log_daemon_msg "Stopping bittorrent daemon" "$NAME"
+        start-stop-daemon --stop --quiet \
+            --exec $DAEMON --retry $STOP_TIMEOUT \
+            --oknodo
+        log_end_msg 0
+        ;;
+    reload)
+        log_daemon_msg "Reloading bittorrent daemon" "$NAME"
+        start-stop-daemon --stop --quiet \
+            --exec $DAEMON \
+            --oknodo --signal 1
+        log_end_msg 0
+        ;;
+    restart|force-reload)
+        log_daemon_msg "Restarting bittorrent daemon" "$NAME"
+        start-stop-daemon --stop --quiet \
+            --exec $DAEMON --retry $STOP_TIMEOUT \
+            --oknodo
+        start_daemon
+        log_end_msg 0
+        ;;
+    *)
+        echo "Usage: /etc/init.d/$NAME {start|stop|reload|force-reload|restart}"
+        exit 2
+        ;;
+esac
+
+exit 0
+
+</file>
+
+Quand vous aurez téléchargé ce script vous devez faire la chose suivante :
+
+<code>chmod +x transmission-daemon && sudo mv transmission-daemon /etc/init.d && sudo chown root:root /etc/init.d/transmission-daemon</code>
+
+Il est aussi préférable de créer un utilisateur transmission pour pas faire tourner le daemon en root ! :
+
+<code>sudo adduser --disabled-password transmission</code>
+
+Vous pouvez maintenant utiliser la commande:
+
+<code>sudo service transmission-daemon start</code>
+
+sans aucun problème ;-).
+
+==== Compiler la libevent sous Ubuntu pour transmission-daemon (indispensable si vous souhaitez compiler transmission-daemon sous Ubuntu 12.04 et <) ====
+  
+  wget https://sourceforge.net/projects/levent/files/libevent/libevent-2.0/libevent-2.0.22-stable.tar.gz
+  tar xzf libevent-2.0.22-stable.tar.gz
+  cd libevent-2.0.22-stable
+  ./configure && make && sudo make install
+  
+==== transmission-daemon et Apache ====
+
+Pour pouvoir avoir accès à votre daemon via votre serveur web Apache, nous allons utiliser le module **proxy_http** de **Apache**, vous devez donc avoir Apache installé sur votre serveur.
+
+Passons à la pratique:
+
+On charge le module proxy_http via la commande suivante:
+
+<code>sudo a2enmod proxy_http</code>
+
+Ensuite nous allons créer un VirtualHost, pour se faire, nous allons faire:
+
+<code>sudo nano /etc/apache2/sites-available/transmission.conf</code>
+
+Et on va y insérer ceci:
+
+<file - transmission>
+
+<IfModule mod_proxy.c>
+  #turning ProxyRequests on and allowing proxying from all may allow
+  #spammers to use your proxy to send email.
+
+  <Proxy *>
+    ProxyRequests Off
+    AddDefaultCharset off
+    Order Allow,Deny
+    Allow from all
+  </Proxy>
+
+   ProxyPass /transmission http://localhost:votreportrpc/transmission
+   ProxyPassReverse /transmission http://localhost:votreportrpc/transmission
+  # Line below is optional
+  Redirect permanent /transmission http://votrendd.tld/transmission/web/
+
+  # Enable/disable the handling of HTTP/1.1 "Via:" headers.
+  # ("Full" adds the server version; "Block" removes all outgoing Via: headers)
+  # Set to one of: Off | On | Full | Block
+ProxyPass /transmission http://localhost:votreportrpc/transmission
+  ProxyPassReverse /transmission http://localhost:votreportrpc/transmission
+  # Line below is optional
+  Redirect permanent /transmission http://votrendd.tld/transmission/web/
+
+  # Enable/disable the handling of HTTP/1.1 "Via:" headers.
+  # ("Full" adds the server version; "Block" removes all outgoing Via: headers)
+  # Set to one of: Off | On | Full | Block
+
+  ProxyVia On
+</IfModule>
+</file>
+
+Nous chargeons ensuite notre VirtualHost via la ligne de commande suivante:
+
+<code>sudo a2ensite transmission</code>
+
+Et on relance Apache:
+
+<code>sudo service apache2 restart</code>
+
+Ensuite nous ouvrons notre navigateur web, et nous tapons ceci:
+
+<code>http://votrendd.tld/transmission/web/</code>
+
+Magie votre proxy http fonctionne ;-).
+
+
+==== transmission-daemon et SSL via Apache ====
+
+Pour utiliser SSL avec votre daemon, vous devez créer votre certificat SSL (auto signé dans cet exemple), et modifier 3/4 lignes de votre VirtualHost.
+
+
+==== Générer mon certificat SSL via OpenSSL ====
+
+Pour créer son certificat SSL auto signé nous allons utiliser l'outil [[wpfr>OpenSSL|OpenSSL]], il est aussi possible d'installer le paquet ca-certificates en complément de OpenSSL, mais ça ne semble pas utile dans le cas d'un certificat auto-signé.
+
+Trêve de blabla voici les instructions :-D :
+
+<code>sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -out /etc/apache2/server.crt -keyout /etc/apache2/server.key</code>
+
+**Les explications :**
+
+  * -x509 -nodes est le type de certificat voulu((http://security.stackexchange.com/questions/36932/what-is-the-difference-between-ssl-and-x-509-certificates)).
+  * -days 365 est la durée de validité (en jours) de notre certificat.
+  * -newkey rsa:2048 génère une clé RSA de 2048 bits.
+  * -out /etc/apache2/server.crt est le chemin absolu de notre certificat.
+  * -keyout /etc/apache2/server.key est le chemin absolu de notre clé privée.
+
+Voici pour les explications de la commande, maintenant nous devons ajouter/modifier notre VirtualHost.
+
+<code>sudo nano /etc/apache2/sites-available/transmission</code>
+
+Et on y insère ceci:
+<file - Transmission SSL>
+
+<VirtualHost *:443>
+ServerName votredomaine.org
+
+    SSLEngine on
+    SSLProxyEngine On
+    SSLCertificateFile /etc/apache2/server.crt
+    SSLCertificateKeyFile /etc/apache2/server.key
+    
+<IfModule mod_proxy.c>
+  #turning ProxyRequests on and allowing proxying from all may allow
+  #spammers to use your proxy to send email. 
+  
+  ProxyRequests Off
+  
+  <Proxy *>    
+    AddDefaultCharset off
+    Order Allow,Deny
+    Allow from all
+  </Proxy>
+
+   ProxyPass /transmission http://localhost:votreportrpc/transmission
+   ProxyPassReverse /transmission http://localhost:votreportrpc/transmission
+  # Line below is optional
+   Redirect permanent /transmission https://votrendd.tld/transmission/web/
+
+</IfModule>
+</VirtualHost>
+</file>
+
+Nous chargeons ensuite le module SSL de Apache:
+
+<code>sudo a2enmod ssl</code> 
+
+On charge notre VirtualHost:
+
+<code>sudo a2ensite transmission</code>
+
+On relance Apache:
+
+<code>sudo service apache2 restart</code>
+
+On ouvre notre navigateur web et on y insère ceci:
+
+<code>https://votrendd.tld/transmission/web/</code>
+
+**Magie**, votre daemon transmission est accessible en HTTPS 8-).
+
+===== Customiser transmission-daemon (Web-UI)=====
+
+==== Web-UI Clutch ====
+
+{{beaverrr.png?770nolink}}  
+
+Une interface Web permet de contrôler Transmission. Depuis la version 1.30, elle est intégrée ainsi qu'un mini serveur web dans l'application transmission. Cela signifie qu'il vous suffit de l'activer dans les préférences et de vous rendre à l'adresse :
+
+<code>http://localhost:9091/transmission/web/</code>
+
+==== Kettu ====
+
+Vous souhaitez customiser votre [[http://acronyms.thefreedictionary.com/WebUI|Web-UI]] de votre transmission-daemon ?, mais vous savez pas comment faire ?, vous allez voir c'est simple très simple à faire :-D.
+
+  git clone https://github.com/endor/kettu.git web
+
+On se retrouve donc avec un dossier web, nous devons déplacer ce dossier dans:
+
+<code>/usr/local/share/transmission</code>
+
+Mais avant nous allons faire un backup du dossier web actuel pour se faire on ferra: 
+
+<code>mkdir backupwebui && sudo mv /usr/local/share/transmission/web backupwebui/</code>
+
+Ensuite il suffit de déplacer notre dossier web qu'on a git:
+
+<code>sudo mv web/ /usr/local/share/transmission/</code>
+
+On refresh notre page de notre navigateur internet, et vous aurez quelque chose de semblable à ceci:
+
+{{kettu.png?700nolink}}
+
+==== Transmission Web Control ====
+
+<note important>Attention, cette partie de l'article n'est plus à jour. La dernière version de Transmission Web Control ne s'installe plus toute seule.</note>
+
+{{web_control_transmission.png?nolink}}
+
+Vous souhaitez customiser votre [[http://acronyms.thefreedictionary.com/WebUI|Web-UI]] de votre transmission-daemon ?, mais vous savez pas comment faire ?, vous allez voir c'est simple très simple à faire :-D.
+
+On récupère la dernière version de Transmission Web Control:
+
+<code>git clone https://github.com/ronggang/transmission-web-control.git web</code>
+
+
+On se retrouve donc avec un dossier web, nous devons déplacer ce dossier dans:
+
+<code>/usr/share/transmission/</code>
+
+Mais avant nous allons faire un backup du dossier web actuel pour se faire on ferra: 
+
+<code>mkdir backupwebui && sudo mv /usr/share/transmission/web backupwebui/</code>
+
+Ensuite il suffit de déplacer notre dossier web qu'on a git:
+
+<code>sudo mv web/ /usr/share/transmission/</code>
+
+On refresh notre page de notre navigateur internet, et vous aurez quelque chose de semblable à ceci:
+
+{{transmission-control.png?650nolink}}
+
+==== Shift ====
+
+Vous souhaitez customiser votre [[http://acronyms.thefreedictionary.com/WebUI|Web-UI]] de votre transmission-daemon ?, mais vous savez pas comment faire ?, vous allez voir c'est simple très simple à faire :-D.
+
+On récupère la dernière version de Transmission Web Control:
+
+<code>git clone https://github.com/killemov/Shift.git web</code>
+
+On se retrouve donc avec un dossier web, nous devons déplacer ce dossier dans:
+
+<code>/usr/local/share/transmission</code>
+
+Mais avant nous allons faire un backup du dossier web actuel pour se faire on ferra: 
+
+<code>mkdir backupwebui && sudo mv /usr/local/share/transmission/web backupwebui/</code>
+
+Ensuite il suffit de déplacer notre dossier web qu'on a git:
+
+<code>sudo mv web/ /usr/local/share/transmission/</code>
+
+On refresh notre page de notre navigateur internet, et vous aurez quelque chose de semblable à ceci:
+{{shiftnone.png?650nolink}}
+
+==== Owncloud Transmission Web-UI ====
+
+{{owncloudlogo.png?100nolink}}
+
+Le projet se trouve [[https://forum.transmissionbt.com/viewtopic.php?f=8&t=16848|ici]].
+
+Vous souhaitez customiser votre [[http://acronyms.thefreedictionary.com/WebUI|Web-UI]] de votre transmission-daemon ?, mais vous savez pas comment faire ?, vous allez voir c'est simple très simple à faire :-D.
+
+On récupère la dernière version de Owncloud Transmission Web-UI :
+
+<del>http://mspot.tk/oc/index.php/s/QW9uDVVt1IToPEa/download</del> -> lien mort...
+
+Ensuite nous [[:tutoriel:comment_installer_un_paquet|installons]] le package p7zip:
+
+<code>sudo apt-get install p7zip</code>
+
+Ensuite nous décompressons le fichier **OwnCloud_Trans_Web_UI_1.0.0.7z** :
+
+<code>7z x OwnCloud_Trans_Web_UI_1.0.0.7z</code>
+
+On se retrouve donc avec un dossier web, nous devons déplacer ce dossier dans:
+
+<code>/usr/local/share/transmission</code>
+
+Mais avant nous allons faire un backup du dossier web actuel pour se faire on ferra: 
+
+<code>mkdir backupwebui && sudo mv /usr/local/share/transmission/web backupwebui/</code>
+
+Ensuite il suffit de déplacer notre dossier web qu'on a téléchargé :
+
+<code>sudo mv web/ /usr/local/share/transmission/</code>
+
+On refresh notre page de notre navigateur internet, et vous aurez quelque chose de semblable à ceci:
+
+{{owncloud_trans_web_ui_1.0.0.png?860nolink}}
+
+==== Restaurer le Web-UI original de transmission-daemon ====
+
+Nous supprimons le Web-UI customisé :
+
+<code>sudo rm -r /usr/local/share/transmission/web</code>
+
+Nous utilisons notre backup "web" pour restaurer le Web-UI orginal :
+
+<code>sudo mv backupwebui/web /usr/local/share/transmission/</code>
+
+===== transmission-remote =====
+
+transmission-remote permet de gérer transmission-daemon. 
+Vous pouvez voir un exemple de son utilisation [[:seedbox#transmisson-remote|là]]
+
+Pour connaître les différentes options, tapez :<code>transmission-remote --help</code>
+  * Pour avoir le listing des torrents, tapez :<code>transmission-remote -l </code>
+  * Pour avoir les infos d'un torrent plus les peers connectés, tapez :<code>transmission-remote -t (ID) -i -pi </code> 
+<note tip>**(ID)** = numéro du torrent (1ere colonne du listing) 
+
+"-t (ID)" peut être écrit de plusieurs manière: 
+  * un seul torrent: -t 1  
+  * une liste: -t 1,3,5 
+  * une plage: -t 5-10 
+Le tout peut être mélangé exemple: -t 1,3,5-10.</note> 
+
+Voici un petit script pour faciliter l'utilisation des 2 dernières commandes ;)
+
+<code bash>
+#!/bin/bash
+
+## "ctrl + c" pour quitter le script 
+
+while true
+do 
+# affichage du listing
+clear && transmission-remote -l
+read -p N° choi
+if [[ "$choi" = "" ]]
+then
+# retour en debut de boucle 
+continue
+else
+# affichage des infos et peers
+transmission-remote -t $choi -i -pi | less
+## tapez "q" pour sortir de la commande "less"
+fi
+done
+</code>
+
+
+<note>Si vous obtenez une erreur "**Unauthorized User**", transmission est peut-être configuré pour demander un login. Il faudra, par exemple pour lister les torrent utiliser la syntaxe suivante :
+<code>transmission-remote -n nom:motdepasse -l</code>Où nom et username sont à mettre dans les variables rpc-username et rpc-password dans le settings.json de transmission ou transmission-daemon selon le cas.</note>
+
+  * Pour supprimer un ou plusieurs torrent, tapez :<code>transmission-remote -t (ID) -r</code>
+  * Pour stopper un ou plusieurs torrent, tapez :<code>transmission-remote -t (ID) -S</code>
+  * Pour relancer un ou plusieurs torrent, tapez :<code>transmission-remote -t (ID) -s</code>
+  * Pour ajouter un fichier torrent, tapez :<code>transmission-remote -a /le/chemin/fichier.torrent</code>
+
+==== transmission-remote-gtk  ====
+
+Il existe un logiciel qui permet de contrôler transmission-daemon, il se nomme Transmission Remote Gtk, pour l'installer nous utiliserons le [[https://doc.ubuntu-fr.org/ppa|PPA]] du [[https://launchpad.net/~ajf/+archive/ubuntu/trg|projet]].
+
+{{transmission-remote-gtk.png?770nolink}}
+
+  * Ouvrir un [[:terminal]] et saisir la [[:commande_shell|commande]] suivante : <code>sudo add-apt-repository ppa:ajf/trg</code>
+  * Recharger la liste des paquets avec la [[:commande_shell|commande]] suivante : <code>sudo apt-get update</code>
+  * Installation du package transmission-remote-gtk :<code>sudo apt-get install transmission-remote-gtk</code>
+
+==== Transmission Remote GUI ====
+
+Le projet se trouve [[http://sourceforge.net/projects/transgui/|ici]].
+
+Il existe un logiciel qui permet de contrôler transmission-daemon, il se nomme Transmission Remote GUI, pour l'installer il suffit de récupérer le .zip, l'extraire sur votre bureau (par exemple), et lancer le binaire.
+
+Nous téléchargeons la dernière version en date :
+
+<code>wget http://downloads.sourceforge.net/project/transgui/5.0.1/transgui-5.0.1-x86_64-linux.zip</code>
+
+Maintenant on va extraire l'archive :
+
+<code>unzip transgui-5.0.1-x86_64-linux.zip</code>
+
+Il ne reste plus qu'à lancer l’exécutable **transgui** qui ressemble à ceci :
+
+{{transmission-remote-gui.jpg?900nolink}}
+
+
+----
+
+===== Purge =====
+
+Il est possible, si vous êtes un grand téléchargeur, que transmission stocke plusieurs Go de fichiers pour rien sur votre disque dur !.
+En effet, certains téléchargements se passent mal et des fichiers viennent encrasser le répertoire où sont stockés les téléchargements incomplets.
+
+Il peut être intéressant de soulager votre disque dur en vidant ce dossier de temps en temps.
+
+<note important>N'exécutez cette commande que si vous êtes certains de n'avoir **aucun** téléchargement en cours ! Sinon ils serons tous remis à zéro !</note>
+
+Commencez par aller dans le répertoire local de Transmission avant de purger le dossier des téléchargements incomplets :
+
+  cd $HOME/.config/transmission/
+  rm -r Incomplete/*
+
+----
+===== Désinstallation =====
+
+Il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer]] le paquet **transmission**, **transmission-cli** ou **transmission-gtk** selon la version que vous avez installée. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+----
+
+===== Voir aussi =====
+
+  * [[http://www.transmissionbt.com|Site Officiel]]
+  * [[http://sorrodje.alter-it.org/index.php?article29/seedbox-sur-micro-vks-avec-transmission|Un autre tuto pour monter une seedbox avec transmission sur un serveur dédié virtual (VPS)]]
+  * [[http://www.legeektechno.fr/serveurs/installation-dune-seedbox.html|Tutoriel d'installation d'une SeedBox par LeGeekTechno]] 
+  * [[http://www.iblocklist.com/lists.php|Liste d'exclusion]]
+ 
+
+----
+
+//Contributeurs : Sallé, M4TR4X, [[:utilisateurs:zedtux]], [[:utilisateurs:Mr_Djez]], Heuzef, OpenSourceWay, [[:utilisateurs:BeAvEr|BeAvEr]] (refonte de l'intégralité de la documentation).//

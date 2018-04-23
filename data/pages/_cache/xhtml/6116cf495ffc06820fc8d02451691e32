@@ -1,0 +1,165 @@
+
+<p>
+<strong>Cette page n&rsquo;est pas complète et j&rsquo;invite tous ceux qui en connaisse plus que moi à l&rsquo;améliorer. Merci.</strong>
+</p>
+
+<a name="guide_pratique_basique_pour_ubuntu_edition_serveur"></a><h4> Guide pratique basique pour Ubuntu édition Serveur </h4>
+<div class="level4">
+
+<p>
+Iptables est un pare-feu, installé par défaut sur le Serveur Ubuntu.
+</p>
+
+<p>
+Ce document contient les informations de base à propos de iptables, en dire plus serait trop complexe, et si vous voulez en apprendre les bases, ce guide pratique est fait pour vous.
+</p>
+
+</div>
+
+<a name="commandes_basiques"></a><h5> Commandes basiques </h5>
+<div class="level5">
+
+<p>
+En tapant 
+</p>
+<pre class="code">
+# iptables -L
+</pre>
+
+<p>
+ une liste de vos règles actuelles est affichée. Si vous venez juste d&rsquo;installer votre serveur, aucune règle ne sera affichée, et vous devriez voir: 
+</p>
+<pre class="code">
+Chain INPUT (policy ACCEPT)
+target     prot opt source               destination         
+
+Chain FORWARD (policy ACCEPT)
+target     prot opt source               destination         
+
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination
+</pre>
+
+</div>
+
+<a name="permettre_le_traffic"></a><h5> Permettre le traffic </h5>
+<div class="level5">
+
+<p>
+Nous pouvons permettre à une session ouverte de recevoir du traffic: 
+</p>
+<pre class="code">
+# iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+</pre>
+
+</div>
+
+<a name="permettre_le_traffic_entrant_sur_un_port_specifique"></a><h5> Permettre le traffic entrant sur un port spécifique </h5>
+<div class="level5">
+
+<p>
+ Pour permettre le traffic entrant sur le port 22 (traditionellement utilisé par <acronym title="Secure Shell">SSH</acronym>, vous devrez indiquer à iptables tout le traffic TCP sur le port 22 de votre adaptateur réseau. 
+</p>
+<pre class="code">
+# iptables -A INPUT -p tcp -i eth0 --dport ssh -j ACCEPT
+</pre>
+
+<p>
+ Cette commande redirige (<em>-A</em>) le traffic entrant <em>INPUT</em>  vers l&rsquo;interface (<em>-i</em>) <em>eth0</em> à destination du port (<em>&ndash;dport</em>) <acronym title="Secure Shell">SSH</acronym> et accepte ce traffic sur votre serveur (<em>-j ACCEPT</em>).
+</p>
+
+<p>
+Maintenant vous pouvez vérifier vos règles iptables: 
+</p>
+<pre class="code">
+# iptables -L
+Chain INPUT (policy ACCEPT)
+target     prot opt source               destination        
+ACCEPT     all  --  anywhere             anywhere            state RELATED,ESTABLISHED  
+ACCEPT     tcp  --  anywhere             anywhere            tcp dpt:ssh 
+</pre>
+
+<p>
+Maintenant, acceptons tout le traffic web, entrant: 
+</p>
+<pre class="code">
+# iptables -A INPUT -p tcp -i eth0 --dport 80 -j ACCEPT
+</pre>
+
+<p>
+En regardant nos règles, nous avons: 
+</p>
+<pre class="code">
+# iptables -L
+Chain INPUT (policy ACCEPT)
+target     prot opt source               destination        
+ACCEPT     all  --  anywhere             anywhere            state RELATED,ESTABLISHED  
+ACCEPT     tcp  --  anywhere             anywhere            tcp dpt:ssh 
+ACCEPT     tcp  --  anywhere             anywhere            tcp dpt:www 
+</pre>
+
+<p>
+We have specifically allowed tcp traffic to the ssh and web ports, but as we have not blocked anything, all traffic can still come in.
+</p>
+
+</div>
+
+<a name="blocking_traffic"></a><h5> Blocking Traffic </h5>
+<div class="level5">
+
+<p>
+Once a decision is made about a packet, no more rules affect it. As our rules allowing ssh and web trafic come first, as long as our rule to block all traffic comes after them, we can still accept the traffic we want. All we need to do is put the rule to block all traffic at the end. The -A command tells iptables to append the rule at the end, so we&rsquo;ll use that again.
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=iptables_-a_input_-j_drop_iptables_-l_chain_input_policy_accept_target_prot_opt_source_destination_accept_all_--_anywhere_anywhere_state_related_established_accept_tcp_--_anywhere_anywhere_tcp_dpt%3Assh_accept_tcp_--_anywhere_anywhere_tcp_dpt%3Awww_drop_all_--_anywhere_anywhere" class="media" title="iptables_-a_input_-j_drop_iptables_-l_chain_input_policy_accept_target_prot_opt_source_destination_accept_all_--_anywhere_anywhere_state_related_established_accept_tcp_--_anywhere_anywhere_tcp_dpt:ssh_accept_tcp_--_anywhere_anywhere_tcp_dpt:www_drop_all_--_anywhere_anywhere" onclick="return svchk()" onkeypress="return svchk()">iptables_-a_input_-j_drop_iptables_-l_chain_input_policy_accept_target_prot_opt_source_destination_accept_all_--_anywhere_anywhere_state_related_established_accept_tcp_--_anywhere_anywhere_tcp_dpt:ssh_accept_tcp_--_anywhere_anywhere_tcp_dpt:www_drop_all_--_anywhere_anywhere</a>}
+</p>
+
+<p>
+Because we didn&rsquo;t specify an interface or a protocol, any traffic for any port on any interface is blocked, except for web and ssh. 
+</p>
+
+</div>
+
+<a name="editing_iptables"></a><h5> Editing iptables </h5>
+<div class="level5">
+
+<p>
+ The only problem with our setup so far is that even the loopback port is blocked. We could have written the drop rule for just eth0 by specifying -i eth0, but we could also add a rule for the loopback. If we append this rule, it will come too late - after all the traffic has been dropped. We need to insert this rule onto the fourth line.
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=iptables_-i_input_4_-i_lo_-j_accept_iptables_-l_chain_input_policy_accept_target_prot_opt_source_destination_accept_all_--_anywhere_anywhere_state_related_established_accept_tcp_--_anywhere_anywhere_tcp_dpt%3Assh_accept_tcp_--_anywhere_anywhere_tcp_dpt%3Awww_accept_all_--_anywhere_anywhere_drop_all_--_anywhere_anywhere" class="media" title="iptables_-i_input_4_-i_lo_-j_accept_iptables_-l_chain_input_policy_accept_target_prot_opt_source_destination_accept_all_--_anywhere_anywhere_state_related_established_accept_tcp_--_anywhere_anywhere_tcp_dpt:ssh_accept_tcp_--_anywhere_anywhere_tcp_dpt:www_accept_all_--_anywhere_anywhere_drop_all_--_anywhere_anywhere" onclick="return svchk()" onkeypress="return svchk()">iptables_-i_input_4_-i_lo_-j_accept_iptables_-l_chain_input_policy_accept_target_prot_opt_source_destination_accept_all_--_anywhere_anywhere_state_related_established_accept_tcp_--_anywhere_anywhere_tcp_dpt:ssh_accept_tcp_--_anywhere_anywhere_tcp_dpt:www_accept_all_--_anywhere_anywhere_drop_all_--_anywhere_anywhere</a>}
+</p>
+
+<p>
+The last two lines look nearly the same, so we will list iptables in greater detail. <a href="/fetch.php?cache=cache&amp;media=applications%3Aiptables_-l_-v" class="media" title="applications:iptables_-l_-v" onclick="return svchk()" onkeypress="return svchk()">applications:iptables_-l_-v</a>}
+</p>
+
+</div>
+
+<a name="further_information"></a><h5> Further Information </h5>
+<div class="level5">
+
+<p>
+[<a href="http://iptables-tutorial.frozentux.net/iptables-tutorial.html" class="urlextern" title="http://iptables-tutorial.frozentux.net/iptables-tutorial.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://iptables-tutorial.frozentux.net/iptables-tutorial.html</a> Iptables Tutorial]
+</p>
+
+<p>
+[<a href="http://www.netfilter.org/documentation/HOWTO/packet-filtering-HOWTO.html" class="urlextern" title="http://www.netfilter.org/documentation/HOWTO/packet-filtering-HOWTO.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.netfilter.org/documentation/HOWTO/packet-filtering-HOWTO.html</a> Iptables How To]
+</p>
+
+<p>
+[<a href="http://www.netfilter.org/documentation/" class="urlextern" title="http://www.netfilter.org/documentation/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.netfilter.org/documentation/</a> Netfilter andn Iptables Multilingual Documentation]
+</p>
+
+</div>
+
+<a name="credits"></a><h5> Credits </h5>
+<div class="level5">
+
+<p>
+Thanks to Rusty Russell and his How-To, as much of this is based off that.
+</p>
+
+</div>

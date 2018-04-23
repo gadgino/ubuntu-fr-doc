@@ -1,0 +1,189 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#privoxy" class="toc"> Privoxy </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#installation" class="toc"> Installation </a></span></li>
+<li class="level2"><span class="li"><a href="#configuration_des_serveurs" class="toc"> Configuration des serveurs </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#privoxy" class="toc"> Privoxy </a></span></li>
+<li class="level3"><span class="li"><a href="#tor" class="toc"> Tor </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#redemarrage" class="toc"> Redémarrage </a></span></li>
+<li class="level2"><span class="li"><a href="#configuration_des_clients" class="toc"> Configuration des clients </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#firefox" class="toc"> Firefox </a></span></li>
+<li class="level3"><span class="li"><a href="#gaim" class="toc"> Gaim </a></span></li>
+<li class="level3"><span class="li"><a href="#xchat" class="toc"> Xchat </a></span></li>
+<li class="level3"><span class="li"><a href="#pour_les_autres_applications" class="toc"> Pour les autres applications </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#mise_en_garde" class="toc"> Mise en garde </a></span></li>
+<li class="level2"><span class="li"><a href="#test" class="toc"> Test </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Warty, Hoary
+</pre>
+<hr noshade="noshade" size="1" />
+
+<a name="privoxy"></a><h1> Privoxy </h1>
+<div class="level1">
+
+<p>
+<a href="http://www.privoxy.org/" class="urlextern" title="http://www.privoxy.org/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Privoxy</a> est un proxy web possédant un filtrage avancé pour protéger l&rsquo;utilisateur en modifiant le contenu des pages web, en gérant les cookies, en contrôlant l&rsquo;accès, et en éliminant les pubs, bannières, pop-up et bien d&rsquo;autres choses. Privoxy ne gère que les connexions http et ftp. Pour gérer les connexions socks, nous devons ajouter un autre serveur: <a href="http://tor.eff.org/" class="urlextern" title="http://tor.eff.org/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">TOR</a>.
+</p>
+
+</div>
+<!-- SECTION [43-487] -->
+<a name="installation"></a><h2> Installation </h2>
+<div class="level2">
+
+<p>
+L&rsquo;installation de cette solution est simplissime mais il faut avoir activé les dépots universe. 
+</p>
+<pre class="code">sudo apt-get install privoxy tor</pre>
+
+<p>
+ ou alors, cherchez dans synaptic ou kynaptic ou d&rsquo;autres solutions du genre les termes privoxy et tor pour les installer
+</p>
+
+</div>
+<!-- SECTION [488-779] -->
+<a name="configuration_des_serveurs"></a><h2> Configuration des serveurs </h2>
+<div class="level2">
+
+</div>
+<!-- SECTION [780-819] -->
+<a name="privoxy"></a><h3> Privoxy </h3>
+<div class="level3">
+
+<p>
+Editer le fichier /etc/privoxy/config avec les droits root, on peut y observer quelques lignes importantes. 
+</p>
+<pre class="code">
+listen-address  127.0.0.1:8118
+</pre>
+
+<p>
+ cette ligne nous informe que privoxy est configuré pour fonctionner sur le port 8118. Je vous laisse lire le reste du fichier pour decouvrir les fichiers de log mais surtout les autres fichiers de configuration qui sont tous déclarés ici.
+</p>
+
+</div>
+<!-- SECTION [820-1234] -->
+<a name="tor"></a><h3> Tor </h3>
+<div class="level3">
+
+<p>
+Pour configurer Tor, nous n&rsquo;allons pas passer par ces fichiers de configuration mais par ceux de privoxy, en effet les fichiers de configuration de TOR sont bons mais nous voulons juste que privoxy puisse discuter avec tor. Editer le fichier /etc/privoxy/config avec les droits root et ajoutez y au bon endroit: 
+</p>
+<pre class="code">
+forward-socks4a / localhost:9050 .
+</pre>
+
+<p>
+ Chercher <em>forward-socks</em> pour trouver le bon endroit.
+</p>
+
+<p>
+Le reste de la configuration par defaut de TOR peut être modifier dans vi /etc/tor/. Si vous changer le port par defaut, pensez à le repercuter dans /etc/privoxy/config
+</p>
+
+</div>
+<!-- SECTION [1235-1839] -->
+<a name="redemarrage"></a><h2> Redémarrage </h2>
+<div class="level2">
+
+<p>
+Les serveurs ayant été configurés, nous devons maintenant les redémarrer. 
+</p>
+<pre class="code">
+sudo /etc/init.d/tor restart
+sudo /etc/init.d/privoxy restart
+</pre>
+
+</div>
+<!-- SECTION [1840-2020] -->
+<a name="configuration_des_clients"></a><h2> Configuration des clients </h2>
+<div class="level2">
+
+</div>
+<!-- SECTION [2021-2059] -->
+<a name="firefox"></a><h3> Firefox </h3>
+<div class="level3">
+
+<p>
+Aller dans Edition &ndash;&gt; Préférences, cliquez sur le bouton Paramètres de connexion puis demandez à passer par un proxy comme définit ci dessous:
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=serveur%3Afirefox_privoxy_config.png" class="media" title="serveur:firefox_privoxy_config.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=serveur%3Afirefox_privoxy_config.png" class="media" alt="" /></a>
+</p>
+
+<p>
+On peut noter aussi que j&rsquo;ai rempli le champs &ldquo;Pas de proxy pour:&rdquo; avec les adresses de mes PC en interne.
+</p>
+
+</div>
+<!-- SECTION [2060-2375] -->
+<a name="gaim"></a><h3> Gaim </h3>
+<div class="level3">
+
+<p>
+Allez dans les préférences de Gaim, onglet réseau puis demandez à passer par un proxy comme définit ci dessous:
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=serveur%3Agaim_tor_config.png" class="media" title="serveur:gaim_tor_config.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=serveur%3Agaim_tor_config.png" class="media" alt="" /></a> 
+</p>
+
+</div>
+<!-- SECTION [2376-2540] -->
+<a name="xchat"></a><h3> Xchat </h3>
+<div class="level3">
+
+<p>
+Allez dans Paramètres &ndash;&gt; préférences, onglet Réglage du réseau puis demandez à passer par un proxy comme définit ci dessous:
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=serveur%3Axchat_tor_config.png" class="media" title="serveur:xchat_tor_config.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=serveur%3Axchat_tor_config.png" class="media" alt="" /></a>
+</p>
+
+</div>
+<!-- SECTION [2541-2724] -->
+<a name="pour_les_autres_applications"></a><h3> Pour les autres applications </h3>
+<div class="level3">
+
+<p>
+S&rsquo;il s&rsquo;agit d&rsquo;une connection http ou ftp, utilisez privoxy (port 8118), si vous devez passer par un proxy socks, utilisez tor (port 9050).
+</p>
+
+</div>
+<!-- SECTION [2725-2903] -->
+<a name="mise_en_garde"></a><h2> Mise en garde </h2>
+<div class="level2">
+
+<p>
+L&rsquo;anonymat, c&rsquo;est bien mais ça ne permet pas d&rsquo;aller partout, par exemple les utilisateurs de tor sont banis de certains channels sur irc comme #ubuntu sur freenode. D&rsquo;autre part, on peut remarquer une baisse de vitesse dans les connexions donc si vous aimez surfer à fond, vous allez être déçu.
+</p>
+
+</div>
+<!-- SECTION [2904-3231] -->
+<a name="test"></a><h2> Test </h2>
+<div class="level2">
+
+<p>
+Qui me dit que celà marche?
+</p>
+<ul>
+<li class="level1"><span class="li"> <a href="http://www.pcflank.com/browser_test1.htm" class="urlextern" title="http://www.pcflank.com/browser_test1.htm" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Testeur de navigateur de pcflank.com</a></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://assiste.free.fr/assiste.com.html?http://assiste.free.fr/p/qui_etes_vous/vos_traces.php" class="urlextern" title="http://assiste.free.fr/assiste.com.html?http://assiste.free.fr/p/qui_etes_vous/vos_traces.php" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Trace sur Assiste.com</a></span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [3232-] -->

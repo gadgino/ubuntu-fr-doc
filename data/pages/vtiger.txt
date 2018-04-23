@@ -1,0 +1,94 @@
+{{tag>entreprise gestion_commerciale BROUILLON}}
+
+----
+
+====== vTiger : la gestion d'entreprise ======
+
+vTiger est un outil CRM complet de gestion d'utilisation, simple et efficace, accessible depuis n'importe quel endroit grâce à son interface Web.
+
+Avec ce logiciel CRM il est possible de :
+   * Gérer des prospects, des comptes clients, des contacts, des affaires et des fournisseurs
+   * Réaliser des devis, bons de commande, factures et commandes fournisseurs
+   * Réaliser des catalogue produit et des grille tarifaire
+   * Gérer des incidents clients et des FAQ
+   * Gérer ses agenda et sa messagerie, ainsi que ses tableaux de bord et son reporting.
+   * Disposer d'un CRM dans plus de 20 langues
+   * Régler les droits d'accès pour chaque utilisateur
+
+vTiger peut être synchronisé avec Thunderbird, Firefox, des terminaux mobiles, des formulaires Web et des portails de service client.
+
+{{http://www.vtiger.com/images/vtigercrm_screenshots/vtiger_home_page.gif?500}}
+
+===== Pré-requis =====
+
+  * Un serveur Web - Apache 2.0.40 (et supérieurs).
+  * Une base de donnée - MySQL version 4.1.x à 5.1.x.
+  * PHP - PHP 5.0.x à 5.2.x.
+  * Un navigateurs Web - Firefox 1.5.x (et supérieurs) ou Opera 7.21 (et supérieurs).
+
+===== Installation =====
+
+==== Via le fichier d'installation ====
+
+__Étapes à suivre :__
+
+  * Télécharger la version Linux à cette adresse [[http://freefr.dl.sourceforge.net/project/vtigercrm/vtiger%20CRM%205.2.1/Core%20Product/vtigercrm-5.2.1.bin |vtiger.bin]].
+  * Rendre le fichier .bin exécutable depuis un terminal : ''sudo chmod +x vtigercrm-5.2.1.bin ''.
+  * Lancer l'installation : "./vtigercrm-5ksqjdhvfjqvsdjhvcjkshdvjhv.2.1.bin"
+
+Cette méthode risque d'être un peu ennuyeuse pour ceux qui désirent intégrer cela dans un environnement contenant déjà serveur et base de données.
+
+==== Via les sources ====
+
+  * Les sources sont disponibles sur la page de [[http://freefr.dl.sourceforge.net/project/vtigercrm/vtiger%20CRM%205.2.1/Core%20Product/vtigercrm-5.2.1.tar.gz|sources VTiger]]
+  * Décompresser les sources dans un dossier accessible pour votre serveur Apache /var/www/vtiger par exemple
+  * Rendez-vous sur http://localhost/vtiger pour suivre le guide d'installation
+
+**Attention** : en suivant cette méthode vous devez avoir installé et configuré les prérequis de VTiger, à savoir PHP5, Apache2 et MySQL.
+
+===== Utilisation =====
+
+==== Première utilisation ====
+
+A votre premier lancement, VTiger vous semblera certainement un peu abscons. Quelques étapes :
+  * Comprendre le fonctionnement général de VTiger : la lecture de [[http://wiki.vtiger.com/index.php/Documentation_utilisateur|la documentation utilisateur de Vtiger]] vous aidera certainement, elle n'est pas claire, mais a le mérite de définir plein de termes pas très clairs comme Affaire/Prospect/etc...
+  * Désactiver les modules qui vous sont inutiles dans configuration/gestionnaire de modules
+
+==== Changement de la langue par défaut ====
+
+Malheureusement VTiger ne vous permet pas de modifier la langue par défaut de VTiger proposée au menu de login.
+
+Vous devez donc modifier le fichier **config.inc.php** à la racine de votre installation de VTiger à la ligne qui concerne la langue par défaut : 
+  $default_language = 'fr_fr';
+
+EXTENDME
+
+===== Désinstallation =====
+
+FIXME
+
+===== Personnalisation =====
+
+==== Activation du module de commentaire (modComments) au sein du module Affaire (Potentials) ====
+
+Modifier le fichier **modules/Potentials/Potentials.php** pour y ajouter à la fin **avant la fermeture du tag PHP "?>"** :
+<file>
+include_once 'vtlib/Vtiger/Module.php';
+$modcommentsModuleInstance = Vtiger_Module::getInstance('ModComments');
+if($modcommentsModuleInstance) {
+        include_once 'modules/ModComments/ModComments.php';
+        if(class_exists('ModComments')) ModComments::addWidgetTo(array('Potentials'));
+}
+</file>
+
+===== Voir aussi =====
+
+  * **(en)** [[http://www.vtiger.com|Site Web officiel de vTiger (en anglais)]]
+  * [[http://french-vtiger.fr/index.php|Site Web de vTiger en français]]
+  * [[http://wiki.vtiger.com/index.php/Documentation_utilisateur|Documentation utilisateur de Vtiger en français]]
+  * [[http://www.vtiger-crm.fr/|Partenaire officiel de vTiger en France]]
+  * [[http://www.bigotconsulting.com/demonstration-VtigerCRM-52|Vtiger 5.2.1 à l'essai, gratuit]]
+
+----
+
+//Contributeur principaux : smon et AsTeR//

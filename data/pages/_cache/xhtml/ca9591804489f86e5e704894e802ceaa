@@ -1,0 +1,168 @@
+
+<a name="winmodemlucent"></a><h3> WinModemLucent </h3>
+<div class="level3">
+
+</div>
+
+<a name="comment_faire_fonctionner_un_modem_lucentagere_sur_le_systeme_warty"></a><h4> Comment faire fonctionner un modem Lucent/Agere sur le système Warty </h4>
+<div class="level4">
+
+<p>
+ Ce guide explique comment faire fonctionner un modem <em>Lucent/Agere</em> sur Ubuntu Warty.
+</p>
+
+</div>
+
+<a name="introduction"></a><h5> Introduction </h5>
+<div class="level5">
+
+<p>
+ Ces winmodems ne sont pas exactement des modems normaux, et les ressources PC qu&rsquo;ils prennent sont celles qu&rsquo;un modem normal utiliserait. Il est pourtant souvent difficile de trouver les bons pilotes afin de les faire fonctionner sous Linux. Donc, si possible, ne les utilisez pas !
+</p>
+
+</div>
+
+<a name="comment_faire"></a><h5> Comment faire ? </h5>
+<div class="level5">
+
+<p>
+ Le modem utilisé pour ce test répond à la commande: 
+</p>
+<pre class="code">
+$ lspci
+</pre>
+
+<p>
+ par l&rsquo;identifiant: 
+</p>
+<pre class="code">
+Communication controller: Lucent Microelectronics LT WinModem (rev 02)
+</pre>
+
+<p>
+ mais bien sur d&rsquo;autres modems seront supporté par les pilotes utilisant le <em>LTModem</em>. Allez sur <a href="http://www.linmodems.org/" class="urlextern" title="http://www.linmodems.org/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">linmodems.org</a> et téléchargez le fichier nommé &ldquo;scanModem.gz&rdquo;. Tapez ensuite la commande suivante: 
+</p>
+<pre class="code">
+$ gunzip scanModem.gz
+</pre>
+
+<p>
+ et modifiez les permissions pour exécuter le script bash qui vient d&rsquo;être extrait par la commande: 
+</p>
+<pre class="code">
+$ chmod u+x scanModem
+</pre>
+
+<p>
+ Vous pouvez maintenant démarrer le script: 
+</p>
+<pre class="code">
+$ ./scanModem
+</pre>
+
+<p>
+ (Je vous conseille de croiser vos doigts). Dans mon cas, cet utilitaire m&rsquo;indique que mon modem est supporté. Si vous obtenez un résultat positif, vous pouvez télécharger les pilotes. <a href="http://www.heby.de/ltmodem" class="urlextern" title="http://www.heby.de/ltmodem" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Ce site (en anglais)</a> contient des drivers fonctionnant sous plusieurs distributions, mais malheureusement aucune source ou binaire n&rsquo;est compatible avec le kernel par défaut de Warty (2.6.8.1-3-386).
+</p>
+
+<p>
+<strong><em>Note du traducteur: Les sources/binaires disponibles sur ce site sont peut-être compatibles avec la dernière version (Hoary) de Ubuntu. Sachant que ce document a été rédigé à une date antérieure, la traduction continuera sans prendre en compte ce paramètre.</em></strong>
+</p>
+
+<p>
+Il existe donc une archive expérimentale contenant le sources en version beta pour le noyau 2.6 à <a href="http://linmodems.technion.ac.il/resources.html" class="urlextern" title="http://linmodems.technion.ac.il/resources.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">cette adresse</a>. Téléchargez les pilotes pour le noyau 2.6 mis en place par Alksey Kondratenko (vous pouvez les télécharger à partir du lien donné précédement). Dans mon cas, j&rsquo;ai téléchargé le fichier <em>ltmodem-2.6-alk-7.tar.bz2</em> et c&rsquo;est pourquoi je l&rsquo;utiliserai dans cet exemple.
+</p>
+
+<p>
+Avant tout nous aurons besoin de compiler certains outils, installez donc (avec Synaptic ou alternativement <em>apt-get</em> en ligne de commande):
+</p>
+<ol>
+<li class="level1"><span class="li"> linux-headers</span>
+</li>
+<li class="level1"><span class="li"> build-essential</span>
+</li>
+</ol>
+
+<p>
+ce qui installera les en-têtes du noyau et les compilateurs essentiels (<em>gcc</em>, <em>make</em>, ...). Maintenant vous pouvez décompresser le fichier téléchargé: 
+</p>
+<pre class="code">
+$ tar jxvf ltmodem-2.6-alk-7.tar.bz2
+</pre>
+
+<p>
+ et entrez dans le nouveau répertoire avec la commande 
+</p>
+<pre class="code">
+$ cd ltmodem-2.6-alk-7
+</pre>
+
+<p>
+ Utilisez le fichier README que vous trouverez dans ce répertoire, j&rsquo;ai adapté les étapes suivantes afin qu&rsquo;elles fonctionnent sous Ubuntu 4.10 (Warty). Le <em>Makefile</em> n&rsquo;a pas besoin d&rsquo;être modifié, donc entrez ceci: 
+</p>
+<pre class="code">
+$ make
+</pre>
+
+<p>
+ et vous obtiendrez deux modules compilés:
+</p>
+<ol>
+<li class="level1"><span class="li"> /ltmodem.ko<em>
+  - </em>ltserial.ko<em>
+
+Le fichier README recommande d&rsquo;installer ces modules dans leur propre répertoire, donc créez les:
+&lt;code&gt;
+$ sudo mkdir /lib/modules/`uname -r`/other
+&lt;/code&gt;
+
+Dans notre cas, ceci est l&rsquo;équivalent de faire:
+&lt;code&gt;
+$ sudo mkdir /lib/modules/2.6.8.1-3-386/other
+&lt;/code&gt;
+
+Ensuite, copiez les modules dans le répertoire:
+&lt;code&gt;
+$ sudo cp *.ko /lib/modules/`uname -r`/other
+&lt;/code&gt;
+
+Maintenant, vous devez indiquer au système comment utiliser ces modules, donc créez le fichier </em>/etc/modutils/ltmodem<em>:
+&lt;code&gt;
+$ sudo gedit /etc/modutils/ltmodem
+&lt;/code&gt;
+
+Ajoutez les lignes suivantes dans le fichier:
+&lt;code&gt;
+alias /dev/modem ltserial
+alias char-major-62 ltserial
+alias /dev/tts/LT0 ltserial
+&lt;/code&gt;
+
+Enregistrez et fermez. Maintenant, entrez ceci:
+&lt;code&gt;
+$ sudo update-modules
+&lt;/code&gt;
+ce qui devrait ajouter automatiquement les lignes précédentes dans le fichier </em>/etc/modules.conf<em>. Depuis que Ubuntu utilise </em>udev<em>, vous devez ajouter des règles particulières:
+&lt;code&gt;
+$ sudo cp docs/ltmodem.rules /etc/udev/rules.d/
+&lt;/code&gt;
+Nous avons fini! Pour tester le pilote, faites ceci:
+&lt;code&gt;
+$ sudo modprobe -v ltserial
+&lt;/code&gt;
+et vérifiez avec:
+&lt;code&gt;
+$ lsmod | grep lt
+&lt;/code&gt;
+Si les deux modules </em>ltserial<em> et </em>ltmodem<em> sont bien présents, vous pouvez essayer de configurer la connexion avec:
+&lt;code&gt;
+$ sudo pppconfig
+&lt;/code&gt;
+en spécifiant </em>/dev/modem<em> (ou </em>/dev/ttyLTMO<em>) comme périphérique de connexion. Après avoir redémarré, le module sera chargé automatiquement par </em>hotplug//. Si c&rsquo;est le cas, les pilotes marcheront correctement.</span>
+</li>
+</ol>
+
+<p>
+ <strong>Traduit de l&rsquo;anglais par Kmeleon, <a href="mailto:&#x6b;&#x6d;&#x65;&#x6c;&#x65;&#x6f;&#x6e;&#x33;&#x40;&#x66;&#x72;&#x65;&#x65;&#x2e;&#x66;&#x72;" class="mail" title="&#x6b;&#x6d;&#x65;&#x6c;&#x65;&#x6f;&#x6e;&#x33;&#x40;&#x66;&#x72;&#x65;&#x65;&#x2e;&#x66;&#x72;">&#x6b;&#x6d;&#x65;&#x6c;&#x65;&#x6f;&#x6e;&#x33;&#x40;&#x66;&#x72;&#x65;&#x65;&#x2e;&#x66;&#x72;</a></strong> 
+</p>
+
+</div>

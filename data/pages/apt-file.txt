@@ -1,0 +1,20 @@
+{{tag>Precise apt gestionnaire_de_paquets }}
+
+----
+
+====== apt-file ======
+**Apt-file** permet de retrouver à quel //paquet// appartient un //fichier//. Cette commande peux s'avérer pratique dans bien des cas, notamment lors d'erreurs dans le terminal. Selon l'option utilisée il est proche de la commande [[:dpkg#lister|dpkg -S]].
+===== Installation =====
+Pour installer ce logiciel, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>apt-file|apt-file]]**.
+===== Utilisation =====
+==== Mise à jour ====
+ À faire **la première fois** pour mettre à jour la liste des fichiers :
+  * <code>sudo apt-file update</code>
+
+==== Rechercher ====
+
+  * <code>apt-file search <nomdefichier></code>Cherche si un paquet (pas forcément installé) contient les fichiers dont le nom contient la chaîne spécifiée.Si ''apt-file search nomdefichier'' affiche trop d'entrées, essayez ''apt-file search nomdefichier | grep -w nomdefichier'' (qui ne vous donnera que les fichiers contenant le nom du fichier comme un seul mot) ou des variantes du genre ''apt-file search filename | grep /bin/'' où seuls les fichiers situés dans les répertoires comme ''/bin'' ou ''/usr/bin'' seront listés, utile, quand on cherche un exécutable uniquement).
+
+----
+
+//Contributeurs : [[utilisateurs:ste]],  [[utilisateurs:mydjey]].//

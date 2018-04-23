@@ -1,0 +1,174 @@
+{{tag>Precise Trusty graphisme animation}}
+
+----
+
+{{ Inkscape_logo.png?80|Logo de Inkscape}}
+====== Inkscape, logiciel de dessin vectoriel ======
+
+{{ :inkscape_raring.png?300}}
+**Inkscape** est un logiciel libre de [[wpfr>Image_vectorielle|dessin vectoriel]] (contrairement à [[:gimp|The Gimp]] qui est un logiciel libre de traitement d'[[wpfr>Image_matricielle|image matricielle]]). Le travail se fait donc sur des formes (cercles, triangles, courbes, etc.) qui peuvent être déplacées et étirées sans nuire à leur représentation finale : une image vectorielle peut être zoomée à l'infini sans perte de qualité. **Inkscape** permet de créer des images, des schémas, des plans et même des présentations (grâce à son extension [[http://sozi.baierouge.fr/wiki/fr:bienvenue|Sozi]]) .
+
+Il est conforme aux spécifications XML, SVG et CSS du W3C. Son format natif est le SVG, il peut aussi, entre autres, importer des document PDF ou PS et exporter en PDF, PS, ODG et DXF (fantastique avec [[:Qcad]]!). Très intéressant pour retravailler des documents pdf.
+
+
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+====Depuis les dépôts officiels====
+=== Méthode graphique ===
+Il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>inkscape]]**.
+
+
+=== Méthode en ligne de commande ===
+Ouvrez un [[:terminal]] et entrez la commande suivante:<code>sudo apt-get install inkscape </code>
+
+<note tip>Pour profiter du correcteur orthographique en français il est nécessaire d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>aspell-fr]]**.
+Régler ensuite inkscape dans :
+  - - Édition
+  - - Préférences
+  - - Vérification orthographique
+Puis redémarrer le logiciel pour que les changements soient pris en compte.</note>
+==== Via un dépôt PPA  ====
+
+Ce dépôt PPA **__maintenu par les développeurs d'Inkscape__** permet d'obtenir une version stable relativement récente par rapport à celle des dépôts.
+
+^ Version Ubuntu ^ Version installée ^ Version du PPA stable^ Version du PPA de développement ^
+| Ubuntu [[:zesty|17.04 ]] | 0.92  | 0.92 | 0.92 |
+| Ubuntu [[:yakkety|16.10]] | 0.91  | 0.92 | 0.92 |
+| Ubuntu [[:xenial|16.04 LTS]]    | 0.91 | 0.92 | 0.92 |
+| Ubuntu [[:trusty|14.04 LTS]]    | 0.48 | 0.92 | 0.92 |
+//(informations à jour le 28/04/2017)//
+
+
+=== Méthode graphique ===
+
+  * [[:PPA|Ajoutez le PPA]] **ppa:inkscape.dev/stable**((https://launchpad.net/~inkscape.dev/+archive/stable)) dans vos sources de logiciels.
+  * [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste des paquets]].
+  * [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>inkscape]]**.
+
+
+=== Méthode en ligne de commande ===
+Ouvrez un [[:terminal]] et entrez les commandes suivantes
+<code>sudo add-apt-repository ppa:inkscape.dev/stable
+sudo apt-get update && sudo apt-get install inkscape
+</code>
+==== Via le dépôt PPA de développement ====
+
+Ce dépôt PPA non officiel permet d'obtenir une des dernières versions en cours de développement.
+
+<note important>Ces versions ne sont pas censées être stables !!!</note>
+
+  * [[:PPA|Ajoutez le PPA]] **ppa:inkscape.dev/trunk**((https://launchpad.net/~inkscape.dev/+archive/trunk)) dans vos sources de logiciels.
+  * [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste des paquets]].
+  * [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>inkscape-trunk]]**.
+
+===== Utilisation=====
+
+==== Lancement  ====
+Lancez l'application depuis le menu //Applications -> Graphisme -> Éditeur d'images vectorielles Inkscape// ou //via// la [[:commande_shell|commande]] suivante :
+
+  inkscape
+
+==== Effets ====
+
+=== Formules latex ===
+
+Pour bénéficier de l'effet permettant d'intégrer des formules latex vectorielles dans un projet inkscape, il faut installer les paquets **[[apt>pstoedit,texlive,dvi2ps|pstoedit texlive dvi2ps]]**. L'extension apparaît alors dans Effets/Rendu/Formule Latex.
+
+Il est également possible d'installer l'extension en décompressant le fichier http://www.elisanet.fi/ptvirtan/software/textext/textext-0.4.4.tar.gz dans le répertoire d'extension de inkscape (~/.config/inkscape/extensions sur Karmic Koala et ~/.inkscape/config/extensions sur les autres).
+
+==== Les palettes de couleur ====
+
+Par défaut, une palette de couleur est visible en bas de la fenêtre Inkscape.
+
+Une petite flèche à l’extrémité droit de cette palette permet de choisir une  palette dans un menu.
+
+Il est possible de créer des palettes personnalisés.
+Les palettes Inkscape utilise le format des palettes de Gimp (gpl): * [[http://docs.gimp.org/fr/gimp-concepts-palettes.html|Palettes Gimp]]
+
+La palette personnalisée doit être placée dans le bon répertoire :
+~/.config/inkscape/palettes/
+
+Il faut relancer inkscape pour que votre palette soit disponible dans le menu.
+
+==== Créer un profil de couleur écran pour Inkscape ====
+Pour qu'Inkscape affiche avec justesse les couleurs des photos et montages graphiques dans lesquels vous travaillez, il est primordial de créer un profil de couleur avec une sonde et de l'activer dans les préférences d'Inkscape. Pour cela, référez-vous à cette documentation: [[dispcal_gui]]
+
+====Importer le contenu d'Adobe Illustrator ====
+
+Inkscape supporte en partie le format de fichier .ai d'Adobe Illustrator. Toutefois, vous avez la possibilité de convertir de fichier .AI en .SVG à l'aide d' [[uniconvertor|Uniconvertor]].
+
+Pour plus d'informations :
+  * (en) [[http://wiki.inkscape.org/wiki/index.php/Current_PDF_Support#Current_Adobe_Illustrator_support|Voir sur le site officiel]]
+  * (en) [[http://wiki.inkscape.org/wiki/index.php/Tools|les outils cités]]
+  * (en) [[http://wiki.inkscape.org/wiki/index.php/Inkscape_for_Adobe_Illustrator_users|Note et analyse de l'équipe d'Inkscape pour les utilisateurs d'Illustrator]].
+
+=====Problèmes connus=====
+
+====Pas de programmation en python====
+
+Pour obtenir les possibilités de programmation en python, il semble qu'il faille compiler à partir des [[http://inkscape.org/download/|sources]]. FIXME à confirmer svp.
+
+====Inkscape est en anglais sous Kubuntu====
+
+Sous Kubuntu, pour avoir Inkscape en français, il faut installer les paquets **[[apt>language-pack-gnome-fr,language-pack-gnome-fr-base|language-pack-gnome-fr et language-pack-gnome-fr-base]].**
+
+====Touche Alt sous Unity et Gnome 3 (avec Ubuntu 11.10 et supérieurs)====
+
+La touche Alt étant utilisée par Inkscape (Sélection en dessous et déplacement proportionnel) et par Gnome (pour le déplacement des fenêtres), il y a un conflit. Pour le résoudre, il faut changer l'affectation de la touche Alt pour Gnome. Pour cela, installer [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>gnome-tweak-tool]]**, le démarrer, aller dans la catégorie "Fenêtre" et changer la valeur en face de "Modificateur à utiliser pour les actions modifiées de clic sur fenêtre". Super correspond à la touche Windows, et Disabled désactive la fonction. Après avoir chosi une des 2 options, il n'y a plus de conflit avec Inkscape
+
+===== Désinstallation =====
+ 
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Installation de l'extension Sozi =====
+[[http://sozi.baierouge.fr/pages/10-about-fr.html | Sozi]] est un outil pour créer et jouer des présentations animées.\\
+Télécharger le fichier [[https://github.com/senshu/Sozi/releases/download/13.11/sozi-release-13.11-30213629.zip]].
+
+Décompresser les fichiers dans le répertoire :
+
+ /home/utilisateur/.config/inkscape/extensions
+
+Puis redémarrer Inkscape
+
+===== Voir aussi =====
+==== Ressources ====
+
+  * (en) [[http://www.inkscapestuff.org/|Site de la communauté, inkscapestuff.org]]
+  * [[https://launchpad.net/~inkscape-nightly/+archive/ppa|Version de développement (PPA)]]
+  * (en) [[http://browse.deviantart.com/resources/vector/|Ressources vectorielles sur deviantart]] (et [[http://browse.deviantart.com/resources/tutorials/digiart/vectorart/inkscape/|tutoriaux pour inkscape]])
+  * (en) [[http://www.openclipart.org/|Open Clip Art Library]] : Bibliothèque de clip art au format SVG, libre de droits (projet initié par les créateurs d'Inkscape)
+  * [[http://speckyboy.com/2008/04/13/top-20-free-vector-resources-for-designers/|Top 20 Free Vector Resources for Designers]]
+
+Vous pouvez déjà convertir des images matricielles (bmp, jpg) en svg avec inkscape, mais vous pouvez préférer d'autres outils :
+  * [[http://vectormagic.com/home|VectorMagic]] : service en ligne.
+  * [[http://textorizer.whatfettle.com/|Textorize]] : vectoriser une image par du texte. ( [[http://textorizer.whatfettle.com/?image=http%3A%2F%2Fdidier.misson.net%2Fblog%2Fwp-content%2Fuploads%2F2008%2F05%2Fubuntu_shiny_logo_large.png&text=ubuntu%0D%0Alinux%0D%0Afor+human+being&nstrokes=300&threshold=100&width=800&height=600|exemple]] )
+
+  * [[http://www.siox.org/|SIOX]] : outil de détourage, et d'extraction, impressionnant.
+
+==== Tutoriels ====
+  * (fr) [[http://www.inkscape.org/doc/index.php|Tutoriels]] sur le site Inkscape. Ces tutoriels sont aussi disponibles dans le menu **aide** d'Inkscape.
+  * (fr-en) [[http://popolon.org/gblog2/didacticiels-graphiques/#lieninkscape|Tutoriels et liens de Popolon]]. Blog "graphique" de Popolon : Inkscape, Gimp, Sodipodi, le SVG, ... Pas mal de liens (fr et en) sur des tutoriels, des ressources diverses.
+  * (fr) [[http://fr.wikibooks.org/wiki/Inkscape|Livre et tutoriel sur wikibooks]]
+  * (fr) [[http://www.dailymotion.com/video/x6d2te_d%C3%A9couverte-inkscape01_creation|Tutoriels vidéos inkscape]], et le [[http://imppao.wordpress.com/|blog]] sur inkscape du même auteur.
+  * (fr) [[http://www.foilen.com/category/inkscape|Des tutoriels vidéos sur l'utilisation d'Inkscape]]
+
+==== Manuels ====
+  * (fr) [[http://tavmjong.free.fr/INKSCAPE/MANUAL/html_fr/index.html|Le manuel d'utilisation de Inkscape]] (traduction française du manuel de Tavmjong Bah)
+  * (fr) [[http://fr.flossmanuals.net/initiation-inkscape/|Manuel français d'initiation à Inkscape de flossmanuals]]
+  * (en) [[http://www.inkscape.org/doc/keys.html|Raccourcis clavier]]
+
+==== Officiel ====
+
+  * (en) [[http://www.inkscape.org/?lang=fr|Site officiel]]
+
+
+
+----
+
+//Contributeurs : Rédigée par denis_aec
+Modifiée par [[utilisateurs:antoine]], [[utilisateurs:Psychederic]], [[utilisateurs:Mimilus]], [[utilisateurs:kvaufleury]]//.

@@ -1,0 +1,218 @@
+{{tag>personnalisation clavier}}
+----
+====== Raccourcis clavier ======
+
+Voici les raccourcis claviers originaux les plus couramment utilisés, les plus pratiques, dans différentes interfaces graphiques.
+
+<note>Cette page est un complément à l'[[:tutoriel:utilisation_avancee_du_clavier|utilisation avancée du clavier]].</note>
+
+==== Vocabulaire ====
+
+  * **Backspace** : c'est la grande touche flèche qui va vers la gauche et qui sert à effacer dans un traitement de texte, par exemple. On la représente par « ⇐ », « ⌫ » comme ici  ou bien par « Ret.Arr. » (pour « Retour arrière »).
+  * **SuperKey** ou Super : sur la plupart des claviers représentée par le logo Windows et appelée couramment "touche Windows" (appelé parfois drapeau), sur quelques claviers linuxiens par un manchot, c'est la touche qui se trouve entre les touches "Ctrl" et "Alt" (Ou entre les touches "fn" et "alt" sur certains claviers d'ordinateur portables)
+  * **Syst** (aussi nommée « SysRq » sur certains claviers) est en fait celle de l'impression d'écran : « Impr. écran », « Print screen » ou autre. Elle est généralement située en haut à droite du clavier.
+<note tip>Les deux touches Super (à gauche et à droite du clavier) sont distinctes sous Linux</note>
+
+===== En général : raccourcis de base =====
+
+==== Raccourcis utiles quel que soit l'environnement graphique ====
+
+^ Action ^ Combinaison de touches ou raccourcis clavier ^
+| Ferme le serveur X (le serveur graphique) (versions antérieures à Jaunty)| Ctrl--Alt--Backspace |
+| Ferme le serveur X (le serveur graphique) (Jaunty et versions supérieures)| ALT--Syst--K |
+| Accès à la console tty**x**, **x** ∈ [1, 6] depuis l'interface graphique | Ctrl--Alt--F**x** |
+| Accès à la console tty**x**, **x** ∈ [1, 6] depuis tty**y** | Alt--F**x** |
+| Retour au premier serveur X (2ème... 8, etc.) | Alt--F7 |
+
+<note>Vous trouverez plus de précision sur la page << [[:tutoriel:comment_redemarrer_le_serveur_graphique|Redémarrer le serveur graphique]] >> </note>
+<note>Il est aussi possible d'activer le raccourci <Ctrl> + <Alt> + <Backspace> depuis le menu //Système -> Préférence -> Clavier -> onglet "Agencements" -> bouton "Options"//. Dans la liste déroulante, choisissez "Séquence de touches pour fermer le serveur X" pour y cocher le raccourcis 'Ctrl + Atl + Backspace'. </note>
+==== Raccourcis à utiliser en cas de plantage ====
+
+Ce sont des raccourcis gérés directement par le [[linux|noyau Linux]]. et sont surnommés [[touches_magiques|Magic System Key]].
+
+La touche ici nommée « Syst » est aussi la touche « Impr. écran ».
+
+^ Action ^ Combinaison de touches ou raccourcis clavier ^
+| Synchronisation des disques | Alt--Syst--s |
+| Stoppe les programmes gentiment | Alt--Syst--e |
+| Tue tous les programmes | Alt--Syst--i |
+| Disque principal en lecture seule | Alt--Syst--u |
+| Redémarrage brutal de l'ordinateur | Alt--Syst--b |
+| Arrêt brutal de l'ordinateur | Alt--Syst--o |
+
+===== Dans Gnome =====
+
+==== Raccourcis clavier par défaut ====
+
+
+<note warning>Obsolète depuis près de 6 ans ! Ces raccourcis sont ceux de Gnome 2, avec un peu de bol ils sont peut-être valables sur l'environnement Mate ?</note>
+
+^ Action ^ Combinaison de touches ou raccourcis clavier ^
+| Faire apparaître le menu de fenêtre\\ (pratique pour les applications en plein écran comme les jeux) | Alt--Espace |
+| Menu « Applications » | Alt--F1|
+| Lancer une commande | Alt--F2 |
+| Fermer l'application ouverte | Alt--F4 |
+| Annuler la maximisation et revenir à la taille initiale de la fenêtre | Alt--F5 |
+| Maximiser une fenêtre | Alt--F10 |
+| Réduire la fenêtre active | Alt--F9  |
+| Déplacer la fenêtre | Alt--F7 |
+| Redimensionner la fenêtre | Alt--F8 |
+| Basculer d'une fenêtre à l'autre (si plusieurs fenêtres) | Alt--Tab |
+| Cacher ou voir toutes les fenêtres du bureau | Ctrl--Alt--d |
+| Verrouiller l'écran - économiseur d'écran\\ #gnome-screensaver-command -l| Ctrl--Alt--l | 
+| Changer d'espace de travail ( de bureau ) | Ctrl--Alt-- <- ou -> ou ↑ ou ↓ |
+| Déplacer la fenêtre active vers un autre espace de travail | Ctrl--Alt--Maj-- <- ou ->  | 
+| Zoom | Alt + Molette_souris |
+| Déplacer une fenêtre | Alt + Bouton_gauche_souris |
+| Redimensionner une fenêtre | Alt + Clic_molette_souris |
+| Ouvre dans une autre fenêtre | Double-clic avec le bouton du milieu |
+| Menu « Déplacer ici », « Copier ici », « Lier ici » | Glisser-déposer avec le bouton du milieu |
+| Supprimer un fichier ou un répertoire sans passer par la corbeille **(suppression définitive)**| Maj--Suppr |
+| Afficher les fichiers cachés | Ctrl--h |
+| Remonter d'un niveau de répertoire | ⌫ |
+| Revenir au répertoire utilisateur | ALT--Orig |
+
+<note>Il est possible de visualiser la liste des principaux raccourcis clavier en maintenant la touche Super.</note>
+
+==== Raccourcis pour manipuler les fenêtres ====
+Il est possible à l'aide de Compiz de créer des raccourcis pour placer les fenêtres. Pour ce faire, il faut installer le Gestionnaire de Configuration [[:compizconfig-settings-manager|CCSM]].
+C'est un outil très complet qui permet d'effectuer la plus grande partie des actions possibles à l'aide de raccourcis.
+
+Lancer le [[:compizconfig-settings-manager|Gestionnaire de Configuration CompizConfig]] puis dans la catégorie **Gestion des fenêtres**, activer la fonctionnalité 'Placer'. Cela permet de déplacer les fenêtres à l'aide de raccourcis configurables. On y trouve entre autres 'Restaurer la position', 'Placer sur le prochain écran', 'Placer sur un Bureau virtuel', les placements sur un même écran, etc.
+
+==== Modifier et affecter des raccourcis claviers ====
+
+Reportez-vous à la page sur [[:tutoriel:utilisation_avancee_du_clavier#configurer_les_raccourcis_clavier|l'utilisation avancée du clavier]].
+
+
+==== comme sous Windows: VerrMaj active les chiffres du clavier ====
+__Solution 1__ : à privilégier car la solution 2 change le comportement des fenêtres et du navigateur.
+
+Il s'agit de changer l'affectation des touches pour correspondre au fonctionnement du clavier sous "Windows". Très pratique pour utiliser les numéros sur un clavier de portable (sans pavé numérique )
+
+Voici la méthode pour créer une variante d'agencement de clavier (basé sur l'agencement fr) de style Windows avec les chiffres de 0 à 9 plus les symboles ** ? . / §** quand la touche VerrMaj est activée :  [[:tutoriel:exemple_de_creation_d_un_agencement_clavier_personnalise?&#autre_exemple_clavier_se_comportant_comme_sous_windows_xfce|Clavier se comportant comme sous Windows]].
+
+Vous pouvez aussi consulter la méthode suivante :
+[[http://www.app3l.org/e107_plugins/forum/forum_viewtopic.php?2102.post|Explication pour avoir un comportement de clavier similaire à "MSWindows"]]
+
+
+__Solution 2__ : 
+Si vous activez le **Verr.maj** et que vous composez les touches 2, 7, 0,etc il vous donnera respectivement É, È, À.
+Et vous voulez qu'il donne des chiffres comme pour un clavier sous windows.
+Pour modifier cela, allez à « Système/Préférences/Clavier.» 
+
+ou par le terminal:
+<code>gnome-keyboard-properties</code>
+
+Il faut ensuite sélectionner l'onglet « Agencements » et cliquer sur le bouton « Options de l'agencement... ». Puis Comportement de la touche Verrouillage majuscule, et cocher la <del>dernière</del> case. « Verr.maj.inverse Maj. ce qui affecte toutes les touches».
+
+<note important>[[http://forum.ubuntu-fr.org/viewtopic.php?id=122547|La navigation sous Firefox est perturbée]] si vous laissez les majuscules verrouillées:
+  * un clic sur un lien ouvre une nouvelle fenêtre
+  * un clic sur un dossier de marques-pages ouvre tous les marques pages dans une nouvelle fenêtre!
+
+La solution 2 ne fonctionne pas sous Xfce.
+ </note>
+
+==== Réinitialiser les raccourcis clavier par défaut ====
+//Rédigé par [[utilisateurs:random]].//
+//Merci à [[http://forum.ubuntu-fr.org/viewtopic.php?id=54381|Vindev_HELL84]].//
+
+Pour réinitialiser les raccourcis claviers tels qu'ils l'étaient lors de l'installation de gnome :
+  gconftool-2 --recursive-unset /apps/gnome_settings_daemon/keybindings
+
+===== Dans KDE =====
+^ Action ^ Combinaison de touches ^
+| Afficher la table des processus | Ctrl--Échap |
+| Lancer krunner (le lanceur d'aplications rapide) | Alt+F2 |
+Cependant, pour configurer les autres raccourcis claviers globaux il suffit de lancer kmenuedit (avec le lanceur d'applications rapide par exemple ;) ) et d'éditer le raccourcis clavier que l'on veux associer à une application dans l'onglet "avancé" de cette dernière.
+
+===== Dans XFCE =====
+
+== Raccourcis généraux==
+^ Action ^ Combinaison de touches ^
+| **Tuer une application** | ctrl--alt--échap (le curseur change, il suffit ensuite de cliquer sur l'application) |
+| **Changer d'espace de travail** | molette sur le bureau ou sur les icônes espaces de travail du panel/ctrl--alt--flèche gauche ou droite/pousser le bureau avec le curseur/click du milieu sur le bureau |
+| **Enrouler/Dérouler une fenêtre** | molette sur la barre des titres |
+
+
+== Activer la touche compose (voir plus haut dans Gnome) ==
+Taper dans un terminal ou mettre en démarrage automatique (Application/Paramètres/Session et démarrage) la commande suivante :
+
+   setxkbmap -option compose:lwin
+
+pour définir, par exemple, le logo Windows de gauche (lwin) comme touche COMPOSE.
+
+Pour que cette modification soit pérenne et accessible à tous les utilisateurs du système,
+ 
+modifiez le fichier **/etc/default/keyboard** :
+  XKBOPTIONS="compose:lwin"
+
+== Dans Thunar ==
+  * Mouse-gesture :
+
+Le navigateur de fichier //Thunar// propose un mouse-gesture (des raccourcis souris en somme ^^)
+^ Action ^ Combinaison souris ^
+| **Ouvrir un répertoire dans une autre fenêtre (même s'il est dans le sidebar)** | Click ou double clic (selon que vous ayez paramétré l'ouverture en simple ou double click) avec bouton du milieu |
+| **Suivant** | click du milieu maintenu, bouger la souris vers la droite, lacher le bouton |
+| **Précédent** | Même principe mais en bougeant la souris vers la gauche |
+| **Remonter d'un niveau dans l'arborescence** | Même principe mais en bougeant le souris vers la haut |
+| **Actualiser** | Même principe mais en bougeant la souris vers le bas |
+
+== Pour activer les touches de son ==
+
+Sous XFCE 4.4 il est tres simple d’associer certaines touches spécifiques du clavier (en particulier des claviers « multimédias ») a des actions. par exemple, pour gérer le niveau sonore.
+
+Pour cela, rendez vous au niveau de la configuration. Depuis le menu XFCE, choisissez : Paramètres > Paramètres du clavier puis l’onglet Raccourcis.
+
+Vous devez créer un nouveau jeu de raccourcis. Pour cela cliquez sur Add puis donnez un nom a ce jeu. Cliquez ensuite sur Add pour créer un raccourci et utilisez par exemple les commandes suivantes :
+
+<note>amixer set Master 5+ : pour augmenter le volume principal
+
+amixer set Master 5- : pour réduire le volume principal
+
+amixer set Master toggle : pour activer/désactiver rapidement le son</note>
+
+Il vous suffit ensuite de presser la touche de votre choix pour y associer l’action.
+===== Dans XGL =====
+
+^ Action ^ Combinaison de touches ^
+| Tuer le serveur X  | Maj--⌫ |
+
+===== Pour un clavier multimédia =====
+
+L'affectation ou la  réaffectation des touches d'un clavier multimédia ressort de la configuration du clavier qui est traitée sur la page [[:tutoriel:creer_et_utiliser_un_agencement_de_clavier_personnalise|Créer et utiliser un agencement de clavier personnalisé]] et les pages associées.
+
+===== À propos du copier/coller en un clic =====
+
+//Rédigé par [[utilisateurs:jisee]].//
+
+Il est possible de faire un copier/coller très facilement en mettant par exemple un mot en surbrillance puis en le collant en appuyant tout simplement avec le bouton du milieu (appui sur la roulette).
+
+**Cette astuce a été testée sur Gnome, KDE, XFCE, E17 et GNUsteep (window maker)**
+
+**Remarque 1 :**
+Il faut que la fenêtre où l'on copie reste ouverte (elle peut être cependant réduite).
+
+**Remarque 2 :**
+Il est possible de coller un texte copié autant de fois que l'on veut jusqu'à ce qu'on mette un autre texte en surbrillance.
+
+**Remarque 3 :**
+Sur Ubuntu il y a 2 presse-papiers.
+Donc si vous copiez un texte avec ctrl--C, vous collerez le contenu avec uniquement ctrl--V. __Alors que le collage avec le bouton du milieu, colle le dernier texte mis en surbrillance.__
+
+__Ex__ :
+Si vous copiez le mot : "ubuntu" avec Ctrl--C, vous ne le collerez qu'avec Ctrl--V. Mais si entre temps vous avez mis en surbrillance le mot "linux", vous le collerez uniquement avec le bouton du milieu. Ainsi avec le bouton du milieu vous collerez "linux" et avec Ctrl--V vous collerez "ubuntu".
+
+**Remarque 4 :**
+Le problème soulevé dans //la remarque 1// peut être réglé (d'ailleurs ça rendra votre //copié// vraiment permanent) avec [[glipper]].
+<note important>Nombreux sont ceux qui cherchent à désactiver le copier/coller avec le clic milieu (ou à en changer le bouton). Merci d'ajouter une solution pour désactiver ou paramétrer cette fonctionnalitée (je ne sais pas comment faire)</note>
+===== Créer son raccourci clavier =====
+Pour créer son raccourci, voici un petit  [[https://www.youtube.com/watch?v=CDT9kjipRHQ|tuto]].
+
+===== Liens =====
+
+  * Cette page a pour origine [[http://forum.ubuntu-fr.org/viewtopic.php?id=56959|ce post]] sur le forum.
+  * [[http://maketecheasier.com/useful-shortcut-keys-in-ubuntu/2008/07/14| Une liste de raccourcis un peu ancienne pour Ubuntu]] **(en)**
+----
+
+//Contributeurs : [[utilisateurs:Bogoris]], [[utilisateurs:Hoxus]], [[utilisateurs:Johndescs]], [[utilisateurs:jisee]], [[utilisateurs:didrocks]], [[utilisateurs:bcag2]].//

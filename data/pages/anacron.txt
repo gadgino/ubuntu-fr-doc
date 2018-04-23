@@ -1,0 +1,86 @@
+{{tag>cron}}
+----
+
+====== anacron (en anglais anachronistic command scheduler ou planificateur de commande « anachronique ») ======
+
+
+===== A quoi ça sert ? =====
+
+En des temps préhistoriques, les système unix utilisaient [[cron]] pour permettre l'exécution de tâches de maintenance : suppression de fichiers inutilisés, archivage de journaux, indexation de fichiers, etc. [[cron]] permet (toujours) de programmer ces travaux à une heure où la charge système est faible, de préférence pendant la nuit. Si le système est stoppé au moment de l'exécution de la tâche, celle-ci passe à la trappe.
+
+Avec l'apparition et la démocratisation de l'excellent système Linux pour le commun des mortels, il devient rare de laisser son PC allumé la nuit pour permettre à [[cron]] de nous maintenir notre système...
+
+anacron est donc né pour permettre l'exécution de tâches sans nécessité de laisser la machine allumée 24h/24. Son créateur s'appelle Christian Schwarz.
+
+===== Principe =====
+
+Notez bien qu'anacron n'est pas du tout destiné à remplacer [[cron]], il est complémentaire et il coexiste avec lui...
+
+anacron utilise des indications de temps relatives (« une fois par jour / par semaine / par mois ») au lieu de références temporelles absolues (« le 14 janvier 2008 à 15h 30 »). De la sorte, même si vous « manquez » un moment ou une date particulière où l'exécution d'un « job » était prévue, celui-ci sera tout de même exécuté peu de temps après le prochain démarrage du système.
+===== Installation =====
+Le programme anacron est normalement installé de base sur Ubuntu
+
+Si ce n'est pas le cas :
+   sudo apt-get install anacron
+
+===== Fonctionnement =====
+
+  * sur un système fonctionnant en permanence, c'est [[cron]] qui lance anacron à 7h30 chaque jour (voir le fichier /etc/cron.d/anacron)
+  * sur un système ne tournant pas en permanence, anacron est lancé au démarrage car configuré en tant que service (On le retrouve donc dans /etc/init.d)
+  * anacron recherche les « fichiers dateurs » (anglais timestamps) correspondant à ses différents jobs dans /var/spool/anacron
+  * si, d'après un des fichiers dateurs, un job est en attente, anacron le lance
+  * anacron met à jour le fichier dateur du job en question.
+  * une fois son travail terminé, anacron s'arrête en attendant la prochaine sollicitation. Il n'y a pas de deamon "anacron" consommant de la mémoire.
+
+
+Le fonctionnement d'anacron est contrôlé par le fichier /etc/anacrontab.
+
+Inspectez-le en tapant :
+   cat /etc/anacrontab
+
+Chaque ligne du fichier de configuration correspond à une tâche selon le schéma suivant :
+
+intervalle   délai   étiquette   commande
+
+  * 1ère colonne, intervalle : exprimé en jours, indique l'intervalle de temps entre 2 exécutions d'une tâche.
+  * 2ème colonne, délai : exprimé en minutes, c'est le délai entre 2 tâches exécutées par anacron, pour éviter qu'elles ne s'exécutent en même temps.
+  * 3ème colonne, étiquette : commentaire ajouté pour les logs de anacron
+  * 4ème colonne, commande : tâche à exécuter
+ 
+
+Par défaut, voici un exemple des lignes déjà configurées :
+   # /etc/anacrontab: configuration file for anacron
+   
+   # See anacron(8) and anacrontab(5) for details.
+   
+   SHELL=/bin/sh
+   PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+   
+   # These replace cron's entries
+   1	5	cron.daily	 nice run-parts --report /etc/cron.daily
+   7	10	cron.weekly	 nice run-parts --report /etc/cron.weekly
+   @monthly	15	cron.monthly nice run-parts --report /etc/cron.monthly
+
+==== Options de lancement ====
+
+**-f** : Force l'exécution des tâches, en ignorant les fichiers dateurs.\\
+**-u** : Met à jour à la date courante les fichiers dateurs des tâches, mais ne lance rien.\\
+**-s** : Met en série l'exécution des tâches. Anacron ne lancera pas une nouvelle tâche avant que la précédente ne soit terminée.\\
+**-n** : Lance les tâches tout de suite. Ignore les définitions de délai dans le fichier /etc/anacrontab Cette option implique -s.\\
+**-d** : N'exécute pas en arrière-plan. Dans ce mode, Anacron enverra les messages d'information vers la sortie d'erreurs, ainsi qu'à syslog. La sortie des tâches est envoyée via un message comme d'habitude.\\
+**-q** : Supprime les messages destinés à la sortie d'erreurs. Applicable seulement avec -d.\\
+**-t anacrontab** : Utilise le fichier désigné anacrontab, à la place de celui par défaut.\\
+**-V** : Affiche l'information de version, puis s'arrête.\\
+**-h** : Affiche un court message d'utilisation, puis s'arrête.\\
+
+===== Bon à savoir =====
+<note>anacron n'est pas lancé si l'ordinateur que vous utilisez n'est pas sur secteur. Ainsi, il n'entraîne pas de consommation supplémentaire pour un portable.</note>
+
+===== Liens =====
+  * [[:cron]] : planifier/programmer des tâches
+  * [[incron]] : effectuer une action, commande(s), scripts, etc, en cas de modifications de fichiers ou de répertoires donnés
+  * [[fcron]] : programmer des tâches devant être exécutées
+
+Auteur : [[utilisateurs/sylvainsjc]]
+
+Contributeurs : 

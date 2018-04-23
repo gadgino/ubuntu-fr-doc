@@ -1,0 +1,73 @@
+{{tag>Trusty Precise audio}}
+
+----
+
+====== X Convert File Audio ======
+
+**Xcfa** //(**X** **C**onvert **F**ile **A**udio)// est une application permettant:
+  * l'**extraction** de CD audio avec recherche des informations sur internet (tags), 
+  * l'**extraction** des pistes audio d'un DVD,
+  * la **conversion** et la **normalisation** de fichiers audio,
+  * La création des pochettes de CD.
+**Xcfa** gère les formats audio suivants, pour autant que les encodeurs et décodeurs appropriés soient installés :
+  * [[wpfr>AAC|Advanced Audio Coding (.m4a, .mp4, .aac)]])
+  * [[wpfr>FLAC|Free Lossless Audio Codec (.flac)]]
+  * [[wpfr>Monkey's_Audio|Monkey's Audio (.ape)]]
+  * [[wpfr>MP3|MPEG-1/2 Audio Layer 3 (.mp3)]]
+  * [[wpfr>Musepack|Musepack (.mpc)]]
+  * [[wpfr>Shorten|Shorten (.shn)]] (partiellement)
+  * [[wpfr>Vorbis|Vorbis (.ogg, .oga)]]
+  * [[wpfr>Wav|WAVEform audio format (.wav)]]
+  * [[wpfr>WavPack|WavPack (.wv)]]
+  * [[wpfr>Windows Media Audio (.wma)]] (partiellement)
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]];
+  * Disposer d'une connexion à Internet configurée et activée;
+  * Avoir [[:tutoriel:comment_installer_un_paquet|Installé les paquets]] **[[apt>cdparanoia]]**, **[[apt>cd-discid]]**.
+
+===== Installation =====
+
+==== Depuis les dépôts officiels ====
+
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>xcfa]]**.
+
+==== Depuis un dépôt tiers ====
+<note>Installer un paquet hors des dépôts officiels peut présenter un risque d'instabilité du système.</note>
+  - Ajoutez [[:tutoriel:comment_modifier_sources_maj#modifier_les_sources_de_mises_a_jour| le dépôt d'Xcfa à vos sources de logiciels]]: <file>deb http://download.tuxfamily.org/xcfaudio/xcfa/ dev contrib</file>
+
+  - Ajoutez [[:tutoriel:comment_modifier_sources_maj#gerer_les_cles_d_authentification|la clé d'authentification]] en tapant dans un [[:terminal]] la [[:commande_shell|ligne de commande]] suivante: <code>wget -q http://download.tuxfamily.org/xcfaudio/download/xcfaudio.key.asc -O- | sudo apt-key add - </code>
+  - [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste des paquets]];
+  - [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>xcfa]]**.
+
+
+=====Ajouter des applications externes=====
+
+Pour qu'Xcfa soit pleinement fonctionnel, il est nécessaire d'installer des applications externes.
+
+Pour connaître la liste des applications compatibles, cliquez sur l'onglet « **Applications externes** » de Xcfa. 
+
+Utilisez ensuite votre [[:gestionnaire_de_paquets|gestionnaire de paquets]] préféré pour installer celles dont vous avez besoin.
+Ou bien si vous voulez tout installer directement [[:tutoriel:comment_installer_un_paquet|installez les paquets]] **[[apt>cdda2wav,icedax,liba52-0.7.4-dev,cdparanoia,cd-discid,mp3check,faac,faad,flac,lame,lsdvd,musepack-tools,mplayer,mp3gain,normalize-audio,libnotify-bin,shntool,sox,vorbis-tools,vorbisgain,wavpack]]**.
+
+<note tip>Il existe un script qui vous permet d'installer automatiquement toutes les applications externes manquantes. Vous le trouverez [[http://download.tuxfamily.org/xcfaudio/PlusPlus/|ici]]. Attention, seule la version HL fonctionne. Pour l’encodeur AAC "aacplusenc"  en amd64 c'est [[https://launchpad.net/~teknoraver/+archive/ppa/+build/2035916|ici]].</note>
+===== Utilisation=====
+
+Pour lancer l'application faites une recherche dans [[unity#tableau_de_bord_dash|le tableau de bord Unity]] avec le mot clé **Xcfa** ou //via// la [[:commande_shell|commande]] suivante : <code>xcfa</code>
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, le configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+
+===== Voir aussi =====
+
+  * [[http://www.xcfa.tuxfamily.org/|Le site officiel]].
+  * [[http://ubunteros.tuxfamily.org/spip.php?mot82|Des articles de Linux On the Root pour apprendre à bien le maîtriser]].
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=39521&p=1|Sujet consacré à Xcfa sur le forum Ubuntu-fr]].
+
+
+----
+
+//Contributeurs : [[:utilisateurs:l_africain|L'Africain]]//

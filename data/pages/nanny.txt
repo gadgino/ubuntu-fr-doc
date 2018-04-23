@@ -1,0 +1,70 @@
+{{tag>sécurité internet contrôle_parental À_RECYCLER}}
+
+----
+
+====== Gnome Nanny : logiciel de contrôle parental ====== 
+<note warning>Gnomme nanny n'est plus présent dans les dépôts officiels, il n'est plus maintenu. Il est conseillé de se tourner vers une solution alternative telle que [[timekpr]].</note>
+**Gnome Nanny**, ou **Nanny**, est un logiciel de [[:tutoriel:comment_mettre_en_place_un_controle_parental|contrôle parental]] complet. Il est disponible pour Ubuntu 9.04 et versions ultérieures, et il est installé par défaut dans [[Edubuntu]] depuis la version 10.10.
+
+Nanny permet de restreindre l'utilisation de votre ordinateur par un ou plusieurs comptes d'utilisateur (par exemple, vos enfants) de manière simple et graphique.
+
+{{  http://pix.toile-libre.org/upload/original/1276561731.png?250|Une session bloquée par Nanny}}
+
+Nanny permet de définir des règles de contrôle d'accès des manières suivantes :
+  * durée d'utilisation quotidienne de l'ordinateur ;
+  * filtrage de sites Internet selon une liste de sites autorisés, une liste de sites non-autorisés et une liste noire ;
+  * durée d'utilisation quotidienne d'un navigateur web ;
+  * durée d'utilisation d'un client de messagerie (//email//) ;
+  * durée d'utilisation d'un client de messagerie instantanée (//instant messaging, IM//) ;
+  * une gestion des plages horaire séparées pour l'utilisation de l'ordinateur, d'Internet, des clients de messagerie et de messagerie instantanée.
+
+===== Prérequis =====
+
+  * Disposer des [[:sudo|droits d'administration]] ;
+  * Disposer d'une connexion à Internet configurée et activée.
+
+Nanny n'est pas disponible pour Ubuntu 8.04 LTS ; vous devez donc disposer d'une version ultérieure d'Ubuntu. De plus, Nanny s'intègre difficilement dans l'environnement de bureau KDE ; vous devez disposer d'une variante d'Ubuntu différente de Kubuntu.
+
+<note important>Nanny ne semble pas fonctionner sur  ubuntu/xubuntu 11.10.</note>
+===== Installation =====
+Téléchargez le deb  à cette [[http://ppa.launchpad.net/boamaod/nanny-test/ubuntu/pool/main/n/nanny/nanny_2.31.2~boamaod9~trusty_amd64.deb|adresse]] et installez-le.
+
+===== Utilisation =====
+
+Gnome Nanny est accessible dans le menu //Système → Administration → **Contrôle parental**//.
+
+==== Liste noire ====
+
+Une liste noire d'exemple est téléchargeable depuis le site du projet.
+  * **[[http://projects.gnome.org/nanny/data/nbl/nanny.nbl|Téléchargez la liste noire d'exemple]]**
+
+Une fois téléchargée, la liste noire d'exemple doit être ajoutée au catalogue de listes de Nanny à l'aide du gestionnaire de listes noires (//Système → Administration → **Listes noires**//). Une fois ajoutée au catalogue, elle pourra être appliquée à des utilisateurs de votre ordinateur en tant que règles de restriction d'accès aux sites Web.
+
+Cette liste d'exemple est construite à partir d'une liste par défaut de [[dansguardian|Dans Guardian]], à laquelle ont été retirées certaines catégories utiles (comme des forums, des sites de clavardage et des sites financiers). La liste originale est tirée de [[http://cri.univ-tlse1.fr/blacklists/index_en.php|Blacklists UT1]].
+
+===== Problèmes connus =====
+
+==== Incompatibilité avec Kubuntu ====
+
+Nanny fonctionne correctement dans Ubuntu, Xubuntu et Ubuntu Netbook Edition. Toutefois, Nanny semble s'intègrer difficilement dans l'environnement de bureau KDE. Le logiciel ne fonctionne pas, sinon partiellement, dans la variante Kubuntu.
+
+==== Installation de la blacklist ====
+Le téléchargement de la blacklist dans le répertoire par défaut ("Téléchargement") semble poser souci lors de l'importation (l'application n'aime pas les accents !).
+
+Solution : clic droit sur le lien de téléchargement > enregistrer la cible du lien sous > votre dossier personnel ou un dossier sans espace ni caractères accentués
+==== Limitations horaires ====
+Les limitations horaires d'utilisation que l'on croit pouvoir mettre en place via Nanny ne fonctionnent hélas pas encore.
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi =====
+
+  * [[http://projects.gnome.org/nanny/|Site officiel du projet GNOME Nanny]] **(en)**
+  * [[https://launchpad.net/nanny|Site du projet dans Launchpad]] **(en)**
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3720226|Discussion Nanny]] sur le forum ubuntu-fr
+
+----
+
+//Contributeur principal : FIXME.//

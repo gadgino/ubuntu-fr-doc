@@ -1,0 +1,68 @@
+{{tag>Trusty capture_vidéo}}
+----
+
+====== XVidCap ======
+
+
+**XVidCap**, pour X Video Capture, est un logiciel permettant d'effectuer des //screencast//, c'est-à-dire de capturer une vidéo de ce qui se passe sur votre bureau.\\
+Il fournit une vidéo au format AVI ou MPEG. Il peut également capturer le son.
+
+Il fonctionne sous toutes les variantes D'Ubuntu.
+
+D'autres logiciels du même type sont listés sur la page [[:capture]].
+
+
+===== Installation =====
+Pour les [[:architecture_materielle|architectures]] 32 bits, téléchargez **XVidCap** [[https://sourceforge.net/projects/xvidcap/|ici]], pour les [[:architecture_materielle|architectures]] 64 bits [[https://drive.google.com/file/d/0B71NyqICD074VUxtd2xRTXRIcjg/view?usp=sharing|ici]].
+
+
+===== Utilisation =====
+
+==== Graphique ====
+
+Pour lancer l'application faites une recherche dans [[:unity#tableau_de_bord_dash|le tableau de bord Unity]] avec le mot clé **XVidCap Screen Capture**.
+
+Une fois lancé, vous vous apercevez que son interface est divisée en deux parties : une barre qui contient les commandes du logiciel, et un cadre rouge qui détermine la zone à capturer :
+
+{{:xvidcap1_trusty.png|Interface de XVidCap}}
+
+Vous pouvez modifier la zone à capturer selon votre convenance. Le bouton avec le trousseau de clé permet de désolidariser le cadre à capturer de l'interface.
+
+Pour accéder aux préférences de XVidCap, il faut effectuer un clic droit sur le bouton de gauche, nommé **test-0000.mpeg[0000]** :
+
+{{xvidcap_hardi_02.png|Préférences de XVidCap}}
+
+Vous pouvez notamment y activer sa présence dans la zone de notification.
+
+
+==== Ligne de commande ====
+
+XVidCap est utilisable en ligne de commande, à l'aide de nombreuses options expliquées dans sa page de manuel :
+
+<code>man xvidcap</code>
+
+Voici par exemple la commande pour lancer la capture d'une zone de 640 pixels de large, 480 de haut, à partir du pixel (x=30 y=45), d'une durée de 30 secondes, et qui se nommera ubuntu.avi
+
+<code>xvidcap --cap_geometry 640x480+30+45 --time 30 --file ubuntu.avi</code>
+
+==== Pulse Audio ====
+
+Avec [[:PulseAudio]], il faut utiliser la commande ''padsp'', en ligne de commande :
+
+<code>padsp xvidcap</code>
+
+ou en éditant les raccourcis des menus (dépend du bureau utilisé).
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. La configuration de l'application sera conservée ou supprimée selon la méthode de désinstallation que vous choisirez.
+
+
+===== Liens =====
+
+  * [[http://xvidcap.sourceforge.net/|Page officielle de XVidCap]] (en)
+  * [[http://asher256.tuxfamily.org/index.php?2006/06/20/84-xvidcap|Un billet présentant XVidCap]] (fr) dont je me suis inspiré pour la ligne de commande.
+
+----
+
+//Contributeurs : [[:utilisateurs:Omnisilver]]//

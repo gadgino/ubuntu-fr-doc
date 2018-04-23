@@ -1,0 +1,26 @@
+{{tag>Precise entreprise gestion_de_projet programmation eclipse BROUILLON}}
+----
+====== Eclipse Process Framework Composer ======
+
+Eclipse Process Framework Composer (EPFC) est un logiciel de la fondation Eclipse servant à modéliser les processus d'entreprise (acteurs, tâches, rôles, ...) et à pouvoir publier un référentiel sous forme de site web.\\
+Ce logiciel repose sur la plateforme Eclipse RCP et utilise [[wpfr>Xulrunner]] pour réaliser le rendu des pages.
+
+Il est disponible sur [[http://www.eclipse.org/epf|le site su projet]], et des exemples de méthodes documentées avec ce logiciel sont visibles sur [[http://epf.eclipse.org|cette page]].
+
+<note>Cette page décrit pour le moment uniquement la manipulation pour faire fonctionner EPFC sous Ubuntu 12.04LTS.\\
+FIXME: manque l'installation</note>
+
+===== Bug sous Ubuntu 12.04 LTS =====
+
+Sous [[:Precise|Ubuntu 12.04 LTS]], un bug se produit à la création ou l'édition des éléments de la méthode.\\
+Tel qu' indiqué [[https://bugs.eclipse.org/bugs/show_bug.cgi?id=343889|ici]] (en), la solution consiste à installer une version de XULrunner inférieure à 2.0 comme le détaille [[https://developer.mozilla.org/en-US/docs/XULRunner_1.9.2_Release_Notes|cette page Mozilla]]
+
+  - Télécharger [[http://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/3.6.26/runtimes/xulrunner-3.6.26.en-US.linux-i686.tar.bz2|XULRunner 1.9.2]].\\ Par exemple, depuis un [[:terminal]], saisissez la [[:commande_shell|commande]] suivante:<code>
+wget http://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/3.6.26/runtimes/xulrunner-3.6.26.en-US.linux-i686.tar.bz2</code>
+  - [[:archivage#graphiquement|Extraire l'archive]] contenant XULrunner. <code>tar -xjf xulrunner-3.6.26.en-US.linux-i686.tar.bz2</code>
+  - Ajouter la [[:variables_d_environnement|variable d'environnement]] MOZILLA_FIVE_HOME: <code>export MOZILLA_FIVE_HOME='<chemin_vers_xulrunner>'</code>où //<chemin_vers_xulrunner>// sera l'emplacement où vous avez fraichement extrait XULrunner (par exemple ///home/login/xulrunner/xulrunner// )
+  - \\ FIXME Il est indiqué ceci sur le site de Mozilla (pour éviter le export précédent?):\\ //Register XULRunner with the system by running xulrunner --register-global (to install for all users, must be run as root) or xulrunner --register-user (to install for one user only).// \\ \\
+  - lancer EPFC\\ FIXME: commande à saisir dans le dash? un terminal? autre?...
+
+----
+//Contributeurs: FIXME //

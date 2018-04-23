@@ -1,0 +1,386 @@
+{{tag>Unity personnalisation}}
+----
+
+====== Configuration avancée d'Unity 2D ======
+Les outils étant encore rares, voire inexistants, pour personnaliser [[:Unity 2D]], cette page se propose de modifier les fichiers en //.qml// qui permettent de configurer à votre goût cet [[:environnements|environnement]].\\
+Notez cependant que les changements réalisés affecteront tous les utilisateurs du système et pas seulement vous. S'il y a plus d'un utilisateur sur votre PC, demandez leur avis avant d'appliquer les changements ;)\\
+
+<note>Ces modifications seront à renouveler après chaque mise à jour d'[[:Unity 2D]]</note>
+
+<note important>Bien qu'elles semblent fonctionner sans problème, les manipulations données ci-dessous peuvent engendrer des bugs par la suite et rendre [[:unity_2d|Unity-2D]] instable. C'est pourquoi, il est fortement conseillé __avant__ toute modification de fichier, d'en faire une  [[:tutoriel:comment_sauver_et_restaurer_un_fichier|sauvegarde]].
+
+Et si toutefois la configuration ne fonctionnait pas et la restauration du fichier d'origine n'arrangeait rien, il est possible de réinstaller le paquet associé selon la section concernée par la [[:commande_shell|commande]]
+<code>sudo apt-get install --reinstall <nom_du_paquet></code>
+où <nom_du_paquet> sera à remplacer par 
+  * //unity-2d-panel// : si vous avez suivi la section FIXME
+  * //unity-2d-launcher// : pour la section FIXME
+  * //unity-2d-places// : pour la section FIXME
+  * //unity-2d-spread// : pour la section FIXME
+</note>
+
+===== Le tableau de bord : Home Dash =====
+==== Modifier la fonction d'accueil du Tableau de Bord ====
+
+Ceci rendra l'accueil habituel du [[:unity#tableau_de_bord_dash|tableau de bord]] //Home Dash// inaccessible : sa fonction d'affichage redirigera vers une autre fonction.
+
+  * [[:tutoriel:comment_modifier_un_fichier|Ouvrez avec les droits d'administration]] le fichier **/usr/share/unity-2d/places/dash.qml** ou le cas échéant **/usr/share/unity-2d/shell/dash/Dash.qml** ((pour Unity 2D >= 5.4)).
+  * Cherchez vers la ligne 110 la fonction **function activateHome() {**
+  * Retirez le contenu de cette fonction en faisant attention aux parenthèses (il faut bien supprimer jusqu'au bout de la fonction de façon à n'avoir plus que :<code cpp-qt>    function activateHome() {
+}
+</code>Cette fonction correspond à l'action à effectuer lorsque l'on clique sur le bouton Ubuntu.
+  * Ajoutez entre les accolades //activateLens("<lensId>")// où <lensID> sera remplacé par le nom ou le numéro de la lens que vous voulez avoir à l'ouverture: 
+    * **applications.lens** pour les applications
+    * **commands.lens** pour saisir une commande
+    * **files.lens** pour accéder au fichier
+    * **music.lens** pour accéder au dossier **Musique** dans votre //Dossier Personnel//
+Après modification, votre fonction devrait ressembler à ça :
+<code cpp-qt>    function activateHome() {
+        activateLens("applications.lens")
+    }
+</code>
+Au prochain démarrage d'Unity 2D, le bouton Ubuntu devrait maintenant afficher la fonction que vous avez choisie.
+
+==== Retirer l'icône du Home Dash ====
+=== Unity 2D <= 5.4 ===
+  * [[:tutoriel:comment_modifier_un_fichier|Ouvrez le fichier]] **/usr/share/unity-2d/places/LensBar.qml**.
+  * Chercher vers la ligne 96 un code similaire à celui-ci: <code cpp-qt>        /* Need to manually include the Home lens */
+        LensButton {
+            id: homeLens
+
+            Accessible.name: u2d.tr("home")
+
+            focus: true
+            icon: "artwork/lens-nav-home.svg"
+            onClicked: dash.activateHome()
+            active: ( dashView.activeLens == "" )
+            iconWidth: lensBar.iconWidth
+            iconSpacing: lensBar.iconSpacing
+            width: iconWidth+iconSpacing
+            height: lensContainer.height
+        }
+ </code>
+  * Remplacez-le par : <code cpp-qt>        /* Need to manually include the Home lens */
+        LensButton {
+            id: homeLens
+
+            Accessible.name: u2d.tr("home")
+
+            focus: false
+            icon: ""
+            onClicked: dash.activateHome()
+            active:false
+            iconWidth: 0
+            iconSpacing: 0
+            width: 0
+            height: 0
+        }
+ </code>
+La lens //Home// ne devrait plus s'afficher la prochaine fois que vous ouvrirez votre session.
+
+=== Unity 2D >= 5.4 ===
+  * [[:tutoriel:comment_modifier_un_fichier|Ouvrez le fichier]] **/usr/share/unity-2d/shell/dash/LensBar.qml**.
+  * Chercher un code similaire à celui-ci (proche de la ligne 97) : <code cpp-qt>        Repeater{
+            id: repeater
+
+            model: visibleLenses
+            delegate: LensButton {
+                Accessible.name: u2d.tr(item.name)
+
+                /* Heuristic: if iconHint does not contain a '/' then it is an icon name */
+                icon: {
+                    if (item.id == "home.lens") {
+                        return "artwork/lens-nav-home.svg"
+                    }
+                    item.iconHint.indexOf("/") == -1 ? "image://icons/" + item.iconHint : item.iconHint
+                }
+                active: {
+                    /* we need this in order to activate the arrow when using a custom shortcuts file */
+                    if (item.id == "home.lens" && declarativeView.activeLens == "") {
+                        return true
+                    }
+                    return item.viewType == Lens.LensView
+                }
+                onClicked: {
+                    if (item.id == "home.lens") {
+                        dash.activateHome()
+                    } else {
+                        dash.activateLens(item.id)
+                    }
+                }
+                iconWidth: lensBar.iconWidth
+                iconSpacing: lensBar.iconSpacing
+                width: iconWidth+iconSpacing
+                height: lensContainer.height
+            }
+        }
+ </code>
+  * Remplacez-le par : <code cpp-qt>        Repeater{
+            id: repeater
+
+            model: visibleLenses
+            delegate: LensButton {
+                Accessible.name: u2d.tr(item.name)
+
+                /* Heuristic: if iconHint does not contain a '/' then it is an icon name */
+                icon: {
+                    if (item.id == "home.lens") {
+                        return ""
+                    }
+                    item.iconHint.indexOf("/") == -1 ? "image://icons/" + item.iconHint : item.iconHint
+                }
+                active: {
+                    return item.viewType == Lens.LensView
+                }
+                onClicked: {
+                    dash.activateLens(item.id)
+                }
+                iconWidth: lensBar.iconWidth
+                iconSpacing: lensBar.iconSpacing
+                width: iconWidth+iconSpacing
+                height: lensContainer.height
+            }
+        }
+</code>
+
+===== Les loupes =====
+==== Avoir les loupe en haut à droite du Tableau de bord ====
+<note important>Ceci a été testé pour Unity 2D 5.2, il peut donc y avoir des différences avec les anciennes versions d'Unity 2D.</note>
+
+  * [[:tutoriel:comment_modifier_un_fichier|Ouvrez le fichier]] **/usr/share/unity-2d/places/dash.qml**
+  * Cherchez ce code : <code cpp-qt>
+    Item {
+        id: content
+
+        anchors.fill: parent
+        /* Margins in DesktopMode set so that the content does not overlap with
+           the border defined by the background image.
+        */
+        anchors.bottomMargin: background.bottomBorderThickness
+        anchors.rightMargin: background.rightBorderThickness
+
+        /* Unhandled keys will always be forwarded to the search bar. That way
+           the user can type and search from anywhere in the interface without
+           necessarily focusing the search bar first. */
+        /* FIXME: deactivated because it makes the user lose the focus very often */
+        //Keys.forwardTo: [search_entry]
+
+        SearchEntry {
+            id: search_entry
+
+            focus: true
+            /* FIXME: check on visible necessary; fixed in Qt Quick 1.1
+                      ref: http://bugreports.qt.nokia.com/browse/QTBUG-15862
+            */
+            KeyNavigation.right: filterPane.visible ? filterPane : search_entry
+            KeyNavigation.down: pageLoader
+
+            anchors.top: parent.top
+            anchors.topMargin: 11
+            anchors.left: parent.left
+            anchors.leftMargin: 10
+            anchors.right: filterPane.left
+            anchors.rightMargin: 15
+
+            height: 42
+
+            active: dash.active
+            placeHolderText: {
+                if(dash.currentPage != undefined && dash.currentPage.model.searchHint)
+                    return dash.currentPage.model.searchHint
+                else
+                    return u2d.tr("Search")
+            }
+
+            onSearchQueryChanged: if (dash.currentPage != undefined) dash.currentPage.model.searchQuery = searchQuery
+            onActivateFirstResult: if (dash.currentPage != undefined) dash.currentPage.activateFirstResult()
+        }
+
+        FilterPane {
+            id: filterPane
+
+            KeyNavigation.left: search_entry
+
+            /* FilterPane is only to be displayed for lenses, not in the home page or Alt+F2 Run page */
+            visible: declarativeView.activeLens != "home.lens" && declarativeView.activeLens != "" && declarativeView.activeLens != "commands.lens"
+            lens: visible && currentPage != undefined ? currentPage.model : undefined
+
+            anchors.top: search_entry.anchors.top
+            anchors.topMargin: search_entry.anchors.topMargin
+            anchors.bottom: lensBar.top
+            headerHeight: search_entry.height
+            width: 300
+            anchors.right: parent.right
+            anchors.rightMargin: 15
+        }
+
+        Loader {
+            id: pageLoader
+            objectName: "pageLoader"
+
+            Accessible.name: "loader"
+            /* FIXME: check on visible necessary; fixed in Qt Quick 1.1
+                      ref: http://bugreports.qt.nokia.com/browse/QTBUG-15862
+            */
+            KeyNavigation.right: filterPane.visible && !filterPane.folded ? filterPane : pageLoader
+            KeyNavigation.up: search_entry
+            KeyNavigation.down: lensBar
+
+            anchors.top: search_entry.bottom
+            anchors.topMargin: 9
+            anchors.bottom: lensBar.top
+            anchors.left: parent.left
+            anchors.right: !filterPane.visible || filterPane.folded ? parent.right : filterPane.left
+            anchors.rightMargin: !filterPane.visible || filterPane.folded ? 0 : 15
+            onLoaded: item.focus = true
+
+            /* Workaround loss of focus issue happening when the loaded item has
+               active focus and is then destroyed. The active focus was completely
+               lost instead of being relinquished to the Loader.
+
+               Ref.: https://bugreports.qt.nokia.com/browse/QTBUG-22939
+            */
+            function setSource(newSource) {
+                var hadActiveFocus = activeFocus
+                source = newSource
+                if (hadActiveFocus) forceActiveFocus()
+            }
+        }
+
+        LensBar {
+            id: lensBar
+
+            KeyNavigation.up: pageLoader
+
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 44
+            visible: declarativeView.expanded
+        }
+    }
+</code>
+  * Remplacez-le par : <code cpp-qt>
+    Item {
+        id: content
+
+        anchors.fill: parent
+        /* Margins in DesktopMode set so that the content does not overlap with
+           the border defined by the background image.
+        */
+        anchors.bottomMargin: dashView.dashMode == DashDeclarativeView.DesktopMode ? 39 : 0
+        anchors.rightMargin: dashView.dashMode == DashDeclarativeView.DesktopMode ? 37 : 0
+
+        visible: dashView.active
+
+        /* Unhandled keys will always be forwarded to the search bar. That way
+           the user can type and search from anywhere in the interface without
+           necessarily focusing the search bar first. */
+        /* FIXME: deactivated because it makes the user lose the focus very often */
+        //Keys.forwardTo: [search_entry]
+
+
+        SearchEntry {
+            id: search_entry
+
+            focus: true
+            /* FIXME: check on visible necessary; fixed in Qt Quick 1.1
+                      ref: http://bugreports.qt.nokia.com/browse/QTBUG-15862
+            */
+            KeyNavigation.right: filterPane.visible ? filterPane : search_entry
+            KeyNavigation.down: pageLoader
+
+            anchors.top: parent.top
+            anchors.topMargin: 11
+            anchors.left: parent.left
+            anchors.leftMargin: 10
+            anchors.right: filterPane.left
+            anchors.rightMargin: 0
+
+            height: 42
+        }
+
+        LensBar {
+            id: lensBar
+
+            KeyNavigation.up: pageLoader
+            
+            anchors.top: parent.top
+            anchors.topMargin: 11
+            anchors.left: search_entry.anchors.right
+            anchors.right: parent.right
+            anchors.rightMargin: 20
+            
+            height: 42
+        }
+
+        Loader {
+            id: pageLoader
+
+            Accessible.name: "loader"
+            /* FIXME: check on visible necessary; fixed in Qt Quick 1.1
+                      ref: http://bugreports.qt.nokia.com/browse/QTBUG-15862
+            */
+            KeyNavigation.right: filterPane.visible && !filterPane.folded ? filterPane : pageLoader
+            KeyNavigation.up: search_entry
+            KeyNavigation.down: lensBar
+
+            anchors.top: search_entry.bottom
+            anchors.topMargin: 9
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.right: !filterPane.visible || filterPane.folded ? parent.right : filterPane.left
+            anchors.rightMargin: !filterPane.visible || filterPane.folded ? 0 : 15
+            onLoaded: item.focus = true
+        }
+        
+        FilterPane {
+            id: filterPane
+
+            KeyNavigation.left: search_entry
+
+            /* FilterPane is only to be displayed for lenses, not in the home page or Alt+F2 Run page */
+            visible: dashView.activeLens != "" && dashView.activeLens != "commands.lens"
+            lens: visible && currentPage != undefined ? currentPage.model : undefined
+
+            anchors.top: search_entry.bottom
+            anchors.topMargin: 12
+            anchors.bottom: parent.bottom
+            headerHeight: 10
+            width: 300
+            anchors.right: parent.right
+            anchors.rightMargin: 20
+        }
+    }
+</code>
+
+==== Retirer le rectangle noir transparent derrière les loupes  ====
+
+  * [[:tutoriel:comment_modifier_un_fichier|Ouvrez le fichier]] **/usr/share/unity-2d/places/LensBar.qml**
+  * Dans le haut du fichier, cherchez :<code cpp-qt >
+FocusScope {
+    id: lensBar
+
+    /* declare width & spacing of icons as required for layout calculations */
+    property int iconWidth: 24
+    property int iconSpacing: 36
+
+    property variant visibleLenses: SortFilterProxyModel {
+        model: dash.lenses
+        dynamicSortFilter: true
+
+        filterRole: Lenses.RoleVisible
+        filterRegExp: RegExp("^true$")
+    }
+
+    Rectangle {
+        id: background
+
+        anchors.fill: parent
+        color: "black"
+        opacity: 0.22
+    }
+</code>
+  * Remplacez **opacity: 0.22** par **opacity: 0**
+
+----
+//Contributeurs:FIXME //

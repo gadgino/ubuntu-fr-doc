@@ -1,0 +1,115 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#configuration_d_une_interface_reseau_wifi" class="toc"> Configuration d'une interface réseau Wifi </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#installation_de_la_carte_reseau" class="toc"> Installation de la carte réseau </a></span></li>
+<li class="level2"><span class="li"><a href="#configuration_de_la_carte_reseau_sans_fil" class="toc"> Configuration de la carte réseau sans fil </a></span></li>
+<li class="level2"><span class="li"><a href="#remarques" class="toc"> Remarques </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#utilisation_conjointe_d_une_carte_reseau_sans-fil_et_d_une_carte_filaire" class="toc"> Utilisation conjointe d'une carte réseau sans-fil et d'une carte filaire </a></span></li>
+<li class="level3"><span class="li"><a href="#filtrage_mac" class="toc"> Filtrage MAC </a></span></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/ostaquet" class="wikilink1" title="utilisateurs:ostaquet" onclick="return svchk()" onkeypress="return svchk()">ostaquet</a>.
+</p>
+
+<a name="configuration_d_une_interface_reseau_wifi"></a><h1> Configuration d'une interface réseau Wifi </h1>
+<div class="level1">
+
+<p>
+ Cette page décrit comment configurer une interface réseau Wifi sous Ubuntu.
+</p>
+
+</div>
+<!-- SECTION [73-209] -->
+<a name="installation_de_la_carte_reseau"></a><h2> Installation de la carte réseau </h2>
+<div class="level2">
+
+<p>
+ La première vérification à faire est de vérifier si votre carte réseau wifi est reconnue directement par le système. Pour ce faire, il vous suffit d&rsquo;aller dans le menu <strong>Système &rArr; Administration &rArr; Réseau</strong>.
+</p>
+
+<p>
+Dans cette fenêtre, vous avez accès à toutes les interfaces réseaux disponibles sur votre système (pour peu que la carte réseau soit reconnue).
+</p>
+
+<p>
+Si votre carte Wifi n&rsquo;apparait pas dans cette liste (avec une dénomination du style <em>Connexion sans fil</em>, vous devez installer le pilote de votre carte. Pour installer le pilote Windows fourni avec votre carte réseau, vous pouvez suivre les instructions se trouvant sur cette page : <a href="/materiel/wifi/ndiswrapper" class="wikilink1" title="materiel:wifi:ndiswrapper" onclick="return svchk()" onkeypress="return svchk()">Ndiswrapper</a>.
+</p>
+
+</div>
+<!-- SECTION [210-943] -->
+<a name="configuration_de_la_carte_reseau_sans_fil"></a><h2> Configuration de la carte réseau sans fil </h2>
+<div class="level2">
+
+<p>
+ Dans la fenêtre de configuration du réseau, vous devez cliquer sur la <em>connexion sans fil</em> et ensuite cliquer sur le bouton <em>Propriétés</em> situé dans la droite de la fenêtre.
+</p>
+
+<p>
+Vous obtenez une fenêtre ressemblant à celle-ci :
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=installation%3Awifihowto.png" class="media" title="installation:wifihowto.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=installation%3Awifihowto.png" class="media" alt="" /></a>
+</p>
+
+<p>
+Dans cette fenêtre, vous pouvez choisir le ESSID (nom du réseau) ou le sélectionner dans une liste de réseau accessible (en cliquant sur le petite flèche à droite du combo box). Vous pouvez également indiquer la clé WEP (si nécessaire) pour assurer la sécurité des données transitant sur votre réseau (cette clé est entrée sur votre point d&rsquo;accès). La dernière partie de cette boite de dialogue permet de sélectionner les adresses IP à utiliser (soit via DHCP, ce qui sera le plus souvent le cas; soit via une adresse IP statique).
+</p>
+
+<p>
+Une fois ceci fait, il vous suffit de cliquer sur <em>Valider</em> et d&rsquo;activer l&rsquo;interface sans fil (bouton <em>Activer</em> de l&rsquo;interface principale).
+</p>
+
+<p>
+Si votre point d&rsquo;accès et votre routeur sont correctement configuré, vous devriez avoir votre accès sans fil opérationnel.
+</p>
+
+</div>
+<!-- SECTION [944-2093] -->
+<a name="remarques"></a><h2> Remarques </h2>
+<div class="level2">
+
+<p>
+ Vous trouverez dans les quelques lignes qui suivent certains aspects à ne pas perdre de vue lors de l&rsquo;usage de votre réseau sans fil.
+</p>
+
+</div>
+<!-- SECTION [2094-2253] -->
+<a name="utilisation_conjointe_d_une_carte_reseau_sans-fil_et_d_une_carte_filaire"></a><h3> Utilisation conjointe d'une carte réseau sans-fil et d'une carte filaire </h3>
+<div class="level3">
+
+<p>
+ Après quelques semaines d&rsquo;utilisation et quelques lectures sur le net, il semble impossible d&rsquo;utiliser conjointement la carte wifi et la carte filaire sur le même réseau. Les deux cartes peuvent fonctionner en même temps mais il est nécessaire qu&rsquo;elles soient sur des réseaux différents (Net address).
+</p>
+
+<p>
+Pour palier ce problème alors que les deux interfaces sont connectées sur un même réseau (ce qui est mon cas), désactivez celle que vous n&rsquo;utilisez pas via le menu <em>Système &rArr; Administration &rArr; Réseau</em>.
+</p>
+
+</div>
+<!-- SECTION [2254-2861] -->
+<a name="filtrage_mac"></a><h3> Filtrage MAC </h3>
+<div class="level3">
+
+<p>
+ Si votre point d&rsquo;accès ou votre routeur dispose d&rsquo;un filtrage sur les adresses MAC, n&rsquo;oubliez pas de le configurer correctement et d&rsquo;autoriser votre carte Wifi à se connecter à votre réseau.
+</p>
+
+<p>
+Pour obtenir l&rsquo;adresse MAC de la carte réseau, tapez la commande <code>ifconfig</code> dans un terminal lorsque l&rsquo;interface est <strong>activée</strong>. 
+</p>
+
+</div>
+<!-- SECTION [2862-] -->

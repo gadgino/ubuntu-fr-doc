@@ -1,0 +1,63 @@
+====== Compilation croisée (cross-compiling) pour architecture arm ======
+Ceci est un article détaillé de [[compilation_croisée]] pour architecture arm! L'article cité précédemment donne la plupart des indications nécessaires. Il y a juste une lacune et une erreur.
+La lacune est qu'il faut installer les sources pour [[http://ftp.gnu.org/gnu/mpfr|MPFR]] et le bug est qu'il manque deux accolades dans un fichier source de gcc (4.4.1).
+Pour vous faciliter la tâche et vous permettre de boire un café de plus aujourd'hui, je vous présente un petit script qui télécharge, compile et installe le tout tout seul.
+
+<note tip>Le script utilise des sudo pour les make install. Afin de vous demander le mot de passe tout au début pour que vous puissiez aller boire un café tranquillement, un sudo echo est placé en tête.</note>
+
+===== Script =====
+  #!/bin/bash
+  
+  # Ask for the sudo password at the beginning so that you can go drinking coffee
+  sudo echo "This script needs to be run as root."
+  
+  ### BINUTILS
+  
+  wget http://ftp.gnu.org/gnu/binutils/binutils-2.20.1.tar.bz2
+  tar xvf binutils-2.20.1.tar.bz2
+  cd binutils-2.20.1
+  
+  ./configure --target=arm-linux
+  make all
+  sudo make install
+  
+  cd ..
+  
+  ### MPFR
+  wget http://ftp.gnu.org/gnu/mpfr/mpfr-2.4.2.tar.bz2
+  tar xvf mpfr-2.4.2.tar.bz2
+  cd mpfr-2.4.2
+  
+  ./configure --target=arm-linux
+  make all
+  sudo make install
+  
+  cd ..
+  
+  ### GCC 4.4
+  wget http://ftp.gnu.org/gnu/gcc/gcc-4.4.3/gcc-4.4.3.tar.bz2
+  tar xvf gcc-4.4.3.tar.bz2 
+  cd gcc-4.4.3
+  
+  ./configure --enable-languages=c,c++ --disable-threads --disable-shared --disable-checking --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info --target=arm-linux
+  
+  make all-gcc
+  sudo make install-gcc
+  
+  cd ..
+  
+  ### Clean
+  
+  rm -rf binutils-2.20
+  rm -rf gcc-4.4.3
+  rm -rf mpfr-2.4.2
+  rm -f binutils-2.20.tar.bz2
+  rm -f gcc-4.4.3.tar.bz2
+  rm -f mpfr-2.4.2.tar.bz2
+  
+
+
+Il vous faudra éventuellement installer deux paquets supplémentaires AVANT de relancer cette installation si celle-ci échoue à savoir :
+  * - s'il vous manque gmp => sudo apt-get install lib32gmp3-dev
+  * - s'il vous manque MPC  => sudo apt-get install libmpc-dev
+relancez le script et tout devrait s'achever correctement.

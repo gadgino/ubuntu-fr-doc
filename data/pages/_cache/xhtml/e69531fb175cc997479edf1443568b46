@@ -1,0 +1,123 @@
+
+<p>
+A FINIR D ARRANGER (Kagou) Kagou &gt; Jettes un oeil <a href="/modele" class="wikilink1" title="modele" onclick="return svchk()" onkeypress="return svchk()">ici</a> <img src="/smileys/icon_wink.gif" align="middle" alt=";-)" /> [ostaquet]
+</p>
+
+<p>
+Pour créer des panoramas sous GNU/Linux, nous avons besoin de quelques outils qui vont travailler les uns avec les autres afin de produire l&rsquo;image finale. 
+</p>
+<ol>
+<li class="level1"><span class="li"> autopano-sift qui va trouver les points communs entre les images</span>
+</li>
+<li class="level1"><span class="li"> Panorama tools la librairie permettant de créer un panorama</span>
+</li>
+<li class="level1"><span class="li"> Enblend qui va faire l&rsquo;assemblage final des images</span>
+</li>
+<li class="level1"><span class="li"> Hugin qui est une interface graphique aux outils</span>
+</li>
+</ol>
+
+<p>
+ Il nous faut toutes sortes de paquets afin de compiler ces 4 outils. Pour ce faire il vous faut ajouter les dépots de paquets universe et multiverse dans votre /etc/apt/sources.
+</p>
+
+<p>
+ Vous trouverez un guide ici
+</p>
+
+<p>
+Une fois votre liste de dépot à jour, il vous faut réactualiser votre base en faisant dans un terminal un : <code>sudo apt-get update</code>
+</p>
+
+<p>
+Toujours dans un terminal vous lancez : sudo apt-get install mono icu icu-locales libglade-cil checkinstall sudo apt-get install automake1.7 build-essential autoconf
+</p>
+
+<p>
+Création d&rsquo;un répertoire pour travailler dedans :
+</p>
+<pre class="code">cd
+mkdir panorama
+cd panorama</pre>
+
+<a name="1autopano-sift"></a><h5> 1/ AUTOPANO-SIFT </h5>
+<div class="level5">
+<pre class="code">wget http://user.cs.tu-berlin.de/~nowozin/autopano-sift/autopano-sift-2.3.tar.gz
+tar xvfz autopano-sift-2.3.tar.gz
+cd autopano-sift-2.3/src/
+make clean all bin
+sudo cp bin/* /usr/local/bin/</pre>
+
+<p>
+On peut tester si tout c&rsquo;est bien passé en lançant :
+</p>
+<pre class="code">autopanog.exe</pre>
+
+</div>
+
+<a name="2panotools"></a><h5> 2/ PANOTOOLS </h5>
+<div class="level5">
+<pre class="code">sudo apt-get install libgcj5-dev libtool libjpeg62-dev libpng12-dev libtiff4-dev cvs
+cd ~/panorama
+cvs -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/panotools login</pre>
+
+<p>
+Tapez juste la touche Entrée
+</p>
+<pre class="code">cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/panotools co libpano
+cd libpano
+./bootstrap
+./configure
+make
+sudo make install</pre>
+
+<p>
+On peut vérifier en lançant :
+</p>
+<pre class="code">PTOptimizer</pre>
+
+</div>
+
+<a name="3enblend"></a><h5> 3/ ENBLEND </h5>
+<div class="level5">
+<pre class="code">cd ~/panorama
+wget http://ovh.dl.sourceforge.net/sourceforge/enblend/enblend-2.3.tar.gz
+tar xvfz enblend-2.3.tar.gz
+cd enblend-2.3
+./configure
+make
+sudo make install</pre>
+
+<p>
+On peut vérifier en lançant :
+</p>
+<pre class="code">enblend</pre>
+
+</div>
+
+<a name="4hugin"></a><h5> 4/ HUGIN </h5>
+<div class="level5">
+<pre class="code">sudo apt-get install libwxgtk2.5-dev wx-common libboost-graph-dev libgtk2.0-dev
+cd ~/panorama
+cvs -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/hugin login</pre>
+
+<p>
+Tapez juste la touche Entrée
+</p>
+<pre class="code">cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/hugin co hugin
+cd hugin
+./bootstrap
+./configure --with-unicode=yes
+make
+sudo make install</pre>
+
+<p>
+Si tout c&rsquo;est bien passé, vous pouvez lancer hugin par un simple :
+</p>
+<pre class="code">hugin</pre>
+
+<p>
+ Pour finir merci de me signaler toutes erreurs dans ce post. Je ne suis pas tenu responsable pour tous les dégats que vous pourriez faire dans votre système en suivant mon guide. Vous pouvez faire ce que vous voulez de ce guide sauf une exploitation commerciale (me contacter) La prochaine fois je vous expliquerai comment utiliser tout ça ;)<a href="/applications/lien_interne" class="wikilink2" title="applications:lien_interne" onclick="return svchk()" onkeypress="return svchk()">Lien interne</a> 
+</p>
+
+</div>

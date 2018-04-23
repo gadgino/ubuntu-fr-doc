@@ -1,0 +1,55 @@
+{{tag>Trusty administration réseau bureau_à_distance}}
+
+------
+
+====== Visionneur de bureaux distants Gitso ======
+
+Comme d'autres visionneurs de [[:bureau_a_distance|bureau à distance]], **Gitso** est un logiciel permettant de se connecter à distance, à travers une interface graphique, à un serveur d'affichage. De cette manière, vous affichez sur votre propre écran ce que vous verriez à l'écran d'un autre ordinateur.
+
+Contrairement à la plupart des autres solutions, Gitso exempte le **serveur** (l'ordinateur qui est vu) d'ouvrir le port TCP de la connexion d'accès. Seul le **client** (l'ordinateur qui prend la main) devra ouvrir le port TCP 5500 correspondant au [[:vnc|protocole VNC]]. Ceci permet à un utilisateur confirmé (client, ordinateur qui voit) d'aider un utilisateur parfaitement novice (serveur, ordinateur qui est vu). Le serveur aura pour mission d'[[:tutoriel:comment_installer_un_paquet|installer]] **Gitso** (si cela n'a pas été fait en amont), de le lancer et de saisir l'adresse IP du client.
+
+**Gitso** utilise le protocole VNC. C'est un logiciel libre, multi-plateforme, sous licence [[wpfr>GPL|GNU GPL v3]]. 
+
+<note tip>Il est conseillé de lire la page [[:VNC]] ainsi que celle sur le [[:Bureau_a_distance|Bureau à distance]] pour avoir une vue globale du principe de la connexion à distance.</note>
+
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+Il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]]  **[[apt>gitso]]**.
+/!\ Logiciel non maintenu par la communauté depuis 2012
+
+
+===== Utilisation côté client =====
+Pour lancer l'application faites une recherche dans [[unity#tableau_de_bord_dash|le tableau de bord Unity]] avec le mot clé **Gitso**.\\
+Le client, qui veut prendre la main, doit d'abord [[:ufw|ouvrir son port TCP 5500]] correspondant au port par défaut du protocole VNC. Ceci se configure au niveau du [[:ufw|pare-feu]].
+
+Le client cochera la case //Give Support// (venir en aide) puis //Start// (commencer).
+
+{{ :applications:gitso-support_trusty.png?300 |}}
+
+Il lui faut ensuite **communiquer son adresse IP à l'utilisateur côté "serveur"** (par téléphone, mail, irc, fax, signaux de fumée...).
+
+Pour connaître l'adresse IP du poste client : naviguer sur un site tel que [[http://www.anonymat.org/vostraces/index.php|anonymat.org]] ou [[http://mon-ip.com|mon-ip.com]] ou [[https://mon-ip-addresse.com|mon-ip-addresse.com]].
+
+===== Utilisation côté serveur =====
+
+Le serveur, qui veut être aidé, n'a __aucune intervention à faire sur la configuration de son pare-feu__. Il n'a qu'à exécuter **Gitso**, laisser cochée la case //Get Help// (obtenir de l'aide, cochée par défaut), **saisir l'IP du client qui va l'aider** et enfin //Start// (commencer).
+
+{{ :applications:gisto-client_trusty.png?300 |}} 
+
+Après quelques secondes, une fenêtre contenant le bureau du **serveur** va apparaître sur le poste **client** : c'est à lui de jouer !
+
+=====Problème connu=====
+====Pas de bouton start====
+Si la fenêtre de connexion ne comporte aucun bouton "start", il suffit de valider en tapant sur la touche "entrer"
+{{ :gitso:ma_capture.png?nolink&200 |}}
+
+===== Désinstallation =====
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Liens =====
+* [[http://fonctionerd.free.fr/index.php?post/2011/08/23/D%C3%A9panner-%C3%A0-distance-avec-Gitso|Dépanner à distance avec Gitso]]\\
+* [[http://code.google.com/p/gitso/|page google code de gitso]]

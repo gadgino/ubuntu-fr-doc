@@ -1,0 +1,96 @@
+{{tag>media_center multimédia tnt vétuste}}
+
+----
+
+====== Freevo ======
+
+**Freevo** est un //Linux Media Center// très intéressant, simple à mettre en œuvre.
+
+Couplé à un dual head pour l'exporter sur une télévision, il est tout simplement enfantin d'utilisation…
+
+{{ecran_freevo_menu_400x309.jpg}}
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir activé l'accès au [[:depots#depots_officiels|dépôt Universe]].
+
+===== Installation =====
+
+Freevo est disponible dans les dépôts officiels. Il suffit d'[[:tutoriel:comment_installer_un_paquet#paquet_present_dans_les_depots|installer le paquet]] **[[apt>freevo]]**.
+
+
+===== Configuration =====
+
+FIXME //Ce texte a été rédigé pour une très ancienne version de Freevo. Il serait nécessaire de vérifier s'il est toujours d'actualité.//
+
+Le fichier **/usr/share/freevo/freevo_config.py** contient tous les paramètres par défaut de Freevo, mais il ne doit pas être modifié : il faut copier le fichier **/etc/freevo/local_conf.py** dans son dossier personnel, et modifier ce fichier pour éditer les paramètres.
+
+<code>
+cp /etc/freevo/local_conf.py ~/.freevo/
+</code>
+
+[[:tutoriel:comment_modifier_un_fichier|Éditer le fichier]] **~/.freevo/local_conf.py** comme suit :
+
+<file>
+# ======================================================================
+# MPlayer settings:
+# ======================================================================
+MPLAYER_VERSION = 9999 # à rajouter car la version de mplayer dans dapper est 2:0.99 cvs et est non reconnu par FREEVO (9999=CVS)
+MPLAYER_VO_DEV    = 'xv' # à rajouter pour forcer le -vo xv dans mplayer, cela peut être gl, gl2, x11 au choix 
+</file>
+
+Éditer le fichier **/etc/freevo.conf** comme suit :
+
+<file>geometry = 1024x768 # à modifier selon l'affichage souhaité en fullscreen avec mplayer (affichage sur TV).</file>
+
+
+===== Utilisation =====
+
+Lancez l'application depuis le menu //Applications -> Son et vidéo -> Freevo// ou //via// la [[:commande_shell|commande]] suivante :
+
+  freevo
+
+   * La touche « z » permet de passer en plein écran.
+   * Le pavé de flèches du clavier permet de naviguer dans les dossiers/fichiers.
+   * La touche « Entrée » ⌤ ou « Return » ⏎ valide vos choix.
+   * La touche « Échap » ⎋ permet de quitter une exécution en cours ou de revenir en arrière.
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, le configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+=====Problèmes connus=====
+====Installation impossible====
+
+Sous oneiric, le message suivant apparaît lors du paramétrage
+
+Traceback (most recent call last):
+  File "/usr/bin/freevo.real", line 521, in <module>
+    execfile(freevo_version, {}, versions)
+IOError: [Errno 2] No such file or directory: '/usr/lib/pymodules/python2.5/freevo/version.py'
+dpkg : erreur de traitement de freevo (--configure) :
+ le sous-processus script post-installation installé a retourné une erreur de sortie d'état 1
+Aucun rapport « apport » écrit car MaxReports a déjà été atteint
+                                                                Des erreurs ont été rencontrées pendant l'exécution :
+ freevo
+E: Sub-process /usr/bin/dpkg returned an error code (1)
+
+Il suffit d'installer**[[apt>python2.6]]** et réinstaller freevo.
+
+====Pas de son====
+
+Il suffit d'éditer le fichier /usr/share/freevo_config.py, chercher les ligne AUDIO_DEVICE et remplacer es arguments '/dev/dsp' par 'default'.
+
+===== Voir aussi =====
+
+  * [[:media_center|Ubuntu en tant que Media Center]]
+  * Une page dédiée à **Freevo** sur le site [[http://fr.lprod.org/wiki/doku.php?id=autres:media_center:freevo|lprod.org]], vidéo 100% libre sous GNU/Linux
+  * **(en)** [[http://freevo.sourceforge.net/|Site officiel]]
+  * **(en)** [[http://freevo.sourceforge.net/cgi-bin/doc|Documentation officielle]]
+  * **(fr)** [[http://www.lahiette.com/biboobox/?Freevo|Tutoriel installation, configuration et utilisation de la version 1.8.1 (mai 2008)]] FIXME Ce tutoriel est obsolète.
+
+----
+
+//Contributeur principal : [[:utilisateurs:laurentb|Laurent Bellegarde de l’équipe lprod.org]].//

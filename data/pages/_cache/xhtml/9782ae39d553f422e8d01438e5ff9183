@@ -1,0 +1,134 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#installation_ubuntu_en_dual_boot_avec_windows" class="toc"> Installation Ubuntu en Dual boot avec Windows </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#windows_xp_avec_ntfs_ou_n_importe_quelle_autre_partition_basee_sur_ntfs" class="toc"> Windows XP avec NTFS ou n'importe quelle autre partition basée sur NTFS </a></span></li>
+<li class="level2"><span class="li"><a href="#n_importe_quel_systeme_de_fichiers_existant_sur_cette_planete" class="toc"> N'importe quel système de fichiers existant sur cette planète </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+<a href="https://wiki.ubuntu.com/WindowsDualBootHowTo" class="urlextern" title="https://wiki.ubuntu.com/WindowsDualBootHowTo" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Traduit</a> par Yaen Pujol
+</p>
+
+<a name="installation_ubuntu_en_dual_boot_avec_windows"></a><h1> Installation Ubuntu en Dual boot avec Windows </h1>
+<div class="level1">
+
+<p>
+ <em>Si vous n&rsquo;avez pas déjà installé Windows, faites-le maintenant. Si vous laissez à cet instant de l&rsquo;espace disque pour installer Ubuntu, sachez que vous ne pourrez pas redimensionner votre partition NTFS plus tard.</em>
+</p>
+
+</div>
+<!-- SECTION [104-388] -->
+<a name="windows_xp_avec_ntfs_ou_n_importe_quelle_autre_partition_basee_sur_ntfs"></a><h2> Windows XP avec NTFS ou n'importe quelle autre partition basée sur NTFS </h2>
+<div class="level2">
+
+<p>
+   <em>Ceci suppose que Windows est déjà installé avec le système de fichier NTFS et utilise la totalité ou plus de la moitié de votre disque</em>
+</p>
+
+<p>
+L&rsquo;installation d&rsquo;Ubuntu ne prend pas en charge le redimensionnement des partitions NTFS, c&rsquo;est pourquoi là méthode indiqué est plus ou moins complexe. Il est possible que cette prise en charge soit inclue dans une version futue de Ubuntu. Cette méthode utilise le CD System Rescue pour redimensionner votre partition NTFS. 
+</p>
+<ol>
+<li class="level1"><span class="li"> Démarrez Windows et sauvegardez chaque documents, photos, données importantes, etc sur des médias amovibles tels que des CD-R/DVD-R. </span>
+</li>
+<li class="level1"><span class="li"> Lancez l&rsquo;utilitaire de défragmentation sur le disque C:\</span>
+</li>
+<li class="level1"><span class="li"> <a href="http://www.sysresccd.org/download.fr.php" class="urlextern" title="http://www.sysresccd.org/download.fr.php" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Téléchargez le CD Rescue System (image ISO)</a> (100 Méga-octets de logiciels vraiment utiles)</span>
+</li>
+<li class="level1"><span class="li"> Gravez l&rsquo;image ainsi téléchargée sur un CD.</span>
+</li>
+<li class="level1"><span class="li"> Démarrez sur le CD et appuyez sur la touche <em>Entrée</em> quand vous verrez le message &ldquo;Boot:&rdquo;</span>
+</li>
+<li class="level1"><span class="li"> Quand le terminal s&rsquo;affichera, entrez:</span>
+</li>
+</ol>
+<pre class="code">
+run_qtparted
+</pre>
+<ol>
+<li class="level1"><span class="li"> Séléctionnez votre disque dans l&rsquo;interface graphique (la plupart du temps /dev/hda).</span>
+</li>
+<li class="level1"><span class="li"> Séléctionnez votre partition NTFS à redimensionner (la plupart du temps /dev/hda1).</span>
+</li>
+<li class="level1"><span class="li"> Faites un clic droit avec la souris et choisissez Redimensionner/Resize (ceci dépendant de la langue inclue dans votre CD System Rescue)</span>
+</li>
+<li class="level1"><span class="li"> Indiquez la nouvelle taille de la partition.</span>
+</li>
+<li class="level1"><span class="li"> Appliquez les changements dans <em>Fichier/File</em> &rarr; <em>Appliquer/Commit</em>. Si votre clavier et votre souris se bloquent durant le redimensionnement, soyez juste patient.</span>
+</li>
+<li class="level1"><span class="li"> Quand les changements seront appliqués, enlevez le CD System Rescue, et insérez votre CD d&rsquo;installation de Ubuntu.</span>
+</li>
+<li class="level1"><span class="li"> Redémarrez et installez Ubuntu dans l&rsquo;espace libre créé pendant le redimensionnement.</span>
+</li>
+</ol>
+
+</div>
+<!-- SECTION [389-2278] -->
+<a name="n_importe_quel_systeme_de_fichiers_existant_sur_cette_planete"></a><h2> N'importe quel système de fichiers existant sur cette planète </h2>
+<div class="level2">
+
+<p>
+  <em>La prise en charge du redimensionnement d&rsquo;autres systèmes de fichiers fait partie de la procédure d&rsquo;installation de Ubuntu</em> 
+</p>
+<ol>
+<li class="level1"><span class="li"> Téléchargez/Gravez ou achetez le CD d&rsquo;installation</span>
+<ul>
+<li class="level2"><span class="li"> <a href="http://www.ubuntu-fr.org/telechargement" class="urlextern" title="http://www.ubuntu-fr.org/telechargement" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Liste des miroirs de téléchargements</a></span>
+</li>
+<li class="level2"><span class="li"> <a href="http://shipit.ubuntulinux.org/" class="urlextern" title="http://shipit.ubuntulinux.org/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Achetez votre CD d'installation (Page en anglais)</a></span>
+</li>
+</ul>
+</li>
+<li class="level1"><span class="li"> Une fois que vos CD seront prêts, insérez-les dans votre lecteur de CDROM et redémarrez votre ordinateur</span>
+<ul>
+<li class="level2"><span class="li"> Si votre ordinateur ne démarre pas à partir du CD (que Windows démarre encore), vérifiez votre paramètres de BIOS (en appuyant sur  <em>Suppr</em> ou <em>F2</em> au démarrage) et choissez un démarrage sur le lecteur de CDROM.</span>
+</li>
+</ul>
+</li>
+<li class="level1"><span class="li"> Si votre CD démarre correctement, le logo de Ubuntu s&rsquo;affichera à l&rsquo;écran, appuyez sur <em>Entrée</em> pour continuer.</span>
+</li>
+<li class="level1"><span class="li"> Suivez les instructions affichées à l&rsquo;écran.</span>
+</li>
+<li class="level1"><span class="li"> L&rsquo;installation détectera vos disques durs, et chargera l&rsquo;outil de partitionement.</span>
+</li>
+<li class="level1"><span class="li"> Choisissez le mode manuel de partitionement.</span>
+<ul>
+<li class="level2"><span class="li"> La liste affichée contient vos partitions actuelles.</span>
+</li>
+</ul>
+</li>
+<li class="level1"><span class="li"> Séléctionnez la partition à redimensionner et appuyez sur <em>Entrée</em>.</span>
+</li>
+<li class="level1"><span class="li"> Séléctionnez &ldquo;Taille:&rdquo;, et appuyez sur <em>Entrée</em>.</span>
+</li>
+<li class="level1"><span class="li"> Séléctionnez &ldquo;Oui&rdquo; et appuyez sur <em>Entrée</em>.</span>
+</li>
+<li class="level1"><span class="li"> Entrez la nouvelle taille en Giga-octets pour votre partition, il est recommendé de créer <strong>au moins 10 GO</strong> d&rsquo;espace libre pour votre installation d&rsquo;ubuntu. Appuyez sur <em>Entrée</em> quand vous serez satisfait de vos changements. Ces derniers pourront mettre un peu de temps avant de se voir appliqués.</span>
+</li>
+<li class="level1"><span class="li"> Créez ensuite une partition SWAP desant le double de votre mémoire vive actuelle (256 * 2 = 512, 512 * 2 = 1024, etc...).</span>
+</li>
+<li class="level1"><span class="li"> Créez une partition pour l&rsquo;installation de votre système Ubuntu, au moins de 10 GO.</span>
+</li>
+<li class="level1"><span class="li"> Séléctionnez &ldquo;Finir le partitionnement et appliquer les changements&rdquo;.</span>
+</li>
+<li class="level1"><span class="li"> Finnissez l&rsquo;installation de votre système Ubuntu.</span>
+</li>
+<li class="level1"><span class="li"> Au redémarrage, enlevez le CDROM d&rsquo;installation de Ubuntu, et il vous sera présenté une liste de systèmes d&rsquo;exploitations à démarrer. Ubuntu aura sûrement détecté votre installation Windows, et ajouté une option de démarrage sur cet écran.</span>
+</li>
+</ol>
+
+<p>
+Note: Veuillez noter que <a href="http://mlf.linux.rulez.org/mlf/ezaz/ntfsresize.html" class="urlextern" title="http://mlf.linux.rulez.org/mlf/ezaz/ntfsresize.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">NTFS Resize</a> fait partie intégrante du système de partitionnement de Ubuntu 5.04. 
+</p>
+
+</div>
+<!-- SECTION [2279-] -->

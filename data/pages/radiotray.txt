@@ -1,0 +1,687 @@
+{{tag>Xenial radio audio}}
+---------
+
+{{ applications:radio-tray_logo.png}}
+====== RadioTray : écoutez vos radios simplement ! ======
+
+Radio Tray est un logiciel extrêmement léger qui permet d'écouter des radios en ligne. Il s'intègre dans le tableau de bord et permet notamment la gestion de vos radios préférées grâce à des actions basiques telles que :
+  * Ajouter/ Supprimer des radios.
+  * Renommer des radios.
+  * Créer des groupes.
+
+Il ne se présente que sous la forme d'une icône dans le tableau de bord mais peut s'ouvrir avec une fenêtre pour les réglages.
+
+{{ :radiotray_natty_01.png }}
+
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+**Radio Tray** est **disponible dans les dépôts**, il vous suffit donc d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] :  **[[apt>radiotray|radiotray]]**.
+
+Si vous souhaitez que Radiotray démarre automatiquement : ouvrez [[:tutoriel:application_demarrage|Application au démarrage]] cliquer sur ajouter, dans la case "Nom" taper "radiotray", dans la case "Commande" taper "/usr/bin/radiotray", dans "Commentaire" entrez ce que vous voulez (ex: "radio" ou "web radio").
+
+=====Utilisation=====
+==== Particularité sous Gnome-shell ====
+Sous Ubuntu-Gnome, la **zone de notification** est **masquée** ! 
+
+Pour la **voir** il faut **amener la souris en bas de l'écran** ce qui permet ensuite de voir l'icône de **radiotray**.
+
+==== Ajout de radios ====
+Vous pouvez ajouter des radios dans "Préférences/Configurer les radios..." mais à l'aide de cette fonction vous ne pouvez ajouter qu'une seule radio à la fois.
+
+Cependant en éditant le fichier **bookmarks.xml** situé dans **~/.local/share/radiotray** vous pourrez ajouter en masse les radios et personnaliser votre menu. Une **liste de radios françaises** (màj 07/04/2013) existe que vous pouvez ajouter en suivant les instructions ci-dessous :
+ 
+  - Sauvegardez votre ancien bookmarks.xml avec, par exemple, avec la commande : <code>cp ~/.local/share/radiotray/bookmarks.xml ~/.local/share/radiotray/bookmarks00.xml</code>
+  - Cliquez sur "bookmarks.xml" au dessus de la liste des radios ;
+    * le **fichier** est **automatiquement ouvert**
+    * il ne vous reste **plus qu'à l'enregistrer et écraser l'ancien** dans le dossier caché de votre dossier personnel :\\ **//.local/share/radiotray/bookmarks.xml//**.
+  - Allez ensuite dans //Préférences// -> //Recharger les signets//.
+
+<note tip>Si vous souhaitez que cette liste de radios soit proposée par défaut pour les autres sessions, il vous faudra la copier (avec les droits administrateurs) dans le dossier /usr/share/radiotray : <code>sudo cp ~/.local/share/radiotray/bookmarks.xml /usr/share/radiotray/bookmarks.xml</code></note>
+
+Si vous avez besoin d'aide pour modifier le fichier **bookmarks.xml**, allez consulter le sujet [[http://forum.ubuntu-fr.org/viewtopic.php?id=547881&p=2|bookmarks.xml pour radiotray]]. Une liste de radio prête à être intégrée dans Radio Tray est disponible en fin de page.
+
+
+===== Problèmes connus =====
+
+==== Icône de notification s'affiche mal ("Icône vide") ====
+
+Pour [[Trusty|Ubuntu 14.04]] sous les environnements Unity, KDE et XFCE  une solution est de [[:tutoriel:comment_modifier_un_fichier|modifier le fichier]] **config.xml** du répertoire caché **~/.local/share/radiotray** de l'application Radiotray. 
+
+
+{{ :media:radiotrayconfig.png?nolink |}}
+
+  * Dans le fichier ligne 9, remplacer dans l'intitulé : <file>value="appindicator"</file> par "systray" ou "systray" par "appindicator" selon le cas de figure rencontré au départ.
+  * Enregistrer le fichier de configuration puis le fermer.
+  * Redémarrer Radiotray.
+
+==== Son de mauvaise qualité ====
+
+Cela peut être du à un réglage trop élevé du volume sonore défini par RadioTray, ce qui peut provoquer des saturations. Vous pouvez modifier le volume directement dans les réglages du son lorsque RadioTray fonctionne, en allant dans les préférences du son, vous avez un onglet Applications, dans lequel vous pourrez régler le niveau sonore pour chaque application (à ne pas confondre avec la possibilité de régler le son dans votre application elle même).
+
+Il est possible que le flux radio soit de faible qualité (suffisant pour les conversations, insuffisant pour la musique). Allez voir sur le site web de la radio concernée si d'autres adresses de flux sont disponibles, si c'est le cas vous pourrez ensuite la modifier dans le fichier "bookmarks.xml" (voir ci-dessus).
+==== Absence de fichier bookmarks.xml ====
+
+Avec Ubuntu-12.04 (et 14.04), pour que le fichier bookmarks.xml soit présent dans ".local/share/radiotray", il faut avoir lancé RadioTray une fois afin qu'il crée ce fichier automatiquement (il y écrit une liste prédéfinie de radios anglophones).
+
+==== Radiotray ne démarre pas ====
+
+Si avec Ubuntu-16.04, lancer radiotray dans terminal affiche l'erreur « OSError: [Errno 2] Aucun fichier ou dossier de ce type: '/usr/bin/src' ».
+Il suffit d'installer le paquet [[apt>python-xdg|python-xdg]] [[https://bugs.launchpad.net/ubuntu/+source/radiotray/+bug/1557115/comments/10|source #LP 1557115]]
+
+==== Radiotray affiche une icône noire inutilisable ====
+
+Si avec Ubuntu-16.04, lancer radiotray affiche une icône noire inutilisable dans la barre d'icônes, installer le paquet [[apt>gir1.2-appindicator3-0.1]] [[https://bugs.launchpad.net/ubuntu/+source/radiotray/+bug/1557115/comments/10|source #LP 1557115]]
+
+==== Interruptions de 5 secondes ====
+Si Radiotray interrompt la réception des radios pendant 5 secondes, alors que ni votre connexion internet , ni la web-radio elle-même (vérifier sur le site de celle-ci si le son s'interrompt parfois) ne sont en cause, voici la solution.
+
+Éditez avec les droits root le fichier ''/usr/lib/python2.7/dist-packages/radiotray/AudioPlayerGStreamer.py'' et commentez (à l'aide d'un #) la ligne 156.
+  sudo geany /usr/lib/python2.7/dist-packages/radiotray/AudioPlayerGStreamer.py
+
+La ligne 141 ou 156 (suivant la version) :
+<code>
+                self.player.set_state(Gst.State.PAUSED)
+</code>
+doit devenir :
+<code>
+                #self.player.set_state(Gst.State.PAUSED)
+</code>
+
+
+
+===== Liste de radios =====
+
+Voici une liste de radios prêtes à l'emploi pour radiotray (récupérez les dernières mises à jour des liens sur [[http://www.listenlive.eu/|listenlive]] ou [[http://fluxradios.blogspot.fr/p/flux-radios-francaise.html|fluxradios]]).
+<file xml bookmarks.xml><bookmarks>
+	<group name="root">
+		<group name="Sélection perso">
+			<bookmark name="Europe 1" url="http://mp3lg4.tdf-cdn.com/9240/lag_180945.mp3"/>
+			<bookmark name="France Culture" url="http://direct.franceculture.fr/live/franceculture-midfi.mp3"/>
+			<bookmark name="France Inter" url="http://direct.franceinter.fr/live/franceinter-midfi.mp3"/>
+			<bookmark name="Fun Radio" url="http://streaming.radio.funradio.fr/fun-1-44-128"/>
+			<bookmark name="MFM" url="http://mfm.ice.infomaniak.ch/mfm-128.mp3"/>
+			<bookmark name="Nostalgie" url="http://adwzg3.tdf-cdn.com/8472/nrj_172793.mp3"/>
+			<bookmark name="Radio Ô" url="http://mp3.live.tv-radio.com/rfo/all/radioo-128k.mp3"/>
+			<bookmark name="RMC" url="http://vipicecast.yacast.net/rmc"/>
+			<bookmark name="RTL" url="http://streaming.radio.rtl.fr/rtl-1-44-128"/>
+			<bookmark name="RTL2" url="http://streaming.radio.rtl2.fr/rtl2-1-44-128"/>
+			<bookmark name="Sud Radio" url="http://broadcast.infomaniak.net:80/start-sud-high.mp3"/>
+			<bookmark name="Frequence 3" url="http://www.frequence3.fr/plugins/winamp192.m3u"/>
+			<bookmark name="Size Radio" url="http://size.ice.infomaniak.ch/size-128.mp3"/>
+			<bookmark name="The Current" url="http://current.stream.publicradio.org/kcmp.mp3"/>
+			<bookmark name="Topmusic" url="http://players.creacast.com/creacast/topmusic/playlist.m3u"/>
+			<bookmark name="Wit FM" url="http://broadcast.infomaniak.ch/start-witfm-high.mp3"/>
+		</group>
+		<group name="NRJ">
+			<group name="Localisées">
+				<bookmark name="NRJ Africa" url="http://adwzg3.tdf-cdn.com/8651/nrj_171714.mp3"/>
+				<bookmark name="NRJ Martinique" url="http://91.121.163.143:8000/stream"/>
+				<bookmark name="NRJ Nouvelle-Calédonie" url="http://radio.lagoon.nc/nrj"/>
+				<bookmark name="NRJ Tahiti" url="http://tuner2.mana.pf:8080/nrj_HQ.mp3"/>
+			</group>
+		 		<bookmark name="[separator-ac3fe9ec-f485-46d2-a020-ab88ce2304ca]" url="[separator-ac3fe9ec-f485-46d2-a020-ab88ce2304ca]"/>
+			<bookmark name="NRJ" url="http://mp3lg4.scdn.arkena.com/8432/nrj_205243.mp3"/>
+			<bookmark name="NRJ At Work" url="http://adwzg3.tdf-cdn.com/8576/nrj_178870.mp3"/>
+			<bookmark name="NRJ avec iTunes" url="http://adwzg3.tdf-cdn.com/8516/nrj_171764.mp3"/>
+			<bookmark name="NRJ Back 2 School" url="http://triton.scdn.arkena.com/13062/live_aac.mp3"/>
+			<bookmark name="NRJ Discover" url="http://adwzg3.tdf-cdn.com/8647/nrj_178188.mp3"/>
+			<bookmark name="NRJ French" url="http://adwzg3.tdf-cdn.com/8520/nrj_170116.mp3"/>
+			<bookmark name="NRJ Hits Facebook" url="http://adwzg3.tdf-cdn.com/8640/nrj_170020.mp3"/>
+			<bookmark name="NRJ In Bed" url="http://adwzg3.tdf-cdn.com/8475/nrj_169522.mp3"/>
+			<bookmark name="NRJ Kendji" url="http://adwzg5.scdn.arkena.com/10517/nrj_161838.mp3"/>
+			<bookmark name="NRJ Latino" url="http://adwzg3.tdf-cdn.com/8590/nrj_171276.mp3"/>
+			<bookmark name="NRJ Party Hits" url="http://adwzg3.tdf-cdn.com/8585/nrj_175196.mp3"/>
+			<bookmark name="NRJ Pop" url="http://adwzg3.tdf-cdn.com/8492/nrj_172830.mp3"/>
+				<bookmark name="NRJ Rap Fr" url="http://adwzg3.tdf-cdn.com/8584/nrj_175946.mp3"/>
+			<bookmark name="NRJ Reggae" url="http://adwzg3.tdf-cdn.com/8589/nrj_173457.mp3"/>
+			<bookmark name="NRJ Wake Up" url="http://adwzg3.tdf-cdn.com/8633/nrj_163592.mp3"/>
+			<bookmark name="NRJ Zouk" url="http://adwzg3.tdf-cdn.com/8618/nrj_164942.mp3"/>
+		</group>
+		 		<bookmark name="[separator-ac3fe9ec-f485-46d2-a020-ab88ce2304ca]" url="[separator-ac3fe9ec-f485-46d2-a020-ab88ce2304ca]"/>
+		<group name="Personnalités">
+			<bookmark name="NRJ 6/9 Manu" url="http://adwzg3.tdf-cdn.com/8631/nrj_168429.mp3"/>
+			<bookmark name="NRJ C'Cauet" url="http://adwzg3.tdf-cdn.com/8619/nrj_171472.mp3"/>
+			<bookmark name="NRJ Guillaume Radio 2.0" url="http://adwzg3.tdf-cdn.com/8632/nrj_167568.mp3"/>
+				<bookmark name="[separator-ac3fe9ec-f485-46d2-a020-ab88ce2304ca]" url="[separator-ac3fe9ec-f485-46d2-a020-ab88ce2304ca]"/>
+			<bookmark name="NRJ Disney" url="http://adwzg3.tdf-cdn.com/8508/nrj_175017.mp3"/>
+			<bookmark name="NRJ Glee" url="http://adwzg3.tdf-cdn.com/8719/nrj_168628.mp3"/>
+			<bookmark name="NRJ Justin Bieber" url="http://adwzg3.tdf-cdn.com/8668/nrj_163420.mp3"/>
+			<bookmark name="NRJ Michael Jackson" url="http://adwzg3.tdf-cdn.com/8517/nrj_172250.mp3"/>
+				<bookmark name="[separator-ac3fe9ec-f485-46d2-a020-ab88ce2304ca]" url="[separator-ac3fe9ec-f485-46d2-a020-ab88ce2304ca]"/>
+			<bookmark name="RMF Beatles Mania" url="http://www.miastomuzyki.pl/n/rmfbeatlemania.pls"/>
+			<bookmark name="RMF Depeche Mode" url="http://www.miastomuzyki.pl/n/rmfdepechemode.pls"/>
+			<bookmark name="RMF Michael Jackson" url="http://www.miastomuzyki.pl/n/rmfmichaeljackson.pls"/>
+			<bookmark name="RMF Queen" url="http://www.miastomuzyki.pl/n/rmfqueen.pls"/>
+		</group>
+		<group name="Talk">
+			<bookmark name="BFM Business" url="http://bfmbusiness.scdn.arkena.com/bfmbusiness.mp3"/>
+			<bookmark name="Europe 1" url="http://mp3lg4.tdf-cdn.com/9240/lag_180945.mp3"/>
+			<bookmark name="Ici et Maintenant" url="http://radio.rim952.fr:8001/stream.ogg"/>
+			<bookmark name="Kernews" url="http://www.streamakaci.com/radios/kernews.m3u"/>
+		<bookmark name="Libre@Toi (pro logiciels libres)" url="http://audio.libre-a-toi.org:8000/voixdulat_ogg"/><bookmark name="Radio Libertaire (Anarchiste)" url="http://ecoutez.radio-libertaire.org:8080/radiolib.m3u"/>
+			</group>
+		<group name="Autres">
+			<group name="Community">
+				<bookmark name="Jupiter Broadcast" url="http://jblive.fm/"/>
+				<bookmark name="WBEZ" url="http://wbez.ic.llnwd.net/stream/wbez_91_5_fm.pls"/>
+			</group>
+			<group name="Love Songs">
+				<bookmark name="Energy Love" url="http://broadcast.infomaniak.ch/energylove-high.mp3.m3u"/>
+				<bookmark name="M2 Radio - Love" url="http://www.m2radio.fr/pls/m2love_winamp.m3u"/>
+			</group>
+			<group name="Oldies">
+				<bookmark name="AM 1710" url="http://lin2.ash.fast-serv.com:9022/listen.pls"/>
+				<bookmark name="WNAR" url="http://live.wnar-am.com:8500/listen.pls"/>
+			</group>
+				<bookmark name="[separator-ac3fe9ec-f485-46d2-a020-ab88ce2304ca]" url="[separator-ac3fe9ec-f485-46d2-a020-ab88ce2304ca]"/>
+			<bookmark name="Alouette fr" url="http://www.alouette.fr/alouette.m3u"/>
+			<bookmark name="Sing sing Radio" url="http://www.sing-sing.org/confort2.pls"/>
+			<bookmark name="Radio Pulsar" url="http://91.121.62.121:8100/listen.pls"/>
+			<bookmark name="Rockenfolie Radio" url="http://www.rockenfolie.com/players/ecouter.m3u"/>
+			<bookmark name="OxyRadio hd" url="http://www.oxyradio.net:8000/hd.mp3"/>
+			<bookmark name="Zouk FM" url="http://sv3.vestaradio.com:6540"/>
+		</group>
+			<bookmark name="[separator-ac3fe9ec-f485-46d2-a020-ab88ce2304ca]" url="[separator-ac3fe9ec-f485-46d2-a020-ab88ce2304ca]"/>
+		<group name="Afrique">
+			<bookmark name="Africa N°1 - Paris" url="http://african1paris.ice.infomaniak.ch/african1paris-128.mp3"/>
+			<bookmark name="Africa N°1 (Coupé Décalé)" url="http://webradio1.ice.infomaniak.ch/webradio1-128.mp3"/>
+			<bookmark name="Africa N°1 (Mandingue)" url="http://webradio2.ice.infomaniak.ch/webradio2-128.mp3"/>
+			<bookmark name="Africa N°1 (Naija)" url="http://webradio3.ice.infomaniak.ch/webradio3-128.mp3"/>
+			<bookmark name="Africa N°1 (Rumba)" url="http://webradio4.ice.infomaniak.ch/webradio4-128.mp3"/>
+			<bookmark name="Algérie - Radio Andalousse" url="http://listen.radionomy.com/andalousse.m3u"/>
+			<bookmark name="Cameroun - Cameroon voice" url="http://cameroonvoice.com:1748/"/>
+			<bookmark name="Cameroun - Radio RTS" url="http://yourvida.serverroom.us:5170/"/>
+			<bookmark name="Côte d'Ivoire - Radio AlBayane (Mulsumans)" url="http://82.165.148.218:8000/albayane.mp3"/>
+			<bookmark name="Farafina Radio : Premiere web radio afro" url="http://farafinaradio.com/pls/farafina.m3u"/>
+			<bookmark name="Guinée - Nostalgie" url="http://www.streamakaci.com/radios/nostalgieguinee.m3u"/>
+			<bookmark name="Ile Maurice - MBC Best FM" url="mms://mediaserver.intnet.mu/bestfm"/>
+			<bookmark name="Ile Maurice - MBC Kool FM Radio Maurice" url="mms://mediaserver.intnet.mu/mbcrm1"/>
+			<bookmark name="Madagascar - Dago Radio Sound" url="http://flux-radio.dagoradiosound.info:322/"/>
+			<bookmark name="Madagascar - Radio Vazo Gasy" url="http://stream.radiovazogasy.com:8001/"/>
+			<bookmark name="Maroc - Aswat" url="http://broadcaster.infomaniak.ch/aswat-high.mp3"/>
+			<bookmark name="Maroc - Chada FM" url="http://broadcast.infomaniak.ch/chadafm-high.mp3.m3u"/>
+			<bookmark name="Radio Orient" url="http://mp3.live.tv-radio.com/radioorient/all/radioorient.mp3"/>
+		</group>
+		<group name="Belgique">
+			<group name="RTBF">
+				<bookmark name="Classic 21 (RTBF)" url="http://classic21.ice.infomaniak.ch/classic21.mp3"/>
+				<bookmark name="La première" url="http://streaming.rtbf.be:8000/prem128xrtbf"/>
+				<bookmark name="Pure FM" url="http://www.static.rtbf.be/radio/purefm/m3u/pure_128k.m3u"/>
+				<bookmark name="Vivacité Bruxelles" url="http://streaming.rtbf.be:8000/vivabxlxrtbf"/>
+				<bookmark name="Vivacité Mons" url="http://streaming.rtbf.be:8000/vivahntxrtbf"/>
+				<bookmark name="Vivacité Charleroi" url="http://streaming.rtbf.be:8000/vivachaxrtbf"/>
+				<bookmark name="Vivacité Namur" url="http://streaming.rtbf.be:8000/vivanamurxrtbf"/>
+				<bookmark name="Vivacité Liège" url="http://streaming.rtbf.be:8000/vivaliegexrtbf"/>
+				<bookmark name="Vivacité Luxembourg" url="http://streaming.rtbf.be:8000/vivaluxxrtbf"/>
+			</group>
+			<group name="RTL">
+				<bookmark name="BelRTL" url="http://www.listenlive.eu/belrtl.m3u"/>
+				<bookmark name="Radio Contact" url="http://www.listenlive.eu/contactfr.m3u"/>
+			</group>
+			<group name="Les réseaux provinciaux">
+				<group name="Hainaut">
+					<bookmark name="SudRadio" url="http://www.ecoutez.biz:8000/live"/>
+				</group>
+				<group name="Brabant Wallon">
+					<bookmark name="Mélodie FM" url="http://streammelodie.dgnet.be:8008/listen.pls"/>
+					<bookmark name="Radio Antipode" url="http://rs1.radiostreamer.com:8920/listen.pls"/>
+				</group>
+				<group name="Luxembourg et Namur">
+					<bookmark name="Must FM" url="http://rs1.vdl.fm:8700/listen.pls"/>
+				</group>
+				<bookmark name="Warm (Liège)" url="http://stream01.warm.fm:9002/listen.pls"/>
+			</group>
+			<group name="Réseau urbain">
+				<bookmark name="DH radio" url="http://www.listenlive.eu/dhradio.m3u"/>
+				<bookmark name="Fun Radio" url="http://www.funradio.be/player/"/>
+				<bookmark name="Fun Radiov2" url="http://broadcast.infomaniak.net:80/funradiobe-high.mp3"/>
+			</group>  
+			<group name="Belgie-De beroofd nationale radio">
+				<bookmark name="Club FM" url="http://www.clubfmserver.be:8000/clubfm.mp3"/>
+				</group>
+			<group name="Belgie-VRT">
+				<bookmark name="Radio 1" url="http://www.listenlive.eu/vrtradio1-high.m3u"/>
+				<bookmark name="Radio 2 Antwerpen" url="http://www.listenlive.eu/vrtra2ant-high.m3u"/>
+				<bookmark name="Radio 2 Limbourg" url="http://www.listenlive.eu/vrtra2lim-high.m3u"/>
+				<bookmark name="Radio 2 ooos-Vlanderen" url="http://www.listenlive.eu/vrtra2ovl-high.m3u"/>
+				<bookmark name="Radio 2 Vlaams-Brabant" url="http://www.listenlive.eu/vrtra2vlb-high.m3u"/>
+				<bookmark name="Radio 2 West-Vlaanderen" url="http://www.listenlive.eu/vrtra2wvl-high.m3u"/>
+				<bookmark name="Studio Brussel" url="http://www.listenlive.eu/vrtstubru-high.m3u"/>
+				<bookmark name="Klara" url="http://www.listenlive.eu/vrtklara-high.m3u"/>
+			</group>
+		</group>
+		<group name="Canada">
+			<bookmark name="1ère chaine - Québec" url="http://2QMTL0.akacast.akamaistream.net:80/7/953/177387/v1/rc.akacast.akamaistream.net/2QMTL0"/>
+			<bookmark name="Boomer AM1570 (Laval)" url="http://www.xltrax.com:8620/listen.pls"/>
+			<bookmark name="CFAI-FM (Edmundston, Nouveau Brunswick)" url="http://ozzy.conceptj.com:8000/"/>
+			<bookmark name="CFLM (La Tuque)" url="http://www.xltrax.com:8200/"/>
+			<bookmark name="CHNC (Gaspésie)" url="http://xltrax.com:8140/"/>
+			<bookmark name="CHOI RadioX (Québec)" url="http://67.212.85.90/choi.mp3.m3u"/>
+			<bookmark name="CIBL - Radio Montreal" url="http://stream02.ustream.ca:8000/cibl128.mp3"/>
+			<bookmark name="CIMB 95,1FM Pessamit (Radio des Innus)" url="http://radio.cimb.fm:8991/"/>
+			<bookmark name="CJRG - Radio Gaspesie" url="http://stream02.ustream.ca:8000/cjrg128.mp3"/>
+			<bookmark name="CKBN (Bécancour)" url="http://stream.hebergementultra.com:8100"/>
+			<bookmark name="CKJM FM (Cheticamp, Nouvelle Ecosse)" url="mms://ysj00ms01s0.aliant.net/CKJM"/>
+			<bookmark name="CKMA 93,7 FM Radio MirAcadie" url="mms://ysj00ms01s0.aliant.net/CKMA"/>
+			<bookmark name="CKRH FM (Halifax, Nouvelle Ecosse)" url="mms://ysj00ms01s0.aliant.net/CKRH"/>
+			<bookmark name="CKRL 89.1 (Ville de Québec - Variétés)" url="http://stream02.ustream.ca:8000/ckrl128.mp3"/>
+			<bookmark name="Radio Yé-Yé" url="http://www.radioyeye.com/ecoute.m3u"/>
+		</group>
+		<group name="France">
+			<group name="Associatives et différentes">
+				<group name="Religions">
+					<group name="Bouddhisme">
+						<bookmark name="Radio Magico (méditation)" url="http://streaming206.radionomy.com/Radio-Magico"/>
+					</group>
+					<group name="Christianisme">
+						<bookmark name="Chants Grégorien" url="http://esperance6.streamakaci.com:80"/>
+						<bookmark name="Radio Espérance" url="http://str16.streamakaci.com:8050"/>
+						<bookmark name="RCF National" url="http://str14.streamakaci.com"/>
+					</group>
+					<group name="Islam">
+						<bookmark name="RadioZamZam" url="http://188.165.156.97:8220"/>
+					</group>
+				</group>
+				<group name="Vieilles Chansons">
+					<bookmark name="Radio Paris Chanson" url="http://streaming.radionomy.com/Paris-Chanson"/>
+				</group>
+				<bookmark name="Alta - Canzona Corsa" url="http://str80.streamakaci.com:7010/"/>
+				<bookmark name="Aligre FM" url="http://aligrefm.org/aligrefm.m3u"/>
+				<bookmark name="AlterNantes FM" url="http://diffusion.lafrap.fr/alternantes.ogg"/>
+				<bookmark name="Bide et Musique - variété 60-70-80" url="http://relay2.bide-et-musique.com:9100"/>
+				<bookmark name="Canal Académie (Institut de France)" url="http://www.radio-canalacademies.com/mp3112"/>
+				<bookmark name="Chanteurs.org - Artistes disparus" url="http://www.chanteurs.org/radio.m3u"/>
+				<bookmark name="Fréquence Paris Plurielle" url="http://radio.toile-libre.org:8000/fpp.mp3.m3u"/>
+				<bookmark name="La Clé Des Ondes (Bordeaux)" url="http://radio.lacdo.org/stream.m3u"/>
+				<bookmark name="Libre@Toi (Paris. Pro logiciels libres)" url="http://audio.libre-a-toi.org:8000/voixdulat_ogg"/>
+				<bookmark name="Radio Alpa" url="http://radioalpa.com:8000/"/>
+				<bookmark name="Radio Alpine Meilleure" url="http://91.121.62.121:8310/"/>
+				<bookmark name="Radio Bro Gwened (Bretagne)" url="http://rbg.online.stalig.net/live.mp3.m3u"/>
+				<bookmark name="Radio Canut (Lyon)" url="http://live.francra.org:8000/radiocanut.m3u"/>
+				<bookmark name="Radio Craponne" url="http://radio-shoutcast.cyber-streaming.com:8010/listen.pls"/>
+				<bookmark name="Radio Lenga d'Oc" url="http://91.121.147.40:8000/rlo-direct.mp3"/>
+				<bookmark name="Radio Mille Pattes (Reggae)" url="http://broadcast.infomaniak.net:80/millepattes-high.mp3"/>
+				<bookmark name="Radio Nova" url="http://broadcast.infomaniak.net:80/radionova-high.mp3"/>
+				<bookmark name="Radio Qui Qu'en Grogne" url="http://www.streamakaci.com/radios/rqqg.m3u"/>
+				<bookmark name="Radio Larzac" url="http://www.radiolarzac.org:8000/radiolarzac.m3u"/>
+				<bookmark name="REN La Radio Souvenirs" url="http://listen.radionomy.com/ren"/>
+			</group>
+			<group name="Chérie FM">
+				<bookmark name="Chérie 80's" url="http://95.81.147.7/3678/nrj_3678.mp3"/>
+				<bookmark name="Chérie 90's" url="http://95.81.147.7/3679/nrj_3679.mp3"/>
+				<bookmark name="Chérie at Work" url="http://95.81.147.7/3682/nrj_3682.mp3"/>
+				<bookmark name="Chérie Fitness" url="http://95.81.147.7/3687/nrj_3687.mp3"/>
+				<bookmark name="Chérie Frenchy" url="http://95.81.147.7/3690/nrj_3690.mp3&#10;"/>
+				<bookmark name="Chérie Jazzy" url="http://95.81.147.7/3692/nrj_3692.mp3"/>
+				<bookmark name="Chérie Latino" url="http://95.81.147.7/3689/nrj_3689.mp3"/>
+				<bookmark name="Chérie Lounge" url="http://95.81.147.7/3693/nrj_3693.mp3"/>
+				<bookmark name="Chérie Love Songs" url="http://95.81.147.7/3694/nrj_3694.mp3"/>
+				<bookmark name="Chérie Nouveautés" url="http://95.81.147.7/3695/nrj_3695.mp3"/>
+				<bookmark name="Chérie Party" url="http://95.81.147.7/3696/nrj_3696.mp3"/>
+				<bookmark name="Chérie R &amp; B" url="http://95.81.147.7/3676/nrj_3676.mp3"/>
+				<bookmark name="Chérie Zen" url="http://95.81.147.7/3706/nrj_3706.mp3"/>
+			</group>
+			<group name="Nostalgie">
+				<bookmark name="Nostalgie" url="http://adwzg3.tdf-cdn.com/8472/nrj_172793.mp3"/>
+				<bookmark name="Nostalgie Best Of 60's" url="http://95.81.147.7/3712/nrj_3712.mp3"/>
+				<bookmark name="Nostalgie Best Of 70's" url="http://95.81.147.7/3713/nrj_3713.mp3"/>
+				<bookmark name="Nostalgie Best Of 80's" url="http://95.81.147.7/3714/nrj_3714.mp3"/>
+				<bookmark name="Nostalgie Blues" url="http://95.81.147.7/3715/nrj_3715.mp3"/>
+				<bookmark name="Nostalgie Chansons Françaises" url="http://95.81.147.7/3718/nrj_3718.mp3"/>
+				<bookmark name="Nostalgie Ciné Tubes" url="http://95.81.147.7/3719/nrj_3719.mp3"/>
+				<bookmark name="Nostalgie Disco" url="http://95.81.147.7/3722/nrj_3722.mp3"/>
+				<bookmark name="Nostalgie Funk" url="http://95.81.147.7/3724/nrj_3724.mp3"/>
+				<bookmark name="Nostalgie Italia" url="http://95.81.147.7/3726/nrj_3726.mp3"/>
+				<bookmark name="Nostalgie Jazz" url="http://95.81.147.7/3727/nrj_3727.mp3"/>
+				<bookmark name="Nostalgie Motown" url="http://95.81.147.7/3728/nrj_3728.mp3"/>
+				<bookmark name="Nostalgie Poètes" url="http://95.81.147.7/3731/nrj_3731.mp3"/>
+				<bookmark name="Nostalgie Rock" url="http://95.81.147.7/3732/nrj_3732.mp3"/>
+				<bookmark name="Nostalgie Slow" url="http://95.81.147.7/3733/nrj_3733.mp3"/>
+				<bookmark name="Nostalgie Top 100" url="http://95.81.147.7/3725/nrj_3725.mp3"/>
+			</group>
+			<group name="Ouï FM">
+				<bookmark name="Ouï Alternatif" url="http://ouifm2.ice.infomaniak.ch/ouifm2.mp3"/>
+				<bookmark name="Ouï Collector" url="http://ouifm2.ice.infomaniak.ch/ouifm3.mp3"/>
+				<bookmark name="Ouï Blues" url="http://ouifm4.ice.infomaniak.ch/ouifm4.mp3"/>
+				<bookmark name="Ouï Indépendant" url="http://ouifm2.ice.infomaniak.ch/ouifm5.mp3"/>
+			</group>
+			<group name="Radios Fera Rock">
+				<bookmark name="6 6 6 (Caen)" url="http://radio666.net:8000/"/>
+				<bookmark name="Beaub'FM (Limoges)" url="http://beaubfm.scdn.arkena.com/beaubfm.mp3"/>
+				<bookmark name=" C'rock Radio (Vienne)" url="http://stric6.streamakaci.com/crock.mp3"/>
+				<bookmark name="Canal B (Rennes)" url="http://37.187.70.49:80/canalb"/>
+				<bookmark name="Coloriage FM (Montbard)" url="http://str15.streamakaci.com:9590/"/>
+				<bookmark name="FMR (Toulouse)" url="http://91.121.134.23:8000/radio-fmr.mp3"/>
+				<bookmark name="Fréquence Mutine (Brest)" url="http://icecast.infini.fr:8000/mutine"/>
+				<bookmark name="Graf'Hit (Compiègne)" url="http://213.246.53.78:8000/grafhit.mp3"/>
+				<bookmark name="L'Eko des Garrigues (Montpellier)" url="http://91.121.159.124:8000/eko-des-garrigues-128k.mp3"/>
+				<bookmark name="Radio Activ' (Saint-Brieuc)" url="http://radio-active.net:8000/active"/>
+				<bookmark name="Radio Ballade (Esperaza)" url="http://78.213.138.240:8003/stream"/>
+				<bookmark name="Radio Béton (Tour)" url="http://51.254.220.198:8000/stream.mp3"/>
+				<bookmark name="Radio Coteaux (Auch/Tarbes)" url="http://str80.streamakaci.com:7960/"/>
+				<bookmark name="Radio Dio (Saint-Etienne)" url="http://www.hosting-serv.com:9160/"/>
+				<bookmark name="Radio en construction (Strasbourg)" url="http://str0.creacast.com:80/rec"/>
+				<bookmark name="Radio PFM (Arras)" url="http://178.33.237.20:8000/stream.mp3"/>
+				<bookmark name="Radio Primitive (Reims)" url="http://www.radioprimitive.fr:8000/live"/>
+				<bookmark name="Radio Pulse (Alençon)" url="http://176.31.199.181"/>
+				<bookmark name="RCV (Lille)" url="http://www.radioking.fr/play/rcv99fm"/>
+				<bookmark name="SOL FM (Lyon)" url="http://str15.streamakaci.com:9490"/>
+				<bookmark name="Equinoxe (Namur)" url="http://live.equinoxenamur.be:8000/Equinoxe.mp3"/>
+				<bookmark name="Radio Panik (Bruxelles)" url="http://streaming.domainepublic.net:8000/radiopanik.ogg"/>
+				<bookmark name="CIBL (Montréal)" url="http://stream02.ustream.ca:8000/cibl128.mp3"/>
+				<bookmark name="Chuo FM (Ottawa)" url="http://icecast.isilive.ca:8000/chuo"/>
+			</group>
+			<group name="Radio France">
+				<bookmark name="France Inter" url="http://direct.franceinter.fr/live/franceinter-midfi.mp3"/>
+				<bookmark name="France Info" url="http://direct.franceinfo.fr/live/franceinfo-midfi.mp3"/>
+				<bookmark name="France Culture" url="http://direct.franceculture.fr/live/franceculture-midfi.mp3"/>
+				<bookmark name="France Musique" url="http://direct.francemusique.fr/live/francemusique-midfi.mp3"/>
+				<bookmark name="FIP " url="http://direct.fipradio.fr/live/fip-midfi.mp3 "/>
+				<bookmark name="FIP (Bordeaux)" url="http://direct.fipradio.fr/live/fipbordeaux-midfi.mp3 "/>
+				<bookmark name="FIP (Nantes)" url="http://direct.fipradio.fr/live/fipnantes-midfi.mp3"/>
+				<bookmark name="FIP (Strasbourg)" url="http://direct.fipradio.fr/live/fipstrasbourg-midfi.mp3"/>
+				<bookmark name="Le Mouv' " url="http://direct.mouv.fr/live/mouv-midfi.mp3"/>
+				<bookmark name="FIP autour du rock" url="http://direct.fipradio.fr/live/fip-webradio1.mp3"/>
+				<bookmark name="FIP autour du jazz" url="http://direct.fipradio.fr/live/fip-webradio2.mp3"/>
+				<bookmark name="FIP autour du groove" url="http://direct.fipradio.fr/live/fip-webradio3.mp3"/>
+				<bookmark name="FIP autour du monde" url="http://direct.fipradio.fr/live/fip-webradio4.mp3"/>
+				<bookmark name="FIP tout nouveau, tout FIP" url="http://direct.fipradio.fr/live/fip-webradio5.mp3"/>
+				<bookmark name="FIP autour des disquaires" url="http://direct.fipradio.fr/live/fip-webradio6.mp3"/>
+				
+				
+		 		<bookmark name="[separator-ac3fe9ec-f485-46d2-a020-ab88ce2304ca]" url="[separator-ac3fe9ec-f485-46d2-a020-ab88ce2304ca]"/>
+		 		<group name="France Bleu">
+					<bookmark name=" France Bleu 107.1" url="http://direct.francebleu.fr/live/fb1071-midfi.mp3"/>
+					<bookmark name=" France Bleu Alsace" url="http://direct.francebleu.fr/live/fbalsace-midfi.mp3"/>
+					<bookmark name=" France Bleu Elsass" url="http://direct.francebleu.fr/live/Fbelsass-midfi.mp3"/>
+					<bookmark name=" France Bleu Armorique" url="http://direct.francebleu.fr/live/fbarmorique-midfi.mp3"/>
+					<bookmark name=" France Bleu Auxerre" url="http://direct.francebleu.fr/live/fbauxerre-midfi.mp3"/>
+					<bookmark name=" France Bleu Azur" url="http://direct.francebleu.fr/live/fbazur-midfi.mp3"/>
+					<bookmark name=" France Bleu Béarn" url="http://direct.francebleu.fr/live/fbbearn-midfi.mp3"/>
+					<bookmark name=" France Bleu Belfort Montbéliard" url="http://direct.francebleu.fr/live/fbbelfort-midfi.mp3"/>
+					<bookmark name=" France Bleu Berry" url="http://direct.francebleu.fr/live/fbberry-midfi.mp3"/>
+					<bookmark name=" France Bleu Besançon" url="http://direct.francebleu.fr/live/fbbesancon-midfi.mp3"/>
+					<bookmark name=" France Bleu Bourgogne" url="http://direct.francebleu.fr/live/fbbourgogne-midfi.mp3"/>
+					<bookmark name=" France Bleu Breiz Izel" url="http://direct.francebleu.fr/live/fbbreizizel-midfi.mp3"/>
+					<bookmark name=" France Bleu Champagne-Ardenne" url="http://direct.francebleu.fr/live/fbchampagne-midfi.mp3"/>
+					<bookmark name=" France Bleu Cotentin" url="http://direct.francebleu.fr/live/fbcotentin-midfi.mp3"/>
+					<bookmark name=" France Bleu Creuse" url="http://direct.francebleu.fr/live/fbcreuse-midfi.mp3"/>
+					<bookmark name=" France Bleu Drôme Ardèche" url="http://direct.francebleu.fr/live/fbdromeardeche-midfi.mp3"/>
+					<bookmark name=" France Bleu Gard Lozère" url="http://direct.francebleu.fr/live/fbgardlozere-midfi.mp3"/>
+					<bookmark name=" France Bleu Gascogne" url="http://direct.francebleu.fr/live/fbgascogne-midfi.mp3"/>
+					<bookmark name=" France Bleu Gironde" url="http://direct.francebleu.fr/live/fbgironde-midfi.mp3"/>
+					<bookmark name=" France Bleu Haute Normandie" url="http://direct.francebleu.fr/live/fbhautenormandie-midfi.mp3"/>
+					<bookmark name=" France Bleu Basse Normandie" url="http://direct.francebleu.fr/live/fbbassenormandie-midfi.mp3"/>
+					<bookmark name=" France Bleu Herault" url="http://direct.francebleu.fr/live/fbherault-midfi.mp3"/>
+					<bookmark name=" France Bleu Isère" url="http://direct.francebleu.fr/live/fbisere-midfi.mp3"/>
+					<bookmark name=" France Bleu La Rochelle" url="http://direct.francebleu.fr/live/fblarochelle-midfi.mp3"/>
+					<bookmark name=" France Bleu Limousin" url="http://audio.scdn.arkena.com/11380/fblimousin-midfi128.mp3"/>
+					<bookmark name=" France Bleu Loire Océan" url="http://direct.francebleu.fr/live/fbloireocean-midfi.mp3"/>
+					<bookmark name=" France Bleu Lorraine Nord" url="http://direct.francebleu.fr/live/fblorrainenord-midfi.mp3"/>
+					<bookmark name=" France Bleu Maine" url="http://direct.francebleu.fr/live/fbmaine-midfi.mp3"/>
+					<bookmark name=" France Bleu Mayenne" url="http://direct.francebleu.fr/live/fbmayenne-midfi.mp3"/>
+					<bookmark name=" France Bleu Nord" url="http://direct.francebleu.fr/live/fbnord-midfi.mp3"/>
+					<bookmark name=" France Bleu Orléans" url="http://direct.francebleu.fr/live/fborleans-midfi.mp3"/>
+					<bookmark name=" France Bleu Pays d'Auvergne" url="http://direct.francebleu.fr/live/fbpaysdauvergne-midfi.mp3"/>
+					<bookmark name=" France Bleu Pays Basque" url="http://direct.francebleu.fr/live/fbpaysbasque-midfi.mp3"/>
+					<bookmark name=" France Bleu Pays de Savoie" url="http://direct.francebleu.fr/live/fbpaysdesavoie-midfi.mp3"/>
+					<bookmark name=" France Bleu Périgord" url="http://direct.francebleu.fr/live/fbperigord-midfi.mp3"/>
+					<bookmark name=" France Bleu Picardie" url="http://direct.francebleu.fr/live/fbpicardie-midfi.mp3"/>
+					<bookmark name=" France Bleu Poitou" url="http://direct.francebleu.fr/live/fbpoitou-midfi.mp3"/>
+					<bookmark name=" France Bleu Provence" url="http://direct.francebleu.fr/live/fbprovence-midfi.mp3"/>
+					<bookmark name=" France Bleu RCFM Frequenza Mora" url="http://direct.francebleu.fr/live/fbfrequenzamora-midfi.mp3"/>
+					<bookmark name=" France Bleu Roussillon" url="http://direct.francebleu.fr/live/fbroussillon-midfi.mp3"/>
+					<bookmark name=" France Bleu Saint Étienne Loire" url="http://direct.francebleu.fr/live/fbstetienne-midfi.mp3"/>
+					<bookmark name=" France Bleu Sud Lorraine" url="http://direct.francebleu.fr/live/fbsudlorraine-midfi.mp3"/>
+					<bookmark name=" France Bleu Toulouse" url="http://direct.francebleu.fr/live/fbtoulouse-midfi.mp3"/>
+					<bookmark name=" France Bleu Touraine" url="http://direct.francebleu.fr/live/fbtouraine-midfi.mp3"/>
+					<bookmark name=" France Bleu Vaucluse" url="http://direct.francebleu.fr/live/fbvaucluse-midfi.mp3"/>
+				</group>
+				<group name="RFI">
+					<bookmark name="RFI Monde" url="http://rfi-monde-64k.scdn.arkena.com/rfimonde.mp3"/>
+					<bookmark name="RFI Afrique" url="http://rfi-afrique-64k.scdn.arkena.com/rfiafrique.mp3"/>
+					<bookmark name="RFI Musique" url="http://rfi-musiquemonde-64k.scdn.arkena.com/rfimusiquemonde.mp3"/>
+				</group>
+			</group>
+		 	<group name="Radio Trafic 107.7">
+				<bookmark name="ASF Zone Alpes Provence" url="http://str0.creacast.com/radio_vinci_autoroutes_4"/>
+				<bookmark name="ASF Zone Auvergne Sud" url="http://str0.creacast.com/radio_vinci_autoroutes_5"/>
+				<bookmark name="ASF Zone Côte d'Azur" url="http://str0.creacast.com/radio_vinci_autoroutes_7"/>
+				<bookmark name="ASF Zone Languedoc Roussillon" url="http://str0.creacast.com/radio_vinci_autoroutes_4"/>
+				<bookmark name="ASF Zone Ouest Centre" url="http://str0.creacast.com/radio_vinci_autoroutes_1"/>
+				<bookmark name="ASF Zone Sud Est" url="http://str0.creacast.com/radio_vinci_autoroutes_6"/>
+				<bookmark name="ASF Zone Sud Ouest" url="http://str0.creacast.com/radio_vinci_autoroutes_3"/>
+				<bookmark name="AREA Rhône-Alpes" url="http://media.autorouteinfo.fr:8000/direct_sud.mp3"/>
+				<bookmark name="APRR Zone Nord" url="http://media.autorouteinfo.fr:8000/direct_nord.mp3"/>
+				<bookmark name="SANEF Zone Est" url="http://95.81.146.10/10138/med_123034.mp3"/>
+				<bookmark name="SANEF Zone Ouest" url="http://95.81.146.10/10139/med_123159.mp3"/>
+				<bookmark name="SANEF Zone Nord" url="http://95.81.147.10/10139/med_123159.mp3"/>
+			</group>
+			<bookmark name="RFM" url="http://rfm-live-mp3-128.scdn.arkena.com/rfm.mp3"/>
+			<bookmark name="Skyrock" url="http://​www.skyrock.fm/​stream.php/​tunein16_128mp3.mp3"/><group name="SNCF La Radio">
+				<bookmark name="SNCF Radio Ile de France" url="http://mp3.live.tv-radio.com/3080/sncf-la-radio-iledefrance/c-sncf-la-radio-iledefrance.mp3"/>
+				<bookmark name="SNCF Radio Rhône Alpes" url="http://mp3.live.tv-radio.com/2317/sncf-la-radio-rhonealpes/sncf-la-radio-rhonealpes.mp3"/>
+				<bookmark name="SNCF Radio PACA" url="http://mp3.live.tv-radio.com/2314/sncf-la-radio-provencealpescote-dazur/sncf-la-radio-provencealpescote-dazur.mp3"/>
+				<bookmark name="SNCF Radio Auvergne" url="http://mp3.live.tv-radio.com/2255/sncf-la-radio-auvergne/sncf-la-radio-auvergne.mp3"/>
+				<bookmark name="SNCF Radio Bourgogne" url="http://mp3.live.tv-radio.com/2261/sncf-la-radio-bourgogne/sncf-la-radio-bourgogne.mp3"/>
+				<bookmark name="SNCF Radio Bretagne" url="http://mp3.live.tv-radio.com/2264/sncf-la-radio-bretagne/sncf-la-radio-bretagne.mp3"/>
+				<bookmark name="SNCF Radio Centre" url="http://mp3.live.tv-radio.com/2267/sncf-la-radio-centre/sncf-la-radio-centre.mp3"/>
+				<bookmark name="SNCF Radio Champagne Ardenne" url="http://mp3.live.tv-radio.com/2270/sncf-la-radio-champagneardenne/sncf-la-radio-champagneardenne.mp3"/>
+				<bookmark name="SNCF Radio Languedoc Roussillon" url="http://mp3.live.tv-radio.com/2285/sncf-la-radio-languedocroussillon/sncf-la-radio-languedocroussillon.mp3"/>
+				<bookmark name="SNCF Radio Limousin" url="http://mp3.live.tv-radio.com/2288/sncf-la-radio-limousin/sncf-la-radio-limousin.mp3"/>
+				<bookmark name="SNCF Radio Lorraine" url="http://mp3.live.tv-radio.com/2296/sncf-la-radio-lorraine/sncf-la-radio-lorraine.mp3"/>
+				<bookmark name="SNCF Radio Midi Pyrénées" url="http://mp3.live.tv-radio.com/2299/sncf-la-radio-midipyrenees/sncf-la-radio-midipyrenees.mp3"/>
+				<bookmark name="SNCF Radio Basse-Normandie" url="http://mp3.live.tv-radio.com/2258/sncf-la-radio-bassenormandie/sncf-la-radio-bassenormandie.mp3"/>
+				<bookmark name="SNCF Radio Haute-Normandie" url="http://mp3.live.tv-radio.com/2279/sncf-la-radio-hautenormandie/sncf-la-radio-hautenormandie.mp3"/>
+				<bookmark name="SNCF Radio Pays de la Loire" url="http://mp3.live.tv-radio.com/2305/sncf-la-radio-pays-de-la-loire/sncf-la-radio-pays-de-la-loire.mp3"/>
+				<bookmark name="SNCF Radio Picardie" url="http://mp3.live.tv-radio.com/2308/sncf-la-radio-picardie/sncf-la-radio-picardie.mp3"/>
+				<bookmark name="SNCF Radio Poitou Charentes" url="http://mp3.live.tv-radio.com/2311/sncf-la-radio-poitoucharentes/sncf-la-radio-poitoucharentes.mp3"/>
+			</group>
+			<group name="Virgin Radio">
+				<bookmark name="Virgin New" url="http://95.81.155.10/9145/lag_103228.mp3"/>
+				<bookmark name="Virgin Classic" url="http://95.81.155.10/9146/lag_103325.mp3"/>
+				<bookmark name="Virgin Electoshock" url="http://95.81.147.10/9148/lag_103401.mp3"/>
+				<bookmark name="Virgin Hits" url="http://95.81.155.10/9150/lag_103440.mp3"/>
+				<bookmark name="Virgin Rock" url="http://95.81.155.10/9151/lag_103523.mp3"/>
+			</group>
+		</group>
+		<group name="France outre mer">
+			<group name="Réunion">
+				<bookmark name="Ile de la Réunion - RFO" url="http://mp3.live.tv-radio.com/rfo/all/rfo_reunion-128k.mp3"/>
+				<bookmark name="100 pour 100 Kreol" url="http://91.121.107.206:8600/"/>
+				<bookmark name="AZOT RADIO" url="http://sv1.vestaradio.com:8320"/>
+				<bookmark name="BIBASS RADIO" url="http://stream.radiojar.com/29rh2cqkb.m3u"/>
+				<bookmark name="EXO FM" url="http://statslive.infomaniak.ch/playlist/exofm/exofm-64.aac/playlist.m3u"/>
+				<bookmark name="FREE DOM 1" url="http://freedomice.streamakaci.com/freedom.mp3"/>
+				<bookmark name="FREE DOM 2" url="http://freedomice.streamakaci.com/freedom2.mp3"/>
+				<bookmark name="FUN RADIO" url="http://funradio.streamakaci.com:80"/>
+				<bookmark name="Generation 974" url="http://srv6.streaming-ingenierie.fr:8024"/>
+				<bookmark name="HIT FM" url="http://hitfm.ice.infomaniak.ch/hitfm-192.mp3"/>
+				<bookmark name="KreolFM Live" url="http://91.121.107.206:8700/kreol.mp3"/>
+				<bookmark name="Nostalgie Reunion" url="http://nostalgiereunion.ice.infomaniak.ch/nostalgiereunion-128.mp3"/>
+				<bookmark name="NRJ REUNION" url="http://nrjreunion.ice.infomaniak.ch/nrjreunion-128.mp3"/>
+				<bookmark name="Plus FM" url="http://91.121.107.206:8500"/>
+				<bookmark name="RER" url="http://128kps.rer.re:8000/listen.pls"/>
+				<bookmark name="RSL RADIO" url="http://rslradio.ice.infomaniak.ch/rslradio-128.mp3"/>
+				<bookmark name="TELEKREOL" url="http://91.121.107.206:8000"/>
+			</group>
+			<bookmark name="Guadeloupe - RBI FM Zouk Compas K/ Danse" url="http://213.186.61.62:7400/"/>
+			<bookmark name="Guadeloupe - RCI Radio Caraïbe Internationale" url="http://91.121.163.143:8000/rcigp_relay2.mp3.m3u"/>
+			<bookmark name="Guadeloupe - RFO" url="http://mp3.live.tv-radio.com/rfo/all/rfoguadeloupe-128k.mp3"/>
+			<bookmark name="Guyane - RFO" url="http://mp3.live.tv-radio.com/rfo/all/rfo_guyane-128k.mp3"/>
+			<bookmark name="Martinique - RBR" url="http://rbr.vestaradio.com/listen.m3u"/>
+			<bookmark name="Martinique - RCI Radio Caraïbe Internationale" url="http://94.23.9.13:8000/stream.m3u"/>
+			<bookmark name="Martinique - RFO" url="http://mp3.live.tv-radio.com/rfo/all/rfomartinique-128k.mp3"/>
+			<bookmark name="Martinique - Super Radio : La radio des jeunes" url="http://str81.streamakaci.com:9160"/>
+			<bookmark name="Mayotte - RFO" url="http://mp3.live.tv-radio.com/rfo/all/rfomayotte-48k.mp3"/>
+			<bookmark name="Nouvelle Calédonie - Radio Djiido" url="http://radiodjiido.nc:8002/"/>
+			<bookmark name="Nouvelle Calédonie - RFO" url="http://mp3.live.tv-radio.com/rfo/all/rfo_nouvellecaledonie-128k.mp3"/>
+			<bookmark name="Polynésie - RFO" url="http://mp3.live.tv-radio.com/rfo/all/rfo_polynesie-128k.mp3"/>
+		</group>
+		<group name="Suisse">
+			<bookmark name="Buureradio (style bavarois)" url="http://live-two.dmd2.ch:8080/radiotell.mp3"/>
+			<bookmark name="Radio Heimatklang (ex neo zwei)" url="http://volksmusiknet.ch/stream.m3u"/>
+			<bookmark name="Radio Alpen Melodie" url="http://www.alpenmelodie.de/pls/alpenmelodie.pls"/>
+			<bookmark name="[separator-ac3fe9ec-f485-46d2-a020-ab88ce2304ca]" url="[separator-ac3fe9ec-f485-46d2-a020-ab88ce2304ca]"/>
+			<bookmark name="NRJ Suisse/Leman" url="http://adwzg6.scdn.arkena.com/12534/nrj_140972.mp3"/>
+			<bookmark name="RSR La 1ère" url="http://stream.srg-ssr.ch/la-1ere/mp3_128.m3u"/>
+			<bookmark name="RSR Espace 2" url="http://stream.srg-ssr.ch/espace-2/mp3_128.m3u"/>
+			<bookmark name="RSR Couleur3" url="http://stream.srg-ssr.ch/couleur3/mp3_128.m3u"/>
+			<bookmark name="RSR Option Musique" url="http://stream.srg-ssr.ch/option-musique/mp3_128.m3u"/>
+			<bookmark name="VoxInox" url="http://stream.voxinox.ch/voxinox1h/listen.pls"/>
+			<bookmark name="VoxInox 2" url="http://stream.voxinox.ch/voxinox2h/listen.pls"/>
+		</group>
+			<bookmark name="[separator-ac3fe9ec-f485-46d2-a020-ab88ce2304ca]" url="[separator-ac3fe9ec-f485-46d2-a020-ab88ce2304ca]"/>
+		<group name="Classées par type de musique"><group name="Celtique">
+			<bookmark name="Hermine Radio Celtic" url="http://streaming208.radionomy.com/TradCan?group=16"/>
+			<bookmark name="Irish fovourites" url="http://176.31.240.114:8326"/>
+			<bookmark name="Live from Dublin (trad, folk)" url="http://66.90.73.250:115/"/>
+			<bookmark name="Radio Bro Gwened" url="http://rbg.online.stalig.net/live.mp3.m3u"/>
+			<bookmark name="Radio Celtic Lands" url="http://listen.radionomy.com/r-c-l.m3u"/>
+			<bookmark name="RMF Celtic" url="http://www.miastomuzyki.pl/n/rmfceltic.pls"/>
+		</group>
+		<group name="Classique">
+			<bookmark name="France Musique " url="http://www.tv-radio.com/station/france_musique_mp3/france_musique_mp3-128k.m3u "/>
+			<bookmark name="M2 Classix" url="http://live.m2stream.fr/m2classic-128.mp3"/>
+			<bookmark name="Musiq'3 (RTBF)" url="http://musiq3.ice.infomaniak.ch/musiq3.mp3"/>
+			<bookmark name="Radio Suisse Classique" url="http://www.radiosuisseclassique.ch/live/aacp.m3u"/>
+			<bookmark name="Radio Classique" url="http://broadcast.infomaniak.net:80/radioclassique-high.mp3"/>
+			<bookmark name="Radio Mozart (Marseille)" url="http://listen.radionomy.com/radio-mozart"/>
+			<bookmark name="Venice Classic Radio Italia" url="http://109.123.116.202:8022/listen.pls"/>
+			<bookmark name="[separator-ac3fe9ec-f485-46d2-a020-ab88ce2304ca]" url="[separator-ac3fe9ec-f485-46d2-a020-ab88ce2304ca]"/>
+			<bookmark name="KDFC" url="http://provisioning.streamtheworld.com/pls/KDFCFM.pls"/>
+			<bookmark name="Classic FM" url="http://media-ice.musicradio.com/ClassicFMMP3.m3u"/>
+			<bookmark name="WCPE" url="http://www.ibiblio.org/wcpe/wcpe.pls"/>
+			<bookmark name="CINEMIX" url="http://cinemix.us/cine.asx"/>
+		</group>
+	 	<group name="Cool / New Age">
+			<bookmark name="Beat Blender" url="http://somafm.com/beatblender.pls"/>
+			<bookmark name="Secret Agent" url="http://somafm.com/secretagent.pls"/>
+			<bookmark name="Groove Salad" url="http://somafm.com/groovesalad.pls"/>
+			<bookmark name="Illinois Street Lounge" url="http://somafm.com/illstreet.pls"/>
+			<bookmark name="RMF Chillout" url="http://www.miastomuzyki.pl/n/rmfchillout.pls"/>
+				<bookmark name="[separator-ac3fe9ec-f485-46d2-a020-ab88ce2304ca]" url="[separator-ac3fe9ec-f485-46d2-a020-ab88ce2304ca]"/>
+			<bookmark name="Blue FM" url="http://bluefm.net/listen.pls"/>
+		</group>
+	 	<group name="Country">
+			<bookmark name="Québec Country" url="http://quebec-country.com/9010.m3u"/>
+			<bookmark name="CHOY Fm 99.9 L'Acadie Country" url="mms://ysj00ms01s0.aliant.net/CHOY"/>
+			<bookmark name="CJMS Country en français" url="http://gemini.shoutca.st:8572/stream"/>
+			<bookmark name="CJSE - Country 89" url="mms://ysj00ms01s0.aliant.net/CJSE"/>
+		 		<bookmark name="[separator-ac3fe9ec-f485-46d2-a020-ab88ce2304ca]" url="[separator-ac3fe9ec-f485-46d2-a020-ab88ce2304ca]"/>
+			<bookmark name="90's Country - 181 fm" url="http://www.181.fm/stream/asx/181-90scountry"/>
+			<bookmark name="Birdhill Radio Live Irish and Country Music" url="http://95.211.76.204:8000"/>
+			<bookmark name="Boot Liquor" url="http://somafm.com/bootliquor.pls"/>
+			<bookmark name="Country 108" url="http://www.country108.com/listen.pls"/>
+			<bookmark name="Country Family" url="http://listen.radionomy.com/radio-country-family.m3u"/>
+			<bookmark name="CountryMusic 24" url="http://91.250.77.9:9000"/>
+			<bookmark name="Country Radio Official" url="http://streaming202.radionomy.com/Country-Radio-Official"/>
+			<bookmark name="Eagle Country Radio" url="http://www.eaglecountryradio.net/pls/hd.m3u"/>
+			<bookmark name="Front Porch (Bluegrass)  - 181 fm" url="http://www.181.fm/stream/asx/181-frontporch"/>
+			<bookmark name="Kickin' Country - 181 fm" url="http://www.181.fm/stream/asx/181-kickincountry"/>
+			<bookmark name="Real Country - 181 fm" url="http://www.181.fm/stream/asx/181-realcountry"/>
+			<bookmark name="US 181 - 181 fm" url="http://www.181.fm/stream/asx/181-us181"/>
+		</group>
+	 	<group name="Jazz / Blues">
+			<group name="Jazz Radio">
+				<bookmark name="Jazz Radio" url="http://broadcast.infomaniak.ch/jazzradio-high.mp3"/>
+				<bookmark name="Black Music" url="http://jazzblackmusic.ice.infomaniak.ch/jazzblackmusic-high.mp3"/>
+				<bookmark name="Blues" url="http://jazzblues.ice.infomaniak.ch/jazzblues-high.mp3"/>
+				<bookmark name="Classic Jazz" url="http://jazz-wr01.ice.infomaniak.ch/jazz-wr01-128.mp3"/>
+				<bookmark name="Contemporary Jazz" url="http://jazz-wr05.ice.infomaniak.ch/jazz-wr05-128.mp3"/>
+				<bookmark name="Electro Swing" url="http://jazz-wr04.ice.infomaniak.ch/jazz-wr04-128.mp3"/>
+				<bookmark name="Funk" url="http://jazz-wr06.ice.infomaniak.ch/jazz-wr06-128.mp3"/>
+				<bookmark name="Gospel" url="http://jazz-wr07.ice.infomaniak.ch/jazz-wr07-128.mp3"/>
+				<bookmark name="Groove" url="http://jazz-wr08.ice.infomaniak.ch/jazz-wr08-128.mp3"/>
+				<bookmark name="Happy Hour by Bart - Baker" url="http://jazz-wr14.ice.infomaniak.ch/jazz-wr14-128.mp3"/>
+				<bookmark name="Jazz et classique" url="http://jazz-wr17.ice.infomaniak.ch/jazz-wr17-128.mp3"/>
+				<bookmark name="Jazzy French" url="http://jazz-wr18.ice.infomaniak.ch/jazz-wr18-128.mp3"/>
+				<bookmark name="Jazz Manouche" url="http://jazz-wr02.ice.infomaniak.ch/jazz-wr02-128.mp3"/>
+				<bookmark name="Ladies - Crooners" url="http://jazzladiescrooners.ice.infomaniak.ch/jazzladiescrooners-high.mp3"/>
+				<bookmark name="Latin Jazz" url="http://jazz-wr09.ice.infomaniak.ch/jazz-wr09-128.mp3"/>
+				<bookmark name="Lounge" url="http://jazzlounge.ice.infomaniak.ch/jazzlounge-high.mp3"/>
+				<bookmark name="New Orleans" url="http://jazz-wr03.ice.infomaniak.ch/jazz-wr03-128.mp3"/>
+				<bookmark name="Only Women" url="http://jazz-wr16.ice.infomaniak.ch/jazz-wr16-128.mp3"/>
+				<bookmark name="Reprises" url="http://reprises.ice.infomaniak.ch/reprises-high.mp3"/>
+				<bookmark name="Soul" url="http://jazz-wr10.ice.infomaniak.ch/jazz-wr10-128.mp3"/>
+				<bookmark name="Soul Food Radio by DJ Philgood" url="http://jazz-wr12.ice.infomaniak.ch/jazz-wr12-128.mp3"/>
+			</group>
+		 		<bookmark name="[separator-ac3fe9ec-f485-46d2-a020-ab88ce2304ca]" url="[separator-ac3fe9ec-f485-46d2-a020-ab88ce2304ca]"/>
+			<bookmark name="Cool Jazz" url="http://stream.radiotime.com/listen.stream?streamId=2500254"/>
+			<bookmark name="Jazz Bar Blues" url="http://listen.radionomy.com/jazz-bar-blues"/>
+			<bookmark name="Play Misty for Me (Jazz)" url="http://streaming.radionomy.com:8000/Play-Misty-for-Me.m3u"/>
+			<bookmark name="Smooth Jazz" url="http://smoothjazz.com/streams/smoothjazz_128.pls"/>
+			<bookmark name="Sonic Universe" url="http://somafm.com/sonicuniverse.pls"/>
+		</group>
+	 	<group name="Latin">
+			<bookmark name="Ambiance-Brasil" url="http://streaming207.radionomy.com/Ambiance-Brasil"/>
+			<bookmark name="Flamenco Radio" url="http://canalflamenco.rtva.stream.flumotion.com/rtva/canalflamenco.mp3.m3u"/>
+			<bookmark name="Nova Brasil FM" url="http://187.17.67.228:9052/listen.pls"/>
+			<bookmark name="Radio Animati (Mangas) - Italia" url="http://server.radioanimati.it/listen.pls"/>
+			<bookmark name="Radio Italia Anni 60" url="http://78.129.231.143:7140/listen.pls"/>
+			<bookmark name="Radio Italia Uno" url="http://94.23.29.154:8013/listen.pls"/>
+			<bookmark name="Radio Margherita" url="http://shoutcast.streamingmedia.it:7072/listen.pls"/>
+			<bookmark name="Radio Margherita Napoli" url="http://shoutcast.streamingmedia.it:7074/listen.pls"/>
+			<bookmark name="Radio Sevillanas" url="http://94.75.209.28:8192"/>
+			<bookmark name="Radio Tango Velours" url="http://tango-velours.fr/radio.m3u"/>
+			<bookmark name="Panda Show Radio - Mexico" url="http://s9.viastreaming.net:7050/listen.pls"/>
+			<bookmark name="Salsa Mexico HD" url="http://radiolatina.info:7218/listen.pls"/>
+		 		<bookmark name="[separator-ac3fe9ec-f485-46d2-a020-ab88ce2304ca]" url="[separator-ac3fe9ec-f485-46d2-a020-ab88ce2304ca]"/>
+			<bookmark name="Reggaeton 24/7" url="http://cc.net2streams.com/tunein.php/reggaeton/playlist.pls"/>
+			<bookmark name="Top Latino Radio" url="http://online.radiodifusion.net:8020/listen.pls"/>
+		</group>
+	 	<group name="Pop / Rock">
+			<group name="Disco &amp; Dance">
+				<bookmark name="Generation Disco Funk" url="http://www.generationdiscofunk.com/v3/pls/stream02/hd.m3u"/>
+				<bookmark name="Energy Dance" url="http://broadcast.infomaniak.ch/energydance-high.mp3.m3u"/>
+				<bookmark name="Energy Girl" url="http://broadcast.infomaniak.ch/energygirl-high.mp3.m3u"/>
+				<bookmark name="Energy Hot" url="http://broadcast.infomaniak.ch/energyhot-high.mp3.m3u"/>
+			</group>
+			<group name="Monster &amp; Death Metal">
+				<bookmark name="ChroniX Aggression" url="http://www.chronixradio.com/chronixaggression/listen/listen.pls"/>
+				<bookmark name="ChroniX Grit" url="http://www.chronixradio.com/cxrgrit/listen/listen.pls"/>
+				<bookmark name="ChroniX Metal" url="http://www.chronixradio.com/cxrmetal/listen/listen.pls"/>
+				<bookmark name="Creatures Of The Night Radio" url="http://streaming.ticino.com:8020/listen.pls"/>
+			</group>
+		 		<bookmark name="[separator-ac3fe9ec-f485-46d2-a020-ab88ce2304ca]" url="[separator-ac3fe9ec-f485-46d2-a020-ab88ce2304ca]"/>
+			<bookmark name=".977 Classic Rock" url="http://www.977music.com/tunein/web/classicrock.asx"/>
+                        <bookmark name="ClickNRock" url="http://relay1.clicknrock.fr:8150"/>
+			<bookmark name="Covers" url="http://somafm.com/covers.pls"/>
+			<bookmark name="Indie Pop Rocks!" url="http://somafm.com/indiepop.pls"/>
+			<bookmark name="PopTron" url="http://somafm.com/poptron.pls"/>
+			<bookmark name="Radio Paradise" url="http://www.radioparadise.com/musiclinks/rp_128aac.m3u"/>
+		</group>
+	 	<group name="Techno / Électronique">
+			<bookmark name="Black Rock FM" url="http://somafm.com/brfm.pls"/>
+			<bookmark name="cliqhop idm" url="http://somafm.com/cliqhop.pls"/>
+			<bookmark name="Drone Zone" url="http://somafm.com/dronezone.pls"/>
+			<bookmark name="EILO Techno" url="http://eilo.org:8000/techno.m3u"/>
+			<bookmark name="FG" url="http://fg.impek.com:80"/>
+			<bookmark name="FG Belgique" url="http://fga.impek.com:80"/>
+			<bookmark name="FG Berlin" url="http://radiofg.impek.com:80/fge"/>
+			<bookmark name="FG DJ Mix" url="http://fg6.impek.com:80"/>
+			<bookmark name="FG Dance" url="http://fgd.impek.com:80"/>
+			<bookmark name="FG Dubstep" url="http://fgv.impek.com:80"/>
+			<bookmark name="FG House" url="http://fgc.impek.com:80"/>
+			<bookmark name="FG Underground" url="http://ufg.impek.com:80"/>
+			<bookmark name="Nectarine Demoscene Radio" url="http://necta-relay.mnus.de:8000/necta192.mp3"/>
+			<bookmark name="New Dance Radio" url="http://jbstream.net/tunein.php/blackoutworm/playlist.asx"/>
+			<bookmark name="Radio Equinoxe (Jean Michel Jarre)" url="http://listen.radionomy.com/radio-equinoxe.m3u"/>
+			<bookmark name="Space Station Soma" url="http://somafm.com/spacestation.pls"/>
+		</group>
+	</group><bookmark name="[separator-ac3fe9ec-f485-46d2-a020-ab88ce2304ca]" url="[separator-ac3fe9ec-f485-46d2-a020-ab88ce2304ca]"/>
+	 	</group>
+</bookmarks></file>
+===== Voir aussi =====
+
+  * [[http://radiotray.sourceforge.net/|Site officiel (en)]]
+  * [[https://forum.ubuntu-fr.org/viewtopic.php?pid=21602234#p21602234/|Sujet "listes radio pour radiotray" sur le forum]]
+
+----
+
+//Sources : http://www.clapico.com/2011/04/17/unity/,  http://www.clapico.com/2010/08/28/radio-tray/ et http://www.clapico.com/2013/05/10/radiotray-et-ubuntu-13-04/ //

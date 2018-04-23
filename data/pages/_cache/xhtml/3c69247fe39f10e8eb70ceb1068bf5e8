@@ -1,0 +1,122 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#installer_un_serveur_ftp_proftpd" class="toc"> Installer un serveur ftp : proftpd </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#installation" class="toc"> Installation </a></span></li>
+<li class="level2"><span class="li"><a href="#configuration" class="toc"> Configuration </a></span></li>
+<li class="level2"><span class="li"><a href="#utiliser_votre_serveur_ftp" class="toc"> Utiliser votre serveur ftp </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/eks" class="wikilink1" title="utilisateurs:eks" onclick="return svchk()" onkeypress="return svchk()">eks</a>.
+</p>
+
+<a name="installer_un_serveur_ftp_proftpd"></a><h1> Installer un serveur ftp : proftpd </h1>
+<div class="level1">
+
+</div>
+<!-- SECTION [67-116] -->
+<a name="installation"></a><h2> Installation </h2>
+<div class="level2">
+
+<p>
+ Pour installer le package, rien de plus simple : 
+</p>
+<pre class="code">$ sudo apt-get install proftpd</pre>
+
+<p>
+ A la question &ldquo;Lancer ProFTPd à partir d&rsquo;inetd ou indépendamment ?&rdquo;, à moins de savoir ce que vous faites, répondez indépendamment.
+</p>
+
+<p>
+Et voilà, vous avez un serveur ftp !
+</p>
+
+</div>
+<!-- SECTION [117-412] -->
+<a name="configuration"></a><h2> Configuration </h2>
+<div class="level2">
+
+<p>
+ Pour éditer le fichier de configuration de proftpd, par exemple avec gedit : 
+</p>
+<pre class="code">$ sudo gedit /etc/proftpd.conf</pre>
+
+<p>
+ Voilà les paramètres intéressants à changer (pour une utilisation de base, si vous voulez plus de détail réferrez-vous à la documentation) : ServerName : le nom de votre serveur ftp #Quotas on : enlevez le # devant la ligne pour la décommentez si vous voulez utiliser les quotas
+</p>
+
+<p>
+Trouvez et décommentez les lignes suivantes (en retirant les # au début de chaque ligne) pour autoriser un accès anonyme &ldquo;standard&rdquo; : 
+</p>
+<pre class="code"># A basic anonymous configuration, no upload directories.
+
+ &lt;Anonymous ~ftp&gt;
+   User                         ftp
+   Group                        nogroup
+   # We want clients to be able to login with &quot;anonymous&quot; as well as &quot;ftp&quot;
+   UserAlias                    anonymous ftp
+   # Cosmetic changes, all files belongs to ftp user
+   DirFakeUser  on ftp
+   DirFakeGroup on ftp
+ 
+   RequireValidShell            off
+ 
+   # Limit the maximum number of anonymous logins
+   MaxClients                   10
+ 
+   # We want 'welcome.msg' displayed at login, and '.message' displayed
+   # in each newly chdired directory.
+   DisplayLogin                 welcome.msg
+   DisplayFirstChdir            .message
+ 
+   # Limit WRITE everywhere in the anonymous chroot
+   &lt;Directory *&gt;
+     &lt;Limit WRITE&gt;
+       DenyAll
+     &lt;/Limit&gt;
+   &lt;/Directory&gt;
+</pre>
+
+<p>
+ Faites bien attention à décommenter le dernier paragraphe (intitulé &ldquo;Limit WRITE everywhere in the anonymous chroot&rdquo;), sinon l&rsquo;utilisateur anonyme aura un accès en écriture dans le répertoire /home/ftp. Par contre, ne décommentez pas la suite (intitulée &ldquo;Uncomment this if you&rsquo;re brave&rdquo;).
+</p>
+
+<p>
+Une fois la configuration modifiée, relancez le serveur avec la commande suivante : 
+</p>
+<pre class="code">$ sudo /etc/init.d/proftpd restart</pre>
+
+</div>
+<!-- SECTION [413-2262] -->
+<a name="utiliser_votre_serveur_ftp"></a><h2> Utiliser votre serveur ftp </h2>
+<div class="level2">
+
+<p>
+ Les utilisateurs de la machine ont un accès ftp en lecture/écriture à leur dossier personnel avec leur login et leur mot de passe habituel.
+</p>
+
+<p>
+De plus, tout le monde a un accès anonyme avec le login &ldquo;anonymous&rdquo; ou &ldquo;ftp&rdquo; et n&rsquo;importe quel mot de passe. Le dossier auquel il ont accès est /home/ftp : tous les fichiers et dossiers que vous y mettrez pourront être consultés par tous.
+</p>
+
+<p>
+Vous pouvez à tout moment voir qui est connecté à votre serveur avec la commande 
+</p>
+<pre class="code">$ ftpwho</pre>
+
+<p>
+ et voir les statistiques avec : 
+</p>
+<pre class="code">$ ftpstats</pre>
+
+</div>
+<!-- SECTION [2263-] -->

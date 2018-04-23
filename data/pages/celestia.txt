@@ -1,0 +1,61 @@
+{{tag>éducation astronomie}}
+
+----
+
+====== Celestia ======
+Celestia est un logiciel libre de simulation spatiale en temps réel qui permet d’explorer l'Univers en trois dimensions, sans rester confiné à la Terre comme la plupart des planétariums. Livré en paquet ubuntu avec un ensemble de textures qui permettent au logiciel de marcher sur des configurations modestes, Celestia est facile à personnaliser, avec l'ajout d'objets, de textures et de modèles vrais, réalistes ou complètement fictifs.
+
+<note important>Celestia ne fait plus partie des dépôts pour Xenial : il faut l'installer à partir des sources. La dernière version est la 1.6.1</note>
+
+{{celestia.jpg|}}
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir activé l'accès au [[depots#depots_officiels|dépôt Multiverse]].
+  * Avoir activé l'[[accélération graphique]].
+
+<note tip>Comme tous les logiciels en 3D, Celestia requiert l'accélération 3D. Compter aussi 512 Mo de RAM, environ 1 GHz de CPU et quelques dizaines de Mo sur le disque dur pour le paquetage standard.  
+
+Si le paquetage livré par défaut permet un fonctionnement assez fluide pour des configurations modestes ou anciennes, l'ajout d'extensions (textures plus fines, catalogues plus étoffés) peut rendre l'application lente, saccadée voire inutilisable. Le logiciel est optimisé pour les cartes graphiques [[nvidia]] (format dds et textures "normales" ne marchent que pour nvidia) mais marche très bien avec les autres cartes. Certaines extensions sont très gourmandes en RAM et prennent beaucoup de place sur le disque dur : jusqu'à plus d'un Go (disque dur) pour certaines textures virtuelles.
+</note>
+
+===== Installation=====
+Selon votre [[environnements|environnements de bureau]], vous aurez à installer un paquet différent :
+  * Pour [[gnome|GNOME]] et [[xfce|XFCE]], installez **[[apt>celestia-gnome|celestia-gnome]]**.
+  * Pour [[kde|KDE]], installez **[[apt>celestia-kde|celestia-kde]]**.
+  * Il existe une version [[wpfr>OpenGL utility toolkit|GLUT]] (sans barre de menu) de Celestia. Installez **[[apt>celestia-glut|celestia-glut]]** pour l'avoir.
+  * Si vous avez un autre environnement ou des problèmes de téléchargement, télécharger directement la version du site officiel :http://www.shatters.net/celestia/download.html
+
+<note important>Des données non libres apportent des textures à des objets stellaires comme la Lune, Mercure, Mars ou Jupiter. Ces données sont contenues dans un paquet qui n'est pas installé par défaut. Pour les obtenir il suffit d'[[:tutoriel:comment_installer_un_paquet|installer]] **[[apt>celestia-common-nonfree|celestia-common-nonfree]]**.</note>
+===== Utilisation =====
+
+Lancez l'application //via// la [[:commande_shell|commande]] suivante :
+  celestia
+===== Problème =====
+====**Bug Xmu :**====
+
+Si au lancement de Celestia vous obtenez le message d'erreur suivant :
+      Unable to resolve Xmu symbols - please check your Xmu library installation.
+      celestia: ERROR: Communication problem with celestia, it probably crashed.
+
+Créez les liens suivants :
+      sudo ln -s /usr/X11R6/lib/libGL.so.1 /usr/lib/libGL.so
+      sudo ln -s /usr/X11R6/lib/libXmu.so.6 /usr/lib/libXmu.so
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi =====
+
+  * [[http://www.shatters.net/celestia|Site officiel de Celestia]]. (en)
+  *  [[http://www.celestiamotherlode.net|Site officiel des extensions de Celestia]].
+  *  [[http://www.ikiru.ch/celestia|Site  très complet en français (extensions, wiki, liens utiles, tutoriaux)]].
+  *  [[http://sciences.siteduzero.com/tutoriel-3-160820-explorez-l-espace-avec-celestia.html|Tutoriel du Site du Zéro par itms]].
+
+----
+
+//Contributeurs principaux :
+

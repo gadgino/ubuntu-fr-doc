@@ -1,0 +1,38 @@
+{{tag>Trusty matériel imprimante scanner}}
+----
+======Installer le pilote Xerox unifié======
+Pour savoir si votre imprimante multifonction est prise en charge par le pilote Xerox unifié, reportez-vous à la [[:liste_imprimantes_xerox|liste des imprimantes Xerox]].
+Si la prise en charge n'est pas satisfaisante, ou imcomplète, vous pourrez toujours installer ce pilote développé pour Linux. Il intégre la prise en charge de la partie imprimante et scanner
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir [[:tutoriel:comment_installer_un_paquet|installé le paquet]] **[[apt>libstdc++5]]**.
+
+=====Installation=====
+Pour installer le pilote Xerox unifié:
+  * Téléchargez-le à cette [[http://download.support.xerox.com/pub/drivers/6110MFP/drivers/linux/en/6110_Driver.tar|adresse]],
+  * [[:archivage#graphiquement|Décompressez l'archive]] dans votre **Dossier Personnel**,
+  * Donnez les droits au dossier décompressé avec la commande suivante à entrez dans un [[:terminal]]: <code>sudo chmod -R 777 Linux/</code>
+  * Exécutez le script avec la commande suivante à entrez dans un [[:terminal]]: <code>sudo bash ./Linux/install.sh</code>
+
+=====Installation de l'imprimante=====
+
+Vous pouvez désormais vous référer au [[:tutoriel:installer_imprimante_preinstalles|guide d'installation d'une imprimante à partir de pilotes pré-installés]].
+=====Utilisation du gestionnaire d'imprimantes Xerox=====
+Il est possible d'utiliser le gestionnaire d'imprimantes Xerox, pour le lancer faites une recherche dans [[unity#tableau_de_bord_dash|le tableau de bord Unity]] avec le mot clé **Xerox**. Si vous ne le trouvez pas entrez la commande :<code>/opt/Xerox/mfp/bin/Configurator</code>
+
+=====Désinstallation=====
+Pour désinstaller le pilote :
+  * [[:tutoriel:comment_modifier_un_fichier|Ouvrez le fichier]] **/opt/Xerox/mfp/uninstall/uninstall.sh** avec les [[:sudo|droits d'administration]] et modifiez la ligne 1 :
+<file bash>#! /bin/sh</file>
+par 
+<file bash>#! /bin/bash</file>
+  * Puis exécutez la commande : 
+<code bash>sudo /opt/Xerox/mfp/uninstall/uninstall.sh</code>
+
+
+------------------
+
+Contributeurs : [[:utilisateurs:l_africain|L'Africain]]

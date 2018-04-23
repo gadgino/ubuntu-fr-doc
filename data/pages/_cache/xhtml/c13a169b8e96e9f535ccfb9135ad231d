@@ -1,0 +1,166 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#les_mises_a_jour_sous_ubuntu" class="toc"> Les mises à jour sous Ubuntu </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#les_mises_a_jour_de_distribution" class="toc"> Les mises à jour de distribution </a></span></li>
+<li class="level2"><span class="li"><a href="#les_mises_a_jour_de_securite" class="toc"> Les mises à jour de sécurité </a></span></li>
+</ul>
+</li>
+<li class="level1"><span class="li"><a href="#les_utilitaires_de_mise_a_jour" class="toc"> Les utilitaires de mise à jour </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#attention" class="toc"> Attention </a></span></li>
+<li class="level2"><span class="li"><a href="#gestionnaire_de_paquets_synaptic" class="toc"> Gestionnaire de paquets Synaptic </a></span></li>
+<li class="level2"><span class="li"><a href="#gestionnaire_de_mise_a_jour_update-manager" class="toc"> Gestionnaire de mise à jour update-manager </a></span></li>
+<li class="level2"><span class="li"><a href="#notificateur_de_mise_a_jour_update-notifier" class="toc"> Notificateur de mise à jour update-notifier </a></span></li>
+<li class="level2"><span class="li"><a href="#notes" class="toc"> Notes </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/ostaquet" class="wikilink1" title="utilisateurs:ostaquet" onclick="return svchk()" onkeypress="return svchk()">ostaquet</a>.
+</p>
+
+<a name="les_mises_a_jour_sous_ubuntu"></a><h1> Les mises à jour sous Ubuntu </h1>
+<div class="level1">
+
+<p>
+ Il existe deux types de mises à jour d&rsquo;Ubuntu : les mises à jour de distribution et les mises à jour de sécurité.
+</p>
+
+<p>
+Les <strong>mises à jour de distribution</strong> s&rsquo;appliquent lorsqu&rsquo;on passe à une nouvelle <a href="/generalite/nom_versions" class="wikilink1" title="generalite:nom_versions" onclick="return svchk()" onkeypress="return svchk()">version</a> d&rsquo;Ubuntu. Ces mises à jour s&rsquo;effectuent tous les 6 mois. Par exemple, le passage de la <a href="/versions/warty_warthog" class="wikilink1" title="versions:warty_warthog" onclick="return svchk()" onkeypress="return svchk()">Warty 4.10</a> à la <a href="/versions/hoary_hedgehog" class="wikilink1" title="versions:hoary_hedgehog" onclick="return svchk()" onkeypress="return svchk()">Hoary 5.04</a> est une mise à jour de distribution.
+</p>
+
+<p>
+Les <strong>mises à jour de sécurité</strong> s&rsquo;appliquent au fur et à mesure du temps lorsqu&rsquo;un trou de sécurité ou un bogue apparaît dans un des paquets installés. Les enchaînements des versions de paquets dépendent des personnes qui maintiennent ces paquets. Il peut y avoir de nombreuses versions d&rsquo;un paquet sur une période relativement courte si les développeurs font évoluer l&rsquo;application ou corrigent des bogues. Pour plus d&rsquo;informations concernant le système de paquet et de dépots, veuillez consulter <a href="/installation/depots" class="wikilink1" title="installation:depots" onclick="return svchk()" onkeypress="return svchk()">la page &quot;les dépôts&quot;</a>.
+</p>
+
+</div>
+<!-- SECTION [72-1127] -->
+<a name="les_mises_a_jour_de_distribution"></a><h2> Les mises à jour de distribution </h2>
+<div class="level2">
+
+<p>
+Les mises à jour de distribution sont des processus relativement lourds, ils font donc l&rsquo;objet de pages spécifiques.
+</p>
+
+<p>
+Les instructions de mises à jour pour les versions suivantes sont disponibles sur ce wiki :
+</p>
+<ul>
+<li class="level1"><span class="li"> <a href="/installation/migration_warty_hoary" class="wikilink1" title="installation:migration_warty_hoary" onclick="return svchk()" onkeypress="return svchk()">Warty =&gt; Hoary</a></span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [1128-1445] -->
+<a name="les_mises_a_jour_de_securite"></a><h2> Les mises à jour de sécurité </h2>
+<div class="level2">
+
+<p>
+Les mises à jour de sécurité dépendent donc de l&rsquo;évolution des paquets et des applications. 
+</p>
+
+<p>
+Vous pouvez demander une mise à jour manuelle via le gestionnaire de paquet <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a> (section <em>Garder votre système à jour</em>) ou via le gestionnaire de mise à jour <strong>update-manager</strong> que nous examinerons ci-dessous.
+</p>
+
+<p>
+Cependant, il n&rsquo;est pas commode de vérifier tous les jours si une nouvelle version d&rsquo;un paquet est publiée ou si le kernel a été patché. Pour ce faire, il existe sous Hoary un utilitaire qui va tourner en arrière plan pour vérifier si de nouvelles mises à jour sont disponibles. Il s&rsquo;agit de <strong>update-notifier</strong> (nous l&rsquo;examinerons ci-dessous).
+</p>
+
+</div>
+<!-- SECTION [1446-2190] -->
+<a name="les_utilitaires_de_mise_a_jour"></a><h1> Les utilitaires de mise à jour </h1>
+<div class="level1">
+
+<p>
+Comme nous l&rsquo;avons dit plus haut, il existe plusieurs utilitaires pour maintenir son système à jour. Nous allons examiner chacun d&rsquo;entre-eux dans les paragraphes qui suivent. 
+</p>
+
+</div>
+<!-- SECTION [2191-2413] -->
+<a name="attention"></a><h2> Attention </h2>
+<div class="level2">
+
+<p>
+  ! Installez le paquet initrd, avant une mise à jour du noyau, pour éviter une impossibilité de démarrer Ubuntu ( vous auriez alors une erreur du type 
+</p>
+<pre class="code">Kernel Panic - Not syncing: VFS:Unable to mount root fs on unknow block (0,0)&quot; ). </pre>
+
+<p>
+ Voir <a href="http://forum.ubuntu-fr.org/viewtopic.php?id=7442" class="urlextern" title="http://forum.ubuntu-fr.org/viewtopic.php?id=7442" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">ce sujet du forum</a> qui traite en détail de ce problème.
+</p>
+
+</div>
+<!-- SECTION [2414-2794] -->
+<a name="gestionnaire_de_paquets_synaptic"></a><h2> Gestionnaire de paquets Synaptic </h2>
+<div class="level2">
+
+<p>
+Le gestionnaire de paquet Synaptic permet de garder le système à jour. Veuillez consulter la page <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">synaptic</a>, section <em>Garder votre système à jour</em> (tout en bas).
+</p>
+
+</div>
+<!-- SECTION [2795-3024] -->
+<a name="gestionnaire_de_mise_a_jour_update-manager"></a><h2> Gestionnaire de mise à jour update-manager </h2>
+<div class="level2">
+
+<p>
+Le gestionnaire de mise à jour se borne à vérifier si les paquets installés sur votre système existent en version supérieure sur les dépôts. 
+</p>
+
+<p>
+Pour exécuter le gestionnaire de mise à jour, vous allez dans le <strong>menu Système &rArr; Administration &rArr; Gestionnaire de mises à jour d&rsquo;Ubuntu</strong>. Une fenêtre s&rsquo;affiche à l&rsquo;écran indiquant les mises à jour disponibles comme ci-dessous.
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=applications%3Aupdate-manager.png" class="media" title="applications:update-manager.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=applications%3Aupdate-manager.png" class="media" alt="" /></a>
+</p>
+
+<p>
+Il vous suffit de cliquer sur le bouton <strong>Installer</strong> pour mettre à jour votre système.
+</p>
+
+</div>
+<!-- SECTION [3025-3599] -->
+<a name="notificateur_de_mise_a_jour_update-notifier"></a><h2> Notificateur de mise à jour update-notifier </h2>
+<div class="level2">
+
+<p>
+Le problème est de savoir quand faire une mise à jour via l&rsquo;<strong>update-manager</strong>. C&rsquo;est pour cela qu&rsquo;a été développé <strong>update-notifier</strong>.
+</p>
+
+<p>
+Cette petite application fonctionne en arrière-plan (elle est donc cachée à l&rsquo;utilisateur) et vérifie plusieurs fois par jour si de nouvelles mises à jour sont disponibles. Lorsque de nouvelles mises à jour sont disponibles, une petite icône s&rsquo;affiche pour vous le signaler (en haut à droite du bureau Gnome sur un bureau non personnalisé). Cette icône ressemble à ceci (pointé par une flèche rouge):
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=applications%3Aupdate-notifier2.png" class="media" title="applications:update-notifier2.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=applications%3Aupdate-notifier2.png" class="media" alt="" /></a>
+</p>
+
+<p>
+Lorsque vous passez avec le pointeur de la souris sur cette icône, une info-bulle vous indique le nombre de mises à jour disponibles.
+</p>
+
+<p>
+Lorsque vous cliquez sur cette icône, le gestionnaire de mises à jour <strong>update-manager</strong> s&rsquo;affiche afin de mettre à jour votre système.
+</p>
+
+</div>
+<!-- SECTION [3600-4531] -->
+<a name="notes"></a><h2> Notes </h2>
+<div class="level2">
+
+<p>
+ Si vous avez fait une mise à jour de Warty en Hoary, n&rsquo;oubliez pas d&rsquo;exécuter la commande <code>update-notifier</code> via le menu <strong>Applications &rArr; Lancer une application...</strong> et de cloturer la session en <strong><u>enregistrant la configuration actuelle</u></strong> pour profiter du notificateur de mise à jour. 
+</p>
+
+</div>
+<!-- SECTION [4532-] -->

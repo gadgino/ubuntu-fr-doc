@@ -1,0 +1,884 @@
+{{tag>programmation langage compilation portable hp}}
+
+----
+
+====== Code source du lecteur d'empreintes Validity™ chipset VFS 0050 et son tutoriel de compilation ======
+
+Pour commencer, il est important de préciser la chose suivante :
+
+<note important>**Cette page ne se contente pas de lister (même traduit en Français) le code-source du lecteur d'empreintes !** \\
+Celui-ci sert de __fil conducteur__ à __une approche simple, concise, précise__ et surtout __très didactique__ sur :
+  * les outils à réunir ;
+  * la démarche logique de recherche documentaire à adopter 
+
+dans le but de mener à bien __une procédure de compilation__ ;</note>
+
+Cette démarche est d'autant plus utile qu'il est question dans ce document, de compiler un pilote puis l'application hôte. \\
+Tache souvent jugée rébarbative et quelque peu effrayante pour un débutant en informatique !
+
+Essayons de dépoussiérer l'approche rebutante du geek qui suppose que le lecteur a suivi un Master en Analyse Programmation informatique et qui, souvent, connaît la réponse à vos interrogations, mais qui, soit :
+  * n'a qu'un talent ou des compétences très limités quand il s'agira de transmettre son savoir, et/ou bien :
+  * se focalise sur l'approche très mercantile de l'échange de compétences ; en se fichant royalement de l'esprit de coopération propre à la philosophie Ubuntu.
+
+L'exemple le plus typique est la fameuse réponse : « RTFM ou Read The Fucking Manual » — {« Lis donc ce foutu manuel »} ; formule souvent enrobée d'une cordiale condescendance !
+
+L'esprit « formateur didactique » est un art qui exige de la rigueur dans la démarche, de solides compétences rédactionnelles , sans oublier une bonne dose d'abnégation et prendre plaisir à échanger ses compétences. \\
+
+En un mot « l'exercice » s’accommode très mal d'un esprit dilettante !
+
+===== Outils et environnement logiciels nécessaires à toute démarche de compilation sans prise de tête ! =====
+
+<note>On suppose que le travail de codage et de débogage à déjà été traité et que les sources sont opérationnels une fois compilés !</note>
+
+Au risque de se répéter, les outils essentiels sont recensés dans un seul chapitre servant de référence pour toute compilation !
+
+__Selon l'environnent graphique__ :
+
+<note tip>Bien que les outils développés pour un environnement spécifique puissent être utilisés dans un autre !</note>
+==== Sous KDE ====
+
+  * [[:kate|L'éditeur / traitement de texte Kate]] : qui possède des greffons spécifiques au codage syntaxique.
+  * Le [[:terminal|terminal]] [[:yakuake|Yakuake]] : terminal graphique déroulant lancé en service Dbus et accessible à tout moment par la touche de fonction bascule < F12 >. \\ Ce qui permet d'avoir un terminal immédiatement disponible sans avoir à chercher dans les menus ou les fenêtres cachées. \\
+  * Kterminal : la console système de KDE. \\
+
+==== Sous Gnome / Mate / Unity ====
+
+  * Le [[:terminal|terminal]] : la console système de Gnome.
+  * Le [[geany|Geany : le compilateur graphique sort de sa lampe!]] : le compilateur graphique et ergonomique sous Gnome.
+
+==== Les outils console non graphiques ====
+
+  * [[:nano|L'éditeur Nano]] : l'éditeur console minimaliste en mode « texte » au look très 80's du style MS Word™ sous DOS™.
+
+==== Les outils et bibliothèques essentiels à la compilation ====
+
+=== Les outils logiciels ===
+
+ ★ Installation de logiciels :
+  * **[[apt://debfoster|debfoster]]** : l'outil d'installation console — basé sur [[:apt| APT]] — qui génère une bibliothèque des dépendances logicielles et s'utilise à la place de la commande :
+
+<code bash>sudo apt-get install -f 
+sudo debfoster
+</code>
+
+ ★ La compilation :
+  * Le jeu de bibliothèques de compilation :
+
+« Par défaut,
+
+<note> **Ubuntu** __**n'inclut pas tous les outils nécessaires**__ pour procéder __à la compilation de logiciels et bibliothèques__.</note>  
+
+Ces outils peuvent toutefois être installés à l'aide de [[:Synaptic]] ou de [[:Apt-get]], car ils se trouvent sur le CD-ROM d'installation de Ubuntu, de même que dans les [[:depots#principaux|dépôts APT]] officiels. \\ Le méta-paquet à installer se nomme  **build-essential**.
+
+Nous vous suggérons aussi d'installer les paquets :
+  * « fakeroot » et « checkinstall » et nous supposerons que vous les aurez installés. 
+  * L'outil « checkinstall » surveille la procédure d'installation et crée un paquet « .deb » qui sera présent dans votre liste de paquets installés.\\  Ceci aura pour avantage de vous permettre une désinstallation simplifiée et propre, si vous souhaitez désinstaller ultérieurement vos logiciels et bibliothèques ».
+
+<note tip>« En résumé, vous devriez [[:tutoriel:comment_installer_un_paquet|installer les paquets]] **[[apt>build-essential|build-essential]]** **[[apt>fakeroot|fakeroot]]** **[[apt>checkinstall|checkinstall]]** ».((Extrait de la page « [[:compilation|Procédure de compilation]] sous Ubuntu » dans cette documentation))</note>
+
+<note important>**ATTENTION** : le paquet **checkinstall** possède des dépendances non satisfaites par défaut et non documentées ! \\ Veuillez installer les bibliothèques manquantes en faisant une recherche Google™ sur les messages d'erreur de bibliothèques manquantes.</note>
+
+  * [[:gcc|Gcc++ : Le compilateur GNU C++]] avec, entre-autres la bibliothèque « **''libglib3.0-dev''** ».
+  * Le __fichier configure__ de test de la configuration __fourni dans les sources__ et exécuté avec la commande :
+
+<code bash>
+test -f configure || sh autogen.sh  # Teste votre configuration et avertit des dépendances non satisfaites ; par exemple : « bibliothèque {{ fichiers *-dev }} « nss » manquante » ;
+./configure  
+</code>
+
+<note important>Le fichier configure n'est pas toujours nécessaire ni fourni dans les sources !</note>
+
+  * Make : outil de compilation. Dans le dossier source de compilation, taper la commande :
+
+<code bash>
+make -j4   # utilise tous les cœurs des processeurs récents (compilation plus rapide !)
+sudo make install
+</code> 
+
+
+=== Les bibliothèques ===
+
+Repérer les préfixes « ''**lib**'' » et les suffixes « ''**dev**'' » des noms spécifiques aux bibliothèques « libraries » de développement ; par exemple : la bibliothèque « **''libglib3.0-dev''** ». \\
+Ce sont ces __bibliothèques manquantes__ qui provoquent très souvent les __messages d'erreur__ en phase de __test de configuration__ (« ''test -f configure || sh autogen.sh'' » ou « ./configure »). 
+
+Maintenant que nous disposons de l'environnement de développement adéquat et des procédures de base pour la compilation, attaquons-nous à la compilation de notre pilote de lecteur d'empreintes et du logiciel fprint associé.
+
+===== Le matériel concerné par cette procédure de compilation =====
+
+==== Quels sont les ordinateurs qui disposent de ce lecteur d'empreintes ? ====
+{{  https://i.ytimg.com/i/4pH0cb-1IX_q2QsM7fCtZg/mq1.jpg?120}}
+
+Il est possible de télécharger le __fichier-source du lecteur d'empreintes__ **Validity™ Sensors  & Swipe™ Fingerprint Sensor VFS 0050 (138a:0050)** équipant  -- entre-autres -- les ordinateurs **HP Envy™**.
+
+{{http://cdn.gadgets360.com/content/assets/brands/swipe.png?120  }}<note tip>Le code-source est disponible au chapitre __**Code source du fichier « validity.c »**__ dans cette documentation.</note>
+
+==== Les ordinateurs Hewlett Packard™ ====
+  * **Envy 15-j104sl**
+  * **Envy 15-j141nf**
+  * **Envy 17-j020us**
+  * **Envy TouchSmart 17-j010dx**
+  * **Envy TouchSmart 17-j120dx**
+  * **Envy TouchSmart 17-j141nr**
+  * **Envy 17-k200nf tactile**
+  * La gamme **Notebook 355 G2** (série spécifique inconnue)
+
+===== Rétro-ingénierie du chipset =====
+
+**(en)** [[https://www.youtube.com/watch?v=PKV_ZQGbeMM|Vidéo présentant un essai de rétro-ingénierie du chipset]].
+
+Entrons dans le vif du sujet !
+
+
+
+
+===== Prérequis =====
+
+Installer (de façon optionnelle, mais très pratique) le paquet **[[apt://debfoster|debfoster]]** ; Ce  paquet recense les paquets sur votre système et gère les dépendances de manière plus concise que la classique :
+
+<code bash>
+sudo apt-get install -f debfoster
+sudo debfoster geany
+</code>
+
+==== Installation des dépendances du paquet-source libfprint-master ====
+
+  * Récupérer les sources sur le site github :
+
+**(en)** [[https://github.com/payden/libfprint|Mirroir GIT des fichiers de compilation et d'installation du pilote VFS0050]]
+
+  * Sauvegarder / décompresser l'archive:
+<code bash>
+cd ~/Documents
+mkdir compilation
+cd compilation
+</code>
+
+dans le dossier ''compilation''.
+Vous obtenez un dossier ''libfprint-master''.
+  * Ensuite, il suffit de cliquer sur **validity.c** -- le nom du fichier au-dessus du code-source --  pour ouvrir une boite de dialogue précisant l'interpréteur à utiliser ; choisir **Geany**. L'interpréteur s'ouvre et le fichier est chargé.
+
+<note tip>Le code-source est disponible au chapitre __**Code source du fichier « validity.c »**__ dans cette documentation.</note>
+
+  * Sauvegardez votre fichier-source dans le dossier ''libfprint-master''
+  * Taper dans un [[:terminal|Terminal]] :
+
+<code bash>
+sudo debfoster libxv-dev libnss3*
+</code>
+Cette commande installe les bibliothèques de développement de la documentation X11, ainsi que (toutes [paramètre : *]) les bibliothèques de cryptographie nss version 3.
+===== Compilation graphique avec Geany =====
+
+==== Précompilation : création du fichier-objet "validity.o" ====
+
+{{  https://ubuntu-mate.org/gallery/blog/geany.png?100}}
+**Geany** est un __interpréteur/compilateur__ compact __en mode graphique__ inclus et préinstallé dans **[[http://www.cubuntu.fr/|la distro Cubuntu]]**. \\
+Un chapitre de la documentation lui est dédié **[[:geany|Geany]]** [[:geany| : le compilateur graphique et compact sort de sa lampe !]].
+
+Pour installer **Geany** vous devez activer le [[depots#universe_et_multiverse|dépôt Universe]] et enfin [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt://geany|geany]]**.
+
+
+Cliquer dans le menu **[Construire]**-**[Compile]** et vous obtenez votre fichier **validity.o** compilé.
+
+<note>Le dossier choisi pour la compilation contient donc le fichier source **validity.c** et son fichier résultant -- le pilote  (**validity.o**) -- sous sa forme compilée.</note>
+
+===== Compilation et intégration dans le fichier ƒprint =====
+{{  http://www.reactivated.net/fprint/img/Fprint_logo.png?100}}
+  * Ouvrez votre gestionnaire de fichiers ([[:nemo|Nemo]]) :
+  * Rendez-vous dans le dossier ~/Documents/compilation/libfprint-master :
+  * Faire un clic droit dans le dossier ;
+  * Cliquer sur « ouvrir dans un [[:terminal|Terminal]] » ; (vous êtes ainsi assuré contre les fautes de frappe !).
+  * Dans la fenêtre du Terminal ((**NB** : le fait de notifier le « type 'bash' » au code de cette manière **''%%<code bash> ... </code>%%''** permet la coloration syntaxique, entre-autres)) :
+
+<box 75% round orange|Terminal><code bash>
+sudo su
+cp ~/Documents/compilation/libfprint-master/validity.* /libfprint/drivers/    # copie les nouveaux fichiers validity dans le dossier drivers
+test -f configure || sh autogen.sh                                            # Teste votre configuration et avertit des dépendances non satisfaites ; par exemple : « bibliothèque (fichiers *-dev ) ” nss ” manquante » ;
+./configure  
+make -j4                 # "Ne pas oublier d'installer les bibliothèques de développement" (libglib3.0-dev,… )) ;
+sudo checkinstall        # checkinstall permet de créer un paquet Debian à partir de vos sources ! ;
+depmod                   # permet de lier les bibliothèques ;
+</code></box  |Routine de compilation de fprint>
+
+<note important>
+Toute bibliothèque de développement manquante est notée entre guillemets " " dans les messages d'erreur de compilation !
+</note>
+
+<note help>Une box peut en effet contenir du code ou un fichier téléchargeable ;\\
+Une routine de code d'une longueur trop importante ne peut malheureusement pas bénéficier d'une barre de défilement vertical, \\
+cette option n'est pas disponible dans les paramètres de la balise **''%%<box 75% |Terminal> ... </box >%%''** , par exemple.</note>
+==== Procédure de checkinstall ====
+
+Dès lors que toutes les dépendances((les bibliothèques de développement *-dev)) sont satisfaites, le Terminal détaille :
+  * la procédure de vérification de votre configuration (listages des bibliothèques installées) puis il passe à :
+  * la compilation des sources, puis affiche :
+  * le menu de création du paquet Debian qui sera intégré à votre bibliothèque de paquets installés (visible — par exemple — à l'aide du [[:synaptic|gestionnaire de paquets Synaptic]]).
+
+<box 75% round orange|Terminal>
+
+checkinstall 1.6.2, Copyright 2009 Felipe Eduardo Sanchez Diaz Duran
+
+This software is released under the GNU GPL.
+
+ ==================================== \\
+ ==== Debian package creation selected ==== \\
+ ==================================== \\
+
+This package will be built according to these values: \\
+
+0 -  Maintainer: [ root@roccat ] \\
+1 -  Summary: [ validity ] \\
+2 -  Name:    [ libfprint ] \\
+3 -  Version: [ master ] \\
+4 -  Release: [ 1 ] \\
+5 -  License: [ GPL ] \\
+6 -  Group:   [ checkinstall ] \\
+7 -  Architecture: [ amd64 ]  \\
+8 -  Source location: [ libfprint-master ]  \\
+9 -  Alternate source location: [  ] \\
+10 - Requires: [  ] \\
+11 - Provides: [ libfprint ] \\
+12 - Conflicts: [  ] \\
+13 - Replaces: [  ] \\
+
+Enter a number to change any of them or press ENTER to continue: \\
+
+</box  |Menu console de Checkinstall>
+
+  * Taper ☛ ''**1**'' (option "Résumé [des fonctions du paquet]") puis valider ;
+  * Taper ☛ ''**Fprint incluant le lecteur d'empreintes Validity VFS 0050**'' puis valider ;
+<note tip>
+Faîtes un copier-coller ☛ (< Ctrl >+< C > puis < Ctrl >+< V >) de la ligne ci-dessus dans votre [[:terminal|Terminal]], afin d'éviter les fautes de frappe !
+</note>
+<note important>le champs "Version" est un champs numérique ; le mot **master** provoque donc une erreur de compilation !</note>
+
+  * Taper ☛ ''**3**'' (option "Version") puis valider ;
+  * Taper ☛ ''**1.50**'' puis valider ;
+  * Taper ☛ ''**10**'' (option "[bibliothèques] nécessaires") puis valider ;
+  * Taper ☛ ''**libxv-dev,libnss3**''
+
+<note tip>
+Faîtes un copier-coller ☛ (< Ctrl >+< C > puis < Ctrl >+< V >) de la ligne ci-dessus dans votre [[:terminal|Terminal]], afin d'éviter les fautes de frappe !
+</note>
+<note>
+Plus d'information sur :
+  * les **[[:compilation|langages de programmation]]**, le tutoriel **compilation** et **checkinstall** sur la [[:tutoriel/compilation|page de compilation]] dans la documentation.
+  * **(en)** la [[https://www.freedesktop.org/wiki/Software/fprint/|page du projet ƒprint]]
+  * **(en)** Le [[https://www.freedesktop.org/wiki/Software/fprint/integration/|chapitre consacré à l'intégration]]((source : Freedesktop.org ; auteur : //inconnu// en date du //16 septembre 2013//.)) : le module PAM((Le module PAM : Pluggable Authentification Module — { Module d'authentification enfichable })) ƒprint((source : Freedesktop.org ; auteur : //inconnu// en date du //18 mai 2013//.))
+  * [[:fprint|ƒprint : Logiciel de lecture d'empreintes digitales]] dans la documentation.
+</note>
+
+==== Exemple du lecteur d'empreintes Validity VFS 5011 ====
+
+ La compilation du code C++ et la procédure d'intégration à la bibliothèque de ƒprint (([[:fprint|Le logiciel ƒprint]] dans cette documentation)) est décrite en Anglais sur le blog :\\
+« The perfect commuter developer Linux laptop » {L'ordinateur Linux du parfait développeur de banlieue} dont le billet s'intitule :\\
+[[http://thinkpadmint.blogspot.fr/2014/02/getting-t440s-validity-vfs5011.html |Getting the T440s Validity VFS5011 fingerprint sensor (ID: 138a:0017) to work ]], qui signifie en bon Français {Procédure d'installation du pilote du lecteur d'empreintes VFS5011 de Validity™ référence de chipset ID: 138a:0017 présent dans les ordinateurs de la série T440s} ; NDLR : Ultrabook Lenovo ThinkPad T440s 20AQS00500.
+
+==== Code source du fichier « validity.c » ====
+
+<note help>On pourra objecter qu'il suffit de télécharger le code source depuis le GitHub plutôt que de l'intégrer à la documentation. \\
+__**Le programmeur à l’origine de ce code est décédé fin 2013 !**__ \\
+__Cette approche__ didactique de traduction du code __permet__ aux non anglophones __de le comprendre__, et qui sait, __aux plus expérimentés de le modifier__ pour le meilleur !</note>
+
+__Code source__ du fichier « **validity.c** » du __lecteur d'empreintes Validity Sensors__ **138a:0050** :\\
+
+<note help>Le code wiki ci-dessous permet de spécifier le type du code téléchargeable dans une box tout en gardant le syle "listing bande Caroll"</note>
+
+Le code est également consultable sur le GitHub : [[https://gist.github.com/payden/8191565|code C++ du lecteur d'empreintes Validity Sensors 138a:0050]].
+
+<note tip>Cliquer sur son nom : **validity.c** ci-dessous pour télécharger le fichier dans votre éditeur préféré !</note>
+
+<box 75%><file overflow:scroll:20%; c++ validity.c>
+
+/*
+Gna, gna, gna...
+Ne soyez pas trop sévère envers moi ;
+Ce code ne produit qu'un protocole de tests.
+./gcc test.c -o test -lusb-1.0
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <libusb-1.0/libusb.h>
+
+typedef struct _line {
+  unsigned char _0x01;
+  unsigned char _0xfe;
+  unsigned char _low;
+  unsigned char _high;
+  unsigned char _0x08; // toujours
+  unsigned char _0xb8; // inconnu au bataillon...
+  unsigned char _0x00;
+  unsigned char _counter; // ... celui-là aussi
+  unsigned char row[140]; // donnée nuance de gris
+} line_t;
+
+void async_recv_cb(struct libusb_transfer *transfer)
+{
+  if (transfer->status == LIBUSB_TRANSFER_COMPLETED) {
+    fprintf(stderr, "Transfer completed. Transfer terminé.\n");
+    fprintf(stderr, "Data received: Réception de données : %d\n", transfer->actual_length);
+  } else {
+    fprintf(stderr, "transfer failed?: y a-t-il eu un problème de transfer ? : %d\n", transfer->status);
+  }
+}
+
+int main(int argc, char **argv) {
+  libusb_context *ctx;
+  libusb_device **list;
+  libusb_device *dev = NULL;
+  libusb_init(&ctx);
+  ssize_t cnt = libusb_get_device_list(NULL, &list);
+  ssize_t i = 0;
+  int err = 0;
+  if (cnt < 0) {
+    fprintf(stderr, "Error Erreur\n");
+    exit(0);
+  }
+  for (i = 0; i < cnt; i++) {
+    libusb_device *device = list[i];
+    struct libusb_device_descriptor desc;
+    if (!libusb_get_device_descriptor(device, &desc)) {
+      if (desc.idVendor == 0x138a && desc.idProduct == 0x0050) {
+        dev = device;
+        break;
+      }
+    }
+
+  }
+  if (dev) {
+    fprintf(stderr, "Found interesting device.. Un périphérique très intéressant a été détecté...\n");
+    libusb_device_handle *handle;
+    err = libusb_open(dev, &handle);
+    if (libusb_reset_device(handle)) {
+      fprintf(stderr, "Failed resetting device.\n");
+    }
+    err = libusb_claim_interface(handle, 0);
+    libusb_claim_interface(handle, 1);
+    libusb_claim_interface(handle, 129);
+    libusb_claim_interface(handle, 130);
+    libusb_claim_interface(handle, 131);
+    //CLEAR_FEATURE inteface 0 DEVICE REMOTE WAKEUP
+    //SET CONFIGURATION 0x09, config value: 0x0001, interface/wIndex 0
+    err = libusb_control_transfer(handle, 0x00, 0x09, 0x0001, 0, NULL, 0, 1000);
+    //endpoint 2, clear feature, interface 1 ; balise de fin 1 , nettoyage, interface 1
+    char *data = (char *)malloc(2048);
+
+    *data = 0x1a;
+    libusb_bulk_transfer(handle, 1, data, 1, &err, 1000);
+    libusb_bulk_transfer(handle, 0x81, data, 64, &err, 1000);
+    //initiate async BULK IN
+    struct libusb_transfer *t = libusb_alloc_transfer(0);
+    libusb_fill_bulk_transfer(t, handle, 0x81, data, 64, async_recv_cb, (void *) 1, 10000);
+    libusb_submit_transfer(t);
+    char init_data[] = {0x36, 0x38, 0x2b, 0x5c, 0x70, 0xac, 0x73, 0x69,
+                        0x12, 0xc9, 0xe0, 0xbc, 0xfa, 0x88, 0x10, 0xc7,
+                        0x98, 0xbf, 0x52, 0xe3, 0xd5, 0xbc, 0x99, 0x9f,
+                        0x73, 0x48, 0x06, 0xba, 0xe0, 0x11, 0x0e, 0x87,
+                        0x87, 0xb5, 0x18, 0x95, 0x63, 0x98, 0xae, 0x00,
+                        0xc2, 0x67, 0xd5, 0x05, 0x5d, 0x66, 0xd6, 0xb3,
+                        0x3f, 0xb7, 0xa7, 0xa0, 0x61, 0x5b, 0x1d, 0xa0,
+                        0x36, 0xc6, 0xe1, 0x78, 0x0d, 0x86, 0x72, 0x84, //end block 1 ; fin de bloc de données 1
+                        0xd2, 0xf3, 0xd9, 0xb9, 0x78, 0xd8, 0xde, 0xad,
+                        0x7a, 0x45, 0x3c, 0x96, 0x08, 0x2d, 0xc6, 0xae,
+                        0xc3, 0x3d, 0x8c, 0x6e, 0x5a, 0xfd, 0x91, 0x90,
+                        0x0d, 0x78, 0x98, 0xf1, 0x28, 0x67, 0x15, 0x80,
+                        0xea, 0x7b, 0xa9, 0xbd, 0xe0, 0x4b, 0x54, 0x8f,
+                        0x91, 0xea, 0x2a, 0x99, 0x38, 0xaf, 0x52, 0x11,
+                        0xc8, 0x34, 0x17, 0x42, 0xb8, 0xea, 0xd3, 0x8e,
+                        0xbc, 0x6a, 0xaa, 0x54, 0x3e, 0x77, 0x44, 0xd6, //end block 2 ; fin du bloc de données 2
+                        0x4a, 0x46, 0x04, 0xa5, 0x33, 0xe1, 0x86, 0xfd,
+                        0xed, 0x80, 0xa8, 0x12, 0x3a, 0xc2, 0x29, 0x3e,
+                        0xce, 0x9e, 0x00, 0xe7, 0xb3, 0xb5, 0x11, 0x2b,
+                        0x50, 0x6c, 0x2c, 0x5e, 0x33, 0x17, 0xf5, 0x8b,
+                        0xc4, 0x0f, 0x25, 0x65, 0x87, 0x0d, 0x88, 0x3c,
+                        0x30, 0xad, 0x9b, 0x40, 0x8a, 0x6c, 0x60, 0xc9,
+                        0xf4, 0x03, 0xc1, 0x0f, 0x0e, 0x08, 0xa1, 0x81,
+                        0x5e, 0x6a, 0x79, 0x3f, 0x7a, 0xf6, 0x18, 0x7e, //end block 3 ; fin du bloc de données 3
+                        0x30, 0x98, 0xf1, 0x25, 0xcb, 0xbd, 0xb9, 0xae,
+                        0x5b, 0xeb, 0xa7, 0xea, 0x7c, 0xb6, 0x6f, 0x06,
+                        0x0f, 0xaa, 0xe5, 0xd6, 0xe3, 0x46, 0x83, 0xa3,
+                        0xe1, 0x66, 0x38, 0x70, 0xb0, 0x5c, 0x3e, 0xe3,
+                        0xe0, 0x50, 0x25, 0x60, 0x98, 0x08, 0xa8, 0x86,
+                        0xc9, 0xdc, 0xbc, 0xaf, 0x02, 0x54, 0xfc, 0xad,
+                        0x8d, 0x9f, 0x87, 0x5a, 0x2f, 0x4a, 0xea, 0x92,
+                        0x71, 0x5d, 0x88, 0x64, 0xeb, 0xb0, 0x98, 0x27, //end block 4 ; fin du bloc de données 4
+                        0x96, 0xd5, 0x1f, 0x80, 0x44, 0xe3, 0x0f, 0x95,
+                        0x95, 0xcb, 0x43, 0xb0, 0xca, 0xbf, 0xac, 0xd9,
+                        0x70, 0xe8, 0xc6, 0xf9, 0x4a, 0x94, 0xf7, 0x6c,
+                        0x8d, 0x46, 0x97, 0x63, 0x85, 0xb9, 0x85, 0xae,
+                        0x3c, 0xe0, 0xa2, 0xad, 0xd7, 0x36, 0x27, 0xcf,
+                        0xa1, 0x1f, 0x18, 0x34, 0xf9, 0xff, 0x52, 0xc7,
+                        0xae, 0x60, 0x2d, 0xa5, 0x76, 0x79, 0x42, 0xfb,
+                        0xa8, 0x52, 0xa8, 0x08, 0x37, 0x79, 0x96, 0x7e, //end block 5 ; fin du bloc de données 5
+                        0x33, 0x1d, 0xd0, 0x6f, 0xc6, 0x13, 0x43, 0xdb,
+                        0xb0, 0xa9, 0xdd, 0x1c, 0x7a, 0x8a, 0xce, 0xe8,
+                        0xb6, 0xf9, 0x23, 0x43, 0x47, 0x1d, 0xd8, 0xbf,
+                        0xb3, 0x68, 0x66, 0x55, 0x92, 0xae, 0x7a, 0x76,
+                        0x54, 0xcf, 0x2c, 0xfc, 0x11, 0xf1, 0xd2, 0x08,
+                        0x27, 0xd9, 0x23, 0x5c, 0x3c, 0x0a, 0xde, 0x7c,
+                        0xd9, 0x26, 0x4b, 0x24, 0x5d, 0xc2, 0xbf, 0xe9,
+                        0x50, 0x87, 0xda, 0x2d, 0xfd, 0x5e, 0x20, 0x66, //end block 6 ; fin du bloc de données 6
+                        0x08, 0x9d, 0xe2, 0xa6, 0xc1, 0xc7, 0x0e, 0x86,
+                        0xcb, 0xe0, 0xe7, 0x56, 0x82, 0xf1, 0x7e, 0x7e,
+                        0x4a, 0xb3, 0x42, 0x8d, 0x25, 0xec, 0x1e, 0xb1,
+                        0x44, 0x17, 0xdf, 0xb3, 0x06, 0xf4, 0x60, 0x3d,
+                        0x68, 0x36, 0x45, 0xa5, 0xee, 0x5b, 0xea, 0xc3,
+                        0x5d, 0x67, 0x51, 0x14, 0xdc, 0xcc, 0x6b, 0x9d,
+                        0xd3, 0x01, 0xdb, 0x99, 0xc7, 0x85, 0x15, 0x68,
+                        0xe5, 0x04, 0xe4, 0x12, 0xd4, 0x83, 0x44, 0x7d, //end block 7 ; fin du bloc de données 7
+                        0xe8, 0x7c, 0x6c, 0xaa, 0xaa, 0xd2, 0x97, 0x5b,
+                        0xae, 0xac, 0x03, 0xac, 0x3c, 0x73, 0xd6, 0x16,
+                        0x72, 0x29, 0xc7, 0x2a, 0x57, 0xbc, 0x3e, 0xdc,
+                        0x2e, 0xaf, 0xd2, 0x1a, 0x03, 0x76, 0x39, 0x9d,
+                        0x3f, 0x66, 0xe5, 0xcc, 0x32, 0x0d, 0xd8, 0x58,
+                        0x4b, 0xa4, 0xa2, 0x39, 0xe2, 0xe8, 0xb7, 0x44,
+                        0x33, 0xab, 0x7c, 0x49, 0xf6, 0xe4, 0x24, 0xc4,
+                        0x7c, 0xa9, 0x07, 0x31, 0x93, 0x16, 0xb4, 0x31, //end block 8 ; fin du bloc de données 8
+                        0x38, 0x5d, 0x13, 0x0b, 0x8f, 0x46, 0xa8, 0x77,
+                        0xb2, 0x86, 0x15, 0x2c, 0xa7, 0x6a, 0x04, 0xb1,
+                        0x4c, 0xdd, 0xc8, 0xe0, 0x26, 0xc5, 0xa3, 0x4d,
+                        0x6a, 0x94, 0x57, 0x1f, 0x85, 0x83, 0x8f, 0x05,
+                        0xe3, 0xd9, 0x3d, 0x3c, 0x54, 0x96, 0x05, 0xec,
+                        0xf8, 0x25, 0xea, 0x84, 0x9f, 0x5d, 0x3f, 0x4a,
+                        0xa1, 0x89, 0x86, 0x9f, 0xb7, 0x73, 0x49, 0x6c,
+                        0x8e, 0xcf, 0x9c, 0x88, 0xb6, 0xce, 0x18, 0x15, //end block 9 ; fin du bloc de données 9
+                        0x93, 0xe0, 0x17, 0x9a, 0x69, 0x57, 0xd1, 0xb6,
+                        0x25, 0xf9, 0x62, 0xd2, 0xba, 0x2c, 0xcb, 0xe6,
+                        0x5f, 0xe5, 0xb4, 0x18, 0xe8, 0x65, 0x46, 0x7d,
+                        0x06, 0x36, 0x85, 0x74, 0xc4, 0x1d, 0x62, 0xf1,
+                        0x50, 0x54, 0x9a, 0x02, 0xda, 0x4b, 0x67, 0x70,
+                        0xfd, 0x00};
+    char init_data2[] = {0x02, 0x94, 0x00, 0x64, 0x00, 0x20, 0x00, 0x08,
+                        0x00, 0x2c, 0x03, 0x00, 0x30, 0x1b, 0x00, 0x00,
+                        0x00, 0x20, 0x00, 0x08, 0x00, 0x20, 0x03, 0x00,
+                        0x30, 0x3d, 0x10, 0x00, 0x00, 0x20, 0x00, 0x08,
+                        0x00, 0x18, 0x03, 0x00, 0x30, 0x00, 0x00, 0x00,
+                        0x00, 0x20, 0x00, 0x08, 0x00, 0x24, 0x03, 0x00,
+                        0x30, 0x08, 0x00, 0x00, 0x00, 0x20, 0x00, 0x08,
+                        0x00, 0x28, 0x03, 0x00, 0x30, 0x08, 0x00, 0x00, //end block 1 ; fin du bloc de données 1
+                        0x00, 0x20, 0x00, 0x08, 0x00, 0x30, 0x03, 0x00,
+                        0x30, 0x00, 0x00, 0x00, 0x00, 0x20, 0x00, 0x08,
+                        0x00, 0x38, 0x03, 0x00, 0x30, 0x00, 0x00, 0x00,
+                        0x00, 0x20, 0x00, 0x08, 0x00, 0x3c, 0x03, 0x00,
+                        0x30, 0x00, 0x00, 0x00, 0x00, 0x20, 0x00, 0x08,
+                        0x00, 0x44, 0x03, 0x00, 0x30, 0x14, 0x00, 0x00,
+                        0x00, 0x20, 0x00, 0x08, 0x00, 0x48, 0x03, 0x00,
+                        0x30, 0x01, 0x04, 0x02, 0x00, 0x20, 0x00, 0x08, //end block 2 ; fin du bloc de données 2
+                        0x00, 0x4c, 0x03, 0x00, 0x30, 0x01, 0x0c, 0x02,
+                        0x00, 0x20, 0x00, 0x08, 0x00, 0x54, 0x03, 0x00,
+                        0x30, 0x20, 0x00, 0x00, 0x00, 0x20, 0x00, 0x08,
+                        0x00, 0x5c, 0x03, 0x00, 0x30, 0x90, 0x01, 0x02,
+                        0x00, 0x20, 0x00, 0x08, 0x00, 0x60, 0x03, 0x00,
+                        0x30, 0x2c, 0x01, 0x19, 0x00, 0x20, 0x00, 0x08,
+                        0x00, 0x64, 0x03, 0x00, 0x30, 0x00, 0x00, 0x00,
+                        0x00, 0x20, 0x00, 0x08, 0x00, 0x6c, 0x03, 0x00, //end block 3 ; fin du bloc de données 3
+                        0x30, 0x1e, 0x00, 0x00, 0x00, 0x20, 0x00, 0x08,
+                        0x00, 0x70, 0x03, 0x00, 0x30, 0x21, 0x80, 0x00,
+                        0x00, 0x20, 0x00, 0x08, 0x00, 0x78, 0x03, 0x00,
+                        0x30, 0x09, 0x00, 0x02, 0x00, 0x20, 0x00, 0x08,
+                        0x00, 0x7c, 0x03, 0x00, 0x30, 0x0b, 0x00, 0x19,
+                        0x00, 0x20, 0x00, 0x08, 0x00, 0x80, 0x03, 0x00,
+                        0x30, 0x00, 0x00, 0x00, 0x00, 0x20, 0x00, 0x08,
+                        0x00, 0x84, 0x03, 0x00, 0x30, 0x3a, 0x00, 0x00, //end block 4 ; fin du bloc de données 4
+                        0x00, 0x20, 0x00, 0x08, 0x00, 0x88, 0x03, 0x00,
+                        0x30, 0x14, 0x00, 0x00, 0x00, 0x20, 0x00, 0x08,
+                        0x00, 0x8c, 0x03, 0x00, 0x30, 0x02, 0x00, 0x00,
+                        0x00, 0x20, 0x00, 0x08, 0x00, 0x90, 0x03, 0x00,
+                        0x30, 0x02, 0x00, 0x00, 0x00, 0x20, 0x00, 0x08,
+                        0x00, 0x94, 0x03, 0x00, 0x30, 0x08, 0x00, 0x00,
+                        0x00, 0x20, 0x00, 0x08, 0x00, 0x98, 0x03, 0x00,
+                        0x30, 0x00, 0x00, 0xa1, 0x01, 0x20, 0x00, 0x08, //end block 5 ; fin du bloc de données 5
+                        0x00, 0x9c, 0x03, 0x00, 0x30, 0x00, 0x00, 0xa1,
+                        0x01, 0x20, 0x00, 0x08, 0x00, 0xa8, 0x03, 0x00,
+                        0x30, 0x64, 0x01, 0x00, 0x00, 0x20, 0x00, 0x08,
+                        0x00, 0xac, 0x03, 0x00, 0x30, 0x64, 0x01, 0x00,
+                        0x00, 0x20, 0x00, 0x08, 0x00, 0xb0, 0x03, 0x00,
+                        0x30, 0x00, 0x01, 0x00, 0x00, 0x20, 0x00, 0x08,
+                        0x00, 0xb4, 0x03, 0x00, 0x30, 0x00, 0x01, 0x00,
+                        0x00, 0x20, 0x00, 0x08, 0x00, 0xb8, 0x03, 0x00, //end block 6 ; fin du bloc de données 6
+                        0x30, 0x05, 0x00, 0x00, 0x00, 0x20, 0x00, 0x08,
+                        0x00, 0xbc, 0x03, 0x00, 0x30, 0x05, 0x00, 0x00,
+                        0x00, 0x20, 0x00, 0x08, 0x00, 0xc0, 0x03, 0x00,
+                        0x30, 0x00, 0x00, 0x00, 0x00, 0x20, 0x00, 0x08,
+                        0x00, 0x84, 0x03, 0x00, 0x30, 0x3b, 0x00, 0x00,
+                        0x00, 0x20, 0x00, 0x08, 0x00, 0x08, 0x07, 0x00,
+                        0x30, 0x03, 0x00, 0x00, 0x00, 0x20, 0x00, 0x08,
+                        0x00, 0x0c, 0x07, 0x00, 0x30, 0x00, 0x00, 0x00, //end block 7 ; fin du bloc de données 7
+                        0x00, 0x20, 0x00, 0x08, 0x00, 0x14, 0x07, 0x00,
+                        0x30, 0x20, 0x00, 0x00, 0x00, 0x20, 0x00, 0x08,
+                        0x00, 0x1c, 0x07, 0x00, 0x30, 0x1a, 0x00, 0x00,
+                        0x00, 0x20, 0x00, 0x08, 0x00, 0x70, 0x0d, 0x00,
+                        0x30, 0x01, 0x00, 0x00, 0x00, 0x25, 0x00, 0x28,
+                        0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                        0x00, 0x00, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00,
+                        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, //end block 8 ; fin du bloc de données 8
+                        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                        0x00, 0x02, 0x00, 0x90, 0x00, 0x00, 0x00, 0x2b,
+                        0xff, 0x2b, 0xff, 0x2b, 0xed, 0x00, 0x00, 0x2b,
+                        0xfb, 0x00, 0x00, 0x2b, 0xc5, 0x00, 0x00, 0x2b,
+                        0x05, 0x80, 0x70, 0x00, 0x00, 0x00, 0x00, 0x00,
+                        0x00, 0x24, 0xd3, 0x2e, 0xc0, 0x2c, 0x3b, 0x08,
+                        0xf0, 0x3b, 0x09, 0x24, 0xbb, 0x3b, 0x0b, 0x24, //end block 9 ; fin du bloc de données 9
+                        0xaa, 0x3b, 0x1f, 0xf8, 0x00, 0x3b, 0x3f, 0xf0,
+                        0x00, 0x3b, 0x35, 0xc0, 0x00, 0x38, 0x80, 0x2c,
+                        0x00, 0x70, 0x00, 0x00, 0x00, 0x00, 0xc0, 0x38,
+                        0x80, 0x2c, 0x70, 0x00, 0x00, 0x00, 0x00, 0xc0,
+                        0x3a, 0x80, 0x2c, 0x70, 0x00, 0x00, 0x00, 0x00,
+                        0xc0, 0x3b, 0x0a, 0x80, 0x2e, 0x83, 0x24, 0xdb,
+                        0x00, 0x70, 0x00, 0x00, 0x00, 0x00, 0xc3, 0x2c,
+                        0x31, 0x83, 0x2c, 0x70, 0x00, 0x00, 0x00, 0x00, //end block 10 ; fin du bloc de données 10
+                        0xcb, 0x33, 0x1b, 0x83, 0x2c, 0x70, 0x00, 0x00,
+                        0x00, 0x00, 0xcb, 0x31, 0x83, 0x2c, 0x70, 0x00,
+                        0x00, 0x00, 0x00, 0xcb, 0x00, 0x33, 0x1e, 0x83,
+                        0x2e, 0x25, 0xff, 0xc4, 0x00, 0x2f, 0x06, 0x84,
+                        0x2e, 0x00, 0x00, 0x10, 0x20, 0x29, 0x00, 0x04,
+                        0x00, 0x10, 0x00, 0x00, 0x00, 0x23, 0x00, 0x00,
+                        0x00, 0x21, 0x00, 0x10, 0x00, 0x48, 0x03, 0x00,
+                        0x30, 0xff, 0xf0, 0xff, 0xff, 0x00, 0x00, 0x00, //end block 11 ; fin du bloc de données 11
+                        0x00, 0x00, 0x04, 0x00, 0x00, 0x21, 0x00, 0x10,
+                        0x00, 0x4c, 0x03, 0x00, 0x30, 0xff, 0xf0, 0xff,
+                        0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0xc0, 0x00,
+                        0x00, 0x21, 0x00, 0x10, 0x00, 0x20, 0x03, 0x00,
+                        0x30, 0x7f, 0x00, 0xfc, 0xff, 0x00, 0x00, 0x00,
+                        0x00, 0x80, 0x10, 0x00, 0x00, 0x20, 0x00, 0x08,
+                        0x00, 0x24, 0x03, 0x00, 0x30, 0x04, 0x00, 0x00,
+                        0x00, 0x20, 0x00, 0x08, 0x00, 0x1c, 0x07, 0x00, //end block 12 ; fin du bloc de données 12
+                        0x30, 0x1a, 0x00, 0x00, 0x00, 0x21, 0x00, 0x10,
+                        0x00, 0x20, 0x03, 0x00, 0x30, 0xc3, 0xff, 0xff,
+                        0xff, 0x00, 0x00, 0x00, 0x00, 0x14, 0x00, 0x00,
+                        0x00, 0x20, 0x00, 0x08, 0x00, 0x80, 0x03, 0x00,
+                        0x30, 0x01, 0x00, 0x00, 0x00};
+    char *p = init_data;
+    char *pend = (char *) init_data + sizeof(init_data);
+    while (p < pend) {
+      int to_send = pend - p;
+      to_send = to_send >= 64 ? 64 : to_send;
+      libusb_bulk_transfer(handle, 0x01, p, to_send, &err, 1000);
+      p += err; //add sent bytes.
+    }
+    fprintf(stderr, "Sent init1\n");
+    init_data[0] = 0x01;
+    libusb_bulk_transfer(handle, 0x01, init_data, 1, &err, 1000);
+    fprintf(stderr, "Sent 0x01: %d\n", err);
+    libusb_bulk_transfer(handle, 0x81, data, 64, &err, 300);
+    fprintf(stderr, "Bulk in endpoint 1: ; Données brutes, balise de fin 1 : %d\n", err);
+    p = init_data2;
+    pend = (char *) init_data2 + sizeof(init_data2);
+    while (p < pend) {
+      int to_send = pend - p;
+      to_send = to_send >= 64 ? 64 : to_send;
+      libusb_bulk_transfer(handle, 0x01, p, to_send, &err, 1000);
+      p += err;
+    }
+    fprintf(stderr, "Sent init2\n");
+    do {
+      libusb_bulk_transfer(handle, 0x81, data, 64, &err, 300);
+      fprintf(stderr, "Received %d\n", err);
+    } while(err == 64);
+    fprintf(stderr, "Post init2 sent, finished receiving from endpoint 1 ; Post init2 envoyé ; fin de réception des données de la balise de fin 1\n");
+    do {
+      libusb_bulk_transfer(handle, 0x82, data, 64, &err, 300);
+      fprintf(stderr, "BULK endpoint 2 received: ; Balise 2 de fin de données brutes reçue : %d\n", err);
+    } while(err == 64);
+    fprintf(stderr, "Finished receiving from endpoint 2. Réception de la balise 2 terminée\n");
+
+    //this is post init_data2 sent and received back from endpoint 2.  Need to output 2 chunks and receive 2 bytes 00 00
+    //Huzzah!  Something about this data ends up turning the LED on, we got blinky lights baby.
+    char init_data3[] = {
+      0x39, 0x20, 0xbf, 0x02, 0x00, 0xf4, 0x01, 0x00,
+      0x00, 0x01, 0xd1, 0x00, 0x20, 0xd1, 0xd1, 0x00,
+      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+      0x00, 0xf4, 0x01, 0x00, 0x00, 0x01, 0x00, 0x00,
+      0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+      0x00, 0x00, 0x00, 0x00, 0x00, 0xf4, 0x01, 0x00,
+      0x00, 0x02, 0x00, 0x00, 0x20, 0x00, 0x00, 0x00,
+      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, //end chunk 1
+      0x00, 0xf4, 0x01, 0x00, 0x00, 0x02, 0xd1, 0x00,
+      0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+      0x00, 0x00, 0x00, 0x00, 0x00};
+
+    libusb_bulk_transfer(handle, 0x01, init_data3, 64, &err, 300);
+    fprintf(stderr, "Sent init_data3: %d\n", err);
+    libusb_bulk_transfer(handle, 0x01, &init_data3[64], 61, &err, 300);
+    fprintf(stderr, "Sent init_data3 2: %d\n", err);
+    libusb_bulk_transfer(handle, 0x81, init_data3, 64, &err, 300);
+    fprintf(stderr, "Read in %d bytes from .1\n", err);
+    fprintf(stderr, "Time for final .1 out...\n");
+    char init_data4[] = {
+      0x02, 0x94, 0x00, 0x00, 0x00, 0x20, 0x00, 0x08,
+      0x00, 0x2c, 0x03, 0x00, 0x30, 0x1b, 0x00, 0x00,
+      0x00, 0x20, 0x00, 0x08, 0x00, 0x20, 0x03, 0x00,
+      0x30, 0x3d, 0x10, 0x00, 0x00, 0x20, 0x00, 0x08,
+      0x00, 0x18, 0x03, 0x00, 0x30, 0x00, 0x00, 0x00,
+      0x00, 0x20, 0x00, 0x08, 0x00, 0x24, 0x03, 0x00,
+      0x30, 0x08, 0x00, 0x00, 0x00, 0x20, 0x00, 0x08,
+      0x00, 0x28, 0x03, 0x00, 0x30, 0x08, 0x00, 0x00, //end block 1
+      0x00, 0x20, 0x00, 0x08, 0x00, 0x30, 0x03, 0x00,
+      0x30, 0x00, 0x00, 0x00, 0x00, 0x20, 0x00, 0x08,
+      0x00, 0x38, 0x03, 0x00, 0x30, 0x00, 0x00, 0x00,
+      0x00, 0x20, 0x00, 0x08, 0x00, 0x3c, 0x03, 0x00,
+      0x30, 0x00, 0x00, 0x00, 0x00, 0x20, 0x00, 0x08,
+      0x00, 0x44, 0x03, 0x00, 0x30, 0x14, 0x00, 0x00,
+      0x00, 0x20, 0x00, 0x08, 0x00, 0x48, 0x03, 0x00,
+      0x30, 0x01, 0x04, 0x02, 0x00, 0x20, 0x00, 0x08, //end block 2
+      0x00, 0x4c, 0x03, 0x00, 0x30, 0x01, 0x0c, 0x02,
+      0x00, 0x20, 0x00, 0x08, 0x00, 0x54, 0x03, 0x00,
+      0x30, 0x20, 0x00, 0x00, 0x00, 0x20, 0x00, 0x08,
+      0x00, 0x5c, 0x03, 0x00, 0x30, 0x90, 0x01, 0x02,
+      0x00, 0x20, 0x00, 0x08, 0x00, 0x60, 0x03, 0x00,
+      0x30, 0x2c, 0x01, 0x19, 0x00, 0x20, 0x00, 0x08,
+      0x00, 0x64, 0x03, 0x00, 0x30, 0x00, 0x00, 0x00,
+      0x00, 0x20, 0x00, 0x08, 0x00, 0x6c, 0x03, 0x00, //end block 3
+      0x30, 0x1e, 0x00, 0x00, 0x00, 0x20, 0x00, 0x08,
+      0x00, 0x70, 0x03, 0x00, 0x30, 0x21, 0x80, 0x00,
+      0x00, 0x20, 0x00, 0x08, 0x00, 0x78, 0x03, 0x00,
+      0x30, 0x09, 0x00, 0x02, 0x00, 0x20, 0x00, 0x08,
+      0x00, 0x7c, 0x03, 0x00, 0x30, 0x0b, 0x00, 0x19,
+      0x00, 0x20, 0x00, 0x08, 0x00, 0x80, 0x03, 0x00,
+      0x30, 0x00, 0x00, 0x00, 0x00, 0x20, 0x00, 0x08,
+      0x00, 0x84, 0x03, 0x00, 0x30, 0x3a, 0x00, 0x00, //end block 4
+      0x00, 0x20, 0x00, 0x08, 0x00, 0x88, 0x03, 0x00,
+      0x30, 0x14, 0x00, 0x00, 0x00, 0x20, 0x00, 0x08,
+      0x00, 0x8c, 0x03, 0x00, 0x30, 0x02, 0x00, 0x00,
+      0x00, 0x20, 0x00, 0x08, 0x00, 0x90, 0x03, 0x00,
+      0x30, 0x02, 0x00, 0x00, 0x00, 0x20, 0x00, 0x08,
+      0x00, 0x94, 0x03, 0x00, 0x30, 0x08, 0x00, 0x00,
+      0x00, 0x20, 0x00, 0x08, 0x00, 0x98, 0x03, 0x00,
+      0x30, 0x00, 0x00, 0xa1, 0x01, 0x20, 0x00, 0x08, //end block 5
+      0x00, 0x9c, 0x03, 0x00, 0x30, 0x00, 0x00, 0xa1,
+      0x01, 0x20, 0x00, 0x08, 0x00, 0xa8, 0x03, 0x00,
+      0x30, 0x64, 0x01, 0x00, 0x00, 0x20, 0x00, 0x08,
+      0x00, 0xac, 0x03, 0x00, 0x30, 0x64, 0x01, 0x00,
+      0x00, 0x20, 0x00, 0x08, 0x00, 0xb0, 0x03, 0x00,
+      0x30, 0x00, 0x01, 0x00, 0x00, 0x20, 0x00, 0x08,
+      0x00, 0xb4, 0x03, 0x00, 0x30, 0x00, 0x01, 0x00,
+      0x00, 0x20, 0x00, 0x08, 0x00, 0xb8, 0x03, 0x00, //end block 6
+      0x30, 0x05, 0x00, 0x00, 0x00, 0x20, 0x00, 0x08,
+      0x00, 0xbc, 0x03, 0x00, 0x30, 0x05, 0x00, 0x00,
+      0x00, 0x20, 0x00, 0x08, 0x00, 0xc0, 0x03, 0x00,
+      0x30, 0x00, 0x00, 0x00, 0x00, 0x20, 0x00, 0x08,
+      0x00, 0x84, 0x03, 0x00, 0x30, 0x3b, 0x00, 0x00,
+      0x00, 0x20, 0x00, 0x08, 0x00, 0x08, 0x07, 0x00,
+      0x30, 0x03, 0x00, 0x00, 0x00, 0x20, 0x00, 0x08,
+      0x00, 0x0c, 0x07, 0x00, 0x30, 0x00, 0x00, 0x00, //end block 7
+      0x00, 0x20, 0x00, 0x08, 0x00, 0x14, 0x07, 0x00,
+      0x30, 0x20, 0x00, 0x00, 0x00, 0x20, 0x00, 0x08,
+      0x00, 0x1c, 0x07, 0x00, 0x30, 0x1a, 0x00, 0x00,
+      0x00, 0x20, 0x00, 0x08, 0x00, 0x70, 0x0d, 0x00,
+      0x30, 0x01, 0x00, 0x00, 0x00, 0x25, 0x00, 0x28,
+      0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+      0x00, 0x00, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00,
+      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, //end block 8
+      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+      0x00, 0x02, 0x00, 0x90, 0x00, 0x00, 0x00, 0x2b,
+      0xff, 0x2b, 0xff, 0x2b, 0xed, 0x00, 0x00, 0x2b,
+      0xfb, 0x00, 0x00, 0x2b, 0xc5, 0x00, 0x00, 0x2b,
+      0x05, 0x80, 0x70, 0x00, 0x00, 0x00, 0x00, 0x00,
+      0x00, 0x24, 0xd3, 0x2e, 0xc0, 0x2c, 0x3b, 0x08,
+      0xf0, 0x3b, 0x09, 0x24, 0xbb, 0x3b, 0x0b, 0x24, //end block 9
+      0xaa, 0x3b, 0x1f, 0xf8, 0x00, 0x3b, 0x3f, 0xf0,
+      0x00, 0x3b, 0x35, 0xc0, 0x00, 0x38, 0x80, 0x2c,
+      0x00, 0x70, 0x00, 0x00, 0x00, 0x00, 0xc0, 0x38,
+      0x80, 0x2c, 0x70, 0x00, 0x00, 0x00, 0x00, 0xc0,
+      0x3a, 0x80, 0x2c, 0x70, 0x00, 0x00, 0x00, 0x00,
+      0xc0, 0x3b, 0x0a, 0x80, 0x2e, 0x83, 0x24, 0xdb,
+      0x00, 0x70, 0x00, 0x00, 0x00, 0x00, 0xc3, 0x2c,
+      0x31, 0x83, 0x2c, 0x70, 0x00, 0x00, 0x00, 0x00, //end block 10
+      0xcb, 0x33, 0x1b, 0x83, 0x2c, 0x70, 0x00, 0x00,
+      0x00, 0x00, 0xcb, 0x31, 0x83, 0x2c, 0x70, 0x00,
+      0x00, 0x00, 0x00, 0xcb, 0x00, 0x33, 0x1e, 0x83,
+      0x2e, 0x25, 0xff, 0xc4, 0x00, 0x2f, 0x06, 0x84,
+      0x2e, 0x00, 0x00, 0x10, 0x20, 0x29, 0x00, 0x04,
+      0x00, 0x10, 0x00, 0x00, 0x00, 0x23, 0x00, 0x00,
+      0x00, 0x21, 0x00, 0x10, 0x00, 0x48, 0x03, 0x00,
+      0x30, 0xff, 0xf0, 0xff, 0xff, 0x00, 0x00, 0x00, //end block 11
+      0x00, 0x00, 0x04, 0x00, 0x00, 0x21, 0x00, 0x10,
+      0x00, 0x4c, 0x03, 0x00, 0x30, 0xff, 0xf0, 0xff,
+      0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0c, 0x00,
+      0x00, 0x21, 0x00, 0x10, 0x00, 0x20, 0x03, 0x00,
+      0x30, 0x7f, 0x00, 0xfc, 0xff, 0x00, 0x00, 0x00,
+      0x00, 0x80, 0x10, 0x00, 0x00, 0x20, 0x00, 0x08,
+      0x00, 0x24, 0x03, 0x00, 0x30, 0x04, 0x00, 0x00,
+      0x00, 0x20, 0x00, 0x08, 0x00, 0x1c, 0x07, 0x00, //end block 12
+      0x30, 0x1a, 0x00, 0x00, 0x00, 0x21, 0x00, 0x10,
+      0x00, 0x20, 0x03, 0x00, 0x30, 0xc3, 0xff, 0xff,
+      0xff, 0x00, 0x00, 0x00, 0x00, 0x14, 0x00, 0x00,
+      0x00, 0x20, 0x00, 0x08, 0x00, 0x80, 0x03, 0x00,
+      0x30, 0x02, 0x00, 0x00, 0x00, 0x24, 0x00, 0x8c,
+      0x00, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77,
+      0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77,
+      0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77, //end block 13
+      0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77,
+      0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77,
+      0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77,
+      0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77,
+      0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77,
+      0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77,
+      0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77,
+      0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77, //end block 14
+      0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77,
+      0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77,
+      0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77,
+      0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77,
+      0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77,
+      0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77,
+      0x77, 0x77, 0x77, 0x77, 0x77, 0x26, 0x00, 0x28,
+      0x00, 0xff, 0x00, 0x0f, 0x00, 0xf0, 0xf0, 0x0f, //end block 15
+      0x00, 0x20, 0x00, 0x00, 0x00, 0x30, 0x01, 0x02,
+      0x00, 0x2c, 0x01, 0x28, 0x00, 0x20, 0x80, 0x00,
+      0x00, 0x0a, 0x00, 0x02, 0x00, 0x0b, 0x00, 0x19,
+      0x00, 0x40, 0x1f, 0x10, 0x27, 0x00, 0x0f, 0x03,
+      0x00};
+
+      p = init_data4;
+      pend = (char *) init_data4 + sizeof(init_data4);
+      while (p < pend) {
+        int to_send = pend - p;
+        to_send = to_send >= 64 ? 64 : to_send;
+        libusb_bulk_transfer(handle, 0x01, p, to_send, &err, 100);
+        p += err; //add transfered bytes.
+      }
+      fprintf(stderr, "Sent init_data4\n");
+
+      do {
+        libusb_bulk_transfer(handle, 0x81, data, 64, &err, 100);
+        fprintf(stderr, "Received on BULK 1: %d\n", err);
+      } while(err == 64);
+
+      if (libusb_interrupt_transfer(handle, 0x83, init_data, 8, &err, 0) == 0) {
+        fprintf(stderr, "Interrupt success, data: %d\n", err);
+        if (err == 5) {
+          fprintf(stderr, "Interrupt data: ");
+          for (i = 0; i < err; i++) {
+            fprintf(stderr, "%02x ", init_data[i] & 0xff);
+          }
+          fprintf(stderr, "\n");
+        }
+      }
+      fprintf(stderr, "Now waiting for fingerprint interrupt, letting us know we need to read from endpoint 2.\n");
+      if (libusb_interrupt_transfer(handle, 0x83, init_data, 8, &err, 0) == 0) {
+        fprintf(stderr, "Interrupt success, data 2: %d\n", err);
+        if (err == 5) {
+          fprintf(stderr, "Interrupt data: ");
+          for (i = 0; i < err; i++) {
+            fprintf(stderr, "%02x ", init_data[i] & 0xff);
+          }
+          fprintf(stderr, "\n");
+        }
+      }
+
+    //this is it man, fingerprint data.
+    line_t *lines[10000]; //not sure how many of these i'll need?
+    for (i = 0; i < 10000; i++) {
+      lines[i] = NULL;
+    }
+
+    int cur_line = 0;
+    int cur_off = 0;
+    do {
+      if (lines[cur_line] == NULL) {
+        lines[cur_line] = (line_t *)malloc(sizeof(line_t));
+        memset(lines[cur_line], 0, sizeof(line_t));
+      }
+      libusb_bulk_transfer(handle, 0x82, data, 64, &err, 300);
+      if (err > sizeof(line_t) - cur_off) {
+        memcpy((char *)lines[cur_line] + cur_off, data, sizeof(line_t) - cur_off);
+        cur_line++;
+        lines[cur_line] = (line_t *) malloc(sizeof(line_t));
+        memset(lines[cur_line], 0, sizeof(line_t));
+        memcpy(lines[cur_line], data + (sizeof(line_t) - cur_off), err - (sizeof(line_t) - cur_off));
+        cur_off = err - (sizeof(line_t) - cur_off);
+      } else {
+        memcpy((char *)lines[cur_line] + cur_off, data, err);
+        cur_off += err;
+        if (cur_off == sizeof(line_t)) {
+          cur_line++;
+          lines[cur_line] = (line_t *) malloc(sizeof(line_t));
+          memset(lines[cur_line], 0, sizeof(line_t));
+          cur_off = 0;
+        }
+      }
+
+    } while(err == 64);
+    fprintf(stderr, "Received fingerprint data... writing out to file.\n");
+    int height = cur_line;
+    char fputbuf[256];
+    FILE *fp = fopen("test.pgm", "w");
+    snprintf(fputbuf, 256, "140 %d\n", height);
+    fwrite("P2\n", 3, 1, fp);
+    fwrite(fputbuf, strlen(fputbuf), 1, fp);
+    fwrite("255\n", 4, 1, fp);
+    for (cur_line = 0; cur_line < height; cur_line++) {
+      for (i = 0; i < 140; i++) {
+        sprintf(fputbuf, "%d\t", lines[cur_line]->row[i]);
+        fwrite(fputbuf, strlen(fputbuf), 1, fp);
+
+      }
+      fwrite("\n", 1, 1, fp);
+    }
+    fclose(fp);
+    for (i = 0; i < 10000; i++) {
+      if (lines[i] != NULL) {
+        free(lines[i]);
+      }
+    }
+    free(data);
+    libusb_release_interface(handle, 0);
+    libusb_release_interface(handle, 1);
+    libusb_release_interface(handle, 129);
+    libusb_release_interface(handle, 130);
+    libusb_release_interface(handle, 131);
+    fprintf(stderr, "Closing.\n");
+    libusb_close(handle);
+  }
+  libusb_free_device_list(list, 1);
+  libusb_exit(ctx);
+  char * const paramList[] = {"/usr/bin/eog", "test.pgm", NULL};
+  execv("/usr/bin/eog", paramList);
+  return 0;
+}
+
+
+</file></box >
+
+===== Documentation =====
+  * **(en)** [[http://thinkpadmint.blogspot.fr/2014/02/getting-t440s-validity-vfs5011.html |Getting the T440s Validity VFS5011 fingerprint sensor (ID: 138a:0017) to work ]] - {Procédure d'installation du pilote du __lecteur d'empreintes__ **VFS5011** de Validity™ référence de chipset ID: **138a:0017** présent \\ dans les ordinateurs de la série T440s} ; NDLR : Ultrabook Lenovo ThinkPad T440s 20AQS00500. 
+  * **(fr)** [[http://hotline.asdrad.com/ajuster_la_hauteur_des_iframe|Documentation de référence sur l'intégration de contenu dans une page-maitre]] en utilisant les balises HTML - Références dans les sources documentaires.
+  * **(en)** [[https://bbs.archlinux.org/viewtopic.php?id=198971|HP Envy, Validity™ Sensors, libfprint]] - source ArchLinux.org
+  * **(en)** [[https://launchpad.net/~fingerprint|"Fingerprint readers integration" team]] sur le Launchpad Ubuntu - liste des lecteurs pris en charge.
+  * **(en)** [[https://github.com/payden/libfprint|Mirroir GIT des fichiers de compilation et d'installation du pilote VFS0050]]
+  * la **compilation** et **checkinstall** sur la [[:compilation|page de compilation]].
+  * **(en)** la [[https://www.freedesktop.org/wiki/Software/fprint/|page du projet ƒprint]]
+  * **(en)** Le [[https://www.freedesktop.org/wiki/Software/fprint/integration/|chapitre consacré à l'intégration]]((source : Freedesktop.org ; auteur : //inconnu// en date date du //16 septembre 2013//.)) : le module PAM((Le module PAM : Pluggable Authentification Module — { Module d'authentification enfichable })) ƒprint((source : Freedesktop.org ; auteur : //inconnu// en date du //18 mai 2013//.))
+  * [[:fprint|ƒprint : Logiciel de lecture d'empreintes digitales]] dans la documentation.
+
+
+Sources documentaires :
+  * **(en)** [[https://gist.github.com/payden/8191565|Le code-source du lecteur d'empreintes 138a:0050]] de Validity™ sensors ; source : GitHub ; Auteur : //Payden// en date de ~ juin 2013.
+  * **(en)** [[https://github.com/ars3niy/fprint_vfs5011/issues/4|« [fprint_vfs5011] does not compile on Ubuntu 13.04 »]] — { « Impossible de compiler le module [fprint_vfs5011]  sous Ubuntu 13.04 » } — source : Forum de discussion de github ; auteur : //Grycek// en date du //14 mai 2013//.
+  * **(fr)** **Asdrad Hotline** - « Ajuster dynamiquement la hauteur des <iframe> » ; auteur : //Flaz// en date du 13 septembre 2014 ; source documentaire sur l'intégration de contenu dans une document-maître. (recherche)
+  * **(fr)** [[https://doc.ubuntu-fr.org/wiki/syntaxe#blocs_fichiers|Documentation sur la syntaxe utilisée dans la documentation Ubuntu]], chapitre: « Intégration de blocs de fichier » (NDLR : dans un document-maître). (recherche)
+  * **(en)** [[https://bbs.archlinux.org/viewtopic.php?id=198971|HP Envy, Validity™ Sensors, libfprint]] -- source ArchLinux.org ; auteur : //Labdocodigo// en date du 23 juin 2015 (BDD matériels, vidéo de la rétro-ingénierie).
+  * **(fr)** [[http://www.linux-france.org/article/devl/ConduiteProjet/c0401.html|Le gestionnaire de compilation]] -- source : « Conduite de Projet en C sous GNU/Linux » -- Chapitre 4 : L'Environnement de programmation -- Auteur : Philippe Martin © 1998 Licence Publique Globale V.2+
+
+----
+
+//Contributeur principal (créateur) : [[utilisateurs:eagle08|René Stoecklin]] : formatage, édition (traduction) du code source et intégration dans la documentation, conformation à la norme W3C (interface Lynx Braille).//\\
+//Autres contributeurs : [[utilisateurs:autre_nom|Autre nom ou pseudo]].//\\
+
+|Pages connexes |[[https://gist.github.com/payden/8191565|Le code-source du lecteur d'empreintes 138a:0050]] de Validity™ sensors| 
+| ::: |[[:fprint|Le logiciel ƒprint]] dans cette documentation|
+| ::: |**(en)** la [[https://www.freedesktop.org/wiki/Software/fprint/|page du projet ƒprint]]|
+| ::: |[[https://wiki.archlinux.org/index.php/fprint|Le logiciel ƒprint]] sur ArchLinux.org|
+| ::: |[[https://wiki.archlinux.org/index.php/ThinkFinger|Le logiciel ThinkFinger]] sur ArchLinux.org|
+
+
+//Date de création : 3 juin 2016 ; mise à jour le 30 juin 2016.//

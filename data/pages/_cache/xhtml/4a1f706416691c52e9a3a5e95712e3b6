@@ -1,0 +1,115 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#introduction" class="toc"> Introduction </a></span></li>
+<li class="level1"><span class="li"><a href="#avoir_un_shell_root" class="toc"> Avoir un shell root </a></span></li>
+<li class="level1"><span class="li"><a href="#comment_utiliser_le_vrai_compte_root_je_prefere_ca_a_sudo" class="toc"> Comment utiliser le vrai compte root ? Je préfère ça à sudo </a></span></li>
+<li class="level1"><span class="li"><a href="#j_en_ai_marre_de_taper_mon_mot_de_passe..._existe-t-il_une_solution" class="toc"> J'en ai marre de taper mon mot de passe... Existe-t-il une solution ? </a></span></li>
+</ul>
+</div>
+</div>
+
+<a name="introduction"></a><h1> Introduction </h1>
+<div class="level1">
+
+<p>
+ Bienvenue sur la page de documentation sur le compte <strong>root</strong>. Vous pouvez rajouter vos informations ou astuces sur le compte <strong>root</strong> ou la gestion via <strong>sudo</strong>
+</p>
+
+<p>
+ Ubuntu utilise sudo pour toute les commandes necessitant les droits root.
+</p>
+
+<p>
+Pourquoi ce choix ?
+</p>
+<ul>
+<li class="level1"><span class="li"> L&rsquo;autre alternative est <code>su -</code> puis les commandes à taper<a href="#fn1" name="fnt1" class="fn_top">1)</a>, de fait vous allez être root et le rester. Toutes les commandes executées à partir de ce moment seront avec les droits super utilisateur si vous faites une faute sur une commande, le système peut être endommagé.</span>
+</li>
+<li class="level1"><span class="li"> Pour une utilisation classique d&rsquo;un poste à la maison (à priori un seul utilisateur), il n&rsquo;y a qu&rsquo;un mot de passe à retenir : le votre</span>
+</li>
+<li class="level1"><span class="li"> Si vous partagez l&rsquo;accès à cette machine il est tout à fait possible de spécifier des droits étendus sur certaines applications pour certains utilisateurs, sudo est fait pour ça. Sur un systeme sans sudo, ces personnes auraient le mot de passe du compte root, ce qui est potentiellement dangereux.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [1-1116] -->
+<a name="avoir_un_shell_root"></a><h1> Avoir un shell root </h1>
+<div class="level1">
+
+<p>
+ Vous avez besoin de taper plusieurs commandes réservés à <strong>root</strong> à la suite, lancez un shell root comme ça vous n&rsquo;aurez pas besoin d&rsquo;utiliser à chaque fois <em>sudo</em>:
+</p>
+<pre class="code">
+     sudo -s                ##rentrez votre pass une seule fois
+</pre>
+
+<p>
+Maintenant vous étes <strong>root</strong> jusqu&rsquo;a vous sortiez par la commande <em>exit</em>.
+</p>
+
+</div>
+<!-- SECTION [1117-1485] -->
+<a name="comment_utiliser_le_vrai_compte_root_je_prefere_ca_a_sudo"></a><h1> Comment utiliser le vrai compte root ? Je préfère ça à sudo </h1>
+<div class="level1">
+
+<p>
+ Pour activer le compte root, exécutez la commande :
+</p>
+<pre class="code">
+    sudo passwd root
+</pre>
+
+<p>
+Entrez le mot de passe désiré.
+</p>
+
+<p>
+Pour le désactiver :
+</p>
+<pre class="code">
+    sudo passwd -l root
+</pre>
+
+</div>
+<!-- SECTION [1486-1752] -->
+<a name="j_en_ai_marre_de_taper_mon_mot_de_passe..._existe-t-il_une_solution"></a><h1> J'en ai marre de taper mon mot de passe... Existe-t-il une solution ? </h1>
+<div class="level1">
+
+<p>
+ Bien que ce soit déconseillé, vous pouvez configurer Sudo pour ne plus que le système vous demande votre mot de passe. <strong>A vos risques et périls</strong>, suivez cette procédure.
+</p>
+
+<p>
+Via le menu, lancez un Root Terminal (Applications &gt; Outils système &gt; Root Terminal).
+</p>
+
+<p>
+Exécutez la commande :
+</p>
+<pre class="code">
+    visudo
+</pre>
+
+<p>
+À la ligne de votre utilisateur, rajoutez &ldquo;NOPASSWD&rdquo; comme ci-dessous :
+</p>
+<pre class="code">
+    # Added by Ubuntu installer
+    utilisateur    ALL=(ALL) NOPASSWD:ALL
+</pre>
+
+<p>
+Enregister et quitter en tapant : <strong>wq</strong>
+</p>
+
+<p>
+Relogguez-vous, lancez par exemple Synaptic, et vous constaterez que le mot de passe n&rsquo;est plus demandé. 
+</p>
+
+</div>
+<!-- SECTION [1753-] --><div class="footnotes">
+<div class="fn"><a href="#fnt1" name="fn1" class="fn_bot">1)</a> 
+il est possible de taper su - -c &ldquo;commande&rdquo; mais là autant utiliser sudo c&rsquo;est plus court</div>
+</div>

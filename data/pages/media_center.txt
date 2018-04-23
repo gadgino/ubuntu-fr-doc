@@ -1,0 +1,152 @@
+{{tag>multimédia audio vidéo}}
+
+----
+
+
+====== Ubuntu en tant que Media Center ======
+<note warning>La plupart de ces projets sont morts depuis longtemps...</note>
+Actuellement un grand nombre de projets Open Source permettent de transformer Ubuntu en véritable Media Center.
+== Tableau comparatif =====
+
+> FIXME **à compléter**
+
+  * ✔ : Fonctionnalités présentes.
+  * ✘ : Fonctionnalités absentes.
+  * :?: : Informations à compléter.
+
+^ MediaCenter ^ TV ^ Guide TV ^ DVD ^ Vidéos ^ Musique ^ Album photos ^ Navigateur  Web ^ Météo ^ Jeux((jeux et/ou émulateurs)) ^ Interface à distance ^ Client UPnP ^ Dans les dépôts ? ^
+| [[#Enna]]       |:?:|:?:|:?:|✔|✔|✔|:?:|✔|:?:|:?:|:?:| ✔ |
+| [[#Freevo]]     | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✘ | ✔ | :?: | ✔ | :?: |✔ |
+| [[http://geexbox.org/fr/|GeeXboX]] | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | :?: |  ✔  | :?: | :?: | ✔ | LiveCD [[http://geexbox.org/fr/|GeeXboX]]|
+| [[LINUXMCE]]    | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | :?: | ✔ | :?: |✘ [[http://linuxmce.com/| LinuxXMCE]] |
+| [[MMS]]         | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✘ | ✘ | :?: | :?: | :?: |✘ [[http://mymediasystem.org/|MMS]]| FIXME les instructions d'installation semblent obsolètes.
+| [[#MythbuntuMythTV|Mythbuntu]]   | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | :?: | ✔ (également disponible sous forme de [[http://www.mythbuntu.org/|distribution]]) |
+| [[#MythbuntuMythTV|MythTV]]     | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | :?: |✔ |
+| [[#vdr_video_disc_recorder|VDR]]  | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | :?: |✔  |
+| [[#XBMC]]       | ✔*| ✔ | ✔ | ✔ | ✔ | ✔ | ✘ | ✔ | ✔ | ✔ | ✔ | ✔ (LiveCD [[http://xbmc.org/|XBMC]])|
+
+
+
+===== Freevo =====
+
+
+==== Présentation ====
+<note warning>N'est plus développé.</note>
+**Freevo** est un mediacenter basé sur Python. Il dispose de nombreux plugins qui s'activent via le fichier de configuration principal tout comme le reste de la config.
+
+**Exemples de plugins :** lirc, météo, jaquettes de CD, affiches + description films (Imdb/Allociné), paroles de chansons, gravure de CD, rip de CD vers mp3/ogg/flac, déplacement de fichier, température CPU/CM, espace disque et bien d'autres !
+
+**L'installation** se fait par APT en suivant [[http://doc.freevo.org/FreevoAptUbuntu|la doc du site officiel]]. Attention toutefois sous Gutsy la version 1.8.0rc2 ne fonctionne pas du tout !
+
+**La configuration** se fait soit par le fichier de configuration principal ///etc/freevo/local_conf.py//, soit par une copie de celui-ci dans le répertoire personnel de l'utilisateur.
+
+**Petites particularités très appréciables :** l'interface de Freevo est agréable, skinable mais reste simple au possible tout en ayant d'énormes capacités via le menu "E" (événement ?) qui peut être vu comme un clic droit avec un menu contextuel : un vrai bonheur. De plus il est également possible d'écouter de la musique puis, d'aller voir des photos ou de se choisir un film sans couper la musique tout en sachant quel morceau est joué grâce à sa "pseudo barre des tâches".
+
+[[http://freevo.sourceforge.net/|Site officiel…]]
+
+
+==== Installation ====
+
+[[:freevo|Voir la page dédiée à Freevo]].
+
+
+
+===== Mythbuntu/MythTV =====
+
+
+==== Présentation ====
+
+{{ media_center:mythtv.png?250|MythTV}}
+
+**[[:MythTV]]** est un des mediacenters les plus (trop ?) complets sous GNU/Linux. Mais ce n'est pas le plus simple à configurer ! **Mythbuntu** Facilite cette installation grâce un assitant le "Centre de contrôle mythbuntu" qui guide l'utilisateur dans ce long processus.
+
+MythTV se sépare en deux éléments principaux : le //backend// (serveur) et le //frontend// (client). Ces deux éléments peuvent être installés sur des machines différentes. Plusieurs //frontend// peuvent se connecter au même //backend//.
+
+MythTV est basé sous forme de modules. Vous pourrez donc n'installer (via le gestionnaire de paquet ou le centre de contrôle mythbuntu) que les modules qui vous intéressent. Voici quelques-un des modules principaux :
+
+  * **[[:MythTV]]** : Gestion des cartes TV (enregistrement via le programme TV, visionnage, etc.)
+  * **MythDVD** : Gestion de la lecture des VCD et DVD.
+  * **MythVideo** : Visionnage de vidéos de vacances au format xvid, mpeg et autres.
+  * **MythGallery** : Galerie de photo.
+  * **MythWeb** : Interface web permettant de gérer MythTV (programmation, visionnage des enregistrements) depuis n'importe quel ordinateur du réseau.
+  * …
+
+
+==== Installation ====
+
+Pour ajouter **mythbuntu** à un ordinateur déjà sous [Ku|U|Xu]buntu [[tutoriel:comment_installer_un_paquet|installez le paquet]] **mythbuntu-control-centre** [[apt://mythbuntu-control-centre|{{apt.png}}]]. 
+
+Puis allez dans Système → Administration → Centre de contrôle Mythbuntu. Cette assitant vous guidera dans les étapes d'installations et de configurations.
+
+<note>
+  * Si vous souhaitez installer un ordinateur dédiée à MythTV orientez vous vers [[http://www.mythbuntu.org/|la distribution mythbuntu]].
+  * L'installation de MythTV sans les utilitaires Mythbuntu est détaillée sur [[MythTV|cette page]].
+</note>
+
+
+
+
+
+===== VDR (Video Disc Recorder) =====
+
+{{  media_center:izegrey16_1.jpg?250|VDR}}
+
+VDR est un logiciel libre permettant de recevoir la TV sur PC avec ou sans time-shifting et bien plus grâce à des plugins. Sa particularité réside dans le fait que VDR peut tourner sans serveur graphique grâce à une carte de décompression MPEG-2 avec sortie TV. (Carte satellite Nexus-S par exemple).
+
+La fonction première de ce programme est de recevoir la télévision numérique (plusieurs cartes peuvent cohabiter). Si vous n'avez pas de carte de décompression MPEG-2 dédiée, il faudra utiliser un plugin permettant de recevoir ce flux MPEG-2 vers votre serveur graphique. De nombreux plugins existent, consultation météo, photos, divx, musiques, RSS, mails, jeux, motorisation de parabole, streaming vers un autre VDR, pilotage de VDR avec télécommande, graphlcd pour piloter un écran LCD d'informations... ;-)
+
+[[VDR|Détails et installation de VDR]]
+
+
+===== XBMC/Kodi =====
+
+{{  http://xbmc.org/wp-content/gallery/confluence/screenshot000.jpg?250}}
+
+**XBMC** est un media center développé à l'origine pour la XBOX. Il est maintenant porté sur plusieurs plateformes (Linux, OSX, Win32). XBMC utilise l'accélération graphique afin de fournir de jolis effets de transition et tout ce qui va avec :). Il est très personnalisable (skins) et supporte des plugins.
+
+Plus d’informations sur [[xbmc|la page dédiée]].
+
+FIXME
+
+<note important>* Xbmc ne gère "pas vraiment" les cartes TV. Il existe en effet un support très sommaire du backend mythtv dans xbmc.
+Décrit dans le paragraphe "XBMC as a MythTV frontend" [[http://www.mythtv.org/wiki/XBMC]] du wiki mythtv. Ce support très light et peu pratique à utiliser se résume à regarder des enregistrements, choisir une chaine pour voir la tv en direct, et consulter sur une liste très moche les programmes à venir.
+
+A coté de cela, XBMC gère de manière très efficace le protocole **htsp:** fournis par [[TVHeadEnd]] qui permet de disposer d'un serveur de streaming pour les chaines de la TNT de manière quasi transparente. Cette association entre XBMC et TvHeadEnd le transforme en véritable MédiaCenter.
+</note>
+
+===== Liens =====
+====LinuxMce - Media center + sécurité + domotique ====
+  * Page de [[linuxmce]]
+  * [[http://linuxmce.com/|Site officiel LinuxMce]].
+  * [[http://video.google.fr/videoplay?docid=2176025602905109829&ei=VYnsSv_UG9yf-Abws-CGDw&q=linuxmce&hl=fr|Démonstration de linuxmce officielle]] ( première version 0704, 2 ans après il y a deux nouvelles versions et encore plus de nouveauté et une belle interface ).
+
+==== MythTV ====
+
+
+  * [[http://www.mythtv.org/|Site officiel]] [en]
+  * [[http://mythtv-fr.tuxfamily.org|Comunauté francophone]]
+  * https://help.ubuntu.com/community/MythTV
+
+==== GeexBox ====
+
+  * [[http://geexbox.org/fr/|GeexBox]] est une distribution Linux sous forme de cd auto-amorçable qui transforme votre pc en MediaCenter.
+
+==== Enna ====
+
+  * [[Enna]] est basé sur Enlightenment Foudations Libraries (EFL) pour l'interface graphique et développé par GeexBox pour la partie multimédia/informations.
+  * Pour installer Enna, il suffit d'[[tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt://enna|enna]]**.
+
+
+==== VDR ====
+
+  * [[http://www.cadsoft.de/vdr/|Site de l'auteur]]
+  * [[http://vdrlive1.free.fr/PHPNUKE/|Projet VDRLive]] (Essayer sans l'installer)
+  * [[http://dvbkivabien2.info|Forum Français sur le DVB, partie dédiée à VDR]] (idéal pour être guidé)
+  * [[http://vdr.bluox.org/wiki|Wiki VDR Français]]
+  * [[http://www.linuxtv.org/vdrwiki|Wiki VDR Anglais]]
+  * [[http://www.vdr-wiki.de|Wiki VDR Allemand (Langue de l'auteur)]]
+  * [[http://www.vdr-portal.de|Portail de la communautée VDR Allemand]] (Forum)
+
+----
+
+//Contributeurs : [[:utilisateurs:Jonas]], [[utilisateurs:Adam0509]], [[utilisateurs:Fanch317]], [[utilisateurs:Drissman]],[[utilisateurs:clem-vangelis]], [[utilisateurs:m4xim3]], [[utilisateurs:carreno]].//

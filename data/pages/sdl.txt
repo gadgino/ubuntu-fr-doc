@@ -1,0 +1,65 @@
+{{tag>Xenial programmation BROUILLON}}
+
+----
+
+====== SDL : Simple DirectMedia Layer ======
+
+
+La [[http://www.libsdl.org/|SDL]] //(Simple DirectMedia Layer)// est une [[wpfr>Bibliothèque logicielle]] permettant de développer des programmes gérant le son, la vidéo, le clavier, la souris et le lecteur CD avec plusieurs langages (la liste complète est disponible sur le [[http://www.libsdl.org/|site officiel]].
+Elle a notamment été utilisée pour le portage du jeu [[wpfr>Civilization|Civilization II]] sous Linux et le jeu [[wpfr>Doom]] sous BeOS.
+
+
+
+===== Pour une utilisation simple =====
+
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>libsdl1.2debian]]**.
+
+(voir plus bas pour une utilisation simple des librairies complémentaires)
+
+===== Installer la version pour les développeurs =====
+
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]]  **[[apt>libsdl2-dev]]** pour utiliser SDL2 mais le paquet **[[apt>libsdl1.2-dev ]]** est toujours utilisable.
+
+
+
+===== Compiler un programme en C/SDL avec GCC ou g++=====
+
+Placez-vous dans le répertoire où sont enregistrées vos sources. L'installation d'SDL fourni un petit script sdl-config qui, appelé avec les paramètres --cflags ou --libs, renseigne correctement le compilateur. tapez alors :
+
+  gcc -o executable fichier1.c fichier2.c fichier3.c ...  `sdl-config --cflags --libs` 
+gcc peut etre remplacé par g++ si vous programmez en C++.
+
+Pour compiler plusieurs fichiers séparément puis les linker, utilisez :
+  gcc -c -Wall -Wextra main.c `sdl-config --cflags`
+  gcc -c -Wall -Wextra fichier1.c `sdl-config --cflags`
+  gcc -o executable main.o fichier1.o `sdl-config --libs`
+
+Si vous avez installé le paquet libsdl2-dev et que vous programmez avec SDL2, utilisez sdl2-config au lieu de sdl-config.
+
+Une fois la compilation terminée, vous pourrez lancer votre programme avec :
+
+  PATH=.:$PATH
+  executable
+  
+Ou, plus simplement, sans modifier la variable PATH, avec :
+
+  ./executable
+
+===== Bibliothèques complémentaires =====
+
+Pour installer SDL_image, SDL_ttf et SDL_mixer: [[:tutoriel:comment_installer_un_paquet|installez les paquets]] **[[apt://libsdl-image1.2,libsdl-image1.2-dev,libsdl-ttf2.0-0,libsdl-ttf2.0-dev,libsdl-mixer1.2,libsdl-mixer1.2-dev|libsdl-image1.2 ,libsdl-image1.2-dev ,libsdl-ttf2.0-0 ,libsdl-ttf2.0-dev ,libsdl-mixer1.2 ,libsdl-mixer1.2-dev]]**.
+
+Les options respectives à ajouter à la compilation avec GCC (après **-lSDLmain -lSDL**) sont :
+<code>
+-lSDL_image # pour SDL_image
+-lSDL_ttf # pour SDL_ttf
+-lSDL_mixer # pour SDL_mixer
+</code>
+
+===== Petit plus =====
+
+Si vous savez déjà programmer en C/C++ et que vous voulez apprendre à utiliser la SDL pour vos programmes, il y a de très bons tutoriels sur [[http://fr.openclassrooms.com/|OpenClassrooms]], sur [[http://c.developpez.com/|Développez.com]] et sur [[http://www.gnurou.org/writing/linuxmag/sdl|gnurou.org]].
+
+----
+
+//Contributeurs : [[:utilisateurs:lost-in-the-shell]], [[:utilisateurs:sully]].//

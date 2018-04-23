@@ -1,0 +1,57 @@
+{{tag>java programmation installation karmic BROUILLON}}
+
+====== Java Mobile Edition (J2ME) ======
+
+===== Présentation =====
+
+Java Mobile Edition, ou J2ME, est une version modifiée de [[http://doc.ubuntu-fr.org/java|Java]], spécialement conçue pour l'intégration de cette plate-forme sur des support mobiles, type téléphone portable. De nombreux jeux (ou autres applications) pour téléphones portables sont développés en utilisant J2ME. L'une de ses spécificités est d'utiliser une JVM allégée, Kilobyte Virtual Machine (KVM) ou encore C Virtual Machine (CVM), avec pour implication la suppression et la modifications d'un certain nombre de classes que l'on peut trouver dans une JRE classique.
+
+Pour plus d'informations sur la programmation avec J2ME, vous pouvez consulter les [[http://developers.sun.com/mobility/midp/articles/wtoolkit/|tutoriaux]] de Sun MicroSystems.
+
+===== Java Wireless Toolkit (WTK) =====
+
+==== Qu'est-ce que WTK ?====
+
+Le WTK est un ensemble d'applications permettant de programmer et d'exécuter des applications en utilisant la plate-forme J2ME. Il comprend 4 éléments :
+
+  * Java ME Platform SDK, la plate-forme J2ME à proprement parler,
+  * KToolbar, un environement permettant de compiler des applications J2ME et de lancer l'émulateur,
+  * Emulateur de machines virtuelles mobiles, permettant de tester une application,
+  * Utilities, comprenant divers utilitaires (de sécurité par exemple).
+
+==== Installer WTK 2.5.2 ====
+
+==== Pré-Requis ====
+
+Pour pouvoir installer et utiliser WTK, il est nécessaire d'avoir préalablement installé [[http://doc.ubuntu-fr.org/java|java]] sur votre machine.
+
+=== Ubuntu 9.10, 32 bits ===
+
+Sun Microsystems met à disposition un binaire permettant d'installer d'installer WTK 2.2. Il peut être téléchargé directement depuis leur [[https://cds.sun.com/is-bin/INTERSHOP.enfinity/WFS/CDS-CDS_Developer-Site/en_US/-/USD/ViewProductDetail-Start?ProductRef=sun_java_wireless_toolkit-2.5.2_01b-oth-JPR@CDS-CDS_Developer|site]].
+
+Pour démarrer l'installation, rendre le fichier éxécutable, soit en cochant la cas appropriée dans ses propriétés, soit en utilisant la commande :
+<code>
+chmod -x sun_java_wireless_toolkit-2.5.2_01-linuxi486.bin.sh
+</code>
+
+Puis utilisez la commande :
+
+<code>
+./sun_java_wireless_toolkit-2.5.2_01-linuxi486.bin.sh
+</code>
+
+Au cours de l'installation, vous devrez spécifier le chemin vers votre JRE, dans le cas d'une JRE Sun Microsystem, /usr/lib/jvm/java-*-sun-*/jre/bin.
+
+Une fois l'installation terminée, vous pouvez lancer KToolbar en allant dans le dossier d'installation de votre WTK, puis dans le dossier bin et enfin en utilisant la commande :
+<code>
+./ktoolbar
+</code>
+
+=== Ubuntu 9.10, 64 bits ===
+
+Sun Microsystems ne semble pas distribuer une version de WTK 64 bits pour Linux. C'est pourquoi, pour installer WTK, vous devez tout d'abord installer un second JRE en le forçant en 32 bits. Cette version de Java peut n'être utilisée que pour WTK.
+
+===== J2ME et NetBeans =====
+
+L'IDE NetBeans, développé par Sun Microsystems, propose un environnement très intuitif pour programmer et tester des applications J2ME. Pour cela, vous aurez besoin d'installer le [[http://mobility.netbeans.org/|NetBeans Mobility Pack]], et de spécifier le chemin vers votre installation du WTK depuis NetBeans. Pour cela, il faut aller dans Tools > Java Platforms, et cliquer sur "Add Platform". Il faut ensuite choisir "Java ME MIDP Platform Emulator", et terminer l'intégration de la plateforme en spécifiant le répertoire d'installation de celle-ci.
+

@@ -1,0 +1,233 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#partage_d_une_imprimante" class="toc"> Partage d'une imprimante </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#introduction" class="toc"> Introduction </a></span></li>
+<li class="level2"><span class="li"><a href="#pre-requis" class="toc"> Pré-requis </a></span></li>
+<li class="level2"><span class="li"><a href="#limitations" class="toc"> Limitations </a></span></li>
+<li class="level2"><span class="li"><a href="#partager_l_imprimante" class="toc"> Partager l'imprimante </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#desactivez_dhcp" class="toc"> Désactivez DHCP </a></span></li>
+<li class="level3"><span class="li"><a href="#parametrage_des_adresses_ip_des_machines" class="toc"> Paramètrage des adresses IP des machines </a></span></li>
+<li class="level3"><span class="li"><a href="#partage_proprement_dit" class="toc"> Partage proprement dit </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#notes" class="toc"> Notes</a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary
+</pre>
+
+<a name="partage_d_une_imprimante"></a><h1> Partage d'une imprimante </h1>
+<div class="level1">
+
+</div>
+<!-- SECTION [31-70] -->
+<a name="introduction"></a><h2> Introduction </h2>
+<div class="level2">
+
+<p>
+ Ce qui suit est extrêmement simple. C&rsquo;est plutôt long mais c&rsquo;est seulement pour que vous puissiez comprendre ce que vous êtes en train de faire.  Certains diront que partager une imprimante sous linux c&rsquo;est difficile, en réalité il n&rsquo;y a rien de plus simple, comme vous pourrez le voir dans ce qui suit.
+</p>
+
+</div>
+<!-- SECTION [71-406] -->
+<a name="pre-requis"></a><h2> Pré-requis </h2>
+<div class="level2">
+
+<p>
+ Tout d&rsquo;abord il faut connaître les outils suivants: 
+</p>
+<ul>
+<li class="level1"><span class="li"> <strong>DHCP</strong> : C&rsquo;est le protocole qui assigne automatiquement une adresse IP (locale) à une machine qui se connecte au réseau.</span>
+</li>
+</ul>
+
+<p>
+ <em>Remarque :</em> A ce sujet il existe deux types d&rsquo;adresse IP, les adresses IP locales, qui commencent toujours par 192.168.0.X. et les adresses IP publiques qui sont toutes les autres. Dans ce qui suit, lorsque je parle d&rsquo;adresse IP, je parle d&rsquo;adresse IP LOCALES. 
+</p>
+<ul>
+<li class="level1"><span class="li"> <strong>CUPS</strong> : (<em>Common Unix Printer Service</em>) Ce que les utilisateurs d&rsquo;UNIX utilisent pour partager une imprimante. (Linux fait partie de la famille Unix).</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> <strong>Samba</strong> : Sert à partager des dossiers entre une machine Linux et une machine Windows. Ce n&rsquo;est pas ce qu&rsquo;on va utiliser dans ce qui suit. Je le précise parce que certains pourrait etre tentés d&rsquo;utiliser Samba pour partager une imprimante entre plusieurs machine Ubuntu. Samba est utile uniquement pour les communications avec les machines Windows (si vous désirez partager votre imprimante ou des dossiers dans un réseau hétérogène).</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> <strong><acronym title="Domain Name Server">DNS</acronym></strong> : (<em>Domain Name System</em>) C&rsquo;est ce qui transforme une adresse IP telle que 212.43.230.226 en une adresse mémorisable par un humain tel que <a href="http://www.carlabruni.fr.tc/" class="urlextern" title="http://www.carlabruni.fr.tc/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.carlabruni.fr.tc/</a>.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> <strong>Serveur <acronym title="Domain Name Server">DNS</acronym></strong> : Ce sont les serveurs que votre FAI utilise pour faire cette conversion. Vous pouvez créer un serveur <acronym title="Domain Name Server">DNS</acronym> si vous souhaitez donner un nom à votre machine au lieu de lui assigner une adresse IP.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> <strong>FAI</strong> : Fournisseur d&rsquo;accès à internet.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [407-1942] -->
+<a name="limitations"></a><h2> Limitations </h2>
+<div class="level2">
+
+<p>
+ Cette page explique comment partager une imprimante qui est connectée à une machine et que l&rsquo;on souhaite utiliser avec une autre machine. 
+</p>
+
+<p>
+Cependant, il y a un <u>défaut</u> à cette méthode : <strong>la machine connectée à l&rsquo;imprimante doit etre allumé lorsque vous souhaitez utiliser l&rsquo;imprimante</strong>. 
+</p>
+
+<p>
+Si vous souhaitez que l&rsquo;imprimante soit utilisable <strong>en permanence</strong>, vous devrez acheter un serveur d&rsquo;impression (dans les 60 euros). Il s&rsquo;agit d&rsquo;un petit boitier qui se connecte sur le switch et qui a son propre numéro IP. L&rsquo;imprimante sera connectée à se serveur d&rsquo;impression.
+</p>
+
+<p>
+Il faut également savoir que cette page est valide dans le cas où vous ne souhaitez mettre en réseau que <strong>deux ou trois machines</strong>. 
+</p>
+
+<p>
+Si vous souhaitez en mettre plus, cette méthode fonctionnera mais il est plutôt recommandé dans ce cas d&rsquo;utiliser une des machine (ou une vieille machine) qui fera office de serveur/passerelle. Dans ce cas, l&rsquo;imprimante sera connecté à ce serveur. 
+</p>
+
+<p>
+Un autre désavantage (minime) de la méthode décrite ci-dessous est que l&rsquo;adresse IP des serveurs <acronym title="Domain Name Server">DNS</acronym> de votre FAI n&rsquo;est pas automatiquement mise à jour. On contourne cette difficulté facilement avec deux ou trois machines, mais au-delà, il vaut mieux avoir un serveur dédié. En effet dans un <em>vrai</em> réseau, il y a un serveur qui sert notamment de routeur, mais ce n&rsquo;est pas le sujet de cette explication. Ici il s&rsquo;agit d&rsquo;un petit réseau domestique de deux trois machines.
+</p>
+
+</div>
+<!-- SECTION [1943-3432] -->
+<a name="partager_l_imprimante"></a><h2> Partager l'imprimante </h2>
+<div class="level2">
+
+</div>
+<!-- SECTION [3433-3467] -->
+<a name="desactivez_dhcp"></a><h3> Désactivez DHCP </h3>
+<div class="level3">
+
+<p>
+ Tout d&rsquo;abord pour partager une imprimante, il vaut mieux ne <strong>PAS</strong> se connecter sur le réseau local via DHCP. 
+</p>
+
+<p>
+Je m&rsquo;explique :  Si vous etes en mode DHCP et que votre machine est la première à se connecter au réseau, vous aurez l&rsquo;adresse 192.168.O.1. Mais si votre machine est la seconde à se connecter au réseau vous aurez l&rsquo;adresse 192.168.0.2.
+</p>
+
+<p>
+Cette assignation aléatoire de votre numéro IP va poser des problèmes si vous souhaitez partager une imprimante en réseau. En effet pour partager une imprimante en réseau il va falloir dire à la machine qui la cherche où <strong>EXACTEMENT</strong> elle se trouve sur le réseau. Or si cette adresse change vous comprenez que votre machine désirant imprimer va être perdue.
+</p>
+
+<p>
+Donc si vous avez un routeur, la première chose à faire, c&rsquo;est d&rsquo;enlever le mode DHCP et d&rsquo;assigner une bonne fois pour toute une adresse IP à chaque machine.
+</p>
+
+</div>
+
+<a name="par_exemple_pour_les_utilisateurs_de_la_freebox"></a><h4> Par exemple pour les utilisateurs de la Freebox : </h4>
+<div class="level4">
+
+<p>
+Vous allez sur le site de Free, puis vous cliquez &ldquo;free haut débit&rdquo; puis &ldquo;votre compte&rdquo; puis &ldquo;fonctionnalité routeur de la freebox&rdquo; puis &ldquo;pour activer les fonction routeur NAT de votre freebox&rdquo; chercher la page &ldquo;fonctionnalité routeur de la Freebox&rdquo; et vous remplissez les champs comme suit:
+</p>
+
+<p>
+Vous souhaitez activez ce service: activation IP freebox 192.168.0.254 DHCP activé:non Le reste pour ce qui nous concerne n&rsquo;a pas d&rsquo;importance. Ensuite vous rebootez la Freebox.
+</p>
+
+</div>
+
+<a name="pour_les_autres"></a><h4> Pour les autres... </h4>
+<div class="level4">
+
+<p>
+ (Pour ceux qui ont un autre routeur que la Freebox sachez simplement que tout ce que vous devez parametrer dans vos options c&rsquo;est DHCP : non)
+</p>
+
+</div>
+<!-- SECTION [3468-5090] -->
+<a name="parametrage_des_adresses_ip_des_machines"></a><h3> Paramètrage des adresses IP des machines </h3>
+<div class="level3">
+
+<p>
+ Là votre Ubuntu ne va pas pouvoir se connecter à internet puisque la machine attend une adresse IP du routeur. Pour remediez à ça, dans votre Ubuntu vous allez dans le menu <strong>Système &rArr; Administration &rArr; Réseau</strong> et choisissez <em>Connection internet</em> puis <em>Propriétés</em>. Dans configuration, choisissez <em>adresse IP statique</em> et assignez un numéro IP. 
+</p>
+
+<p>
+Par exemple pour la machine principale de la maison choisissez 192.168.0.1.
+</p>
+
+<p>
+Masque de sous réseau tapez 255.255.255.0 et pour passerelle indiquez 192.168.0.254.
+</p>
+
+<p>
+Faites la même chose pour les autres machines Ubuntu connectées sur le réseau.
+</p>
+
+<p>
+Exemple pour la machine suivante: adresse IP: 192.168.0.2. (avec masque de sous réseau et numéro de passerelle comme ci-dessus).
+</p>
+
+<p>
+Voilà! Vous avez fait le plus dur.
+</p>
+
+</div>
+<!-- SECTION [5091-5923] -->
+<a name="partage_proprement_dit"></a><h3> Partage proprement dit </h3>
+<div class="level3">
+
+<p>
+ A présent, pour partager l&rsquo;imprimante, ça va être très simple.
+</p>
+
+<p>
+Imaginons que vous avez assigné à votre ordi l&rsquo;IP 192.168.0.1. 
+</p>
+
+<p>
+Vous souhaitez utiliser l&rsquo;imprimante qui se trouve connectée à l&rsquo;ordi qui a l&rsquo;IP 192.168.0.2. Pour cela dans l&rsquo;ordi 192.168.0.1, vous allez dans le menu <strong>Système &rArr; Administration &rArr; Impression</strong> et vous double-cliquez sur <em>Nouvelle imprimante</em>. 
+</p>
+
+<p>
+Selectionnez <em>Imprimante réseau</em>, puis <em>Imprimante CUPS IPP</em> et là dans le champ <em><acronym title="Uniform Resource Identifier">URI</acronym></em> vous notez:  
+</p>
+<pre class="code">
+ipp://192.168.0.2/printers/nom_exact_de_l'imprimante_ici
+</pre>
+
+<p>
+Par exemple : si l&rsquo;imprimante est une DeskJet-920C, dans le champ <em><acronym title="Uniform Resource Identifier">URI</acronym></em> vous noterez :
+</p>
+<pre class="code">
+ipp://192.168.0.2/printers/DeskJet-920C
+</pre>
+
+<p>
+Puis cliquez sur suivant, choisissez votre imprimante sur la liste, puis cliquez sur suivant. En principe à ce stade votre imprimante fonctionnera.
+</p>
+
+<p>
+<em>Remarque : </em> Pour la tester, je vous déconseille de cliquer sur <em>Imprimer une page de test</em>. En effet les pages de test consomment énormément d&rsquo;encre de couleur. (et l&rsquo;encre ça coute très cher; en fait plus cher que l&rsquo;imprimante) Pour la tester, ouvrez plutôt writer (le word processor d&rsquo;open office), tapez un mot et imprimez.
+</p>
+
+</div>
+<!-- SECTION [5924-7163] -->
+<a name="notes"></a><h2> Notes</h2>
+<div class="level2">
+
+<p>
+ Si un jour vous avez des problèmes de connection internet, il se peut que ça vienne du fait que les adresses IP des serveurs <acronym title="Domain Name Server">DNS</acronym> ne soient plus les bonnes.(ce qui est normal vu que l&rsquo;on a supprimé le mode DHCP). En effet parfois les FAI changent de serveur <acronym title="Domain Name Server">DNS</acronym>.
+</p>
+
+<p>
+Dans ce cas il existe deux méthodes. Soit vous cherchez sur le site de votre FAI ou ailleurs les nouvelles adresses IP des serveurs <acronym title="Domain Name Server">DNS</acronym> et vous les rentrez dans système/administration/réseaux/<acronym title="Domain Name Server">DNS</acronym> soit vous rebranchez momentanément votre routeur en mode DHCP. Connectez vous à internet puis revenez en mode DHCP désactivé. (Pour les utilisateurs de la Freebox n&rsquo;oubliez pas qu&rsquo;il faut toujours la rebooter pour qu&rsquo;elle prenne en compte les modifications). 
+</p>
+
+</div>
+<!-- SECTION [7164-] -->

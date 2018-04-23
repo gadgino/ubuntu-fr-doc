@@ -1,0 +1,74 @@
+{{tag>Maverick tv BROUILLON}}
+----
+
+
+====== Zattoo donne accès aux chaines TV du cable ======
+Zattoo est un logiciel de télévision Web basé sur la technologie peer to peer (de pair à pair). Il est depuis peu accessible aux Français. 
+
+Zattoo a besoin de bon nombre de logiciels libres pour fonctionner mais ne l'est pas lui-même ! Zattoo est en effet distribué sous copyright.
+
+<note important>Pour être utilisé, ce logiciel nécessite une inscription sur le [[https://zattoo.com/register|site officiel]], ou via l'interface du logiciel lors de son premier lancement.</note>
+
+===== Pré-requis ===== 
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir activé l'accès au [[:depots|multiverse]].
+  * Avoir [[:tutoriel:comment_installer_un_paquet|installé]] [[:flashplayer]].
+
+===== Installation =====
+
+==== Installation sur une version 32 bits ====
+
+Téléchargez et [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **DEB** disponible sur le site [[http://download.zattoo.com/zattoo-4.0.5-i386.deb]].
+
+
+==== Installation sur une version 64 bits ==== 
+
+Il n'existe pas de paquet disponible pour [[ubuntu 64bits|Ubuntu 64 bits]]. Cette méthode permet de forcer l'installation du paquet 32 bits.
+
+[[:tutoriel:comment_installer_un_paquet|Installez d'abord les paquets]] **[[apt>ia32-libs,lib32asound2|ia32-libs lib32asound2]].**
+
+Téléchargez le paquet **DEB** disponible sur le site [[https://zattoo.com/downloadlinux|zattoo.com]] et [[:tutoriel:comment_installer_un_paquet|Installez-le]] en tapant dans [[terminal]] (vous devez vous trouvez dans le répertoire où se trouve le paquet précédemment téléchargé):
+
+<code>sudo dpkg -i --force-architecture zattoo*.deb</code>
+
+Créez un [[lien_physique_et_symbolique|lien symbolique]] du [[flashplayer|plugin Flash Player]] vers le répertoire de Zattoo, en tapant dans un [[terminal|terminal]] :
+
+<code>sudo ln -s /usr/lib/flashplugin-installer/libflashplayer.so /usr/lib/zattoo/</code>
+
+===== Utilisation ===== 
+
+Lancez l'application depuis le menu // **Applications** -> **Son et vidéo** -> **Zattoo**// ou //via// la [[:commande_shell|commande]] suivante :
+
+<code>Zattoo</code>
+
+===== Désinstallation =====
+ 
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+ 
+=== Désinstallation sous Ubuntu 64 bits ===
+
+Un paquet 32 bits dont l'installation a été forcée sous Ubuntu 64 bits n'apparaît pas dans le gestionnaire de paquets. Pour savoir comment le désinstaller, consultez la section //Désinstallation// du lien suivant : [[ubuntu_64bits#Utiliser des programmes 32 bits sur Ubuntu 64 bits]]
+
+===== Problème de son =====
+
+Si vous n'avez pas de son, [[:tutoriel:comment_modifier_un_fichier|créez un fichier]] **zattoo.sh** contenant ce code :
+<code bash>
+#!/bin/bash
+#la ligne suivante ne semble pas utile :
+#gconftool-2 -s -t bool /desktop/gnome/sound/event_sounds false
+killall pulseaudio
+zattoo_player
+</code>
+FIXME //Il manque des infos sur que faire ensuite de ce fichier...//
+
+Si après utilisation vous n'avez plus de son avec flash, relancez Firefox.
+
+
+===== Voir aussi =====
+
+  *[[http://zattoo.com/|Site officiel]]
+
+------
+//Contributeurs principaux : ...//

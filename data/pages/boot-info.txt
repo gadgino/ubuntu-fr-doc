@@ -1,0 +1,41 @@
+{{tag>système}}
+----
+
+====== Boot-Info ======
+
+**Boot-Info** est un petit utilitaire qui créée un rapport contenant les principales caractéristiques système de votre PC liées au démarrage.
+Ce rapport permet de diagnostiquer d’éventuels problèmes, notamment ceux liés au démarrage.
+
+//Boot-Info// est un logiciel libre (GNU-GPL).
+
+{{http://pix.toile-libre.org/upload/original/1417653221.png}}
+
+
+===== Installation =====
+<note tip>Plutôt que de taper les commandes proposées ci-dessous au risque de faire des erreurs de frappe, utilisez le copier-coller depuis cette page. Pour coller dans le terminal : clic droit > sélection "coller"</note>
+pour ubuntu 14.04 et versions suivantes : une seule commande à passer dans un terminal pour installer et lancer Boot-Info : 
+<code>sudo add-apt-repository -y ppa:yannubuntu/boot-repair && sudo apt update && sudo apt install -y boot-repair boot-info && sudo sed -i 's#-b http://#-b #' /usr/share/boot-sav/gui-actions.sh && boot-info</code>
+Pour Ubuntu 12.04 : 
+  - Se connecter à Internet;
+  -  Ajout du PPA [[https://doc.ubuntu-fr.org/ppa#ajout_d_un_ppa_a_vos_sources_logicielles|Personal Package Archives]] ppa:yannubuntu/boot-repair à vos sources de logiciels. Cela se fait en passant la commande suivante dans un terminal :  <code>sudo add-apt-repository ppa:yannubuntu/boot-repair</code> 
+  - Rechargement de la liste des paquets. Il suffit de passer cette commande dans un terminal : <code>sudo apt-get update</code>
+  - Installer les paquets boot-repair et boot-info en passant cette commande dans un terminal : <code>sudo apt-get install boot-repair boot-info</code>
+
+===== Utilisation=====
+
+  * lancez Boot-Info via le tableau de bord (si vous utilisez [[Unity]]), ou via la commande //boot-info//.
+  * choisissez les options de rapport qui vous conviennent:
+    * "Rapport en ligne" envoie le rapport sur un site [[wpfr>pastebin]], puis vous indiquez aux personnes qui vous en ont fait la demande,  l'url où se situe le rapport. La méthode copier/coller est excellente.
+    * "Rapport local" enregistre le rapport dans votre espace utilisateur et l'ouvre dans votre éditeur de texte
+
+===== Désinstallation =====
+ 
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer le paquet]] **boot-sav**. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+ 
+===== Voir aussi =====
+
+  * **(fr)** [[https://sourceforge.net/p/boot-info/home/fr|Site officiel]]
+  * **(fr)** [[:tutoriel:boot-info|Tutoriel décrivant les différentes façons de créer un rapport Boot-Info]]
+----
+
+//Contributeurs principaux : [[:utilisateurs:YannUbuntu]]//

@@ -1,0 +1,107 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="clear"><ul class="toc">
+<li class="level2"><span class="li"><a href="#introduction" class="toc"> Introduction </a></span></li>
+<li class="level2"><span class="li"><a href="#installation" class="toc"> Installation </a></span></li>
+<li class="level2"><span class="li"><a href="#configuration" class="toc"> Configuration </a></span></li>
+<li class="level2"><span class="li"><a href="#integration_a_firefox" class="toc"> Intégration à Firefox </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<a name="introduction"></a><h2> Introduction </h2>
+<div class="level2">
+
+<p>
+ <strong>Downloader for X</strong> (ou <strong>D4X</strong>) est un gestionnaire/accélérateur de téléchargements similaire à Getright. Il supporte tout ce que l&rsquo;on peut espérer des meilleurs programmes de ce genre : reprise des téléchargements, file d&rsquo;attente, découpage en morceaux pour gagner en vitesse, importation de liens, etc.
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=applications%3Acapture_d4x.png" class="media" title="applications:capture_d4x.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=applications%3Acapture_d4x.png" class="media" alt="" /></a>
+</p>
+
+<p>
+Seul hic, il n&rsquo;est que partiellement traduit.
+</p>
+
+</div>
+<!-- SECTION [1-424] -->
+<a name="installation"></a><h2> Installation </h2>
+<div class="level2">
+
+<p>
+ Le programme est disponible dans le <a href="/installation/depots" class="wikilink1" title="installation:depots" onclick="return svchk()" onkeypress="return svchk()">dépot</a> <em>universe</em> sous le nom <strong>d4x</strong>. <br/>
+ <br/>
+ Il est donc possible de l&rsquo;installer avec <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a> en lancant simplement une recherche sur &lsquo;d4x&rsquo;.<br/>
+ Si vous ne trouvez pas, vérifiez que vous avez activé le dépot <em>universe</em> en cochant la case adéquate dans la section <em>Ajouter et retirer des dépots</em>. <br/>
+ <br/>
+ Alternativement, installez-le via la commande
+</p>
+<pre class="code">sudo apt-get install d4x</pre>
+
+<p>
+ L&rsquo;installation crée un raccourci dans le menu gnome : <strong>Applications &rArr; Internet &rArr; Downloader for X</strong>. <br/>
+ Si par hasard le raccourci ne s&rsquo;y trouve pas, choisissez <strong>Lancer une application...</strong> et tappez <strong>d4x</strong>.
+</p>
+
+</div>
+<!-- SECTION [425-1141] -->
+<a name="configuration"></a><h2> Configuration </h2>
+<div class="level2">
+
+</div>
+
+<a name="parametres_generaux"></a><h4> Paramètres généraux: </h4>
+<div class="level4">
+
+<p>
+ Pour accéder aux paramètres, direction <strong>Options &rArr; Général</strong>.
+</p>
+
+<p>
+Pour profiter de la fonction d&rsquo;accélération des téléchargements, changez l&rsquo;option <strong>Number of parts to split files</strong> dans <strong>Download &rArr; Limites</strong> vers une valeur de minimum 2 (4 par exemple, mais n&rsquo;en mettez pas trop, au délà l&rsquo;effet devient contre-productif). 
+</p>
+
+<p>
+<strong>Petit piège</strong>: Changer le répertoire de téléchargement dans la section <strong>Download</strong> des options générales ne le change en fait pas effectivement ! Vous aurez probablement à le changer également dans les paramètres de file d&rsquo;attente expliqués ci-dessous.
+</p>
+
+</div>
+
+<a name="parametres_de_file_d_attente"></a><h4> Paramètres de file d'attente: </h4>
+<div class="level4">
+
+<p>
+ Certains paramètres sont spécifiques à chaque file d&rsquo;attente, notamment <strong>le dossier cible</strong>, <strong>le nombre de téléchargements concurrents</strong> et les <strong>unités d&rsquo;affichage</strong>. Pour accéder à ces options, faites un clic-droit sur la file d&rsquo;attente (<strong>Main</strong> par défaut) dans la partie gauche de l&rsquo;écran, et choisissez <strong>paramètres</strong>.
+</p>
+
+</div>
+<!-- SECTION [1142-2184] -->
+<a name="integration_a_firefox"></a><h2> Intégration à Firefox </h2>
+<div class="level2">
+
+<p>
+ Il est possible d&rsquo;intégrer d4x à <a href="/applications/mozilla-firefox" class="wikilink1" title="applications:mozilla-firefox" onclick="return svchk()" onkeypress="return svchk()">Firefox</a> grâce à l&rsquo;extension <strong>FlashGot</strong>, ce qui permet de lancer d4x depuis firefox, et ne pas copier/coller des liens à tout va.
+</p>
+
+</div>
+
+<a name="installer_l_extension_flashgot"></a><h4> Installer l'extension FlashGot: </h4>
+<div class="level4">
+
+<p>
+ Telechargez FlashGot sur cette page : <a href="https://addons.mozilla.org/extensions/moreinfo.php?id=220" class="urlextern" title="https://addons.mozilla.org/extensions/moreinfo.php?id=220" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">https://addons.mozilla.org/extensions/moreinfo.php?id=220</a> <br/>
+ Si vous ne savez pas comment installer une extension, consultez la page <a href="/applications/mozilla-firefox" class="wikilink1" title="applications:mozilla-firefox" onclick="return svchk()" onkeypress="return svchk()">Firefox</a>
+</p>
+
+<p>
+Après avoir relancé Firefox, allez dans <strong>Outils &rArr; FlashGot &rArr; Plus d&rsquo;options</strong> et séléctionnez <strong>Downloader for X</strong> comme logiciel de téléchargement. <br/>
+ Voila ! c&rsquo;est terminé, il vous sera proposé de lancer d4x quand vous téléchargez un fichier.
+</p>
+
+</div>
+<!-- SECTION [2185-] -->

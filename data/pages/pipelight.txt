@@ -1,0 +1,202 @@
+{{tag>Trusty tv streaming plugin_navigateur flashplayer}}
+----
+
+====== Pipelight : Alternative à Flashplayer, Silverlight et autres plugins ======
+<note warning>**Pipelight n'est plus maintenu.(([[http://pipelight.net|Source]].))** De plus, Adobe(r) propose désormais la dernière version de [[flashplayer|Flash player]] pour Linux. Pour l'installer via le paquet présent dans les dépots d'Ubuntu, se référer à la page [[flashplayer#depuis_les_depots_officiels|Flash Player]].</note>
+
+**Pipelight** est un projet de l'équipe [[http://www.fds-team.de|FDS]]. Il permet sous un environnement %%GNU/Linux%% à certains [[:navigateur|navigateurs]] de récupérer les flux vidéos mais aussi les vidéos [[wpfr>Silverlight]], [[:Flashplayer]] et [[wpfr>Unity_(moteur_de_jeu)|Unity3D]] de Windows(r).\\
+Bien que distribuée sous les licences libres [[wpfr>Licence_LGPL GNU LGPL|LGPL v2, v2.1]] et la [[http://www.mozilla.org/fr/legal/eula/firefox.html|Licence Publique Mozilla]], l'application Pipelight ne peut être considérée comme [[wpfr>logiciel libre]] car elle utilise un programme et des dépendances non-libres de Microsoft(r).
+
+===== Fonctionnement =====
+**Pipelight** se compose d'une bibliothèque Linux et du programme Windows(r) "pluginloader.exe". Ce programme fonctionnant sous %%GNU/Linux%% à l'aide de **wine-compholio** (une version patchée de [[:Wine]]), simule un navigateur en chargeant les [[wpfr>Dynamic_Link_Library|bibliothèques DLL]] des flux vidéos. L'ensemble a peu d'impact sur  le rendu et la vitesse de la vidéo car seuls les paramètres d'initialisation et (parfois) le trafic du réseau sont redirigés. 
+<note tip>**Pipelight** est actuellement la seule solution avec %%GNU/Linux%% pour accéder à certaines pages offrant des contenus vidéos "protégés" comme le [[:m6replay|6play (le direct ou le"replay" des chaînes TV du groupe M6]] ou encore le site d'apprentissage de langues Tellmemore.
+<note important>**Pipelight** ne fonctionne pas avec [[:chromium-browser|Chromium]] et ses dérivés. [[https://bugs.launchpad.net/ubuntu/+source/chromium-browser/+bug/1307989|(en) Source]].</note></note>
+
+=====Pré-requis=====
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+<note important>**Pipelight** n'est pas une application disponible dans les [[:depots|dépôts officiels Ubuntu]]. Elle ne bénéficie ni de la validation officielle Ubuntu, ni du support des développeurs des équipes officielles Ubuntu.\\
+Installer un paquet hors des dépôts officiels peut présenter un risque d'instabilité pour votre système.</note>
+Pour le bon fonctionnement de l’application, le paquet **pipelight-multi** installera toutes les dépendances nécessaires dont  **wine-compholio**, une version patchée de [[:Wine]].\\
+L'installation nécessite de se faire depuis un [[:terminal]] en lignes de [[:commande_shell|commande]]:
+  - [[:ppa#ajout_d_un_ppa_a_vos_sources_logicielles|Ajouter à vos sources de logiciels le PPA]] suivant : **ppa:pipelight/stable**((https://launchpad.net/~pipelight/+archive/stable)), <code>sudo add-apt-repository ppa:pipelight/stable</code>
+  - [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Recharger la liste des paquets]],<code>sudo apt-get update</code>
+  - [[:tutoriel:comment_installer_un_paquet|Installer le paquet]] **Pipelight-multi**.<code>sudo chown _apt /var/lib/update-notifier/package-data-downloads/partial/</code><code>sudo apt-get install --install-recommends pipelight-multi</code> Vous serez amené à valider les [[wpfr>Licence_de_logiciel#Contrat_de_licence_utilisateur_final|licences (EULA)]]. //(Pour déplacer le curseur dans [[ :terminal#une_sorte_d_interface_graphique_dans_le_terminal|ce type d'interface graphique]], utiliser la touche <tab>).//
+  - Mettre à jour la base de données des plugins: <code>sudo pipelight-plugin --update</code>
+  - :!: Avant de continuer plus loin, vous devez fermer [[:Firefox]] :!:. \\ Sans cela, il se peut que votre navigateur plante ou se ferme de façon brusque ou même que l'installation ne fonctionne pas correctement.
+  - Pour que Firefox prenne en compte les plugins de Pipelight: <code>sudo pipelight-plugin --create-mozilla-plugins</code>//(Si vous souhaitez n'activer Pipelight que pour l'utilisateur en cours de session, enlevez le sudo!)//
+  - Supprimer l'ancien plugin Flash : <code>sudo apt-get remove flashplugin-installer adobe-flashplugin --purge</code>
+  - Activer le plugin Flash:\\  //(Nous prenons ici comme exemple le plugin flash. Pour la [[:commande_shell|commande]] à saisir avec les autres plugins et autres informations, voir le chapitre ci-dessous [[#Activation des plugins]])//.<code>sudo pipelight-plugin --enable flash</code> (Confirmer en saisissant **y**. Ne rien saisir entraînera l'abandon).
+  - Supprimer la liste des plugins de Firefox (Il mettra à jour le fichier tout seul) <code>mv ~/.mozilla/firefox/*.default/pluginreg.dat ~/.mozilla/firefox/old_pluginreg.dat</code> //[[http://lehollandaisvolant.net/?d=2015/05/25/12/20/43-firefox-gnulinux-et-flash-a-jour|Source]]//
+  - Redémarrer [[:Firefox]] (La première fois, une petite fenêtre "wine-flash-installer" apparaîtra. Patientez, elle se fermera toute seule).
+<note help>Pour ensuite désactiver le plugin, changer juste l'option ''%%--enable%%'' en ''%%--disable%%''.</note>
+
+=====Activation des plugins=====
+
+====Flashplayer====
+Une fois l'[[#installation]] terminée et [[:Firefox]] redémarré, pour vérifier la version de Flash utilisée, saisir dans la barre d'adresse de [[:Firefox]] : //about:addons//. Dans la rubrique "plugins", vérifier que le plugin **Shockwave Flash** soit actif et de version supérieure à 11.2.
+Si ce n'est pas le cas, il faut activer flash de nouveau :
+<code> sudo pipelight-plugin --create-mozilla-plugins </code>
+<note>Il n'est pas nécessaire de désinstaller la version 11.2.xx de flash contenue dans les [[:depots|dépôts officiels]]. Cela peut néanmoins être conseillé si votre navigateur n'utilise pas pipelight en priorité ou si vous avez d'autres problèmes de conflits. Par ailleurs, ne pas désinstaller une version antérieure de flash vous permettra de basculer d'une version à l'autre d'une simple [[:commande_shell|ligne de commande]]. \\
+Si vous êtes intéressés par cela, passez simplement cette partie et rendez-vous plus loin au chapitre **[[#Basculement rapide de Pipelight à la version dépôts de flash|5.1 Basculement rapide de Pipelight à la version dépôts de flash]]**.</note>
+
+====Silverlight====
+  - Pour activer son utilisation :<code>sudo pipelight-plugin --enable silverlight</code>
+  - puis :<code>sudo pipelight-plugin --create-mozilla-plugins</code>
+  - Et pour vérifier si votre installation s'est bien déroulée, rendez-vous sur [[http://bubblemark.com/silverlight2.html|cette page]]. Si vous voyez des balles rebondissantes sur les cotés, alors Pipelight fonctionne.
+<note tip>Il se peut que le site Web qui accueille le film ou la chaîne que vous désirez regarder nécessite //[[wpfr>Internet Explorer]]//. Un problème se pose alors : Internet Explorer n'est pas disponible sous %%GNU/Linux%% (excluons volontairement [[:virtualbox|la possibilité de l'utiliser via machine virtuelle]] : Pipelight n'aurait alors plus aucun sens).\\
+Heureusement, il existe une solution : il vous faudra installer et [[https://github.com/muzuiget/user_agent_overrider/wiki|configurer]] le plugin //[[https://addons.mozilla.org/en-US/firefox/addon/user-agent-overrider|User Agent Overrider]]// (pour Firefox et Chromium).</note>
+
+=== Les sites qui fonctionnent bien ===
+  * [[http://chaines-tv.orange.fr/|TV d'Orange]] ;
+  * [[https://beinsportsconnect.fr|beIN SPORTS CONNECT]] ;
+  * [[http://www.photoweb.fr/|Photoweb]]
+  * [[http://tvair.swisscom.ch/|Swisscom TV]]
+  * [[http://mycanal.fr/|mycanal +]] 
+  * [[http://eurosportplayer.fr/]]
+
+=== Les sites qui ne fonctionnent pas ===
+  * [[http://www.canalplus.fr|Canal +]]
+  * [[http://www.canalsat.fr|Canal Satellite]] : Seule **iTélé** fonctionne. La chaîne **Planête justice** fait planter Silverlight sans rapport de bug.
+  * [[http://www.canalplay.fr|CanalPlay Infinity]] : semble fonctionner maintenant (du moins sur ubuntu 13.10)
+
+==== Unity 3D de Windows====
+Logiciel de développement de jeux disponible sous Windows et Mac OS\\
+Pour activer le plugin : <code>sudo pipelight-plugin --enable unity3d</code>
+
+==== Widevine ====
+Décrypter les vidéos flash protégées par DRM (nécessaire pour la TV d'Orange).\\
+Pour activer le plugin :<code>sudo pipelight-plugin --enable widevine</code>
+
+==== Shockwave player ====
+Pour pouvoir utiliser certains jeux.\\
+Pour activer le plugin :<code>sudo pipelight-plugin --unlock shockwave</code>
+<code>sudo pipelight-plugin --enable shockwave</code>
+
+==== Autres plugins disponibles ====
+  * Pour les jeux en ligne, la lecture de PDF, utiliser axtiveX, l'accès aux caméras IP... (cf [[http://pipelight.net/cms/installation.html|le site officiel de Pipelight]]).
+  * D'autres plugins de Windows® peuvent transiter par Pipelight. Voir [[http://fds-team.de/cms/pipelight-installation.html#section_2_3 |ici (en)]].
+
+=====Aller plus loin=====
+==== Basculement rapide de Pipelight à la version dépôts de flash ====
+Le plugin flash de Pipelight pouvant causer quelques soucis de stabilité et de lourdeur sur [[:Firefox]], il peut-être intéressant de n'utiliser Pipelight que lorsque la version 11.2 de flash (nativement supportée) ne fait pas l'affaire.
+Cette partie tente de décrire une méthode permettant de basculer rapidement d'un plugin à l'autre à l'aide d'un [[:tutoriel/script_shell|script]].
+<note important>Prenez soin de fermer votre navigateur avant de suivre ces conseils pas-à-pas.</note>
+  - Assurez-vous tout d'abord d'avoir bien installé la version dépôts de l'extension flash, **[[apt>flashplugin-installer]]**
+  -Avec les [[:sudo|droits d'administration]], [[:tutoriel/comment_modifier_un_fichier|créez alors le fichier]] ///usr/local/bin/flash_switcher//. Par exemple dans un [[:terminal]] en lignes de [[:commande_shell|commande]] avec l'éditeur de texte [[:Gedit]]: <code>gksu gedit /usr/local/bin/flash_switcher</code> 
+  -Collez-y le script suivant :<file bash>if [ $(pipelight-plugin --list-enabled|grep ^flash$|wc -l) -ge 1 ]
+then
+    pipelight-plugin --disable flash
+    notify-send "Flash désactivé"
+else
+    pipelight-plugin --accept --enable flash
+    notify-send "Pipelight activé"
+fi
+killall firefox && firefox &</file>(Ce script désactive/active Pipelight, envoie une notification, puis redémarre [[:Firefox]])
+  - Enregistrez et fermez [[:Gedit]] puis,
+  - [[:permissions|Rendez exécutable]] ce fichier.<code>sudo chmod +x /usr/local/bin/flash_switcher</code>
+Il ne vous reste plus qu'à exécuter la commande "flash_switcher" lorsque vous souhaitez basculer du Plugin Flashplayer de Pipelight au Plugin [[:Flashplayer]] des dépôts officiels ou inversement. Le mieux est d'attribuer un raccourci clavier tel que CTRL+ALT+"P" (pour Pipelight) à cette commande. Pour cela, fiez-vous aux [[:tutoriel/utilisation_avancee_du_clavier|paramètres du clavier]] de votre environnement.
+
+==== Compilation des sources ====
+Une fois installé, pour récupérer les sources, utilisez le [[:git|GitHub]] :
+<code>
+> git clone https://bitbucket.org/mmueller2012/pipelight.git
+> cd pipelight
+> ./configure
+> make
+> make install
+</code>
+
+<note important>Le 'Makefile' ne comporte pas de cible **uninstall** !</note>
+
+=====Problèmes connus=====
+
+====Les plugins n’apparaissent pas dans la liste des plugins installés====
+Si les plugins ci-dessus une fois activé n'apparaissent pas dans la liste des plugins de [[:Firefox]] (accessible en tapant //about:addons// dans la barre d'adresse), il faut faire en plus la commande suivante : <code>pipelight-plugin --create-mozilla-plugins</code>
+
+Si cela ne fonctionne toujours pas, supprimer la liste des plugins de Firefox (Il mettra à jour le fichier tout seul).
+*.default peut être à remplacer par le nom du répertoire sur votre machine.
+<code>mv ~/.mozilla/firefox/*.default/pluginreg.dat ~/.mozilla/firefox/old_pluginreg.dat</code>
+
+
+Cette commande peut demander de modifier les droits d'accès au dossier où sont installés les plugins si l'erreur suivante apparaît : 
+<code>me@mycomputer:~$ pipelight-plugin --create-mozilla-plugins
+ERROR: /usr/lib/pipelight/libpipelight-silverlight5.1.so exists but unable to delete it, aborting
+ERROR: are you running this program with root rights?
+</code>Il faut alors entrer la commande suivante : <code> sudo chmod 777 /usr/lib/pipelight/
+sudo chmod 666 /usr/lib/pipelight/*</code>
+Il peut aussi être nécessaire de vérifier qu'ils sont bien activés en tapant //about:addons// dans la barre d'adresse.
+
+====Mise à jour d'Ubuntu====
+Il est possible qu'après une [[:mise à jour]] d'Ubuntu, la version Pipelight de Flashplayer ne fonctionne plus. Redémarrer votre système puis si le problème persiste, faire une nouvelle mise à jour du plugin. Pour cela:
+  - Fermer [[:Firefox]] \\ puis dans un [[:terminal]], saisir les [[:commande_shell|commandes]] suivantes:
+  - Remettre à jour la base de données des plugins: <code>sudo pipelight-plugin --update</code>
+  - Activer le plugin //(exemple avec flash, à modifier selon le plugin concerné)// :<code>sudo pipelight-plugin --enable flash</code> (Confirmer en saisissant **y**. Ne rien saisir entraînera l'abandon);
+  - Redémarrer [[:Firefox]].
+
+==== Problème de son OU de vidéo lue trop rapidement ====
+
+[[http://pipelight.net/cms/faqs/faq-videos-play-very-fast-lag-or-dont-have-sound.html]]
+
+[[https://answers.launchpad.net/pipelight/+faq/2444|Source]]
+
+=== Etape 0 : Redémarrer Pulse Audio ===
+
+Dans un [[:terminal]], avec les [[:commande_shell|commandes]] suivantes
+Essayer de redémarrer le serveur :
+<code>pulseaudio -k</code>
+Il faudra refaire ceci à chaque fois que le problème se présente.\\
+Si ça ne fonctionne pas, suivre les étapes ci-dessous.
+
+=== Etape 1 : Essayer de réinitialiser les paramètres aux paramètres par défaut ===
+
+Essayer de réinitialiser les réglages en supprimant les configurations précédentes.
+<code>mv ~/.wine-pipelight ~/.wine-pipelight_sav</code>
+Réinstaller ensuite pipelight depuis le début si flash ne fonctionne plus.
+
+=== Etape 2 : Changer les paramètres audio de wine ===
+
+Dans un terminal, saisir :
+<code>WINEPREFIX=~/.wine-pipelight WINEARCH=win32 /opt/wine-compholio/bin/winecfg</code>
+Si ça ne fonctionne pas, suivre les étapes ci-dessous.
+
+=== Etape 3 : Si l'étape 2 ne fonctionne pas, passer à alsa pour wine ===
+Toujours depuis un [[:terminal]] saisir:
+<code>wget -O ~/.wine-pipelight/winetricks http://winetricks.org/winetricks
+chmod +x ~/.wine-pipelight/winetricks
+WINEPREFIX=~/.wine-pipelight WINE=/opt/wine-compholio/bin/wine WINEARCH=win32 ~/.wine-pipelight/winetricks</code>
+
+Dans la fenêtre qui s'ouvre, choisir "Select the default wineprefix" -> "Change settings" -> "sound=alsa - Set sound driver to ALSA"
+
+Puis saisir dans un [[:terminal]], saisir:
+<code>WINEPREFIX=~/.wine-pipelight WINEARCH=win32 /opt/wine-compholio/bin/winecfg</code>
+Et dans l'onglet audio de la fenêtre ouverte mettre les quatre paramètres sur "default".
+
+{{::flash_pipelight_son.jpg?direct&200}}
+
+==== Écran noir pour certaines vidéos dans Firefox (alors qu'on entend le son) ====
+
+=== Etape 1 : Désactiver les autres plugins ===
+
+Dans Firefox -> Outils -> Modules complémentaires -> Plugins
+passer "Shockwave" et "Silverlight" sur "Demander pour activer"
+
+=== Etape 2 : Utiliser une commande différente pour lancer firefox ===
+
+Lancer Firefox avec la commande
+  PIPELIGHT_WINDOWLESSMODE=2 firefox
+
+Si ça ne fonctionne pas, essayer :
+  PIPELIGHT_EMBED=0 firefox
+
+===== Désinstallation =====
+ 
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]] (**[[apt>pipelight-multi|Pipelight-multi]]**) et, éventuellement de supprimer le répertoire ''~/.wine-pipelight'' via la commande : <code bash>rm -rf ~/.wine-pipelight*</code> Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi =====
+  * **(en)** [[http://pipelight.net/|Le site de Pipelight]]
+
+----
+//Contributeurs: [[utilisateurs:Olivier V]]//

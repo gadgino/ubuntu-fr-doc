@@ -1,0 +1,114 @@
+{{tag>Xenial jeu simulation}}
+
+----
+
+====== Danger from the Deep ======
+
+**Danger from the Deep** est un simulateur de sous-marin similaire à [[wpfr>Silent Service]] du temps des Atari ST ou plus récemment à [[wpfr>Silent Hunter]]. C'est un logiciel Open Source développé pour Linux et Windows.
+
+
+{{applications:jeux:dangerdeep2.jpg|}}
+{{applications:jeux:dangerdeep5.jpg|}}
+
+<note important>Bien que ce jeu soit en développement depuis quelques années, il n'apparaît toujours pas stable ni même fonctionnel. Avec la version du PPA sous Ubuntu 10.04 LTS, si le jeu se lance, les missions sont indisponibles.((cf. [[http://forum.ubuntu-fr.org/viewtopic.php?id=370160|ce sujet du forum]]))</note>
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir ajouté le dépôt [[:playdeb]],
+  * Disposer d'une carte vidéo supportant l'[[:accélération graphique]].
+
+===== Installation =====
+
+Pour installer ce logiciel, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>dangerdeep]]**.
+
+===== Utilisation ======
+
+
+Lancez le jeu  //via// la [[:commande_shell|commande]] suivante :
+
+  dangerdeep
+
+<note tip>Vous pouvez créer un **[[:raccourci-lanceur]]** là où vous le désirez.</note>
+
+==== Astuce ====
+En cours de partie, le menu contextuel (clic droit) permet d'accéder aux différentes phases de jeu.
+
+Et voila, et maintenant Silence, on plonge !
+
+===== Configuration des touches ======
+FIXME
+Le problème est que les touches du clavier &,é,",',(,-,è,_,ç,à,),=, restent bloquées en &,é,",',(,-,è,_,ç,à,) dans le jeu, alors que l'on voudrait 1,2,3,4,5,6,7,8,9,0. Ceci est gênant pour pouvoir utiliser leurs fonctions.
+
+[[[[:tutoriel:comment_modifier_un_fichier|Ouvrez un éditeur de texte]] et copiez-collez les lignes suivantes :
+<file bash>
+#!/bin/sh
+
+xmodmap '
+/usr/share/dangerdeep/kbd_dangerdeep
+dangerdeep
+xmodmap /usr/share/xmodmap/xmodmap.fr
+</file>
+
+Enregistrez ce document sous ''dangerdeep'' sur le Bureau.
+
+La commande ''xmodmap'' permet de modifier l'affectation des touches, elle fait appel à un autre fichier (''kbd_dangerdeep'') que nous allons créer maintenant :
+
+Ouvrez une seconde fois l'éditeur de texte, et copiez-collez ces lignes :
+<file>
+keycode  10 = 1 ampersand exclamdown
+keycode  11 = 2 eacute asciitilde Eacute
+keycode  12 = 3 quotedbl numbersign sterling
+keycode  13 = 4 apostrophe braceleft U2019
+keycode  14 = 5 parenleft bracketleft trademark
+keycode  15 = 6 minus bar U2212
+keycode  16 = 7 egrave grave Egrave
+keycode  17 = 8 underscore backslash emdash
+keycode  18 = 9 ccedilla asciicircum Ccedilla
+keycode  19 = 0 agrave at Agrave
+keycode  20 = parenright
+keycode  21 = equal plus 
+
+keycode  87 = KP_1
+keycode  88 = KP_2
+keycode  89 = KP_3
+keycode  83 = 4
+keycode  84 = KP_5
+keycode  85 = KP_6
+keycode  79 = 7
+keycode  80 = 8
+keycode  81 = KP_9
+keycode  90 = KP_0
+
+keycode 63 = KP_Multiply
+keycode 112 = KP_Divide
+keycode 91 = KP_Decimal
+
+keycode 49 = twosuperior
+</file>
+Enregistrez sous ''kbd_dangerdeep'' dans le dossier ''/usr/share/games/dangerdeep''.
+
+Pour rendre le fichier ''dangerdeep'' exécutable, entrez ce qui suit dans une console :
+<code>
+chmod +rwx ~/Bureau/dangerdeep
+</code>
+Ainsi, lorsque vous double-cliquez sur "dangerdeep", faites "lancer" et.....jouez !!!
+
+Pour ajouter une image de sous-marin au fichier dangerdeep (only for fun ;-)) cliquez droit sur celui-ci puis dans Propriété au niveau de l'icône près du nom, sélectionnez Système de fichiers / usr / share / games / dangerdeep / images / et enfin, choisissez l'image torpmanage_submodelVIIc.png.
+
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, le configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+Ensuite, vous pouvez [[:tutoriel/comment_modifier_sources_maj#modifier_les_sources_de_mises_a_jour|supprimer le dépôt playdeb]] de votre système.
+
+
+===== Voir aussi =====
+  * **(en)** [[https://sourceforge.net/projects/dangerdeep/|Site officiel Sourceforge]]
+  * **(en)** [[http://dangerdeep.sourceforge.net/|Le blogue du projet]]
+  * **(fr)** [[http://forum.ubuntu-fr.org/viewtopic.php?id=370160|Discussion « danger from the deep ne se lance pas »]] sur le forum Ubuntu-fr
+
+----
+//Contributeurs : [[utilisateurs:Lustucru]], [[utilisateurs:foustala]], [[utilisateurs:lolo21g]], [[utilisateurs:Gemnoc]]//

@@ -1,0 +1,49 @@
+{{tag>precise gravure dvd}}
+----
+====== GnomeBaker ======
+
+<note important>Le projet ayant été [[http://fr.gnomesupport.org/forums/viewtopic.php?id=687|abandonné]] depuis quelques années, il a été retiré des dépôts à partir d'Ubuntu 11.10. Préférez-lui d'autres solutions supportées listées [[gravure|ici]].
+Toutefois si vous tenez à continuer d'utiliser GnomeBaker, un dépôt [[:PPA]] permet de l'installer sous Ubuntu 11.10 et 12.04 LTS.</note>
+
+**GnomeBaker** est une application de gravure pour %%CD/DVD fonctionnant sous GNU/Linux et autres systèmes UNIX%%. Comme son nom l’indique, c’est un logiciel parfaitement adapté au bureau [[:GNOME]]. Il peut aussi copier vos DVD au format .iso avec quelques options telles que : choix du titre, chapitre, langue...
+
+=== Fonctions  ===
+    * Graver sur un CD ou DVD.
+    * Effacer des CD-RW.
+    * Support de gravure multi-session.
+    * Créer ou graver des images disques.
+    * Intégration avec GConf pour les préférences logicielles.
+    * Copier des CD de données.
+    * Copier des CD de musique à partir de fichiers WAV, MP3, FLAC et Ogg.
+    * Support des interfaces SCSI ou ATAPI sur Linux 2.4 ou 2.6 (avec Cdrecord).
+    * Support d’OpenBSD.
+
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+==== Sous Ubuntu 12.04 LTS uniquement====
+
+GnomeBaker ne faisant plus partie des dépôts officiels, pour l'installer il faut ajouter un dépôt [[PPA]].
+
+  - [[:PPA|Ajoutez le PPA]] **ppa:gnomebaker/stable**((https://launchpad.net/~gnomebaker/+archive/stable)) dans vos sources de logiciels;
+  - [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste des paquets]];
+  - Enfin, [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>gnomebaker]]**
+
+===== Utilisation =====
+ 
+Lancez l'application via le [[:unity#tableau_de_bord_dash|tableau de bord]] ou via le [[:terminal]] (toutes versions d'Ubuntu) avec la [[:commande_shell|commande]] suivante :
+<code>gnomebaker</code>
+
+===== Désinstallation =====
+ 
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+ 
+===== Voir aussi =====
+ 
+  * **(en)** [[https://sourceforge.net/projects/gnomebaker/|Site officiel]]
+
+----
+//Contributeur principal: [[utilisateurs:Slyfox]]//

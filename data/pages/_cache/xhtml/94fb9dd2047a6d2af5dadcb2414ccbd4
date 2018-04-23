@@ -1,0 +1,137 @@
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+Rédigé par coffee
+</p>
+
+<p>
+ Je décrirai les opérations à réaliser sous Ubuntu, sous d&rsquo;autres distribs ou Unix, le raisonnement est identique (enfin pour la plupart je pense)
+</p>
+
+<p>
+0) Pré-connaissance des problèmes: Un partage de répertoire Unix répond à certaines règles, contrairement à Samba. Ces règles sont basés sur les UID et GID d&rsquo;un utilisateur. Lorsqu&rsquo;un utilisateur est crée, il lui est alloué un UID et un GID qui lui sont propres sur le système. Mais quand 2 systèmes se rencontrent, il se peut que 2 utilisateurs différents aient le même UID et GID (vous pouvez porter les mêmes habits que votre voisin et pourtant vous n&rsquo;êtes pas votre voisin...). Pour éviter cela sur un réseau, on utilise NIS ou LDAP (c&rsquo;est pas le sujet de cette doc). Pour un utilisateur simple, dit &ldquo;lambda&rdquo;, modifier son UID et GID sur les 2 machines est réalisable (avec les interfaces graphiques par exemple).
+</p>
+
+<p>
+Le partage de répertoire par <a href="/applications/nfs" class="wikilink1" title="applications:nfs" onclick="return svchk()" onkeypress="return svchk()">NFS</a> s&rsquo;applique à des systèmes de fichiers possèdant un vrai système de droits et d&rsquo;utilisateurs (donc pas de NTFS ou VFAT)
+</p>
+
+<p>
+1) Installation: 
+</p>
+<pre class="code">$ sudo apt-get install nfs-common nfs-kernel-server kernel-patch-nfs-ngroups</pre>
+
+<p>
+2) Configuration du serveur
+</p>
+
+<p>
+2.0) Le fichier /etc/default/portmap L&rsquo;éditer et enlever -i 127.0.0.1 de l&rsquo;option ARGS puis 
+</p>
+<pre class="code">$ sudo /etc/init.d/portmap restart</pre>
+
+<p>
+2.1) Le fichier /etc/exports Remplissez-le des répertoires que vous voulez partager de la façon suivante
+</p>
+<pre class="code">/repertoire/partage machine1(options1) machine2(options2) ...</pre>
+
+<p>
+ce qui donne par l&rsquo;exemple: 
+</p>
+<pre class="code">/mnt/data 192.168.0.23(ro,sync) 192.168.0.1(rw,sync)</pre>
+
+<p>
+ce qui donne en clair: je partage /mnt/data à la machine dont l&rsquo;adresse est 192.168.0.23 en lecture seule (ro) et aux machines 192.168.0.58 et 192.168.0.1 en lecture et écriture (rw)
+</p>
+
+<p>
+Les options importantes sont ro (lecture seule), rw (lecture et écriture) et sync (synchronise les écritures sur les differents systèmes).
+</p>
+
+<p>
+2.2) le fichier /etc/hosts.deny
+</p>
+
+<p>
+Dans ce fichier on interdit les accès aux services pour les autres, normalement il contient
+</p>
+<pre class="code">ALL: ALL</pre>
+
+<p>
+Voilà comme ça on interdit tout à tout le monde Si vous voulez être plus subtil, vous pouvez mettre juste (pour NFS) : 
+</p>
+<pre class="code">
+portmap:ALL
+lockd:ALL
+mountd:ALL
+rquotad:ALL
+statd:ALL
+</pre>
+
+<p>
+Voilà maintenant vous avez interdit à tout le monde d&rsquo;utiliser ces services, ah oui là vous me direz c&rsquo;est cool j&rsquo;ai installé un service pour ne pas l&rsquo;utiliser, en fait non, le fichier suivant agit en supériorité sur le hosts.deny
+</p>
+
+<p>
+2.3) le fichier /etc/hosts.allow Bon maintenant, il faut autoriser nos amis et amies à se connecter. Pour cela on met dans le fichier: 
+</p>
+<pre class="code">
+
+portmap:192.168.0.1
+lockd:192.168.0.1
+mountd:192.168.0.1
+rquotad:192.168.0.1
+statd:192.168.0.1
+</pre>
+
+<p>
+3) lancer le serveur 
+</p>
+<pre class="code">$ sudo /etc/init.d/nfs-kernel-server start
+$ sudo /etc/init.d/nfs-kernel-server reload (pour recharger les données)</pre>
+
+<p>
+4) coté client Il suffit d&rsquo;utiliser mount 
+</p>
+<pre class="code">$ sudo mount machine:/repertoire/partage /mnt/partage</pre>
+
+<p>
+5) Automatisation
+</p>
+
+<p>
+Pour monter le partage au démarrage, un petit tour dans /etc/fstab: 
+</p>
+<pre class="code">machine:/repertoire/partage /mnt/partage nfs rw 0 0</pre>
+
+<p>
+6) Interêt
+</p>
+
+<p>
+Bon et maintenant quel est l&rsquo;intérêt de ce genre de chose? Imaginons que vous ayez construit un petit réseau chez vous, vous voulez avoir accès à des données sur tout ces PCs mais pour aller plus loin... pourquoi ne pas avoir un seul home pour tout les PCs?
+</p>
+
+<p>
+en effet en mettant: 
+</p>
+<pre class="code">
+serveur:/home /home nfs rw 0 0</pre>
+
+<p>
+dans fstab on n&rsquo;a plus qu&rsquo;un home pour tout les PCs ce qui fait un gain de place et plus aucune dispute entre celui qui utilise le PC et celui qui a besoin du même PC car il a enregistré un favoris dans firefox de son compte sur ce PC
+</p>
+
+<p>
+En allant encore plus loin on peut booter par ce système (je n&rsquo;ai jamais testé) via nfsboot.
+</p>
+
+<p>
+Là vous me rappelez mes premières lignes sur l&rsquo;UID et GID, pour régler ce genre de problème, pour un petit réseau et un faible nombre d&rsquo;utilisateur, on modifie le fichier /etc/passwd (chose fort bien réalisée par Poste de travail &ndash;&gt; Configuration système &ndash;&gt; Utilisateurs et groupes). Il faut juste se rappeler que l&rsquo;UID et le GID d&rsquo;une personne doivent être identique sur tous les PCs
+</p>
+
+<p>
+Si vous avez des commentaires ou des ajouts à faire, je vous écoute.
+</p>

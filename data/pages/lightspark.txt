@@ -1,0 +1,66 @@
+{{tag>Trusty navigateur internet flash plugin_navigateur}}
+----
+
+
+<note warning>Ce lecteur est expérimental, ce qui veut dire que, dans l'ensemble, il ne fonctionne pas correctement.</note>
+
+====== Lightspark : un lecteur libre d'animations Flash ======
+{{ http://allievi.sssup.it/techblog/wp-content/uploads/2010/05/g170.png?180|Logo de Lightspark}}
+
+**[[http://lightspark.sourceforge.net|Lightspark]]** est un lecteur libre (GNU GPL  v3) en plein développement, basé sur la documentation du format SWF mise à disposition par Adobe Systems. Si Lightspark est à l'heure actuelle compatible avec l'essentiel du contenu disponible sur YouTube, ce n'est pas encore le cas avec d'autres sites. Ce logiciel est toujours au stade expérimental, mais évolue très rapidement.
+
+Ses avantages sont son optimisation pour le matériel récent, son rendu accéléré grâce à l'assistance matérielle avec OpenGL Shaders et une prise en charge robuste et propre du code ActionScript 3. Comme les autres [[flash#lecteurs_flash|lecteurs d'animations Flash]], Lightspark s'intègre nativement comme greffon dans votre navigateur Web favori et est appelé par celui-ci lorsqu'il en a besoin. Son utilisation est donc totalement transparente pour vous.
+
+== Compatibilité avec les versions de Flash et recommandation ==
+Lightspark peut être considéré comme complémentaire à [[:gnash|GNU Gnash]] : alors que ce dernier se concentre sur la prise en charge du format Flash 8 et antérieur (ActionScript 1.0 et 2.0, avec un environnement AVM1), Lightspark s'intéresse à la prise en charge du format Flash 9 et ultérieur (ActionScript 3.0, avec un environnement AVM2).
+
+Comme ces deux logiciels gèrent des versions différentes du format Flash, Lightspark inclut un //fallback// vers GNU Gnash lorsqu'il rencontre une animation nécessitant un environnement AVM1. Si vous décidez d'installer Lightspark, il est recommandé d'installer en plus [[:gnash|GNU Gnash]], afin de profiter d'un maximum d'animations Flash.
+
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+Sous [[:Trusty|Ubuntu 14.04]] et supérieures, pour installer ce logiciel, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>lightspark]]**.
+
+Sous [[:Precise|Ubuntu 12.04]] utilisez le PPA Daily de Sparker:
+
+  * [[:PPA|Ajoutez le PPA]] **ppa:sparkers/daily**((https://launchpad.net/~sparkers/+archive/daily)) dans vos sources de logiciels.
+  * [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste des paquets]].
+  * [[:tutoriel:comment_installer_un_paquet#paquet_present_dans_les_depots|Installez le paquet]] **[[apt>lightspark]]**.
+
+==== Installation du greffon pour navigateurs Internet ====
+Procédez de la même façon que pour le lecteur, mais installez cette fois ci le paquet **[[apt>browser-plugin-lightspark]]**
+puis [[:tutoriel:comment_supprimer_un_paquet|supprimez le paquet]] **browser-plugin-gnash**.
+
+===== Utilisation=====
+
+====... en tant que logiciel individuel====
+Pour lire une vidéo flash avec lightspark ouvrez un [[:terminal]] et lancer la commande : <code>lightspark [paramètres] http://chemin/vers/la/vidéo.sfw</code>
+
+====... en tant que greffon pour un navigateur web====
+Une fois le paquet d'extension pour les [[:navigateur|navigateurs web]] installé, fermez toutes les instances de votre navigateur web. À l'ouverture suivante, Lightspark est automatiquement intégré à votre navigateur. Vous pouvez immédiatement lire du contenu Flash en vous rendant dans votre site préféré. 
+
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi =====
+
+  * **(en)** [[https://launchpad.net/lightspark|Site officiel sur Launchpad]]
+  * **(en)** [[https://sourceforge.net/apps/trac/lightspark|Site SourceForge]]
+  * **(en)** [[http://allievi.sssup.it/techblog/|Le blogue de l'auteur du projet]]
+  * **(en)** [[http://lightspark.github.com/|Site GitHub]]
+  * **(en)** [[https://github.com/lightspark/lightspark/blob/master/ChangeLog|ChangeLog]]
+  * **(en)** [[https://github.com/lightspark/lightspark/wiki/Site-Support|Liste de sites web supportés]]
+  * **(en)** [[http://www.linux.com/learn/tutorials/360557-weekend-project-open-source-alternatives-to-adobe-flash-on-linux|Weekend Project: Open Source Alternatives to Adobe Flash on Linux]], un tutoriel pour faire cohabiter Lightspark et Gnash
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3494613|Discussion « LightSpark, le player flash opensource »]] sur le forum Ubuntu-fr
+
+
+----
+//Contributeurs principaux : [[:utilisateurs:Gemnoc]], ...//
+

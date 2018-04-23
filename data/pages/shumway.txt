@@ -1,0 +1,75 @@
+{{tag>flash}}
+====== Shumway ======
+
+<note important>
+Ce lecteur n'est toujours pas en version finale, et peut comporter des Bugs ! 
+</note>
+
+**Shumway** est une expérimentation de la technique HTML5 qui étudie la construction d'un rendu fidèle et efficace pour le format de fichier SWF sans l'aide du code natif. » (Traduit de la page GitHub de Shumway) Autrement dit, un flash, sans module d'extension, dans Firefox. 
+
+Shumway est actuellement (06/2015) en version expérimentale **et sera disponible sous peu par défaut sous Firefox**. 
+
+Il est déjà présent sous **Firefox Nightly** [[https://github.com/mozilla/shumway/wiki/Frequently-Asked-Questions|Faq Shumway]]
+
+===== Installation =====
+Avec le navigateur Firefox, installez le module complémentaire à cette adresse:
+http://mozilla.github.io/shumway/extension/firefox/shumway.xpi. 
+
+Avec Firefox 50.1.0 refus d’installation en cliquant sur le lien (Ubuntu 16.04).
+===== Configuration =====
+Dans la barre d’adresse de Firefox, tapez **about:addons**
+
+Réglez //Shockwave Flash// sur « Demander pour activer ».
+
+Dans la barre d’adresse de Firefox, tapez **about:config**
+
+Dans la barre de recherche, tapez **shumway**
+
+Vérifiez les points suivants. (Pour opérer des modifications, voir plus bas.)
+
+//shumway.appCompiler → true//
+
+//shumway.disabled → false//
+
+//shumway.dummyMode → true//
+
+//shumway.enableForPrivate → true//
+
+//shumway.force_hidpi → false//
+
+//shumway.hud → true//
+
+//shumway.ignoreCTP → true//
+
+//shumway.simpleMode → true//
+
+//shumway.sysCompiler → false//
+
+//shumway.turboMode → true//
+
+//shumway.verifier → true//
+
+//shumway.whitelist → chaîne →// *
+
+Dans la barre de recherche, tapez **plugins**
+
+//plugins.click_to_play → true//
+
+Tapez **mediasource**
+
+//media.mediasource.enabled → true//
+
+__Modifications.__ Pour transformer « false » en « true », ou le contraire, faites un double clic sur la ligne concernée.
+
+Pour ajouter une ligne manquante (prenons comme exemple //shumway.disabled//) : Faites un clic droit n’importe où dans **about:config**. Cliquez sur « Nouvelle », puis sur « Valeur booléenne ». Tapez //shumway.disabled//, cliquez sur OK. Cliquez sur « True », puis sur OK.
+
+Autre exemple : pour ajouter la liste blanche. Faites un clic droit dans **about:config**. Cliquez sur « Nouvelle ». Cliquez sur « Chaîne de caractères ». Tapez //shumway.whitelist//, puis cliquez sur OK. Enfin, tapez « * » (sans guillemets), et cliquez sur OK.
+ 
+
+__Sources__ : [[https://github.com/mozilla/shumway/wiki/Debugging-and-Configuring-Shumway]]
+[[http://gutl.jovenclub.cu/reemplazando-flash-player-con-shumway/]]
+
+===== Liens =====
+**(en)** [[https://mozilla.github.io/shumway/|Site officiel]]
+
+Contributeurs : //[[utilisateurs:malt]], [[utilisateurs:Martial34]]//

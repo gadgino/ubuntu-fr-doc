@@ -1,0 +1,362 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#ajouter_un_nouveau_disque_dur" class="toc"> Ajouter un nouveau disque dur </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#notions_de_base" class="toc"> Notions de base </a></span></li>
+<li class="level2"><span class="li"><a href="#cas_d_un_disque_deja_utilise" class="toc"> Cas d'un disque déjà utilisé </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#identifier_le_disque_dur" class="toc"> Identifier le disque dur </a></span></li>
+<li class="level3"><span class="li"><a href="#identifier_les_partitions" class="toc"> Identifier les partitions </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#cas_d_un_disque_viergeneuf" class="toc"> Cas d'un disque vierge/neuf </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#partitionner_le_disque" class="toc"> Partitionner le disque </a></span></li>
+<li class="level3"><span class="li"><a href="#formater_le_disque" class="toc"> Formater le disque </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#connecter_logiquement_le_disque_dur" class="toc"> Connecter logiquement le disque dur </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#a_la_demande" class="toc"> À la demande </a></span></li>
+<li class="level3"><span class="li"><a href="#de_facon_permanente" class="toc"> De façon permanente </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#informations_complementaires" class="toc"> Informations complémentaires </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#le_ntfs" class="toc"> Le NTFS </a></span></li>
+<li class="level3"><span class="li"><a href="#les_disques_scsi_et_sata" class="toc"> Les disques SCSI et SATA </a></span></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Versions Warty et Hoary
+</pre>
+
+<p>
+Adaptation wiki de <a href="http://www.adminrezo.net/article.php3?id_article=42" class="urlextern" title="http://www.adminrezo.net/article.php3?id_article=42" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow"> Ajouter un nouveau disque dur</a>
+</p>
+
+<a name="ajouter_un_nouveau_disque_dur"></a><h1> Ajouter un nouveau disque dur </h1>
+<div class="level1">
+
+<p>
+ Une question qui revient fréquement : comment ajouter un disque dur sous Linux ? En effet, s&rsquo;il est maintenant très facile d&rsquo;installer Linux, ajouter du matériel n&rsquo;est pas toujours évident. Vous apprendrez ici tout ce qui est nécessaire pour mener à bien cette expérience.
+</p>
+
+<p>
+Avant de commencer à utiliser ce tutoriel, il est conseillé de maîtriser un peu Linux
+</p>
+
+</div>
+<!-- SECTION [148-563] -->
+<a name="notions_de_base"></a><h2> Notions de base </h2>
+<div class="level2">
+
+<p>
+ Avec GNU/Linux, tout comme avec Unix, tout est fichier. Le système interprète donc vos périphériques en tant que fichiers. Les disques dur n&rsquo;échappent pas à cette règle et se retrouvent donc dans le dossier /dev. Traditionnellement les périphériques IDE répondent à une appellation commençant par hd pour Hard Disk suivi d&rsquo;une lettre correspondant à la position logique du disque (maître, esclave etc.) suivi d&rsquo;un chiffre identifiant la partition.
+</p>
+
+<p>
+Par exemple, la première partition du premier disque dur (disque maître du bus IDE primaire) s&rsquo;appelle donc hda1 et c&rsquo;est généralement sur celle-ci qu&rsquo;est installé votre système d&rsquo;exploitation.
+</p>
+
+<p>
+Malheureusement cette nomenclature devient plus complexe dès lors que l&rsquo;on utilise des contrôleurs serial ATA ou <acronym title="Redundant Array of Inexpensive Disks">RAID</acronym> et que l&rsquo;on se retrouve avec beaucoup de disques dans le même ordinateur. Je vais, dans cet article, essayer de vous faciliter la vie mais si vous désirez vraiment savoir comment ça fonctionne je vous invite à consulter cette page : <a href="http://www.linux-wizard.net/faq.php?section=0&amp;key=hd_naming" class="urlextern" title="http://www.linux-wizard.net/faq.php?section=0&amp;key=hd_naming" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.linux-wizard.net/faq.php?section=0&amp;key=hd_naming</a> ...
+</p>
+
+</div>
+<!-- SECTION [564-1682] -->
+<a name="cas_d_un_disque_deja_utilise"></a><h2> Cas d'un disque déjà utilisé </h2>
+<div class="level2">
+
+<p>
+ Cette partie vous permettra de récupérer des informations contenue dans un disque dur ayant déjà servi et donc, étant déjà partitionné formaté etc. Ceci est particulièrement utile pour récupérer les données d&rsquo;un ordinateur sur un autre.
+</p>
+
+</div>
+<!-- SECTION [1683-1978] -->
+<a name="identifier_le_disque_dur"></a><h3> Identifier le disque dur </h3>
+<div class="level3">
+
+<p>
+ Les disques durs connectés à l&rsquo;ordinateur sont identifiés au démarrage de l&rsquo;ordinateur, par conséquent il faut analyser le journal de démarrage pour récupérer leur appellation logique.
+</p>
+
+<p>
+Lancez la commande <code>dmesg | grep &lsquo;^hd[a-z]</code>&rsquo; pour obtenir quelque chose de ce genre : 
+</p>
+<pre class="code">Kernel command line: root=/dev/hda1 ro quiet splash
+ide0: BM-DMA at 0xe000-0xe007, BIOS settings: hda:DMA, hdb:DMA
+ide1: BM-DMA at 0xe008-0xe00f, BIOS settings: hdc:DMA, hdd:DMA
+hda: WDC WD200BB-00AUA1, ATA DISK drive
+hdb: Maxtor 51024U2, ATA DISK drive
+hda: max request size: 128KiB
+hda: 39102336 sectors (20020 MB) w/2048KiB Cache, CHS=38792/16/63, UDMA(100)
+hda: cache flushes not supported
+hdb: max request size: 128KiB
+hdb: 20010816 sectors (10245 MB) w/2048KiB Cache, CHS=19852/16/63, UDMA(66)
+hdb: cache flushes not supported
+hdc: HITACHI DVD-ROM GD-5000, ATAPI CD/DVD-ROM drive
+hdd: HL-DT-ST GCE-8526B, ATAPI CD/DVD-ROM drive
+Adding 746980k swap on /dev/hda5.  Priority:-1 extents:1
+EXT3 FS on hda1, internal journal
+hdc: ATAPI 40X DVD-ROM drive, 512kB Cache
+hdd: ATAPI 52X CD-ROM CD-R/RW drive, 2048kB Cache
+EXT3 FS on hdb1, internal journal</pre>
+
+<p>
+ Dans cet exemple on remarque facilement ces périphériques :
+</p>
+<ul>
+<li class="level1"><span class="li"> hda Disque dur primaire Western Digital de 20Go</span>
+</li>
+<li class="level1"><span class="li"> hdb Disque dur secondaire Maxtor de 10Go</span>
+</li>
+<li class="level1"><span class="li"> hdc Lecteur DVD-ROM Hitachi</span>
+</li>
+<li class="level1"><span class="li"> hdd Graveur CD-RW</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [1979-3399] -->
+<a name="identifier_les_partitions"></a><h3> Identifier les partitions </h3>
+<div class="level3">
+
+<p>
+ Une fois le nom du disque récupéré, il nous reste à repérer la partition qui nous intéresse. Nous allons utiliser la commande <code>fdisk</code>. Ainsi, nous allons afficher les partitions du disque principal, 
+</p>
+<pre class="code">fdisk -l /dev/hda</pre>
+
+<p>
+qui renvoit :
+</p>
+<pre class="code">Disque /dev/hda: 20.0 Go, 20020396032 octets
+255 têtes, 63 secteurs/piste, 2434 cylindres
+Unités = cylindres de 16065 * 512 = 8225280 octets
+Périphérique Amorce    Début         Fin      Blocs    Id  Système
+/dev/hda1   *           1        2341    18804051   83  Linux
+/dev/hda2            2342        2434      747022+   5  Extended
+/dev/hda5            2342        2434      746991   82  Linux swap / Solaris</pre>
+
+<p>
+ Et voilà, nous obtenons le nom de chacune des partitions et un certain nombre d&rsquo;informations intéressantes comme la position sur le disque, les partitions bootable on non et le type de système de fichiers.
+</p>
+
+</div>
+<!-- SECTION [3400-4321] -->
+<a name="cas_d_un_disque_viergeneuf"></a><h2> Cas d'un disque vierge/neuf </h2>
+<div class="level2">
+
+<p>
+ Si vous installez un nouveau disque dans votre ordinateur, il faut obligatoirement le partitionner et le formater, ce qui implique des manipulations supplémentaires. Pour trouver l&rsquo;identifiant de votre disque, je vous invite à suivre la démarche du point <a href="/materiel/ajouter_un_second_disque_dur%23identifier_le_disque_dur" class="wikilink1" title="materiel:ajouter_un_second_disque_dur#identifier_le_disque_dur" onclick="return svchk()" onkeypress="return svchk()">2.1</a>
+</p>
+
+</div>
+<!-- SECTION [4322-4693] -->
+<a name="partitionner_le_disque"></a><h3> Partitionner le disque </h3>
+<div class="level3">
+
+<p>
+ L&rsquo;utilitaire cfdisk vous permet d&rsquo;afficher les partitions d&rsquo;un disque et de les modifier. Attention, si vous supprimez une partition, vous détruisez son contenu.
+</p>
+
+<p>
+Il se lance avec la commande sudo cfdisk éventuellement suivi de l&rsquo;adresse du disque concerné comme dans l&rsquo;exemple suivant (<code>sudo cfdisk /dev/hda</code>). 
+</p>
+<pre class="code">cfdisk 2.12p
+
+                         Unité de disque: /dev/hda
+                    Taille: 20020396032 octets,  20.0 Go
+           Têtes: 255   Secteurs par piste: 63  Cylindres: 2434
+
+  Nom         Fanions    Part Type  Type SF          [Étiq.]        Taille (Mo)
+ ------------------------------------------------------------------------------
+  hda1        Amorce      Primaire  Linux ext3       [/]             19255,39
+  hda5                    Logique   Linux swap / Solaris               764,96
+  
+   [Amorçable] [Détruire]  [  Aide  ]  [Maximiser] [Afficher]
+   [Quitter ]  [  Type  ]  [Unités ]   [Écrire ]
+
+           Basculer le fanion d'amorce pour la partition courante</pre>
+
+<p>
+ Vous pouvez choisir votre partition avec les flèches haut et bas et utiliser les menu avec la touche tabulation, voici l&rsquo;explication concise de ses principaux menus 
+</p>
+<ul>
+<li class="level1"><span class="li">  [Amorçable] rend amorçable la partition sélectionnée, ceci est indispensable pour la partition contenant votre système d&rsquo;exploitation.</span>
+</li>
+<li class="level1"><span class="li">  [Nouveau] permet de créer une partition dans un espace vide</span>
+</li>
+<li class="level1"><span class="li">  [Détruire] efface la partition sélectionnée</span>
+</li>
+<li class="level1"><span class="li">  [Aide] affiche l&rsquo;aide</span>
+</li>
+<li class="level1"><span class="li">  [Quitter] quitte sans enregistrer les modifications</span>
+</li>
+<li class="level1"><span class="li">  [Type] permet de choisir le type de partition (Fat, Ext, etc.) cette commande affiche une liste exhaustive.</span>
+</li>
+<li class="level1"><span class="li">  [Unité] permet de choisir si on affiche la taille des partitions en Cylindres, en Secteurs ou en Octets</span>
+</li>
+<li class="level1"><span class="li">  [Écrire] enregistre les modification de manière définitive (à faire avant de quitter)</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [4694-6600] -->
+<a name="formater_le_disque"></a><h3> Formater le disque </h3>
+<div class="level3">
+
+<p>
+ Une fois vos partitions clairement identifiées et préparées, il vous reste à les formater correctement. Avant de procéder au formatage en tant que tel, pensez à choisir le type de système de fichier du genre...
+</p>
+<ul>
+<li class="level1"><span class="li">  ext2 système de fichier historique de Linux</span>
+</li>
+<li class="level1"><span class="li">  ext3 évolution de l&rsquo;ext2 avec journalisation</span>
+</li>
+<li class="level1"><span class="li">  jfs concurrent de l&rsquo;ext3</span>
+</li>
+<li class="level1"><span class="li">  vfat système de fichier de windows 9x</span>
+</li>
+</ul>
+
+<p>
+ La commande mkfs vous permet de formater votre partition, elle s&rsquo;utilise en passant en paramètre le type de fichier voulu et le nom de la partition, par exemple, pour formater hdb1 en ext3 : <code>sudo mkfs.ext3 /dev/hdb1</code>
+</p>
+
+</div>
+<!-- SECTION [6601-7246] -->
+<a name="connecter_logiquement_le_disque_dur"></a><h2> Connecter logiquement le disque dur </h2>
+<div class="level2">
+
+<p>
+ Avec Linux, pour avoir accès à un périphérique, il faut le &ldquo;monter&rdquo; c&rsquo;est à dire que l&rsquo;on doit faire correspondre un dossier existant de l&rsquo;arborescence avec le fichier de matériel en question. Cela peut se faire de deux manière : soit à la demande, comme on le fait généralement avec ne lecteur CD par exemple, soit de manière permanente au démarrage de l&rsquo;ordinateur comme c&rsquo;est utilisé pour le disque système.
+</p>
+
+<p>
+Dans les exemple suivant on prévoit que votre point de montage et prêt et qu&rsquo;il s&rsquo;agit de /media/backup, pour se faire il suffit juste de créer le dossier en question avec mkdir.
+</p>
+
+</div>
+<!-- SECTION [7247-7904] -->
+<a name="a_la_demande"></a><h3> À la demande </h3>
+<div class="level3">
+
+<p>
+ Pour monter un périphérique de stockage, on utilise la commande mount qui doit s&rsquo;accompagner de la désignation de votre lecteur et, éventuellement, des paramètre à lui appliquer.
+</p>
+
+<p>
+Pour monter notre disque /dev/hdb1 dans /media/backup
+</p>
+<pre class="code"> mount /dev/hdb1 /media/backup</pre>
+
+<p>
+ Cette commande monte votre disque en détectant automatiquement le type du système de fichier, dans certain cas, Linux sera incapable de le choisir automatiquement, il faudra donc indiquer à la commande mount le type de fichier :
+</p>
+<pre class="code"> mount -t ext3 /dev/hdb1 /media/backup</pre>
+
+<p>
+ Vous pouvez aussi ajouter des option comme, par exemple, des droits d&rsquo;accés :
+</p>
+<pre class="code"> mount -t ext3 -o mode=0755 /dev/hdb1 /media/backup</pre>
+
+<p>
+ Pour aller plus loin dans les arcane de la commande mount je vous invite grandement à consulter le manuel qui lui est associée (man mount)
+</p>
+
+</div>
+<!-- SECTION [7905-8753] -->
+<a name="de_facon_permanente"></a><h3> De façon permanente </h3>
+<div class="level3">
+
+<p>
+ Si vous voulez monter votre disque dur de façon permanent, c&rsquo;est à dire à chaque démarrage de votre ordinateur, il vous sera nécessaire de modifier le fichier fstab. Ce fichier à pour but d&rsquo;identifier les points de montage et, au besoin, de monter les périphériques correspondants. Je propose donc ici de vous faire un petit aperçu de cet outil.
+</p>
+
+<p>
+Voici le contenu du fichier <a href="/installation/mount_fstab" class="wikilink1" title="installation:mount_fstab" onclick="return svchk()" onkeypress="return svchk()">/etc/fstab</a> tel qu&rsquo;il est lu au démarrage de l&rsquo;ordinateur : 
+</p>
+<pre class="code"># /etc/fstab: static file system information.
+#
+# &lt;file system&gt; &lt;mount point&gt;   &lt;type&gt;          &lt;options&gt;       &lt;dump&gt;  &lt;pass&gt;
+proc            /proc           proc            defaults        0       0
+/dev/hda1       /               ext3            defaults        0       1
+/dev/hda5       none            swap            sw              0       0
+/dev/hdd        /media/cdrom0   udf,iso9660     ro,user,noauto  0       0
+/dev/hdc        /media/cdrom1   udf,iso9660     ro,user,noauto  0       0
+/dev/fd0        /media/floppy0  auto            rw,user,noauto  0       0</pre>
+
+<p>
+ Il se décompose de la manière suivante 
+</p>
+<ul>
+<li class="level1"><span class="li"> &lt;file system&gt; fichier corrspondant au matériel (voir point 1)</span>
+</li>
+<li class="level2"><span class="li"> &lt;mount point&gt; point de montage : repetoire auquel sera rattaché le contenu du périphérique (voir point 4)</span>
+</li>
+<li class="level2"><span class="li"> &lt;type&gt; le type de fichier (ext2, ext3, vfat pour les données, iso et udf pour le CD etc.)</span>
+</li>
+<li class="level2"><span class="li"> &lt;options&gt; les option à appliquer au moment du montage :</span>
+<ul>
+<li class="level3"><span class="li">  auto ou noauto montage automatique du périphérique ou avec la commande mount</span>
+</li>
+<li class="level3"><span class="li">  ro ou rw lecture uniquement ou lecture et écriture</span>
+</li>
+<li class="level3"><span class="li">  defaults valeurs par défaut</span>
+</li>
+</ul>
+</li>
+<li class="level2"><span class="li"> &lt;dump&gt; vidange ou non du périphérique</span>
+</li>
+<li class="level2"><span class="li"> &lt;pass&gt; ordre de vérifiaction du système de fichier</span>
+</li>
+</ul>
+
+<p>
+ Par conséquent, pour monter automatiquement notre hypotétique partition en ext3 avec des droits particuliers dans le répertoire /media/backup il faudrait ajouter la ligne suivante : 
+</p>
+<pre class="code">/dev/hdb1 /media/backup  ext3  rw,auto,mode=0755  0  0</pre>
+
+</div>
+<!-- SECTION [8754-10773] -->
+<a name="informations_complementaires"></a><h2> Informations complémentaires </h2>
+<div class="level2">
+
+</div>
+<!-- SECTION [10774-10816] -->
+<a name="le_ntfs"></a><h3> Le NTFS </h3>
+<div class="level3">
+
+<p>
+ Dans certains cas il est interessant de pouvoir monter des partitions de type NTFS, notamment utiliser par les disque dur de grande capacité fonctionnant sous windows NT ou windows XP. Il faut savoir que cela est possible en lecture mais que ça reste très expérimental pour l&rsquo;ecriture. Pour mettre cela en place, il est indispensable de disposer de la librairie correspondante nommé libntfs5. Vous pouvez l&rsquo;installer de la manière suivante sous debian :
+</p>
+<pre class="code">sudo apt-get install libntfs5</pre>
+
+<p>
+Ainsi, si votre partition est en NTFS vous pourrez la monter à la volée de la façon suivante :
+</p>
+<pre class="code">mount -t ntfs -o mode=0111 /dev/hdb1 /media/backup</pre>
+
+<p>
+Ou l&rsquo;ajouter au fstab :
+</p>
+<pre class="code">/dev/hdb1  /media/backup  ntfs  ro,auto 0  0</pre>
+
+<p>
+L&rsquo;outil ntfsprogs propose des logiciels permettant de supporter le NTFS au niveau du formatage et du partitionnement, entre autres.
+</p>
+
+</div>
+<!-- SECTION [10817-11682] -->
+<a name="les_disques_scsi_et_sata"></a><h3> Les disques SCSI et SATA </h3>
+<div class="level3">
+
+<p>
+ Les disques dur <acronym title="Small Computer System Interface">SCSI</acronym> et Serial ATA répondent globalement aux mêmes spécificités que les disques IDE, il faut cependant s&rsquo;assurer que le matériel utilisé est compatible avec Linux. Le nommage des disques ne se fera plus en <em>hd</em> mais en <em>sd</em>. 
+</p>
+
+</div>
+<!-- SECTION [11683-] -->

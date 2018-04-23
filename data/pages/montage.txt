@@ -1,0 +1,65 @@
+{{tag>tutoriel administration système partitions}}
+-----
+
+====== Rendre accessible manuellement une partition et d’autres unités de stockage ======
+Pour être utilisée, une unité de stockage (partition de disque dur, clé USB, cartes, CD-ROM, unités distantes, etc.) doit être accessible au système d'exploitation, c'est-à-dire avoir un chemin d'accès dans [[https://doc.ubuntu-fr.org/arborescence|l'arborescence du système]].
+
+L’action qui consiste à rendre une unité de stockage accessible s’appelle le montage. Elle est réalisée par la commande "mount". Le montage cible un répertoire et crée un point de montage. Le répertoire cible dispose par construction d'un chemin d'accès dans l'arborescence du système, chemin d'accès qui devient par le fait même celui de l'unité de stockage. Le contenu du répertoire cible devient inaccessible sans cependant en être en quoi que ce soit altéré.
+
+L'opération inverse, le démontage, supprime le point de montage, ce qui rend inaccessible l'unité de stockage et rend de nouveau accessible le répertoire que le montage avait masqué. Cette opération est effectuée par la commande "umount".
+  * Une unité montée (mount) est visible par Ubuntu qui peut l'exploiter par le même chemin d'accès que celui du répertoire sur lequel l'unité a été montée.
+  * Une unité démontée (umount) est visible par Ubuntu, mais Ubuntu ne peut plus y accéder.
+La plupart des unités de stockage sont montées automatiquement au démarrage ou lorsque vous en avez besoin, mais ce n’est pas toujours le cas. C’est particulièrement vrai lorsqu’une unité de stockage est corrompue. Le présent document a pour but de vous informer à propos de la manière de monter et démonter manuellement des unités de stockage.
+<note>L'action de démontage correspond à //"Retirer un périphérique en toute sécurité et éjecter le média"// de Microsoft(r) Windows (r) ou pour Apple(r) Mac OS(r), à glisser un périphérique dans la corbeille. Peu importe l'OS que vous utilisez, vous devriez __toujours__ démonter vos périphériques avant de les retirer. Ceci évite de corrompre vos données et protège votre matériel.</note>
+{{:tutoriel:montage_natty_001.png?500|Monter une partition avec Nautilus}}
+
+===== Montage d’une unité de stockage =====
+
+
+
+
+====En ligne de commande====
+
+Par exemple, pour monter l'unité /dev/sda1 sur le point de montage /mnt, il suffit de saisir dans un [[ :terminal]] la [[:commande_shell|commande]] suivante :
+  sudo mount /dev/sda1 /mnt
+
+<note important>La commande "mount" ne peut pas être utilisée pour monter le fichier créé lors de la sauvegarde globale d'un disque contenant plusieurs partitions. Il est plus approprié d'utiliser la commande **[[apt>kpartx]]** avec les options a et v
+
+<code>sudo kpartx -a -v /chemin/de/mon/image/disque.img</code> </note>
+====Automatiquement====
+Au démarrage de votre ordinateur,  Ubuntu lit le fichier  ''/etc/fstab'' et monte les unités décrites à l'intérieur, dont l'une très importante : l'unité système d'Ubuntu !
+Pour en savoir plus, se rendre sur la [[:mount_fstab|page consacrée à fstab]].
+
+=====
+====Graphiquement====
+
+{{  http://pix.toile-libre.org/upload/original/1264970756.png?250|Démonter une unité de stockage est un gage de sécurité pour vos données et votre matériel.}}
+
+Pour retirer une unité de stockage de l’ordinateur, vous devez la démonter. Ceci permet de terminer toutes les actions en cours dans le périphérique (que ce soit la lecture d’un fichier ou le transfert de données vers ce périphérique).
+
+Démonter une unité de stockage vous garantit que son contenu est sauf et qu’il pourra être réutilisé par la suite, qu’il ne sera pas corrompu.
+Pour démonter une unité de stockage, rendez-vous dans le Poste de travail. Faites un clic-droit sur l’unité de stockage à démonter et sélectionnez l’option Démonter dans le menu contextuel qui s’affiche. Lorsque cela est fait, vous pouvez retirer votre unité de stockage en toute sécurité.
+
+L’action de démontage peut être effectuée à tous les endroits où apparaissent les icônes des unités de stockage et s’effectue de la même façon (clic-droit -> Démonter). Outre le Poste de travail, les autres endroits où se retrouvent ces icônes sont :
+  * le bureau de votre environnement de travail ;
+  * le panneau latéral de votre gestionnaire de fichiers ;
+  * les dialogues d’ouverture et d’enregistrement de fichiers.
+
+====En ligne de commande====
+
+Par exemple, pour démonter l'unité qui est montée sur le point de montage /mnt, il suffit de saisir dans un [[ :terminal]] la [[:commande_shell|commande]] suivante :
+<code>sudo umount /mnt </code>
+
+===== Qui peut monter et démonter des unités de stockage ? =====
+Les unités de stockage ne sont pas montables par tous les utilisateurs de votre système Ubuntu. Ceci vous assure que des partitions que vous voudriez conserver hors de portée de certains usagers (par exemple, une partition de restauration) ne seront jamais accessibles par des personnes non-autorisées. Seuls les comptes d'utilisateurs membres du groupe d'utilisateurs ''disk'' peuvent monter et démonter des unités de stockage.
+
+<note>FIXME : Compléter avec les groupes qui peuvent monter des unités de stockage et la procédure pour ajouter/retirer des membres de ces groupes (avec [[:users-admin]]).</note>
+
+
+===== Aller plus loin =====
+  * [[autofs|Monter automatiquement des partitions en fonction de l'utilisation (AutoFS)]]
+  * [[:mount_fstab|Monter automatiquement des partitions au chargement d'Ubuntu (/etc/fstab)]]
+  * [[:mount_fstab#la_commande_mount|Monter manuellement des partitions et d'autres unités de stockage en ligne de commande (mount)]]
+
+
+-----

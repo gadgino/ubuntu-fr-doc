@@ -1,0 +1,93 @@
+{{tag>bureautique}}
+
+----
+
+====== OOoLight : suite bureautique allégée ======
+
+OOoLight (prononcez "OpenOffice Light") est une suite bureautique* basée sur le code source du logiciel [[openoffice.org|OpenOffice.org]], mais qui se veut plus légère.
+
+//Version actuelle : ooolight1.1 (25/05/2012)//
+
+{{:ooolight.png|http://pix.toile-libre.org/upload/original/1289437736.png}}
+
+* plus justement un intégré bureautique selon l'article [[wpfr>Suite bureautique]]
+
+===== Installation recommandée =====
+Cet excellent logiciel libre (suite bureautique) ne se trouve pas encore dans les [[https://launchpad.net/ubuntu/+search?text=ooo
+|paquets officiels d'Ubuntu]]
+
+Toutefois on peut recourir aux paquets non officiels gérés par [[http://www.educoo.org/|EducOOo]] {{:mouette-degree.jpg|Illustration de Benbois}}
+
+=== Procédure avec le terminal (console) ===
+
+== Désinstaller OOoLight ==
+<code bash>sudo apt-get remove --purge ooolight1.0-core01</code>
+
+<note>Si le paquet n'est pas trouvé. 
+Pour ce faire utilisez la touche Tab (2 fois) de votre clavier qui se servira de l’auto-complémentation pour trouver votre paquet.
+
+Ex : ooolight + [Tab]</note>
+
+== Rajouter les dépots d'EducOOo (fichier /etc/apt/sources.list) ==
+<code bash>echo "deb http://deb.ooolight.org testing main" | sudo tee -a /etc/apt/sources.list</code>
+
+== Recharger la base de données pour la liste des paquets ==
+<code bash>sudo apt-get update</code>
+
+== Installer OOoLight ==
+En cliquant sur** [[apt://ooolight-fr|OOoLight]]**
+
+//Ou en ligne de commande si vous n'avez pas installé **[[apturl|apturl]]**//
+<code bash>sudo apt-get install ooolight-fr</code>
+{{:ooolight-writter.jpg?direct&400|}}
+
+==== Démarrage rapide ====
+
+Si OOoLight met plusieurs secondes à démarrer, il existe une astuce simple :
+
+Éditer le fichier /etc/hosts en root et rajouter
+<code bash>127.0.1.1     nomdelamachine
+127.0.0.1     nomdelamachine localhost nomdelamachine.(none)</code>
+Remplacer nomdelamachine par le votre.
+
+Pour connaître le nom de votre machine, taper la commande :
+<code bash>hostname</code>
+
+Astuce trouvée sur ce fil (par lolo) : http://forum.ubuntu-fr.org/viewtopic.php?pid=4024181#p4024181
+
+===== Les extensions =====
+
+==== Où trouver des extensions ? ====
+
+  * Vous pouvez trouver des [[http://extensions.services.openoffice.org/fr|extensions sur le site officiel]]
+  * Dans les [[depots|Les dépôts APT]], pour les extensions intégrées à Ubuntu
+
+==== Installer une extension ====
+
+  * Téléchargez l'extension.
+  * Allez dans //Outils → Gestionnaires des extensions// puis cliquez sur le bouton « Ajouter »
+  * Sélectionnez l'extension, puis cliquez sur le bouton « Ouvrir ».
+
+Pour la majorité des extensions qui suivent, vous pouvez aussi simplement double-cliquer sur le fichier .oxt. Si vous rencontrez des problèmes, préférez la méthode ci-dessus.
+
+Pour les extensions se trouvant dans les dépôts, il suffit d'[[tutoriel:comment_installer_un_paquet#installer_un_paquet_present_dans_les_depots_recommande|installer les paquets]] en question.
+
+==== Extensions compatible sous OOoLight ====
+[[http://extensions.services.openoffice.org/fr/project/pdfimport|Oracle PDF Import Extension]] : permet de modifier des fichiers PDF
+
+[[http://ftp.educoo.org/home/Grammalecte/Grammalecte-v0.2.0.oxt|Grammalecte]] : correcteur grammatical dédié à la langue française
+
+<note>Vous devez au préalable télécharger de dictionnaire suivant : [[http://ftp.educoo.org/home/Grammalecte/ooo-dictionnaire-fr-moderne-v4.6.oxt|le dictionnaire Français moderne (conseillé) version 4.6]]</note>
+
+===== Aider OOoLight =====
+
+Vous Pouvez aider l'association EducOOo (qui sert de ressource au projet [[http://education.openoffice.org| OpenOffice.org Education]]) qui a créé OOoLight et [[ooo4kids|OOo4Kids]] en contribuant, ou simplement en faisant une donation :
+
+- Inscription sur la liste users : [[http://listes.educoo.org/mailman/listinfo/users| Liste utilisateurs]]
+
+- [[http://educoo.org/Wikis.php| Wiki d'OOoLight]]
+
+- Donation : [[http://educoo.org/Dons.php| Page donations]]
+
+----
+//[[:utilisateurs:david96|david96]] Le 13/10/2010, 22:31//

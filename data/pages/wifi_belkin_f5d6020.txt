@@ -1,0 +1,90 @@
+{{tag>matériel wifi}}
+----
+
+======Configurer la carte Belkin Wireless PCMCIA Card - F5D6020 (rev 20) ======
+
+<code>
+Version : Feisty uniquement (inutile pour Edgy Eft)
+</code>
+
+Rédigé par [[utilisateurs:Ronan]] grâce à [[http://ubuntuforums.org/showpost.php?p=337562&postcount=4|ce post]] en anglais sur ubuntuforums.org.
+
+La documentation de référence pour l'installation d'une carte wifi se trouve sur la page [[:wifi]].
+
+Cette carte wifi pcmcia fait parti du matériel reconnu par défaut par Ubuntu mais qui n'est - pour l'instant - pas encore supporté nativement. Heureusement, Ndiswrapper existe : il permet d'utiliser les pilotes windows, ceux qui se trouvent par exemple sur le CD-ROM livré avec votre carte wifi, pour faire fonctionner votre carte sous Ubuntu Linux. Pour des informations complémentaire reportez-vous à la page sur [[:ndiswrapper]].
+
+
+
+===== Description de la carte wifi =====
+
+La carte Belkin Wireless PCMCIA Card - F5D6020 (rev 20) était bien supportée par Ubuntu 6.10 (Edgy) mais de nombreux utilisateurs ont rencontré des difficultés à partir de leur passage à Ubuntu 7.04 (Feisty Fawn).
+
+Cette carte est matériellement détectée par Ubuntu 6.10 Edgy Eft, mais il n'est pas possible de la faire fonctionner en l'état sous Ubuntu 7.04 (Feisty Fawn). Le voyant (LED verte) reste alors éteint.
+
+===== Procédure à suivre =====
+
+
+==== Installer Ndiswrapper 1.9 ====
+
+Suivre les indications pour l'**installation uniquement** de [[:ndiswrapper]].
+
+==== Télécharger le pilote RealTek 8180 ====
+
+En plus du fichier pilote Bel6020.inf présent sur le CD-Rom livré avec la carte, il faut télécharger le pilote de la carte RealTek 8180 distribué ici :
+
+http://www.touslesdrivers.com/index.php?v_page=23&v_code=7345
+
+Dézippez le fichier sur votre bureau.
+
+
+
+
+
+==== Réunir les deux pilotes pour les utiliser conjointement ====
+
+Créez un répertoire de travail, par exemple un répertoire **tmp** sur votre bureau. Copiez les fichiers Bel6020.inf (présent sur le CD-Rom d'install de la carte Belkin Wifi PCMCIA) et rtl8180.sys (trouvé dans le .zip que vous avez téléchargé plus haut) dans ce répertoire. 
+
+
+==== Modifier le pilote Bel6020.inf ====
+
+Ouvrez le fichier Bel6020.inf dans un éditeur de texte  :
+
+<code>sudo gedit Bel6020.inf</code>
+
+Il faut maintenant changer chaque occurence de l'expression "Bel6020.sys" par "rtl8180.sys". Pour ce faire, dans Gedit, allez dans **Rechercher > Remplacer... 
+Recherchez Bel6020.sys** et remplacez avec **rtl8180.sys**.
+
+Cliquez sur "Tout remplacer". Enregistrez les modifications et fermez le fichier.
+
+
+==== Utiliser Ndiswrapper 1.9 avec le pilote modifié ====
+
+Comme indiqué à la page, utilisez ndiswrapper pour installer le pilote que vous venez de modifier :
+
+<code>sudo ndiswrapper-1.9 -i Bel6020.inf
+sudo ndiswrapper-1.9 -m</code>
+
+et pour vérifier l'installation du pilote :
+
+<code>sudo ndiswrapper-1.9 -l</code>
+
+==== Configurer NDiswrapper ====
+
+Ajouter le module ndiswrapper aux modules chargés dans le noyau :
+
+<code>sudo modprobe ndiswrapper</code>
+
+Enfin, ouvrir le fichier des modules chargés au démarrage d'Ubuntu :
+
+<code>sudo gedit /etc/modules</code>
+
+et rajouter la ligne 
+
+<code>ndiswrapper</code>
+
+**Important** : **Rebootez** Ubuntu pour que la carte puisse être maintenant pris en compte ! Au redémarrage, un miracle ce produit : le voyant (LED verte) de la carte pcmcia s'allume. Jubilez quelques instants.
+
+
+===== Fin de l'installation =====
+
+Au terme de l'installation matérielle de la carte wifi, il ne vous reste plus qu'à configurer la connexion [[:wifi]] elle-même.

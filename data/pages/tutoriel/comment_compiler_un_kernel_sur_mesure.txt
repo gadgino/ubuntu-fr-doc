@@ -1,0 +1,224 @@
+{{tag>Lucid kernel système programmation tutoriel VÉTUSTE}}
+
+----
+
+====== Comment compiler un noyau sur mesure ? ======
+**ou //Comment personnaliser son noyau ?//** (On entend aussi souvent le mot anglais « kernel », qui signifie « noyau » en français)
+<note important>Cette page ne semble plus à jour. Faites bien attention si vous suivez les indications de celle-ci, et sachez ce que vous faites : il se peut que la méthode soit désormais obsolète.</note>
+
+Dans la suite de ce didacticiel, le mot kernel est parfois utilisé car beaucoup d'entre vous l'ont entendu, ou l'entendront sûrement au milieu d'une conversation en français.
+
+
+
+====Avertissement====
+
+Compiler et utiliser un noyau personnalisé va rendre compliqué le support pour votre système. Vous ne serez pas autorisé à rapporter des bogues pour votre noyau personnalisé (ils seront rejetés sans explication).
+
+Si vous avez un contrat de support commercial avec Ubuntu/Canonical, ceci rendra ce support caduc.
+
+Notez par ailleurs que cette page décrit comment procéder pour le noyau d'Ubuntu 6.10 (2.6.17) ou ultérieur ! Les versions précédentes ne comprenaient pas, intentionnellement, un tel mécanisme permettant de compiler aisément son propre noyau.
+
+Cette page **ne** décrit **pas** comment compiler les noyaux provenant de kernel.org. Elle est destinée aux sources du noyau Ubuntu.
+
+====Bonnes raisons de compiler un noyau personnalisé====
+
+   * Vous êtes un développeur du noyau.
+   * Vous avez besoin de compiler d'une façon spéciale, que le noyau officiel n'offre pas (par exemple, pour activer des fonctionnalités expérimentales).
+   * Vous essayez de déboguer un problème (pour lequel il serait peut-être judicieux de remplir un rapport de bogue à propos du noyau officiel Ubuntu).
+
+====Mauvaises raisons de compiler un noyau personnalisé====
+
+   * Vous avez à tout prix besoin de compiler un pilote spécial. Pour cela, il vous faut seulement installer les paquets linux-headers.
+   * Vous n'avez pas la moindre idée de ce que vous faites et, si vous cassez quelque chose, vous aurez besoin d'aide pour réparer. Si vous  détruisez votre système, réinstallez-le. Ne demandez de l'aide que si vous ne pouvez plus faire autrement.
+   * Vous avez atterri sur cette page par erreur, mais vous la lisez car elle semble intéressante. Cela peut être intéressant, mais si vous ne savez pas ce que signifie le mot « processeur », alors laissez tomber tout de suite.
+
+=====Pré-requis====
+
+Pour commencer, il faut [[:tutoriel:comment_installer_un_paquet|installer certains paquets]] selon la version d'Ubuntu que vous utilisez
+
+<code>
+sudo apt-get install fakeroot kernel-wedge build-essential makedumpfile kernel-package
+</code>
+
+Cela va installer les outils relatifs à la compilation et l'empaquetage du noyau. Le paquet **git-core**, qui est le meilleur moyen pour interagir avec les sources du noyau Ubuntu, sera aussi installé.
+
+Note : Le paquet linux-kernel-devel n'existe plus depuis Intrepid. Ainsi vous devez aussi lancer la commande suivante :
+<code>
+sudo apt-get build-dep linux
+</code>
+
+=====Téléchargement des sources=====
+
+Il y a deux moyens pour obtenir les sources du noyau Ubuntu. Idéalement, il faudrait utiliser **git**. Les instructions détaillées pour l'utiliser sont disponibles sur [[https://wiki.ubuntu.com/KernelTeam/KernelGitGuide]].
+
+La seconde méthode est plus simple : [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **linux-source**
+
+Cependant, ce ne sera pas toujours à jour. L'utilisation de **git** vous permet de toujours rester à jour avec la dernière version des sources du noyau Ubuntu.
+
+Il faut maintenant décompacter le fichier que vous venez de télécharger
+<code>
+cd /usr/src
+
+sudo tar --bzip2 -xvf linux-source
+</code>
+
+=====Adaptation des sources à vos besoins=====
+
+Pour la majorité des gens, modifier seulement les fichiers de configuration suffira. Si vous devez appliquer un correctif, lisez les instructions données par le fournisseur du correctif.
+
+Les configurations "officielles" Ubuntu se trouvent dans //debian/config/ARCH///, où //ARCH// désigne l'architecture pour laquelle vous compilez. Plusieurs fichiers sont présents dans ce répertoire. Le fichier //config// est la base pour toutes les cibles de cette architecture. Ensuite, les nombreux fichiers //config.FLAVOUR// contiennent des options spécifiques à chaque cible. Par exemple, voici les fichiers pour le noyau 2.6.17, et l'architecture i386 :
+<code>
+$ ls -l debian/config/i386/
+total 88
+-rw-r--r-- 1 me me 62737 Jun 14 18:31 config
+-rw-r--r-- 1 me me 1859 Jun 12 14:59 config.386
+-rw-r--r-- 1 me me 1394 Jun 12 14:59 config.686
+-rw-r--r-- 1 me me 1420 Jun 12 14:59 config.k7
+-rw-r--r-- 1 me me 1519 Jun 12 14:59 config.server
+-rw-r--r-- 1 me me 1867 Jun 12 14:59 config.server-bigiron
+</code>
+Si vous devez changer une option de configuration, modifiez simplement le fichier contenant l'option. Si vous éditez le fichier //config//, les changements affecteront toutes les architectures. Si vous modifiez un des fichiers cible, seule la cible sera affectée.
+
+**Note** :  Si aucun fichier n'est présent, vous pouvez en trouver dans le répertoire ///boot//. Par exemple :
+<code>
+$ ls -l /boot | grep config
+-rw-r--r-- 1 root root   69733 2006-08-03 05:10 config-2.6.15-26-686
+-rw-r--r-- 1 root root   69759 2006-08-03 05:36 config-2.6.15-26-k7
+</code>
+
+Suite à l'application d'un patch ou l'ajout d'une option, il est préférable de régénérer les fichiers de configuration. Il y a un "assistant" pour cela. Pour régénérer toutes les architectures, exécutez :
+<code>
+debian/rules updateconfigs
+</code>
+
+Si vous voulez mettre à jour une architecture seulement, exécutez :
+<code>
+debian/bin/oldconfig ARCH
+</code>
+
+====Compilation du noyau=====
+
+La compilation du noyau est une étape très simple. Selon vos besoins, vous pouvez vouloir compiler toutes les cibles, ou seulement celle spécifique à votre système. Cependant, vous désirez aussi vous assurer que ce que vous faites n'entre pas en conflit avec le noyau officiel.
+
+Utilisez la commande suivante pour construire toutes les cibles de l'architecture pour laquelle vous compilez :
+<code>
+AUTOBUILD=1 fakeroot debian/rules binary-debs
+</code>
+
+La variable d'environnement //AUTOBUILD// déclenche des fonctionnalités spéciales pendant la compilation du noyau. Premièrement, cela n'effectue pas les vérifications normales d'ABI (l'ABI est la compatibilité binaire). Cela est rendu possible par le fait qu'un unique identifiant d'ABI (ABI ID) est créé. Si vous utilisez le depôt **git**, cet identifiant est généré depuis le //git HEAD SHA//. Sinon, il est généré à l'aide du programme //uuidgen// (ce qui signifie qu'à chaque exécution de la construction avec //debian/rules//, l'identifiant sera différent !). Le paquet créé sera nommé à l'aide de cet identifiant.
+
+Pour construire une cible spécifique, utilisez la commande suivante :
+<code>
+AUTOBUILD=1 fakeroot debian/rules binary-debs flavours=k7
+</code>
+Ceci aura pour effet de ne compiler que la variante AMD k7 de l'architecture i386.
+
+Sur certaine installation, le message suivant peut survenir :
+<code>
+debian/rules:1637: *** Error. I do not know where the kernel image goes to [kimagedest undefined] The usual case for this is that I could not determine which arch or subarch tihs machine belongs to. Please specify a subarch, and try again.. Arrêt.
+</code>
+Dans ce cas, utilisez la commande suivante :
+<code>
+KPKG_ARCH=i386 AUTOBUILD=1 fakeroot debian/rules binary-debs flavours=k7
+</code>
+avec i386 ou tout autre architecture.
+
+=====Installation=====
+
+Les paquets ainsi générés sont placés dans //ubuntu-2.6/debian/build//.
+Maintenant que la construction a réussi, vous pouvez installer les paquets à l'aide de dpkg :
+<code>
+sudo dpkg -i linux-image-2.6.17-2-ef427c-k7_2.6.17-2.2_i386.deb
+sudo dpkg -i linux-headers-2.6.17-2-ef427c-k7_2.6.17-2.2_i386.deb
+</code>
+
+**Note** : Si vous utilisez les modules du paquet //linux-restricted-modules//, il sera nécessaire de les recompiler en utilisant votre nouveau paquet //linux-headers//. Des détails sur cette manipulation seront ajoutés ultérieurement
+
+----
+// Contributeurs : [[utilisateurs:mr_pouit]]//
+
+// Basé sur [[https://wiki.ubuntu.com/KernelCustomBuild]]//
+
+===== Méthode alternative =====
+
+Cette méthode a été testée avec succès sur une Ubuntu 10.04 (Lucid Lynx)
+
+==== Pré-requis ====
+
+Afin de permettre la compilation du noyau, il vous faut certains paquets,
+ouvrez un terminal et tapez : 
+
+<code>sudo apt-get install build-essential bin86 kernel-package libqt3-headers libqt3-mt-dev bzip2</code>
+
+
+==== Téléchargement et préparation du noyau ====
+
+Nous allons maintenant télécharger le nouveau noyau dans le dossier /usr/src/ et le décompresser et continuer le travail dans /usr/src/linux
+dans le terminal, tapez ceci :
+
+<code>cd /usr/src && sudo wget http://www.kernel.org/pub/linux/kernel/v2.6/linux-2.6.34.tar.bz2 && sudo tar -xvjf linux-2.6.34.tar.bz2 && sudo rm -rf /usr/src/linux && sudo ln -s /usr/src/linux-2.6.34 /usr/src/linux && cd /usr/src/linux</code>
+
+(au besoin, adaptez la 2.6.27 pour avoir la version du noyau désirée)
+(attention, cette manipulation a été testée avec le noyau 2.6.34 donc, si vous modifiez la version du noyau, ce manuel peut être dangereux pour votre système)
+
+Nous allons ensuite continuer en appliquant les derniers correctifs sur le noyau :
+
+<code>sudo wget http://www.kernel.org/pub/linux/kernel/v2.6/patch-2.6.34.bz2 && sudo -s -H && bzcat patch-2.6.34.bz2| patch -p1</code>
+(à l'heure où j'écris ce manuel, la dernière version du patch est la 34, pour vérifier que c'est toujours votre cas, rendez-vous sur [[http://www.kernel.org/pub/linux/kernel/v2.6/]] et cherchez patch-2.6.20.X si X est plus grand que 34 alors, remplacez les 34 dans la commande ci-dessus par la nouvelle valeur)
+
+
+
+==== Importation des paramètres du noyau actuel et configuration ====
+
+Nous allons maintenant procéder à la partie intéressante du sujet :
+la configuration du noyau
+
+La commande suivante aura pour effet de copier vos paramètres actuels dans le nouveau noyau et de lancer l'utilitaire de configuration qui vous permettra de personnaliser votre noyau : 
+
+<code>sudo cp /boot/config-`uname -r` .config && sudo make oldconfig && sudo make xconfig</code>
+(NB : le terminal va vous demander des choses, notamment le paramétrage de nouvelles fonctions du noyau inexistantes dans l'ancien, appuyez juste sur "entrée" à moins de savoir exactement ce que vous faites)
+
+Après un petit moment, vous allez voir la fenêtre de configuration apparaître à l'écran. Je vous laisse le choix des choses que vous voulez dans votre noyau mais je vous conseille juste dans "kernel hacking" de désactiver l'option "kernel debugging" (sinon la compilation va prendre un espace disque monstrueux !)
+
+Une fois que vous avez choisi vos options, n'oubliez pas de les sauvegarder ;) (la petite disquette en haut à gauche :D), ensuite, fermez la fenêtre de configuration.
+
+Si vous utilisez la version serveur, c'est-à-dire sans interface graphique, il vaut mieux utiliser menuconfig (qui est l'équivalent de xconfig mais en mode console) que xconfig (qui cherche à se connecter à un serveur X). Pour utiliser menuconfig, il faut installer la librairie de développement ncurses. Ce qui donne :
+<code> sudo apt-get install libncurses5-dev</code>
+
+Puis :
+
+<code>sudo cp /boot/config-`uname -r` .config && sudo make oldconfig && sudo make menuconfig</code>
+
+==== Compilation ====
+
+Pour cette partie-ci, j'espère que vous n'êtes pas pressés car une compilation de noyau prend quand même du temps (de 1-3 heures en fonction de votre machine)
+
+Pour lancer la compilation, dans le terminal, il vous suffit d'avoir la permission root et de taper :
+
+<code>sudo make-kpkg clean && sudo make-kpkg --initrd --revision=386monNoyau kernel_image kernel_headers modules_image</code>
+(NB : vous pouvez remplacer revision=386monNoyau par ce que vous voulez, ça ne change rien)
+
+Et voila, vous devriez en avoir pour un bon bout de temps, c'est le moment d'aller promener le chien.
+
+==== Installation du nouveau noyau ====
+
+Voilà, la compilation est terminée, il vous reste juste à installer le nouveau noyau toujours dans le même terminal :
+
+<code>cd .. && dpkg -i linux*.deb</code>
+
+Ensuite, vous redémarrez l'ordinateur ;)
+
+Ce document est une traduction d'un article créé par master_kernel, vous pouvez consulter le document original à cette adresse : [[http://ubuntuforums.org/showthread.php?t=311158&highlight=master+kernel]]
+merci à lui pour cet excellent tutoriel.
+
+===== Liens =====
+
+Tutoriel sympa : http://ubuntuforums.org/showthread.php?t=441013
+
+Turoriel Comment compiler le dernier noyau pour Ubuntu 7.10 via GIT:http://liaudetgael.free.fr/spip.php?article21
+
+Tutoriel Comment changer l'image de chargement du noyau:http://liaudetgael.free.fr/spip.php?article22
+
+----
+
+// Contributeurs : [[utilisateurs:Doyen]]//

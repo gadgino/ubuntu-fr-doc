@@ -1,0 +1,153 @@
+{{tag>Maverick matériel audio BROUILLON}}
+----
+
+======Sortie de son via HDMI====== 
+
+Il peut arriver que pour certaines personnes, le branchement d'une sortie HDMI (télévision, moniteur supplémentaire, ...) entraîne bien la diffusion de l'image mais pas celle du son, ce qui s'avère très rapidement handicapant.
+Cette page devrait vous aider à résoudre le problème.
+
+<note warning>La solution donnée ci-dessous ne fonctionne pas sous Precise (12.04) et Raring (13.04). Pour accéder aux réglages avancés et activer le son via HDMI, il faut installer le paquet **[[apt>pavucontrol]]** disponible sur la page [[:pulseaudio]]\\ 
+Depuis la version 11.10, pour les possesseurs de carte ATI, la sortie est désactivée par défaut, voir [[http://forum.ubuntu-fr.org/viewtopic.php?id=722991|ce sujet]]. Pour l'activer :\\ 
+<code>sudo gedit /etc/default/grub</code>
+changer "GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"" en "GRUB_CMDLINE_LINUX_DEFAULT="quiet splash radeon.audio=1""
+<code>sudo update-grub</code>
+Et redémarrer.</note>
+
+<note warning> Raring (13.04) et autres :
+Depuis le [[:kernel|Kernel]] 3.8.0-18, un problème est apparu dans la détection de la carte son des cartes graphiques ATI, vous pouvez contourner le problème en utilisant une version plus récente comme le [[http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.8.8-raring/|Kernel 3.8.8]] et suivant.
+Attention toutefois à noter qu'il s'agit de versions //mainline// qui peuvent être instables et ne pas être supportées par certains programmes comme VirtualBox.
+Une fois installé, redémarrer.</note>
+
+
+===== Compatibilité =====
+Testé sous Ubuntu 10.10 en utilisant le greffon Alsa.
+
+Testé sous Xubuntu 16.10 en utilisant le greffon Alsa.
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion Internet configurée et activée.
+  * Avoir mis à jour votre version d'Ubuntu
+  * Avoir installé les pilotes pour ceux qui possèdent des carte graphiques [[:NVidia]] ou [[:ATI]]. L'installation de ces pilotes est requise pour avoir une maîtrise optimale de votre carte graphique par laquelle passera le son de la carte audio pour arriver à la sortie HDMI. Les utilisateurs de cartes Intel peuvent se diriger vers [[:intel_graphics|la page de documentation Intel Graphics]]
+  * Avoir installé les paquets **[[apt://asoundconf-gtk,gnome-alsamixer,alsa-utils|asoundconf-gtk, gnome-alsamixer et alsa-utils]]**.
+
+===== Installation =====
+
+Dans un [[terminal]], faites la commande suivante, puis appuyez sur la touche « Entrée » pour confirmer (votre mot de passe est requis) :
+
+<code>sudo apt-get install libasound2-plugins "pulseaudio-*" padevchooser paman pavucontrol paprefs pavumeter</code>
+
+Pour la 16.04 padevchooser n'est pas dans les dépots
+<code>sudo apt install libasound2-plugins "pulseaudio-*" paman pavucontrol paprefs pavumeter</code>
+===== Configuration =====
+
+1. Tout d'abord, choisissons la bonne carte son dans le Sélecteur de systèmes multimédia. Ouvrez un [[terminal]] ou faites Alt+F2, puis saisissez la commande suivante :
+
+<code>gstreamer-properties</code>
+Puis, sous l'onglet Audio, sélectionnez le greffon ALSA-Advanced Linux Sound Architecture pour la sortie et l'entrée par défaut.
+
+Ensuite sélectionnez le bon périphérique de sortie "HDMI" et testez le pipeline pour vérifier que le son soit bien opérationnel (FIXME //et pour ceux dont le pipeline ne donne rien ? :/)//.
+Sélectionnez le bon périphérique d'entrée si vous disposez d'une webcam. Puis fermez.
+
+2. Ensuite entrez 
+
+<code>gnome-alsamixer</code>
+
+Et vérifiez que le son n'est pas sur "muet". Activez bien tous les sons de sortie.
+
+3. Allez dans le terminal et ouvrez :
+
+<code>gnome-volume-control</code>
+
+Ensuite assurez vous d'avoir bien choisi le bon périphérique d'entrée et sortie. Puis redémarrez et le son fonctionnera.
+
+<note tip>En cas de souci, essayez la commande <code>sudo alsa force-reload</code></note>
+
+<note tip>pour **Xubuntu 1604**, après avoir lancé les paramètres sonores (dans l’icône du son) ou la commande "pavucontrol" dans un terminal, aller dans l'onglet "configuration" puis sélectionner une sortie HDMI </note>
+
+===== Utilisation =====
+
+FIXME
+
+=====Commandes de base=====
+
+Voici les commandes les plus demandées pour que l'on vous aide en cas de soucis sur le forum.
+
+^commande^description^
+|<code>alsamixer</code>| Sert à avoir une interface de gestion du système de son dans le terminal pour régler les cartes son trouvées.|
+|<code>aplay -l</code>| Sert à montrer les noms des cartes son reconnues, leurs numéros de périphériques et sous périphériques, ainsi que le nombre total de périphériques connectés.|
+|<code>cat /proc/asound/cards</code>| Sert aussi à montrer ses cartes son mais sans les sous-périphériques.|
+|<code>lsmod | grep snd</code>| Sert à voir si le son du périphérique sélectionné marche correctement.|
+|<code>sudo alsa force-reload</code>| Sert à forcer alsa à redémarrer pour charger les périphériques et les nouveaux réglages.|
+|<code>gstreamer-properties</code>| Sert à ouvrir une interface graphique pour paramétrer et tester les sorties/entrées audio et vidéo. Vous pourrez également choisir ici le greffon que vous voulez utiliser, pour le cas présent ce sera alsa architecture.|
+|<code>sudo dpkg-reconfigure linux-sound-base</code>| sert à choisir le greffon à utiliser. Pour le cas présent ce sera alsa.|
+|<code>lspci | grep -i audio</code>| Sert à détailler vos deux cartes son, leur ordre, et numéro "ICH"|
+|<code>lspci</code>| Sert à voir tout le matériel connecté à l'ordinateur et leur chemin.|
+|<code>pavucontrol</code>| Sert à démarrer un gestionnaire de son pulse audio pour activer les périphériques ou les désactiver par interface graphique. Très utile.|
+|<code>gnome-alsamixer</code>| Ceci est une interface graphique très proche de l'interface par commande de "alsamixer".|
+|<code>asoundconf-gtk</code>| Permet de sélectionner la carte son voulue.|
+|<code>gnome-volume-control</code>| Permet de modifier le volume des événements sonores ainsi que de choisir le bon périphérique.|
+
+
+
+
+===== Problèmes connus=====
+
+
+=====Identifier sa carte graphique et son pilote=====
+
+ Avant de continuer plus loin, il peut être intéressant de connaître sa carte graphique. Nvidia + model ou ATI radeon + model.
+Pour connaître les caractéristiques de la carte graphique, vous pouvez utiliser depuis un [[:terminal]] l'une des [[:commande_shell|commandes]] suivantes :
+  * <code>lspci | grep "VGA compatible controller"</code>
+  * <code>lshw -enable pci -class display</code>
+maintenant que vous connaissez le fabriquant et le model et le pilote installer il vas falloir vérifier si vous avez le bon pilote.
+
+voici le site nvidia [[http://www.nvidia.fr/Download/index.aspx?lang=fr]]
+
+voici le site ATI [[http://support.amd.com/fr-fr/download/linux]]
+
+Si vous n'utilisez pas le bon pilote il vous reste à installer le bon.
+
+ [[carte_graphique|Les cartes graphiques]] et aller sur nvidia ou ati en installation via le site officiel.
+
+Si vous avez une version de pilote incorrecte il peut y avoir pour conséquence d'avoir une très bonne qualité graphique mais pas de son ou des bug graphiques mineures ou graves.
+
+Si tous est ok il vous reste à rediriger le bon périphérique
+
+====Le son peut être reconnu mais pas redirigé vers le bon périphérique de sortie de la carte NVidia ====
+
+Pour trouver le bon périphérique, voici quelques pistes ( à suivre avec l'écran / la TV branché en HDMI, et l'affichage basculé avec twinview le cas échéant)
+
+Dans ce cas ouvrez un terminal et tapez cette commande :
+
+<code>aplay -D plughw:2,9 /usr/share/sounds/alsa/Front_Center.wav</code>
+
+Si cette commande vous retourne une erreur de type :
+<code>aplay: main:654: Erreur d'ouverture audio: Aucun fichier ou dossier de ce type</code>
+
+changez dans la commande en question les chiffres 2,9 par ceux correspondant à votre périphérique digital, pour l'identifier vous pouvez vous aider de la liste des périphériques contenus dans /proc/asound/devices (consultez cette liste mais ne la modifiez surtout pas !).
+Dans un terminal, tapez
+
+<code>gedit /proc/asound/devices</code>
+vous y trouverez tous vos périphériques son, identifiés comme suit 0- 1, 0 -4,... 2- 9, 2- 8, etc
+testez en remplaçant le 2,9 de l'exemple par les numéros que vous trouverez dans /proc/asound/devices
+
+Une fois trouvé le bon périphérique, on va forcer pulseaudio à créer une entrée pour rediriger le son vers ce périphérique. [[:tutoriel:comment_modifier_un_fichier|Modifiez le fichier]] **/etc/pulse/default.pa** et à la fin rajoutez la ligne :
+
+<file>load-module module-alsa-sink device=hw:2,9</file>
+remplacez hw:2,9 par les n° correspondants à votre périphérique tel que déterminé plus haut.
+Après un redémarrage, allez dans le panneau de contrôle de son situé en haut à droite de votre écran et sélectionnez comme sortie "NVidia stéréo"
+
+[[http://pix.toile-libre.org/upload/img/1292587972.png|en Image ;)]]
+
+Merci de signaler que vous aussi avez ce soucis au rapport de bug suivant : [[https://bugs.launchpad.net/ubuntu/+source/pulseaudio/+bug/691135|Rapport de bug Alsa]]
+
+Merci à [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3904283#p3904283|Exzemat]] pour ce rapport de bug corrigé.
+
+===== Voir aussi =====
+
+FIXME Sources, infos complémentaires, sujets de forum...
+
+----
+//Contributeur principal : [[:utilisateurs:Spelth]].//

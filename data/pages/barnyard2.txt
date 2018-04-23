@@ -1,0 +1,51 @@
+{{tag>sécurité pare-feu ips}}
+----
+
+====== Barnyard2 =====
+
+Barnyard2 est interpréteur open-source pour les fichiers binaires de sortie de Snort de format unified2. Barnyard2 est en développement actif et continue de s'adapter en fonction des commentaires des utilisateurs.
+
+La version actuelle de 2 à 1,8 a les caractéristiques suivantes:
+
+   * Autorise Snort à écrire sur le disque d'une manière efficace et laisse la tâche d'analyser les données binaires à un autre processus pour éviter que Snort perde du traffic réseau
+   *  Analyse les fichiers de formats unified2.
+   * Utilise la syntaxe de configuration similaire à celle de Snort pour simplifier le déploiement.
+   *  Supporte tous les plugins de sortie de Snort (sauf alert_sf_socket) ainsi que deux plugins supplémentaires (Sguil et CEF).
+
+
+Barnyard2 a été écrit à partir de zéro et tirant parti hors des routines fondamentales de Snort et est continuellement aligné sur les dernières versions de Snort. Il est distribué sous la licence GPLv2.
+
+=====Installation=====
+====Dépôts launchpad====
+
+Vous pouvez trouver barnyard2 dans ces dépôts :
+   * https://launchpad.net/~ebf0/+archive/gamelinux?field.series_filter=lucid
+   * https://launchpad.net/~hurricanedefense/+archive/stable
+
+====Compilation====
+<code>
+git clone https://github.com/firnsy/barnyard2.git
+cd bayard2/
+./autogen.sh
+</code>
+Pour éviter l'erreur suivante ;
+<code>
+ERROR: unable to find mysqlclient library (libmysqlclient.*)
+</code>
+Nous allons trouver les librairies mysqlclient comme suivant ;
+<code>
+locate mysqlclient
+</code>
+Dans tout les résultat, cherchez le chemin contenant "libmysqlclient.so".
+Donc si par exemple vous trouvez "/usr/lib/x86_64-linux-gnu/" comme chemin ;
+<code>
+./configure --with-mysql-libraries=/usr/lib/x86_64-linux-gnu/ && make && make install
+</code>
+=====Utilisation=====
+
+=====Voir aussi=====
+   * [[http://www.securixlive.com/barnyard2/|Site officiel]]
+
+
+----
+**Contributeurs principaux :** //[[:utilisateurs:psychederic|Psychederic]]//

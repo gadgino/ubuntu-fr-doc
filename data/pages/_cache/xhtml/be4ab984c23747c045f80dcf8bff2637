@@ -1,0 +1,271 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#installation_de_vmware_workstation_sur_ubuntu_hoary_hedgedog" class="toc"> Installation de VMWare Workstation sur Ubuntu Hoary Hedgedog </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#preliminaires" class="toc"> Préliminaires </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#creation_du_paquet_debian" class="toc"> Création du paquet Debian </a></span></li>
+<li class="level3"><span class="li"><a href="#installation" class="toc"> Installation </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#pour_aller_plus_loin" class="toc"> Pour aller plus loin </a></span></li>
+<li class="level2"><span class="li"><a href="#resolution_des_problemes" class="toc"> Résolution des problèmes </a></span></li>
+<li class="level2"><span class="li"><a href="#conclusion" class="toc"> Conclusion </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">Version Hoary</pre>
+ Rédigée par  &lt; Pierre-Yves Landuré &gt; landure at yahoo dot fr
+<a name="installation_de_vmware_workstation_sur_ubuntu_hoary_hedgedog"></a><h1> Installation de VMWare Workstation sur Ubuntu Hoary Hedgedog </h1>
+<div class="level1">
+
+<p>
+ VMWare, pour ceux qui ne connaissent pas, est un outil pour créer des &ldquo;machines virtuelles&rdquo;. Rien à voir avec celle de Java cependant, il s&rsquo;agit tout simplement de simuler un PC sur votre PC. Cela permet par exemple de faire tourner une instance de Windows XP par dessus votre Linux Ubuntu, en utilisant un disque virtuel.
+</p>
+
+<p>
+Personnellement, je fais tourner sans problème mon installation de Windows XP sur disque dur dans une machine VMWare, l&rsquo;intérêt étant que je peux faire des manipulations sous Windows sans redémarrer ma machine, et retrouver mes manipulations sur mon Windows après le redémarrage.
+</p>
+
+</div>
+<!-- SECTION [83-772] -->
+<a name="preliminaires"></a><h2> Préliminaires </h2>
+<div class="level2">
+
+<p>
+ Afin de pouvoir installer et configurer correctement VMWare, nous devons en premier lieu effectuer quelques installations.
+</p>
+
+<p>
+Nous allons commencer par installer <strong>alien</strong>, qui est un outil de conversions de paquets et gcc pour compiler un module du noyau necessaire au fonctionnement de VMWare.
+</p>
+<pre class="code">sudo apt-get install alien gcc</pre>
+
+<p>
+ Nous allons aussi installer les <em>headers</em> de votre noyau linux : 
+</p>
+<pre class="code">sudo apt-get install linux-headers-$(uname -r) </pre>
+
+<p>
+ Enfin, téléchargeons le rpm d&rsquo;installation de VMWare. Allez à l&rsquo;adresse :
+</p>
+
+<p>
+<a href="http://www.vmware.com/download/download.do?downloadGroup=WKST-5-LX" class="urlextern" title="http://www.vmware.com/download/download.do?downloadGroup=WKST-5-LX" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.vmware.com/download/download.do?downloadGroup=WKST-5-LX</a>
+</p>
+
+<p>
+Identifiez-vous (au besoin, créez-vous gratuitement un compte), acceptez la license d&rsquo;utilisateur final et téléchargez le fichier RPM.
+</p>
+
+</div>
+<!-- SECTION [773-1534] -->
+<a name="creation_du_paquet_debian"></a><h3> Création du paquet Debian </h3>
+<div class="level3">
+
+<p>
+ Ouvrez un terminal et placez-vous dans le dossier où vous avez enregistré le fichier RPM d&rsquo;installation de VMWare. Effectuez ensuite la commande suivante (en l&rsquo;adaptant au nom du fichier téléchargé) : 
+</p>
+<pre class="code">sudo alien --to-deb --generate --scripts --fixperms VMware-workstation-5.0.0-13124.i386.rpm</pre>
+
+<p>
+ Cette commande crée un dossier contenant les &ldquo;sources&rdquo; du futur paquet Debian. Nous alons entrer dans ce dossier : 
+</p>
+<pre class="code">cd VMwareWorkstation-5.0.0</pre>
+
+<p>
+ Nous allons modifier quelques scripts qui posent problème lors de l&rsquo;installation et de la mise à jour de ce paquet.
+</p>
+
+</div>
+
+<a name="modification_du_script_de_pre-installation"></a><h4> Modification du script de pre-installation </h4>
+<div class="level4">
+
+<p>
+ Nous commençons par modifier le script de pre-installation : 
+</p>
+<pre class="code">sudo gvim debian/preinst</pre>
+
+<p>
+ Dans ce fichier, il faut simplement activer le mode verbeux, de façon à pouvoir déboguer simplement si un problème apparait à l&rsquo;installation. Pour ce faire, nous ajoutons la ligne suivante :  
+</p>
+<pre class="code">VMWARE_RPM_VERBOSE='yes'</pre>
+
+<p>
+ après les lignes : 
+</p>
+<pre class="code"># BEGINNING_OF_TMPDIR_DOT_SH
+#!/bin/sh</pre>
+
+<p>
+ Ces lignes ont normallement pour numéro 15 et 16. Vous pouvez maintenant sauvegarder votre fichier.
+</p>
+
+</div>
+
+<a name="modification_du_script_de_pre-suppression"></a><h4> Modification du script de pre-suppression </h4>
+<div class="level4">
+
+<p>
+ Nous modifions ensuite le script de pre-suppression : 
+</p>
+<pre class="code">sudo gvim debian/prerm</pre>
+
+<p>
+ Dans ce fichier, nous ajoutons la ligne : 
+</p>
+<pre class="code"> VMWARE_RPM_VERBOSE='yes'</pre>
+
+<p>
+ après la ligne : 
+</p>
+<pre class="code">instances=&quot;$1&quot;</pre>
+
+<p>
+ Nous modifions de plus cette dernière ligne en la remplaçant par : 
+</p>
+<pre class="code">instances=0</pre>
+
+<p>
+ Sauvegardez vos modifications et passons dernier fichier.
+</p>
+
+</div>
+
+<a name="modification_du_script_de_post-suppression"></a><h4> Modification du script de post-suppression </h4>
+<div class="level4">
+
+<p>
+ Nous éditons le fichier de post-suppression :  
+</p>
+<pre class="code">sudo gvim debian/postrm</pre>
+
+<p>
+ Nous effectuons les mêmes modification dans ce fichier que dans le fichier de pre-suppression. Nous ajoutons la ligne : 
+</p>
+<pre class="code"> VMWARE_RPM_VERBOSE='yes'</pre>
+
+<p>
+ après la ligne : 
+</p>
+<pre class="code">instances=&quot;$1&quot;</pre>
+
+<p>
+ Nous modifions de plus cette dernière ligne en la remplaçant par : 
+</p>
+<pre class="code">instances=0</pre>
+
+<p>
+ Sauvegardez vos modifications.
+</p>
+
+</div>
+
+<a name="creation_du_paquet"></a><h4> Création du paquet </h4>
+<div class="level4">
+
+<p>
+ Nous pouvons maintenant créer le paquet Debian : 
+</p>
+<pre class="code">sudo dpkg-buildpackage</pre>
+
+<p>
+ Patientez quelques minutes le temps que le paquet se crée. Ne pretez pas attention aux warnings qui s&rsquo;affichent, il ne prêtent normallement pas à conséquence. Une fois le paquet créé, revenez au dossier parent : 
+</p>
+<pre class="code">cd ..</pre>
+
+</div>
+<!-- SECTION [1535-3828] -->
+<a name="installation"></a><h3> Installation </h3>
+<div class="level3">
+
+<p>
+ Vous pouvez maintenant installer ensuite le paquet Debian obtenu : 
+</p>
+<pre class="code">sudo dpkg -i vmwareworkstation_5.0.0-13125_i386.deb</pre>
+
+<p>
+ Enfin, exécutez le script de configuration de VMWare : 
+</p>
+<pre class="code">sudo vmware-config.pl</pre>
+
+<p>
+ Une fois l&rsquo;accord de licence accepté : 
+</p>
+<pre class="code">/usr/share/doc/vmware/EULA: Aucun fichier ou répertoire de ce type
+
+Do you accept? (yes/no) yes</pre>
+
+<p>
+ <img src="/smileys/icon_wink.gif" align="middle" alt=";-)" /> Il est disponible en ligne : <a href="http://www.vmware.com/download/eula/workstation.html" class="urlextern" title="http://www.vmware.com/download/eula/workstation.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.vmware.com/download/eula/workstation.html</a>
+</p>
+
+<p>
+Puis il suffit de répondre aux questions en choisissant les réponses recommandées (ie : tapez Entrée à chaque question ;)). Faites attention cependant que la compilation des modules du noyau nécessaires au bon fonctionnement de VMWare se déroule sans erreurs fatales.
+</p>
+
+<p>
+ Finalement, nous faisons en sorte que <strong>vmware</strong> s&rsquo;exécute en tant que superutilisateur (nécessaire à son bon fonctionnement) : 
+</p>
+<pre class="code">sudo chmod +s /usr/lib/vmware/bin/vmware-vmx</pre>
+
+</div>
+<!-- SECTION [3829-4746] -->
+<a name="pour_aller_plus_loin"></a><h2> Pour aller plus loin </h2>
+<div class="level2">
+
+<p>
+ Si vous souhaitez autoriser vos utilisateurs à utiliser un disque physique dans une machine virtuelle de <strong>vmware</strong>, vous devez les ajouter au groupe <code>disk</code>.
+</p>
+
+<p>
+<strong>ATTENTION</strong> : Ceci est une GROSSE faille de sécurité. Un utilisateur ayant de telles autorisations pourra faire n&rsquo;importe quoi avec votre système. Vous effectuez cette manipulation à vos risques et périls.
+</p>
+
+<p>
+Si vous souhaitez quand même donner cette autorisation, exécutez : 
+</p>
+<pre class="code">sudo adduser votre_login disk</pre>
+
+</div>
+<!-- SECTION [4747-5259] -->
+<a name="resolution_des_problemes"></a><h2> Résolution des problèmes </h2>
+<div class="level2">
+
+<p>
+ Si vous avez utilisé ce petit Howto dans ses premières versions, vous pourrez rencontrer des problèmes lors de la désinstallation / mise à jour de votre paquet VMWare. Un simple effacement de fichiers résoud la plus part du temps les erreurs qui peuvent apparaître :  
+</p>
+<pre class="code">sudo rm -r /etc/vmware
+apt-get remove vmwareworkstation</pre>
+
+<p>
+ Si tout se passe bien, après l&rsquo;execution de ces deux commandes, VMWare sera désinstallé de votre système.
+</p>
+
+</div>
+<!-- SECTION [5260-5747] -->
+<a name="conclusion"></a><h2> Conclusion </h2>
+<div class="level2">
+
+<p>
+ Si tout s&rsquo;est bien passé, vous voici en possession d&rsquo;une installation fonctionnelle de VMWare. Pour l&rsquo;utiliser, il suffit d&rsquo;aller dans le menu : 
+</p>
+<pre class="code">Applications &gt;&gt; Outils Système &gt;&gt; WMWare Workstation</pre>
+
+<p>
+ Il ne vous reste plus qu&rsquo;à saisir le numéro de série, et créer votre machine virtuelle.
+</p>
+
+<p>
+Si vous avez des problèmes, n&rsquo;hésitez pas à me contacter :
+</p>
+
+<p>
+ &lt; Pierre-Yves Landuré &gt; landure at yahoo dot fr 
+</p>
+
+</div>
+<!-- SECTION [5748-] -->

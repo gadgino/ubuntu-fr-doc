@@ -1,0 +1,88 @@
+{{tag>encodage vidéo BROUILLON}}
+----
+
+====== tsMuxer ======
+
+<note important><del>Le développement de ce logiciel est arrêté depuis 2009. [[http://www.videohelp.com/tools/tsMuxeR|Source]]</del> 
+
+Le développement a repris [[http://forum.doom9.org/showthread.php?t=168539|Source]]</note>
+
+**tsMuxer** est un logiciel gratuit qui permet de changer le conteneur vidéo afin de le rendre compatible avec divers appareils de lecture Haute Définition. Il dispose également de quelques options, comme le chapitrage ou la modification des sous-titres. À noter que tsMuxeR n'est pas un ré-encodeur.
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+Téléchargez l'archive du logiciel [[https://docs.google.com/file/d/0B0VmPcEZTp8NekJxLUVJRWMwejQ/edit?pli=1|depuis ce lien]], puis [[archivage|décompressez-la]].
+
+Le logiciel ne requiert pas d'installation proprement dite. Dans le dossier **tsMuxeR_2.6.11** téléchargé, il suffit de double-cliquer sur l'exécutable **tsMuxerGUI** pour lancer l'application. Toutefois, pour l'installer avec un lanceur dans le menu Applications, suivez la rubrique [[#Configuration (optionnel)]].
+
+**Problème d'installation**
+Si à l'execution, vous obtenez une erreur du style :
+**tsMuxerGUI**: error while loading shared libraries: libQtGui.so.4: cannot open shared object file: No such file or directory
+
+Cela veut dire qu'il y a incompatibilité entre les bibiothèques Qt 32 et 64 bits => voir [[http://forum.ubuntu-fr.org/viewtopic.php?id=406233 cette page]] pour la résolution.
+
+Mais pour Ubuntu 64bits 14.04 LTS (et probablement supérieur), le paquet ia32-libs préconisé dans le lien ci-dessus n'est plus disponible. A la place, il faut installer la version 32bits du paquet manquant : **[[apt>libqtgui4:i386]]**
+
+===== Configuration (optionnel) =====
+
+Si vous désirez copier l'application dans les dossiers système, et créer un [[raccourci-lanceur]], suivez ces instructions.
+
+==== Copie des fichiers ====
+
+Ouvrez un [[terminal]], et rendez-vous dans l'emplacement où vous avez extrait l'archive. Par exemple, si vous l'avez extraite dans le dossier Téléchargements, voici la commande à saisir :
+  cd ~/Téléchargements/
+
+Déplacez-vous dans le dossier tsMuxeR_2.6.11, changez les permissions des fichiers exécutables, puis copiez-les dans le dossier **/usr/local/bin** :
+  cd tsMuxeR_2.6.11
+  chmod 755 tsMuxe*
+  sudo cp tsMuxe* /usr/local/bin/
+
+==== Création du lanceur ====
+
+Le logiciel n'étant pas fourni avec une icône, téléchargez-en une et sauvegardez-la dans le répertoire approprié avec cette commande :
+   wget -c http://i1-win.softpedia-static.com/screenshots/icon-60/tsMuxeR.png -O /usr/share/pixmaps/tsmuxer.png
+
+[[:tutoriel:comment_modifier_un_fichier|Créez le fichier]] **/usr/share/applications/tsmuxer.desktop** avec les [[sudo|droits administrateur]], et collez le texte suivant :
+<file>[Desktop Entry]
+Name=tsMuxeR
+Comment=tsMuxeR GUI 2.6.11
+Icon=/usr/share/pixmaps/tsmuxer.png
+Exec=/usr/local/bin/tsMuxerGUI
+Terminal=false
+Type=Application
+Categories=AudioVideo;
+StartupNotify=true</file>
+
+Sauvegardez les changements, puis fermez.
+
+===== Utilisation =====
+
+Pour lancer tsMuxer :
+  * Si vous n'avez pas effectué la configuration : il suffit de double-cliquer sur l'exécutable **tsMuxerGUI** pour lancer l'application.
+  * Si vous avez effectué la configuration : lancez l'application depuis le menu //Applications -> Son et vidéo -> tsMuxeR// ou //via// la [[:commande_shell|commande]] suivante :<code>tsMuxerGUI</code>
+
+===== Désinstallation =====
+
+Si vous n'avez pas suivi la procédure de configuration, il suffit simplement de supprimer le dossier **tsMuxeR_2.6.11**.
+
+Si vous avez effectué la configuration, [[:tutoriel/console_commandes_de_base#rm|supprimez les fichiers]]
+  * /usr/local/bin/tsMuxerGUI
+  * /usr/local/bin/tsMuxer
+  * /usr/share/pixmaps/tsmuxer.png
+  * le [[raccourci-lanceur]] (sous Ubuntu via le [[alacarte|Menu principal]]).
+
+<note warning>Attention, la suppression de fichiers système est dangereuse, ne l'exécutez uniquement si vous savez ce que vous faites !</note>
+
+===== Voir aussi =====
+
+  * **(fr)** [[http://www.gravure-news.com/tutoriel/tsmuxer-boite-a-outils-haute-definition-66-1.php|tsMuxer, la boîte à outils de la Haute Définition]]
+  * **(en)** [[http://old-wiki.flexion.org/BluRayRipping.html#8.1 | BluRayRipping]]
+
+----
+//Contributeurs principaux : [[:utilisateurs:HacKurx]], [[:utilisateurs:Gemnoc]]//.
+

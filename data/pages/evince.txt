@@ -1,0 +1,131 @@
+{{tag>Xenial Trusty PDF djVu}}
+
+----
+
+{{ application:evince_logo.png|Logo du logiciel Evince}}
+====== Evince : visualiser ses documents PDF et PS ======
+
+
+**Evince** est un **lecteur de fichiers PDF** et PostScript (PS), il supporte aussi les formats TIFF, multipages, [[:DjVu]] et DVI, il est développé par le projet [[:bureau_gnome|Gnome]], sous licence GPL.
+
+Ci-dessous, une capture d’écran d'un fichier PDF ouvert par Evince, sur la gauche on aperçoit les vignettes des différentes pages qui composent le fichier.
+
+{{ :applications:evince_01_xenial.png?400 |Un document PDF ouvert avec Evince }}
+
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  
+===== Installation =====
+
+Evince est installé par défaut sur Ubuntu, si ce n'est pas le cas chez vous, ou si vous êtes sur une [[:variante]] d'Ubuntu, il vous suffira d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>evince]]**.\\
+Pour le support des langues asiatiques : coréen, chinois, japonais, il faudra installer en plus **[[apt>poppler-data]]**.
+
+===== Utilisation =====
+Il suffit de double cliquer sur un fichier PDF ou tout autre lisible par Evince pour qu'il se lance.
+Mais vous pouvez toujours y accéder via [[:unity#tableau_de_bord_dash|le tableau de bord Unity]] avec le mot clé //evince//, ou encore via la [[:commande_shell|commande]] suivante :<code>evince</code>
+En ligne de commande, vous pouvez ouvrir directement un document comme ceci : <code>evince fichier.pdf</code>
+Ou directement en plein écran/: <code>evince --fullscreen fichier.pdf</code>
+
+====Fonctions de bases====
+Evince permet de sélectionner et de copier le texte d'un document. Il s'intègre aussi très bien avec [[:Nautilus]] pour lequel il crée des aperçus des documents PDF, comme on le voit sur la capture ci-dessous.
+
+{{ :applications:evince_02_xenial.png?450 |Une vue de fichiers PDF à l'intérieur de Nautilus }}
+
+Vous pouvez aussi faire défiler les pages en continu à la molette (sans rester bloqué en bas d'une page). Pour ça il faut activer l'option //Continu// dans le menu //Affichage// (Activer par défaut).\\
+
+Pour imprimer plusieurs pages spécifiques de votre document, il faut taper leurs numéros dans la zone de texte //Pages// dans l'onglet //Général -> Plage//, séparés par un point virgule. Exemple : pour imprimer les pages 1,2 et 10, il faut taper "1;2;10".
+
+En appuyant sur la mollette de la souris et en déplaçant le curseur vers le bas, votre document défile à l'instar des Ipad/ipod.
+====Affichage====
+Dans le panneau latéral d'Evince que l'on peut masquer ou afficher en appuyant sur la touche F9, vous pouvez choisir d'afficher :
+  * Les vignettes,
+  * Les annotations,
+  * Le sommaire,
+  * Les signets.
+  
+
+==== Annoter des PDF====
+
+ Il est possible **d'annoter des PDF**. Commencez par afficher les annotations dans le panneau latéral. Puis cliquez sur l'icône **Annoter le document** à côté de la loupe en haut à droite. Ceci va permettre d'accéder à deux onglets : **Ajouter une annotation texte** et **Ajouter une annotation surbrillante**. 
+
+Pour ajouter une annotation il suffit de cliquez sur le bouton maintenant visible. Pour supprimer une annotation, clic droit dessus -> **Supprimer**.\\
+Un clic droit sur l'annotation permet d'accéder à ses propriétés. Pour naviguer dans les annotations il suffit de choisir //Annotations// dans le panneau latéral.
+
+Pour surligner du texte, cliquez sur l'autre bouton rendu visible.
+
+==== Barre d'outils ====
+La barre d'outils est aussi accessible depuis les deux icônes en haut à droite de la fenêtre principale.
+
+
+==== Édition et enregistrement de Formulaires PDF ====
+Lorsque vous remplissez un formulaire interactif, vous pouvez naviguer de champ en champ en cliquant sur un champ avec la souris. Lorsque vous avez fini de remplir un champ de texte, appuyez sur Entrée.
+
+===== Intégration à Mozilla Firefox =====
+
+Pour utiliser Evince directement dans [[:Firefox]] vous avez besoin de l'extension MozPlugger, qui permet d'ouvrir une application tierce à l'intérieur d'un navigateur Mozilla.\\
+Pour cela il vous suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>mozplugger]]**.
+
+===== Problèmes connus =====
+==== Support de certains formulairesCerfa PDF v1.6 ====
+Les formulaires utilisant le format **XML Forms Architecture (XFA**) ne peuvent pas être ouverts avec Evince, qui affiche alors le message d'erreur suivant:\\
+''To view the full contents of this document, you need a later version of the PDF viewer. You can upgrade to the latest version of Adobe Reader from www.adobe.com/products/acrobat/readstep2.html''
+
+Ou bien le formulaire est lu, mais il est impossible de le compléter.
+Il s'agit par exemple du formulaire de Demande de Certificat d'immatriculation d'un véhicule (Cerfa 13750*03).
+
+Ce problème est rapporté sur Launchpad(( en tant que [[https://bugs.launchpad.net/ubuntu/+source/poppler/+bug/321720|Bug #321720]] )).
+
+=== Solution en ligne ===
+<note tip>De nombreux formulaires de l'administration française sont à présent à pré-remplir en ligne sur le site [[https://www.service-public.fr/|Service-Public.fr]], ce qui permet de contourner ce problème.</note>
+
+=== Solution logicielle ===
+== Solution native ==
+La seule solution serait alors d'utiliser [[acroread|Adobe Reader]] ou [[https://code-industry.net/free-pdf-editor/|Master PDF editor]] (logiciel propriétaire gratuit pour une utilisation non-commerciale).
+
+== Utilisation de la version Windows d'Adobe Reader ==
+Il semble que pour certains fichiers, les solutions proposées ci-dessus ne fonctionnent plus. Il faut alors utiliser Adobe Reader pour Microsoft Windows via [[wine|Wine]]. Cette installation peut être simplifiée par [[PlayOnLinux]]. 
+
+==== Documents pdf générés avec latex ====
+
+Si vous constatez un problème lors d'une sélection ou d'un copier-coller de texte dans Evince à partir d'un document généré avec Latex, notamment avec les caractères accentués, essayez d'utiliser l'entête ci-dessous dans votre document [[:Latex]] :
+<file latex>
+\documentclass[10pt,a4paper]{article}
+\usepackage{ifpdf}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel}
+\usepackage{lmodern}
+\title{Titre du document}
+\author{Moi}
+\date{\today}
+\ifpdf
+\pdfinfo {
+	/Author (Moi)
+	/Title (Titre du document)
+	/Subject (Titre du document)
+	/Keywords ()
+	/CreationDate (D:20090129171524)
+}
+\fi
+\begin{document}
+	\maketitle
+	
+\end{document}
+</file>
+
+==== Problème d' impression ====
+Éffacez le fichier **~/.config/evince/print-settings** dans votre dossier personnel.
+
+===== Voir aussi =====
+
+  * **(fr)** [[pdf|La page de la documentation ubuntu-fr relative aux fichiers PDF]].
+  * **(en)** [[http://www.gnome.org/projects/evince/|Page du projet Evince]]
+  * **(en)** [[http://mozplugger.mozdev.org/|Site de Mozplugger]]
+  * **(en)** [[https://help.ubuntu.com/community/EvinceMozilla|EvinceMozilla - Community Ubuntu Documentation]]
+  * [[:okular|Un autre logiciel pour la visualisation de fichier PDF et bien d'autres formats : Okular]]
+
+----
+
+//Contributeurs : [[utilisateurs:Ju]], [[utilisateurs:Ban]], [[utilisateurs:Nicorider]], [[utilisateurs:mydjey]].//

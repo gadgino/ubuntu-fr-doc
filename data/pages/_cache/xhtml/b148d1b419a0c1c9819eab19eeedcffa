@@ -1,0 +1,176 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="clear"><ul class="toc">
+<li class="level2"><span class="li"><a href="#firefox" class="toc"> Firefox  </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#probleme_avec_ipv6" class="toc"> Problème avec IPv6 </a></span></li>
+<li class="level3"><span class="li"><a href="#tuning" class="toc"> Tuning </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#verrouillage_pave_numerique" class="toc"> Verrouillage pavé numerique </a></span></li>
+<li class="level2"><span class="li"><a href="#probleme_de_son" class="toc"> Problème de son </a></span></li>
+<li class="level2"><span class="li"><a href="#pour_les_romands_correction_du_clavier_suisse_allemand" class="toc"> Pour les romands correction du clavier (suisse allemand) </a></span></li>
+<li class="level2"><span class="li"><a href="#voir_aussi" class="toc"> Voir aussi </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<a name="firefox"></a><h2> Firefox  </h2>
+<div class="level2">
+
+</div>
+<!-- SECTION [1-22] -->
+<a name="probleme_avec_ipv6"></a><h3> Problème avec IPv6 </h3>
+<div class="level3">
+
+<p>
+ J&rsquo;ai eu un problème avec IPv6, par exemple google mettait plus de 20 secondes pour s&rsquo;afficher, solution désactiver IPv6:
+</p>
+
+<p>
+Introduire l&rsquo;adresse : 
+</p>
+<pre class="code">about:config</pre>
+
+<p>
+ Rechercher la clé : 
+</p>
+<pre class="code">network.dns.disableIPv6</pre>
+
+<p>
+ La mettre à : 
+</p>
+<pre class="code">true</pre>
+
+<p>
+<a href="http://forum.ubuntu-fr.org/viewtopic.php?pid=25898#p25898" class="urlextern" title="http://forum.ubuntu-fr.org/viewtopic.php?pid=25898#p25898" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Lien sur le forum</a>
+</p>
+
+</div>
+<!-- SECTION [23-399] -->
+<a name="tuning"></a><h3> Tuning </h3>
+<div class="level3">
+
+<p>
+ Dans 
+</p>
+<pre class="code">about:config</pre>
+
+<p>
+ (à taper dans la barre d&rsquo;adresse de Mozilla ou Firefox)
+</p>
+
+<p>
+Filtrer sur pipelining 
+</p>
+<pre class="code">
+network.http.pipelining --&gt; true
+network.http.proxy.pipelining --&gt; true
+network.http.pipelining.maxrequests --&gt; 16
+</pre>
+
+<p>
+  J&rsquo;ai mis à dessein 16 plutôt que 32 qui me parait elevé
+</p>
+
+<p>
+ De plus vous pouvez ajouter cette clé : bouton droit / Nouveau / Valeur entière :
+</p>
+<pre class="code">nglayout.initialpaint.delay
+</pre>
+
+<p>
+ et mettre à 0
+</p>
+
+<p>
+(c&rsquo;est le temps que le navigateur attend avant d&rsquo;interpréter les informations reçues)
+</p>
+
+<p>
+Plus d&rsquo;informations et commentaires ici : <a href="http://forevergeek.com/open_source/make_firefox_faster.php#comments" class="urlextern" title="http://forevergeek.com/open_source/make_firefox_faster.php#comments" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://forevergeek.com/open_source/make_firefox_faster.php#comments</a> 
+</p>
+
+</div>
+<!-- SECTION [400-1067] -->
+<a name="verrouillage_pave_numerique"></a><h2> Verrouillage pavé numerique </h2>
+<div class="level2">
+
+<p>
+ Installer le packet : 
+</p>
+<pre class="code">numlockx</pre>
+
+<p>
+Pour activer le numlock dés l&rsquo;écran GDM, il suffit d&rsquo;ajouter la ligne suivante au début du fichier /etc/gdm/Init/Default:
+</p>
+<pre class="code">test -x /usr/bin/numlockx &amp;&amp; /usr/bin/numlockx on</pre>
+
+<p>
+ Pour activer le numlock dans toutes les consoles au prochain reboot : Enlever le # de la ligne commencant par <em>#LEDS=+num</em> Ou d&rsquo;un coup d&rsquo;un seul, en console : 
+</p>
+<pre class="code">sudo sed -i s/#LEDS=+num/LEDS=+num/g /etc/console-tools/config</pre>
+
+<p>
+ <a href="http://forum.ubuntu-fr.org/viewtopic.php?id=1644" class="urlextern" title="http://forum.ubuntu-fr.org/viewtopic.php?id=1644" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Lien sur le forum</a>
+</p>
+
+</div>
+<!-- SECTION [1068-1633] -->
+<a name="probleme_de_son"></a><h2> Problème de son </h2>
+<div class="level2">
+
+<p>
+<a href="http://forum.ubuntu-fr.org/viewtopic.php?id=2969" class="urlextern" title="http://forum.ubuntu-fr.org/viewtopic.php?id=2969" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Lien sur le forum</a> ou ici meme <a href="/son_sous_hoary" class="wikilink2" title="son_sous_hoary" onclick="return svchk()" onkeypress="return svchk()">son sous hoary</a>
+</p>
+
+<p>
+Sous KDE une application peut être executée de la façon suivante pour éviter des problèmes d&rsquo;accès à /dev/dsp : 
+</p>
+<pre class="code">artsdsp application arguments
+</pre>
+<p>
+ Par exemple pour lancer &lsquo;Enemy Territory&rsquo; (pas libre mais gratuit) au lieu d&rsquo;executer :
+</p>
+<pre class="code">et</pre>
+<p>
+executer :
+</p>
+<pre class="code">artsdsp et</pre>
+</div>
+<!-- SECTION [1634-2086] -->
+<a name="pour_les_romands_correction_du_clavier_suisse_allemand"></a><h2> Pour les romands correction du clavier (suisse allemand) </h2>
+<div class="level2">
+
+<p>
+ dans le fichier 
+</p>
+<pre class="code">/etc/X11/xorg.conf</pre>
+
+<p>
+ remplacer : 
+</p>
+<pre class="code">    Option        &quot;XkbLayout&quot;    &quot;ch&quot;
+    Option        &quot;XkbOptions&quot;   &quot;fr&quot;
+</pre>
+<p>
+ par : 
+</p>
+<pre class="code">    Option        &quot;XkbLayout&quot;    &quot;fr_CH&quot;
+</pre>
+</div>
+<!-- SECTION [2087-2382] -->
+<a name="voir_aussi"></a><h2> Voir aussi </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> <a href="/materiel/ati" class="wikilink1" title="materiel:ati" onclick="return svchk()" onkeypress="return svchk()">ati</a></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://forum.ubuntu-fr.org/viewtopic.php?id=923" class="urlextern" title="http://forum.ubuntu-fr.org/viewtopic.php?id=923" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">NFS sur le forum</a></span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [2383-] -->

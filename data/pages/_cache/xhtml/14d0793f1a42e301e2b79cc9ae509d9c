@@ -1,0 +1,133 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#installer_une_webcam_logitech_et_un_client_msn_compatible_webcam" class="toc"> Installer une webcam logitech et un client msn compatible webcam </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#creation_du_peripherique_video0" class="toc"> Création du périphérique video0 </a></span></li>
+<li class="level2"><span class="li"><a href="#installation_de_la_quickam_messenger_logitech" class="toc"> Installation de la quickam messenger logitech </a></span></li>
+<li class="level2"><span class="li"><a href="#et_les_clients_msn" class="toc"> Et les clients MSN ? </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+Rédigé par Nehuzel (nehuzel@free.fr)
+</p>
+
+<a name="installer_une_webcam_logitech_et_un_client_msn_compatible_webcam"></a><h1> Installer une webcam logitech et un client msn compatible webcam </h1>
+<div class="level1">
+
+<p>
+ Après avoir passé de nombreuses heures à tourner dans tous les sens pour parvenir à utiliser ma webcam Logitech avec un client MSN, je me décide à écrire un résumé de ces recherches afin de faciliter cette étape aux utilisateurs débutants.
+</p>
+
+</div>
+<!-- SECTION [71-402] -->
+<a name="creation_du_peripherique_video0"></a><h2> Création du périphérique video0 </h2>
+<div class="level2">
+
+<p>
+ Avant toute chose nous allons vérifier la prise en charge de l&rsquo;usb par votre pc: 
+</p>
+<pre class="code">
+lsmod | grep usb
+lsmod | grep uhci
+</pre>
+
+<p>
+En principe la hoary les charge à l&rsquo;installation donc pas vraiment de soucis. En cas d&rsquo;abscence de réponse du système à ces commandes utilisez la commande <code>modprobe</code> pour charger les modules nécessaires: 
+</p>
+<pre class="code">
+sudo modprobe uhci
+sudo modprobe usbcore
+</pre>
+
+<p>
+Une fois les modules chargés, nous allons créer le périphérique proprement dit. Dans une console tapez: 
+</p>
+<pre class="code">
+sudo mknod /dev/video0 c 81 0
+sudo mknod /dev/video1 c 81 1
+sudo chmod a+rw /dev/video0
+sudo ln -s /dev/video0 /dev/video
+</pre>
+
+<p>
+Et voila, votre périphérique vidéo est créé. Passons à la webcam.
+</p>
+
+</div>
+<!-- SECTION [403-1170] -->
+<a name="installation_de_la_quickam_messenger_logitech"></a><h2> Installation de la quickam messenger logitech </h2>
+<div class="level2">
+
+<p>
+ Tout d&rsquo;abord il va falloir vérifier et, le cas échéant installer les <code>kernel-headers</code> correspondant à votre systeme. Toujours dans la console, entrez :
+</p>
+<pre class="code">
+sudo apt-get install linux-headers-`uname -r`
+sudo ln -s /usr/src/linux-headers-`uname -r` /lib/modules/`uname -r`/build
+</pre>
+
+<p>
+Il nous reste encore à installer les drivers de la quickcam. Nous les téléchargeons à cette adresse:
+</p>
+
+<p>
+<a href="http://home.mag.cx/messenger/source/qc-usb-messenger-0.8.tar.gz" class="urlextern" title="http://home.mag.cx/messenger/source/qc-usb-messenger-0.8.tar.gz" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://home.mag.cx/messenger/source/qc-usb-messenger-0.8.tar.gz</a>
+</p>
+
+<p>
+Une fois téléchargés, décompressez l&rsquo;archive, en mode console si vous le préférez ou plus simplement à l&rsquo;aide de <code>file-roller</code>.
+</p>
+
+<p>
+De retour dans la console, on se place dans le dossier décompressé précédemment puis on rentre la commande: 
+</p>
+<pre class="code">
+sudo ./quickcam.sh
+</pre>
+
+<p>
+S&rsquo;ensuit un long, très long moment de questions de la part de l&rsquo;installeur auxquelles vous devrez répondre par &ldquo;entrée&rdquo;. Au bout d&rsquo;un moment un test se lance et vous montre l&rsquo;image de la cam via <code>xawtv</code>. Quittez le logiciel et le script reprends et termine l&rsquo;intallation.
+</p>
+
+</div>
+<!-- SECTION [1171-2259] -->
+<a name="et_les_clients_msn"></a><h2> Et les clients MSN ? </h2>
+<div class="level2">
+
+<p>
+ L&rsquo;une des plus grandes attentes des nouveaux utilisateurs linux est le support webcam avec MSN, c&rsquo;est désormais possible avec le cvs de <code>amsn</code>.   Téléchargez le dernier tarball à cette adresse: <a href="http://amsn.sourceforge.net/amsn-cvs.tar.gz" class="urlextern" title="http://amsn.sourceforge.net/amsn-cvs.tar.gz" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://amsn.sourceforge.net/amsn-cvs.tar.gz</a> et décompressez le dans votre répertoire personnel. 
+</p>
+
+<p>
+Ensuite, rien de plus simple: 
+</p>
+<pre class="code">
+./configure &amp;&amp; make
+sudo make install
+</pre>
+
+<p>
+et l&rsquo;installation se termine sans soucis (si tant est que vous avez les dernières versions de tcl/tk installées, dans le cas contraire installez les).
+</p>
+
+<p>
+Il arrive fréquemment qu<code>&rsquo;amsn</code> se gèle avec les kernels 2.6.x, la solution consiste donc à lancer amsn à partir d&rsquo;une console en utilisant la commande suivante :  
+</p>
+<pre class="code">
+export LD_ASSUME_KERNEL=2.2.5 &amp;&amp; msn/amsn&amp;
+</pre>
+
+<p>
+Et si tout se passe bien la magie opère et <code>amsn</code> vous permet désormais de voir et d&rsquo;être vus par vos correspondants <img src="/smileys/icon_wink.gif" align="middle" alt=";-)" />. 
+</p>
+
+</div>
+<!-- SECTION [2260-] -->

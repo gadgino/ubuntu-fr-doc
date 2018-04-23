@@ -1,0 +1,61 @@
+{{tag>jeu arcade}}
+
+----
+
+====== Plee the Bear ======
+
+{{ http://plee-the-bear.sourceforge.net/images/screenshots/big/screenshot_1.png?250}}
+**Plee the Bear**((le nom est un jeu de mot avec la phrase « please a beer » (une bière s'il vous plaît) )) est un jeu libre((GPLv2)) de plate-forme en 2D développé en C++ par les français Julien Jorge et Sébastien Angibaud, depuis le moteur du jeu, le « Bear Engine », gérant le graphisme, la physique, les entrées, etc., jusqu'aux éléments graphiques et sonores((CC-by-sa v3)).
+
+L'histoire est celle de l'ours brun Plee se réveillant après une sieste en constatant la disparition de son précieux miel. Notre ours part donc à travers la forêt à la recherche du coupable, son fils, pour lui mettre une bonne paire de baffes.
+
+Le jeu comporte plusieurs bonus dont des mini-jeux cachés et un grand nombre de surprises. Il est possible de jouer à plusieurs et certaines zones ne sont accessibles qu'en multijoueur.
+
+===== Installation =====
+==== Via les Dépôts ====
+Il suffit d'installer le paquet [[apt://plee-the-bear|plee-the-bear]] qui se trouve dans les dépôts.
+À noter que la version des dépôts n'est pas à jour : dans Ubuntu 10.04 LTS -  Lucid Lynx, elle est en version 0.4.1 et en version 0.5.1 depuis la dernière Ubuntu 11.04 - The Natty Narwhal.
+==== Via la compilation des paquets ====
+Si vous désirez utiliser la dernière version 0.6 (depuis le 27 août 2011), vous devez la compiler.
+  cmake .
+  make
+  sudo make install (ou make install/local si vous ne désirer pas l'installer en super utilisateur).
+
+Attention aux dépendances :
+  * SDL version ≥ 1.2.8
+  * SDL-mixer version ≥ 1.2.8
+  * libboost version ≥ 1.33.1 (en particulier boost::filesystem et boost::thread)
+  * wxWidgets version ≥ 2.8 (uniquement pour les éditeurs de niveaux et de modèles)
+  * libclaw version ≥ 1.6.0 (voir la page dédiée)
+  * gettext
+  * OpenGL.
+
+  sudo apt-get install libsdl-mixer1.2-dev libboost-filesystem-dev libboost-thread-dev mesa-common-dev libwxgtk2.8-dev libgl1-mesa-dev
+  
+<note warning>dans Ubuntu 10.04 LTS -  Lucid Lynx, plusieurs dépendances sont obsolètes.
+Le mieux étant de télécharger les dernières sources de liclaw 1.7 :
+https://sourceforge.net/projects/libclaw/files/libclaw/1.7.0/libclaw-1.7.0.tar.gz/download
+  cmake .
+  make
+  sudo make install
+
+puis de boost :
+[[https://sourceforge.net/projects/boost/files/boost/1.47.0/boost_1_47_0.tar.bz2/download]]
+  ./bootstrap.sh
+  ./b2
+  sudo ./b2 install'
+
+Enfin pour wxWidget, plutôt que de le compiler, vous pouvez installer le binaire libwxbase2.8-dev grâce à l'ajout d'un dépôt dans votre fichier /etc/apt/sources.list:
+  deb http://apt.wxwidgets.org/ lucid-wx main
+  deb-src http://apt.wxwidgets.org/ lucid-wx main
+</note>
+
+===== Développement =====
+le jeu est fourni avec un éditeur de niveaux, de scénario…
+
+{{http://plee-the-bear.sourceforge.net/images/screenshots/big/screenshot_20.png?200}} {{http://plee-the-bear.sourceforge.net/images/screenshots/big/screenshot_18.png?300}}
+
+===== Liens =====
+
+  *[[http://plee-the-bear.sourceforge.net/index-fr.html|site officiel]]
+  *[[http://sourceforge.net/apps/phpbb/plee-the-bear/|forum]]

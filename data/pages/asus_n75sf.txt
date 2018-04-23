@@ -1,0 +1,101 @@
+{{tag> matériel portable Asus Trusty}}
+----
+======Asus N75SF======
+
+===== Présentation =====
+
+Configuration :
+
+  * Processeur : intel core i5 2410M (2,3 GHz)
+  * Mémoire vive : 4Go DDR3
+  * Ecran 17.3" 16:9 HD+ (1600x900)
+  * Carte graphique : NVIDIA GeForce GT 555M 2Go DDR3 (avec technologie [[nvidia_optimus|optimus]])
+  * Son : enceintes internes steréo + un caisson de basses externe
+  * Disque dur : 1000Go (7200 tours/minutes) (2 emplacements pour disque dur)
+  * Network controller: Intel Corporation Centrino Wireless-N 1030 (rev 34)
+  * Lecteur Graveur DVD
+
+===== Cartes graphiques =====
+
+Votre ordinateur dispose de la technologie [[nvidia_optimus|Nvidia Optimus]] et donc de deux cartes graphiques. Une signée Intel et une Nvidia, plus puissante.\\
+Si vous avez effectué les opérations précédentes, alors votre ordinateur peut fonctionner normalement en utilisant la carte graphique Intel pour les tâches les plus courantes (bureautique, internet, visionnage de films en haute définition, etc).
+
+=== Ubuntu 14.04+ ===
+Nvidia a finis par ajouter la prise en change de sa technologie de manière officiel via ses pilotes propriétaire et la technologie [[prime|PRIME]]
+Pour l'installer il suffit \\
+- [[:tutoriel:comment_installer_un_paquet|Installez les paquets]]  **[[apt>nvidia-331]]** et **[[apt>nvidia-prime]]**
+
+Le changement de gpu s'effectue dans l'interface de configuration Nvidia-setting
+<note warning>En mode Nvidia tous le système tourne sur  cette carte l'autonomie est donc drastiquement diminué. Par contre par rapport a bumblebee les performances et la gestion de la carte Nvidia est grandement amélioré.Si vous voulez de l'autonomie ne pas oublier de mettre le système en mode intel en utilisant Nvidia-settings </note>
+
+===== Son =====
+Le subwoofer (caisson de basse) fonctionne anormalement: le son qui lui est envoyé correspond à l'enceinte arrière droite et non au caisson de basse,  d'où le fait que certains sons restent inaudibles.\\
+La carte est considérée comme une 4.0 quand elle "fonctionne" sinon en "simple" stéréo, d'où le fait que le subwoofer ne sort aucun son.\\
+Son fonctionnement est aléatoire après redémarrage.
+
+[[:tutoriel:comment_modifier_un_fichier|Ouvrez avec les droits d'administration]] le fichier **/etc/rc.local** pour y ajouter __avant__ la ligne //exit 0//:
+<file>echo 0x16 0x99130112 > /sys/class/sound/hwC0D0/user_pin_configs
+echo 1 > /sys/class/sound/hwC0D0/reconfig</file>
+Après enregistrement de vos modifications, redémarrez votre ordinateur avec le subwoofer branché.
+
+Il est possible qu'il faille augmenter le volume des basses dans [[:audio#Réglages en ligne de commande|alsamixer]].
+
+===== Touchpad =====
+Le touchpad fonctionne correctement une fois la [[#Installation|procédure d'installation]] suivie. Cependant on peut activer le multitouch (scrolling avec 2 doigts), pour cela il suffit d'aller dans la rubrique souris et touchpad dans le panneau de configuration. Dans l'onglet touchpad, il y a une option pour activer ou non le scrolling à 2 doigts.
+
+===== Touche Multimédia =====
+Les touches pour couper/augmenter/baiser le son sont gérer nativement.
+Ceux de lecture pause ne le sont pas
+
+pour Avoir le bouton énergie max/économie fonctionnel
+ et que celui ci gère le mode de fonctionnement du processeur (max perf ,equilibrer ou power save)
+
+Vous devez apt://xbindkeys apt://cpufrequtils apt://xbindkeys-config
+
+xbinding key permet d'effectuer le lancement du script performance.sh après appuis sur le bouton d’énergie
+
+Enregistrez le code suivant dans un fichier script.sh avec votre éditeur de texte favoris (de préférence dans home)
+
+
+<code>
+#!/bin/bash
+if [ -e .maxperf ]
+then
+	 rm .maxperf
+	 touch .ondemand
+	 cpufreq-selector -c 0 -g powersave
+	 cpufreq-selector -c 1 -g powersave
+	 cpufreq-selector -c 2 -g powersave
+	 cpufreq-selector -c 3 -g powersave
+         notify-send 'Mode Economie' 'Actif'
+elif [ -e .ondemand ]
+then
+	rm .ondemand
+    	touch .minperf
+	cpufreq-selector -c 0 -g ondemand
+	cpufreq-selector -c 1 -g ondemand
+	cpufreq-selector -c 2 -g ondemand
+	cpufreq-selector -c 3 -g ondemand
+	notify-send 'Mode Ondemand' 'Actif'
+
+else [ -e .minperf ]
+        rm .minperf
+        touch .maxperf
+        cpufreq-selector -c 0 -g performance
+        cpufreq-selector -c 1 -g performance
+        cpufreq-selector -c 2 -g performance
+        cpufreq-selector -c 3 -g performance
+        notify-send 'Mode Maxperf' 'Actif'
+fi
+</code>
+Lancer xbindkey-config et associer la pression de la touche avec le lancement du script par exemple si il se trouve dans votre home taper $HOME/Script.sh maintenant le bouton fonctionne un appuis fera passer un mode min perf et un second en mode max perf avec un message vous alertant du mode choisis
+
+  
+Lancer XBindKeys automatiquement
+  * sous Gnome 2, ajoutez xbindkeys dans Système/Préférences/Sessions 
+  * sous KDE, créez un lanceur dans ~/.kde/Autostart 
+  * sous gnome 3 Dans un terminal tapper gnome-session-properties et ajoutez xbindkeys 
+  * Sous Unity ajoutez xbindkeys dans votre menu en haut a droite dans la section application au demarage
+
+----
+//Contributeurs:  [[:utilisateurs:gp974|Gp974]]

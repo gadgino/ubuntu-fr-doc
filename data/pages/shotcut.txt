@@ -1,0 +1,74 @@
+{{tag>Precise Trusty Xenial montage_vidéo vidéo}}
+----
+ 
+====== Shotcut ======
+ 
+**Shotcut** est un éditeur de vidéos libre, open source, gratuit et multi-plate-formes avec une version Windows(c) et Apple Mac OsX(c). Il est parfaitement utilisable par la dernière version LTS d'Ubuntu 16.04 (Xenial). Il ne nécessite pas d'installation à proprement parler. Il faut juste télécharger un fichier de type archive, le décompresser afin d'obtenir un dossier contenant la totalité du logiciel directement utilisable.
+
+{{http://www.shotcut.org/pub/Shotcut/WebHome/shotcut-screenshot-13.03.jpg?512}}
+
+===== Pré-requis =====
+ 
+  * Disposer d'une connexion à Internet configurée et activée.
+   
+===== Installation =====
+ 
+<note help>Ce logiciel n'est pas (encore) dans les dépôts. Il vous faut l'installer manuellement ou en utilisant un PPA.</note>
+
+==== installation via un ppa ====
+
+Il existe un PPA dédié à Shotcut dans Launchpad.
+
+Ouvrez un terminal puis tapez les commandes suivantes :
+
+<code>sudo add-apt-repository ppa:haraldhv/shotcut</code>
+
+puis
+
+<code>sudo apt update</code>
+
+et enfin
+
+<code>sudo apt install shotcut</code>
+
+
+Un lanceur sera créé dans Applications->Autres.
+
+<note warning>sous Ubuntu 16.10, après avoir installé le ppa, j'ai : "shotcut : Dépend: libgstreamer-plugins-base0.10-0 mais il n'est pas installable
+E: Impossible de corriger les problèmes, des paquets défectueux sont en mode « garder en l'état »."
+Impossible d'installer l'appli dans l'état</note>
+
+==== Installation manuelle ====
+
+<note>Cette installation est un peu dépassée bien que fonctionnelle. Privilégiez la version PPA.</note>
+
+Pour installer ce logiciel, il suffit de :
+
+  - Télécharger le paquet correspondant à votre //version// (//[[:Ubuntu]]//, //[[:Fedora]]//...) mais également à votre //architecture// (32 bits ou 64 bits) dans la section **Download** du site officiel : [[http://www.shotcut.org/]] ;
+  - Puis de le [[:archivage|décompresser]] à l'endroit que vous aurez choisi et de le lancer en cliquant sur son icône.
+  - Sur Ubuntu 16.04, placer le dossier shotcut obtenu de préférence dans votre dossier personnel. Des dysfonctionnements peuvent en effet arriver si vous le laissez dans le dossier de téléchargement ou si vous le mettez dans un dossier particulier du dossier personnel.
+  - Ouvrez alors shotcut à partir du raccourci contenu dans le dossier shotcut et si vous le désirez, vous pouvez laisser l'icône dans le lanceur pour ouvrir plus rapidement shotcut ultérieurement.
+
+===== Désinstallation =====
+ 
+Pour supprimer cette application, il suffit de supprimer le dossier qui la contient. FIXME Existe-t-il des fichiers résiduels et / ou temporaires ?
+ 
+
+===== Fonctionnement =====
+
+De nombreux tutoriels existent sur internet ou sur le site officiel du logiciel. de nouvelles versions sont très régulièrement disponibles (jusqu'à une par mois) ajoutant des fonctionnalités ou corrigeant des bugs résiduels. N'hésitez pas à visiter le site souvent.
+
+- Pour débuter et découvrir le logiciel, utilisez [[http://docplayer.fr/15125355-Premiers-pas-avec-shotcut.html|ce tutoriel de 15 pages en PDF]] écrit pour des élèves.
+
+L'utilisation des librairies open source pour les entrées et sorties permettent à Shotcut de gérer à peu près n'importe quel format et fichier.
+A l'usage, shotcut apparaît encore jeune en fonctionnalités mais très prometteur. Sa conception laissant envisager des possibilités étendues.
+
+===== Voir aussi =====
+ 
+  * **(en)** [[http://www.shotcut.org|Shotcut.org : Le site officiel du logiciel]]
+  * **(en)** [[https://www.youtube.com/playlist?list=PLy7k-GJ461utAlmD1vyiKPAjU92Nuewz-|YouTube.com : Playlist de tutoriels officielle créée par le développeur de Shotcut]] (au moment de la rédaction de cette ligne, seul l'épisode 1 : //Getting Started// est disponible.)
+
+----
+//Contributeurs : mimilus, Pika3D//
+ 
+//Basé sur [[http://ubuntuguide.net/install-shotcut-video-editor-on-ubuntu-13-04-12-04-12-10|« Install Shotcut Video Editor on Ubuntu 13.04, 12.04, 12.10 »]] sur http://ubuntuguide.net/ .//

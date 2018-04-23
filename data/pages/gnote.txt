@@ -1,0 +1,77 @@
+{{tag>bureautique gnome}}
+
+----
+
+====== Gnote ======
+
+Gnote est un logiciel de notes, exactement identique à [[Tomboy]], mais écrit dans un autre langage (le [[http://fr.wikipedia.org/wiki/C%2B%2B|C++]]). Il permet donc d'avoir accès rapidement et simplement à un ensemble de notes.
+
+
+===== Pré-requis =====
+
+Pour installer et utiliser Gnote, il vous faudra : 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+Gnote est disponible dans les dépots universe d'Ubuntu sous Lucid Lynx, il faut donc [[:tutoriel:comment_installer_un_paquet|installer le paquet]] [[apt://gnote]]
+
+  sudo apt-get install gnote
+
+Pour les versions précédentes, Gnote n'est pas disponible dans les dépôts officiels d'Ubuntu, vous devez utiliser le PPA du projet : https://launchpad.net/~gnote/+archive/ppa
+
+Sur la [[http://ppa.launchpad.net/gnote/ppa/ubuntu|page du PPA]], choisissez votre version d'Ubuntu, puis copiez la première ligne, par exemple pour jaunty : 
+
+  deb http://ppa.launchpad.net/gnote/ppa/ubuntu jaunty main 
+
+À présent, [[:tutoriel/comment_modifier_sources_maj#modifier_les_sources_de_mises_a_jour|modifiez vos sources de mise à jour]] afin d'y ajouter ce dépôt.
+
+Il vous faudra également [[:tutoriel/comment_modifier_sources_maj#gerer_les_cles_d_authentification|rajouter la clé d'authentification]] de ce dépôt à votre trousseau de clés :
+
+  sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 5AAB5553
+
+Vous pouvez à présent recharger la liste des paquets et [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt://gnote|gnote]]**.[[apt://gnote|{{apt.png}}]]
+
+===== Utilisation=====
+
+Lancez l'application depuis le menu //Applications -> Accessoires -> Gnote// ou //via// la commande suivante :
+
+  gnote
+
+Gnote se lance alors dans la zone de notification, de la façon suivante : 
+
+{{:gnote01.png|Gnote et son icône de notification}}
+
+Vous pouvez alors écrire des notes, les lier à d'autres, ou encore créer des blocs-notes.
+
+Vous pouvez accéder aux préférences de Gnote en faisant un clic droit sur l'icône de notification. Vous avez alors la possibilité d'activer la correction orthographique, de modifier le modèle de note, les raccourcis claviers, ou encore d'installer des greffons.
+
+===== Récupération des notes de tomboy =====
+
+gnote est compatible avec tomboy et pour récupérer les notes de tomboy, il faut taper la commande suivante :
+
+   mv ~/.tomboy ~/.gnote
+
+Pour Ubuntu Karmic 9.10
+
+   cp  ~/.local/share/tomboy/*.* ~/.gnote/
+   
+===== Récupération des notes d'une autre installation Gnote =====
+
+Pendant longtemps les notes ont été présentes dans ~/.gnote, mais au moins depuis Ubuntu 12.04 Precise Pangolin vous les trouverez dans ~/.local/share/gnote\\
+Il suffit de copier puis transférer ce dossier au même endroit sur l'autre machine ou après une mise à jour avec effacement des données.
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. La configuration de l'application sera conservée ou supprimée selon la méthode de désinstallation que vous choisirez.
+
+===== Liens =====
+
+  * **(en)** [[http://www.figuiere.net/hub/blog/?Gnote|Site officiel de Gnote]]
+  * **(fr)** [[https://linuxfr.org//~___/28136.html|Journal annonçant Gnote sur Linuxfr]]
+  * [[mynotex|MyNotex]], logiciel pouvant importer des notes créées avec Gnote
+
+----
+
+//Contributeurs principaux : [[utilisateurs:Omnisilver|Omnisilver]], ...//

@@ -1,0 +1,147 @@
+{{tag>Precise lecteur_audio}}
+----
+
+====== ZiK ======
+
+<note warning>**Zik** ne s'installe plus sur [[:trusty|Ubuntu 14.04]] et les versions suivantes en raison d'un problème de dépendances. Les informations de cette page ne sont pour l'instant que valable pour [[Precise|Ubuntu 12.04]].</note>
+
+**ZiK** est un [[:lecteur_audio|lecteur audio]] léger, écrit en [[projets:ecole:ruby|Ruby]] et sous licence libre GPLv2.
+
+L'interface simple et efficace vous permet de parcourir les dossiers contenant votre musique telle que vous l'avez classée !
+Le moteur de ZiK utilise [[:gstreamer]] pour lire les différents formats musicaux à partir des codecs déjà installés.
+ZiK utilise également GTK et se mariera parfaitement avec l'environnement de bureau [[:GNOME]].
+
+ZiK part du principe que **“ Vous seul savez mieux que quiconque comment organiser votre bibliothèque musicale ! ”**
+
+{{  :applications:zik-interface.png?250|ZiK}}
+
+Les principales fonctionnalités de ZiK sont :
+  *  Jouer des fichiers, une playlist, des webradios et des CD audio,
+  *  Rechercher dans les dossiers ou la playlist,
+  *  Éditer une playlist,
+  *  Éditer les tag fichiers,
+  *  Utiliser votre thème GTK et ses boutons/icônes ...
+
+
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  
+===== Installation =====
+
+**ZiK** n'est pas disponible dans les dépôts officiels d'Ubuntu.\\ 
+Cependant un [[:PPA]] est maintenant disponible. Il est conseillé d'utiliser cette méthode. Mais vous pouvez également télécharger directement le paquet **deb**.
+
+====Via un ppa====
+Pour installer **Zik** via le ppa :
+  * [[:ppa#ajout_d_un_ppa_a_vos_sources_logicielles|Ajoutez le PPA]] **ppa:vinc-mai/zik**((https://launchpad.net/~vinc-mai/+archive/ppa)) dans vos sources de logiciels
+  * [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste des paquets]],
+  * [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>zik]]**.
+
+Si vous désirez utiliser toutes les fonctionnalités de **ZiK** [[:tutoriel:comment_installer_un_paquet|installez les paquets suivant]] **[[apt>libmusicbrainz-ruby1.8,gstreamer0.10-plugins-ugly,gstreamer0.10-plugins-good,gstreamer0.10-plugins-bad, libnotify-ruby1.8,libglobalhotkeys-ruby1.8]]**.
+
+
+====Via le deb====
+
+Pour installer ZiK à partir de son paquet **.deb**, il vous faut:
+  * Télécharger le paquet **.deb** à partir de ce [[http://projets.developpez.com/attachments/download/785/ZiK-0.17.1.deb|site]].
+  * [[:tutoriel:comment_installer_un_paquet|Installer le paquet .deb téléchargé]].
+
+<note tip>Pour lire des CD audio avec ZiK, vous devrez installer le paquet optionnel [[apt>libmusicbrainz-ruby]].</note>
+
+
+===== Lancement =====
+
+Vous pourrez lancer ZiK à partir du [[unity#tableau_de_bord_dash|tableau de bord Unity]] en faisant une recherche avec le mot clé **ZiK**.\\ 
+ZiK peut aussi être lancé en ligne de commande, ce qui permet de passer différentes options (voir paramètres en ligne de commande).
+Pour connaître les différentes options permises, utilisez :
+<code>zik --help</code>
+
+===== Configuration =====
+
+Vous pouvez modifier la configuration de ZiK grâce au menu **Musique->Préférences**.\\
+Les paramètres de ZiK et la playlist courante sont automatiquement stockés dans le dossier caché **.ZiK** de votre **Dossier personnel** ( ''~/.config/ZiK/'' ).
+
+===== Utilisation =====
+
+Tout d'abord, il faut ajouter les dossiers contenant votre musique dans les préférences (menu **Musique->Préférences**) de ZiK pour faire apparaître l'arborescence dans la partie gauche.
+  *  Le bouton **[[+]]** (plus) permet ensuite d'ajouter les éléments sélectionnés à la playlist actuelle :
+    *  soit les fichiers musicaux (ogg, mp3 ...)
+    *  soit une liste sauvegardée (fichier m3u, pls ...)
+    *  soit un dossier entier : dans ce cas, tous les fichiers contenus dans le dossier et les sous-dossiers sont également ajoutés.
+
+<note tip>Vous pouvez ajouter des fichiers qui n'apparaissent pas dans l'arborescence, en cliquant sur le menu **Liste de Lecture → Ajouter**.</note>
+
+  *  Le bouton **[[−]]** (moins) permet de retirer des éléments de la playlist courante.
+  *  Le bouton en forme de "balai" permet de vider complètement la playlist.
+  *  Le bouton en forme de "bloc-note" permet d'ouvrir l'éditeur de playlist.
+
+ZiK propose plusieurs "vues". Vous pouvez ainsi cacher l'arborescence lorsque vous n'en avez plus besoin, ou n'afficher que celle-ci en masquant la playlist.
+Il est également possible de cacher les deux panneaux pour n'afficher que le minimum : boutons de contrôle et piste en cours de lecture.
+
+Pour accélérer certaines actions, ZiK dispose des raccourcis clavier suivants :
+^Combinaison ^Action|
+|Ctrl+p|lecture / pause|
+|Ctrl+s|stop|
+|Ctrl+b|morceau précédent|
+|Ctrl+n|morceau suivant|
+|Ctrl+haut|augmenter le volume|
+|Ctrl+bas|diminuer le volume|
+|Ctrl+f|recherche dans la playliste|
+|F1|aide|
+
+===== Paramètres en lignes de commande =====
+
+ZiK admet plusieurs paramètres lorsqu'il est lancé en ligne de commande. Les paramètres sont disponibles en affichant l'aide.
+<code>
+ zik -h
+</code>
+<note tip>Pour les anciennes versions de ZiK remplacer la commande **zik** par **ZiK.rb**</note>
+
+==== Modification du titre de la fenêtre ====
+
+Si vous souhaitez distinguer plusieurs instances de ZiK lancées simultanément, vous apprécierez de pouvoir personnaliser le titre de chacune des fenêtres en ajoutant l'option **-t** à la ligne de commande, par exemple :
+
+ zik -t "Liste Rock'n'Roll"
+
+==== Forcer le dossier de configuration ====
+
+Si vous ne voulez pas jongler entre plusieurs playlists et conserver le fait que ZiK sauvegarde/reprend automatiquement la playlist en cours, vous aurez besoin d'utiliser l'option **-c** pour spécifier des dossiers de configuration différents. Cela est très utile lorsque plusieurs personnes utilisent une même session ! Par exemple :<code>zik -c "$HOME/.ZiK/romeo/"</code> ou
+<code>zik -c "$HOME/.ZiK/juliette/"</code>
+
+<note important>Les dossiers doivent exister, et vous devez avoir les droits d'écriture dessus !</note>
+
+==== Exemple de combinaison ====
+
+Bien entendu, vous pouvez combiner les options **-c** et **-t** en fonction de vos besoins, Par exemple :
+
+  zik -c "$HOME/.ZiK/romeo/" -t "Liste de Roméo"
+  zik -c "$HOME/.ZiK/juliette/" -t "Liste de Juliette"
+
+
+===== Problèmes éventuels =====
+Il se peut que vous rencontriez des problèmes avec la lecture des tags du format de fichier wma ; pour y pallier, deux choix s'offrent à vous :
+\\ - convertir votre musique dans un autre format, tel que le ogg (qui est libre)
+\\ - installer taglib 1.5 qui résout normalement ce problème : \\
+Tout d'abord, téléchargez l'archive de taglib : [[http://developer.kde.org/~wheeler/files/src/taglib-1.5.tar.gz|Taglib 1.5]] \\ ou bien dans un [[terminal]]<code>wget http://developer.kde.org/~wheeler/files/src/taglib-1.5.tar.gz</code>
+puis décompressez-la : <code>tar -xvf taglib-1.5.tar.gz</code>
+Placez vous dans le répertoire extrait :
+<code>cd taglib-1.5/</code>
+et lancez la procédure de compilation habituelle :<code>./configure && make && sudo make install</code>
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée.
+
+===== Liens =====
+
+Restez informé de l'évolution de ZiK en visitant régulièrement :
+  *  [[http://zik.developpez.com/|le site officiel]]
+  *  [[http://projets.developpez.com/projects/zik/wiki/Ubuntu|le wiki officiel]]
+  *  [[http://forum.ubuntu-fr.org/viewtopic.php?pid=1234484|le topic du forum]]
+
+-----
+
+Création de la page le 3 janvier 2009 par [[utilisateurs:draco31.fr|draco31.fr]]\\ 
+Merci à Vinc-mai pour le développement de ZiK !

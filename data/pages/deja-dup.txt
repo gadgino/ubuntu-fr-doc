@@ -1,0 +1,66 @@
+{{tag>Xenial Trusty sauvegarde}}
+----
+
+====== Utilitaire de sauvegarde Déjà Dup ======
+
+**Déjà Dup** (prononcer //dé-ja-doop//) est un utilitaire de sauvegarde très simple. Interface graphique pour l'outil [[:duplicity]], Déjà Dup a pour but de cacher les complexités relatives à une bonne façon d'effectuer des copies de sauvegarde (chiffrement, sauvegardes locales ou en réseau, fréquence de la prise des sauvegardes...) pour se concentrer sur l'essentiel : effectuer des sauvegardes de votre système et de vos données personnelles de manière sécuritaire, complète et fiable.
+
+Bien qu'ayant une interface simplissime, Déjà Dup propose plusieurs fonctionnalités utiles à la prise de copies de sauvegarde :
+  * prise en charge de sauvegardes vers des emplacements locaux, réseau ou dans un espace de stockage en nuage (tels Amazon S3 ou Rackspace Cloud Files) ;
+  * chiffrement sécuritaire et compression des données prises en sauvegarde ;
+  * possibilité de récupérer les données sauvegardées depuis n'importe quelle sauvegarde antérieure //(sauvegardes incrémentielles)// ;
+  * planification de sauvegardes de manières régulières et automatique.
+
+Déjà Dup s'intègre bien à l'[[environnements|environnement de bureau]] [[GNOME]], l'environnement par défaut de Ubuntu.
+
+
+
+===== Installation =====
+
+Déjà Dup est inclus par défaut dans Ubuntu. \\ Pour les [[:variantes]], [[:tutoriel:comment_installer_un_paquet|installez simplement le paquet]] **[[apt://deja-dup|deja-dup]]**
+
+=====Utilisation=====
+Lancez l'application via le [[:unity#tableau_de_bord_dash|tableau de bord Unity]] avec le mot clé **sauvegarde** ou ''deja-dup'' si vous souhaitez le lancer en ligne de commande. Vous pouvez y accéder également via **Paramètres système -> Sauvegarde**. Cette fenêtre s'ouvre :
+
+{{ :dejadup-vuedensemble-2016-06-01.png?450 |La vue d'ensemble propose un récapitulatif des paramètres de sauvegarde actuels.}}
+
+
+La rubrique **Vue d'ensemble** de Déjà Dup vous expose un récapitulatif de vos paramètres actuels de sauvegarde.
+  * **Sauvegardes automatiques** \\ Cet interrupteur active ou désactive la prise de sauvegardes automatiques de vos données. Par défaut, la prise de sauvegardes est //désactivée//. Il est vivement recommandé que vous activiez la prise de sauvegardes automatiques, pour une meilleure sécurité de vos données. \\ \\
+  * **Emplacement de sauvegarde** \\ L'emplacement de sauvegarde est l'endroit où est stockée votre sauvegarde (manuelle ou automatique). L'emplacement par défaut est le dossier //deja-dup/// se trouvant dans votre répertoire personnel. Par mesure de sécurité, il est vivement recommandé de positionner ce répertoire de sauvegarde par défaut vers un second disque dur, un média externe (clé USB, disque dur externe...) ou un emplacement réseau (serveur de stockage local, serveur FTP, espace personnel Ubuntu One...), afin de prévenir la perte de vos données en cas de défaillance de votre matériel informatique principal. \\ \\
+  * **Dossiers à sauvegarder** \\ Les dossiers listés à cet item sont les dossiers qui seront pris en sauvegarde, lors de la prise de sauvegarde manuelle ou automatique. Les répertoires enfants de ces dossiers sont aussi pris en copie de sauvegarde. Par défaut, seul votre dossier personnel est pris en copie de sauvegarde (ce qui constitue l'essentiel de vos données personnelles). \\ \\
+  * **Dossiers à ignorer** \\ Par défaut, tous les répertoires enfants d'un dossier à sauvegarder sont aussi sauvegardés. Ce paramètre vous permet explicitement d'ignorer la prise de sauvegarde d'un dossier enfant. Par défaut, la corbeille et le dossier //Téléchargements/// sont exclus de la prise de sauvegarde.
+
+==== Réaliser une sauvegarde automatique via SSH (SFTP) ====
+
+Une solution intéressante peut être mise en place si vous disposez du matériel suivant dans vos cartons :
+  * L'ordinateur à sauvegarder (avec Déjà Dup),
+  * Un ou plusieurs disques durs (internes ou externes) réliés à un ordinateur secondaire qui fera office de serveur [[:ssh|SSH]] pour les sauvegardes,
+  * L'ensemble devant être connecté à votre réseau.
+
+Dans cet exemple, les ordinateurs à sauvegarder sont connectés en Wifi, le serveur SSH en ethernet au routeur domestique.
+  - Si ce n'est pas déjà fait, Installer OpenSSH serveur sur l'ordinateur secondaire et brancher les disques externes,
+  - Vérifier qu'il est possible, via un terminal, de s'y connecter depuis les ordinateurs distants à sauvegarder,
+  - Sur les ordinateurs à sauvegarder, configurer Déjàdup pour réaliser la sauvegarde via SSH (le nom d'utilisateur et le mdp seront demandé la première fois, mais il est possible de les mémoriser), par exemple tous les jours.
+  - Et voilà, tous les jours, la sauvegarde se fait toute seule dès que vous êtes connecté à votre réseau !
+
+Attention, cette solution demande que votre serveur SSH reste allumé 24h/24, 7j/7... C'est la raison pour laquelle, l'utilisation d'un mini-ordinateur (par exemple un [[http://www.raspberrypi.org/|Raspberry Pi]], qui ne consomme qu'environ 2W, auquel vous branchez un ou plusieurs disques externes) peut être intéressante.
+==== Restauration ciblée d'un fichier ou d'un répertoire ====
+Pour restaurer un fichier ou un répertoire vous pouvez utiliser le clic droit dans Nautilus (à condition que le paquet deja-dup-nautilus soit bien installé ;-) ) sur un fichier ou un répertoire pour retourner à une version précédente.
+
+ou saisissez dans un [[:terminal]]
+
+  deja-dup --restore ~/chemin/fichier &
+
+Ou si vous aviez supprimé le fichier ou le répertoire 
+  deja-dup --restore-missing ~/chemin/fichier &
+
+Cela ouvrira la fenêtre pour Restaurer de déjà-dup mais en ne sélectionnant cette fois que le fichier ou le répertoire ciblé.
+{{ :image:deja-dup_precise_restaurer01.png?nolink&300 |}}
+
+
+===== Liens =====
+  * **[[https://launchpad.net/deja-dup|Site officiel de Déjà Dup]] (en)**
+  * [[https://wiki.gnome.org/Apps/DejaDup/Screenshots|Captures d'écran]]
+
+

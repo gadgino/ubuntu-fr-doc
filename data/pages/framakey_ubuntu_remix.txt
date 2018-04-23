@@ -1,0 +1,253 @@
+
+{{tag>Trusty usb live_usb}}
+----
+
+====== Créer sa propre Framakey Ubuntu-fr Remix ======
+
+=====Préambule=====
+
+==== Qu'est-ce qu'une F.U.R. ?====
+
+La **F**ramakey **U**buntu-fr **R**emix est le résultat du travail conjoint de [[http://www.framasoft.net/|Framasoft]] et Ubuntu-fr pour proposer <del>un bijou</del> une clé USB qui est la judicieuse fusion d'une framakey et d'une version live-usb avec persistance des données de [[:precise|Ubuntu 12.04]] (et suivantes) entièrement francisée.
+Vous aurez donc avec cette clé une parfaite mobilité de vos données dans la poche. N'hésitez pas à visiter [[http://framakey.org/Pack/Framakey-Ubuntu|le site framakey]]  pour plus de détails concernant cette clé USB.
+
+==== À quoi sert précisément une F.U.R. ?====
+
+Avec une F.U.R., vous pouvez :
+
+- utiliser l'ensemble des applications portables framasoft **quel que soit l'OS (système d'exploitation) utilisé**.
+
+- démarrer à partir de la F.U.R. pour l'utiliser comme un live USB. 
+Dans ce cas, **vous pouvez conserver d'une session à l'autre vos données** (la session Ubuntu-live est dite persistante). Toutes les modifications sont enregistrées, y compris pour ce qui est de l'installation de nouveaux paquets directement sur la clé.
+
+- vous pouvez également utiliser une F.U.R. pour y **stocker des données** comme une simple clé USB.
+
+
+==== But du tutoriel ====
+
+Ce tutoriel a pour but de permettre à chacun de créer sa propre F.U.R. Il n'est que l'adaptation aux utilisateurs GNU/Linux du tutoriel présenté sur [[http://framakey.org/Pack/Framakey-Ubuntu#download|la page dédiée de Framakey]]. 
+
+Sachez avant tout que cette clé est vendue sous un format fort sympathique ^_^ sur les stands ubuntu-fr lors des [[http://www.ubuntu-fr.org/rendez-vous|diverses manifestations]] et que les bénéfices aident au fonctionnement de l'association ubuntu-fr.
+
+[[http://enventelibre.org/catalog/13|Il est également possible de se la procurer en ligne .]] **(lien brisé !)**
+
+L'intérêt premier de ce tutoriel n'est donc certainement pas de remplacer l'excellent produit déjà existant, mais de pouvoir l'adapter à d'autres formats (clés plus grandes que les 4Go de la F.U.R. originelle, Disque externe, carteSD etc.)
+
+==== Mise en garde ====
+
+<note warning>Certaines manipulations de ce tutoriel ne sont pas triviales et présentent un danger de perte de vos données en cas d'erreur de votre part. 
+
+Si vous êtes débutant et/ou que vous avez un doute sur les informations que vous lisez, faites-vous aider.
+
+Ne copiez/collez pas les commandes fournies, elles ne sont que des exemples.</note>
+
+===== Réalisation de la F.U.R =====
+
+==== Pré-requis ====
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une clé USB (ou autre support de stockage USB) d'au moins 4Gio (de préférence avec des accès lecture/écriture rapides) 
+
+==== Identifier la clé ====
+
+**Graphiquement**, [[gparted|gParted]] doit vous permettre de l'identifier et de connaitre son point de montage.
+
+**En ligne de commande :**
+<code>sudo fdisk -l</code>
+devrait vous permettre d'identifier votre clé.
+
+et <code>mount</code>
+de savoir où elle est montée.
+
+<note important>Le point de montage peut changer à chaque redémarrage, voire à chaque insertion. Pensez-y !</note>
+
+Par exemple chez moi, on voit que la clé est **/dev/sdg** (en fait elle est /dev/sdg**1** mais c'est parce qu'elle est déjà formatée) :
+<code>sudo fdisk -l
+
+Disque /dev/sda: 640.1 Go, 640135028736 octets
+255 têtes (......
+            etc
+           ......)
+Disque /dev/sdg: 16.0 Go, 16064184320 octets
+255 têtes, 63 secteurs/piste, 1953 cylindres
+Unités = cylindres de 16065 * 512 = 8225280 octets
+Identifiant de disque : 0x00007782
+Périphérique Amorce  Début        Fin      Blocs     Id  Système
+/dev/sdg1   *           1        1953    15687441    b  W95 FAT32</code>
+
+
+et qu'elle est montée sur **/media/disk**
+
+<file>mount
+(... etc ...)
+/dev/sdg1 on /media/disk type vfat (rw,nosuid,nodev,uhelper=hal,shortname=mixed,uid=1000,utf8,umask=077,flush)
+</file>
+
+
+====Préparer la clé====
+Votre clé USB doit être formatée en FAT32.
+
+Pour la formater, **en mode graphique** vous pouvez utiliser le logiciel [[:gparted|gParted]].
+
+**En lignes de commandes :**
+<note warning>Cette commande remplace toutes les données de /dave/sdi par des zéros. En cas d'erreur, **vous pouvez perdre définitivement les données** de vos disques durs.</note>
+
+<code>
+sudo dd if=/dev/zero of=/dev/sdi</code>
+//(/dev/sdi doit, bien sûr, être remplacé par l'identifiant de votre clé. Dans mon exemple, c'est donc : /dev/sdg)//
+
+
+NB : cette commande peut prendre beaucoup de temps en fonction de la taille de la clé et des capacités de l'ordinateur.
+[[http://fr.wikipedia.org/wiki/Dd_%28Unix%29|La commande dd sur Wikipédia]]
+
+<note>Il est fort possible qu'il faille déconnecter, puis rebrancher votre clé pour que la commande suivante ne retourne pas d'erreur.</note>
+
+<code>
+sudo parted /dev/sdi mklabel msdos</code>
+Et :
+<code>
+sudo sfdisk /dev/sdi << EOF
+,,0x0b,*
+EOF
+</code>
+//(Saisir la première ligne de commande, valider, le prompt ">" apparaît, saisir la seconde ligne de commande, valider, le prompt ">" apparait, saisir la dernière ligne et valider.)//
+
+Et enfin :
+<code>
+sudo mkdosfs -F32 -v -n "FURmy1004" /dev/sdi1</code>
+//("FURmy1004" est bien entendu un label qui peut être modifié à volonté. Surtout qu'à l'heure où j'écris ces lignes, il devrait ressembler à ceci : "FURmy1404" ...)//
+
+==== Télécharger ====
+
+Allez sur [[http://framakey.org/Pack/Framakey-Ubuntu#download|le site de Framakey, onglet "télécharger"]], et passez votre souris sur l'icône en forme de disquette. Prenez le temps de lire le message qui s'affiche, puis cliquez pour télécharger.
+Sur cette même page est proposé un lien de téléchargement torrent.
+
+Vérifiez à l'aide de [[:md5sum]] que la somme de contrôle du fichier téléchargé est bien la même que celle indiquée sur la page de téléchargement.
+
+En ligne de commande :
+<code>wget http://framakey.org/Pack.Framakey-Ubuntu?count=http%3A%2F%2Ffiles.framasoft.org%2Fmirror%2Fbase%2FFK%2FFUR1004-latest.zip%3Fmethod%3Ddirect -O FUR1004-latest.zip</code>
+
+=== Décompresser les données ===
+
+Il s'agit ici de décompresser les données de l'archive sur votre clé.
+
+**Graphiquement**, il suffit d'utiliser la commande "extraire vers" du [[:archivage|gestionnaire d'archives]] utilisé habituellement.
+<note important>Toutefois, le format FAT32 ne peut pas recevoir une copie de trop grande taille (4 Go maxi). 
+
+Et certains fichiers qui sont nécessaires pour la F.U.R., sans atteindre cette limite, s'en rapprochent suffisamment pour que la réussite de la copie soit remise en cause.
+
+C'est pourquoi il est préférable de réaliser cette opération de décompression des données en **lignes 
+de commandes** :
+</note>
+
+
+<code>
+mkdir mafur</code>
+//Cette commande crée un dossier appelé "mafur" dans le répertoire utilisateur (/home/utilisateur).//
+<code>
+sudo mount -o rw,unhide,uid=0,gid=0,umask=0,users /dev/sdi1 mafur/</code>
+//Les options choisies permettent de donner les droits en écriture aux utilisateurs (sans qu'ils aient besoin de [[sudo|la commande sudo]].
+
+Sans ces options, la commande suivante a de grande chance d'échouer.
+
+
+
+/dev/sdi1 doit, bien entendu, être remplacé par l'identifiant de la clé.//
+
+<code>
+unzip FUR1004-latest.zip -d mafur/</code>
+//Cette commande provoque l'extraction proprement dite des fichiers, et l'option -d la dirige vers le dossier "mafur".//
+<note>Attention : si vous avez téléchargé l'archive sur le site de manière graphique, vérifiez bien que le nom "FUR1004-latest.zip" n'ai pas changé, sinon, il vous faudrait le modifier en conséquence.</note>
+
+<note tip>Il est possible qu'il faille débrancher, puis reconnecter la clé pour que cette manipulation fonctionne. 
+
+Dans ce cas, Ubuntu va très certainement monter la clé automatiquement. Il est pourtant **préférable de la monter manuellement dans le dossier "mafur"** créé à cet effet. Le fait qu'elle soit également montée ailleurs est sans conséquence.</note>
+
+<code>
+sudo umount /dev/sdi1</code>
+//Le démontage de la clé est nécessaire pour la réalisation de l'étape suivante (dans sa version "en ligne de commande").//
+
+
+===Rendre votre clé amorçable===
+
+<note warning>ATTENTION : rendre votre clé amorçable revient à réécrire le MBR du disque de destination.
+
+** Si vous l'exécutez sur votre disque dur plutôt que sur la clé, vous pourriez perdre le démarrage actuel de votre disque dur (le boot) !** 
+
+En aucun cas, Framasoft ou Ubuntu-fr ne pourront être tenus responsables des dégâts occasionnés par une mauvaise utilisation ou dysfonctionnement du logiciel.</note>
+
+
+<note tip>En théorie, en utilisant [[:gparted]] il est possible de passer le drapeau (flag) "boot" (amorce) à votre partition (en mode graphique).
+
+Toutefois, j'ai eu en pratique des résultats irréguliers avec cette méthode et parfois la clé ne permet pas le démarrage. C'est pourquoi je préconise ici l'usage de [[http://syslinux.zytor.com/|syslinux]]</note>
+
+
+**Méthode en lignes de commandes :**
+
+==Première méthode==
+Semble refonctionner depuis Ubuntu 14.04 sinon utilisez la méthode alternative.
+
+
+:!: **En veillant à bien utiliser l'identifiant qui correspond à votre clé** (dans mon exemple, ce serait /dev/sdg1)
+<code> sudo syslinux -sf /dev/sdi1 </code>
+
+==Méthode alternative==
+Récupérer l'archive 3.86 de syslinux et l'extraire
+(En effet, la version 4.02 a un problème avec l'option -s. Problème résolu avec Syslinux 4.05)
+<code>
+wget http://www.kernel.org/pub/linux/utils/boot/syslinux/3.xx/syslinux-3.86.tar.bz2</code>
+//Cette commande télécharge l'archive 3.86 et l'enregistre.//
+<code>
+tar -xjf syslinux-3.86.tar.bz2</code>
+//Cette commande extrait l'archive.//
+<code>
+cd syslinux-3.86/linux/</code>
+//On se place au bon endroit.//
+
+<code>
+sudo ./syslinux -sf /dev/sdi1</code>
+//Cette commande est celle qui doit rendre la clé amorçable.
+
+Attention : /dev/sdi1 est, bien sûr, à remplacer par l'identification de votre clé.//
+
+
+
+
+
+====Que faire si cela ne fonctionne pas ?====
+Recommencer. :-P
+
+Plus sérieusement, sauf incompatibilité matérielle, la probabilité que cela ne fonctionne pas à cause d'une manip mal faite est quasi égale à 100%. Donc la meilleure façon de faire pour que la F.U.R. fonctionne, c'est de trouver l'erreur et de la réparer.
+
+
+**Globalement, il s'agit de vérifier à chaque étape si le résultat est celui attendu**. En effet, l'inconvénient des lignes de commandes ci-dessus, c'est qu'on n'est pas forcément averti lorsque la commande a échouée.
+
+* [[:gparted|gParted]] peut vous aider à savoir si :
+
+- votre clé est bien reconnue par votre système (gPArted "voit" les périphériques USB même lorsqu'ils ne sont pas montés),
+
+- votre clé est formatée correctement,
+
+- etc.
+
+* [[nautilus|Nautilus]] ou votre [[gestionnaire_de_fichiers|gestionnaire de fichiers]] favori doit vous permettre de savoir si :
+
+- votre clé est montée et à quel emplacement,
+
+- les fichiers ont bien été enregistrés sur la clé,
+
+-etc.
+
+[[http://forum.framasoft.org/viewtopic.php?f=133&t=32735|Si le problème se produit au niveau du démarrage, voir ce sujet du forum Framasoft.]]
+
+
+
+Et si vraiment cela ne fonctionne toujours pas, il reste toujours la possibilité d'envisager [[http://enventelibre.org/catalog/13|l'achat d'une clé toute prête]] avec deux logos sympas. ;-)
+
+
+===== Liens =====
+  * Source : [[http://framakey.org/Pack/Framakey-Ubuntu#download|Framakey]]
+
+
+----
+
+//Auteur principal : [[:utilisateurs:rmy|RMY]]//

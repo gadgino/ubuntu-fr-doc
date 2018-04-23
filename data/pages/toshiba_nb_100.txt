@@ -1,0 +1,71 @@
+{{tag>netbook matériel toshiba}}
+
+----
+
+======Toshiba NB 100======
+
+
+{{:toshiba-nb100-10x-2.jpg|}}
+
+Premier netbook low-cost proposé par Toshiba, le NB 100 est proposé en deux versions : 
+
+//**Une version avec Ubuntu Netbook Remix 8.04 avec un disque dur de 80 Go et une mémoire de 512 Mo (NB100-10X).
+**//
+
+//**Une autre version avec Windows XP avec un disque dur de 120 Go et une mémoire de 1024 Mo (NB100-111).
+**//
+
+Les deux portables ont un écran 8'9 pouces, une carte Wifi Atheros AR5BXB63, un processeur Intel Atom N270 (1,6 Ghz).
+
+
+Le lecteur de cartes SD fonctionne en natif ainsi que la webcam.
+
+
+====Mise à jour de la version livré par Toshiba (Ubuntu 8.04) ====
+
+Après mise à jour d'Ubuntu, le son ne marche plus. Il faut remettre le bon module :
+
+ 
+<code>$ sudo mv /lib/modules/2.6.24-19-lpia/updates/sound ~/sound</code>
+
+puis
+
+<code>$ sudo depmod -a</code> 
+
+
+puis rebooter.
+
+====Régis le 12/10/2009 : mise à jour en ligne ====
+Le Wifi semble avoir disparu, mais après avoir rebooté c'est tout bon, et pour le son pas de problème.
+
+====Intrepid 8.10====
+
+Cette version s'installe sans problème dessus, il faudra faire une manipulation pour utiliser le wifi.
+
+Pour que votre wifi fonctionne, il faut tout d'abord désactiver vos pilotes propriétaires Atheros et donc redémarrer le système. Ensuite vous devez installer le paquet [[apt://linux-backports-modules-intrepid]] ou en passant par le terminal:
+
+<code>sudo apt-get install linux-backports-modules-intrepid</code>
+
+Enfin redémarrer votre système pour valider l'action et votre wifi fonctionnera. 
+
+
+====Karmic UNR 9.10====
+
+Tous les périphériques fonctionnent correctement.
+
+----
+
+
+//Contributeurs : [[:utilisateurs:zoxmax]],//
+
+Après installation, tout fonctionne correctement.
+Toutefois il faudra prendre soin d'installer les codecs mp3 et divx.
+
+Ubuntu 11.10
+
+
+----
+
+Après installation sur NB100-111, tous les périphériques de pointage externe ont du souci avec les clics. Ce problème existe avec d'autres machines et quel que soit le matériel:
+  *  [[http://forum.ubuntu-fr.org/viewtopic.php?id=358683|voir sur le forum tant que le problème n'est pas résolu]]
+  *  [[http://forum.ubuntu-fr.org/viewtopic.php?id=357399|Voir également un problème similaire sur un Acer]]

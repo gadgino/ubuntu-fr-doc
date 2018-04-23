@@ -1,0 +1,144 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#configurer_une_souris_intellimouse_ou_mouseman" class="toc"> Configurer une souris Intellimouse ou Mouseman </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#etape_1editer_la_configuration_de_x" class="toc"> Etape 1: Editer la configuration de X </a></span></li>
+<li class="level2"><span class="li"><a href="#etape_2installer_imwheel" class="toc"> Etape 2: Installer imwheel: </a></span></li>
+<li class="level2"><span class="li"><a href="#etape_3creer_le_fichier_de_configuration_de_imwheel" class="toc"> Etape 3: Créer le fichier de configuration de imwheel : </a></span></li>
+<li class="level2"><span class="li"><a href="#etape_4_configuration_pour_gdm_gnome_kdm_kde_et_xdm" class="toc"> Etape 4 : Configuration pour GDM (Gnome), KDM (KDE), et XDM: </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+ <em>Comment configurer une souris Microsoft Intellimouse ou une souris Logitech Mouseman (ou toute autre souris disposant de bouton Suivant et Précèdent)</em>
+</p>
+
+<a name="configurer_une_souris_intellimouse_ou_mouseman"></a><h1> Configurer une souris Intellimouse ou Mouseman </h1>
+<div class="level1">
+
+<p>
+ En préliminaire, je vous conseille la lecture de cet article du Wiki francophone : <a href="/applications/nano" class="wikilink1" title="applications:nano" onclick="return svchk()" onkeypress="return svchk()">Nano</a>. Celui ci décrit le fonctionnement de l&rsquo;éditeur de texte nano qui vous permettra de rééditer les fichiers de configuration en mode texte (Au cas ou). Pour mon cas perso, l&rsquo;utilise mc Midnight Commander qui est plus simple pour moi. Vous le trouverez dans Synaptic.
+</p>
+
+</div>
+<!-- SECTION [189-626] -->
+<a name="etape_1editer_la_configuration_de_x"></a><h2> Etape 1: Editer la configuration de X </h2>
+<div class="level2">
+
+<p>
+ Pour débuter, il faut éditer le fichier de configuration de X, ce qui n&rsquo;est pas une mince affaire pour le débutant. Nous allons pour simplifier grandement la tâche lancer un Terminal. Puis tapez :
+</p>
+<pre class="code">
+sudo gedit /etc/X11/xorg.conf
+</pre>
+
+<p>
+Prenez soin de respecter la casse. Ce fichier xorg.conf regroupe les paramètres vitaux de votre interface graphique. Si vous prenez le soin de visiter, vous trouverez les paramètres de votre écran, votre carte graphique, de votre clavier et du sujet qui nous intéresse : la souris.
+</p>
+
+<p>
+Repérez la section Inputdevice et faire ressembler au texte ci dessous.
+</p>
+<pre class="code">
+  Section &quot;InputDevice&quot;
+        Identifier &quot;Configured Mouse&quot;
+        Driver &quot;mouse&quot;
+        Option &quot;CorePointer&quot;
+        Option &quot;Device&quot; &quot;/dev/input/mice&quot;
+        Option &quot;Protocol&quot; &quot;ExplorerPS/2&quot;
+        Option &quot;Buttons&quot; &quot;7&quot;
+        Option &quot;ZAxisMapping&quot; &quot;6 7&quot;
+        Option &quot;Resolution&quot; &quot;100&quot;
+  EndSection
+</pre>
+<ul>
+<li class="level1"><span class="li"> Note 1 : L&rsquo;option de résolution est facultative, elle permet juste une meilleure précision de la souris.</span>
+</li>
+<li class="level1"><span class="li"> Note 2 : Même si vous employez une souris Logitech Mouseman disposant seulement d&rsquo;un bouton de pouce, cela devrait marcher.</span>
+</li>
+</ul>
+
+<p>
+ A ce stade les boutons latéraux fonctionnent avec Firefox ce qui la plupart du temps est suffisant. Maintenant, si vous voulez aller plus loin, il faut lire la suite.
+</p>
+
+</div>
+<!-- SECTION [627-2021] -->
+<a name="etape_2installer_imwheel"></a><h2> Etape 2: Installer imwheel: </h2>
+<div class="level2">
+
+<p>
+ Pour installer imwheel deux solutions Synaptic avec la foction recherche ou le terminal en utilisant la commande apt-get :
+</p>
+<pre class="code">  </pre>
+<pre class="code">
+sudo apt-get install imwheel
+</pre>
+
+</div>
+<!-- SECTION [2022-2235] -->
+<a name="etape_3creer_le_fichier_de_configuration_de_imwheel"></a><h2> Etape 3: Créer le fichier de configuration de imwheel : </h2>
+<div class="level2">
+
+<p>
+ Editez le fichier /etc/X11/imwheel/imwheelrc par la commande :
+</p>
+<pre class="code">
+sudo gedit /etc/X11/imwheel/imwheelrc
+</pre>
+
+<p>
+ et tapez ce texte :
+</p>
+<pre class="code">
+  &quot;.*&quot; None,Up,Alt_L|Left None,Down,Alt_L|Right
+</pre>
+
+<p>
+<strong>Note</strong>: Vous n&rsquo;êtes pas limité aux touches du clavier dans imwheelrc. Par exemple, vous pouvez simuler un clic normal en indiquant une ligne comme &ldquo;None, Thumb2, Button1&rdquo; dans votre imwheelrc. Si vous ajoutez le paramètre de répétition (c-à-d. &ldquo;None, Thumb2, Button1, <strong>2</strong>&ldquo;),  vous pouvez facilement simuler un double clic. 
+</p>
+
+</div>
+<!-- SECTION [2236-2842] -->
+<a name="etape_4_configuration_pour_gdm_gnome_kdm_kde_et_xdm"></a><h2> Etape 4 : Configuration pour GDM (Gnome), KDM (KDE), et XDM: </h2>
+<div class="level2">
+
+<p>
+ Si vous n&rsquo;utilisez pas GDM, KDM, ou XDM, passez cette étape (Si vous ouvrez une session par une interface graphique, vous employez un de ces derniers). Créez un fichier appelé &ldquo;57xmodmap&rdquo; dans /etc/X11/Xsession.d/:
+</p>
+<pre class="code">
+sudo gedit /etc/X11/Xsession.d/57xmodmap
+</pre>
+
+<p>
+et tapez le texte suivant :
+</p>
+<pre class="code">
+#/bin/bash
+xmodmap -e &quot;pointer = 1 2 3 6 7 4 5&quot;
+</pre>
+
+<p>
+Sauvegardez le fichier et changez ses permissions de sorte qu&rsquo;il puisse être exécuté. Dans un terminal tapez :
+</p>
+<pre class="code">
+sudo chmod 777 /etc/X11/Xsession.d/57xmodmap
+</pre>
+
+<p>
+Pour expliquer, le nombre au début indique quand charger le processus xsession. Si vous regardez le contenu de /etc/X11/Xsession.d/ vous noterez que le fichier commençant par 60 est le script d&rsquo;imwheel. Il est automatiquement crée lors de l&rsquo;installation. Il est necessaire que xmodmap démarre avant imwheel, C&rsquo;est pourquoi j&rsquo;ai choisi 57. Maintenant déconnectez vous et reconnectez vous.  Vous devriez maintenant pouvoir utiliser les boutons précedent et suivant  de votre souris.
+</p>
+
+<p>
+Ceci conclut ce tutoriel. Peut-être que cette souris très chère n&rsquo;était pas une perte après tout ! 
+</p>
+
+</div>
+<!-- SECTION [2843-] -->

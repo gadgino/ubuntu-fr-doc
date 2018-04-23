@@ -1,0 +1,176 @@
+{{tag>stopmotion vidéo animation BROUILLON}}
+
+----
+
+====== ToonLoop ======
+
+**Toonloop** est un logiciel sous licence libre ([[http://fr.wikipedia.org/wiki/Licence_publique_g%C3%A9n%C3%A9rale_GNU|GPL v3]]), permettant de créer des animations vidéos avec la technique du "stop motion" (en français : [[http://fr.wikipedia.org/wiki/Animation_en_volume|Animation en volume]]). Ceci par l'intermédiaire de la webcam. Toonloop n'est pas un outil de montage.
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir activé l'accès au [[:depots#depots_officiels|dépôt Universe]].
+  * Disposer d'Ubuntu [[12.04_lts|Precise]] ou [[14.04_lts|Trusty]] pour lequel Toonloop est disponible
+  * Il est préférable de disposer d'une [[webcam|Webcam]] ou éventuellement d'une caméra mini-DV
+
+===== Installation =====
+
+Un paquet existe pour Ubuntu 12.04 et 14.04<note  important>
+attention cependant le paquet de la version 14.04 est partiellement fonctionnel (l'export vidéo créer un fichier vierge de donnée). Cependant vous pouvez utiliser Toonloop pour capturer une suite d'images puis les compiler en une vidéo via un logiciel tiers comme Kdenlive.</note>
+
+<note>Il existe actuellement (31 octobre 09) 2 versions : une écrite en python pour GNU/Linux (et donc pour Ubuntu), et une autre écrite en Java pour Windows(r) et MAC OS (r), via l'utilisation de Processing.</note>
+
+
+**Méthode trop ancienne**
+<del>==== Installation à partir du paquet (automatique) ====
+
+
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt://python-pygame|python-pygame]]**.
+<note important>Il semble que pour les versions antérieures à Ubuntu intrepid (8.10) c'est une version trop ancienne de python-pygame qui est installée.</note>
+
+Puis téléchargez et installez le paquet de la version la plus récente pour ubuntu à cette adresse : [[http://bitbucket.org/aalex/toonloop1/downloads]]
+
+<note>Si cela ne marche pas essayez d'installer la version de python-pygame proposée sur le site : [[http://toonloop.com/?q=download]]</note></del>
+
+
+===== Utilisation =====
+
+Tiré de [[http://toonloop.com/?q=fr/node/13|cette page]] du site officiel.
+
+Si vous avez une **webcam**, branchez la avant de lancer Toonloop!
+
+L'interface de Toonloop ne comporte **pas de bouton**, car il a été créé pour une utilisation en projection vidéo sur scène. L'ensemble des fonctions et commandes du logiciel seront accessible via **le clavier**, le terminal ou éventuellement un joystick.
+
+Après le **lancement** de Toonloop, on se retrouve selon les cas, face à une **fenêtre noire** ou avec une **mire** ou la capture de l'image de la webcam.
+Cela est parfaitement normal, il n'est pas nécessaire de réaliser un rapport de bug à ce niveau! (cela a déjà été rapporté comme bug, voir [[https://bugs.launchpad.net/ubuntu/+source/toonloop/+bug/874475|ici)]]
+
+{{::capture_du_2015-10-24_13_27_55.png?nolink&300|}}
+{{::capture_du_2015-10-24_13_30_32.png?nolink&300|}}
+{{::capture_du_2015-10-24_13_29_01.png?nolink&300|}}
+
+
+
+Toonloop crée un **dossier "toonloop"** dans **//Home/utilisateur/Documents//**
+Avec un projet **"default"** contenant un dossier **"images"** pour les captures réalisées depuis la webcam (ou toute autre source d'image) et un dossier** "movies"** pour les exports vidéos.
+
+
+<note important> Toonloop est assez restrictif sur le choix de webcam, une webcam peut être compatible avec Ubuntu et ne pas fonctionner sous Toonloop. Premièrement, il faut vérifier que la webcam accepte la résolution de 640x480px le format d'image par défaut de Toonloop, sinon il faut lancer Toonloop en terminal avec l'argument décrit [[toonloop#configuration|ici]], exemple pour une webcam supportant seulement 800x600px: //toonloop --width 800 --height 600//. À vérifier, mais de souvenir le format 16/9 peut causer des problèmes!
+Par ailleurs le réglage par défaut appel la webcam diffusant sur le flux /dev/video0, vous pouvez appeler une autre webcam avec les commandes décrites dans la partie [[toonloop#configuration|configuration]] </note>
+
+==== Principales commandes au clavier ====
+
+
+Les **commandes de Toonloop** sont des **raccourcis clavier**, veuillez trouver la liste des principaux raccourcis utiles pour débuter ci-dessous: 
+
+  * **barre espace** = capturer une image 
+
+  * **retour arrière** = supprimer la dernière image 
+
+  * **ctrl + s** = enregistrer le projet (attention chaque enregistrement écrase le précédent, dans le dossier: ~/Documents/toonloop/default/) 
+
+  * **ctrl + e** = exporter la séquence d'images en vidéo (codec: motion jpeg = suite d'images, conteneur: quicktime = .mov, exporté dans le dossier: ~/Documents/toonloop/default/movies) **//Attention ne fonctionne pas sous Trusty//**
+
+  * **r** = reset, nettoie le projet en effaçant toute la séquence d'image
+
+  * **flèche du haut** = accélère le nombre d'images par seconde (de 1 à 60, par défaut à 12 images par seconde)
+
+  * **flèche du bas** = ralenti le nombre d'images par seconde (de 1 à 60, par défaut à 12 images par seconde)
+
+  * **CTRL + q** = quitter Toonloop
+
+==== Raccourcis clavier pour approfondir ====
+
+//pour aller plus loin voici d'autres raccourcis possibles//
+
+  * **flèche de gauche** = se déplacer dans les images de lecture (la nouvelle image se placera après le n° de l'image de lecture, par exemple dans un clip de 12 images, si je souhaite ajouter une image après la n°6, j'active les informations et utilise la touche jusqu'à « Writehead : » indique : « 5 /12 »)
+
+  * **flèche de droite** = se déplacer dans les images de lecture
+
+  * **;** = aller à la première image de lecture
+
+  * **i** = afficher les informations
+
+  * **a** = activer l'intervalometer (capture d'images automatique)
+
+  * **j** = diminuer l'intervalometer-rate (par défaut toutes les 10 secondes)
+
+  * **k** = augmenter l'intervalometer-rate (par défaut toutes les 10 secondes)
+
+  * **p** met en pause la lecture de l'animation.
+
+  * **o** = ognon skin = pelure d'oignon, active la superposition de la dernière image (en transparence) avec la capture en cours
+
+  * **f** = fullscreen = plein écran (Attention cette fonction peut entraîner un bug de toonloop, penser à faire « ctrl + s » avant)
+
+  * **page du haut** = aller au clip précèdent
+
+  * **page du bas** = créer un clip ou aller au clip suivant
+
+  * **ctrl + Chiffre** = aller à clip
+
+  * **x** = cacher la prévisualisation (écran noir)
+
+  * **tabulation** = change la direction de lecture (avant, aléatoire, yoyo, drunk, arrière)
+
+  * **.** = point = changer le mode d'affichage (écran divisé, capture, portrait, lecture...)
+
+  * **F1** = montrer l'aide
+
+  * **b** réalise une capture d'image.
+  
+  * **n** pour sélectionner un nouvel effet.
+
+  * **x** sauvergarde les informations de configuration dans //home/utilisateur/toonloop.json.//
+
+
+//& d'autres raccourcis clavier (dans certain mode) avec les parenthèses, [], …//
+
+Pour avoir la liste des raccourcis, utilisez la [[:commande_shell|commande]] suivante :
+
+  man toonloop
+
+===== Configuration ===== 
+
+Voici quelques réglages utiles en lançant Toonloop dans un terminal pour choisir les sources d'image par exemple :
+
+**toonloop** + les arguments suivants :
+
+  * **-h** = help = aide
+
+  * **-d test** = source d'image de test représentant une mire (la mire est active par défaut, si il n'y a pas de flux webcam sur /dev/video0)
+
+  * **-d /dev/videoX** = choix de la webcam 0, 1, 2, 3... (en remplaçant X  par le n° de Webcam dans /dev/videoX)
+
+  * **-d dv** = capture depuis une camera dv branchée en firewire
+
+  * **-i –intervalometer-rate 7** = avec intervalometer réglé à 7 sec
+
+  * **-H /home/user/dossier (ou ~/dossier)** = dossier où sont sauvegardées les images, projets et vidéos
+   
+  * **--height XX0** = hauteur de la capture, remplacer XX par des chiffres par exemple 600, la valeur doit correspondre avec une résolution possible de la webcam, à utiliser en complément avec la commande suivante.
+
+  * **--width XX0 ** = largeur de la capture, remplacer XX par des chiffres par exemple 800,  doit être compatible avec une résolution de la webcam, à utiliser en complément avec la commande précédente.
+
+
+
+//à compléter...//
+
+Pour avoir la liste des commandes, utilisez la [[:commande_shell|commande]] suivante :
+
+  toonloop -h
+  
+===== Bug export vidéo =====
+
+pour contourner le bug d'export vidéo du projet, si vous utilisez Ubuntu Trusty, vous pouvez utiliser les images capturées dans le dossier //~Documents/toonloop/default/images// en créant une séquence animée avec [[kdenlive|Kdenlive]] ou [[luciole|Luciole]] par exemple...
+
+===== Liens =====
+
+
+  * **(fr, en)** [[http://toonloop.com|Site officiel de Toonloop]]
+  * **(fr)** [[http://fr.wikipedia.org/wiki/Animation_en_volume|Animation en volume ("stop motion") sur Wikipédia]]
+  * **(en)** [[http://en.wikipedia.org/wiki/Toonloop|Toonloop sur Wikipédia]]
+
+----
+
+//Contributeurs principaux : [[utilisateurs:martin3000|marting]].//

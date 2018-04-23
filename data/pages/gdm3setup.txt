@@ -1,0 +1,50 @@
+{{tag>Trusty fenêtre_de_connexion personnalisation}}
+
+----
+
+====== GDM3Setup ======
+[[:Gnome-shell|Gnome-shell 3.6]] utilise le gestionnaire [[:GDM|GDM3.6]] (GNOME Display Manager) pour la gestion de l’ouverture de session des utilisateurs.
+**GDM3Setup** est une application graphique qui permet de personnaliser GDM3 et a mis à jour récemment son application pour la rendre compatible et stable avec GDM3.6.
+
+GDM3Setup est une application qui:
+  * Permet de changer le thème de GDM3 Gnome-Shell/GTK,
+  * Permet de changer le thème: les icônes, le fond d’écran, le curseur,
+  * Permet l'activation/Désactivation login automatique,  
+  *  Permet de changer le logo, voir la date, l’heure avec les secondes, la police, désactiver la liste des utilisateurs, désactiver le bouton redémarrage.
+ 
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir [[:tutoriel:comment_installer_un_paquet|installé le paquet]] **[[:git]]**.
+
+=====Installation=====
+
+Téléchargez GDM3Setup avec [[:git]] en entrant la commande suivante dans un [[:terminal]]:
+<code>git clone https://github.com/Nano77/gdm3setup.git</code>
+Déplacez vous dans le dosseir gdm3setup : <code>cd gdm3setup</code>
+Installez-le avec la commande :<code>sudo ./install</code>
+
+===== Utilisation =====
+ 
+Lancez l'application via le [[:terminal]] (toutes versions d'Ubuntu) avec la [[:commande_shell|commande]] suivante :
+<code>sudo gdm3setup.py</code>
+
+la fenêtre de GDM3setup s’ouvre:
+
+{{:applications:gdm3setup_trusty.png?300}}
+
+Le programme est assez simple de compréhension pour personnaliser la fenêtre d’ouverture de session.
+Une fois les options choisies, il faut fermer la session pour la prise en compte.
+À savoir que l’image choisi dans Arrière-plan est l’image entre la fenêtre de connexion et l’ouverture de session.
+
+Le fond de l’écran d’ouverture de session reste gris, couleur par défaut de Gnome-shell 3.6.
+Pour changer le fond d’écran, il faut renommer une image en noise-texture.png puis placer cette image dans **/usr/share/gnome-shell/theme/** avec les [[:sudo|droits d'administration]]
+
+===== Voir aussi =====
+ * [[https://github.com/Nano77/gdm3setup|GitHub]].
+-------------
+
+Contributeurs : [[:utilisateurs:l_africain|L'Africain]]
+
+

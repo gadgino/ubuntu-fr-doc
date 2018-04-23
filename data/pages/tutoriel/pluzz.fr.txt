@@ -1,0 +1,289 @@
+{{tag>Trusty télévision vidéo À_RECYCLER}}
+----
+
+====== Comment utiliser le site pluzz.fr avec Ubuntu ? ======
+
+<note tip>Ajout du 29 mars 2015 sous Trusty
+Toute cette page semble obsolète.
+Si vous rencontrez des problèmes pour lire les vidéos pluzz (ou autres d'ailleurs) avec flash installé par pipelight, il faut lancer en console l'une des commandes suivantes :
+  PIPELIGHT_WINDOWLESSMODE=2 firefox
+ou pour une ouverture en fenêtre indépendante
+  PIPELIGHT_EMBED=0 firefox
+La première commande n'est pas à utiliser en permanence car elle désactiverait certaines fonctions.
+Voir [[https://launchpad.net/pipelight/+announcement/12364]]
+
+Une autre solution qui fonctionne (pour l'instant 21 juin 2015) serait de se rabattre sur le youtube-dl (validée sur trusty) qui ne se limite pas aux flux éponymes mais __fonctionne bien avec ceux de pluzz__. Voir [[http://youtube-dl.org/]]
+
+</note>
+
+<note>Le contenu de cette page semble obsolète - les scripts ne fonctionnent plus - et devrait sans doute être mis à jour avec un lien vers le logiciel tvdownloader : http://code.google.com/p/tvdownloader/</note>
+
+<note>Le site pluzz.fr utilise maintenant Flash pour la grande majorité de ses vidéos. Seules  quelques vidéos nécessitent encore d'utiliser Silverlight, ainsi que les émissions en direct  </note>
+
+<note>**Si le lecteur Flash de Pluzz refuse de s'ouvrir dans Firefox**, voici une petit astuce.
+----
+__Au préalable il va falloir installer un nouveau module dans Firefox__.
+
+Se rendre sur la page [[https://addons.mozilla.org/fr/firefox/addon/user-agent-switcher/?src=search|User agent switcher]] et cliquer sur le bouton « + Ajouter à Firefox » pour installer le module dans Firefox, puis redémarrer Firefox comme proposé à l'issue de l'installation.
+
+Au redémarrage, Magie! Une icône en forme de globe est apparue dans la barre d'outils.
+----
+__L'utilisation est simple__.
+
+On clique sur l'icône en forme de globe et  on sélectionne "iPhone 3.0". On sera dorénavant identifié comme un iPhone...
+
+Rendez-vous sur [[http://www.pluzz.fr/replay|Pluzz]].
+
+Si l'invite suivante apparait: "Souhaitez-vous accéder à l'application mobile Pluzz de France Télévisions ?", cliquer sur "Annuler". La page normale de Pluzz va maintenant s'afficher. Il ne reste plus qu'à choisir la vidéo que l'on veut visionner. Le lecteur Flash va se lancer correctement, lisant la vidéo choisie.</note>
+
+Ce tutoriel décrit les logiciels à installer et la démarche à suivre pour utiliser le site de catchup TV [[http://pluzz.fr|pluzz.fr]]. Ce site, permet de revoir une bonne partie des émissions de France Télévisions après leur parution, et ce pendant 7 jours. pluzz.fr nécessite une version de [[:pipelight|Silverlight en version Linux]] qui n'est pas encore supporté par Ubuntu et il est nécessaire de faire quelques manipulations pour pouvoir l'utiliser.
+
+Pour commencer, aller faire un tour sur pluzz.fr pour faire un essai. Selon ce que vous avez installé sur votre ordinateur, il peut fonctionner ou non. Si ça marche, mais que le simple visionnage ne vous suffit pas, vous pouvez lire ce tutoriel pour savoir comment enregistrer une émission. Si ça ne marche pas, vous savez ce qu'il vous reste à faire.
+
+Comme bien souvent, plusieurs solutions sont envisageables :
+  * [[#Première solution|la première]] qui utilise le navigateur Web et passe par l'installation du plugin moonlight dans une version plus récente que celle supporté par Ubuntu. L'affichage en plein écran comporte des défauts et l'enregistrement n'est pas possible.
+  * [[#Deuxième solution|la deuxième]] (la plus complète) permet d'utiliser pluzz.fr indépendamment d'un [[:navigateur|navigateur Web]]. Deux [[tutoriel:script_shell|scripts shell]] donnent la possibilité d'utiliser pluzz graphiquement et/ou à l'aide d'une [[:console|console]]. Grace à [[:vlc|VLC]] il est possible d'avancer, reculer, mettre en pause et enregistrer.
+  *  [[#Troisième solution|la troisième]] qui utilise le navigateur Web et passe par l'installation d'un plugin. L'affichage en plein écran comporte des défauts et il n'est pas possible d'avancer ou reculer.
+
+
+===== Première solution =====
+Cette solution consiste à installer l'extension moonlight directement téléchargeable sur le site du projet. La méthode est décrite en détails [[:moonlight-plugin-core#Installation sous forme d'extension|ici]].
+
+===== Deuxième solution =====
+
+<note>Cette solution semble ne plus fonctionner pour les vidéos utilisant Silverlight, sans doute à cause de l'utilisation des DRM. \\
+Chez moi, VLC plante à la lecture du flux mms. J'ai testé avec Totem qui m'indique que le flux est chiffré, et donc qu'il ne peut pas le lire
+</note>
+
+==== Pré-requis ====
+
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir [[:tutoriel:comment_installer_un_paquet|installé les paquets]] **[[apt>vlc,zenity|vlc et zenity]]**.
+  * Pour les rares émissions de France Télévisions au format mp4, vous devez aussi [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>flvstreamer|flvstreamer]]**.
+
+==== Script pour l'utilisation en console ====
+
+Le premier script de cette solution s'inspire fortement du billet [[http://blog.rom1v.com/2010/07/pluzz-fr-france-televisions-lance-son-service-de-tv-de-rattrapage-non-lisible/|« Pluzz.fr : France Televisions lance son service de TV de rattrapage non lisible »]] de Romain Vimont (®om) à laquelle une toute petite modification a été ajoutée (exit 0 à la fin). Ce script peut être directement utilisé en console, comme ®om le décrit dans son billet. Voilà son contenu que vous devez sauvegarder dans un fichier nommé pluzz (important pour la suite).
+
+<code bash pluzz>
+#!/bin/bash
+# Script pour utiliser pluzz.fr
+# v0.3 (14 janvier 2011)
+
+if [ $# != 2 ]
+then
+    printf "Syntaxe: $0 [url|play|record] http://www.pluzz.fr/...\n" >&2
+    exit 1
+fi
+command="$1"
+url="$2"
+
+if [ "$command" != 'url' -a "$command" != 'play' -a "$command" != 'record' ]
+then
+    printf "Command must be 'url', 'play' or 'record', not '$command'\n" >&2
+    exit 2
+fi
+
+video_page_url=$(wget -qO- "$url" | grep -o 'http://info.francetelevisions.fr/?id-video=[^"]\+')
+stream_url_part2=$(wget -qO- "$video_page_url" | grep urls-url-video | sed 's/.*content="\(.*\)".*/\1/')
+ext=${stream_url_part2##*.}
+
+if [ "$ext" = 'wmv' ]
+then
+    stream_url_part1='mms://a988.v101995.c10199.e.vm.akamaistream.net/7/988/10199/3f97c7e6/ftvigrp.download.akamai.com/10199/cappuccino/production/publication'
+elif [ "$ext" = 'mp4' ]
+then
+    stream_url_part1='rtmp://videozones-rtmp.francetv.fr/ondemand/mp4:cappuccino/publication'
+else
+    printf "Extension not managed : '$ext'\n" >&2
+    exit 3
+fi
+
+stream_url="$stream_url_part1/$stream_url_part2"
+
+if [ "$command" = "url" ]
+then
+    printf "$stream_url\n"
+elif [ "$command" = "play" ]
+then
+    if [ "$ext" = 'wmv' ]
+    then
+        vlc "$stream_url"
+    else
+        flvstreamer -r "$stream_url" | vlc -
+    fi
+elif [ "$command" = "record" ]
+then
+    output_file=${stream_url##*/}
+    printf "Recording to $output_file...\n"
+    if [ "$ext" = 'wmv' ]
+    then
+        vlc "$stream_url" ":sout=#std{access=file,mux=asf,dst=$output_file}"
+    else
+        flvstreamer -r "$stream_url" -o "$output_file"
+    fi
+fi
+
+exit 0
+</code>
+
+ [[:permissions#modifier_les_permissions|Changer les permissions de ce fichier]] pour le rendre exécutable.
+
+==== Script pour l'interface graphique ====
+
+Le script qui suit utilise [[:zenity|zenity]] pour fournir une interface graphique au script précédent. Voilà son contenu que vous devez sauvegarder dans un fichier nommé pluzz_gui (exemple pris pour la suite).
+
+<code bash pluzz_gui>
+#!/bin/bash
+# Script pour utiliser pluzz.fr - Interface graphique du script pluzz à l'aide de zenity
+# v0.3 (21 avril 2011)
+
+
+#récupération du nom du dossier où se trouve le fichier pluzz_gui
+pluzz_gui_dir=$(dirname $0)
+#choix du délai de fermeture automatique des boites de dialogues zenity en cas d'erreur
+delai=7
+
+#recherche du script pluzz dans le PATH et dans le dossier de pluzz_gui et affectation de son chemin à la variable pluzz_cmd
+if [ $(ls $pluzz_gui_dir | grep -ixc pluzz) = 1 ]
+then
+	echo "Une version de pluzz a été trouvée dans le dossier de pluzz_gui et va être utilisée."
+	pluzz_cmd="${pluzz_gui_dir}/pluzz"
+elif [ "$(which pluzz)" != "" ]
+then
+	echo "Une version de pluzz a été trouvée sur votre ordinateur et va être utilisée."
+	pluzz_cmd="pluzz"
+else
+	message="Aucune version de pluzz n'a été trouvée sur votre ordinateur.\nPluzz_gui va être fermé."
+	echo -e $message >&2
+	zenity --info --text="$message" --timeout=$delai --title="Fermeture de pluzz_gui"
+	exit 127
+fi
+
+#si le script pluzz trouvé précédemment n'est pas exécutable …
+if [ ! -x $pluzz_cmd ]
+then
+	#… alors on regarde si on en est le propriétaire …
+	if [ $(ls -Gl $pluzz_cmd | grep -c $USER) = 1 ]
+	then
+		#… et on le rend exécutable
+		chmod +x $pluzz_cmd
+		echo "Le fichier $pluzz_cmd a été rendu exécutable."
+	else
+		#… ou on informe l'utilisateur de ce problème
+		message="La version de pluzz trouvée sur votre ordinateur n'est pas exécutable et vous n'êtes pas propriétaire du fichier en question.\nLe fichier concerné est $pluzz_cmd. Rendez-le exécutable puis relancez pluzz_gui.\nPluzz_gui va être fermé."
+		echo -e $message >&2
+		zenity --info --text="$message" --timeout=$delai --title="Fermeture de pluzz_gui"
+		exit 5
+	fi
+fi
+
+#récupération de l'url de l'émission dans la variable url
+url=$(zenity --entry --text="Indiquez l'URL de la page de l'émission" --title="Saisissez l'URL")
+
+#quelques vérifications sur l'url saisi précédemment
+if [ "$url" = "" ]
+then
+	message="Vous n'avez pas entré d'URL à la fenêtre précédente.\nPluzz_gui va être fermé."
+	echo -e $message >&2
+	zenity --info --text="$message" --timeout=$delai --title="Fermeture de pluzz_gui"
+	exit 2
+else
+	$pluzz_cmd url $url 2> /dev/null 1> /dev/null
+	test_url=$?
+	if [ $test_url = 3 ]
+	then
+		message="L'URL saisie à la fenêtre précédente n'est pas utilisable par pluzz, soit parce que l'URL a mal été saisi, soit parce que pluzz ne gère pas le format du flux.\nPluzz_gui va être fermé."
+		echo -e $message >&2
+		zenity --info --text="$message" --timeout=$delai --title="Fermeture de pluzz_gui"
+		exit 3
+	elif [ $test_url != 0 ]
+	then
+		message="Une erreur inattendue s'est produite.\nPluzz_gui va être fermé."
+		echo -e $message >&2
+		zenity --info --text="$message" --timeout=$delai --title="Fermeture de pluzz_gui"
+		exit 4
+	fi
+fi
+
+#récupération de la commande qui va être utilisée avec pluzz
+command=$(zenity --list --text="Choissisez ce que vous voulez faire :" --title="Que voulez-vous faire ?" --column="command" --column="action" play "Visionner l'émission" record "Enregistrer l'émission" url "Afficher l'URL du flux" --hide-header --hide-column=1)
+
+#quelques vérifications sur la commande choisie précédemment et lancement de pluzz avec les paramètres appropriés
+if [ "$command" = "" ]
+then
+	message="Vous n'avez rien sélectionné à la fenêtre précédente.\nPluzz_gui va être fermé."
+	echo -e $message >&2
+	zenity --info --text="$message" --timeout=$delai --title="Fermeture de pluzz_gui"
+	exit 2
+elif [ "$command" = "url" ]
+then
+	message_url=$($pluzz_cmd $command $url)
+	message=$message_url
+	echo "L'URL du flux est :"
+	echo -e $message
+	zenity --info --text="$message" --title="URL du flux"
+	exit 0
+elif [ "$command" = "record" ]
+then
+	message_intro="Le flux va être enregistré dans le dossier :\n $PWD\nIl sera nommé :\n"
+	message_path=$($pluzz_cmd url $url)
+	message_path=${message_path##*/}
+	message=$message_intro$message_path
+	echo -e $message
+	zenity --info --text="$message" --title="Nom d'enregistrement"
+fi
+
+$pluzz_cmd $command $url
+
+exit 0
+</code>
+
+Ce script fait appel au script précédent, et pour cela, soit ils doivent être tous les deux dans le même dossier, soit pluzz doit être dans votre PATH (plus d'info sur le PATH [[script_shell#Exécuter un script - Modifier le PATH|ici]]). Si vous placez ce fichier dans un dossier où vous n'avez pas [[:permissions#les_3_types_de_permissions|la permission d'écrire]] (comme /usr/local/bin), vous ne pourrez pas enregistrer en lançant le programme à l'aide du double-clic (en ligne de commande ça passera). Enregistrez le donc quelque part dans votre dossier personnel. N'oubliez pas de [[:permissions#modifier_les_permissions|changer les permissions de ce fichier]] pour le rendre exécutable.
+
+
+==== Utilisation ====
+
+Maintenant que les scripts pluzz et pluzz_gui sont sauvegardés et exécutables, vous pouvez utiliser pluzz.fr en double-cliquant sur pluzz_gui. Choisissez //Lancer// dans la fenêtre qui s'ouvre.
+  - La première étape est de fournir l'URL de la page de l'émission. Par exemple: http://www.pluzz.fr/plus-belle-la-vie.html
+  - Choisissez ensuite si vous voulez visionner ou enregistrer l'émission en question avec [[:vlc|VLC]] (ou flvstreamer si l'émission est au format MP4) ou afficher l'URL du flux pour l'utiliser dans votre [[:lecture_et_encodage_de_fichiers_videos#la_lecture_de_fichier_video|lecteur vidéo]] préféré
+  - La fenêtre suivante devrait correspondre à ce que vous attendiez : URL, visionnage ou enregistrement
+
+
+Petite astuce : avec VLC, vous pouvez avancer, reculer, mettre en pause, mais aussi enregistrer. Pratique !
+
+
+===== Troisième solution =====
+
+Le seul pré-requis de cette solution est d'avoir une connexion Internet configurée et activée.Vous devez simplement [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>gecko-mediaplayer|gecko-mediaplayer]]**. Vu la description de ce paquet, cette solution doit fonctionner pour [[:firefox|Firefox]], [[:epiphany|Epiphany]], [[:chromium-browser|Chromium]] et [[:google_chrome|Google Chrome]].
+
+Redémarrez ensuite votre navigateur. 
+
+==== Utilisation ====
+Lorsque vous allez sur une page de pluzz.fr comprenant une vidéo, cliquez sur //Ne pas utiliser Silverlight//. Par la suite, les vidéos devraient s'afficher normalement directement.
+
+Cette solution fonctionne correctement tant que l'on n'est pas en plein écran. De plus il n'est pas possible d'avancer ou reculer. On peut par contre mettre en pause.
+
+Petite astuce : en cliquant-droit sur la vidéo, vous pouvez copier l'URL du flux en sélectionnant //Copier l'emplacement//. Vous pouvez ensuite utiliser cet URL avec votre [[:lecture_et_encodage_de_fichiers_videos#la_lecture_de_fichier_video|lecteur vidéo]] préféré.
+
+
+<note>Chez moi le lien// "ne pas utiliser Silverlight"// ne s'affiche pas. J'ai de suite un message indiquant qu'il faut installer Moonlight\\
+La solution serait d'utiliser le script [[:greasemonkey|Greasemonkey]] [[http://userscripts.org/scripts/show/81167|Pluzz sans Silverlight]]\\
+Toutefois certaines vidéos ne peuvent pas être lues, sans doute toujours à cause d'un problème de DRM
+</note>
+
+
+
+===== Voir aussi =====
+
+  * **(fr)** [[http://blog.rom1v.com/2010/07/pluzz-fr-france-televisions-lance-son-service-de-tv-de-rattrapage-non-lisible/|« Pluzz.fr : France Televisions lance son service de TV de rattrapage non lisible »]]
+  * **(fr)** [[http://userscripts.org/scripts/show/81167|script greasemonkey]] écrit par morphing
+  * **(fr)** 3 fils de discussion sur le forum ubuntu-fr : [[http://forum.ubuntu-fr.org/viewtopic.php?id=406447|fil 1]], [[http://forum.ubuntu-fr.org/viewtopic.php?id=406555|fil 2]], [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3939136|fil 3]]
+
+
+----
+//Contributeurs principaux : [[:utilisateurs:thibault.lemaitre]]  [[:utilisateurs:olivier_v]].
+
+Contributeurs: Chacmool//
+
+//Basé sur [[http://blog.rom1v.com/2010/07/pluzz-fr-france-televisions-lance-son-service-de-tv-de-rattrapage-non-lisible/|« Pluzz.fr : France Televisions lance son service de TV de rattrapage non lisible »]] par Romain Vimont (®om)./

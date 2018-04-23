@@ -1,0 +1,124 @@
+{{tag>Quantal portable matériel asus BROUILLON}}
+
+----
+
+======  ASUS G55V ======
+
+===== En un coup d’œil =====
+Le tableau suivant récapitule la prise en charge du matériel de portable par les différentes versions d'Ubuntu.
+Il utilise les notations suivantes :
+  * {{:icons:ok_32.png|OK 32 bits}} **Fonctionne immédiatement en 32 bits.**
+  * {{:icons:ok_64.png|OK 64 bits}} **Fonctionne immédiatement en 64 bits.**
+  * {{:icons:ok_32_64.png|32 et 64 bits}} **Fonctionne immédiatement en 32 et 64 bits.**
+  * {{wiki:modeles:laptop_work.png|Fonctionne après config}} **Fonctionne après quelques manipulations**
+  * {{wiki:modeles:laptop_notok.png|Ne fonctionne pas}} **Ne fonctionne pas**
+  * {{:laptop_help.png||Pas testé}} **Pas d'informations disponibles**
+  * {{:icons:edit-clear.png?32|Information obsolète}} **Information de support trop ancienne**, si possible mettez la à jour.
+
+^ Version ^ Installation ^ Carte graphique ^ Son ^ Wifi ^ Bluetooth ^ Webcam ^ Touchpad ^ Raccourcis multimédia ^ Autres ^
+|  [[:12.10]]  |  {{:icons:ok_64.png|OK 64 bits}}  |  {{wiki:modeles:laptop_work.png|Fonctionne après config}}  |  {{:icons:ok_64.png|OK 64 bits}}  |  {{:icons:ok_64.png|OK 64 bits}}  |  {{:laptop_help.png||Pas testé}}  |  {{:laptop_help.png||Pas testé}}  |  {{:icons:ok_64.png|OK 64 bits}}  |  {{wiki:modeles:laptop_work.png|Fonctionne après config}}  |  {{:laptop_help.png||Pas testé}}  |
+|  [[:12.04]]  |  -  |  -  |  -  |  -  |  -  |  -  |  -  |  -  |  -  |
+|  [[:11.10]]  |  -  |  -  |  -  |  -  |  -  |  -  |  -  |  -  |  -  |
+|  [[:11.04]]  |  -  |  -  |  -  |  -  |  -  |  -  |  -  |  -  |  -  |
+
+**Utilisateurs du Wiki possédant cet ordinateur, fonctionnel :**
+  * **[[:utilisateurs:shyalan]]** : [[:12.10]]
+
+**Cet ordinateur portable n'est à priori pas [[:pc_tatoué|tatoué]].**
+
+===== Présentation =====
+
+Caractéristiques techniques :
+
+  *  **Processeur** : Intel Core i7-3630QM (2,4 GHz / 3,4 GHz Turbo)
+  *  **Mémoire** : 8192 Mo DDR3 1333 MHz 
+  *  **Chipset graphique** : Nvidia Geforce GTX 660M 2 Go GDDR5 dédié (pas de OPTIMUS)
+  *  **Audio** : 2 hauts parleurs intégrés et caisson de basses, Microphone intégré 
+  * **Disque dur** : 750 Go (7200 tr/min)
+  *  **Écran** : 	15.6’’ Full HD (1920×1080, mat)
+  *  **Réseau** : Ethernet + Sans Wifi N + Bluetooth
+  *  **Webcam** : HD
+  *  **Interface** : 1 x entrée jack audio, 1 x sortie jack audio/casque, 1 x port VGA, 4 x ports USB 3.0, , 1 x RJ45 LAN, 1 x port HDMI (1.4), SD/MMC/MS, DVD+/-RW DL
+  *  **Batterie** : Li-Ion 8 cellules 
+
+===== Installation =====
+Installation Ubuntu en [[:Uefi|UEFI]] dual boot Windows 8 pré installé.
+
+(Merci à [[:utilisateurs:malbo]] et [[:utilisateurs:yannubuntu]] pour leur excellent travail)
+
+==== Sauvegarder windows au cas où ...====
+Faire une image de son PC avant toute installation est vivement conseillé en suivant ce [[http://nobru54.blogspot.fr/2012/02/tutoriel-cloner-un-disque-dur-laide-du.html | tutoriel]] pour les débutants ou  [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3892422#p3892422|celui-ci sur le forum]]. Ces deux tutoriels font appel à l'outil [[:clonezilla]].
+
+==== Installer Ubuntu 12.10 avec la version internationale sécurisé qui contient le système de boot en UEFI ====
+  * gravez un CD ou un liveUSB de [[linux_secure_remix|Linux Secure]] 64bits
+  * lire la page **[[:uefi]]** pour bien tout comprendre
+
+<note tip>Pour démarrer le CD gravé de la version adéquate d'Ubuntu, démarrez votre PC en appuyant sur **ESC** dès le logo d'Asus Gamer. Une petite fenêtre s'ouvre alors et vous propose UEFI : "votre nom de lecteur cd"</note>
+
+Faites votre installation comme d'habitude en suivant l'installeur.
+
+Si après installation Windows 8 ne démarre plus ou que votre session quitte inopinément, reportez-vous à la section [[#Problèmes]].
+
+
+===== Les touches de fonctions Fn =====
+
+==== Rétroéclairage clavier ====
+
+  * Sous [[:Gnome-Shell]] ou [[:Unity]], le rétroéclairage du clavier fonctionne avec les touches Fn
+  * Sous [[:KDE]] : les touches Fn ne semble pas fonctionner directement. FIXME Si vous savez comme faire merci de l'indiquer.
+
+==== Luminosité écran ====
+Ne fonctionne pas, avec ou sans le pilote propriétaire. FIXME Si vous avez une solution merci de l'ajouter.
+
+==== Wifi ====
+Fonctionne sans intervention
+
+==== Son ====
+
+  * le réglage du son se fait bien sous [[:Gnome-Shell]] ou [[:Unity]]
+  * conflit sous KDE probablement avec phonon.
+
+==== Pavé tactile ====
+Fonctionne sans intervention. Son activation/désactivation ne pose pas de problème.
+
+===== Mise en veille  =====
+La veille ne fonctionne pas avec le pilote graphique "nouveau" activé mais fonctionne très bien avec le pilote propriétaire nvidia. (pour une fois !)
+
+===== Problèmes =====
+
+==== Windows 8 ne se lance plus ====
+Dans **[[:grub-pc|GRUB]]** est affiché **win8 loader** mais vous obtenez un message d'erreur. PAS DE PANIQUE ... Rendez-vous sur cette [[:boot-repair|page]] pour installer Boot-Repair en retournant sous Ubuntu installé.
+
+Lancer boot-repair et appliquer les réparations recommandées. Et hop vous découvrirez que votre menu GRUB vous présente UEFI Windows 8 ! Magique ! Merci à YannUbuntu !
+
+==== Sortie de session inopinée ====
+
+Si vous avez fréquemment des sorties de session non volontaire, il s'agit probablement d'un problème avec le pilote de la carte graphique [[:nvidia]].\\
+Le problème peut se résoudre si vous:
+  - désactivez le pilote "nouveau" installé par défaut:\\ [[:tutoriel:comment_modifier_un_fichier|créez ou modifiez avec les droits d'administration]] le fichier **/etc/modprobe.d/blacklist-nouveau.conf** pour y ajouter les lignes suivantes: <file>blacklist nouveau
+options nouveau modeset=0</file>
+  - installez le pilote propriétaire 304.43 
+
+{{:asus_G55V_quantal_00.png?750}}
+
+==== Screen Tearing sur les vidéos ====
+
+Si lorsque vous regardez vos films et que dans certaines scènes d'actions (travelling de la caméra), vous obtenez des lignes horizontales qui gâchent tout, voici une solution en ajoutant des données d'environnement. 
+<note important>
+Bien évidemment, ce qui suit s'applique dans le cas où vous avez installé le pilote propriétaire Nvidia. Peut-être que cela fonctionne aussi avec "Nouveau" mais pas testé.
+</note>
+  - lisez ceci si vous comprenez mieux que moi : http://askubuntu.com/questions/125245/how-do-i-stop-video-tearing-nvidia-prop-driver-non-compositing-window-manager
+  - sinon copiez ceci dans /etc/environment : 
+<file>
+CLUTTER_PAINT=disable-clipped-redraws:disable-culling
+CLUTTER_VBLANK=True
+__GL_SYNC_DISPLAY_DEVICE="LVDS-0"
+</file>
+
+===== Voir aussi =====
+
+  * (fr) [[:uefi|installation UEFI]] 
+  * (fr) [[:boot-repair| boot-repair]] 
+
+----
+//Contributeurs : [[:utilisateurs:shyalan]]//

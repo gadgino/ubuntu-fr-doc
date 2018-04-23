@@ -1,0 +1,396 @@
+{{tag>téléphonie matériel programmation android}}
+----
+
+{{:android_robot.png?65 |Logo Androïd}} **Android** est un système d'exploitation pour appareils mobiles tactiles basé sur le noyau Linux. Il a été développé par Google et [[http://fr.wikipedia.org/wiki/Open_Handset_Alliance|l'Open Handset Alliance]].
+
+Tout comme la plupart des systèmes pour appareils mobiles (iOS, Symbian, PalmOS...), Android permet l'installation d'applications (gratuites aussi bien que payantes) via [[https://play.google.com/store|Google Play]] ou via des market alternatifs comme par exemple [[http://f-droid.org/|F-droid]] qui comporte uniquement des applications libres.
+
+Le système est sous licence [[http://fr.wikipedia.org/wiki/Licence_Apache|Apache]] version 2, certains logiciels et surcouches graphiques sont open source et gratuits, d'autres en partie voire entièrement propriétaires ( [[http://fr.wikipedia.org/wiki/Google_Apps|Google apps]], [[http://fr.wikipedia.org/wiki/HTC_Sense|HTC Sense]], [[http://en.wikipedia.org/wiki/Motoblur|Motoblur]]...)
+
+Cette page n'a pas pour but de parler uniquement d'Android mais de tout ce qui est lié à Android **et** Ubuntu.
+
+
+===== Usages Android / Ubuntu =====
+
+==== Partages de tout type de fichiers ====
+Si vous voulez copier / déplacer des fichiers d'Ubuntu vers Android ou vice versa, voici les différentes méthodes :
+  * **Avec connexion filaire**
+    * [[android#UMS (Universal Mass Storage)|En mode UMS]] : l'appareil est utilisable comme une clef USB
+    * [[android#MTP / PTP|En mode MTP / PTP]] : l'appareil est utilisable comme un appareil photo
+    * [[android#ADB|En mode ADB]] : l'appareil est en mode développeur (utilisation avancée)
+  * **Avec connexion sans fil :**
+    * [[android#FTP|En mode FTP]]
+    * Avec [[android#FTP|Dropbox]]
+    * Avec [[google_drive|Google Drive]]
+    * Avec [[android#Pushbullet|Pushbullet]]
+    * En envoyant des fichiers en bluetooth
+    * Avec [[android#AirDroid|AirDroid]]
+    * Avec [[http://www.msec.it/blog/?page_id=11|Dukto]]
+    * [[android#ADB|Avec QtAdb]] : interface graphique pour ADB : l'appareil est en mode développeur (utilisation avancée)
+
+Il peut être également intéressant de connaître l'[[https://sites.google.com/site/wikismartphone/utilisations/l-arborescence-de-mon-appareil-android|arborescence sous Android]]. 
+
+
+==== Partages d'images ====
+Si vous voulez partager des images, vous pouvez les partager avec les méthodes du chapitre précédent.
+En plus, vous pouvez les partager :
+  * Via Google +
+  * Via Google photo
+
+Sur Android, les photos se trouvent dans **/DCIM/Camera**
+
+==== Partages de musiques ====
+En plus des méthodes décrites au chapitre **Partages de tout type de fichiers**, vous pouvez :
+  * Utiliser [[google_music_manager|Google Music]]
+  * Avec les connexions [[android#Upnp / dnla|Upnp / DNLA]]
+
+Sur Android, vous trouverez plusieurs endroits pour stocker des sons :
+  * **/Alarms** : sonneries du réveil
+  * **/Music** : musiques
+  * **/Notifications** : notifications
+  * **/Ringtones** : sonneries téléphoniques
+
+==== Gestions des notifications ====
+Il est possible de recevoir les notifications de son téléphone sur Ubuntu via :
+  * Android Desktop Notifications
+  * [[android#Pushbullet|Pushbullet]]
+  * [[android#Airdroid|Airdroid]]
+  * [[kdeconnect-kde|KDE Connect]]
+  * [[http://mightytext.net|MightyText]]
+
+
+==== Partages d'écran ====
+Vous pouvez voir et/ou controler Ubuntu via Android ou le contraire via :
+  * VNC (si Android est rooté)
+  * Google Bureau à distance
+  * [[teamviewer|TeamViewer]]
+
+
+===VNC==
+ Pour accéder à Ubuntu depuis Android, si vous avez un serveur SSH sur Ubuntu et un écran connecté à l'ordinateur, vous pouvez lancer un serveur VNC en ligne de commande (x11vnc) sans devoir être devant votre ordinateur. Pour cela, tapez 
+<code>sudo dpkg-reconfigure x11-common</code>
+
+ Choisissez "Nobody" 
+<note warning>
+Risque de sécurité : n'importe qui ayant un accès SSH à votre machine peut agir sur vos programmes console et/ou graphique 
+</note>
+ tapez 
+
+<code>env</code> 
+
+ pour voir vos variable d'environnent. Si vous ne voyez pas écrit DISPLAY=localhost:0, entrez 
+<code>export DISPLAY=localhost:0 </code> 
+
+ Puis lancer votre serveur VNC (je vous propose x11vnc) 
+<code>x11vnc --forever --passwd mot_de_passe_du_serveur_VNC </code>
+
+
+===Serveur X11 distant (X11 forwarding)===
+Vous pouvez aussi contrôler à distance Ubuntu :
+  * installez un serveur [[ssh]] sur Ubuntu
+  * installez sur votre appareil android un client SSH (JuiceSSH, ConnectBot) et un serveur [[xorg|X11]] (Xserver XSDL).
+  * Lancez votre serveur X sur Android
+  * connectez-vous en SSH à votre PC, et tapez 
+<code>export DISPLAY=adresse_ip_de_votre_appareil_android:0</code>
+Voilà ! Vous pouvez maintenant lancer des logiciels graphiques à distance qui s'exécuteront sur votre PC.
+exemple: pour lancer Firefox, tapez dans le client ssh
+ <code>firefox</code>
+Pour l'arrêter, tapez CTRL+C.
+ Pour lancer une interface graphique, tapez (suivant si vous utilisez Unity, KDE, fluxbox...)
+<code>gnome-session</code>
+<code>startkde</code>
+<code>fluxbox</code>
+ 
+====Utiliser des logiciels Android sous Ubuntu====
+<note>Cette partie est une ébauche à compléter</note>
+
+Il est possible de lancer des applications Android sur Ubuntu. Cela permet d'augmenter considérablement le nombre d'applications et jeux sous Ubuntu. Attention, les solutions proposées ci-dessous sont souvent en mode bêta :
+  * Kit de developpement officiel d'Android : Android SDK – Android Emulator / AVDs. Tutoriel d'installation [[http://www.android-dev.fr/installation-du-sdk-android-sous-ubuntu|ICI]].
+  * Emulation avec [[https://www.genymotion.com/|Genymotion]]. Application commerciale française. Nécessite [[:virtualbox|VirtualBox]] installé et l'enregistrement sur leur site pour pouvoir télécharger les images Android. Permet d'émuler Android v.2.3.7 à 5.1.0 sur différents téléphones et tablettes (Nexus, HTC, Motorola, Samsung, Sony et custom). //C'est la seule façon, à l'heure actuelle, qui permet de faire fonctionner correctement les jeux "performants" Android sous Ubuntu 16.04 (Xenial Xerus) - 64bit ou supérieur, Debian 8 (Jessie), Fedora 24 - 64bit, Processeur 64 bits, avec une capacité VT-x ou AMD-V, activé dans les paramètres du BIOS, GPU récent et dédié, 400 Mo d'espace disque, 2 Go de RAM pour la version Genymotion 2.8.1 seule disponible sur le site de Genymotion. (Exemple de config qui tourne bien sur 14.04LTS : Galaxy Note 4.1.1 + [[https://www.google.fr/url?sa=t&rct=j&q=&esrc=s&source=web&cd=2&cad=rja&uact=8&ved=0CCsQFjABahUKEwi4tcvs5Y7GAhVBQBQKHf-RALg&url=https%3A%2F%2Fdocs.google.com%2Ffile%2Fd%2F0B-p1r5SNN4adcmhtaGdMVml0Qzg%2Fedit&ei=Mj99VbjUKMGAUf-jgsAL&usg=AFQjCNGY1LZ57B5D6BLUkB-RN2rh9omqYQ&sig2=BsNeJSvlBKNUbFXMC3fyBQ&bvm=bv.95515949,d.d24|Genymotion-ARM-Translation_v1.1.zip]] + [[https://lu4ndr01d.googlecode.com/files/gapps-jb-20121011-signed.zip|gapps-jb-20121011-signed.zip]] pour accéder au Play Store, puis installer des jeux). //
+  * [[http://www.android-x86.org/|Android-x86]] + [[:virtualbox|VirtualBox]]. Tutoriel d'installation sur [[http://www.it-connect.fr/comment-installer-android-4-4-sous-vmware-workstation/|IT-Connect]].
+  * Emulation avec [[http://www.andyroid.net/|Andy]]. Non disponible pour l'instant, version Alpha en cours de développement.
+  * L'utilisation d'une extension pour chrome 64bit, ARChon. Elle est basée sur un projet de google, ARC, qu'un développeur a repris et fait tourner les app dans Google chrome. (Le tuto suivant est fait à partir d'un article du site Korben. J'espère que quelqu'un pourra l'améliorer car la qualité de ma reprise laisse à désirer).
+L'installation: vous devriez trouver l'extension sur le web en ZIP à telecharger. Ensuite cochez dans chrome "mode développeurs". Puis dans les paramètres "charger l'extension non empaqueté" et sélectionnez le ZIP télécharger.
+Le fonctionnement: il faut empaqueter les apk (fichier d'application Android) avec un logiciel, disponible sur différente plateforme. Sur les mobiles Android, une application permettant d'empaqueter les apk est disponible dans le magasin d'application F-droid. "ARChon". Sinon, sous ubuntu, installer Nodejs puis 
+**sudo npm install -g chromeos-apk@latest**
+Pour empaqueter un apk:
+**chromeos-apk lenomsouslequell'applicationstockesesdonnées(souvent " com.nomdel'app.nomdekekechose"**
+  * Utiliser le logiciel [[Anbox]] qui utilise QEMU comme émulateur d’Android, permettant ainsi au système de faire tourner les applications de manière transparente. Le système permet d’utiliser les applications Android de la même manière que les programmes classiques et profitent des mêmes enrichissements ergonomiques.
+
+Pour plus d'information, veuillez vous inspirer de [[http://techapple.net/2014/05/5-best-android-emulators-linux-run-android-apps-linux-ubuntulinuxmintfedoraarchlinuxopensusemageiacentos-etc/|cette article chez techapple.net]] 
+====Développer une application sous Android====
+Voir l'article détaillé [[Android SDK]]
+===== Technologies =====
+
+==== ADB ====
+ADB (Android Debug Bridge) est un outil permettant de dialoguer nativement avec un périphérique Android.
+
+Cet outil permet de :
+  * Copier des fichiers
+  * Faire des captures d'écran
+  * Sauvegarder ses données Android
+  * Lancer des commandes internes telles que reboot, commande Linux, ...
+
+L'installation d'ADB est en 2 étapes :
+  - Installer d'ADB qui se trouve dans le SDK d'Android
+  - Autoriser Ubuntu à utiliser le périphérique USB Android
+
+Voir l'article détaillé sur [[AndroidDebugBridge|ADB / FastBoot]]
+
+==== AirDroid ====
+[[http://web.airdroid.com|l'environnement AirDroid]] permet :
+  * D'échanger des fichiers entre son ordinateur et son appareil Android
+  * De consulter ses contacts à partir d'un ordinateur
+  * D'écrire des SMS à partir d'un ordinateur
+  * De faire une capture d'écran d'Android
+  * De retrouver son appareil Android
+  * ....
+  * 
+
+Installation / utilisation :
+  * Sur l'ordinateur :
+    - Ouvrir l'adresse [[http://web.airdroid.com]]
+    - Créer un compte (si ce n'est pas fait)
+    - Se connecter
+  * Sur Android :
+    - Se mettre en Wi-Fi ou internet mobile (3G/4G)
+    - Installer [[https://play.google.com/store/apps/details?id=com.sand.airdroid&feature=search_result#?t=W251bGwsMSwxLDEsImNvbS5zYW5kLmFpcmRyb2lkIl0.|l'application AirDroid]]
+    - Créer un compte (si ce n'est pas fait)
+    - Se connecter
+
+:!: il est inutile de créer un compte, il suffit d'adresser son navigateur internet à l'adresse IP Wi-Fi du téléphone, au port 8888, exemple : http://192.168.0.196:8888
+
+==== Dropbox ====
+Dropbox permet de créer un dossier sur l'ordinateur et sur Android avec une synchronisation automatique entre tous les appareils ou Dropbox est installé et connecté.
+
+Installation / utilisation :
+  * Sur l'ordinateur (avec installation) :
+    * Voir la page [[dropbox|Dropbox]]
+  * Sur l'ordinateur (sans installation) :
+    - Ouvrir l'adresse [[http://www.dropbox.com]]
+    - Créer un compte (si ce n'est pas fait)
+    - Se connecter
+  * Sur Android :
+    - Se mettre en Wi-Fi ou internet mobile (3G/4G)
+    - Installer [[https://play.google.com/store/apps/details?id=com.dropbox.android|l'application DropBox]]
+    - Se connecter
+
+==== FTP ====
+FTP (File Transfer Protocol) est un protocole de transfert de fichier. Pour simplification, il est conseillé de se connecter en Wi-Fi sur le même réseau qu'Ubuntu. Pour connecter votre ordinateur Ubuntu à votre appareil Android en utilisant FTP et Wi-Fi, l'utilisation est simple soit avec :
+  * [[https://play.google.com/store/apps/details?id=lutey.FTPServer|ftpserver]] :
+    * Installez l'application [[https://play.google.com/store/apps/details?id=lutey.FTPServer|FTPServer]] d'Andreas Liebig et la configurer comme décrit sur ce [[http://choorucode.com/2012/12/29/ftpserver-app-for-android/|post]] :
+    * Définissez un utilisateur, un mot de passe, un port d'accès et le réseau Wi-Fi par lequel vous autorisez la connexion à votre téléphone,
+    * Lancer le serveur FTP dans l'application, et vérifier l'adresse IP que votre téléphone a sur le réseau Wi-Fi dans le log affiché par l'application.
+ 
+
+Vous pourrez alors accéder au contenu de votre téléphone. Vous pouvez également créer un signet vers votre téléphone pour y accéder plus rapidement ("Signets > Ajouter un signet").
+  * Autre possibilité avec **ESExplorer**, allez dans //Outils -> Gestion accès à distance//, entrez l'adresse ip fourni par Android dans votre navigateur web sous Ubuntu  ou bien via [[:Nautilus]].
+
+Dans les deux cas, vous pouvez :
+   * Vous connecter à votre téléphone en utilisant [[:Nautilus]] :
+      * Fichier > Se connecter à un serveur
+      * Sélectionner 'FTP (avec identification)' ou entrez simple l'ip,
+      * Saisir les données utilisées pour configurer l'application FTPServer (avec l'adresse IP dans 'Serveur')
+  * Avec votre navigateur Web, à l'adresse fourni par votre smartphone.
+==== MTP / PTP ====
+Les normes [[http://fr.wikipedia.org/wiki/Picture_Transfer_Protocol|PTP (Picture Transfer Protocol - lien Wikipedia)]] et[[http://fr.wikipedia.org/wiki/Media_Transfer_Protocol|MTP (Multimedia Transfer Protocol - lien Wikipedia)]] semblent être les normes par défaut sur les appareils Android à partir de 2014.
+
+Plus d'information dans les pages [[mtp|MTP]] et [[photo|PTP]].
+
+==== Pushbullet ====
+Pushbullet permet d'envoyer le contenu entre l'appareil Android et un autre appareil (ordinateur, tablette, smartphone) :
+  * Notes
+  * Liste
+  * Fichiers de moins de 25 Mo
+  * Notification d'Android
+  * Adresse
+  * ...
+
+Voir la page [[Pushbullet|Pushbullet]] pour plus de détails
+
+
+
+==== UMS (Universal Mass Storage) ====
+La majorité des anciens appareils Android supportent la norme [[http://fr.wikipedia.org/wiki/USB_Mass_Storage|UMS (Universal Mass Storage - lien Wikipedia)]].
+
+Si votre appareil le supporte, alors vous pouvez naviguer sur votre appareil comme sur une clef USB. L'utilisation est identique
+
+La tendance est à l'utilisation des normes MTP / PTP
+
+Pour accéder au stockage USB, il faut connecter l'appareil par câble à votre PC (sur certains modèles il faut au contraire laisser débranché avant de faire la manip suivante), puis aller dans les paramètres d'Android : Paramètres > Section : Sans fil et réseaux > Paramètres supplémentaires > Utilitaires USB, et activer "Connecter le stockage au PC".
+Selon votre version Android le chemin d’accès à ce menu peut être légèrement différent. 
+
+Pour la 13.04, une simple connexion par câble USB permet d'accéder via [[nautilus|Nautilus]] (sous Unity) ou [[thunar|Thunar]] (Xubuntu) à l'ensemble de votre appareil Android. Un bug empêche parfois l'ouverture du périphérique par [[Dolphin]] (Kubuntu), [[http://forum.ubuntu-fr.org/viewtopic.php?pid=15484671#p15484671|consulter ce topic]] pour régler le problème.
+
+==== Upnp / dnla ====
+Cette norme permet de lire du contenu multimédia (musique, vidéo, image) entre différents appareils de la maison (Freebox, Android, console de jeux, PC, ...)
+
+Grace à cette norme, on peut lire à partir d'un lecteur (client) tout contenu multimédia se trouvant dans une source (serveur).
+
+  * Lecteur multimédia / client Upnp / dnla :
+    * Android
+      * Archos Video Player
+      * A compléter
+    * Ubuntu
+      * [[Amarok]]
+      * [[Banshee]]
+      * [[VLC]]
+  * Sources / serveur Upnp / dnla :
+    * Android :
+      * [[https://play.google.com/store/apps/details?id=com.dbapp.android.mediahouse|Media House]]
+    * Ubuntu :
+      * A compléter
+
+
+
+
+===== Développer des applications pour Android =====
+
+À l'aide du SDK fourni par Google et d'un [[http://fr.wikipedia.org/wiki/Environnement_de_d%C3%A9veloppement_int%C3%A9gr%C3%A9|IDE]], vous pouvez créer vous-même des applications à installer sur votre téléphone.
+
+==== Installation via un PPA (Ubuntu 12.04) ====
+<code>
+sudo add-apt-repository ppa:upubuntu-com/devel
+sudo apt-get update
+sudo apt-get install android-sdk
+</code>
+[[http://www.upubuntu.com/2012/05/how-to-install-android-sdk-release-18.html|Installation via PPA (lien en anglais)]]
+
+==== Installation manuelle ====
+
+=== Pré-requis ===
+
+== Java, Ant, Lib ==
+
+Le langage utilisé pour développer vos applications Android est le langage Java. Vous devrez donc installer une machine virtuelle Java ainsi que le kit de développement (JDK).
+
+[[:tutoriel:comment_installer_un_paquet|Installez les paquets]] suivants
+   * **[[apt>ia32-libs]]** ou **[[apt>ia32-libs-multiarch]]** si vous utilisez Ubuntu 11.04 ou antérieure **en version 64bits**
+   * **[[apt>sun-java6-bin]]** et **[[apt>ant]]** dans tous les cas 
+<note alert>Dans la 12.10 : **[[apt>openjdk-6-jre]]** **[[apt>openjdk-6-jdk]]** sont les paquets à installer, avec leurs dépendances</note>
+
+<note alert>ia32 n'est plus disponible sous Kubuntu 14.04 **en version 64bits**, il faut installer :
+sudo apt-get install libc6-i386 libglib2.0-0:i386 libsm6:i386 libglu1-mesa:i386 libgl1-mesa-glx:i386 libxext6:i386 libxrender1:i386 libx11-6:i386 libfontconfig1:i386 lsb-core</note>
+
+=== Eclipse (optionnel, les autres grands IDE - Netbeans, IntelliJ IDEA - supportent également Android) ===
+
+Google a développé un plugin gratuit pour [[eclipse|Eclipse]], l'IDE incontournable pour Java, afin de faciliter le développement de vos applications Android. Cependant l'utilisation d'[[eclipse|Eclipse]] n'est pas indispensable pour développer vos applications. 
+
+Si vous souhaitez l'utiliser, installez simplement le paquet **[[apt>eclipse]]**.
+
+Puis lancez Eclipse et allez dans : //Help -> Install New Software//
+Cliquez sur « Add » et ajouter les « Software sites » ci-dessous selon le schéma\\ ''[Name] - [Location]'' :
+<code>
+android  - https://dl-ssl.google.com/android/eclipse/
+GEF      - http://download.eclipse.org/tools/gef/updates/releases/
+EMF      - http://download.eclipse.org/modeling/emf/updates/releases/
+GMF      - http://download.eclipse.org/modeling/gmf/updates/releases
+Webtools - http://download.eclipse.org/webtools/updates/
+Google eclipse Plugin - http://dl.google.com/eclipse/plugin/3.7
+Releases Indigo - http://download.eclipse.org/releases/indigo
+</code>
+
+Puis installer la totalité des champs qui se trouvent dans le nom de schéma "android" (ligne android ci-dessus)
+
+Vous serez ensuite invité à redémarrer Eclipse.
+
+Lors de son redémarrage, il vous indiquera qu'il ne trouve pas le SDK de Android. C'est normal, il faut suivre la procédure ci-dessous.
+
+=== Installation de l'environnement de développement ===
+
+Afin de développer vos applications, il vous faudra installer le SDK pour Android et le plugin ADT pour Eclipse si vous souhaitez l'utiliser.
+
+== Installation du SDK Android ==
+
+Commencez par télécharger le SDK pour Linux sur le site [[http://developer.android.com/sdk/index.html | d'Android]].
+
+Puis décompressez dans un dossier à la racine de votre "home" et installez les composants supplémentaires vous permettant d'exécuter les diverses commandes de base tel que "adb", "fastboot", etc... 
+
+<code>
+tar -zxvf android-sdk_r*-linux.tgz -C ~/
+cd android-sdk-linux/tools/
+~/android-sdk-linux/tools/android
+</code>
+
+Une fois ceci fait, sélectionnez les composants à installer (SDK Platform-tools revision xx, Documentation, SDK Platform Android 3.x ..., et les composants tiers, en fonction du matériel pour lequel vous souhaitez développer) et choisissez "Install Selected".
+Cela peut prendre un peu de temps.
+
+Tout en restant dans le répertoire "tools", mettez ensuite à jour la variable d'environnement PATH pour accéder au programme du SDK :
+<code>
+echo "export PATH=\${PATH}:$(pwd)" >> ~/.bashrc
+cd ../platform-tools
+echo "export PATH=\${PATH}:$(pwd)" >> ~/.bashrc
+. ~/.bashrc
+</code>
+<note important>Les quatre dernières commandes ajoutent le chemin courant (pwd) au PATH, donc permet d'exécuter les binaires qui se trouvent dans "android-sdk-linux/tools" et "android-sdk-linux/platform-tools".
+</note>
+Ensuite mettez à jour le SDK : 
+
+<code>
+android update sdk
+</code>
+
+Il vous faudra alors mettre à jour la liste des paquets et choisir ceux que vous voulez installer. Les paquets appelés "Target" correspondent à la version d'Android cible (1.5, 1.6, 2.0...) sous laquelle vous souhaitez développer.
+
+<code>
+android list targets
+</code>
+
+Ensuite il vous faudra configurer des machines virtuelles, afin de tester l'exécution de votre programme dans différents environnements.
+
+<note help>Si vous avez une erreur pour les téléchargements, allez dans le menu **Settings** et cochez la case **Force %%https://...%% sources to be fetched using %%http://...%%**</note>
+
+== Installation du plugin pour Eclipse 3.5 Galileo ==
+
+  - Lancer Eclipse et sélectionner le menu **Help > Install New Software**
+  - Dans la boîte de dialogue **Available Software**, cliquez sur **Add**
+  - Dans la boîte de dialogue **Add Site**, entrez un nom au site (par exemple "Android Plugin") dans le champs **Name**. Puis dans le champs **Location** entrez l'URL suivante [[http://dl-ssl.google.com/android/eclipse/]] et cliquez sur **OK**.
+  - De retour dans **Available Software**, vous devriez voir "Developer Tools" ajouté dans la liste. Cochez la case à coté de **Developer Tools**, qui sélectionnera automatiquement les outils **Android DDMS**, **Android Development Tools** et **Android Hierarchy Viewer**. Cliquez ensuite sur **Next**.
+  - Dans la liste de la fenêtre **Install Details**, les plugins Android DDMS, Android Development Tools et Android Hierarchy Viewer doivent être présents. Cliquez alors sur **Next** pour lire et accepter les conditions de la licence, puis cliquez sur **Finish**.
+  - Redémarrez Eclipse.
+
+<note help>Si vous avez des problèmes pour télécharger les plugins, essayez de remplacer "https" (qui est préféré pour des raisons de sécurité) par "http" dans l'URL.</note>
+
+Pour finir, configurez Eclipse pour qu'il utilise le SDK :
+  - Allez dans le menu **Window -> Preferences...**.
+  - Choisissez Android dans la liste de gauche.
+  - Dans le champ **SDK Location**, cliquez sur **Browse...** et sélectionnez le répertoire dans lequel vous avez installé le SDK Android.
+  - Cliquez sur **Apply**, puis OK.
+
+=== Concevoir les applications ===
+
+
+Voici une liste de liens où vous trouverez de bons tutoriaux pour vous aider à développer vos applications Android.
+
+  * http://www.pointgphone.com/tutoriaux-android
+  * http://www.android-dev.fr
+  * http://ydisanto.developpez.com/tutoriels/android/debuter/#LIII-B
+  * http://www.siteduzero.com/tutoriel-3-554364-developpement-d-applications-pour-terminaux-android.html
+
+
+
+
+=====Annexe : arborescence Android=====
+  * Les photos se trouvent dans **/DCIM/Camera**
+  * Les musiques sont dans **/Music**, et on peut simplement y déposer ses répertoires avec ses fichiers MP3 ou FLAC. 
+  * Les films sont à déposer dans **/Movies**
+  * Les sonneries téléphoniques sont dans **/Ringtones**
+  * Les sonneries du réveil sont dans **/Alarms**
+  * Les notifications sont dans **/Notifications**
+
+===== Voir aussi =====
+
+  * **(en)** [[http://www.android.com/|Site officiel d'Android]]
+  * **(en)** [[ http://developer.android.com/guide/topics/fundamentals.html]]
+  * **(en)** [[http://code.google.com/android/download.html|Téléchargement du SDK]]
+  * **(en)** [[http://developer.android.com/tools/device.html|Configuration des périphériques avec le dernier Bundle Android - ADT bundle linux]]
+  * **(fr)** [[Google|L'écosysteme Google avec Linux]]
+  * [[http://www.appspcdownload.com|Tutorials to download android apps on PC]]
+  * [[http://www.answersquiz.com/100-pics-quiz-answers|App Quiz Answers and Reviews]]
+  * [[http://www.hindibookspdf.com/hamara-samvidhan-hindi-book-pdf/| # 1 Website for Hindi Books Download]]
+  * [[http://http://www.momhomeremedies.com/how-to/how-to-get-rid-of-dark-circles-naturally.html|Home Remedies for Wellness, Health and Beauty]]
+
+  
+
+----
+//Contributeurs :jahbromo, listenup, [[:utilisateurs:Herrleiche]], [[:utilisateurs:sangorys]], JimBo //

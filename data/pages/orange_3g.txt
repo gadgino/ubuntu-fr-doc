@@ -1,0 +1,108 @@
+{{tag>Trusty internet matériel}}
+
+======Clés 3G+ Orange======
+
+Le [[wpfr>Fournisseur%20d'accès%20à%20Internet|FAI]] Orange a commercialisé un moment, dans le cadre de ses offres mobilité //Internet Everywhere//, des [[:modem|modems]] USB s'appuyant sur une connexion aux réseaux mobiles HSxPA/EDGE pour établir une connexion internet.\\
+Orange a cessé leur commercialisation pour le grand-public au profit de hotspot Wi-Fi permettant de partager une connexion 3G entre plusieurs appareils.
+
+=====Clés supportées=====
+
+La plupart des clés 3G commercialisées par Orange sont maintenant reconnues par défaut par Ubuntu, et cela depuis la version [[:precise|12.04]].
+Il suffit juste d'insérer la clé 3G dans son ordinateur et de suivre les instructions de [[:telephone_modem|cette page]] pour se connecter à internet.
+
+<note>Dans le doute, pour vous assurer que votre clé est bien supportée, vous pouvez accéder à une liste non-exhaustive des clés 3G reconnues [[:cles_3g| ici]].</note>
+
+===== Problèmes connus =====
+
+Dans certaines circonstances, la connexion à internet via l'utilitaire graphique [[:network-manager]] peut échouer ou ne pas fonctionner avec votre clé. Ainsi, pour résoudre ce problème vous pouvez être amené à utiliser l'utilitaire en ligne de commande [[:wvdial]].
+
+
+Vous devrez vous procurer le paquet **[[apt>wvdial]]** et ses dépendances en [[:tutoriel:comment_installer_un_paquet|l'installant]] ou en [[:installation_paquet_hors_ligne|l'obtenant hors ligne]] avec ses dépendances.
+
+Une fois wvdial installé il faudra, en premier lieu, insérer la clé 3G, puis [[:tutoriel:comment_modifier_un_fichier|éditer le fichier]] **/etc/wvdial.conf** de la manière suivante :
+
+<file ini wvdial.conf>
+[Dialer orange]
+Init1 = ATZ
+Init2 = ATQ0 V1 E1 S0=0 &C1 &D2 +FCLASS=0
+Init3 = AT+CGDCONT=1,"IP","apn"
+Modem Type = Analog Modem
+Phone = *99# 
+ISDN = 0
+New PPPD = yes
+Username = orange
+Password = orange
+Modem = /dev/ttyUSB0
+Baud = 9600
+
+[Dialer pin]
+Modem = /dev/ttyUSB0
+Baud = 9600
+Init1 = AT+CPIN=0000
+</file>
+
+Quelques informations sont à modifier dans ce fichier :
+
+  * **"apn"** à la fin de la ligne **Init3** doit être changé par l'APN correspondant à votre offre 3G, si vous ne le connaissez pas, vous pouvez le rechercher sur votre moteur de recherche.\\ //Par exemple recherchez "APN Internet Everywhere" pour connaître l'APN correspondant à l'offre Internet Everywhere"//.
+  * **Baud = 9600** (apparaît deux fois) correspond au débit entre la clé 3G et l'ordinateur, vous pouvez l'augmenter.\\ //Par exemple, si votre clé 3G peut aller jusqu'à 7,2 Mbps, changer 9600 b/s par 900000 b/s//
+  * **AT+CPIN=0000** correspond au code PIN de la clé 3G, vous devez changer "0000" par votre code PIN si vous l'avez changé.
+  * **/dev/ttyUSB0** (apparaît deux fois) doit être changé par l'adresse de l'interface modem de votre clé 3G, si vous ne le connaissez pas, essayez la commande suivante: <code bash>ls /dev | grep 'ttyHS[0-9]\|ttyUSB[0-9]' | awk '{print "/dev/" $0}'</code> Cela devrait vous retourner quelque chose comme ceci (ttyHS ou ttyUSB) : <code>/dev/ttyHS0
+/dev/ttyHS1
+/dev/ttyHS2
+/dev/ttyHS3
+</code> Une de ces interfaces est celle que nous recherchons. Aussi, vous devez essayer chacune d'entre elle dans le fichier à la place de **/dev/ttyUSB0** jusqu'à ce que les commandes suivantes fonctionnent.
+
+Ouvrez maintenant une fenêtre du terminal et entrez ceci:
+
+<code>sudo wvdial pin</code>
+
+Le programme devrait répondre ceci : 
+
+<code>--> WvDial: Internet dialer version 1.61
+--> Cannot get information for serial port.
+--> Initializing modem.
+--> Sending: AT+CPIN=0000
+OK
+--> Modem initialized.
+--> Configuration does not specify a valid phone number.
+--> Configuration does not specify a valid password.
+</code>
+
+<note important>Si vous obtenez la réponse suivante : <code>--> Modem not responding.</code>Vous ne vous adressez pas à la bonne interface, autrement dit vous ne vous adressez pas à l'interface modem, essayez en une autre comme indiqué dans le paragraphe plus haut.</note>
+
+Ensuite, tapez la commande suivante:
+
+<code>sudo wvdial orange</code>
+
+Le programme doit vous répondre comme suit:
+
+<code>--> WvDial: Internet dialer version 1.61
+--> Initializing modem.
+--> Sending: ATZ
+OK
+--> Sending: ATQ0 V1 E1 S0=0 &C1 &D2 +FCLASS=0
+ATQ0 V1 E1 S0=0 &C1 &D2 +FCLASS=0
+OK
+--> Sending: AT+CGDCONT=1,"IP","apn"
+AT+CGDCONT=1,"IP","apn"
+OK
+--> Modem initialized.
+--> Sending: ATDT*99#
+--> Waiting for carrier.
+ATDT*99#
+CONNECT
+--> Carrier detected.  Waiting for prompt.
+</code>
+
+Puis après un petit temps d'attente, vous devriez être connecté à internet.
+
+<note tip>Sur certaines clé 3G (et certaines offres), l'authentification est inutile et wvdial va vous en informer par la ligne : <code>--> Don't know what to do!  Starting pppd and hoping for the best.</code> Dans ce cas, vous pouvez passer cette étape et gagner un peu de temps en ajoutant dans la section ''[Dialer orange]'' l'option ''Stupid Mode = 1''</note>
+
+===== Liens =====
+  * [[http://www.pharscape.org/content/blogsection/4/53/|Infos supplémentaires sur PHARscape.org]]
+  * [[http://www.draisberghof.de/usb_modeswitch/|Site du développeur d'usb_modeswitch]]
+  * [[http://www.equinoxefr.org/post/2008/04/21/la-clef-orange-icon-225-sur-ubuntu-804/|Ancien Tutoriel pour la clé Icon 225 sur EquinoxeFr]]
+
+----
+
+//Contributeurs :  [[:utilisateurs:zoxmax]], [[:utilisateurs:Vulcanoo]], [[:utilisateurs:ljere]], [[:utilisateurs:Mao-40]], [[:utilisateurs:fodoc22]].//

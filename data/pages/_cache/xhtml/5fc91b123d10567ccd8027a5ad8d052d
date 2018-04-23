@@ -1,0 +1,185 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#installation_d_ubuntu_hoary_pour_plateformes_i386" class="toc"> Installation d'Ubuntu Hoary pour plateformes i386 </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#recuperation_du_cd_de_demarrage" class="toc"> Récupération du cd de démarrage </a></span></li>
+<li class="level2"><span class="li"><a href="#demarrage_de_l_installateur" class="toc"> Démarrage de l'installateur </a></span></li>
+<li class="level2"><span class="li"><a href="#premiere_etape_de_l_installation" class="toc"> Première étape de l'installation </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#partitionnement_des_disques" class="toc"> Partitionnement des disques </a></span></li>
+<li class="level3"><span class="li"><a href="#installation_de_la_base" class="toc"> Installation de la base </a></span></li>
+<li class="level3"><span class="li"><a href="#creation_du_compte_utilisateur" class="toc"> Création du compte utilisateur </a></span></li>
+<li class="level3"><span class="li"><a href="#installation_du_boot_loader" class="toc"> Installation du boot loader </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#deuxieme_etape_d_installation" class="toc"> Deuxième étape d'installation </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<p>
+Rédigé par <a href="/utilisateurs/manu" class="wikilink1" title="utilisateurs:manu" onclick="return svchk()" onkeypress="return svchk()">manu</a>.
+</p>
+
+<a name="installation_d_ubuntu_hoary_pour_plateformes_i386"></a><h1> Installation d'Ubuntu Hoary pour plateformes i386 </h1>
+<div class="level1">
+
+<p>
+ Ce document décrit l&rsquo;installation d&rsquo;Ubuntu <strong>Hoary Hedgehog</strong> sur des architectures de type Intel x86 (<strong>i386</strong>).
+</p>
+
+<p>
+Vous y retrouverez un accompagnement du processus d&rsquo;installation qui contiendra les informations dont vous aurez besoin pour la plupart des installations.
+</p>
+
+<p>
+Ce How To est gratuit. Vous pouvez le redistribuer et/ou le modifier selon les termes de la licence GNU General Public License. 
+</p>
+
+</div>
+<!-- SECTION [39-503] -->
+<a name="recuperation_du_cd_de_demarrage"></a><h2> Récupération du cd de démarrage </h2>
+<div class="level2">
+
+<p>
+ Téléchargez l&rsquo;image CD (ou dvd) : <a href="/telechargement" class="wikilink1" title="telechargement" onclick="return svchk()" onkeypress="return svchk()">Ubuntu 5.04-i386</a><br/>
+ Après le téléchargement et avant la gravure testez si le fichier n&rsquo;est pas corrompu gràce à la commande <code>md5sum <em>nom_du_fichier</em></code> <a href="#fn1" name="fnt1" class="fn_top">1)</a> : 
+</p>
+<pre class="code">f6b3f164c99761234858a4d2c12d0840  ubuntu-5.04-install-i386.iso
+46135038af6dd2ef36fd8d521afe7de4  ubuntu-5.04-install-amd64.iso
+bf3fe18eb2fbc450769237dec189405b  ubuntu-5.04-install-powerpc.iso</pre>
+<pre class="code">539a25fd0c5e1e6bb5d1f968ec25b759  ubuntu-5.04-dvd-amd64.iso
+765dc370887735af71bc2cf6fcc9fafd  ubuntu-5.04-dvd-i386.iso
+73d38d21bd14b902252bca0f39e7eb54  ubuntu-5.04-dvd-powerpc.iso</pre>
+<pre class="code">664e3d7864c0f4f2d2efc09ec230fb2e  ubuntu-5.04-live-amd64.iso
+77a1a8be45e0cc93a14c9b9bf00f6648  ubuntu-5.04-live-i386.iso
+811a1aec315dae0ceef5d8e626584874  ubuntu-5.04-live-powerpc.iso</pre>
+
+</div>
+<!-- SECTION [504-1474] -->
+<a name="demarrage_de_l_installateur"></a><h2> Démarrage de l'installateur </h2>
+<div class="level2">
+
+<p>
+ Afin de démarrer sur le CD, vous devrez peut être entrer dans le menu de configuration de votre BIOS et configurer la liste des périphériques de démarrage afin d&rsquo;y inclure le lecteur CD-ROM.
+</p>
+
+<p>
+Vous pouvez également effectuer une installation via réseau mais celle-ci n&rsquo;est pas couverte par ce document (reportez vous à <a href="/installation/netboot" class="wikilink1" title="installation:netboot" onclick="return svchk()" onkeypress="return svchk()">Netboot</a>). 
+</p>
+<ul>
+<li class="level1"><span class="li"> Une fois l&rsquo;installateur démarré, vous serez accueilli par un écran de démarrage.</span>
+</li>
+<li class="level1"><span class="li"> Appuyez sur Entrée afin de démarrer ou utilisez les touches de fonction (fkeys) de F1 à F10, afin de lire les instructions pour tout autre type de démarrage ou de paramétrage. Si vous rencontrez des problèmes lors du démarrage de l&rsquo;installateur</span>
+</li>
+</ul>
+
+<p>
+Ces instructions vous documenteront sur un certain nombre de méthodes utiles (dépendantes de votre matériel) qui vous permettront de contourner le problème.
+</p>
+
+</div>
+<!-- SECTION [1475-2381] -->
+<a name="premiere_etape_de_l_installation"></a><h2> Première étape de l'installation </h2>
+<div class="level2">
+
+<p>
+ Sur le premier écran d&rsquo;accueil, on vous demandera de choisir votre langue. 
+</p>
+<ul>
+<li class="level1"><span class="li"> Utilisez les flèches afin de choisir votre langue puis pressez <em>Entrée</em>.</span>
+</li>
+<li class="level1"><span class="li"> On vous demandera ensuite de choisir votre pays en incluant ceux dans lesquels la langue choisie est parlée. Si votre pays ne figure pas dans la liste, choisissez &ldquo;autre&rdquo; afin d&rsquo;obtenir une liste de tous les pays.</span>
+</li>
+<li class="level1"><span class="li"> On vous proposera un type de clavier acceptez le ou utilisez le menu choisir un clavier dans une liste: Par defaut &rArr; clavier français (fr-latin9)</span>
+</li>
+<li class="level1"><span class="li"> Attendez ensuite que l&rsquo;installateur détecte votre lecteur de CD, puis teste l&rsquo;intégrité du CDRom d&rsquo;Ubuntu et installera les composants additionnels (exemple: partman).</span>
+</li>
+<li class="level1"><span class="li"> A l&rsquo;étape suivante, l&rsquo;installateur essaiera de détecter votre matériel réseau et de le configurer via DHCP. Si vous n&rsquo;êtes pas en réseau ou n&rsquo;avez pas de DHCP, vous pourrez spécifier manuellement votre configuration réseau ou reporter cette configuration à plus tard.</span>
+</li>
+<li class="level1"><span class="li"> Pour terminer la partie réseau vous devrez donner un nom à votre machine (par défaut : ubuntu)</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [2382-3517] -->
+<a name="partitionnement_des_disques"></a><h3> Partitionnement des disques </h3>
+<div class="level3">
+<ul>
+<li class="level1"><span class="li"> D&rsquo;abord vous aurez la possibilité de tout effacer et de repartitionner automatiquement votre disque. Cette procédure est recommandée pour les nouveaux utilisateurs mais si vous avez des données importantes, sauvegardez les car elles seront effacées.(Attention si vous désirez garder votre ancien système d&rsquo;exploitation (ex: Windows) utilisez le partitionnement manuel)</span>
+</li>
+<li class="level1"><span class="li"> Si vous ne souhaitez pas effacer l&rsquo;intégralité du disque ou si vous désirez personnaliser le schéma de partitionnement, choisissez &ldquo;<strong>Editer manuellement la table de partitions</strong>&quot; à partir du menu. L&rsquo;écran suivant vous montrera votre table de partitions, comment elles seront formatées et où elles seront montées.</span>
+</li>
+<li class="level1"><span class="li"> Choisissez une partition à modifier ou effacer. N&rsquo;oubliez pas d&rsquo;assigner au moins une partition pour l&rsquo;espace d&rsquo;échange (swap) et de monter une partition pour / (la racine de votre système). Selectionnez <strong>Terminer le partitionnement et appliquer les changements</strong> (descendre sur la derniere option) une fois que vous aurez fini.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [3518-4602] -->
+<a name="installation_de_la_base"></a><h3> Installation de la base </h3>
+<div class="level3">
+<ul>
+<li class="level1"><span class="li"> Après confirmation, l&rsquo;installateur formatera vos partitions et débutera l&rsquo;installation du système de base d&rsquo;Ubuntu (cette procédure peut prendre du temps). Viendra ensuite l&rsquo;installation du noyau (kernel) puis la copie du reste des packages du CD vers votre disque.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Une fois le système de base copié, l&rsquo;installeur vous propose de télécharger les paquets de supports de langue manquant sur internet. Si vous n&rsquo;avez pas pu configurer correctement votre connexion (pas de dhcp, proxy web, mot de passe pour connexion.....) répondez <strong>non</strong> à la question. Si vous répondez <strong>oui</strong> le système essayera de télécharger les paquets manquants et de les installer.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Une fois l&rsquo;installation des paquets terminés, vous aurez à choisir votre fuseau horaire en fonction du pays que vous aurez indiqué.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [4603-5456] -->
+<a name="creation_du_compte_utilisateur"></a><h3> Création du compte utilisateur </h3>
+<div class="level3">
+<ul>
+<li class="level1"><span class="li"> Entrez votre nom complet puis choisissez un pseudonyme pour votre compte utilisateur. Généralement votre prénom ou un surnom similaire conviendront. Ce sera le compte par défaut.</span>
+</li>
+<li class="level1"><span class="li"> Choisissez un mot de passe. Par défaut, le compte administrateur &ldquo;root&rdquo; est désactivé. Vous pouvez y accéder en utilisant le programme &ldquo;sudo&rdquo; à partir du compte utilisateur créé. Si vous désirez créer un mot de passe pour l&rsquo;utilisateur root, faites &ldquo;sudo passwd root&rdquo; à partir de votre terminal. (reportez vous à FrCompteRoot)</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [5457-6030] -->
+<a name="installation_du_boot_loader"></a><h3> Installation du boot loader </h3>
+<div class="level3">
+<ul>
+<li class="level1"><span class="li"> GRUB s&rsquo;installe par défaut sur le MBR</span>
+</li>
+<li class="level1"><span class="li"> Si l&rsquo;installateur détecte d&rsquo;autres systèmes d&rsquo;exploitation, il les ajoutera au menu de démarrage.</span>
+</li>
+<li class="level1"><span class="li"> L&rsquo;installateur vous dira que la première étape est terminée.</span>
+</li>
+<li class="level1"><span class="li"> Enlevez le CD et pressez Entrée afin de redémarrer. Votre système démarrera sur la deuxième étape de l&rsquo;installation.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [6031-6413] -->
+<a name="deuxieme_etape_d_installation"></a><h2> Deuxième étape d'installation </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> Suite au redémarrage de votre machine, GRUB lancera le système par défaut (en fonction de ce que vous aurez défini aux étapes précédentes).</span>
+</li>
+<li class="level1"><span class="li"> Maintenant l&rsquo;installation se termine, en attendant la décompression et l&rsquo;installation des derniers paquets, vous pouvez aller boire un café ou discuter avec votre voisine <img src="/smileys/icon_wink.gif" align="middle" alt=";-)" /> .</span>
+</li>
+<li class="level1"><span class="li"> Puis aprés, vous aurez l&rsquo;écran de connexion d&rsquo;Ubuntu où vous taperez votre nom (login) et le mot de passe associé.</span>
+</li>
+<li class="level1"><span class="li"> Une fois connecté la première chose à faire, si vous n&rsquo;avez pu le faire correctement pendant l&rsquo;installation, est le paramètrage de votre connexion réseau pour installer les paquets manquants et faire les mises à jour de votre système. (voir les pages <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a>)</span>
+</li>
+</ul>
+
+<p>
+<strong>Profitez de l&rsquo;utilisation d&rsquo;Ubuntu et partagez cette distribution avec vos amis</strong> 
+</p>
+
+</div>
+<!-- SECTION [6414-] --><div class="footnotes">
+<div class="fn"><a href="#fnt1" name="fn1" class="fn_bot">1)</a> 
+il existe un petit freeware pour windows <a href="http://www.mstsoftware.com/cFreeware.aspx" class="urlextern" title="http://www.mstsoftware.com/cFreeware.aspx" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">mst MD5</a> qui peut faire le calcul</div>
+</div>

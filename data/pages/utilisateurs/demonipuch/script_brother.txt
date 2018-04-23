@@ -1,0 +1,88 @@
+{{tag>matériel imprimante brother}}
+
+----
+====== Script d'installation pour imprimantes Brother ======
+
+<note>Ce script a été écrit par un utilisateur d'Ubuntu. Ce n'est pas un script officiel fourni par Brother ou Canonical.
+
+Il se base néanmoins sur les procédures d'installations fournies par Brother sur [[http://welcome.solutions.brother.com/bsc/public_s/id/linux/en/index.html|cette page du fabricant]].</note>
+
+<note important>Ce script fonctionne seulement pour les cas où l'imprimante/multifonction est reliée en USB à votre PC ou connectée à votre box en WiFi/Ethernet.</note>
+===== Pourquoi ce script? =====
+
+Le but de ce script est de faciliter l'installation des imprimantes Brother DCP, MFC, HL et FAX. À travers une série de questions, on choisit son modèle d'imprimante, le type de connexion (USB ou réseau) etc. Le script se chargera ensuite de télécharger les pilotes adéquates, de les installer et de configurer votre imprimante du mieux possible.
+
+Ce script a été testé avec succès sur Ubuntu [[:lucid|Lucid]], [[:maverick|Maverick]], [[:natty|Natty]], [[:oneiric|Oneiric]], [[:precise|Precise]] et [[:xenial|Xenial]] 32 bits et 64 bits.
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Utilisation =====
+
+L'utilisation du script se fait dans un [[:terminal|terminal]].
+
+  * [[:wget|Télécharger]] l'archive contenant le script :
+
+<code>wget demonipuch.free.fr/brother.tar.gz</code>
+
+  * [[:tar|Extraire]] le contenu de l'archive :
+
+<code>tar -zxvf brother.tar.gz</code>
+
+  * [[:tutoriel/console_commandes_de_base#cd|Se placer dans le dossier]] nommé brother :
+
+<code>cd brother</code>
+
+  * [[:permissions|Modifier les permissions]] pour accorder le droit exécution au script :
+
+<code>chmod +x install.sh</code>
+
+  * [[:tutoriel/script_shell#methode_dans_un_terminal|Lancer le script]] avec les [[:sudo|droits d'administration]] :
+
+<code>sudo ./install.sh</code>
+
+S'en suit une série de questions :
+
+  * Quelle famille d'imprimante? (DCP, HL, FAX ou MFC)
+  * Quel modèle d'imprimante?
+  * Quel type de connexion? (USB ou réseau). Dans le cas d'une connexion réseau, il sera demandé d'entrer l'adresse IP de l'imprimante. Un test de connectivité sera également effectué. Si le test échoue le script se termine sans installer quoique ce soit.
+  * Installation des outils scan-key (nécessaires si on souhaite utiliser le bouton de numérisation de l'imprimante)
+  * Confirmation des informations avant de lancer l'installation. Si les informations ne sont pas confirmées, le script se termine sans installer quoique ce soit.
+
+<note important>Dans le cas d'une imprimante réseau, il faut impérativement attribuer une adresse IP fixe à votre imprimante dans votre réseau local.</note>
+
+===== Pour scanner en 64 bits =====
+Comme indiqué sur [[http://support.brother.com/g/s/id/linux/en/faq_scn.html?c=us_ot&lang=en&redirect=on#f00101|cette page]], il faut copier ce que les pilotes installent dans /usr/lib64 vers /usr/lib :
+<code>cd /usr/lib/
+sudo cp -r /usr/lib64/* .</code>
+
+<note important>N'y a-t-il pas une erreur dans les lignes de commande ci-dessus ? Dans la page indiquée, il est expliqué l'opération inverse : copier de /lib64 vers /lib. </note>
+
+Si vous êtes en USB, avant de tester le scanner, il faut débrancher la prise USB et la rebrancher à nouveau pour que votre multifonction soit bien détectée dans les logiciels de scan.
+===== Vérifications du fonctionnement =====
+
+Une fois le script terminé vous devriez avoir une imprimante fonctionnelle.
+
+==== Imprimante ====
+
+Ouvrez un [[:éditeur de texte]], frappez un bout de texte et imprimez.
+
+==== Scanner ====
+
+Lancez une [[:scanner#logiciels|application de numérisation]] pour essayer. 
+
+===== En cas de problème =====
+
+Si pendant ou après l'utilisation du script vous rencontrez un problème, vous pouvez prendre contact avec l'auteur du script [[demonipuch@gmail.com?subject=brother.tar.gz|par mail]] en fournissant le fichier **install.log** présent dans le dossier **brother**.
+
+Il existe également sur le forum [[http://forum.ubuntu-fr.org/viewtopic.php?id=652931|ce fil de discussion]] que son auteur suit assidûment. 
+
+===== Liens =====
+
+  * [[http://welcome.solutions.brother.com/bsc/public_s/id/linux/en/index.html|Brother Solutions Center]]
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=652931|Sujet de discussion]] sur le forum, par l'auteur de cette page et du script.
+
+----
+//Contributeurs:demonipuch//

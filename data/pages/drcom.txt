@@ -1,0 +1,93 @@
+{{tag>Karmic réseau internet chinois}}
+
+----
+
+====== drcom : Client DoctorCom pour Linux ======
+
+Drcom est un client d'identification pour les réseaux (d'université principalement) : une IP, une personne. 
+
+C'est une version libre du client DocteurCom, réalisé initialement pour windows. 
+
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+<note important>**Depuis la version 2.6.31, cela ne fonctionne plus**
+
+La solution la plus efficace que nous ayons trouvée est de **se connecter avec l'interface web dans le navigateur**.
+
+Si cela ne fonctionne pas, allez voir le responsable des mots de passe ; dites que vous avez perdu votre mot de passe par exemple.
+
+Vous lui dites que vous voulez vous connecter avec l'interface web et non doctor-com. Il configurera votre compte pour que vous puissiez utiliser l'interface web.
+</note>
+
+==== Ubuntu 9.10 ====
+Télécharger le packet Karmic ici : http://ppa.launchpad.net/drcom-client/ppa/ubuntu/pool/main/d/drcom-pum/drcom-pum_1.0-0ubuntu1~ppa2~karmic1_i386.deb
+Lorsque vous l'installez, vous aurez un message d'erreur vous disant que la compilation a échouée.
+
+Vous pouvez alors vous rendre dans le répertoire /usr/share/drcom/src/kmod/ puis appliquer le patch suivant :
+
+Créez le fichier drcom.patch contenant :
+
+<code>
+--- drcom.c	2009-11-26 21:57:31.000000000 +0800
++++ drcom.c.new	2009-10-12 11:11:48.000000000 +0800
+@@ -656,6 +656,10 @@
+ 	return todo;
+ }
+ 
++#if LINUX_VERSION_CODE < KERNEL_VERSION(2,6,31)
++#define skb_dst(skb)	(skb->dst)
++#endif
++
+ static struct sk_buff *build_ack_skb(struct sk_buff *oskb)
+ {
+ 	struct iphdr *iph;
+@@ -683,7 +687,7 @@
+ 					csum_partial((char *)tcph, tcph->doff << 2, skb->csum));
+ 
+ 	iph->tot_len = htons(skb->len);
+-	__ip_select_ident(iph, skb->dst, 0);
++	__ip_select_ident(iph, skb_dst(skb), 0);
+ 	ip_send_check(iph);
+ 
+ 	return skb;
+@@ -720,7 +724,7 @@
+ 					csum_partial((char *)tcph, skb->len-ip_hdrlen(skb), skb->csum));
+ 
+ 	iph->tot_len = htons(skb->len);
+-	__ip_select_ident(iph, skb->dst, 0);
++	__ip_select_ident(iph, skb_dst(skb), 0);
+ 	ip_send_check(iph);
+ 
+ 	return skb;
+</code>
+
+Ensuite appliquer le patch comme ceci 
+
+<code>sudo patch -N drcom.c < drcom.patch</code>
+
+Vous pouvez maintenant relancer la compilation comme ceci :
+
+<code>sudo aptitude install</code>
+
+Vous devez redémarrer, puis vous pouvez utiliser drcom via le menu Internet. Avec une jolie intégration à Ubuntu Gnome.
+
+==== Ubuntu 9.04 et antérieurs ====
+
+Vous pouvez simplement installer le paquet drcom correspondant à votre architecture.
+[[http://ppa.launchpad.net/drcom-client/ppa/ubuntu/pool/main/d/drcom-pum/]]
+
+===== Liens =====
+
+  * **(en)** [[http://www.drcom-client.org/en/downloads/linux.html|Site officiel de drcom-project]]
+  * **(en)** [[http://www.doctorcom.com/en/index.php|Site officiel de DoctorCom]]
+  * **(zh)** [[http://bbs.szu.edu.cn/wForum/disparticle.php?boardName=Linux_Unix&ID=9348|Proposition originale de modification pour drcom]]
+  * Portail [[Chinois]]
+----
+
+//Contributeurs principaux : [[utilisateurs:Natim|Rémy Hubscher]]//

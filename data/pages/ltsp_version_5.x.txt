@@ -1,0 +1,89 @@
+{{tag>serveur edubuntu ltsp BROUILLON}}
+
+
+====== serveur LTSP version 5.x ======
+
+L'installation d'un serveur LTSP permet de raccorder facilement des ''postes clients légers''. Ces postes peuvent être de vieux ordinateurs, dépourvus de disque dur, le principal étant qu'ils disposent d'une carte vidéo et d'une carte réseau. En connectant ces ordinateurs au serveur LTSP, vous obtenez un parc de machines qui utilisent les ressources de votre serveur, et partagent les mêmes applications. Ainsi, les mises à jour se font uniquement sur le serveur, et non plus sur chacun des postes.
+
+INSTALLATION
+
+Entrer les commandes suivantes :
+<code>
+sudo apt-get install ltsp-server-standalone openssh-server
+sudo ltsp-build-client
+</code>
+
+FIXME
+La procédure d'installation automatique d'ubuntu a déjà installé et configuré le serveur LTSP pour vous. Nous allons cependant voir comment en affiner sa configuration.
+    * Ouvrez une console, depuis le menu Applications->Accessoires->Terminal
+    * Reconfigurer le packet tzdata et choisir la zone géographique avec la commande suivante : "dpkg-reconfigure tzdata"
+    * Éditez le fichier ''/etc/ltsp/dhcpd.conf'' avec la commande suivante :<code>gksudo "gedit /etc/ltsp/dhcpd.conf"</code>
+    * Vous obtenez le fichier suivant :<file>
+authoritative;
+
+subnet 192.168.0.0 netmask 255.255.255.0 {
+  range 192.168.0.20 192.168.0.250;
+  option domain-name "example.com";
+  option domain-name-servers 192.168.0.1;
+  option broadcast-address 192.168.0.255;
+  option routers 192.168.0.1;
+  option subnet-mask 255.255.255.0;
+
+  filename "/ltsp/pxelinux.0";
+  option root-path "/opt/ltsp/i386";
+}</file>
+    * Vérifiez maintenant que les adresses IP correspondent à l'adresse que vous avez rentré lors de l'installation. Si vous avez utilisé une adresse en ''192.168.0'', vous avez bien fait. Sinon, utilisez Ctrl-R pour rechercher et remplacer les occurrences par celle que vous avez utilisé. Par exemple, remplacez ''192.168.0'' par ''10.0.0''.
+    * Vous pouvez également personnaliser le domaine de votre école, en remplacant la ligne : <file>option domain-name "example.com";</file> par <file>option domain-name "ltsp.monecole.com";</file>
+    * Si vous installez le serveur Edubuntu au sein d'un réseau existant, vous pouvez paramétrer les options ''domain-name-servers'' et ''routers'' en fonction de votre configuration interne.
+    * Vous pouvez enregistrer et fermer ce fichier.
+    * Si vous avez deux cartes réseau et que vous voulez que le serveur dhcp ne soit actif que sur une carte, ajoutez cette carte dans le fichier ''/etc/default/dhcp3-server'' et relancez le DHCP
+
+    * Créez ensuite le fichier <del>''/opt/ltsp/i386/etc/lts.conf''</del> ''/opt/ltsp/i386/lts.conf'' avec la commande :<code>gksudo "gedit /opt/ltsp/i386/lts.conf"</code>
+    * Ce fichier permet de passer des options spécifiques aux postes clients légers lors de leur démarrage. Nous allons préciser ici que nous souhaitons utiliser par défaut un clavier français dans l'environnement graphique des postes clients légers. Ajoutez pour cela les lignes suivantes :<file>
+[DEFAULT]
+        XkbLayout = fr</file>
+    * Vous pouvez enregistrer et fermer ce fichier.
+    * Il faut maintenant lancer le serveur DHCP, en charge de configurer les postes clients légers lors de leur démarrage. Dans votre console, tapez :<code>sudo /etc/init.d/dhcp3-server start</code>
+    * Si vous n'avez pas fait d'erreur, la commande devrait renvoyer le message **OK**. Vous pouvez maintenant essayer de raccorder poste client léger et de le démarrer. Pour ce faire, si le bios de votre client léger ne propose pas l'option de démarrage sur le réseau (//NETWORK//), il vous faudra créer uen disquette de démarrage spécifique, fonction de la carte réseau présente sur ce poste. Vous pouvez créer cette disquette à partir du site suivant : http://www.etherboot.org.
+
+Trucs : 
+    * Par défaut Edubuntu fournit au client léger un noyau de type PXE. Il faut donc choisir une image Rom compatible avec la norme PXE (la version 5.4.1 par exemple) : http://rom-o-matic.net/5.4.1/
+    * La liste des cartes disponibles est longue, le site http://www.ltsp.org/documentation/ltsp-4.1/ltsp-4.1-fr.html#AEN78 nous indique comment trouver l'identifiant de la carte.
+
+=== Sélection d'un pilote pour une carte réseau PCI ===
+
+Pour les cartes PCI, il faut, par contre, choisir le pilote correspondant exactement à l'identifiant PCI de la carte et de son fabricant.
+
+La plupart du temps, on peut facilement récupérer ces informations, car elles sont imprimées sur la carte et correspondent à la description du pilote. Mais il arrive qu'on ne puisse pas les retrouver.
+
+Dans ce cas, si le client léger est équipé d'un lecteur de disquette, on peut y insérer une disquette **tomsrtbt** (//Tom's Root Boot//). Ou bien, si le client léger dispose d'un lecteur CD-ROM, on peut démarrer avec un CD Linux, comme Knoppix. S'il n'est pas possible de lancer Linux sur le client léger pour découvrir le type de le carte réseau, le seul moyen restant est d'installer la carte réseau sur une machine où cela est possible.
+
+===Linux===
+
+Lorsque Linux est chargé, vous pouvez alors utiliser la commande ''lspci'' avec l'option ''-n''.
+  [root@jamlap root]# lspci -n
+  0000:00:00.0 Class 0600: 8086:7190 (rev 03)
+  0000:00:01.0 Class 0604: 8086:7191 (rev 03)
+  0000:00:03.0 Class 0607: 104c:ac1c (rev 01)
+  0000:00:03.1 Class 0607: 104c:ac1c (rev 01)
+  0000:00:07.0 Class 0680: 8086:7110 (rev 02)
+  0000:00:07.1 Class 0101: 8086:7111 (rev 01)
+  0000:00:07.2 Class 0c03: 8086:7112 (rev 01)
+  0000:00:07.3 Class 0680: 8086:7113 (rev 03)
+  0000:00:08.0 Class 0401: 125d:1978 (rev 10)
+  0000:01:00.0 Class 0300: 1002:4c4d (rev 64)
+  0000:06:00.0 Class 0200: 8086:1229 (rev 09)
+
+Dans l'exemple ci-dessus, lspci affiche une ligne pour chaque carte PCI installée dans la machine. La seule ligne qui compte concerne les composants de classe ''Class 0200''.
+<file>0000:06:00.0 Class 0200: 8086:1229 (rev 09)</file>
+
+Les identifiants PCI recherchés sont ''8086:1229''. Le premier champ 8086 correspond à l'identifiant du fabricant. Dans cet exemple, il s'agit d'//Intel Corporation//. Le deuxième champ, 1229 est l'identifiant de la carte, et il s'agit ici d'une //EtherExpress 100 card//. NDLT : Voir aussi ''lspci'' avec l'option ''-v''.
+
+Pour pouvoir copier le bootrom sur une disquette, choisissez l'option ''Floppy Bootable ROM Image''. Ceci va insérer un en-tête de 512 octets dans dans le bootrom. Lorsque le client léger démarre, cet en-tête charge le bootrom en mémoire, où il est exécuté.
+
+Une fois sauvegardé sur le disque dur, il faut ensuite copier le bootrom sur une disquette. Insérez une disquette dans le lecteur et lancez la commander suivante :
+
+  dd if=Etherboot_Image of=/dev/fd0 
+
+    * Si vous avez besoin d'écrire l'image disquette à partir d'un poste Windows, vous pouvez utiliser RawWrite : http://grpnov.unige.ch/divdocs/Doc-Aepli/RawWrite.html.
+    * Si votre client léger n'a pas encore de carte réseau, achetez une carte capable de démarrer directement en PXE. Exemple : ''DLINK DFE-554CP PXE BOOTROM F/DFE-550TX'' ou ''3com 905CX-TX-M'' (attention, beaucoup de cartes ont le support ROM BOOT, mais il faut le rajouter ; dans le cas de la Dlink précédemment citée, le module DFE-550TX est ainsi vendu sparément ; la 3com est complète).

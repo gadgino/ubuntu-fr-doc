@@ -1,0 +1,931 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#dvdriptranscode_en_mode_cluster" class="toc"> dvdrip/transcode en mode cluster </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#presentation_de_transcode_et_dvdrip" class="toc"> Présentation de transcode et dvdrip </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#le_mode_cluster" class="toc"> Le mode cluster </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#materiel" class="toc"> Matériel </a></span></li>
+<li class="level2"><span class="li"><a href="#pre-requis" class="toc"> Pré-requis </a></span></li>
+<li class="level2"><span class="li"><a href="#1._fonctionnement_du_mode_cluster_en_reseau_local" class="toc"> 1. Fonctionnement du mode cluster en réseau local </a></span></li>
+<li class="level2"><span class="li"><a href="#2._activer_les_bons_depots" class="toc"> 2. Activer les bons dépôts </a></span></li>
+<li class="level2"><span class="li"><a href="#3._installation_des_applications_et_serveurs" class="toc"> 3. Installation des applications et serveurs </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#sur_pc1" class="toc"> Sur pc1 </a></span></li>
+<li class="level3"><span class="li"><a href="#sur_pc2_pc3" class="toc"> Sur pc2, pc3... </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#4._creation_des_dossiers" class="toc"> 4. Création des dossiers </a></span></li>
+<li class="level2"><span class="li"><a href="#5._configuration_du_serveur_nfs_sur_pc1" class="toc"> 5. Configuration du serveur NFS sur pc1 </a></span></li>
+<li class="level2"><span class="li"><a href="#6._configuration_du_serveur_ssh_sur_pc1" class="toc"> 6. Configuration du serveur SSH sur pc1 </a></span></li>
+<li class="level2"><span class="li"><a href="#7._montage_automatique_des_fichiers_fstab_sur_pc2_et_pc3" class="toc"> 7. Montage automatique des fichiers (fstab) sur pc2 et pc3 </a></span></li>
+<li class="level2"><span class="li"><a href="#8._dvdrip" class="toc"> 8. dvdrip </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#configuration_generale" class="toc"> Configuration générale </a></span></li>
+<li class="level3"><span class="li"><a href="#configuration_du_cluster_et_ajouts_des_noeuds_pc1_pc2_et_pc3" class="toc"> Configuration du cluster et ajouts des noeuds (pc1, pc2 et pc3) </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#9._premier_essai" class="toc"> 9. Premier essai </a></span></li>
+<li class="level2"><span class="li"><a href="#10._trucs_et_astuces" class="toc"> 10. Trucs et astuces </a></span></li>
+<li class="level2"><span class="li"><a href="#11._depannage" class="toc"> 11. Dépannage </a></span></li>
+<li class="level2"><span class="li"><a href="#12._contact" class="toc"> 12. Contact </a></span></li>
+<li class="level2"><span class="li"><a href="#13._liens_et_sources" class="toc"> 13. Liens et sources </a></span></li>
+<li class="level2"><span class="li"><a href="#fin_provisoire_de_ce_tutoriel" class="toc"> Fin provisoire de ce tutoriel </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+Rédigé par <a href="http://forum.ubuntu-fr.org/profile.php?id=683" class="urlextern" title="http://forum.ubuntu-fr.org/profile.php?id=683" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Julian</a>
+</p>
+
+<a name="dvdriptranscode_en_mode_cluster"></a><h1> dvdrip/transcode en mode cluster </h1>
+<div class="level1">
+
+<p>
+ <strong>
+&ldquo;Comment accélérer l&rsquo;encodage d&rsquo;une vidéo en utilisant plusieurs ordinateurs sous Linux&rdquo;</strong> 
+</p>
+
+<p>
+ Ce tutoriel est destiné à un large public, c&rsquo;est pourquoi je l&rsquo;ai volontairement très détaillé. J&rsquo;apprécie quotidiennement ce mode cluster, et je souhaite le faire découvrir à un maximum de passionnés. Les utilisateurs plus expérimentés sous Linux/Ubuntu pourront passer de nombreuses étapes, ou bien me corriger si des erreurs se sont glissées dans cette présentation. 
+</p>
+
+</div>
+<!-- SECTION [102-635] -->
+<a name="presentation_de_transcode_et_dvdrip"></a><h2> Présentation de transcode et dvdrip </h2>
+<div class="level2">
+
+<p>
+ Transcode est un outil très puissant permettant de manipuler les fichiers multimédia (vidéo / audio).<br/>
+ Il peut, entre autre, vous permettre d&rsquo;encoder vos dvd&rsquo;s dans un format compressé pour vos sauvegardes personnelles. Son utilisation se fait en ligne de commande. 
+</p>
+
+<p>
+dvdrip est une interface graphique de Transcode facilitant ainsi son utilisation.<br/>
+ Il integre le mode cluster ou &ldquo;grappe&rdquo; en français.
+</p>
+
+</div>
+<!-- SECTION [636-1096] -->
+<a name="le_mode_cluster"></a><h3> Le mode cluster </h3>
+<div class="level3">
+
+<p>
+ Le clustering est une technique permettant de combiner plusieurs ordinateurs lorsque de nombreux calculs sont à effectuer, chaque machine connectée s&rsquo;appelle « nœud » ou node en anglais. Dans notre cas, nous allons créer un réseau local NFS / <acronym title="Secure Shell">SSH</acronym> (réseau local classique linux) et laisser le démon cluster répartir le travail sur tous les ordinateurs de ce réseau. Le temps d&rsquo;encodage sera donc plus rapide. À ma connaissance il n&rsquo;y a pas de limite de PC connectés.
+</p>
+
+<p>
+Voilà un aperçu de ce que l&rsquo;on peut obtenir pour un réseau de 3 PC, les « nœuds » correspondent aux machines connectées. 
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=applications%3Acontroledvdripcluster9qy.jpg" class="media" title="applications:controledvdripcluster9qy.jpg" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=applications%3Acontroledvdripcluster9qy.jpg" class="media" alt="" /></a>
+</p>
+
+<p>
+Sur mon installation, l&rsquo;encodage d&rsquo;un film me prenait 4h avec mon ordinateur le plus récent, maintenant en rajoutant mes 2 autres PC cela ne prend environ que 2h20. Ça vaut le coup de s&rsquo;y mettre. La configuration de mes PC figure sur le schéma un peu plus bas.
+</p>
+
+</div>
+<!-- SECTION [1097-2045] -->
+<a name="materiel"></a><h2> Matériel </h2>
+<div class="level2">
+
+<p>
+ Vous pouvez utiliser des ordinateurs de puissances différentes, même les vieilles machines qui traînent dans un coin de votre grenier. Tout le travail effectué par celles-ci, sera toujours ça de moins à faire par vos bêtes de course. Il est quand même préférable d&rsquo;avoir un réseau homogène, constitué de PC de puissance égale, nous verrons plus tard <a href="/applications/dvdrip_en_mode_cluster%2310._trucs_et_astuces" class="wikilink1" title="applications:dvdrip_en_mode_cluster#10._trucs_et_astuces" onclick="return svchk()" onkeypress="return svchk()">pourquoi</a>.
+</p>
+<pre class="code">
+* Une carte réseau fast ethernet 10/100 Mbps reconnue et fonctionnelle sur chaque ordinateur.
+* Un routeur ou un switch.
+* Le tout relié par des câbles ethernet droits RJ45</pre>
+
+<p>
+ <em><a href="http://wiki.ubuntu-fr.org/applications/dvdrip_en_mode_cluster#sommaire" class="urlextern" title="http://wiki.ubuntu-fr.org/applications/dvdrip_en_mode_cluster#sommaire" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">retour au Sommaire</a></em>
+</p>
+
+</div>
+<!-- SECTION [2046-2776] -->
+<a name="pre-requis"></a><h2> Pré-requis </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> Chaque ordinateur du réseau doit avoir une distribution linux d&rsquo;installée, de préférence la distribution Ubuntu Hoary. </span>
+</li>
+<li class="level1"><span class="li"> Votre réseau doit être correctement configuré pour que vos pc&rsquo;s puissent communiquer librement. </span>
+</li>
+<li class="level1"><span class="li"> Je ne prend pas en compte la présence d&rsquo;un firewall, n&rsquo;oubliez de régler le/les vôtres pour cette utilisation.</span>
+</li>
+</ul>
+
+<p>
+<em><a href="/applications/dvdrip_en_mode_cluster%23sommaire" class="wikilink1" title="applications:dvdrip_en_mode_cluster#sommaire" onclick="return svchk()" onkeypress="return svchk()">retour au Sommaire</a></em>
+</p>
+
+</div>
+<!-- SECTION [2777-3213] -->
+<a name="1._fonctionnement_du_mode_cluster_en_reseau_local"></a><h2> 1. Fonctionnement du mode cluster en réseau local </h2>
+<div class="level2">
+
+<p>
+ Voici un schéma qui représente globalement ce que nous souhaitons réaliser. Pour me faciliter la tâche je me suis basé sur mon propre réseau local, à savoir 1 réseau de 3 pc&rsquo;s derrière un routeur et j&rsquo;ai remplacé les noms de machines par pc1 pc2 et pc3 et les noms d&rsquo;utilisateurs par tux1 tux2 et tux3 selon la machine.
+</p>
+
+<p>
+pc1 sera le pc principal qui servira de serveur et de lieux de stockage, c&rsquo;est sur ce pc qu&rsquo;il y aura le plus gros du travail à réaliser. Concernant pc2 et pc3, la configuration est assez rapide, à vous de rajouter autant de machines que vous pouvez, les réglages seront toujours les même (pc4, pc5...).
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=applications%3Aschemadvdripcluster4aq.png" class="media" title="applications:schemadvdripcluster4aq.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=applications%3Aschemadvdripcluster4aq.png" class="media" alt="" /></a>
+</p>
+
+<p>
+ <em><a href="/applications/dvdrip_en_mode_cluster%23sommaire" class="wikilink1" title="applications:dvdrip_en_mode_cluster#sommaire" onclick="return svchk()" onkeypress="return svchk()">retour au Sommaire</a></em>
+</p>
+
+</div>
+<!-- SECTION [3214-4024] -->
+<a name="2._activer_les_bons_depots"></a><h2> 2. Activer les bons dépôts </h2>
+<div class="level2">
+
+<p>
+ Nous avons besoin:<br/>
+ 
+</p>
+<ul>
+<li class="level1"><span class="li"> Des dépôts présent par défaut dans la distribution Ubuntu Hoary.<br/>
+ </span>
+</li>
+<li class="level1"><span class="li"> Du dépôt Multiverse Hoary</span>
+</li>
+<li class="level1"><span class="li"> Et des Backports Hoary<br/>
+</span>
+</li>
+</ul>
+<pre class="code">sudo gedit /etc/apt/sources.list</pre>
+
+<p>
+Copier/Coller les dépôts ci-dessous dans le fichier texte qui vient de s&rsquo;ouvrir, enregistrez,fermez.
+</p>
+
+</div>
+
+<a name="depot_multiverse"></a><h5>Dépôt Multiverse</h5>
+<div class="level5">
+<pre class="code">deb http://archive.ubuntu.com/ubuntu/ hoary multiverse</pre>
+
+</div>
+
+<a name="backports_hoary"></a><h5>Backports Hoary</h5>
+<div class="level5">
+<pre class="code">deb http://public.planetmirror.com/pub/ubuntu-backports/ hoary-backports main universe multiverse restricted
+deb http://public.planetmirror.com/pub/ubuntu-backports/ hoary-extras main universe multiverse restricted
+</pre>
+
+<p>
+Et pour que ces dépôts soient pris en compte 
+</p>
+<pre class="code">sudo apt-get update</pre>
+
+<p>
+Cette manipulation doit se faire sur toutes les machines du réseau (pc1, pc2, pc3...)
+</p>
+
+<p>
+ <em><a href="/applications/dvdrip_en_mode_cluster%23sommaire" class="wikilink1" title="applications:dvdrip_en_mode_cluster#sommaire" onclick="return svchk()" onkeypress="return svchk()">retour au Sommaire</a></em>
+</p>
+
+</div>
+<!-- SECTION [4025-4951] -->
+<a name="3._installation_des_applications_et_serveurs"></a><h2> 3. Installation des applications et serveurs </h2>
+<div class="level2">
+
+</div>
+<!-- SECTION [4952-5009] -->
+<a name="sur_pc1"></a><h3> Sur pc1 </h3>
+<div class="level3">
+
+<p>
+ <u>Ouvrez le logiciel synaptic ou équivalent, recherchez et installez:</u><br/>
+
+</p>
+<ul>
+<li class="level1"><span class="li"> nfs-kernel-server + nfs-common + kernel-patch-nfs-ngroups</span>
+</li>
+<li class="level1"><span class="li"> ssh + openssh-server + openssh-client</span>
+</li>
+<li class="level1"><span class="li"> portmap</span>
+</li>
+<li class="level1"><span class="li"> xvid4conf </span>
+</li>
+<li class="level1"><span class="li"> imagemagick </span>
+</li>
+<li class="level1"><span class="li"> ogmtools </span>
+</li>
+<li class="level1"><span class="li"> libdvdcss2 </span>
+</li>
+<li class="level1"><span class="li"> Transcode</span>
+</li>
+<li class="level1"><span class="li"> dvdrip</span>
+</li>
+<li class="level1"><span class="li"> mplayer</span>
+</li>
+<li class="level1"><span class="li"> mplayer-fonts</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [5010-5337] -->
+<a name="sur_pc2_pc3"></a><h3> Sur pc2, pc3... </h3>
+<div class="level3">
+
+<p>
+ Les applications à installer sont moins nombreuses.
+</p>
+
+<p>
+<u>A partir de Synaptic ou équivalent, recherchez et installez:</u>
+</p>
+<ul>
+<li class="level1"><span class="li"> ssh + openssh-server + openssh-client</span>
+</li>
+<li class="level1"><span class="li"> nfs-common</span>
+</li>
+<li class="level1"><span class="li"> portmap</span>
+</li>
+<li class="level1"><span class="li"> transcode</span>
+</li>
+</ul>
+
+<p>
+ <em><a href="/applications/dvdrip_en_mode_cluster%23sommaire" class="wikilink1" title="applications:dvdrip_en_mode_cluster#sommaire" onclick="return svchk()" onkeypress="return svchk()">retour au Sommaire</a></em>  
+</p>
+
+</div>
+<!-- SECTION [5338-5632] -->
+<a name="4._creation_des_dossiers"></a><h2> 4. Création des dossiers </h2>
+<div class="level2">
+
+<p>
+ Je rappelle que pour une question de clarté, j&rsquo;ai choisi &ldquo;tux&rdquo; comme nom d&rsquo;utilisateur suivi du numéro du pc auquel il appartient, tux1 pour pc1... à vous d&rsquo;adapter selon vos noms d&rsquo;utilisateurs.
+</p>
+
+<p>
+Dans chaque pc&rsquo;s, nous allons créer le dossier &ldquo;Divx&rdquo; situé dans /home/tux(1,2,3...)/
+</p>
+
+<p>
+ <em><a href="/applications/dvdrip_en_mode_cluster%23sommaire" class="wikilink1" title="applications:dvdrip_en_mode_cluster#sommaire" onclick="return svchk()" onkeypress="return svchk()">retour au Sommaire</a></em>
+</p>
+
+</div>
+<!-- SECTION [5633-6021] -->
+<a name="5._configuration_du_serveur_nfs_sur_pc1"></a><h2> 5. Configuration du serveur NFS sur pc1 </h2>
+<div class="level2">
+
+<p>
+ Tous les fichiers d&rsquo;encodage seront stockés &ldquo;réellement&rdquo; dans /home/tux1/Divx.<br/>
+ Il est donc primordiale que pc2 et pc3 aient le droit d&rsquo;écrire dans ce dossier en utilisant le partage de fichier NFS. 
+</p>
+<ul>
+<li class="level1"><span class="li"> Petite transformation du fichier portmap</span>
+</li>
+</ul>
+<pre class="code">sudo gedit /etc/default/portmap</pre>
+
+<p>
+ Supprimez tout le contenu de ce fichier texte, enregistrez et fermez.<br/>
+ 
+</p>
+<ul>
+<li class="level1"><span class="li"> Puis redémarrez portmap<br/>
+</span>
+</li>
+</ul>
+<pre class="code">sudo /etc/init.d/portmap restart</pre>
+<ul>
+<li class="level1"><span class="li"> Il faut spécifier à pc1, quel pc&rsquo;s (adresse ip de pc2 et pc3) sont autorisées à communiquer avec lui</span>
+</li>
+</ul>
+<pre class="code">sudo gedit /etc/hosts.allow</pre>
+
+<p>
+ et insérer les lignes suivantes dans le fichier texte:<br/>
+ 
+</p>
+<pre class="code">portmap:192.168.2.3 192.168.2.4
+lockd:192.168.2.3 192.168.2.4
+mountd:192.168.2.3 192.168.2.4
+rquotad:192.168.2.3 192.168.2.4
+statd:192.168.2.3 192.168.2.4</pre>
+
+<p>
+ Enregistrez et fermez.<br/>
+  
+</p>
+<ul>
+<li class="level1"><span class="li"> Nous allons autoriser pc2 et pc3 à avoir accés au dossier /home/tux1/Divx, toujours de pc1<br/>
+</span>
+</li>
+</ul>
+<pre class="code">sudo gedit /etc/exports</pre>
+
+<p>
+ et insérer la ligne suivante dans le fichier texte:<br/>
+ 
+</p>
+<pre class="code">/home/tux1/Divx 192.168.2.3(rw,sync) 192.168.2.4(rw,sync)</pre>
+
+<p>
+ Enregistrez et fermez.<br/>
+ 
+</p>
+<ul>
+<li class="level1"><span class="li"> Maintenant que notre configuration est opérationnelle, on redémarre le serveur NFS</span>
+</li>
+</ul>
+<pre class="code">sudo /etc/init.d/nfs-kernel-server restart
+sudo /etc/init.d/nfs-kernel-server reload</pre>
+
+<p>
+Voilà pour la configuration du serveur NFS sur pc1.<br/>
+ 
+</p>
+
+<p>
+En cas de soucis, je vous renvoie sur <a href="/applications/partage_de_dossier" class="wikilink1" title="applications:partage_de_dossier" onclick="return svchk()" onkeypress="return svchk()">ce lien du Wiki</a>.<br/>
+
+</p>
+
+<p>
+<em><a href="/applications/dvdrip_en_mode_cluster%23sommaire" class="wikilink1" title="applications:dvdrip_en_mode_cluster#sommaire" onclick="return svchk()" onkeypress="return svchk()">retour au Sommaire</a></em>
+</p>
+
+</div>
+<!-- SECTION [6022-7609] -->
+<a name="6._configuration_du_serveur_ssh_sur_pc1"></a><h2> 6. Configuration du serveur SSH sur pc1 </h2>
+<div class="level2">
+
+</div>
+
+<a name="le_chef_d_orchestre"></a><h4> Le chef d'orchestre </h4>
+<div class="level4">
+
+<p>
+ Le duo <acronym title="Secure Shell">SSH</acronym> / demon cluster peut être considéré comme le chef d&rsquo;orchestre de toute cette organisation. Il va permettre de faire circuler l&rsquo;information et de distribuer les différentes tâches. Grâce à <acronym title="Secure Shell">SSH</acronym> vous pouvez prendre le contrôle de la machine pc2 tout en restant sur pc1.
+</p>
+
+</div>
+
+<a name="un_mot_de_passe_bien_genant"></a><h4> Un mot de passe bien gênant </h4>
+<div class="level4">
+
+<p>
+ Biensûr, ce systeme fort pratique pour toutes manipulations à distance, nécessite l&rsquo;entrer du mot de passe de l&rsquo;utilisateur du pc distant. C&rsquo;est ce qui nous gêne dans notre cas. 
+</p>
+
+<p>
+Lors d&rsquo;un encodage en mode cluster, le démon cluster interroge toutes les machines (noeuds) disponibles et répartie le travail sur chacun. Seulement il faut entrer le mot de passe à chaque nouvelle connexion et nouvelle portion de travail créée. Ca devient vite infernale voir impossible à gérer. 
+</p>
+
+<p>
+C&rsquo;est pourquoi nous allons automatiser cette tâche afin de ne plus avoir à donner aucun mot de passe, le démon cluster pourra travailler sans être bloqué.
+</p>
+
+</div>
+
+<a name="automatisons_la_tache_pour_les_mots_de_passe"></a><h4> Automatisons la tâche pour les mots de passe </h4>
+<div class="level4">
+
+<p>
+ Tout se fait de pc1: 
+</p>
+<pre class="code">ssh-keygen -t dsa</pre>
+
+<p>
+ à la phrase<br/>
+  &ldquo;Enter file in which to save the key (/home/tux1/.ssh/id_dsa)&rdquo; faites juste entrer<br/>
+ et à la phrase<br/>
+ &ldquo;Enter passphrase (empty for no passphrase):&rdquo; rentrer le mot de passe ou passphrase de votre choix (5 caractères minimum).<br/>
+
+</p>
+
+<p>
+puis<br/>
+
+</p>
+<pre class="code">ssh-copy-id -i ~/.ssh/id_dsa.pub tux1@192.168.2.2</pre>
+
+<p>
+ mot de passe utilisateur tux 1
+</p>
+<pre class="code">ssh-copy-id -i ~/.ssh/id_dsa.pub tux3@192.168.2.3</pre>
+
+<p>
+ mot de passe utilisateur tux 3
+</p>
+<pre class="code">ssh-copy-id -i ~/.ssh/id_dsa.pub tux2@192.168.2.4</pre>
+
+<p>
+ mot de passe utilisateur tux 2
+</p>
+
+<p>
+ainsi de suite pour toutes les machines connectées....
+</p>
+
+</div>
+
+<a name="et_pour_finir"></a><h4> Et pour finir </h4>
+<div class="level4">
+<pre class="code">ssh-add</pre>
+
+<p>
+ et entrer le mot de passe ou passphrase donné un peu plus haut.<br/>
+
+</p>
+
+</div>
+
+<a name="attention"></a><h4> Attention </h4>
+<div class="level4">
+
+<p>
+Si vous devez redémarrer pc1, vous devrez retaper après chaque redémarrage 
+</p>
+<pre class="code">ssh-add</pre>
+
+<p>
+ et le mot de passe ou passphrase, c&rsquo;est tout.<br/>
+
+</p>
+
+<p>
+On arrive à la fin de la configuration de <acronym title="Secure Shell">SSH</acronym>.<br/>
+  Normalement aucun mot de pasee ne sera demandé lors de l&rsquo;utilisation du mode cluster.
+</p>
+
+<p>
+ <em><a href="/applications/dvdrip_en_mode_cluster%23sommaire" class="wikilink1" title="applications:dvdrip_en_mode_cluster#sommaire" onclick="return svchk()" onkeypress="return svchk()">retour au Sommaire</a></em>
+</p>
+
+</div>
+<!-- SECTION [7610-9850] -->
+<a name="7._montage_automatique_des_fichiers_fstab_sur_pc2_et_pc3"></a><h2> 7. Montage automatique des fichiers (fstab) sur pc2 et pc3 </h2>
+<div class="level2">
+
+<p>
+ Tout à l&rsquo;heure, nous avons configuré le serveur NFS sur pc1 pour partager son répertoire /home/tux1/Divx<br/>
+ (rappellez-vous le sudo gedit /etc/exports), et bien maintenant nous allons donc montés (virtuellement) ce répertoire dans pc2 et pc3.
+</p>
+
+</div>
+
+<a name="faites_cette_manipulation_sur_toutes_vos_machines_connectees_pc2_pc3_pc4"></a><h4> Faites cette manipulation sur toutes vos machines connectées (pc2, pc3, pc4...)</h4>
+<div class="level4">
+
+<p>
+ Exemple à effectuer la machine pc2:
+</p>
+<pre class="code">sudo gedit /etc/fstab</pre>
+
+<p>
+ et insérer la ligne suivante<br/>
+ 
+</p>
+<pre class="code">192.168.2.2:/home/tux1/Divx /home/tux2/Divx nfs rw 0 0</pre>
+
+<p>
+ Enregistez et fermez
+</p>
+<pre class="code">sudo gedit /etc/hosts.allow</pre>
+<pre class="code">portmap:192.168.2.2 192.168.2.3
+lockd:192.168.2.2 192.168.2.3
+mountd:192.168.2.2 192.168.2.3
+rquotad:192.168.2.2 192.168.2.3
+statd:192.168.2.2 192.168.2.3</pre>
+
+<p>
+ Enregistrez et fermez.<br/>
+
+</p>
+
+<p>
+Pour que le montage soit pris en compte tout de suite: 
+</p>
+<pre class="code">sudo mount -a</pre>
+
+<p>
+ Faites un essai en créant un fichier dans /home/tux2/Divx<br/>
+ Normalement il devrait apparaitre dans /home/tux1/Divx<br/>
+
+</p>
+
+<p>
+Et ainsi de suite pour toutes les machines connectées.<br/>
+
+</p>
+
+<p>
+ <em><a href="/applications/dvdrip_en_mode_cluster%23sommaire" class="wikilink1" title="applications:dvdrip_en_mode_cluster#sommaire" onclick="return svchk()" onkeypress="return svchk()">retour au Sommaire</a></em>
+</p>
+
+</div>
+<!-- SECTION [9851-11010] -->
+<a name="8._dvdrip"></a><h2> 8. dvdrip </h2>
+<div class="level2">
+
+<p>
+ Si tout s&rsquo;est bien déroulé, nous n&rsquo;avons plus à intervenir sur pc2, pc3...<br/>
+  Tout se passe maintenant sur pc1. Allez courage, le plus intéressant arrive.
+</p>
+
+</div>
+<!-- SECTION [11011-11193] -->
+<a name="configuration_generale"></a><h3> Configuration générale </h3>
+<div class="level3">
+
+<p>
+ Selon la version utilisée de dvdrip, nous pouvons trouver le bouton Grappe ou Cluster, c&rsquo;est la même chose. 
+</p>
+
+<p>
+Lancer dvdrip puis Edition &ndash;&gt; préférences
+</p>
+
+<p>
+La configuration concernant le lecteur de dvd doit être correcte. Pour la suite cela doit ressembler à ça:
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=applications%3Advdrippreferences5tr.jpg" class="media" title="applications:dvdrippreferences5tr.jpg" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=applications%3Advdrippreferences5tr.jpg" class="media" alt="" /></a>
+</p>
+
+<p>
+ Toujours dans les préférences, à &ldquo;Options de la grappe&rdquo; ou &ldquo;Options du cluster&rdquo; selon votre version:
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=applications%3Advdripclusteroption4be.jpg" class="media" title="applications:dvdripclusteroption4be.jpg" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=applications%3Advdripclusteroption4be.jpg" class="media" alt="" /></a>
+</p>
+
+</div>
+<!-- SECTION [11194-11694] -->
+<a name="configuration_du_cluster_et_ajouts_des_noeuds_pc1_pc2_et_pc3"></a><h3> Configuration du cluster et ajouts des noeuds (pc1, pc2 et pc3) </h3>
+<div class="level3">
+
+<p>
+ Il est temps d&rsquo;ajouter enfin toutes les machines de votre réseau, que l&rsquo;on va à présent appeler &ldquo;noeuds&rdquo;.<br/>
+ Grappe &ndash;&gt; panneau de contrôle &ndash;&gt; ajouter un noeud
+</p>
+
+<p>
+D&rsquo;abord on ajoute le noeud du pc principal pc1:<br/>
+
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=applications%3Aajouternoeudtux19pv.jpg" class="media" title="applications:ajouternoeudtux19pv.jpg" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=applications%3Aajouternoeudtux19pv.jpg" class="media" alt="" /></a>
+</p>
+
+<p>
+Un petit &ldquo;test&rdquo;, et vous devriez voir ceci
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=applications%3Amessagedvdvripclustertux16bl.jpg" class="media" title="applications:messagedvdvripclustertux16bl.jpg" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=applications%3Amessagedvdvripclustertux16bl.jpg" class="media" alt="" /></a>
+</p>
+
+<p>
+On ajoute ensuite tous les autres noeuds un par un, &ldquo;ajouter un noeud&rdquo; toujours, mais cette fois avec ce genre de configuration, un exemple avec pc2:
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=applications%3Aajouternoeudtux20sq.jpg" class="media" title="applications:ajouternoeudtux20sq.jpg" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=applications%3Aajouternoeudtux20sq.jpg" class="media" alt="" /></a>
+</p>
+
+<p>
+Un autre &ldquo;test&rdquo;, et on obtient 1 seul &ldquo;not ok&rdquo;
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=applications%3Amessagedvdvripclustertux27gt.jpg" class="media" title="applications:messagedvdvripclustertux27gt.jpg" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=applications%3Amessagedvdvripclustertux27gt.jpg" class="media" alt="" /></a>
+</p>
+
+<p>
+C&rsquo;est normal, cool. Ajouter au fur et à mesure toutes les machines de votre réseau, en prenant comme exemple pc2.
+</p>
+
+<p>
+Votre panneau de controle doit maintenant contenir tous vos noeuds/machines disponibles et ils sont pour le moment arrêtés. 
+</p>
+
+<p>
+Faites &ldquo;démarré le noeud&rdquo; pour chacun d&rsquo;eux.  Pc1 est le plus rapide à se connecter, pour les 2 autres la connexion met une dizaine de secondes, jusqu&rsquo;à se mettre en position &ldquo;idle&rdquo;, c&rsquo;est à dire prêt à travailler.
+</p>
+
+<p>
+ <em><a href="/applications/dvdrip_en_mode_cluster%23sommaire" class="wikilink1" title="applications:dvdrip_en_mode_cluster#sommaire" onclick="return svchk()" onkeypress="return svchk()">retour au Sommaire</a></em>
+</p>
+
+</div>
+<!-- SECTION [11695-12943] -->
+<a name="9._premier_essai"></a><h2> 9. Premier essai </h2>
+<div class="level2">
+
+<p>
+ Insérer un dvd, je vous conseille de juste lire le début de ce dvd dans votre lecteur multimédia afin de déverrouiller la sécurité (grâce à libdvdcss2). Une fois que le dvd passe bien:<br/>
+
+</p>
+
+</div>
+
+<a name="nouveau_projet"></a><h4> Nouveau projet </h4>
+<div class="level4">
+
+<p>
+dvdrip &ndash;&gt; Fichier &ndash;&gt; nouveau projet<br/>
+ Pour l&rsquo;exemple je l&rsquo;ai appelé &ldquo;22&rdquo;, c&rsquo;est comme ça... 
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=applications%3Anouveauprojetdvdripcluster9va.jpg" class="media" title="applications:nouveauprojetdvdripcluster9va.jpg" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=applications%3Anouveauprojetdvdripcluster9va.jpg" class="media" alt="" /></a>
+</p>
+
+</div>
+
+<a name="lecture_de_la_table"></a><h4> Lecture de la table </h4>
+<div class="level4">
+
+<p>
+dvdrip &ndash;&gt; Extraction &ndash;&gt; lire la table des matières du dvd<br/>
+ Les différents plages du dvd apparaissent comme ceci:<br/>
+
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=applications%3Aextractiondvdripcluster3xh.jpg" class="media" title="applications:extractiondvdripcluster3xh.jpg" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=applications%3Aextractiondvdripcluster3xh.jpg" class="media" alt="" /></a>
+</p>
+
+</div>
+
+<a name="choisissez_la_plage_qui_vous_convient"></a><h4> Choisissez la plage qui vous convient </h4>
+<div class="level4">
+
+<p>
+Utilisez &ldquo;visualiser les titres ou chapitres séléctionnés&rdquo; pour être sûr de sélectionner la bonne plage.<br/>
+  Pour cet essai, prenez plutôt une plage de courte durée 5 à 10 minutes, de façon à faire la procédure en entier en peu de temps.
+</p>
+
+</div>
+
+<a name="extraire_les_titres"></a><h4> Extraire les titres </h4>
+<div class="level4">
+
+<p>
+Prévoyez au moins 7 Go de libre (film complet) sur le disque dur de pc1<br/>
+  Quand vous avez séléctionné votre plage<br/>
+  &ndash;&gt; faites &ldquo;extraire les titres ou chapitres séléctionnés&rdquo;<br/>
+ L&rsquo;extraction commence.<br/>
+
+</p>
+
+</div>
+
+<a name="petite_verification"></a><h4> Petite vérification </h4>
+<div class="level4">
+
+<p>
+Pendant l&rsquo;extraction, profitez-en pour regarder sur pc2 et pc3 dans leur /home/tux(2et3)/Divx respectif.<br/>
+ Le fichier &ldquo;22&rdquo; devrait être présent.
+</p>
+
+</div>
+
+<a name="note"></a><h4> Note </h4>
+<div class="level4">
+
+<p>
+Il faut garder à l&rsquo;esprit que les répertoires /home/tux2/Divx et /home/tux3/Divx ne sont rien d&rsquo;autres qu&rsquo;un accés direct à /home/tux1/Divx. Rien n&rsquo;est écrit sur le disque dur de pc2 et pc3. Mais toutes mauvaise manipulation dans le fichier &ldquo;Divx&rdquo; que l&rsquo;on soit sur pc2, pc3... aura des répercussions sur toute la procédure.
+</p>
+
+<p>
+En revanche, et c&rsquo;est là que cette technique est appréciable, si une machine tombe en panne ou se bloque pour diverses raisons, à part pc1 évidemment, il n&rsquo;y aura aucun problème. Le démon cluster attribuera la tâche en cours de la machine fautive à une autre machine, c&rsquo;est un système très souple et très stable. Vous pourrez à tout moment arrêter n&rsquo;importe quel noeud même pc1.
+</p>
+
+</div>
+
+<a name="l_extraction_doit_etre_termine"></a><h4> L'extraction doit être terminé </h4>
+<div class="level4">
+
+<p>
+ Je ne rentre pas les détails d&rsquo;encodage proprement dit: redimensionnement, sous-titres... chacun ces goûts.<br/>
+  Juste pour info le trio: conteneur ogg &ndash;&gt; xvid4 mode pass 2 &ndash;&gt; Sons AC3 fonctionne parfaitement en mode cluster.<br/>
+ En revanche, j&rsquo;ai rencontré des problèmes lors de l&rsquo;encodage du son en mp3 et Ogg<br/>
+  J&rsquo;attend des retours là dessus.<br/>
+
+</p>
+
+<p>
+Le mode cluster ne permet la prévisualisation d&rsquo;un échantillon, pour ceci vous utiliserez uniquement pc1.
+</p>
+
+<p>
+Lorsque vous avez suivi les étapes, et que vos paramètres sont bon:
+</p>
+
+<p>
+Encoder &ndash;&gt; &ldquo;ajouter à la grappe&rdquo; en bas à droite, cette fenêtre apparait: 
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=applications%3Advdripclusterproprietes5cc.jpg" class="media" title="applications:dvdripclusterproprietes5cc.jpg" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=applications%3Advdripclusterproprietes5cc.jpg" class="media" alt="" /></a>
+</p>
+
+<p>
+Ici je vous conseille de mettre Oui pour la suppression des fichiers avi temporaires, en revanche Non pour les fichiers Vob, car si votre encodage ne vous convient pas, vous pourrez le recommencer sans problème. Validez.
+</p>
+
+<p>
+Vérifier que vos noeuds sont démarrés et faites &ldquo;Programmer ce projet&rdquo; ou &ldquo;Schedule Project&rdquo;. Normalement tous vos noeuds doivent se mettre au travail, comme ceci:
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=applications%3Acontroledvdripcluster9qy.jpg" class="media" title="applications:controledvdripcluster9qy.jpg" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=applications%3Acontroledvdripcluster9qy.jpg" class="media" alt="" /></a>
+</p>
+
+<p>
+Elle est pas belle la vie!!!
+</p>
+
+<p>
+ <em><a href="/applications/dvdrip_en_mode_cluster%23sommaire" class="wikilink1" title="applications:dvdrip_en_mode_cluster#sommaire" onclick="return svchk()" onkeypress="return svchk()">retour au Sommaire</a></em>
+</p>
+
+</div>
+<!-- SECTION [12944-16226] -->
+<a name="10._trucs_et_astuces"></a><h2> 10. Trucs et astuces </h2>
+<div class="level2">
+
+</div>
+
+<a name="si_votre_reseau_est_compose_d_ordinateurs_de_puissance_inegale"></a><h4> Si votre réseau est composé d'ordinateurs de puissance inégale </h4>
+<div class="level4">
+
+<p>
+ Comme je l&rsquo;ai annoncé dans la section <a href="/applications/dvdrip_en_mode_cluster%23materiel" class="wikilink1" title="applications:dvdrip_en_mode_cluster#materiel" onclick="return svchk()" onkeypress="return svchk()">matériel</a>, tout ordinateur même le vieux coucou peut être utile dans ce genre de configuration, car tout calculs effectués par celui-ci ne sera pas à faire par vos bêtes de courses.<br/>
+  Comme c&rsquo;est un système très souple, le petit pc peut commencer une tâche tranquillement, mais il n&rsquo;est pas obligé de la finir, vous pouvez sans problème le &ldquo;stopper&rdquo;, un autre pc prendra le relais.
+</p>
+
+<p>
+C&rsquo;est pourquoi, je vous conseille de surveiller la fin de l&rsquo;encodage, car il se peut (c&rsquo;est très fréquent) que vos pc&rsquo;s puissants aient finis toutes leurs tâches et soit en position d&rsquo;attente, pendant que votre petit pc poussif peine à finir son travail.<br/>
+
+</p>
+
+<p>
+Le mode cluster perd tout son sens car vous allez peut être attendre des heures.<br/>
+ 
+</p>
+
+</div>
+
+<a name="pour_corriger_ce_soucis"></a><h5> Pour corriger ce soucis </h5>
+<div class="level5">
+
+<p>
+ Stoppez le noeud du pc poussif, puis les autres, en ne laissant que celui de la machine la plus puissante, c&rsquo;est celui-ci qui prendra le relais et qui finira le travail beaucoup plus rapidement.
+</p>
+
+</div>
+
+<a name="pour_corriger_ce_soucis_lorsque_vous_avez_lance_plusieurs_projets"></a><h5> Pour corriger ce soucis lorsque vous avez lancé plusieurs projets </h5>
+<div class="level5">
+
+<p>
+ Dans le même cas de figure, plutôt que d&rsquo;être en position d&rsquo;attente, les pc&rsquo;s puissants sont déjà passé au projet suivant laissant seul le petit pc finir le travail.
+</p>
+
+<p>
+Dans ce cas stoppez &ldquo;tout les noeuds&rdquo; &ndash;&gt; sélectionnez le projet à finir (en haut du panneau de contrôle) et redémarrez le pc le plus puissant en premier, il finira le travail. Puis redémarrez tous les autres noeuds qui se remettront au boulot sur les autres projets.
+</p>
+
+<p>
+ <em><a href="/applications/dvdrip_en_mode_cluster%23sommaire" class="wikilink1" title="applications:dvdrip_en_mode_cluster#sommaire" onclick="return svchk()" onkeypress="return svchk()">retour au Sommaire</a></em>
+</p>
+
+</div>
+<!-- SECTION [16227-17959] -->
+<a name="11._depannage"></a><h2> 11. Dépannage </h2>
+<div class="level2">
+
+</div>
+
+<a name="si_vous_constatez_que_les_noeuds_distants_se_mettent_en_position_running_mais_qu_il_n_y_a_aucune_activite"></a><h5> Si vous constatez que les noeuds distants se mettent en position &quot;running&quot; mais qu'il n'y a aucune activité </h5>
+<div class="level5">
+<pre class="code">ssh-add</pre>
+
+<p>
+ et ré-entrer le mot de passe<br/>
+
+</p>
+
+<p>
+Redémarrez portmap<br/>
+ 
+</p>
+<pre class="code">sudo /etc/init.d/portmap restart</pre>
+
+<p>
+ Vérifiez que le montage du dossier &ldquo;Divx&rdquo; sur les pc&rsquo;s distants fonctionne bien. Assurez-vous qu&rsquo;un firewall ne bloque pas l&rsquo;accès.
+</p>
+
+<p>
+Si toujours rien lire la suite...<br/>
+
+</p>
+
+</div>
+
+<a name="can_t_start_local_demon"></a><h5> &quot;Can't start local Démon...&quot; </h5>
+<div class="level5">
+
+<p>
+Si le démon refuse de démarrer<br/>
+
+</p>
+
+<p>
+Redémarrez dvdrip<br/>
+ Redémarrez portmap<br/>
+ 
+</p>
+<pre class="code">sudo /etc/init.d/portmap restart</pre>
+
+<p>
+Si toujours rien<br/>
+ 
+</p>
+<pre class="code">dvdrip-master 2</pre>
+
+<p>
+ Le message vous donne des informations sur les noeuds, les projet en cours.... Si vous avez le message suivant:<br/>
+ &ldquo;Changement de fichier du projet&rdquo; &lsquo;/home/tux1/.dvdrip-master/projects/00000......22(exemple).rip&rsquo;<br/>
+
+</p>
+
+<p>
+Allez dans: /home/tux1/.dvdrip-master/projects/ Et supprimez le projet en question.
+</p>
+
+<p>
+Puis dvdrip &ndash;&gt; Grappe &ndash;&gt; panneau de contrôle.
+</p>
+
+<p>
+ <em><a href="/applications/dvdrip_en_mode_cluster%23sommaire" class="wikilink1" title="applications:dvdrip_en_mode_cluster#sommaire" onclick="return svchk()" onkeypress="return svchk()">retour au Sommaire</a></em>
+</p>
+
+</div>
+<!-- SECTION [17960-19018] -->
+<a name="12._contact"></a><h2> 12. Contact </h2>
+<div class="level2">
+
+<p>
+Mails: <a href="mailto:&#x6a;&#x75;&#x6c;&#x69;&#x61;&#x6e;&#x5f;&#x64;&#x75;&#x68;&#x61;&#x6d;&#x65;&#x6c;&#x40;&#x79;&#x61;&#x68;&#x6f;&#x6f;&#x2e;&#x66;&#x72;" class="mail" title="&#x6a;&#x75;&#x6c;&#x69;&#x61;&#x6e;&#x5f;&#x64;&#x75;&#x68;&#x61;&#x6d;&#x65;&#x6c;&#x40;&#x79;&#x61;&#x68;&#x6f;&#x6f;&#x2e;&#x66;&#x72;">&#x6a;&#x75;&#x6c;&#x69;&#x61;&#x6e;&#x5f;&#x64;&#x75;&#x68;&#x61;&#x6d;&#x65;&#x6c;&#x40;&#x79;&#x61;&#x68;&#x6f;&#x6f;&#x2e;&#x66;&#x72;</a> <br/>
+ Pour toutes remarques sur ce tutoriel:<br/>
+ <a href="http://forum.ubuntu-fr.org/viewtopic.php?pid=43136#p43136" class="urlextern" title="http://forum.ubuntu-fr.org/viewtopic.php?pid=43136#p43136" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://forum.ubuntu-fr.org/viewtopic.php?pid=43136#p43136</a>
+</p>
+
+<p>
+ <em><a href="/applications/dvdrip_en_mode_cluster%23sommaire" class="wikilink1" title="applications:dvdrip_en_mode_cluster#sommaire" onclick="return svchk()" onkeypress="return svchk()">retour au Sommaire</a></em>
+</p>
+
+</div>
+<!-- SECTION [19019-19239] -->
+<a name="13._liens_et_sources"></a><h2> 13. Liens et sources </h2>
+<div class="level2">
+
+<p>
+ Site Officiel de dvdrip: <a href="http://www.exit1.org/dvdrip/index.cipp" class="urlextern" title="http://www.exit1.org/dvdrip/index.cipp" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.exit1.org/dvdrip/index.cipp</a><br/>
+ Site Officiel francophone Ubuntu: <a href="http://www.ubuntu-fr.org/" class="urlextern" title="http://www.ubuntu-fr.org/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.ubuntu-fr.org/</a><br/>
+ Forum francophone Ubuntu: <a href="http://forum.ubuntu-fr.org/" class="urlextern" title="http://forum.ubuntu-fr.org/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://forum.ubuntu-fr.org/</a><br/>
+ Le site Funix: <a href="http://www.funix.org/fr/linux/conversion.htm" class="urlextern" title="http://www.funix.org/fr/linux/conversion.htm" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.funix.org/fr/linux/conversion.htm</a><br/>
+ Pour tout savoir sur <acronym title="Secure Shell">SSH</acronym>: <a href="http://wiki.ubuntu-fr.org/applications/ssh" class="urlextern" title="http://wiki.ubuntu-fr.org/applications/ssh" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://wiki.ubuntu-fr.org/applications/ssh</a><br/>
+
+</p>
+
+<p>
+<em><a href="/applications/dvdrip_en_mode_cluster%23sommaire" class="wikilink1" title="applications:dvdrip_en_mode_cluster#sommaire" onclick="return svchk()" onkeypress="return svchk()">retour au Sommaire</a></em>
+</p>
+
+</div>
+<!-- SECTION [19240-19651] -->
+<a name="fin_provisoire_de_ce_tutoriel"></a><h2> Fin provisoire de ce tutoriel </h2>
+<div class="level2">
+
+</div>
+<!-- SECTION [19652-] -->

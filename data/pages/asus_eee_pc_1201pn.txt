@@ -1,0 +1,120 @@
+{{tag>Lucid portable netbook asus asus_eee_pc}}
+
+----
+
+====== Asus Eee PC 1201PN ======
+{{:eeepc:eeepc1201pn.jpg|Asus Eee PC 1201PN}}
+
+Le tableau suivant récapitule la prise en charge du matériel de ce portable par les différentes versions d'Ubuntu.
+Il utilise les notations suivantes :
+  * {{icons:important.png|Fonctionne après config}} : **Fonctionne après quelques manipulations**
+  * {{icons:icon-ubuntu.png|Fonctionne immédiatement}} : **Fonctionne immédiatement**
+  * {{icons:icon-support.png|Pas testé}} : **Pas d'informations disponibles**
+  * {{icons:process-stop.png?36|Ne fonctionne pas}} : **Ne fonctionne pas**
+
+^ Version ^ Installation ^ Carte graphique ^ Son ^ Wifi ^ Bluetooth ^ Webcam ^ Touchpad ^ Raccourcis multimédia ^ Autres ^
+| [[:Lucid|"Lucid Lynx" - 10.04]] et [[:ubuntu_netbook_edition|"Ubuntu Netbook Edition" - 10.04"]] |  {{icons:icon-ubuntu.png|Fonctionne immédiatement}}  |  {{icons:icon-ubuntu.png|Fonctionne immédiatement}}  | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} |
+
+
+**Cet ordinateur portable n'est pas [[:pc_tatoué|tatoué]].**
+
+===== Présentation =====
+
+  * CPU: Intel Atom N450 1,66Ghz
+  * Mémoire: 2 Go
+  * GPU: Nvidia Ion2 (Geforce GT21x)
+  * Disque dur: 320 Go
+  * Écran 12.1"
+  * Résolution: 1366 x 768 pixels
+  * WiFi: b/g/n
+  * Bluetooh: 2.1
+  * Webcam intégrée
+  * Lecteurs cartes mémoires : MMC/ SD(SDHC)
+  * Port HDMI
+  * Ports USB 2.0: 3 ports
+  * Port VGA
+  * Sortie casque
+  * Entrée micro
+  * Port ethernet 10/100
+  * Touchpad
+  * Clavier Chiclet
+
+===== Résolution des problèmes avec Lucid Lynx 10.04=====
+
+==== Raccourcis multimédia ====
+
+Pour faire fonctionner la touche Fn et les raccourcis associés, procéder comme ceci :
+
+  - [[:tutoriel:comment_modifier_un_fichier|Ouvrir le fichier]] **/etc/default/grub**  et ajouter l'option //**acpi_osi=Linux**// après //**quiet splash**// dans la ligne commençant par **//GRUB_CMDLINE_LINUX_DEFAULT//** : <file>GRUB_CMDLINE_LINUX_DEFAULT="quiet splash acpi_osi=Linux"</file>
+  - Mettre à jour grub : <code>sudo update-grub</code>
+  - Redémarrez l'ordinateur.
+<note>Bien que l'activation/désactivation du Wi-Fi fonctionne avec fn+F2, la led témoin bleu correspondante reste allumée en permanence.</note>
+
+Pour un meilleur contrôle du hardware, installer l'applet [[:jupiter|Jupiter]] et redémarrer. Puis, désactiver le Wi-Fi via l'applet : la led témoin bleu du Wi-Fi s'éteind. L'applet évite aussi que le Wi-Fi ne redémarre après chaque mise en veille ou le bluetooth après chaque démarrage. Et elle passe automatiquement le(s) processeur(s) en mode économie lorsque l'ordinateur est sur batterie (Nota. - Sur alimentation secteur, la passer en "high performance" plutôt que "maximum performance" qui est sélectionné par défaut).
+
+==== Touchpad ====
+De base, le touchpad fonctionne comme un touchpad classique réglable par les //Système/Préférences/Préférences de la souris//, mais :\\
+- Le défilement Horizontal et Vertical ne fonctionne pas en glissant deux doigts; (l'option //Préférences de la souris// > //Défilement à deux doigts// est grisée !)\\
+- Le tapotement à 2 et 3 doigts non plus. \\
+
+Pour y remédier :
+
+1. [[:tutoriel:comment_modifier_un_fichier|Ouvrir le fichier]] **/usr/lib/X11/xorg.conf.d/10-synaptics.conf**\\ 
+Dans ce fichier, repèrer la «//Section "InputClass"//»  et ajouter les deux lignes d'«//Option//» **sous** la ligne //**Driver "synaptics"**// et **au dessus** de //**EndSection**//:
+
+Ce qui donne :
+<file>Section "InputClass"
+	Identifier "touchpad catchall"
+	MatchIsTouchpad "on"
+	MatchDevicePath "/dev/input/event*"
+	Driver "synaptics"
+	Option	"SHMConfig"	"true"
+	Option	"EmulateTwoFingerMinZ"	"1"
+EndSection</file>
+
+Description :\\
+- Option  "SHMConfig"     "true"\\
+Nécessaire pour que la commande //synclient -l// fonctionne afin de contrôler si les valeurs des options sont bien passées.\\ 
+- Option  "EmulateTwoFingerMinZ"  "1"\\
+Une valeur entre 0 et 65... la valeur 280 par défaut empêche les deux doigts d'être détectés.\\ 
+
+Redémarrer le serveur X ($sudo invoke-rc.d gdm restart) ou redémarrer l'ordinateur !
+
+
+2. Installer **[[apt://gpointing-device-settings|gpointing-device-settings]]** et aller [[:touchpad#GPointing|cocher les cases "deux doigts"]] dans l'onglet défilement.
+
+Conclusions :\\
+- Taper avec deux doigts fonctionne (click droit), mais taper avec 3 doigts ne fonctionne pas (click milieu) :-(\\ 
+- Pour se consoler, par défaut, taper dans le coin en haut à droite effectue un click milieu.\\ 
+- Par défaut taper dans le coin en bas à droite effectue un click droit.\\ 
+
+FIXME Si jamais quelqu'un trouve pour les 3 doigts en farfouillant avec [[:touchpad#Utilisation de Synclient|synclient]] et le [[http://manpages.ubuntu.com/manpages/lucid/man4/synaptics.4.html|man de synaptics]]...\\ 
+
+==== Carte graphique : sortie HDMI et Son ====
+
+L'installation via l'assistant des pilotes propriétaires nvidia permet de bénéficier de l'accélération 3D et de la sortie hdmi grâce à TwinView.\\
+Côté signal vidéo tout va bien, mais **le signal audio ne passe pas par le câble hdmi !**
+
+Normalement, dans le menu **//Système/Préférences/Son//**, onglet **Matériel**, 
+devrait se trouver\\
+**Digital Stereo (HDMI) Output**\\
+dans la liste des **Profil**, qu'il suffirait alors de sélectionner...
+
+Mais ce matériel n'apparait PAS !!\\
+
+Pour régler ce problème, avec un système mis à jour (lucid-security et lucid-update au moins), installer le paquet [[apt://linux-backports-modules-alsa-lucid-generic]].
+
+Il suffit alors de sélectionner dans l'onglet **Sortie**\\
+**High Definition Audio Co ntroller Digital Stereo (HDMI)** pour que l'audio de vos médias passe dans le câble HDMI !!
+
+<note important>Il se peut que la sortie HDMI soit **mutée** dans le mixer.
+Pour accéder au mixer, lancer "alsamixer" dans un terminal et sélectionner la seconde carte son (F6) [Card: HDA NVidia - Chip: Nvidia GT21x HDMI] et dé-muter les sorties S/PDIF avec la touche "m". </note>  
+
+Si malgré tout le son n'est pas audible, [[:tutoriel:comment_modifier_un_fichier|créer le fichier]] **/etc/modprobe.d/sound.conf** et y inscrire ceci :
+<file>options snd-hda-intel enable_msi=0 probe_mask=0xffff,0xfff2</file>
+
+Au redémarrage, vérifier l'état du mixer...  le son devrait passer :-o
+
+----
+
+//Contributeurs principaux : [[utilisateurs:MaKoTo]]//

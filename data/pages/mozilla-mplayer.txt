@@ -1,0 +1,74 @@
+{{tag>audio navigateur vidéo}}
+
+----
+
+====== Greffon MPlayer pour navigateurs ======
+
+Mozilla-mplayer est un greffon qui utilise le lecteur [[:MPlayer]] pour lire des médias dans un navigateur.
+
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]] ;
+  * disposer d'une connexion à Internet configurée et activée ;
+  * avoir activé l'accès au [[depots#universe_et_multiverse|dépôt multiverse]].
+
+===== Installation =====
+
+<note important>Depuis **[[lucid|Ubuntu 10.04 LTS]]**, le greffon mozilla-mplayer n'est plus présent dans les dépôts officiels et a été remplacé par le greffon **[[apt://gecko-mediaplayer|gecko-mediaplayer]]**, également disponible aussi sur les versions antérieures d'Ubuntu.
+
+Néanmoins, il est possible d'installer ce greffon sur **[[lucid|Ubuntu 10.04 LTS]]** en [[#Avec un paquet Deb|installant un paquet Deb]].
+</note>
+
+==== Depuis les dépôts officiels ====
+
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt://mozilla-mplayer|mozilla-mplayer]]**, puis relancez votre navigateur.
+
+==== Avec un paquet Deb ==== 
+
+Téléchargez et [[:tutoriel:comment_installer_un_paquet#installer_un_paquet_hors_depots_non_recommande|installez le paquet]] en fonction de l'[[architecture matérielle]] de votre système :
+
+  * [[http://cz.archive.ubuntu.com/ubuntu/pool/multiverse/m/mplayerplug-in/mozilla-mplayer_3.55-2ubuntu1_i386.deb|mozilla-mplayer version 32 bits]] ;
+  * [[http://cz.archive.ubuntu.com/ubuntu/pool/multiverse/m/mplayerplug-in/mozilla-mplayer_3.55-2ubuntu1_amd64.deb|mozilla-mplayer version 64 bits]].
+
+
+===== Configuration =====
+
+Vous pouvez configurer le greffon en [[tutoriel:comment_modifier_un_fichier|modifiant le fichier]] **.mplayer/mplayerplug-in.conf**.
+
+
+===== Problèmes =====
+
+==== Lecture de formats non libres ====
+
+Reportez-vous sur la page « [[formats_non-libres|Les formats non libres]] ».
+
+Voir aussi [[http://forum.ubuntu-fr.org/viewtopic.php?id=140413|cette discussion du forum Ubuntu-fr]].
+
+==== Conflit ====
+
+Si [[:totem|totem-mozilla]] entre en conflit avec mozilla-mplayer, [[tutoriel:comment_supprimer_un_paquet|désinstallez le paquet]] **totem-mozilla**.
+
+==== Streaming DivX ====
+
+Si vous rencontrez des problèmes de lecture de DivX en //streaming//((diffusion en flux vidéo)), tapez dans un [[terminal]] les lignes de commandes suivantes :
+
+<code>
+sudo cp /usr/lib/mozilla/plugins/mplayerplug-in-dvx.so /usr/lib/firefox/plugins/
+sudo cp /usr/lib/mozilla/plugins/mplayerplug-in-dvx.xpt /usr/lib/firefox/plugins/
+</code>
+
+Celles-ci vous permettent de copier les fichiers « mplayerplug-in-dvx.so » et « mplayerplug-in-dvx.xpt » du répertoire « /usr/lib/mozilla/plugins/ » vers le répertoire « /usr/lib/firefox/plugins/ ».
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, le configuration globale de l'application sera conservée ou supprimée. Les journaux du système et les fichiers de préférence des utilisateurs dans leurs dossiers personnels seront toujours conservés.
+
+===== Voir aussi =====
+
+  * [[http://mplayerplug-in.sourceforge.net/index.php|Site officiel]]
+  * [[:tutoriel/astuce_radio-canada|Les astuces]] pour écouter ou visionner le contenu multimédia sur le site de Radio-Canada et de ses filiales.
+
+----
+
+//Contributeurs principaux : [[:utilisateurs:CHUCKYCHUCK]], [[utilisateurs:Julian]].//

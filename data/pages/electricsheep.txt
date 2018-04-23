@@ -1,0 +1,66 @@
+{{tag>personnalisation calcul_collaboratif}}
+----
+
+====== Electric Sheep ======
+<note warning>ElectricSheep n'est plus dans les dépôts officiels à partir d'[[:Trusty|Ubuntu 14.04]], ni dans les dépôts [[:getdeb]]. Le seul moyen de l'installer semble-t-il est la compilation. Voir [[http://ubuntuforums.org/showthread.php?t=2223173|ici]].</note>
+
+{{ http://1.bp.blogspot.com/_PtyHEChBKZw/Sub2UBVECiI/AAAAAAAAdn8/_rietf7kgQA/s640/27+-+electricsheep.244.00977.png?300}}
+Electric Sheep est un économiseur d'écran magnifique utilisant le calcul partagé. 
+
+Chaque ordinateur utilisant Electric Sheep calcule, lorsque l'économiseur d'écran est actif, de nouvelles animations abstraites appelées « sheep » (mouton en anglais). Il les communique ensuite à un serveur qui s'occupe de rassembler tous les « sheep » affichés comme fond d'écran. Pendant ce temps, les animations téléchargées et celles créées sont lues et enchainées à l'écran.
+
+Cet économiseur d'écran est nommé en hommage au roman de Philip K. Dick //Do Androids Dream of Electric Sheep?// (//Les androïdes rêvent-ils de moutons électriques ?//) dont l'adaptation en film est connue sous le titre de //Blade Runner//. C'est le résultat du travail collaboratif de milliers d'ordinateurs dans le monde.
+
+Voir en vidéo :
+  * [[http://www.youtube.com/watch?v=Mz2pThxf3YU|Vidéo 1 : Ce qu'est un « electric sheep ».]]
+  * [[http://www.youtube.com/watch?v=jguegDF0k8I|Vidéo 2 : le son a été ajouté.]]
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée. Pour un meilleur fonctionnement, il est conseillé d'avoir une connexion assez rapide.
+
+===== Installation =====
+
+==== Par dépôt ====
+
+Pour installer ce logiciel, il suffit d'[[:tutoriel:comment_installer_un_paquet#paquet_present_dans_les_depots|installer les paquets]] **[[apt://electricsheep|electricsheep]]**.
+
+==== Compiler la dernière version ====
+
+Le site d'Electric Sheep propose un script installant ses dépendances nécessaires, récupérant ses sources et le compilant. Vous pouvez le télécharger [[http://electricsheep.org/makesheep.sh|ici]] 
+
+Téléchargez ce script, rendez-le exécutable et lancez-le.
+
+==== Installation des packs ====
+
+Par défaut, Electric Sheep n'installe pas de « sheeps » (animations) au début et en télécharge lors de sa première exécution, n'affichant alors pas encore de rendu. Pour pallier à ce problème, vous pouvez télécharger des packs contenant plusieurs « sheeps ».
+   * Téléchargez le ou les [[http://www.archive.org/details/electricsheep-packs-244|packs]] que vous désirez. Attention, ils peuvent faire plusieurs Gigaoctets.
+   * Décompressez les archives, et copiez leur contenu dans « ~/.electricsheep » ou « /home/NOM_D'UTILISATEUR/.electricsheep »
+
+===== Configuration =====
+
+Electric Sheep propose un gestionnaire de configuration auquel vos pouvez accéder en exécutant la commande suivante : <code>electricsheep-preferences</code>
+
+===== Utilisation =====
+
+Pour utiliser Electric Sheep, utilisez le gestionnaire d'économiseur d'écran de votre environnement. 
+
+Pour Gnome, allez dans le menu //Système// puis //Préférences// puis sélectionnez //Économiseur d'écran//.
+
+Pour KDE, allez dans le menu //K// puis dans //Configuration Système// puis dans //Bureau// puis dans //Écrans de veille//.
+
+Pour XFCE, allez dans le //Menu Principal// puis dans //Paramètres// puis dans //Économiseur d'écran//.
+
+[[http://www.getdeb.net/software/Qosmic|Qosmic (getdeb)]] Permet d'éditer et créer de nouveau sheep.
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, le configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi =====
+
+  * **(en)** [[http://community.electricsheep.org/|Site officiel d'Electric Sheep]]
+
+----
+
+//Contributeurs :  [[:utilisateurs:psychederic|Psychederic]], [[:utilisateurs:arzhurbzh|ArzhurBZH]].//

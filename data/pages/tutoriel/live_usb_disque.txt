@@ -1,0 +1,224 @@
+{{tag>live_usb}}
+----
+
+<note warning> Attention : cette page, contrairement à son nom et à son URL, n'a rien à voir avec la création ou l'utilisation d'un système live !\\ 
+Cette page est un tutoriel, **obsolète**, pour copier sur un disque un système déjà installé sur un autre disque.
+\\ Si c'est bien ce que vous cherchez, veuillez vous reporter à cette discussion (systemback) [[https://forum.ubuntu-fr.org/viewtopic.php?id=1994822]].
+
+Si vous cherchez un tutoriel sur l'usb **live**, veuillez vous reporter à [[https://doc.ubuntu-fr.org/live_usb]].
+
+Si vous cherchez un tutoriel sur l'**installation** véritable sur disque externe (ou sur clef usb ou sur carte mémoire), veuillez vous reporter à [[https://doc.ubuntu-fr.org/tutoriel/installation_sur_disque_usb]].
+
+Si vous désirez confectionner une **live personnalisée** sur la base de votre système installé, veuillez vous reporter à [[https://doc.ubuntu-fr.org/remastersys]].
+</note>
+====== Disque USB Live ======
+
+L'objectif de cette page est de vous permettre de construire un système linux/ubuntu complet qui est l'image du système que vous utilisez actuellement sur votre ordinateur principal. Ce système sera installé sur un disque dur connecté via un port USB. Il est possible de trouver des disques USB taille 2"1/2 auto-alimentés. Ces disques sont pour les plus petits d'un cout inférieur à 50-60E et permettent de construire un environnement Linux portable sur tout ordinateur tout comme les CD dits live. Cette configuration avec un disque dur permet :
+
+  * des performances tout a fait honorables, il est tout a fait possible de travailler de manière transitoire sur une telle configuration,
+  * peut constituer pour les plus avancés d'entre nous une solution de secours pour intervenir sur les ordinateurs ayant subit des dommages (linux et windows).
+
+Les contraintes à l'utilisation :
+  * disposer d'un ordinateur capable de booter directement sur un périphérique USB, c'est le cas de la plupart des ordinateurs récents et à défaut un CD peut faire démarrer sur l'USB : [[../cd_boot_usb|CD de boot USB]].
+  * si vous placez une distribution Ubuntu récente sur votre disque, il vous faudra assez de mémoire et de swap pour soutenir le système, a moins de travailler en mode console.
+
+===== Principes =====
+
+La fabrication du système Live USB Disk passe par :
+  * la création de partitions sur le disque USB ; toutes les commandes Linux sont aussi valables les unes que les autres (fdisk, cfdisk, gparted, ...),
+  * la recopie d'un système Ubuntu fonctionnant déja sur l'une de ces partitions du disque (cp -rp, tar, ...).
+  * la mise en place du MBR via la commande ''grub-install'',
+  * il faudra aussi s'assurer de la portabilité du système et en particulier des partitions en allant modifier dans le nouveau système les points de montage (''/etc/fstab''), en utilisant uniquement les ID des partitions (commande ''vol_id''). Ce système permet de monter les partitions sans encombre, quelque soit les disques existants sur le système hote.
+
+Pour le reste toute latitude est laissée :
+  * présence d'un ''/home'' pour les données utilisateurs,
+  * mise en place d'un gros volume disque de données (partition ''data'') en NTFS pour échanges de fichier avec le monde Windows.
+  * mise en place de tous les logiciels voulus sur la partition racine (oui, oui, y'a vraiment beaucoup de place sur un disque dur 2"1/2 ...)
+
+
+===== Les commandes =====
+
+Voici les commandes de base :
+  * ''fdisk'' pour le partitionnement,
+  * ''grub-install --recheck --root-directory=/mnt/live-linux/ /dev/hdb'' : mise en place du MBR sur le disque USB,
+  * ''chroot /mnt/live-usb'' : pour aller modifier votre système Linux,
+  * ''mount --bind /dev /mnt/live-usb/dev/'' ; permet de monter les pseudo filesystemes nécessaire a certains type d'opération ; on peut l'utiliser pour /proc, /dev, /sys ...
+  * ''vol_id /dev/sdb1'' : permet d'afficher les ID des partitions ; ce seront ces ID qui seront mis en place dans le fichiers des points de montage ( /etc/fstab), sur le disque USB ; attention de ne pas vous tromper ...
+  * mkfs.ext3, mkswap : les 2 commandes de fabrication des partitions pour le swap et les fichiers de données.
+
+Il faudra aussi agir sur les fichiers de configuration du système live :
+  * ''/boot/grub/menu.lst'', ''/boot/grub/device.map''
+  * ''/etc/initramfs-tools/conf.d/resume'' : permet de décrire l'emplacement ou le système met en place l'hibernation ; mettre l'ID de la partition de swap ; suivi de ''update-initramfs -u'' pour regénérer l'image initramfs.
+
+Les plus expérimentés n'auront pas besoin de plus d'éléments, pour les autres, je vais mettre en place une procédure plus complète. Ceci nécessite de refaire complètement la procédure, ce qui prend pas mal de temps. A planifier ...
+
+===== Conception du système =====
+
+Le système contiendra :
+  * une partition principale contenant un système Linux/Ubuntu ; pour disposer d'assez de place on prendra une taille comprise entre 5 et 10Go. A chacun de voir selon ses habitudes et en fonction de la taille du disque utilisé. Cette partition doit être marquée **bootable** avec ''fdisk'' et de type ''ext3''.
+  * une partition de données indépendante de préférence si vous voulez pouvoir mettre a jour le système sans perdre vos données utilisateur.
+  * une partition de swap si vous comptez utiliser beaucoup de mémoire ou hiberner,
+  * un espace disque de données compatibles Windows et Linux ; le type de partition sera ou FAT32 ou NTFS. Il pourra être automatiquement monté quand vous faites tourner ce live-usb-disk.
+  * éviter de multiplier le nombre de partition ; quand un disque USB est branché, l'auto-mount fait ouvrir de multiple fenêtres, c'est un peu désagréable. Cependant, il n'y a pas de contraites particulières ; a vous de juger.
+
+===== Pourquoi ca marche =====
+
+  * les distributions Linux embarquent généralement tous les pilotes de base permettant de supporter nativement presque toutes les plateformes matérielles. 
+  * le nouveau serveur Xorg est auto-configurant ; pas besoin de fichier de configuration très complexe,
+  * les montages par ID de volumes permettent de s'affranchir des disques existants sur le système d'accueil,
+
+
+===== La procédure =====
+
+**attention** ; cette procédure doit être validée (et revalidée) ; le principe général est bon, mais nécessite probablement des adaptations.
+
+  * configuration initiale :
+    * choisir la partition source, le disque destination ; 
+    * s'aider de dmesg pour localiser l'emplacement du disque USB.
+    * la configuration source ne sera pas modifiée ; les paramètres fournis (src*) serviront de base pour modifier les fichiers de configuration (fstab, grub ...).
+
+  src=/dev/sda5
+  src_home=/dev/sda7
+  
+  dst=/dev/sdb       # disque destination
+  dst_root=/dev/sdb1 # partition racine
+  dst_data=/dev/sdb7 # partition de données (FAT32) ; optionnelle
+  dst_home=/dev/sdb6 # parition /home ; optionnelle
+  dst_swap=/dev/sdb5 # swap ; optionnel
+  src_swap=/dev/sda6 # swap source ; optionnel
+
+ * lister les partitions du disque destination :
+   * on pourra aussi utiliser cfdisk ${dst}
+
+  root@ubuntu-intrepid:~# fdisk -l $dst
+  
+  Disque /dev/sdb: 160.0 Go, 160041885696 octets
+  255 heads, 63 sectors/track, 19457 cylinders
+  Units = cylindres of 16065 * 512 = 8225280 bytes
+  Identifiant disque: 0x46383580
+  
+  Périphérique Amorce    Début         Fin      Blocs    Id  Système
+  /dev/sdb1   *           1        1216     9767488+  83  Linux                  # /
+  /dev/sdb2            1217        1824     4883760   83  Linux                  # autre système
+  /dev/sdb4            1825       19457   141637072+   5  Extended               # partition étendue
+  /dev/sdb5            1825        2067     1951866   82  Linux swap / Solaris   # swap
+  /dev/sdb6            2068        9362    58597056   83  Linux                  # /home
+  /dev/sdb7            9363       19457    81088056    c  W95 FAT32 (LBA)        # /data (pour windows et linux)
+
+  * démonter les partitions avant de travailler dessus :
+
+  root@ubuntu-intrepid:~# mount | grep $dst
+  /dev/sdb5 on /media/disk type ext3 (rw,nosuid,nodev,uhelper=hal)
+  /dev/sdb1 on /media/disk-1 type ext3 (rw,nosuid,nodev,uhelper=hal)
+
+
+  * formatage des partitions linux (et windows) :
+
+  mkfs.ext3 ${dst_root}  # racine1
+  mkfs.ext3 ${dst}2      # racine2
+  mkfs.ext3 ${dst_home}  # /home
+  mkswap    ${dst_swap}  # le swap
+  
+  mkfs.vfat $dst_data    # partition FAT32 pour échange données windows - linux
+
+
+  * recopie du système de fichiers source vers la destination
+  * le cas échéant procéder au nettoyage du système : menu Systeme / Admin / nettoyage systeme
+    * l'espace disque source doit être inférieur au volume destination
+    * avec Synaptique, se débarrasser des paquets les plus volumineux.
+
+  mount ${src} /mnt/src
+  mount $dst_root /mnt/dst
+  cp -rp /mnt/src/* /mnt/dst/
+
+  * on corrige les points de montage (/etc/fstab) sur la partition USB
+    * la racine
+
+  id_dst=`vol_id --uuid  $dst_root`
+  id_src=`vol_id --uuid  $src`
+  sed  --in-place=.sav -e "s#$id_src#$id_dst#" "-es#${src}#${dst_root}#" /mnt/dst/etc/fstab
+
+    * /home
+
+  id_dst=`vol_id --uuid  $dst_home`
+  id_src=`vol_id --uuid  $src_home`
+  sed  --in-place=.sav -e "s#$id_src#$id_dst#" "-es#${src_home}#${dst_home}#" /mnt/dst/etc/fstab
+  
+   * swap
+
+  id_dst=`vol_id --uuid  $dst_swap`
+  id_src=`vol_id --uuid  $src_swap`
+  sed  --in-place=.sav -e "s#$id_src#$id_dst#" "-es#${src_swap}#${dst_swap}#" /mnt/dst/etc/fstab
+
+    * initramfs (hibernation)
+
+  sed  --in-place=.sav -e "s#$id_src#$id_dst#" /mnt/dst/etc/initramfs-tools/conf.d/resume
+  
+  mount --bind /proc /mnt/dst/proc
+  mount --bind /dev  /mnt/dst/dev
+  mount --bind /sys  /mnt/dst/sys
+  
+  chroot /mnt/dst/ update-initramfs -u
+  
+  mount $dst_home /mnt/dst/home
+  cp -rp /home /mnt/dst/home
+
+  * mise en place de grub sur le secteur de démarrage (MBR) du disque USB
+    * l'option recheck permet de détecter les périphériques disques, c'est le fichier /boot/grub/device.map qui sera regénéré par cette option ; nous verrons par la suite ce qu'il faut faire ...
+    * vous pouvez ignorer les messages d'erreur,
+    * en cas de problème de boot, voir ci-dessous
+
+  grub-install --recheck --root-directory=/mnt/dst/ $dst
+  Probing devices to guess BIOS drives. This may take a long time.
+  Due to a bug in xfs_freeze, the following command might produce a segmentation
+  fault when /mnt/dst//boot/grub is not in an XFS filesystem. This error is harmless and
+  can be ignored.
+  xfs_freeze: specified file ["/mnt/dst//boot/grub"] is not on an XFS filesystem
+  Installing GRUB to /dev/sdb as (hd1)...
+  Installation finished. No error reported.
+  This is the contents of the device map /mnt/dst//boot/grub/device.map.
+  Check if this is correct or not. If any of the lines is incorrect,
+  fix it and re-run the script `grub-install'.
+  
+  (fd0)	/dev/fd0
+  (hd0)	/dev/sda
+  (hd1)	/dev/sdb
+
+  * affichage du fichier device.map de grub
+
+  root@ubuntu-intrepid:/mnt/dst# cat /mnt/dst/boot/grub/device.map 
+  (fd0)	/dev/fd0
+  (hd0)	/dev/sda
+  (hd1)	/dev/sdb
+
+  * on remplace hd0 par hd1 sur le fichier de config grub (menu.lst)
+
+<code>
+  # probablement pas une très bonnée idée ; voir commentaires ci-dessous.
+  # sed  --in-place=.sav -e "s#(hd0,#(hd1,#g" /mnt/dst/boot/grub/menu.lst
+</code>
+
+  * mise en place de la partition de boot (UUID) - fichier grub/menu.lst
+
+  id_dst=`vol_id --uuid  $dst_root`
+  sed  --in-place=.sav -e"s#root=.* #root=UUID=${id_dst} #" /mnt/dst/boot/grub/menu.lst
+
+  * opération terminée :
+    * délontage des partitions puis reboot sur votre disque USB contenant un Linux embarqué ; **enjoy** 
+
+  cd /
+  umount /mnt/src /mnt/dst/home /mnt/dst/sys /mnt/dst/proc /mnt/dst/dev /mnt/dst
+  
+
+===== Notes =====
+
+  * quand on boot sur l'USB, le disque vu par Grub est obligatoirement hd0 (premier disque) ; afin d'obtenir un fichier de config grub (menu.lst) qui marche, il convient donc de booter sur hd0 et d'ajuster device.map en conséquence. Si vous n'arrivez pas a booter avec votre disque USB, c'est ici qu'il faut intervenir : inverser hd0 et hd1 dans device.map.
+  * ce que Grub observe pendant la phase de boot, concernant l'ordre des disques ne prévaut pas pour le noyau Linux qui aura peut-être une autre vision des disques. C'est pourquoi on s'appuie sur les UUID pour établir les points de montage (fichier /etc/fstab). 
+
+===== Evolutions souhaitables =====
+  * tester si les variables ''$dst_*'' sont positionnées et déclencher les actions associées si nécessaire,
+  * confirmer les principes concernant Grub et l'ordre des disques par des expériences d'utilisateurs.
+
+===== Vos remarques =====
+  * une autre méthode basée sur debootstrap qui pourrait être utile, voir [[https://help.ubuntu.com/8.04/installation-guide/i386/linux-upgrade.html | ici]]
+à la place de vol-id il faut utiliser blkid pour les vouveaux systèmes. est ce que tu peux afficher la configuration de ta machine linux.

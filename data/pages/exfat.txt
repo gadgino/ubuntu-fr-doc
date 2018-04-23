@@ -1,0 +1,41 @@
+{{tag>système partitions}}
+----
+====== exFAT======
+L'exFAT (ou FAT64) est le dernier système de fichier de microsoft (donc propriétaire) pour les **mémoires flash**. Il a surtout permis de dépasser la limite de 4Go/fichier du FAT32. 
+
+<note warning>L'utilisation de ce format est déconseillé. En effet, lors de l'éjection ou du démontage du volume externe : risque d'instabilité du système voire plantage. Il est recommandé d'attendre que ce format soit supporté nativement par le système.</note>
+===== Avoir accès à l'exFAT en écriture =====
+
+Pour que vos clefs USB, cartes mémoire et autres périphériques utilisant le système de fichiers exFat soient montés automatiquement dès leur branchement, il faut installer les paquets exfat.\\ \\ __À partir de Trusty (14.04)__, ces paquets sont dans les dépôts. Donc cette commande suffit :
+
+<code>sudo apt-get install exfat-utils exfat-fuse</code>
+
+Il est aussi possible de se servir de la logithèque avec le mot clé exfat-fuse
+
+\\ \\ __Dans Precise (12.04)__, vous aurez besoin d'ajouter d'abord un ppa car les paquets exfat ne sont pas dans les dépôts. 
+Donc commencez par [[ppa#ajout_d_un_ppa_a_vos_sources_logicielles|ajouter le ppa relan/exfat]] ((https://launchpad.net/~relan/+archive/exfat)).\\ \\ 
+(Pour information, cela revient à créer dans /etc/apt/sources.list.d/ un fichier relan-exfat-precise.list contenant ces deux lignes :\\ %%deb http://ppa.launchpad.net/relan/exfat/ubuntu precise main%%\\ 
+%%deb-src http://ppa.launchpad.net/relan/exfat/ubuntu precise main%%\\   suivies d'une ligne vide).\\ \\ Enfin faites la mise à jour et installez les paquets exfat :\\ 
+<code>sudo apt-get update
+sudo apt-get install exfat-utils fuse-exfat</code>
+
+\\ **Attention à la différence de noms !**\\ Le paquet permettant le montage automatique s'appelle\\  fuse-exfat dans 12.04,\\ exfat-fuse dans 14.04 et 16.04.\\ \\ 
+
+===== Formater un disque dur en exfat =====
+
+Pour formater un nouveau disque en exfat à partir de Ubuntu (testé sous 16.04 64bits) après avoir installé exfat
+
+tapez en ligne de commande (remplacer X par la lettre du volume à formater (**ATTENTION !!!** les données seront effacées, bien vérifier par exemple avec "gnome-disks"))
+<code>sudo mkfs.exfat -n NouveauVolume /dev/sdX</code>
+
+===== Articles traitant d'exFAT ===== 
+  * [[http://la-vache-libre.org/exfat-1-0-un-nouveau-driver-disponible-pour-linux| La vache libre]]
+
+----
+tags en référence : 
+cartes sd et microsd sdhc sdxc
+<note>Impossible de monter Volume de 128 GB
+
+Error mounting /dev/mmcblk0p1 at /media/utilisateur/3538-6339: Command-line `mount -t "exfat" -o "uhelper=udisks2,nodev,nosuid,uid=1000,gid=1000,iocharset=utf8,namecase=0,errors=remount-ro,umask=0077" "/dev/mmcblk0p1" "/media/utilisateur/3538-6339"' exited with non-zero exit status 32: mount: unknown filesystem type 'exfat'</note>
+{{ :capture_du_2017-04-13_10-30-45.png?nolink&600 |}}
+

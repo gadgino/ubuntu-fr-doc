@@ -1,0 +1,64 @@
+{{tag>Xenial Trusty capture}}
+----
+
+{{ :applications:recorditnow.png?70}}
+====== RecordItNow ======
+<note important>Ce logiciel n'est plus mis à jour depuis 2010.</note>
+
+**RecordItNow** est une application de [[:capture_video|capture vidéo d'écran (screencast)]], elle est une interface graphique à **[[:RecordMyDesktop]]**. Elle permet d'enregistrer l'image et le son. 
+
+Fonctionnalités :
+  * un résultat fluide
+  * sélection graphique de la portion d'écran à capturer (zone fixe, zone liée au curseur, fenêtre)
+  * enregistrement simultané du son
+  * encodage différé ou en temps réel
+  * large choix de formats d'encodages (vidéo, son, conteneur) et choix du logiciel (FFmpeg ou mencoder)
+  * publication directe sur YouTube
+
+En clair, RecordItNow offre une excellente synthèse orientée screencasting de [[:recordMyDesktop]], [[:FFmpeg]], [[:mencoder]].
+
+Cette application est pensée pour **[[KDE]]** mais fonctionne parfaitement sous **[[Gnome]]**.
+===== Pré-requis =====
+
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Si votre système utilise **[[:PulseAudio]]**, installez **[[apt>pavucontrol,ffmpeg,mencoder,libgdata|pavucontrol libgdata mencoder ffmpeg]]**.
+
+===== Installation =====
+
+Pour installer ce logiciel, il suffit d'[[:tutoriel:comment_installer_un_paquet|Installer le paquet]] **[[apt>recorditnow]]**.
+
+À partir d'[[:xenial|Ubuntu 16.04]] **RecordItNow** n'est plus dans les [[:depots|dépôts]], vous pouvez télécharger le deb en fonction de votre architecture sur cette [[http://www.ubuntuupdates.org/package/core/trusty/universe/base/recorditnow|page]].
+
+===== Configuration =====
+
+Lorsqu'on utilise [[:|Pulse Audio]], allez dans le réglages de recordMyDesktop en cliquant sur le bouton //Avancé//, et saisissez manuellement //pulse// comme //Périphérique//.
+
+{{:applications:recordmydesktop_xenial.png?300|}}
+
+===== Utilisation=====
+
+{{:applications:recorditnow_xenial.png|}}
+
+Pour une utilisation simple jouer un peu avec les quelques boutons proposés par l'interface vous fera vite découvrir comment fonctionne cette application. On veut simplement définir la zone à capturer, démarrer, arrêter ;-)
+
+Une fois les réglages faits, on peut fermer la fenêtre et contrôler l'application à partir du bouton qui s'insère dans la "barre des tâches" (la barre en bas de l'écran), aussi bien sous Gnome que sous KDE.
+
+La configuration de la source audio à capturer peut ne pas être évidente. Il faut apprendre à utiliser l'outil ''Contrôle de Volume PulseAudio'' (qu'il faut impérativement installer si on utilise Pulse Audio).
+
+Le format vidéo par défaut est ogg (celui de recordMyDesktop). Si, dans les réglages (clé à mollette)  on choisit l'encodage différé par ''FFmpeg'', les réglages par défaut produiront un avi. Si on choisit mencoder, on obtiendra un flv.
+
+Si l'on a des impératifs de format, deux possibilités s'ouvrent à nous. Soit on garde le réglage par défaut (pas d'encodage différé) et on réencode le fichier ogg avec d'autres outils. Soit on modifie les réglages par défaut des plugins de [[FFmpeg]] et [[mencoder]].
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. La configuration de l'application sera conservée ou supprimée selon la méthode de désinstallation que vous choisirez.
+
+
+===== Voir aussi =====
+
+  * **(en)** [[http://recorditnow.sourceforge.net/|Site officiel]]
+
+----
+//Contributeur principal : bleck.//

@@ -1,0 +1,115 @@
+{{tag>sauvegarde synchronisation}}
+
+----
+
+====== rsync ======
+
+===== Présentation =====
+**rsync** (pour **r**emote **sync**hronization ou synchronisation à distance), est un logiciel ((sous licence **[[wpfr>Licence_publique_générale_GNU|GNU GPL]]**)) de synchronisation de fichiers. Il est fréquemment utilisé pour mettre en place des systèmes de [[:sauvegarde]] distante.\\
+rsync travaille de manière unidirectionnelle c'est-à-dire qu'il synchronise, copie ou actualise les données d'une source (locale ou distante) vers une destination (locale ou distante) en ne transférant que les octets des fichiers qui ont été modifiés. 
+<note help>La notion d'unidirectionalité semble souvent mal comprise : elle signifie qu'en une commande, la synchronisation ne peut se faire que dans un sens. Rien n'empêche ensuite de relancer la commande une seconde fois dans l'autre sens !</note>
+
+D'un point de vue de l'entreprise, un [[:tutoriel:serveur_de_synchronisation_avec_rsync|serveur de synchronisation]] est utile pour centraliser les sauvegardes sur une même machine équipée accessoirement d'un enregistreur de bande.
+
+Pour le particulier, il est intéressant (si vous avez plusieurs machines), d'avoir une sauvegarde simple et rapide de son //Dossier Personnel//. \\
+
+Ici nous verrons son utilisation basique. Pour plus de détails, allez voir ce [[tutoriel:sauvegarder_home_avec_rsync|tutoriel : "Sauvegarder "/home" avec rsync"]].
+
+===== Utilisation =====
+Comme l'indique le manuel :
+
+"rsync est un programme très similaire à rcp, mais possède bien plus d'options et utilise le protocole de mise à jour à distance rsync afin d'accélérer significativement le transfert de fichiers lorsque le fichier de destination existe déjà."
+
+L'appel de base :
+<code>rsync source/ destination/</code>
+
+L'intérêt est une utilisation à travers le réseau. **rsync** utilise [[SSH]] par défaut. Un exemple :
+<code>rsync -az source/ login@serveur.org:/destination/</code>
+où: 
+  * //-a// ou //%%--%%archive// : est un moyen rapide de dire que vous voulez la récursivité et préserver pratiquement tout. La seule exception est que si //%%--%%files-from// a été spécifiée alors //-r// n'est pas utilisée. Ceci est équivalent à //-rlptgoD//.
+  * //-z// ou //%%--%%compress// : compresse les données lors du transfert. (Limite la bande passante mais augmente l'utilisation processeur et le temps de transfert : inutile en réseau locale ou avec très bon débit)
+
+<note important>
+Attention, il convient d'être vigilant dans l'utilisation ou non du slash (« / ») dans le chemin de la source. Ainsi, les deux commandes suivantes **ne sont pas** équivalentes :
+<code>rsync source destination/
+rsync source/ destination/</code>
+
+En effet, la première commande copie le dossier source et ajoute donc un niveau dans l'arborescence. La deuxième commande ne copie que le contenu du dossier source. Autrement dit, les deux commandes suivantes sont, elles, équivalentes* :
+<code>rsync source destination/
+rsync source/ destination/source/</code> 
+
+Enfin, il faut noter que l'utilisation ou non d'un slash final dans le chemin de la destination n'a aucune incidence. Les deux commandes suivantes sont donc équivalentes :
+
+<code>rsync source destination/
+rsync source destination</code> 
+
+* Sauf dans le cas ou source est un lien symbolique vers un répertoire, la première commande ne copie alors que le lien tandis que la seconde travaille bien à l'intérieur du répertoire
+</note>
+==== Créer un dossier miroir ====
+Voici un exemple d'une commande, utilisant le protocole [[SSH]], qui copie à l'identique le dossier <source> vers le dossier <destination>.
+
+Copie du dossier source vers le serveur:
+
+<code>rsync -e ssh -avz --delete-after /home/source user@ip_du_serveur:/dossier/destination/</code>
+où :
+  * //<nowiki>--</nowiki>delete-after// : à la fin du transfert, supprime les fichiers dans le dossier de destination ne se trouvant pas dans le dossier source.
+  * //-z// : compresse les fichiers  (Limite la bande passante mais augmente l'utilisation processeur et le temps de transfert : inutile en réseau locale ou avec très bon débit)
+  * //-v// : verbeux
+  * //-e ssh// : utilise le protocole [[SSH]]
+
+Si chemin(s) avec des espaces, on peut écrire les chemins entre guillemet en échappant les espace :
+<code>rsync -e ssh -avz --delete-after "/home/source\ avec\ espace/" user@ip_du_serveur:"/dossier/destination\ avec\ espace/"</code>
+
+Avec l'option //-n// la commande liste ce qu'elle va faire sans l'exécuter:
+
+<code>rsync -e ssh -avzn --delete-after /home/mondossier_source user@ip_du_serveur:/dossier/destination/</code>
+
+==== Exclure des fichiers ====
+On peut exclure des fichiers/dossiers selon beaucoup de schémas. C'est utile pour ne pas sauvegarder le cache, les fichiers temporaires, la corbeille, etc…
+
+  * Liste dans la commande : <code bash>rsync --exclude="nom_de_dossier" --exclude="- autre_nom_de_dossier" source/ destination/</code>
+  * Un fichier de règles d'exclusion <code bash>rsync --exclude-from=ExclusionRSync source/ destination/ </code>\\ Et le fichier ExclusionRSync dans le dossier courant sera de cette forme : <code bash>tmp
+.Trash
+.cache
+.PlayOnLinux
+</code>Vous pouvez consulter cette [[http://programmersnotebook.wordpress.com/2010/03/20/rsync-and-exclude-from|page très intéressante sur le sujet]] de l'exclusion par fichier de règles.
+==== Interface graphique : Grsync (Gnome) ====
+Dans les [[:dépôts]] vous trouverez notamment le logiciel [[Grsync]] qui offre une interface graphique pour rsync: [[:tutoriel:sauvegarder_home_avec_grsync|voir ce tutoriel sur Grsync]].\\
+Voir aussi la page [[:sauvegarde]] pour trouver d'autres interfaces graphiques.
+
+===== Tutoriel =====
+  * [[:tutoriel:sauvegarder_home_avec_rsync|Sauvegarde de "/home" avec rsync]] ou avec l'interface graphique [[:tutoriel:sauvegarder_home_avec_grsync|Grsync]]
+  * [[:tutoriel:serveur_de_synchronisation_avec_rsync|Serveur de synchronisation avec rsync]]
+
+==== Sauvegarde distante du serveur web ====
+
+Cas présenté :
+  * un serveur distant s'exécutant sous le compte système www-data.
+    * ce serveur est accessible via ssh
+    * on a un compte utilisateur pour se connecter sur ce serveur
+    * ce compte (ou un autre) a les droits d'administration de la machine
+  * une machine sur laquelle sauvegarder les données
+    * on a un compte utilisateur avec le droit sudo
+
+Pour l'exemple qui suit :
+  - sur la machine locale, on devient //www-data// pour travailler avec les droits de ce dernier
+  - www-data exécute la commande rsync qui va établir une connexion via ssh au serveur distant avec le compte //utilisateur// (on peut avoir besoin de saisir le mot de passe de l'utilisateur distant si on n'a pas déposé de clef publique)
+  - sur le serveur distant, via ssh, //utilisateur// va lancer sudo pour devenir //www-data//
+  - //www-data// exécute la commande rsync qui échange les informations avec la machine locale
+
+Sur le serveur distant :
+  * Autoriser l'utilisateur à lancer la commande rsync sous le compte système www-data grace à [[sudo]], __sans mot de passe__: <code>sudo visudo</code><file>utilisateurssh ALL=(www-data) NOPASSWD: /usr/bin/rsync</file>
+  * Optionnel : déposer une clef publique ssh au besoin pour l'utilisateur
+
+Sur la machine local :
+  * Lancer une synchronisation en tant qu'utilisateur www-data grace à [[sudo]]<code>sudo -u www-data rsync -a --progress -e ssh --rsync-path "sudo -u www-data rsync" utilisateur@serveur_distant:/var/www/ /var/www/</code>
+
+[[https://crashingdaily.wordpress.com/2007/06/29/rsync-and-sudo-over-ssh/|Source de ce tutoriel]], adaptée pour le cas présenté
+===== Liens =====
+  * **(en)** [[http://rsync.samba.org/|Site officiel]]
+  * **(fr)** [[http://man.developpez.com/man1/rsync/|Le man de rsync en français]], « traduction de Denis Mertz, 2002. Mise à jour par Éric Piel <eric POINT piel AT tremplin-utc POINT net>, 2005. Relecture par Frédéric Delanoy et Julien Soula. » (extrait de développez.com, 2005) (Lien mort? [[http://www.delafond.org/traducmanfr/man/man1/rsync.1.html|autre solution]], même contenu).
+  *  **(fr)** [[http://www.it-connect.fr/synchronisation-rsync-entre-windows-et-linux/|Synchronisation Rsync entre Windows et Linux]] sur IT-Connect.fr
+
+----
+
+// Contributeur : [[utilisateurs:ostaquet]], [[utilisateurs:jahwork]]//

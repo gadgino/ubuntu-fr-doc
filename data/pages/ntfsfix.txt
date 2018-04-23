@@ -1,0 +1,28 @@
+{{tag>windows partitions système_de_fichiers}}
+
+
+====== ntfsfix : Réparation de problèmes communs des systèmes de fichiers NTFS ======
+
+{{  http://pix.toile-libre.org/upload/original/1275263575.png?350|ntfsfix en exécution sous Ubuntu 10.04 LTS}}
+
+''ntfsfix'' est un utilitaire en ligne de commande qui règle quelques-uns des problèmes les plus communs liés au système de fichiers NTFS. ''ntfsfix'' n'est pas un équivalent linuxien du ''chkdsk'' de Microsoft(r) Windows(r) ; il ne fait que réparer quelques inconsistances dans le [[:système de fichiers]] NTFS, vide le fichier de journal de la partition et oblige Windows à vérifier l'intégrité du système de fichiers en question à l'amorçage suivant de Windows.
+
+''ntfsfix'' peut être utile si l'on pense que le système de fichiers NTFS a été endommagé et qu'il ne peut plus être monté.
+
+
+
+
+===== Installation =====
+''ntfsfix'' vient avec le jeu d'outils de manipulations de partitions NTFS **ntfs-3g** qui est déjà intégré dans ubuntu. 
+
+===== Utilisation =====
+''ntfsfix'' est une tâche administrative qui doit être réalisée par un administrateur. L'utilitaire s'utilise uniquement en ligne de commande, de la façon suivante :
+<code>administrateur@ordinateur:~$ sudo ntfsfix <partition></code>
+Remplacez ''<partition>'' par l'identifiant de la partition contenant le système de fichiers NTFS à corriger, sans les crochets. (Cette partition est souvent **''/dev/sda1''** ; consultez le retour d'informations de la commande ''sudo parted -l'' pour ne pas vous tromper.)
+
+<note important>Le système de fichiers à vérifier doit être démonté avant d'exécuter ''ntfsfix''. Vérifier une partition déjà montée retournera un message d'erreur //«Refusing to operate on read-write mounted device /dev/<partition>.»// Afin d'être sûr que le système de fichiers à vérifier est démonté, utilisez ''umount'' dans un terminal afin de tenter un démontage :<code>administrateur@ordinateur~$ sudo umount <partition></code>où ''<partition>'' est l'identifiant de votre partition contenant le système de fichiers à vérifier, sans les crochets.</note>
+
+=====Voir aussi=====
+
+  * [[https://lists.sourceforge.net/lists/listinfo/linux-ntfs-dev|Mailing-list Linux-NTFS-Dev]]
+  * [[http://www.tuxera.com | Site de l'entreprise qui édite la suite Ntfs_3g ]]

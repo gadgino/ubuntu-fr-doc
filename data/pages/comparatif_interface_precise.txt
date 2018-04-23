@@ -1,0 +1,143 @@
+{{tag>precise environnements unity gnome}}
+-------
+====== Comparatif des interfaces utilisateur de la distribution Ubuntu 12.04 LTS ======
+
+<note important>Cet article est entièrement consacré à un comparatif d'un nombre limité d'interfaces, le tout pour une distribution aujourd'hui totalement obsolète. Il est parfaitement inutile de lire ceci, hormis si vous aimez voyager dans le temps.</note>
+
+L'interface utilisateur ou [[:environnements|environnement]] de bureau (ou //shell//) gère notamment la façon d'accéder aux applications, aux fenêtres, aux espaces de travail, aux notifications, etc. Elle est un élément essentiel du confort de l'utilisateur.\\
+Par défaut depuis la version [[:11.04]], Ubuntu est configuré pour utiliser l'interface [[:unity|Unity]]. Il est aisé d'installer d'autres  [[:gestionnaire de fenêtres]] et notamment [[:gnome-shell|GNOME Shell]] ou encore [[:gnome-session-fallback|GNOME Classique]].
+
+**L'objet de cette page est de vous aider à choisir parmi ces trois interfaces en comparant les fonctionnalités de chacune d'elle.**
+
+<note>Les interfaces évoluant avec chaque nouvelle version d'Ubuntu, les caractéristiques des critères de choix ne sont donc valables que pour une version donnée.\\
+C'est pourquoi il serait intéressant de créer une page distincte pour chaque version.</note>
+
+<note>Cette page ne traite pas des interfaces telles que [[:Unity_2D|Unity-2D]] et [[:gnome-session-fallback|Gnome classique sans effet]] adaptées aux ordinateurs ayant des capacités graphiques réduites. Dans ces interfaces le [[:gestionnaire de fenêtres]] n'est pas **Compiz** et donc l'[[:compizconfig-settings-manager|outil de paramétrage qui lui est associé]] présenté ici ne s'applique pas.</note>
+
+===== Icônes utilisées sur la page =====
+^ Icône ^ Explication ^
+| {{icons:icon-ok-nuvola.png|pas de problème}} | Pas de problème pour le logiciel | 
+| {{icons:icon-ubuntu.png|supporté nativement}} | Fonctionnalité de l'interface supportée nativement |
+| {{jeux:lj_avancee.png|supporté après paramétrage}} {{icons:icon-developer.png|supporté après paramétrage}} | Fonctionnalité supportée après paramétrage.\\  __**Note**__ : pour une fonctionnalité donnée, le paramétrage peut être différent d'une interface à l'autre. Si c'est le cas chacune des deux icônes renvoi à un paramétrage différent détaillé dans la colonne "Paramétrage" | 
+| {{icons:software.png|nécessite l'installation d'une extension}} | Fonctionnalité supportée après installation d'une extension |
+| {{icons:process-stop.png|non supporté}} | fonctionnalité non supportée |
+
+===== Dysfonctionnement des applications =====
+Certaines applications peuvent présenter des dysfonctionnements sélectifs en fonction de l'interface ce qui peut parfois constituer un critère de choix décisif.
+
+^ Application ^ Fonctionnalité ^ Problème ^ Gnome Classic ^^ Ubuntu Unity ^^ Gnome Shell ^^
+|**ligne MODÈLE à laisser pour l'instant svp** <application> <version>   | <fonctionnalité>  | <description du problème>  | {{icons:icon-developer.png|supporté après paramétrage}} | <remède ou lien vers solution>  | {{icons:process-stop.png|non supporté}} | - | {{icons:icon-ok-nuvola.png|pas de problème}} | - |
+| [[:wallpapoz|Wallpapoz]] 0.6 | Changeur de fond d'écran en fonction de l'espace de travail  | Dans Gnome Classic et Unity, la gestion des espaces de travail est telle que le paramètre "nombre d'espaces de travail" vaut 1 (l'espace de travail unique est divisé en 4 bureaux virtuels)  | {{icons:process-stop.png|non supporté}} | - | {{icons:process-stop.png|non supporté}} | - | {{icons:icon-developer.png|supporté après paramétrage}} | Dans Gnome Shell le nombre d'espaces de travail est dynamique((L'extension [[https://extensions.gnome.org/extension/12/static-workspaces/|static-workspaces]] permet de fixer le nombre d'espaces de travail)).\\ Avant de paramétrer Wallpapoz, il est nécessaire de faire apparaître un certains nombre d'espaces de travail en y déplaçant des applications  |
+
+=== Application lancée au démarrage : sélectivité du démarrage selon l'environnement de bureau ===
+
+  * **(en)** [[http://www.webupd8.org/2011/11/make-applications-autostart-only-in.html|Faire en sorte de ne démarrer une application que dans des environnements de bureau spécifiés]]
+===== Outils complémentaires =====
+==== Extensions spécifiques ====
+Les fonctionnalités de chaque interface peuvent être étendues ou modifiées par des extensions.
+
+Les extensions spécifiques d'une interface ne se lancent (ou s'activent) que lorsque celle-ci est elle-même active.
+
+^ Gnome Classic ^ Ubuntu Unity ^ Gnome Shell ^
+|  Pas d'extensions. Applets intégrables dans les panneaux (tableaux de bord), disponibles par défaut  |  Quelques extensions installables depuis des [[:ppa|ppa]]  |  Plusieurs dizaines d'extensions - parfois redondantes - [dés]installables, [dés]activables et - le cas échéant - paramétrables directement((à condition d'être dans une session Gnome Shell)) depuis le site [[https://extensions.gnome.org/]]  |
+
+==== Outils graphiques de paramétrage ====
+Pour aller au delà des rares paramètres accessibles par le panneau de configuration d'Ubuntu (Paramètres systèmes).
+
+Les fonctionnalités de chaque interface peuvent être réglées (paramétrées) par des outils. Certains outils sont plus ou moins spécifiques d'une interface, d'autres sont transversaux. Ils définissent en particuliers des raccourcis claviers et souris pour les différentes fonctions.
+
+Les outils sont plus ou moins redondants mais aussi complémentaires.
+
+^ Gnome Classic ^ Ubuntu Unity ^ Gnome Shell ^
+|  [[:ubuntu_tweak|Ubuntu Tweak]]((installation depuis ppa:tualatrix/ppa))  |  [[:ubuntu_tweak|Ubuntu Tweak]], UnSettings((installation depuis ppa:diesch/testing)), [[:myunity|MyUnity]]((installation depuis les dépôts officiels))  |  [[apt>gnome-tweak-tool]]((installation depuis les dépôts officiels))  |
+|  [[:compizconfig-settings-manager|Gestionnaire de configuration de Compiz-Fusion (ccsm)]]((installation depuis les dépôts officiels))  |  [[:compizconfig-settings-manager|ccsm]] (notamment plug-in Unity)  |  Gnome Shell fonctionne avec Mutter (et non Compiz) qui peut être paramétré par des extensions  |
+
+===== Fonctionnalités des interfaces =====
+<note>D'autres fonctionnalités pourront être ajoutées par des extensions. Cette page n'a pas pour vocation d'être exhaustive : elle ne présente que les fonctionnalités étendues les plus communes.</note>
+
+En plus de la présence ou non d'une fonctionnalité, est présentée la facilité d'accès **lorsqu'elle diffère entre environnements de bureau** : souris sans clic, souris avec clic, raccourci clavier à une, deux ou trois touches, activation d'un menu : souris avec clic + déplacement + clic, //etc//.
+
+==== Fenêtres, bureau, espaces de travail, lanceur, menus ====
+
+^ Fonctionnalité ^ Gnome Classic ^^ Ubuntu Unity ^^ Gnome Shell ^^ Paramétrage ^^
+^ Sensibilité des coins de l'écran à la position de la souris (//hotspot//) |{{jeux:lj_avancee.png|supporté après paramétrage}} | **4** coins -> bureau -> éclaté des fenêtres -> éclaté des espaces de travail -> widgets  |{{jeux:lj_avancee.png|supporté après paramétrage}} | **4** coins -> bureau -> éclaté des fenêtres -> éclaté des espaces de travail -> widgets |{{icons:icon-ubuntu.png|supporté nativement}} | **2** coins -> éclaté des fenêtres et des espaces de travail et lanceur ->  pile des notifications  |{{jeux:lj_avancee.png|supporté après paramétrage}} | [[ubuntu_tweak|ubuntu-tweak]], onglet ajustements, Workspace |
+^ ::: | ::: | ::: | ::: | ::: |{{icons:software.png|nécessite l'installation d'une extension}} | 4 coins avec l'extension [[https://extensions.gnome.org/extension/309/hot-corn-dog/|Hot-Corn-Dog]] | ::: | ::: |
+| |
+^ Accès au bureau **à la souris** (minimiser toutes les fenêtres) |{{icons:icon-ubuntu.png|supporté nativement}} | Clic sur raccourci du tableau de bord |{{icons:icon-developer.png|supporté après paramétrage}} | Raccourci sur le lanceur |{{icons:software.png|nécessite l'installation d'une extension}} | Clic sur raccourci du tableau de bord si l'extension [[https://extensions.gnome.org/extension/64/show-desktop-button/|Show Desktop Button]] est installée |{{icons:icon-developer.png|supporté après paramétrage}} | Option configurable dans [[:myunity|MyUnity]] ou UnSettings |
+^ ::: |{{jeux:lj_avancee.png|supporté après paramétrage}} | Sans clic (coin sensible) |{{jeux:lj_avancee.png|supporté après paramétrage}} | Sans clic (coin sensible) | ::: | ::: |{{jeux:lj_avancee.png|supporté après paramétrage}} | [[ubuntu_tweak|ubuntu-tweak]], onglet ajustements, Workspace\\ ou\\ [[:compizconfig-settings-manager|ccsm]], Options générales |
+| |
+^ Éclaté des fenêtres (//overlay//) |{{icons:icon-ubuntu.png|supporté nativement}} | Pas de titre, seulement fenêtres **non minimisées**\\ <Super><W> |{{icons:icon-ubuntu.png|supporté nativement}} | Pas de titre, toutes les fenêtres du bureau actif\\ <Super><W> |{{icons:icon-ubuntu.png|supporté nativement}} | **Avec titre**, toutes les fenêtres du bureau actif\\ <Super> ou sans clic (coin sensible)\\ Possibilité de fermer les fenêtres (clic) et de zoomer (molette).\\ \\ (Combiné avec l'éclaté des espaces de bureau.) |{{jeux:lj_avancee.png|supporté après paramétrage}} | [[ubuntu_tweak|ubuntu-tweak]], onglet ajustements, Workspace\\ ou\\ [[:compizconfig-settings-manager|ccsm]], plug-in Échelle |
+^ ::: |{{jeux:lj_avancee.png|supporté après paramétrage}} | Sans clic (coin sensible) |{{jeux:lj_avancee.png|supporté après paramétrage}} | Sans clic (coin sensible) | ::: | ::: |{{icons:icon-developer.png|paramétrage}} | [[:compizconfig-settings-manager|ccsm]], plug-in Text + plug-in Scale add-ons + plug-in Scale windows title filter |
+^ ::: |{{icons:icon-developer.png|paramétrage}} | Avec titre, possibilité de fermer les fenêtres (clic) et de zoomer (clic). Recherche sur le titre (clavier). |{{icons:icon-developer.png|paramétrage}} | Avec titre, possibilité de fermer les fenêtres (clic) et de zoomer (clic). Recherche sur le titre (clavier). | ::: | ::: | ::: | ::: |
+| |
+^ Éclaté des espaces de travail (bureaux) |{{jeux:lj_avancee.png|supporté après paramétrage}} | sans clic (coin sensible) |{{icons:icon-ubuntu.png|supporté nativement}} | Clic sur lanceur ou <Super><S>|{{icons:icon-ubuntu.png|supporté nativement}} | <Super> puis souris coté droit |{{jeux:lj_avancee.png|supporté après paramétrage}} | [[ubuntu_tweak|ubuntu-tweak]], onglet ajustements, Workspace\\ ou\\ [[:compizconfig-settings-manager|ccsm]], plug-in Expo |
+^ ::: | ::: | ::: |{{jeux:lj_avancee.png|supporté après paramétrage}} | sans clic (coin sensible) | ::: | ::: | ::: | ::: |
+| |
+^ Placement des fenêtres sur le bureau |{{icons:icon-ubuntu.png|supporté nativement}} | <Ctrl><Alt><//Numpad 0 à 9//> \\ <Ctrl><Super><//touches fléchées//> \\ Clic-glisser vers les bords de l'écran |{{icons:icon-ubuntu.png|supporté nativement}} | <Ctrl><Alt><//Numpad 0 à 9//> \\ <Ctrl><Super><//touches fléchées//> \\ Clic-glisser vers les bords de l'écran |{{icons:icon-ubuntu.png|supporté nativement}} | Clic-glisser vers les bords de l'écran |{{icons:icon-developer.png|paramétrage}} | [[:compizconfig-settings-manager|ccsm]], plug-in Grid (sauf pour Gnome Shell) |
+^ ::: | ::: | ::: | ::: | ::: |{{icons:software.png|nécessite l'installation d'une extension}} | Extensions disponibles pour des fonctions plus élaborées : [[https://extensions.gnome.org/extension/39/put-windows/|Put Window]], [[https://extensions.gnome.org/extension/28/gtile/|gTile]], [[https://extensions.gnome.org/extension/294/shellshape/|shellshape]] | ::: | ::: |
+| | 
+^ Sélecteur d'applications (//switcher//) |{{jeux:lj_avancee.png|supporté après paramétrage}} ((le fait de devoir paramétrer est un BUG - situation au 04 mai 2012 - https://bugs.launchpad.net/ubuntu/+source/gnome-panel/+bug/971051 )) | <Alt><Tab> |{{icons:icon-ubuntu.png|supporté nativement}}| <Alt><Tab> |{{icons:icon-ubuntu.png|supporté nativement}}| <Alt><Tab> |{{jeux:lj_avancee.png|supporté après paramétrage}} | [[:compizconfig-settings-manager|ccsm]], activer plug-in Static application switcher ou Sélecteur d'application |
+^ ::: | ::: | ::: | ::: | ::: |{{icons:software.png|nécessite l'installation d'une extension}} | Extensions disponibles pour modifier son comportement : [[https://extensions.gnome.org/extension/15/alternatetab/|AlternateTab]], [[https://extensions.gnome.org/extension/97/coverflow-alt-tab/|Coverflow Alt-Tab]], [[https://extensions.gnome.org/extension/58/power-alt-tab/|Power Alt-Tab]], [[https://extensions.gnome.org/extension/38/windows-alt-tab/|Windows Alt Tab]] | ::: | ::: |
+| | 
+^ Accès aux fenêtres des applications ouvertes |{{icons:icon-ubuntu.png|supporté nativement}} | Liste des fenêtres sur le tableau de bord, titre visible | {{icons:icon-ubuntu.png|supporté nativement}} | Matérialisées par symboles sur le lanceur, **titre non visible** |{{icons:icon-ubuntu.png|supporté nativement}} | Par l'éclaté des fenêtres | - | - |
+^ ::: | ::: | ::: |{{icons:software.png|nécessite l'installation d'une extension}} | Pour avoir liste des fenêtres analogue à celle de Gnome classique, installez [[tint2|Tint Task Manager]] |{{icons:software.png|nécessite l'installation d'une extension}} | Extensions disponibles pour les faire apparaître dans le tableau de bord : [[https://extensions.gnome.org/extension/25/window-list/|Window List]], [[https://extensions.gnome.org/extension/3/bottom-panel/|Frippery Bottom Panel]], [[https://extensions.gnome.org/extension/105/panel-docklet/|Panel-Docklet]], [[https://extensions.gnome.org/extension/70/window-icon-list/|Window Icon List]] | ::: | ::: |
+| |
+^ Ouvrir manuellement une application sur un bureau (espace de travail) donné |{{icons:icon-ubuntu.png|supporté nativement}} | Changer de bureau avant de lancer l'application |{{icons:icon-ubuntu.png|supporté nativement}} | Changer de bureau avant de lancer l'application |{{icons:icon-ubuntu.png|supporté nativement}} | En clic-glissant l'icône d'une application sur un bureau en mode éclaté ou bien en cliquant avec le bouton-molette de la souris (s'ouvre alors dans un nouveau bureau vierge) |  |  |
+| |
+^ Ouvrir automatiquement une application sur un bureau (espace de travail) donné |{{icons:process-stop.png|non supporté}} ou {{jeux:lj_avancee.png|supporté après paramétrage}} | FIXME [[http://forum.ubuntu-fr.org/viewtopic.php?id=431335]] |{{icons:process-stop.png|non supporté}} ou {{jeux:lj_avancee.png|supporté après paramétrage}} | FIXME |{{icons:software.png|nécessite l'installation d'une extension}} | Possibilité de prérégler le bureau correspondant à une application par l'extension [[https://extensions.gnome.org/extension/16/auto-move-windows/|auto-move-windows]] |{{jeux:lj_avancee.png|supporté après paramétrage}} | [[:compizconfig-settings-manager|ccsm]], plug-in **Placer** |
+| |
+^ Raccourcis vers les applications courantes | {{icons:icon-ubuntu.png|supporté nativement}} | Menu Applications |{{icons:icon-ubuntu.png|supporté nativement}} | Lanceur |{{icons:icon-ubuntu.png|supporté nativement}} | Lanceur **masqué**, démasqué par <Super> ou sans clic (coin sensible) |{{jeux:lj_avancee.png|supporté après paramétrage}} | Ajouter raccourcis au tableau de bord <Super><Alt><Clic droit> |
+^ ::: |{{jeux:lj_avancee.png|supporté après paramétrage}} | Tableau de bord  |{{icons:icon-developer.png|paramétrage}} | Lanceur **masqué**, démasqué sans clic (coté sensible) |{{icons:software.png|nécessite l'installation d'une extension}} | Nombreuses extensions pour y accéder depuis le tableau de bord ou autre. Par exemple : [[https://extensions.gnome.org/extension/17/dock/|Dock]], [[https://extensions.gnome.org/extension/201/favorites-menu-plus/|Favorites Menu Plus]], [[https://extensions.gnome.org/extension/4/panel-favorites/|Frippery Panel Favorites]], [[https://extensions.gnome.org/extension/105/panel-docklet/|Panel-Docklet]], [[https://extensions.gnome.org/extension/37/quicklaunch/|QuickLaunch]], //etc//. |{{icons:icon-developer.png|paramétrage}} | Le lanceur de Unity peut être masqué (Paramètres systèmes > Apparence)  |
+| |
+^ Accès aux menus des applications |{{icons:icon-ubuntu.png|supporté nativement}} | Menu visible, souris ou <Alt><//Raccourci//> |{{icons:icon-ubuntu.png|supporté nativement}} | Menu global **masqué**, souris + vue tête haute (//HUD//) <Alt> |{{icons:icon-ubuntu.png|supporté nativement}} | Menu visible, souris ou <Alt><//Raccourci//>\\ menu invisible pour les applications Gnome 3.4 (pour l'instant : Documents, Contact, Web, non disponibles dans les dépôts Ubuntu 12.04), accessible en cliquant sur le titre de l'application dans le tableau de bord |{{icons:icon-developer.png|paramétrage}} | Menu global + //HUD// de Unity désactivables //via// UnSettings |
+^ Fonctionnalité ^ {{https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Gnomelogo.svg/200px-Gnomelogo.svg.png?32}} Classic ^^ {{http://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Unity_Logo.svg/61px-Unity_Logo.svg.png?32}} ^^ {{https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Gnomelogo.svg/200px-Gnomelogo.svg.png?32}} Shell ^^ Paramétrage ^^
+
+==== Recherche d'éléments directement depuis l'interface ====
+^ Fonctionnalité ^ Gnome Classic ^^ Ubuntu Unity ^^ Gnome Shell ^^ Paramétrage ^^
+^ Recherche de l'activité récente |{{icons:icon-ubuntu.png|supporté nativement}} | Menu Raccourcis -> Documents récents |{{icons:icon-ubuntu.png|supporté nativement}} | Loupe (//lens//) : applications et documents\\  <Super> |{{icons:software.png|nécessite l'installation d'une extension}} | L'extension [[https://extensions.gnome.org/extension/276/automatic-recorder-of-your-activities/|Automatic Recorder of Your Activities]] ajoute un bouton au tableau de bord pour consulter l'activité de la journée (applications)  | - | - |
+| |
+^ Recherche d'applications |{{icons:icon-ubuntu.png|supporté nativement}} | Liste déroulante //via// raccourci clavier <Alt><F2> |{{icons:icon-ubuntu.png|supporté nativement}} | Loupe((paramètres de filtrage non sauvegardés)) (inclus dans la recherche les applications installables)\\ <Super><A> |{{icons:icon-ubuntu.png|supporté nativement}} | <Super> puis clic sur onglet Applications\\ ou\\ <Super> et utilisation du champ de recherche |{{icons:icon-developer.png|paramétrage}} | Dans Unity, l'affichage des applications installables (logithèque) est désactivable //via// Unsettings ou [[:myunity|MyUnity]] |
+^ ::: | ::: | ::: |  ::: | ::: |{{icons:software.png|nécessite l'installation d'une extension}} | La recherche peut être étendue aux applications installables par plusieurs extensions, par exemple [[https://extensions.gnome.org/extension/132/app-installer/|App installer]] | ::: | ::: |
+| |
+^ Recherche de fichiers |{{icons:software.png|nécessite l'installation d'une application}} | [[apt>gnome-search-tool|Rechercher des fichiers]] |{{icons:icon-ubuntu.png|supporté nativement}} | Loupe((paramètres de filtrage non sauvegardés))\\ <Super><F> |{{icons:software.png|nécessite l'installation d'une extension}} | Plusieurs extensions permettent l'extension du champ de recherche accessible par <Super> à votre répertoire personnel (/home), en particulier [[https://extensions.gnome.org/extension/284/tracker-search/|Tracker Search]] |{{icons:iconnote.png|note}} | À défaut, utiliser la recherche dans [[:nautilus|Nautilus]] |
+| |
+^ Recherche de musique |{{icons:process-stop.png|non supporté}} | - |{{icons:icon-ubuntu.png|supporté nativement}} | Loupe((paramètres de filtrage non sauvegardés)) \\ <Super><M> |{{icons:software.png|nécessite l'installation d'une extension}} | Plusieurs extensions permettent l'extension du champ de recherche accessible par <Super> à votre répertoire personnel (/home), en particulier  [[https://extensions.gnome.org/extension/284/tracker-search/|Tracker Search]] | - | - |
+| |
+^ Recherche de vidéo |{{icons:process-stop.png|non supporté}} | - |{{icons:icon-ubuntu.png|supporté nativement}} | Loupe, dont web((paramètres de filtrage non sauvegardés))\\ <Super><V> |{{icons:software.png|nécessite l'installation d'une extension}} | Plusieurs extensions permettent l'extension du champ de recherche accessible par <Super> à votre répertoire personnel (/home), en particulier  [[https://extensions.gnome.org/extension/284/tracker-search/|Tracker Search]] | - | - |
+| |
+^ Recherche sur le web |{{icons:process-stop.png|non supporté}} | - |{{icons:process-stop.png|non supporté}} | - |{{icons:icon-ubuntu.png|supporté nativement}} | Wikipedia + Google\\ <Super>, saisie puis clic sur bouton |  {{jeux:lj_avancee.png|paramétrage}} | [[:gnome-shell#ajoutermodifier_les_moteurs_de_recherche_web_du_shell|Ajout / retrait de fichier XML]] |
+^ ::: | ::: | ::: | ::: | ::: | {{jeux:lj_avancee.png|supporté après paramétrage}} | Autres sources (ex : DuckDuckGo) | ::: | ::: |
+| |
+^ Autres recherches |{{icons:process-stop.png|non supporté}} | - |{{icons:software.png|nécessite l'installation d'une application}} | [[unity-lens|Autres loupes]] |{{icons:software.png|nécessite l'installation d'une extension}} | Plusieurs extensions permettent l'extension du champ de recherche accessible par <Super> : [[https://extensions.gnome.org/extension/173/search-chromium-bookmarks/|aux favoris Chromium]], [[https://extensions.gnome.org/extension/149/search-firefox-bookmarks-provider/|aux favoris Firefox]], [[https://extensions.gnome.org/extension/166/skype-contact-search/|aux contacts Skype]], //etc//.\\ Par ailleurs l'installation des applications Documents et Contacts de Gnome étend automatiquement la recherche à vos documents et à vos contacts (gmail, etc.) si vos comptes en ligne sont renseignés. | - | - |
+^ Fonctionnalité ^ {{https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Gnomelogo.svg/200px-Gnomelogo.svg.png?32}} Classic ^^ {{http://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Unity_Logo.svg/61px-Unity_Logo.svg.png?32}} ^^ {{https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Gnomelogo.svg/200px-Gnomelogo.svg.png?32}} Shell ^^ Paramétrage ^^
+
+==== Comportement multi-écran en mode bureau étendu ====
+Dans Ubuntu 12.04 Precise, le multi-écran est pris en charge nativement((testé avec deux et trois écrans)). En mode bureau étendu, les écrans peuvent avoir des résolutions différentes. 
+
+Les réglages et choix d'options se font par l'outil de paramétrage système "Affichage". Il permet notamment de régler la résolution de chaque écran ainsi que de les positionner les uns par rapport aux autres (par clic-glisser).
+
+L'un des écrans est **l'écran principal**, il est déterminé par l'ordre de branchement sur les sorties de votre carte graphique.
+
+^ Fonctionnalité ^ Gnome Classic ^ Ubuntu Unity ^ Gnome Shell ^ Paramétrage ^
+^  Sensibilité des coins de l'écran à la position de la souris (//hotspot//)  |  4 coins aux extrémités du bureau étendu((si les écrans n'ont pas la même résolution, au moins l'un des coins - le bureau étant rectangulaire - sera inactif car situé hors écran))  |  4 coins aux extrémités du bureau étendu((si les écrans n'ont pas la même résolution, au moins l'un des coins - le bureau étant rectangulaire - sera inactif car situé hors écran))  |  2 coins aux extrémités + coin en haut à gauche((donnant accès à la vue des "activités")) sur chaque écran  | - |
+| |
+^  Position du lanceur, des tableaux de bord et de la zone de notification  |  Écran principal uniquement  |  Chaque écran (option par défaut)\\ ou écran principal uniquement  |  Écran principal uniquement\\ le coin en haut à gauche((donnant accès à la vue des "activités")) est sensible sur chaque écran  |  Pour Unity : option d'affichage  |
+| |
+^  Position de la fenêtre d'une application au lancement  |  L'écran dépend du rapport entre l'emplacement de la fenêtre sur le bureau (ex : en haut à gauche ou centrée) et les dimensions relatives des écrans  |  Écran du lanceur utilisé  |  Écran principal  | - |
+| |
+^  Bord des écrans collant  |  {{icons:process-stop.png|non supporté}}  |  Option activée par défaut  |  {{icons:process-stop.png|non supporté}}  |  Pour Unity : option d'affichage  |
+| |
+^  Fond d'écran (arrière-plan du bureau)  |  Répété sur chaque écran  ||| - |
+| |
+^  Fenêtre d'application maximisée (plein écran)  |  Occupe un seul écran  ||| - |
+| |
+^  Placement des fenêtres sur le bureau par clic-glisser vers les bords de l'écran  |  Le bord de chaque écran réagit  ||| - |
+| |
+^  Éclaté des fenêtres (//overlay//)  |  Les fenêtres apparaissent sur leur écran respectif  ||| - |
+^ Fonctionnalité ^ {{https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Gnomelogo.svg/200px-Gnomelogo.svg.png?32}} Classic ^ {{http://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Unity_Logo.svg/61px-Unity_Logo.svg.png?32}} ^ {{https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Gnomelogo.svg/200px-Gnomelogo.svg.png?32}} Shell ^ Paramétrage ^
+===== Voir aussi =====
+    * **(fr)** [[http://forum.ubuntu-fr.org/viewtopic.php?id=910091|Discussion sur cette page dans le forum Ubuntu-fr]]
+    * **(en)** [[http://www.webupd8.org/2011/11/make-applications-autostart-only-in.html|Faire en sorte de ne démarrer une application que dans des environnements de bureau spécifiés]]
+
+----
+//Contributeurs : [[:utilisateurs:mohican|mohican]]//

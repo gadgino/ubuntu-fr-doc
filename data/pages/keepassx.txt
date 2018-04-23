@@ -1,0 +1,101 @@
+{{tag>xenial trusty sécurité keepass2}}
+
+----
+
+====== KeePassX & KeePass2======
+ {{ http://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/KeePassX_icon.svg/200px-KeePassX_icon.svg.png?100|Logo de keepassx}} {{ http://keepass.info/help/images/plockb_64.png|Logo Keepass2}}
+**KeePassX** est une application multiplate-forme libre (distribuée sous licence [[:wiki:glossaire#GPL]]) qui centralise la gestion de vos mots de passe personnels. Il est utile pour gérer les sécurités relatives à des informations personnelles (nom, mot de passe, URL, commentaires, etc.).
+
+L'avantage majeur de ce logiciel est qu'il utilise un format de base de données utilisé par un grand nombre de logiciels « compatibles ». Il est donc possible de retrouver ces mots de passe depuis un grand nombre de plates-formes (une version développée en java existe)…
+
+La base de données est chiffrée avec le protocole AES ou Twofish (cf. § [[#Chiffrement AES ou Blowfish]]).
+
+
+===== Pré-requis =====
+
+  * Disposer de [[:sudo|droits administrateur]],
+  * Disposer d'une connexion à Internet configurée, et active.
+  * Avoir configuré [[:depots#depots_universe_et_multiverse|les dépôts 'universe']].
+
+===== Installation =====
+
+Il vous suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>keepassx]]** si vous souhaitez ne pas installer les dépendances en [[Mono]], ou **[[apt>keepass2]]**.
+<note>Keepass2 n'est pas la version ultérieure à KeepassX. Ce dernier est un fork qui remplace le runtime libre [[:Mono]] par [[:Qt]].  Il possède néanmoins moins de fonctionnalités (par exemple, l'intégration au navigateur ou l'utilisation de plugins ne sont pas implémentées).
+
+KeepassX, dans sa version 2, est disponible sur Ubuntu à partir de la version [[:16.04]] .
+</note>
+====Franciser l'interface Keepass2====
+Pour traduire l'interface de **Keepass2** en français :
+  * Téléchargez l'archive correspondante à votre version [[http://sourceforge.net/projects/keepass/files/Translations%202.x/|ici]].
+  * [[:archivage|Décompressez]] l'archive,
+  *  Copiez le fichier décompressé dans le dossier caché **~/.config/KeePass/** ou si vous souhaitez que cela soit actif pour tous les utilisateurs, entrez cette commande dans un [[:terminal]]: <code>sudo unzip -d /usr/lib/keepass2 KeePass-2.245-French.zip</code> Adaptez le numéro de version à votre version de l'archive.
+  * Dans KeePass2, aller dans **Affichage -> Change language** pour choisir la langue FR.
+
+====Installer des plugins KeePass2====
+Commencez par [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>mono-complete]]**.
+Vous trouverez les plugins pour keepass sur cette [[http://keepass.info/plugins.html|page]].
+Enregistrez-les avec [[:sudo|les droits d'administration]] dans le
+dossier **/usr/lib/keepass2/plugins/KeePass2**.
+
+Pour que les plugins soient considérés comme "valides" par KeePass2,
+il doit les compiler en format natif. Voir à ce sujet [[http://askubuntu.com/questions/127796/keepass2-plugins-directory|cet article]].
+==== Activation de la saisie automatique. ====
+sudo apt-get install xdotool
+
+===== Utilisation =====
+
+Pour lancer l'application faites une recherche dans [[unity#tableau_de_bord_dash|le tableau de bord Unity]] avec le mot clé **Keepass**.
+
+==== Créer une Base de données ====
+
+  * Dans un premier temps, il faut créer une nouvelle base de données : cliquez sur //Fichier → Nouvelle Base de données// (raccourci clavier : Ctrl+N).
+  * Une nouvelle fenêtre va vous demander de créer un mot de passe ; faites-le puis cliquez sur le bouton « OK ».
+  * À présent, vous pouvez ajouter des nouvelles entrées en spécifiant un groupe ou l'autre (dans la colonne ''Groupes''), puis en faisant un clic droit dans la colonne « Titre » avec votre souris.
+  * N'oubliez pas d'enregistrer votre base de données : //Fichier → Enregistrer la BD// (raccourci clavier : Ctrl+S).
+
+N.B. : Le fichier base de données a une extension .kdb pour la version 1, .kdbx pour la version 2.
+
+==== Moteur de Recherche ====
+
+Lorsque vous avez une longue liste de gestion d'identification, de surcroît classée dans des groupes différents, et que vous ne savez plus où trouver, Keepass intègre un outil de recherche. 
+
+Cliquez sur //Entrée → Rechercher dans la base de données... // (raccourci clavier : Ctrl+F). La fenêtre « Rechercher » s'ouvre … il ne vous reste plus qu'à définir votre critère de recherche et de cliquer sur le bouton « Rechercher ». Le résultat s'affichera dans le groupe « Résultats de la recherche ».
+
+
+===== Configuration =====
+
+==== Préférences ====
+
+Vous pouvez modifier les préférences d'usage de l'application. Cliquez sur //Extras → Préférences//. Cela vous permet de modifier l'interaction avec le bureau graphique sur différents paramètres.
+
+==== Chiffrement AES ou Blowfish ====
+
+Vous pouvez choisir de chiffrer la base de données de KeePassX selon les algorithmes AES ou Blowfish. Pour cela, cliquez sur //Fichier → Paramétrage de la BD…//.
+
+La fenêtre « Préférences de la Base de données » vous permettra de choisir entre l'un ou l'autre de ces deux algorithmes, et de choisir le nombre de passes que vous préférez appliquer. Reste à cliquer sur le bouton « OK » une fois votre paramétrage terminé.
+
+==== Traduction ====
+
+Pour mettre le logiciel en français, aller sur la page de téléchargement des traductions http://keepass.info/translations.html et téléchargez le fichier correspondant au français avec la version voulue.
+
+
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. La configuration de l'application sera conservée ou supprimée selon la méthode de désinstallation que vous choisirez.
+
+
+===== Voir aussi =====
+ 
+  * Site web : [[http://www.keepassx.org/|KeePassX]] **(en, de)**
+  * Site web : [[http://keepass.info/|KeePass2]] **(en)**
+  * Une interface en ligne de commande (CLI) pour KeePass : [[http://sourceforge.net/projects/kpcli/|kpcli]].
+  * Une interface en ligne de commande via Curses pour KeePass : [[http://raymontag.github.io/keepassc/|keepassc]]
+  * Ce logiciel est téléchargeable à partir du site officiel [[http://www.keepassx.org|KeePassX.org]] et de sa page « [[http://www.keepassx.org/downloads|Téléchargement]] ».
+  * [[http://keefox.org/ | KeeFox]] est un module complémentaire (extension) pour [[firefox|FireFox]] permettant l'utilisation de keepass pour les mots de passe de vos sites.
+  * [[http://www.webupd8.org/2013/05/keepass-2-appindicator-extension-for.html | KeePass 2 AppIndicator And AppMenu Extensions For Ubuntu]] Utilisation de l'extension **AppIndicator** pour KeePass2 , permet de réduire l'application dans le tableau de bord
+
+----
+
+//Contributeur principal : [[:utilisateurs:ste]].//
+//Contributeur: [[:utilisateurs:Wullfk]].//

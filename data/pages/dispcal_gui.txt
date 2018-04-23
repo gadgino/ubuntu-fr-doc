@@ -1,0 +1,42 @@
+{{tag>Xenial graphisme écran}}
+----
+====== DispCAL-gui ======
+
+
+Le logiciel DispCAL-gui offre une interface graphique conviviale. Il est conçu pour vous permettre d'effectuer le processus de caractérisation de votre moniteur au moyen d'une sonde ainsi que la création d'un profil de couleurs (fichier .icc ou .icm) à partir des informations recueillies. Cela, sans avoir à toucher à la console (ligne de commandes). Pour cela, il fait appel au logiciel [[Argyll]] CMS.
+
+[[:Argyll]] CMS est un logiciel en lignes de commandes reconnu comme étant le meilleur logiciel de calibrage disponible sous Linux.
+
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Le logiciel [[http://argyllcms.com/downloadlinux.html|Argyll Color Management System]].
+  * Une sonde colorimétrique reconnue par Argyll. Veuillez vous référer à la liste des appareils supportés par Argyll CMS: //La plupart des sondes listées ci-dessous, sauf les plus récentes, sont dis-continuées et sont uniquement disponibles sur le marché d'occasion.//
+  * Et bien évidemment, il vous faudra un moniteur qui sera celui utilisé pour les travaux de graphisme.
+
+===== Installation =====
+Pour installer ce logiciel, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer les paquets]] **[[apt>dispcalgui]]**.
+
+===== Utilisation =====
+ 
+Lancez l'application via le [[:unity#tableau_de_bord_dash|tableau de bord]] (Unity) ou via le [[:terminal]] (toutes versions d'Ubuntu) avec la [[:commande_shell|commande]] suivante : <code>dispcalgui</code>
+
+Liste des sondes supportées par Argyll CMS :
+  *X-Rite (inclut les sondes des compagnies Gretag-Macbeth et Sequel imaging) : DTP91, DTP94, Optix XR, Optix XR2, Optix Pro, Eye-One Display (1, 2 et LT), Huez, MonacoOPTIX et Chroma 4
+  * DataColor ColorVision : Spyder 1, 2 et 3
+  * Sonde artisanale : Colorimètre HCFR
+
+<note tip>Inutile de payer plus cher une version «pro», seul le logiciel changera. Comme nous utiliserons [[Argyll]] CMS et dispcal GUI pour piloter la sonde et calibrer le moniteur, le logiciel fourni par le fabricant importe peu.</note>
+ 
+===== Désinstallation =====
+ 
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+ 
+===== Liens =====
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=278350|Sujet traitant de ce logiciel sur le forum d'Ubuntu-fr.]],
+  * [[http://www.questionsphoto.com/article/229-dispcal-gui-le-calibrage-d-ecran-open-source|Tutoriel destiné aux utilisateurs de Mac]],
+  * [[http://hoech.net/dispcalGUI/|Blog de l'auteur du logiciel]].
+
+----
+//Contributeurs:FIXME//

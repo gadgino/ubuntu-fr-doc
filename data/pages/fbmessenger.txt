@@ -1,0 +1,38 @@
+{{tag>Xenial Trusty messagerie_instantanée facebook}}
+-----------
+
+{{  :fbmessenger-logo.png?90|Facebook Messenger pour Linux}}
+====== Facebook Messenger ======
+**Facebook Messenger** est un client de messagerie instantanée pour le service Facebook Chat. Il est un clone de //Facebook Messenger pour Windows//. Bien qu'il ne soit pas un logiciel officiel de Facebook, son développeur principal est un développeur chez Facebook.
+
+{{  :fbmessenger.png|Aperçu de Facebook Messenger pour Linux}}
+
+Le client, très similaire en apparence à la barre latérale droite du site de Facebook, rassemble les fonctionnalités suivantes :
+  * clavardage avec ses amis Facebook. Le client respecte les paramètres de visibilité aux autres usagers que vous avez paramétrés dans votre compte Facebook ;
+  * mise à jour du fil d'actualités de vos amis Facebook dans le télex ;
+  * notifications sonores et visuelles lors de l'arrivée de nouvelles alertes, de nouveaux messages et de demandes d'amitié.
+
+
+((Il semblerait que l'application ait été retirée des dépôts, on peut en effet lire sur le Github du développeur que l'API Facebook utilisée n'est plus valide, et ce, depuis 2014. Il rappelle cependant qu'il existe le site messenger.com comme "substitut"))
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+Facebook Messenger n'est pas disponible dans les [[:dépôts]] officiels. Toutefois, l'équipe du site d'actualités WebUpd8 maintient un dépôt personnel ([[:PPA]]) qui contient le paquet d'installation de Facebook Messenger. Pour procéder à l'installation :
+  * [[:ppa#ajout_d_un_ppa_a_vos_sources_logicielles|Ajoutez le PPA]] **ppa:nilarimogard/webupd8**((https://launchpad.net/~nilarimogard/webupd8/+archive/ppa)) dans vos sources de logiciels
+  * Puis [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]].
+  * [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>fbmessenger]]**.
+
+À partir d'Ubuntu 16.04, [[:tutoriel:comment_modifier_sources_maj|modifiez vos sources de mises à jour]] pour y ajouter le dépôt suivant :
+<file>deb http://ppa.launchpad.net/nilarimogard/webupd8/ubuntu trusty main</file>
+
+===== Désinstallation =====
+ 
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+ 
+
+===== Liens =====
+  * **[[https://github.com/oconnor663/fbmessenger|Site officiel de Facebook Messenger pour Linux]]** (en)
+  * [[https://www.facebook.com/help/110332782450803|Aide à l'utilisation de Facebook Messenger/Facebook Chat]].

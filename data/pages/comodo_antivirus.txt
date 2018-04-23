@@ -1,0 +1,61 @@
+{{tag> precise antivirus}}
+
+====== Comodo Antivirus ======
+{{  :comodo.jpg?100|}}
+
+Comodo antivirus pour Linux est un logiciel propriétaire fournit par la société Comodo Group, spécialisée dans la sécurité informatique.
+La différence de ce logiciel avec celui d'[[avast|Avast! 4 Linux Édition Familiale]], est que ce logiciel  possède une analyse en temps réel et un scan mail.
+
+<note important>Le scan en temps réel ne semble pas fonctionner pour tous les utilisateurs. Si il fonctionne chez vous, merci de le signaler sur [[http://forum.ubuntu-fr.org/viewtopic.php?pid=11625771|la page du forum]]</note>
+
+===== Installation =====
+
+  - Rendez-vous sur la [[http://www.comodo.com/home/internet-security/antivirus-for-linux.php|page téléchargement de Comodo]].
+  - Cliquez sur "Download Now".
+  - Vérifiez si la version proposée par le site correspond bien à votre version d'Ubuntu ([[12.04]]; [[:architecture_materielle|32 ou 64 bits]] et autres).
+  - Si tout vous semble correct, cliquez sur "DOWNLOAD".
+  - Vous téléchargez normalement un fichier **.deb**. À la fin du téléchargement, cliquez dessus, il doit s'ouvrir avec la [[:logitheque|logithèque]] Ubuntu.
+  - Lancez l'installation du logiciel.
+  - Lancez Comodo.
+
+===== Problèmes connus =====
+
+==== "Filesystem filter driver is not loaded!" ====
+
+Vous lancez pour la première fois Comodo et vous obtenez ceci:
+
+
+{{:soucis_1_comodo.png?200|}}
+
+
+
+
+ {{:probleme_comodo.png?200|}}
+
+Ouvrez [[terminal|Le terminal GNU/Linux]] et saisissez la commande suivante:
+    sudo sh /opt/COMODO/post_setup.sh
+
+En retour, vous avez ceci dans le terminal, à la fin du texte de licence proposé:
+
+<code> COMODO Antivirus is successfully configured, you can start it from Menu or Desktop. </code>
+
+Si toutefois vous avez toujours le message d'erreur, reportez-vous au forum officiel Comodo sur le sujet : [[http://forums.comodo.com/comodo-antivirus-for-linux-cavl/filesystem-filter-driver-for-kernel-35311redirfs-and-avflt-t94441.0.html|Filesystem Filter Driver for kernel 3.5-3.11(redirfs and avflt)]]
+
+Et vous devez avoir ceci:
+
+
+ {{:analyse_demandee_comodo.png?200|}}
+
+Lancez l'analyse demandée puis, à la fin de l'analyse, vous avez ceci: 
+
+
+{{:fin_analyse_comodo.png?200|}}
+
+Pour activer l'analyse en temps réelle, suivre ce tuto : [[http://infomars.fr/forum/index.php?showtopic=4725]]
+
+===== Voir aussi =====
+  * [[http://forums.comodo.com/francais-french-b72.0/|Forum officiel sur Comodo AV en Français]]
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?pid=11625771|Page du Forum consacrée à Comodo]]
+
+----
+Auteur principal: --- //[[:utilisateurs:Edouard973|Edouard973]] 

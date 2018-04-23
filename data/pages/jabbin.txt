@@ -1,0 +1,83 @@
+{{tag>messagerie_instantanée téléphonie jabber voip }}
+
+====== Jabbin : Jabber client VoIP ======
+
+{{ jabbin-logo.png}}
+
+**Jabbin** est un programme Open Source de messagerie instantanée permettant des appels gratuits de PC à PC par le système de [[wpfr>VoIP]] basé sur le réseau [[:Jabber]].
+
+<note important>Jabbin n'est plus développé depuis 2010. Voir les logiciels alternatifs sur la page [[Jabber]].</note>
+
+===== Prérequis =====
+
+    * [[:tutoriel:comment_installer_un_paquet|Installez les paquets]] **[[apt://speex,slibspeex1,libspeex-dev,libssl0.9.8,libssl-dev,alsa-oss,sox,qca-tls]]**.
+
+
+===== Installation =====   
+
+[[:tutoriel:comment_installer_un_paquet#paquet_.deb_telecharge|Installez le fichiers .deb]] de Sourceforge à partir de cette adresse
+
+http://downloads.sourceforge.net/jabbin/jabbin_2.0beta2-1_i386.deb?modtime=1154629860&big_mirror=0
+
+Language pack Fr: télécharger le fichier [[http://easynews.dl.sourceforge.net/sourceforge/jabbin/psi_fr.qm|psi_fr.qm]] et l'enregistrer dans votre dossier **/home/nom_utilisateur/.psi**
+
+
+
+
+===== Trucs et Astuces =====
+
+==== Jabbin dans la barre des tâches ====
+
+{{jabbin-docklet.png|}}
+
+Dans la fenêtre principal de Jabbin :
+
+Cliquer sur :  **Fichier**  --  **Options**
+
+ 
+{{jabbin-tache1.png|}}
+
+
+Dans la Section Application :
+
+__Activer__ :  **Activer le Docklet** 
+
+__Activer__ :  **Masquer la fenêtre de contact au démarrage** 
+
+//Ciquer// sur **Appliquer**
+
+Clic **OK**
+
+
+==== Installer les sons wave Notification ====
+
+
+  - [[:tutoriel:comment_installer_un_paquet|Installez les paquets]] **sox** **libsox-fmt-base** **libsox-fmt-ao** disponibles dans les [[depots#universe_et_multiverse|dépôts universe]]
+  - télécharger le fichier [[http://membres.lycos.fr/kubunteros/jabbin-sound.tar.gz|jabbin-sound.tar.gz]] dans votre dossier /home/nom_utilisateur
+  - extraire le fichier dans le dossier /usr/share/jabbin :
+
+  sudo tar -xzvf $HOME/jabbin-sound.tar.gz -C /usr/share/jabbin/
+
+<note warning>**Avertissement :** l'installation et l'utilisation des sons-notifications peut causer des conflits lors d'une communication vocale. S'il a lieu, supprimer le
+dossier sound.</note>
+
+==== Connecté en vocal mais pas de son ? ====
+
+En fenêtre terminal, essayer la commande suivante :   **jabbin**
+
+et sinon, essayer avec la commande :  **aoss jabbin**
+
+
+
+
+
+
+
+
+===== Voir aussi =====
+
+  * Site officiel : [[http://sourceforge.net/project/showfiles.php?group_id=166861|SourceForge.net]]
+  * [[http://www.jabbin.com/forum/|Forum Jabbin (Fr)]] 
+  * [[http://www.jabbin.com/fr/index.php/jabbin-user-guide/|Faq, aide etc ]]
+  * [[jabber]]
+

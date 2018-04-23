@@ -1,0 +1,111 @@
+{{tag>Xenial thunderbird}}
+----
+ 
+====== Lightning : l'Agenda de Thunderbird ======
+Lightning est un agenda qui s'installe comme extension de [[:Thunderbird]].
+
+{{ :thunderbird:lightning.png?500 |}}
+
+===== Pré-requis =====
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir installé préalablement [[:Thunderbird]].
+ 
+===== Installation =====
+====Par le gestionnaire de paquets====
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]]  **[[apt>xul-ext-lightning]]**. Par ce biais lightning n'est pas en français, c'est pourquoi si vous souhaitez le voir en français il vous faut passer par la méthode qui suit.
+==== Depuis le gestionnaire de module complémentaire ====
+Pour installer cette extension, il faut :
+  * Lancer Thunderbird
+  * Aller dans le menu //Outils -> modules complémentaires//
+{{ :thunderbird:menu_oneiric_01.png? |}}
+{{ :thunderbird:menu_modules_oneiric_01.png? |}}
+  * Puis, dans le catalogue, chercher "Lightning" et l'installer.
+ 
+===== Configuration =====
+Tout se fait à partir de Édition/Préférences/Lightning.
+
+{{ :thunderbird:thunderbird_lightning_preferences.png?500 |}}
+ 
+===== Utilisation =====
+Dans Thunderbird, maintenant au niveau des onglets, à droite, vous avez deux icônes supplémentaires : une pour l'agenda et l'autre pour les tâches.
+
+==== Intégration dans le calendrier GNOME / Unity ====
+Par défaut Thunderbird ne prend pas en compte l'affichage des rendez-vous du calendrier dans l'applet de l'horloge du tableau de bord. Pour que les événements soient intégrés dans le calendrier GNOME / Unity, il suffit d'installer l'extension **Evolution Mirror**.
+
+L'extension se chargera alors d'exporter vos événements dans le dossier de configuration d'Evolution et, ainsi, d'incorporer les événements dans GNOME.
+
+Pour cela :
+  * [[:PPA|Ajoutez le PPA]] **ppa:antoine-merle/ppa**((https://launchpad.net/~antoine-merle/ppa/+archive/)) dans vos sources de logiciels; 
+  * [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste des paquets]];
+  * [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>xul-ext-evolution-mirror]]**. 
+
+
+Ensuite :
+  * Installez **[[:Evolution]]**,
+  * Lancez une première fois [[:Evolution]] pour que le calendrier par défaut apparaisse puis le refermer,
+  * Pour que le calendrier [[:GNOME]] ou de [[:Unity]] affiche les événements, cliquez sur la date et choisissez **Réglage de la date et de l'heure**. Dans l'onglet **Horloge**, cochez alors la case **Événements à venir du calendrier d'Evolution**,
+  * Pour ajouter/modifier/supprimer un événement, n'utilisez pas les outils du menu de l'horloge : ils démarreront Evolution. Il est possible de modifier ce comportement.
+    * Installez le paquet **[[apt>dconf-tools]]** et ouvrez le logiciel nouvellement installé.
+    * Naviguez jusqu'à l'onglet //org -> gnome -> desktop -> applications -> office//
+    * Cliquez sur ''calendar''. Modifiez la valeur ''evolution'' en ''thunderbird''.
+
+==== S'abonner à un agenda en ligne ====
+{{ :thunderbird:calendrier_mensuel.png?direct&600 |}}
+=== Exemple avec l'agenda ubuntu-fr ===
+  * Créer un agenda (Menu : Ficher/Nouveau/Agenda )
+  * Sélectionner un calendrier "Sur le réseau". {{ :thunderbird:calendrier_ou.png?direct&450 |}}
+ 
+ * Choisir "iCalendar (ICS)" {{ :thunderbird:calendrier_url.png?direct&450 |}}
+
+ * Récupérer l'url du [[http://loco.ubuntu.com/teams/ubuntu-fr/|calendrier]] ubuntu-fr (ou une autre url personnalisée) et la copier dans le champs "Emplacement" : 
+<code>http://loco.ubuntu.com/teams/ubuntu-fr/ical</code>
+
+  * Vous pouvez nommer ce calendrier et lui attribuer une couleur afin de différencier ce type d'événement dans le calendrier. {{ :thunderbird:calendrier_creation_nouveau.png?direct&450 |}}
+
+  * Après avoir cliqué sur suivant, puis terminé, les événements seront affichés sur votre calendrier. {{ :thunderbird:calendrier_ubuntu-fr.png?direct&600 |}}
+
+==== Accès aux agendas Google ====
+-> Voir **[[:tutoriel:thunderbird et agendas Google|ce tutoriel]]**.
+==== Accès aux agendas supportant CalDAV ====
+
+La connexion à un agenda, utilisant le protocole CaldDav, peut se faire grâce au module Sogo Connector accessible [[https://sogo.nu/files/downloads/SOGo/Thunderbird/sogo-connector-31.0.3.xpi|ici]].
+
+**[[owncloud|ownCloud : stockage libre]]**
+
+On peut créer son propre serveur Owncloud, on peut aussi utiliser les services hébergés par l'association [[https://www.zaclys.com/|la mère Zaclys]] par exemple.
+
+Ce [[https://cloud.zaclys.com/Synchronisation-de-Thunderbird-Lightning-avec-ownCloud,p167,258|tutoriel]] décrit clairement la procédure de synchronisation de l'agenda.
+
+**__Attention__** : Pour effectuer les synchronisations, le connecteur a besoin de l'identifiant (Id) et du mot de passe (Mp) associés au compte Owncloud ou autre serveur accessible via CalDav. Comme par magie, ces informations ne sont pas demandées lors de la première synchronisation et c'est bloquant. 
+Une solution efficace consiste à les introduire en dur dans l'URL du carnet distant
+
+Exemple :
+<code>https://MonID:MonMP@webcloud.zaclys.com/remote.php/caldav/calendars/MonID/personnel</code>
+Après la première synchronisation, ces Id et Mp sont enregistrés par Thunderbird, ils n'ont plus besoin de rester visibles dans les propriétés du carnet de contacts. On peut alors paramétrer un second carnet avec l'adresse de base :
+<code>https://webcloud.zaclys.com/remote.php/caldav/calendars/MonID/personnel</code>
+et supprimer le carnet distant initial.
+
+Pour la synchronisation des contacts hébergés sous Owncloud avec CardDav, on peut procéder de la même manière.
+
+===Zimbra===
+
+
+L'adresse est %%https://[adresse du serveur]/dav/[adresse eMail]/Calendar%% (ou /Tasks pour les tâches), où [adresse du serveur] est l'adresse du serveur qui héberge Zimbra (la même que pour lire les eMails) et [adresse eMail] est l'adresse complète de l'utilisateur auquel est associé le calendrier.
+
+:!: Sur Zimbra, les événements et les tâches sont dans deux dossiers différents (/Calendar et /Tasks). Zimbra ne semble pas gérer les heures sur les tâches.
+
+==== Accès aux agendas Exchange ====
+Le format [[tutoriel:comment_acceder_serveur_exchange|Exchange]] est le format propriétaire de Microsoft. Nativement, lightning n'est pas compatible avec Exchange. Il existe différentes solutions (comme des extensions) pour communiquer avec un serveur exchange, une des plus répandue étant de passer par un passerelle DavMail. DavMail traduit en effet le format Exchange dans un format standard compatible avec Lightning (ainsi qu'avec d'autres calendriers). Pour en savoir plus, voir l'article sur [[:DavMail]].
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]].
+
+Si vous aviez utilisé le gestionnaire de module complémentaire pour l'installer, désinstaller l'extension via le menu //Outils, Modules complémentaires// de Thunderbird.
+
+ 
+===== Voir aussi =====
+ 
+  * **(en)** [[http://www.mozilla.org/projects/calendar/lightning/|Site du projet]]
+
+----
+//Contributeurs principaux : [[:utilisateurs:frombenny]], [[:utilisateurs:cm-t]]

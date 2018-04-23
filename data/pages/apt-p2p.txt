@@ -1,0 +1,77 @@
+{{tag>dépôts apt}}
+
+----
+====== Mise à jour et téléchargement des paquets en peer-to-peer : apt-p2p ======
+
+
+
+
+**apt-p2p** permet de partager ses paquets logiciels avec la communauté.
+Au lieu de toujours télécharger les logiciels ou mises à jours depuis des serveurs centralisés, il est possible, lorsque suffisamment de personnes partagent ce paquet, de le télécharger en P2P.
+
+Cela permet de faire profiter d'une partie de sa bande passante aux autres utilisateurs, et de soulager les serveurs qui doivent servir un nombre toujours plus grand d'utilisateurs.
+
+===== Installation =====
+====Script d'installation rapide====
+Lancer dans un terminal : 
+<code>
+sudo apt-get install apt-p2p
+sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup
+sudo sed -i 's%http://%http://127.0.0.1:9977/%g' /etc/apt/sources.list
+sudo rm -rf /var/cache/apt-p2p/cache/*
+sudo apt-get update
+</code>
+
+====Installation manuelle====
+En installant le paquet apt-p2p via synaptic ou directement en cliquant sur [[apt://apt-p2p|apt-p2p]]
+Ce paquet n'est disponible que depuis Ubuntu 8.10 (intrepid)
+
+Il faut ensuite modifier l'adresse de ses [[depots|dépôts]] pour ajouter //localhost:9977/// devant l'adresse de chaque dépôt.
+Par exemple :
+
+<code>
+deb http://fr.archive.ubuntu.com/ubuntu/ intrepid main restricted
+
+devient
+
+deb http://localhost:9977/fr.archive.ubuntu.com/ubuntu/ intrepid main restricted
+</code>
+
+Il faut également ouvrir et rediriger le port 9977 en udp et tcp, si vous êtes derrière un routeur et/ou firewall.
+
+=====Désinstallation=====
+====Script de désinstallation====
+Lancer dans un terminal : 
+<code>
+sudo apt-get remove apt-p2p
+sudo cp /etc/apt/sources.list.backup /etc/apt/sources.list
+sudo apt-get update
+</code>
+
+===== Fonctionnement =====
+
+apt-p2p fonctionne comme un proxy.
+Si les paquets ne sont pas trouvés sur le réseau P2P, ils seront téléchargés depuis les serveurs officiels.
+
+Pour consulter les statistiques P2P de votre machine, tapez http://localhost:9977 dans votre navigateur.
+
+Il n'y a pas de risque de paquets corrompus ou falsifiés car apt-p2p télécharge les signatures des paquets sur les serveurs officiels avant de les télécharger sur le réseau P2P.
+
+===== configuration et lancement =====
+
+Il est possible de configurer un port, une vitesse maximum d'upload etc...
+Pour cela il faut [[:tutoriel:comment_editer_un_fichier|éditer le fichier]] /etc/apt-p2p/apt-p2p.conf avec les droits d'administration.
+
+Pour lancer le service après modification du fichier, tapez la commande suivante dans un terminal (il sera redémarré automatiquement au prochain démarrage) : :
+<code> sudo /etc/init.d/apt-p2p restart </code>
+
+Pour arrêter le service :
+<code> sudo /etc/init.d/apt-p2p stop </code>
+
+=====Voir aussi=====
+  * [[https://wiki.debian.org/DebTorrent|Debtorrent]] : équivalent d'apt-P2P
+  * [[http://www.camrdale.org/apt-p2p/|Site officiel]]
+  * [[http://ubuntuforums.org/showthread.php?p=6058308|HOWTO: Using apt-p2p For Faster Upgrades From Hardy To Intrepid]]
+
+----
+//Contributeur : Contremaitre//

@@ -1,0 +1,271 @@
+{{tag> BROUILLON cloud sauvegarde}}
+----
+
+<note warning>en Juin 2016, les créateurs de OwnCloud créent un [[wpfr>Fork_(développement_logiciel)|fork]]: [[:Nextcloud]]
+
+Cette page est une copie de la page [[:owncloud]], si vous souhaitez donner un coup de main, n'hésitez pas à la modifier</note>
+
+====== NextCloud : stockage libre ======
+{{ ::capture-nextcloud.png?450|}}NextCloud est un logiciel pour créer et utiliser un serveur de stockage et de partage de fichiers en ligne. \\ À la différence de [[:Dropbox]] ou Google Drive pour ne citer que deux alternatives commerciales, vos fichiers sont sur un serveur que vous contrôlez, soit chez vous, soit hébergé chez un prestataire en qui vous avez confiance. 
+
+Autre point intéressant, les personnes avec qui vous partagez des données n'ont pas besoin de créer un compte ! Libre à vous de partager sans ou avec mot de passe, idem pour autoriser ou non le dépôt de fichiers.
+
+NextCloud utilise le protocole [[webdav|WebDAV]] qui permet d'accéder au serveur de façon transparente via un "disque réseau" sur Linux, Windows ou Mac. Il existe également des logiciels de synchronisation pour de très nombreuses plateformes (Linux, Mac, Windows, Android, etc) afin de garder une copie locale de vos fichiers et de travailler hors connexion. 
+NextCloud ne s'arrête pas au simple partage de fichiers. Il permet par exemple de gérer votre calendrier, vos contacts, vos marque-pages et même votre musique. Il intègre les services commerciaux de partage en ligne devenant un point d'accès central pour Amazon S3, Dropbox, Google Drive, OpenStack Swift, voire d'autres serveurs NextCloud. Un système de plugins (apps) permet d'installer et/ou de développer d'autres applications en fonction de ce qui vous intéresse. 
+
+Le projet est issu de [[:KDE]]. Il est développé entièrement en PHP et se veut autonome. Il s'installe ainsi sur de nombreux serveurs web sans nécessiter de fonctionnalités trop spécifiques tels que Java ou des extensions propres à un serveur web.
+
+===== Utilisation de NextCloud (client) =====
+====NextCloud-Client====
+
+Vous pouvez utiliser le programme **nextcloud-client** pour profiter d'un client similaire à [[:dropbox]]. Cette solution synchronise vos données sur votre machine, ce qui vous permet d'avoir une copie pour travailler hors-ligne, en cas de compromission du serveur (sauf si ça synchronise!), et présente l'avantage que, lorsque vous travaillez sur vos fichiers, c'est en local donc sans ajouter de délais de synchronisation avec le serveur. **Pour un usage régulier, cette solution est donc à privilégier !**
+
+=== Installation ===
+
+Le client officiel, distribué sous licence GPL v2, est disponible dans un PPA maintenu par Nextcloud (([[https://nextcloud.com/install/#install-clients|Nextcloud.com - Sync your data, Desktop client [en]]])).
+
+
+[[:ppa#ajout_d_un_ppa_a_vos_sources_logicielles|Ajoutez le PPA]] **ppa:nextcloud-devs/client**((https://launchpad.net/~nextcloud-devs/+archive/ubuntu/client)) dans vos sources de logiciels, puis [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]] et [[:tutoriel:comment_installer_un_paquet|installez le paquets]] **[[apt>nextcloud-client|nextcloud-client]]**.
+
+Pour une intégration au [[:gestionnaire_de_fichiers|gestionnaire de fichiers]], on pourra installer le paquet correspondant (disponible dans le même PPA) **[[apt>nextcloud-client-nautilus|nextcloud-client-nautilus]]**,  **[[apt>nextcloud-client-nemo|nextcloud-client-nemo]]**, ou  **[[apt>nextcloud-client-caja|nextcloud-client-caja]]**.
+
+
+=== Utilisation ===
+L'application est disponible depuis le menu //Applications => Accessoires => NextCloud-client// ou en ligne de commande :
+<code>
+nextcloud &
+</code>
+
+Si vous obtenez à un moment l'erreur "csync n’a pu créer le fichier de verrouillage ", alors supprimez le fichier $HOME/.local/share/data/NextCloud/lock et la synchronisation repartira.
+
+=== Travailler avec plusieurs serveurs ===
+Il peut être nécessaire de se synchroniser avec plusieurs serveurs NextCloud, par exemple un pour le travail et un personnel ou associatif. Une fois dans l'interface de NextCloud client, sélectionner "Généraux", vous y trouvez un bouton "Ajouter un compte", il suffit alors de saisir l'adresse de second serveur puis le login.
+
+
+==== Alternative au client : connexion par WebDav ====
+
+<note important>Il est à noter que cette solution vous donne accès à vos données sur le serveur mais ne les synchronise pas sur votre PC. Vous n'y aurez donc pas accès hors ligne! Par ailleurs la manipulation de certains fichiers (retouche de photos...) sans passer par une copie locale peut poser des problèmes, préférez dans ces cas, l'utilisation du [[#nextcloud-client|client nextcloud]].</note>
+
+Celà est possible de deux manières différentes.
+
+=== WebDav dans Nautilus ===
+
+Il s'agira de créer un signet qui ouvre votre "nuage" en mode [[:WebDAV]] dans [[:nautilus]]. La navigation deviendra alors possible dans votre nuage comme avec tout dossier local.
+
+Tout d'abord, il faut trouver la bonne adresse :
+  * Commencez par vous connecter sur votre espace NextCloud par le client Web avec vos identifiants.
+  * Cliquez sur la roue dentée en bas à gauche, en dessous de "fichier supprimés "
+{{:nextcloud:interface-nextcloud-web-client.jpg?400|}}
+
+Maintenant, ouvrez [[:Nautilus]]((Vous pouvez aussi tout fermer et donc être sur le bureau)).
+  * Dans la barre de menu général, en haut de l'écran, depuis le menu //Fichier// cliquez sur "Se connecter à un serveur..." \\ {{:nextcloud:menu_01.png?300|Cliquez sur "Se connecter à un serveur..."}}
+  
+  
+  * La fenêtre suivante apparaît : \\ {{:nextcloud:nextcloud-server_davs.jpg?400|}} 
+   
+
+Coller l'adresse que vous avez récupérée, en remplaçant http(s):// par davs:// (ne pas oublier le "s" à "davs")
+<note tip>Si vous avez une erreur de connexion, essayer l'adresse sans https: ni davs:...(testé avec succès sous lucid)
+ça marche aussi avec dav (sans s) avec 14.04 </note>
+
+Nautilus ouvre alors le répertoire des fichiers de NextCloud. Vous pouvez travailler maintenant comme d'habitude.
+
+ Pour finir, vous pouvez créer un signet dans Nautilus pour avoir accès à votre nuage NextCloud sous la main.
+
+
+
+===Monter un partage WebDAV comme un système de fichier via davfs2===
+
+Pour monter le [[wpfr>cloud_computing|nuage]] dans le [[:gestionnaire de fichiers]] **[[:nautilus|nautilus]]**, l'utilisation de [[:davfs2|davfs2]] facilite la démarche.\\
+  * Créez un répertoire pour le nuage dans média <code>
+sudo mkdir /media/cloud
+</code>
+  * Donnez [[:permissions#en_ligne_de_commande1|tous les droits à l'utilisateur souhaité à ce répertoire]]
+  * Montez le nuage dans ce répertoire <code>
+sudo mount -t davfs http://localhost/nextcloud/files/webdav.php /media/cloud/
+</code>
+  * Dans la commande ci-dessus, remplacez //localhost// par l'adresse du serveur sur lequel est installé NextCloud.
+
+===== Partager ses photos via NextCloud =====
+Vous pouvez très facilement partager vos photos avec vos amis grâce à NextCloud. Il suffit de créer un répertoire dans le répertoire créé par défaut pour cet usage: //photos// (ou ailleurs si vous préférez), puis d'y transférer vos photos (pensez éventuellement à les redimensionner/compresser avant avec [[phatch]] ou [[imagemagick]]). \\
+Il faut ensuite, dans l'interface web, cliquer sur //Partagé//(1) puis cocher //Partager par lien public//(2), si vous souhaitez que les utilisateurs puissent charger des photos, cochez aussi //Permettre la modification//(3), et enfin, copiez le lien (4) présent pour l'envoyer aux utilisateurs.
+{{:nextcloud:nextcloud_v8_01.png?600 |}}
+
+Quand on se connecte à ce type de lien, il est possible de passer en affichage mosaïque en cliquant sur le bouton en haut à droite, cf. la capture ci-dessous.
+{{:nextcloud:nextcloud_v8_02.png?400|}}
+\\ Pour envoyer un lien qui permette d'afficher directement en mosaïque, dans le lien, il y a index.php/s suivi par le code alphanumérique généré. \\ Remplacer le //s// par //apps/gallery/public//
+=====Utilisation avec android=====
+il existe une [[http://play.google.com/store/apps/details?id=com.nextcloud.android&hl=fr|Application]] pour android.
+ 
+Si celle-ci est incompatible avec votre matériel rechercher sur le market une application supportant [[wpfr>webdav]], comme "webdavdroid Lite", et montez-le à la même adresse que celle utilisée dans la configuration de Nautilus.
+Le montage avec ES Explorateur marche tout à fait.
+
+<note>L' application est payante sur google play mais est gratuite sur F-droid (market d'application open source) [[https://f-droid.org/repository/browse/?fdfilter=nextcloud&fdid=com.nextcloud.android]] </note>
+<note important>L'application est **gratuite** sur google play https://play.google.com/store/apps/details?id=com.nextcloud.client&rdid=com.nextcloud.client</note>
+Pour la synchronisation des contacts, une application comme [[https://play.google.com/store/apps/details?id=org.dmfs.carddav.Sync|CardDAV-Sync]] fait l'affaire. Pour celle de l'agenda, [[https://play.google.com/store/apps/details?id=org.dmfs.caldav.lib|CalDAV-Sync]] fonctionne bien. Pour l'édition des fichiers (et la synchro?) : [[https://play.google.com/store/apps/details?id=jp.ddo.shigadroid.webdavfilemanager|WebDAV File Manager]] fait l'affaire. Il existe également l'application MyOwnNotes.
+
+=====Utilisation avec Thunderbird=====
+Pour synchroniser le calendrier, il suffit, une fois le module complémentaire lightning de Thunderbird installé, de créer un nouveu calendrier sur le réseau et de renseigner le lien caldav disponible dans les paramètres du calendrier.
+Pour la synchronisation des contacts, le module complémentaire [[http://www.sogo.nu/english/support/documentation.html|sogo connector]].
+Pour utiliser le carnet d'adresse il existe également le module [[https://addons.mozilla.org/fr/thunderbird/addon/cardbook/?src=search|Cardbook]] qui fonctionne très bien via CardDAV
+=====Utilisation avec iOS=====
+
+Un client officiel iOS se trouve à cette adresse [[http://itunes.apple.com/us/app/nextcloud/id543672169?ls=1&mt=8|Lien itunes]]
+
+=====Installation nextcloud serveur =====
+<note>Dépôt pas à jour !  Pour la version 9 ou la dernière version, voir le tuto : https://www.computersnyou.com/5409/install-nextcloud-9-server-ubuntu/  </note>
+
+<note> Ou installer depuis les dépôts officiels de NextCloud : https://download.nextcloud.org/download/repositories/stable/nextcloud/ </note>
+====Par les dépôts officiels de NextCloud ====
+
+Depuis la sortie de la version 5.0 de NextCloud, l'installation est très simple. Des paquets pour NextCloud sont disponibles pour les [[:versions]] supportées d'Ubuntu à l'adresse suivante :
+  * http://software.opensuse.org/download/package?project=isv:NextCloud:community&package=nextcloud
+
+Par exemple pour une installation sur Ubuntu 14.04 LTS :<code>
+sudo sh -c "echo 'deb http://download.opensuse.org/repositories/isv:/NextCloud:/community/xUbuntu_14.04/ /' >> /etc/apt/sources.list.d/nextcloud.list"
+sudo apt-get update
+sudo apt-get install nextcloud
+</code>
+Pour installer la clef du dépôt (ou même la réinstaller en cas de changement) :
+<code>
+wget http://download.opensuse.org/repositories/isv:NextCloud:community/xUbuntu_14.04/Release.key
+sudo apt-key add - < Release.key
+</code>
+Votre serveur est maintenant accessible à l'adresse http://localhost/nextcloud/ (si vous accédez à la page depuis le serveur, sinon remplacer localhost par l'IP du serveur). Vous devez créer un compte à la première connexion. Si le serveur se plaint de dépendances non satisfaites, redémarrer le serveur web : "sudo service apache2 reload".
+
+Pour activer les connexions sécurisées à votre serveur Apache (https) :
+<code>
+sudo a2enmod ssl
+sudo a2ensite default-ssl
+sudo service apache2 reload
+</code>
+Connectez-vous maintenant via l'adresse https://localhost/nextcloud/. Dans le menu Administration, c'est-à-dire sur la page https://localhost/nextcloud/index.php/settings/admin, cochez la case "Forcer HTTPS".
+
+Vous pourriez avoir besoin de [[:tutoriel/comment_creer_un_certificat_ssl|créer un certificat tls/ssl]] si ce n'est déjà fait.
+
+<note warning>Sur **Ubuntu 16.04 LTS** :
+Si vous ne parvenez pas à atteindre votre interface par http://localhost/nextcloud , créez un lien symbolique pour remonter du dossier /usr/www/html où vous êtes enfermé(e).
+<code>
+sudo ln -s /var/www/nextcloud /var/www/html/nextcloud
+</code>
+</note>
+
+==== Installation depuis le dépôt Universe ====
+<note warning>
+Ce type d'installation est à déconseiller pour des raisons de sécurité. Les versions disponibles pour les [[:versions]] d'Ubuntu < [[:trusty|14.04]] sont des 5.x et ne sont plus maintenues.
+</note>
+
+
+==== Installation manuelle====
+=== Préambule ===
+Pour des raisons de sécurité et **surtout** si le service est accessible depuis Internet, il est recommandé de suivre les différentes releases (versions) proposées par le projet NextCloud. Effectivement, les releases sont souvent le fruit de corrections de failles de sécurité. Fin juin 2012, le projet OwnCloud publiait la release 4.0.3. En comparaison, le dépôt Universe ne propose que la release 3.0.0. Une bonne façon de suivre cette évolution consiste à s'abonner au flux RSS du projet ([[http://nextcloud.org/blogfeed/]])
+=== Pré-requis ===
+Il vous faudra avoir installé au préalable :
+  * [[:apache2|apache]]
+  * [[:php]]
+  * [[:git]]
+  * Si besoin, installer [[:mysql]], sinon la base de données utilisée sera sqlite.
+
+=== Installation de nextcloud ===
+Depuis un [[:terminal]], saisissez les [[:commande_shell|commandes]] suivantes :
+<code>
+cd /var/www/
+sudo git clone git://github.com/nextcloud/core.git nextcloud
+cd nextcloud
+sudo git submodule update --init
+sudo mkdir data
+sudo groupadd www-data
+sudo chgrp www-data data
+sudo chmod 770 data
+sudo chgrp www-data config
+sudo chmod g+w config
+</code>
+Puis, dans votre [[:navigateur]], saisissez l'adresse [[http://localhost/nextcloud]] (ou l'adresse I.P. du serveur).
+
+Introduisez un login et mot de passe dans les boîtes correspondantes et vérifiez dans la boîte "Avancé" que le dossier des données est correct (logiquement oui).
+=====Sécurisation=====
+
+[[:adduser|Créer un utilisateur]] dédié à cet usage, tout en l'ajoutant au groupe **www-data** serait un plus.\\
+
+
+On peut s'inspirer de cette méthode : 
+[[:tutoriel/reverse_ssh#creation_d_un_utilisateur_dedie_sur_le_poste_serveur|#creation_d_un_utilisateur_dedie_sur_le_poste_serveur]]
+
+====Sécurisation par HTTPS====
+FIXME Il y a une méthode complémentaire en utilisant les Virtualhost d'apache, et en créant des certificats à 2048 bits !
+un tuto sur cette methode : [[http://www.patdef.fr/Configurer-apache2-pour-faire-du.html|Configurer apache2 pour faire du https]](**Le lien est mort**)
+
+
+Une petite modification du fichier .htaccess (/var/www/nextcloud/.htaccess) permet de rediriger les accès non sécurisés (HTTP) vers leur équivalent sécurisé (HTTPS). Ceci va **garantir que les communications** entre le client et le serveur au travers de l'Internet **sont chiffrées**. Ainsi, on **évite** les interceptions et **le vol des paramètres d'identification**.
+<code apache>
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteCond %{HTTPS} !=on
+RewriteRule .* https://%{SERVER_NAME}%{REQUEST_URI} [R,L]
+RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization},last]
+</IfModule>
+</code>
+
+Il existe une seconde méthode qui consiste à modifier le fichier de configuration de l'installation de NextCloud ( par défaut /var/www/nextcloud/config/config.php).
+Dans le tableau $CONFIG, ajouter la ligne  :
+<code apache>
+'forcessl' => true,
+</code>
+
+Il est intéressant d'aller voir dans le même répertoire le fichier config.sample.php qui décrit les options possibles.
+
+==== Sécurisation des données (fichiers) des utilisateurs ====
+
+__Attention, par défaut, Apache2 ne prend pas les "overrides"__, ce qui se traduit par une inefficacité du .htaccess du dossier data et donc la possibilité d'accéder aux fichiers des utilisateurs librement, depuis le web. Pour corriger cette faille :
+
+Sauvegardez le fichier de configuration
+<code>sudo cp -p /etc/apache2/apache2.conf /etc/apache2/apache2.conf.orig</code>
+
+Puis ouvrez apache2.conf
+<code>sudo nano /etc/apache2/apache2.conf</code>
+
+Dans la section ''<Directory /var/www/>'', Cherchez "**Allow Override None**" et changez-le en **All**.
+En clair, vous voulez voir ceci
+
+<code><Directory /var/www/>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+</Directory>
+</code>
+
+=====Hébergeurs OwnCloud=====
+La solution la plus simple pour utiliser NextCloud est d'avoir recours à un cloud déjà en place, par exemple:\\
+[[http://piilvi.com]]\\
+
+=====Problème(s) connu(s)=====
+
+Erreur : 
+
+Vous n'avez pas la permission de téléverser ou de créer des fichiers ici
+
+
+Solution : 
+
+Ouvrir un terminal au nom de l'utilisateur de nextcloud, allez à la racine du serveur NextCloud, puis : 
+
+<code>
+~nextcloud/
+sudo chmod u+x occ
+occ files:scan --all
+</code>
+
+
+si vous avez cet erreur : 
+<code>Console has to be executed with the same user as the web server is operated
+Current user: root
+Web server user: "user"
+</code>
+C'est que vous ne vous êtes pas logué sur le bon utilisateur, ouvrez un terminal au nom du "user" puis recommencez la manipulation.
+
+
+=====Voir aussi=====
+
+   * [[http://nextcloud.com/|Site officiel]]
+----
+//Contributeurs:[[:utilisateurs:davy014]], [[:utilisateurs:bcag2]]//

@@ -1,0 +1,46 @@
+{{tag>Precise installation système}}
+
+----
+
+====== Le chargeur d'amorcage GAG ======
+
+GAG (Gestor de Arranque Grafico en espagnol) est un [[wpfr>Chargeur_d'amorçage|chargeur d'amorçage]], c'est-à-dire un programme qui sert à choisir et démarrer le système d'exploitation à utiliser.
+C'est une alternative au chargeur d'amorçage par défaut d'Ubuntu: [[:grub-pc|GRUB]].
+
+Remarque: GAG n'est pas compatible avec GPT, EFI, MacOS((http://forum.ubuntu-fr.org/viewtopic.php?pid=9903701#p9903701)).
+
+<note important>Attention, GAG n'est plus développé depuis août 2008. Utilisez-le à vos risques et périls.</note>
+
+{{http://gag.sourceforge.net/gagn3.gif?500|Ecran de choix des OS dans sa version anglaise}}
+
+
+===== Pré-requis =====
+
+  * **sauvegarder vos données** sur un autre support tel que disque externe, dvd ou cd. Une erreur de manipulation peut entraîner la perte totale de vos données.
+  * Pour chaque système d'exploitation Linux (Ubuntu, etc) ou BSD, installer son amorceur dans le [[wp>Partition_Boot_Record|PBR]] de sa partition système. Par exemple si la partition système de votre Ubuntu est /dev/sda1, [[:grub-pc#Réinstaller/Restaurer GRUB 2|installer GRUB]] dans le PBR de sda1.
+  * Pas d'opération spécifique pour Windows
+  * [[:tutoriel:comment_sauvegarder_le_mbr|Sauvegarder le MBR]] du disque (car il sera écrasé par GAG)
+  * Télécharger l'archive ZIP sur [[http://gag.sourceforge.net/download.html|cette page]].
+  * Extraire l'archive et fabriquer le média d'installation, ou bien graver le cd d'installation depuis le fichier iso.
+  * Démarrer l'ordinateur sur ce média d'installation
+  * Suivre les instructions d'installation ci-dessous afin d'installer GAG dans le [[wpfr>Master_boot_record|MBR]] du disque dur
+
+
+
+===== Installation =====
+
+
+  * Bootez sur le CD/disquette GAG que vous avez gravé
+  * choisissez **4** "installer", **2** "AZERTY", **G** ou **9** (selon version) "Français". 
+  * Dans le menu, **C** pour Configurer, **j** pour ajouter un nouvel OS. 
+  * Choisissez la partition sur laquelle se trouve l'OS à ajouter en tapant 2 pour les partitions Ext - Linux/Ubuntu - (et B pour la partition windows), que vous nommez dans le champ description, et pour lequel vous choisissez une des icônes proposées, **j** pour ajouter un autre OS (Windows, par exemple), puis **D** pour sauver sur disque dur. C'est à ce moment là que GAG s'installe dans le MBR.
+  * Retirez le CD/disquette, redémarrez votre ordinateur.
+
+
+===== Voir aussi =====
+
+  * (en) [[http://gag.sourceforge.net/|Site officiel de GAG]]
+  * Page [[wpfr>Chargeur_d'amorçage|chargeur d'amorçage]] de Wikipedia
+
+----
+//Contributeurs : [[:utilisateurs:YannUbuntu]]//

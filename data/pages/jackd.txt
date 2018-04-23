@@ -1,0 +1,231 @@
+{{tag>audio jack multimedia}}
+----
+
+====== Jack - Jack Audio Connection Kit ======
+
+<note important>Jack est un peu compliqué à installer/paramétrer en ligne de commande. Il existe plusieurs interfaces graphiques qui peuvent vous être d'une grande utilité que ce soit pour sa configuration ou son utilisation : **[[:QjackCtl]]** ou **Cadence**, **Catia** ou **Claudia** (qui sont des logiciels de l'excellente distribution **KXStudio** - qui vient d'ailleurs avec un Jack configuré et tous ces logiciels prêts à l'emploi)</note>
+
+Il existe dans Ubuntu de nombreuses applications dédiées à la [[:MAO|création musicale]]. Il est ainsi possible de faire de l'enregistrement audio multipiste et du [[:MIDI]] simultanément, le tout avec quelques effets temps réel (réverbération, chorus, flanger, etc.) et des instruments virtuels comme une boîte à rythmes ou un piano dans un lecteur d'échantillons [[:MIDI#SoundFonts|SoundFonts]]. On trouve aussi des choses plus marginales telles accordeur d'instrument, racks d'effets temps réel (type rack d'effets de guitare) ou clavier MIDI virtuel. Tout ceci est à quelques clics de l'utilisateur, encore faut-il configurer son système de manière à pouvoir profiter pleinement de toutes ces belles choses...
+
+Attention : on suppose dans cette page que vous avez correctement configuré votre (vos) carte(s) son avec l'ALSA (voir la page [[:audio]]).
+
+<note tip>N'hésitez pas à jeter un œil à **KXStudio** ou **[[:Ubuntu Studio]]**, des [[:variantes|variantes d'Ubuntu]] qui intègrent tous les outils nécessaires à la [[:MAO]], dont Jack.</note>
+
+===== Jackd =====
+
+==== Présentation ====
+
+Impossible actuellement de prétendre faire de la [[:MAO]] (musique assistée par ordinateur) sans installer //jackd// au préalable. Jackd est un des serveurs de sons disponibles dans Linux, il y a de brèves explications sur cette page du wiki : [[:audio#les_serveurs_de_sons|Les serveurs de sons]]. Jackd a l'avantage sur ses concurrents d'être taillé pour l'audio en temps réel et, surtout, d'être utilisé par presque toutes les applications plus ou moins orientées MAO.
+
+Jackd est indispensable pour lier virtuellement les différents programmes manipulant le son entre eux. Exactement comme l'on pourrait se servir de prises Jack avec des machines dédiés. \\
+Le but de Jackd est donc de vous permettre des interactions entres les programmes poussés.
+
+==== Installer Jackd ====
+
+Installer jackd, c'est facile : il suffit d'[[:tutoriel:comment_installer_un_paquet#paquet_present_dans_les_depots|installer le paquet]] **[[apt://jackd|jackd]]**.
+
+**Notez bien** que le paquet porte le **d** à la fin car il existe aussi un paquet //jack// sans rapport avec notre serveur //jackd//...
+
+Parfait, sauf que ceci ne permet pas de faire de l'audio temps réel car, par défaut, sur un ordinateur de bureau, aucune application n'a besoin du temps réel. Or si on n'active pas le temps réel, on aura inévitablement de brèves coupures de flux audio, ce qui est moche dans une chanson !
+
+===== Activer la priorité temps réel =====
+
+Le matériel sonore utilisé en MAO possède une faible latence, d'ailleurs exploitée par Jack. Cette faible latence laisse moins de temps à votre processeur pour traiter des instructions qui, d'habitude, sont effectuées sans contraintes temporelles. Jack signale ces retards de traitement par des XRUN qui se traduisent par des micro-coupures du son sur les ordinateurs peu puissants ou si le système est très occupé.
+Pour éviter cela, il y a la solution "temps réel".
+Le noyau temps-réel a pour principe d'assurer que les instructions effectuées par votre machine se feront en un temps bien déterminé.
+Lorsque vous lancez Jack en priorité temps réel, vous lui garantissez que le traitement qu'il demande sera effectué dans le temps qu'il demande ;-)
+A noter qu'un noyau temps réel ne réduit ni n'accroît la latence, celle ci reste dépendante de votre matériel, de la couche sonore que vous utilisez, et de vos paramètres.
+
+Depuis Lucid (10.04 LTS), le noyau temps réel linux-lowlatency n'est plus développé. Il semble que les fonctionnalités temps réel soient peu à peu implémentées dans le noyau générique. A partir d'Ubuntu 12.04, le noyau en temps réel linux-rt est complètement implanté dans le noyau ! Cette étape n'est donc plus nécessaire.
+
+Mais il faudra tout de même activer le temps réel lors de l'installation de **Jackd2** pour bénéficier des latences les plus faibles possibles.
+
+==== Autoriser les applications audio a utiliser le temps réel====
+
+<note important>Avec la version 12.04, la seule modification à faire est d'ajouter l'utilisateur dans le groupe audio (sudo gpasswd -a $USER audio), puis de redémarrer la session pour prendre en compte les changements.
+
+La modification du fichier /etc/security/limits.d/audio.conf est faite pendant l'installation.</note>
+
+Il faut modifier en tant qu'administrateur le fichier qui donne aux applications audio le droit d'accéder au temps réel.
+Cette opération n'est pas indispensable, mais vous pouvez vous pencher dessus si vous avez quelques problèmes.
+
+[[:tutoriel:comment_editer_un_fichier|Ouvrez le fichier]] **/etc/security/limits.conf**.
+
+Puis ajoutez à la fin du fichier les lignes suivantes :
+<code># Support Temps réel pour le groupe audio
+@audio  -  rtprio   99
+@audio  -  nice	    -10
+@audio  -  memlock  250000</code>
+
+Attention : il vous faudra redémarrer (avec le noyau temps réel) pour que ces changements prennent effet.
+
+Vous pourrez trouver plus d'informations sur la configuration de PAM sur le site de [[http://www.linuxmao.org/tiki-index.php?page=acc%C3%A8s+temps+r%C3%A9el+pour+les+applications#Configuration_de_PAM|linuxmao]]
+
+===== Lancer le serveur Jack =====
+
+==== Poussez-vous, j'arrive ! ====
+
+Tout est en place pour lancer le serveur jack. Sauf qu'il faut une carte son disponible, ce qui n'est pas forcément le cas si vous êtes dans Gnome ou KDE. En effet, le serveur de son respectif de chaque environnement (//esd//, //arts// ou //[[pulseaudio]]//) a tendance à accaparer la carte son, de sorte qu'on ne peut plus l'utiliser pour Jack... Quatre solutions s'offrent alors :
+  - tuer le serveur son de l'environnement, à l'aide d'un **killall esd** ou d'un **killall arts** ou encore d'un **killall pulseaudio**
+  - configurer le serveur Jack afin qu'il tue le processus esd, arts ou pulseaudio au démarrage et qu'il tue Jackd à la sortie {{  :reglages_jack_audio_connection_kit.png?350x200|2. script de démarrage: killall pulseaudio / script après extinction: killall jackd}}
+  - utiliser un environnement sans serveur de son ! ([[:XFCE]] semble être le plus adapté)
+  - Lancer KControl si on est sous KDE (ou Système > Préférences > Son sur GNOME) pour y "éteindre" son sytème de sons (solution adaptée a ceux qui utiliseront modérément les applications pour lesquelles jackd est nécessaire. Il faudra juste penser à le remettre en fonctionnement à la fin).
+ 
+<note>Pour empêcher le redémarrage intempestif de Pulseaudio, éditez le fichier /etc/pulse/client.conf et ajoutez-y "autospawn = no"</note>
+
+Chaque solution a ses avantages et ses inconvénients. Bien sûr, si vous avez deux cartes son, vous pouvez presque oublier le problème : chaque serveur de son sa carte !
+Dans le premier cas, l'environnement n'émet plus de son, donc les applications multimédia non plus ! Cependant il existe un grand nombre de lecteurs audio et vidéo qui peuvent rediriger leur sortie vers jack une fois les bons paquets installés (chercher les paquets en "-jack" dans Synaptic), il ne faut juste pas passer son temps à changer de serveur de son... Dans le deuxième cas, tout marche, à tel point que si on change de bureau virtuel, ça émet un son en plein milieu du morceau qu'on enregistre !!! Dans le troisième cas, il faut prévoir de lancer automatiquement jack à l'ouverture de session afin que les applications multimédia (lecteurs audio par exemple) puissent encore servir à quelque chose !
+
+Vous l'avez compris, j'ai une carte audio haut de gamme en plus de celle intégrée à la carte mère : l'environnement joue sur la carte mère, jack sur la carte audio digne de ce nom !
+
+Pour être exhaustif, signalons que l'on peut configurer le système audio plus finement comme expliqué à la page [[http://wiki.ubuntu-fr.org/installation/son?s=esd#en_pratique_optimiser_le_son|Installation du son]]. Cependant l'objectif de cet article est d'aller le plus directement au but afin de vite découvrir les nombreuses possibilités de Linux en matière de création musicale, on se contentera donc ici des solutions simples évoquées.
+
+Remarque : les deux commandes suivantes permettent de savoir quels processus utilisent la (les) carte(s) son
+<code>lsof +D /dev/dsp 
+lsof +D /dev/snd</code>
+respectivement pour les applications OSS et pour les applications ALSA. Dans le cas de plusieurs cartes son, il y aura aussi un /dev/dsp1, un /dev/dsp2 etc.
+
+==== Lancement ====
+A nouveau il y a plusieurs possibilités. La classique ligne de commande et l'interface graphique. En ligne de commande, ça donne un truc du genre :
+<code>jackd -sRp 70 -d alsa -d hw:1 -r 44100 -H -z s &</code>
+Ce qui lance le serveur jack en temp réel priorité 70, sur le pilote ALSA et la **deuxième** carte son, en 44.1kHz avec un //dithering// de type //shaped// (sert à diminuer le bruit de quantification). Consulter l'aide de jack pour savoir quelles options utiliser. Notez bien qu'il n'y a pas de //sudo// maintenant.
+
+Toute la question, lorsqu'on a plusieurs cartes son, est de savoir quel est le bon numéro de carte. Pour cela, un petit :
+<code>aplay -l</code>
+dit tout sur les cartes son disponibles. Pour info //aplaymidi -l// fait la même chose avec les périphériques MIDI.
+
+**En mode graphique**, on peut par exemple utiliser //qjackctl// du paquet du même nom dans l'archive //universe//. Une fois lancé, il faut cliquer sur le bouton "Setup" pour accéder à l'interface qui règle les paramètres de démarrage du serveur jack (onglet "Settings"). Dans l'onglet "Misc", on a la possibilité de demander à Qjackctl de lancer le serveur automatiquement quand il démarre. On peut ensuite cliquer le bouton "Start" et apprécier d'éventuels messages d'erreur dans la fenêtre "Messages" (bouton du même nom).
+
+Pour vérifier que ça sort du son, un petit LA 440 :
+<code>ecasound -f:32,1,44100 -i null -o jack_alsa,<myport> -b:1024 -el:sine_fcac,440,1</code>
+On n'oubliera pas de remplacer <myport> par le numéro d'une sortie audio ! (par exemple hw:0)
+
+Pour tester cette commande, il faut avoir au préalable installé les paquets //ecasound// et //jack-rack// :
+<code>
+sudo apt-get install jack-rack ecasound
+</code>
+==== Ça marche pas ! ====
+
+Aïe, jack vous insulte en disant que le pilote ALSA n'a pas pu être chargé... Certainement que le temps réel n'est pas correctement configuré. Tester jack sans priorité temps réel pour voir, avec cette commande :
+<code>jackd -s -d alsa -d hw:0 -r 44100 -H -z s &</code>
+Si c'est bon, c'est que le temps réel n'est pas disponible. Il faut alors vérifier les points suivants :
+==Le module realtime-lsm est-il chargé ?==
+Pour le savoir :
+<code>lsmod | grep realtime</code>
+doit retourner les modules "realtime" et "commoncap".
+== Appartiens-je au groupe audio ? ==
+Pour le savoir :
+<code>groups</code>
+doit retourner une liste contenant "audio".
+== Le module realtime-lsm est-il correctement configuré ? ==
+Pour le savoir :
+<code>cat /etc/default/realtime | grep 29</code>
+doit retourner //PARAMETERS="gid=29"// + éventuellement d'autres paramètres. S'il y a "any", il faut qu'il valle 1, sinon ça complique inutilement la configuration (il faut définir une à une les applications qui ont droit au temps réel...).
+== Même sans le temps réel, ça marche pas ! ==
+N'y aurait-il pas encore un //esd// ou un //arts// qui occuperait la carte ? Pour le savoir :
+<code>ps -A | grep esd
+ps -A | grep artsd</code>
+doivent toutes les deux retourner une chaîne vide. Si ce n'est pas le cas et que vous n'avez qu'une carte son, ne cherchez pas plus loin !
+== Je n'ai pas de ports MIDI ! ==
+Il faut alors vérifier que les modules MIDI du noyau sont chargés :
+<code>lsmod | grep midi</code>
+S'il n'y a pas //snd_seq_midi//, ça va effectivement être dur de faire tourner un séquenceur MIDI... Dans ce cas, il faut forcer le noyau à charger les modules au démarrage en éditant le fichier /etc/modules et en ajoutant la ligne suivante :
+<code>snd_seq_midi</code>
+Et pour éviter de redémarrer la machine tout de suite (après tout on n'est pas sous Windows !), il suffit d'entrer la commande suivante :
+<code>sudo modprobe snd_seq_midi</code>
+
+
+===== Firefox ne fonctionne pas ? Rediriger Pulseaudio vers Jack  =====
+Lorsque jack est lancé, il "désactive" pulseaudio, ce qui fait que toutes les applications vont essayer de jouer sur pulseaudio, mais celui ci ne donnera aucun son. Ainsi, il n'est plus possible de regarder des vidéos sur le net en utilisant un logiciel jack. L'astuce pour éviter ceci conciste à rediriger pulseaudio vers Jack en créant une fausse carte son à qui pulseaudio pourra envoyer son contenu. Pour faire ceci, commencez par installer jack2 (je n'ai pas testé si ça fonctionne aussi sur jack1), pavucontrol (super logiciel pour controler les entrées/sorties des logiciels qui utilisent pulseaudio), qjackctl (équivalent à pavucontrol pour jack + c'est ce qu'on utilisera pour lancer jack), et pulseaudio-module-jack (il fournit plusieurs modules pour créer la fausse carte son) :
+<code>
+sudo apt-get install jack2 pavucontrol qjackctl pulseaudio-module-jack
+</code>
+
+Ensuite, lancez qjackctl :
+<code>qjackctl</code>
+
+Cliquez sur "Règlages" > Onglet "Paramètres". Vérifiez que la bonne carte son de sortie est cochée dans "Interface".
+Ensuite allez dans le sous onglet "Avancé", et remplacez dans "Préfixe Serveur" 'jackd' par
+<file>pasuspender -- jackd</file>
+(Ceci est utile pour désactiver pulseaudio sinon on a des conflits)
+Ensuite allez dans l'onglet "Options", cochez la case "Exécuter un script après le démarrage", que vous mettez à la valeur
+<file>pactl load-module module-jack-sink && pactl load-module module-jack-source && pactl set-default-sink jack_out && pacmd set-default-source jack_in && pacmd list-sink-inputs | grep index | sed 's/ *index: *//g' | xargs -I{} pacmd move-sink-input "{}" jack_out</file>
+
+(cette ligne charge les modules, change la carte par défaut, et ça redirige tous les logiciels actuellements ouverts vers la "fausse" carte graphique.
+
+Ajoutez aussi "un script après l'extinction" en mettant dans la zone de texte :
+<file>pacmd suspend false</file>
+(ceci permet de relancer pulseaudio quand on quitte jack)
+
+Et voila ! Il ne reste plus qu'à valider les changements avec "OK", et à cliquer sur "Démarrer" pour que toutes les applications pulseaudio soient redirigées vers Jack. Quand vous voulez quitter jack, il vous suffit de cliquer sur "Arrêter", et pulseaudio reprend la main. Magique non ! ;)
+===== Et après ? =====
+Bienvenue dans la MAO sous Linux !
+
+Lorsqu'on a lancé plusieurs applications audio, il faut ensuite connecter leurs flux audio et MIDI : machin enregistre truc, ressort dans bidule etc. Là encore qjackctl s'avère de bon secours, bien qu'il ne soit pas parfait pour cette opération. En cliquant sur son bouton "Connect", on affiche l'interface qui permet de tirer des câbles audio ou MIDI entre les différents ports des applications ou des périphériques audio ou MIDI.
+
+==== Quelles applications utiliser ? ====
+Fouillez dans la section **Son et Vidéo** de la Logithèque, il y a de quoi faire. Voici une petite sélection de logiciels:
+  * l'incontournable séquenceur audio / MIDI : [[Rosegarden]]
+  * le multipiste numérique (forcément !) : [[Ardour]]
+  * un joueur de SoundFonts : [[apt>Qsynth]]
+  * la boîte à rythmes : [[Hydrogen]]
+  * un synthé virtuel : [[apt>Zynaddsubfx]]
+  * un effet de guitare (ou autre) temps réel : Creox, [[rakarrack]], [[apt>Guitarix]].
+  * l'outil de mastering : [[apt>Jamin]]
+  * le rack d'effets pour jack : [[apt>Jack-rack]]
+  * le vu-mètre : [[apt>Meterbridge]]
+  * l'enregistreur de jack qui ne rate jamais le début : [[apt>TimeMachine]]
+
+Citons enfin le séquenceur [[LMMS]] qui arrive fraîchement de Debian par les //backports// Ubuntu Breezy et le séquenceur Wired basé sur //portaudio//. Il paraît que la concurrence stimule l'innovation, ça promet...
+Enfin nombreux sont les éditeurs de sons disponibles et qui permettront par exemple de convertir un fichier 32 bits stéréo en "wav" 16 bits / 44.1 kHz puis en "mp3" ou en "ogg", plus pratiques pour la diffusion.
+
+==== Pour aller plus loin... ====
+
+== Optimiser le système ==
+On peut chercher à optimiser son système afin de libérer un maximum de ressources et donc faire tourner un maximum d'applications audio en même temps. Il faut bien dire que les effets du type réverbération ou encore les lecteurs d'échantillons sont particulièrement gourmands en ressources. Les pistes à suivre :
+  * désactiver voire désinstaller les services inutiles, il y a pas mal de littérature sur le sujet sur le net (chez [[http://www.lea-linux.org/|Léa]] par exemple)
+  * désactiver le chargement des modules OSS car on va plutôt utiliser le système ALSA (voir plus bas)
+  * utiliser un environnement graphique plus léger : abandonner Unity, Gnome ou KDE pour [[Fluxbox]], [[LXDE]], [[Enlightenment]] ou [[Xfce]].
+  * accélérer les accès au disque dur
+  * n'oubliez pas que la mémoire RAM ne coûte plus grand chose et méfiez-vous des tâches de maintenance du système qui démarrent environ 10 minutes après l'allumage du PC !
+Pour le deuxième point, la méthode consiste à éliminer les paquets en "-oss" dans Synaptic, installer ceux en "-alsa" et éventuellement en "-jack" si ce n'est déjà fait, puis à éditer les fichiers /etc/modprobe.d/alsa-base et /etc/modutils/alsa-base afin d'éliminer le chargement des modules OSS (dont le nom est en "-oss" !). Il ne faut pas ensuite oublier d'exécuter la commande "update-modules".
+
+Pour régler son système au poil, on trouvera pas mal d'informations sur les sites de Jack et de Planet CCRMA listés au chapitre suivant - bien que le second soit focalisé sur Fedora ;-) .
+
+== Utiliser DSSI, le VSTi de Linux ==
+[[http://dssi.souceforge.net/|DSSI]] est une architecture qui permet de créer des plugins de synthétiseurs virtuels exactement comme les VSTi de Steinberg. Il existe d'ailleurs un plugin qui permet d'utiliser un VSTi dans [[http://www.winehq.com/|Wine]] par DSSI... Comble de bonheur, le séquenceur Rosegarden supporte DSSI.
+On accède dans Rosegarden à la liste des plugins disponible dans le menu Composition -> Studio -> Gérer les plugins. Le malheur, c'est que DSSI n'est pas supporté par Ubuntu, ni par Debian d'ailleurs (seule Demudi semble s'y être atelée). Donc on ne voit rien dans la liste des plugins disponibles...
+Il y a deux raisons à cela :
+  - il n'y a pas de plugin DSSI installé ni installable !
+  - Rosegarden ne compile le support DSSI que si DSSI est installé !
+Ainsi pour profiter de DSSI, il faut tout compiler, à la main... Pour les courageux voici donc ce que j'ai réussi à compiler sur Breezy AMD64 et les bibliothèques requises :
+  * DSSI-0.9.1 -> ladspa-sdk, libasound2-dev
+  * fluidsynth-dssi-0.9.1 -> liblo-dev, libfluidsynth-dev, ladcca-dev
+  * sineshaper-0.4.2 -> ligtkmm-2.4-dev, libglademm-2.4-dev
+  * whysynth-20051005
+  * xsynth-dssi-0.9.0
+Par contre hexter-0.5.8 a échoué. Pour Rosegarden, le mieux puisqu'il existe un paquet Ubuntu est de demander à //apt-get// de le recompiler. Pour cela il faut activer les dépôts de paquets source dans /etc/apt/source.list (donc enlever le # devant chaque ligne débuttant par //deb-src//). Ensuite, il faut installer quelques paquets manquant : automake-1.7, liblrdf0-dev et dpatch. Enfin la recompilation de Rosegarden se fait en 2 commandes et pas mal de patience (la compilation est longue). Pour résumer :
+<code>sudo nano /etc/apt/source.list
+  <décommenter les lignes qu'il faut et sauver le fichier !>
+sudo apt-get install automake-1.7 liblrdf0-dev dpatch
+sudo apt-get -b source rosegarden4
+sudo dpkg -i rosegarden4_1.0-1ubuntu3_<arch>.deb</code>
+Bon je dois avouer que mon Rosegarden ainsi recompilé plante (Ubuntu/Breezy AMD64) alors que ça marche sous Debian Sarge x86... Peut-être que d'autres seront plus doués ?
+
+===== Liens utiles =====
+
+  * [[:Ubuntu Studio]] pour transformer son Ubuntu en station de travail musicale avec un vrai noyau temps réel.
+  * <del>[[http://gnuzik.tuxfamily.org/index.php/cms/39/Bienvenue|StudioLibre.org]] - la première communauté MAO-iste francophone sous GNU ( Linux & autres )</del> (lien mort)
+  * [[http://www.linuxmao.org/|MAO Libre]], le wiki des MAO-istes enfin libres !
+  * http://jackit.sourceforge.net/
+  * http://www.alsa-project.org/
+  * http://qjackctl.sourceforge.net/
+  * http://www.linux-sound.org/
+  * http://linuxmusicians.com/
+  * [[http://www.geocities.com/dn_liitto/english/VST-on-FC3-Planet-CCRMA-HOWTO.html?200515?200526|VST on FC3 Planet CCRMA HOWTO]] : utiliser des plugins VST (Cubase/Windows) dans Linux Fedora Core 3 - ne soyons pas sectaires !
+  * [[http://ccrma.stanford.edu/planetccrma/software/tunesystem.html|Tuning the system]] sur PlanetCCRMA pour connaître toutes les subtilités et libérer toute la puissance de sa machine...
+  * http://willem.engen.nl/debian/ Dépôt de paquets Debian pour la MAO (DSSI et quelques synthés)
+  * http://mdesigner.free.fr Les logiciels libres audio et visuels
+  * http://bluedid29.mdl29.net/
+----
+//Contributeur : [[utilisateurs:jmp]] [[utilisateurs:omega02]] [[utilisateurs:sonal]] [[:utilisateurs:aurelien88|aurelien88]].// --- //

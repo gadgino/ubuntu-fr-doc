@@ -1,0 +1,191 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#installation_de_php5_sur_ubuntu_hoary_hedgedog" class="toc"> Installation de PHP5 sur Ubuntu Hoary Hedgedog </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#mise_a_jour_de_la_liste_de_paquets" class="toc"> Mise à jour de la liste de paquets </a></span></li>
+<li class="level2"><span class="li"><a href="#installation" class="toc"> Installation </a></span></li>
+<li class="level2"><span class="li"><a href="#pour_aller_plus_loin" class="toc"> Pour aller plus loin </a></span></li>
+<li class="level2"><span class="li"><a href="#mise_en_garde" class="toc"> Mise en garde </a></span></li>
+<li class="level2"><span class="li"><a href="#resolution_des_problemes" class="toc"> Résolution des problèmes </a></span></li>
+<li class="level2"><span class="li"><a href="#remerciements" class="toc"> Remerciements </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">Version Hoary</pre>
+ Rédigé par  <a href="/utilisateurs/pierre-yves_landure" class="wikilink2" title="utilisateurs:pierre-yves_landure" onclick="return svchk()" onkeypress="return svchk()">Pierre-Yves Landuré</a> landure at yahoo dot fr
+<a name="installation_de_php5_sur_ubuntu_hoary_hedgedog"></a><h1> Installation de PHP5 sur Ubuntu Hoary Hedgedog </h1>
+<div class="level1">
+
+</div>
+<!-- SECTION [98-159] -->
+<a name="mise_a_jour_de_la_liste_de_paquets"></a><h2> Mise à jour de la liste de paquets </h2>
+<div class="level2">
+
+<p>
+ Afin d&rsquo;installer les paquets php5 sur Ubuntu, vous devez ajouter la ligne suivante à votre fichier <em>/etc/apt/sources.list</em> 
+</p>
+<pre class="code">deb http://people.debian.org/~dexter php5 hoary</pre>
+
+<p>
+ Executez ensuite la commande pour mettre à jour votre liste de paquets :  
+</p>
+<pre class="code">sudo apt-get update</pre>
+
+</div>
+<!-- SECTION [160-485] -->
+<a name="installation"></a><h2> Installation </h2>
+<div class="level2">
+
+<p>
+ Nous commençons par installer <strong>apache2</strong>, si ce n&rsquo;est pas déjà fait : 
+</p>
+<pre class="code">sudo apt-get install apache2 apache2-mpm-prefork</pre>
+
+<p>
+ Ensuite, nous installons <strong>php5</strong> : 
+</p>
+<pre class="code">sudo apt-get install libapache2-mod-php5</pre>
+
+<p>
+ Et voila, vous avez une installation minimale de PHP5. Cependant cela ne suffit pas pour la plupart des gens. Nous allons donc étoffer cela ;). On commence par l&rsquo;extension pour accéder aux base de données mysql : 
+</p>
+<pre class="code">sudo apt-get install php5-mysql</pre>
+
+<p>
+ On installe ensuite l&rsquo;extension de création et modification d&rsquo;images : 
+</p>
+<pre class="code">sudo apt-get install php5-gd</pre>
+
+<p>
+ On continue avec les extensions pour lire les fichiers <acronym title="Extensible Markup Language">XML</acronym> : 
+</p>
+<pre class="code">sudo apt-get install php5-libxml php5-xml php5-simplexml php5-dom</pre>
+
+<p>
+ Enfin, on installe l&rsquo;extension pour gérer les chaînes de caractères en UTF-8 : 
+</p>
+<pre class="code">sudo apt-get install php5-mbstring</pre>
+
+<p>
+ Et vous voila en possession d&rsquo;une installation de PHP5 qui devrait convenir à la plupart des gens. Vous pouvez bien sûr la compléter en fonction de vos besoins en installant les paquets qui vous manquent. Afin d&rsquo;obtenir la liste des paquets <strong>php5</strong> disponibles, vous pouvez utiliser la commande : 
+</p>
+<pre class="code">apt-cache search php5</pre>
+
+</div>
+<!-- SECTION [486-1657] -->
+<a name="pour_aller_plus_loin"></a><h2> Pour aller plus loin </h2>
+<div class="level2">
+
+<p>
+ Certain d&rsquo;entre vous seront intéressés par l&rsquo;extension OCI8 pour <acronym title="Hypertext Preprocessor">PHP</acronym> 5 (Oracle instant client pour ceux qui ne savent pas). Une documentation en anglais pour créer ce paquet est disponible dans le répertoire des sources dans le fichier <em>debian/doc/README.Debian</em>
+</p>
+
+<p>
+Pour obtenir les sources de PHP5, ajoutez la ligne suivante au fichier <em>/etc/apt/sources.list</em> : 
+</p>
+<pre class="code">deb-src http://people.debian.org/~dexter php5 hoary</pre>
+
+<p>
+ Mettez à jour votre liste de paquets : 
+</p>
+<pre class="code">apt-get update</pre>
+
+<p>
+ Et téléchargez les sources : 
+</p>
+<pre class="code">apt-get source php5</pre>
+
+<p>
+ Comme indiquez dans la documentation citée ci-dessus, il vous faudra le paquet <strong>pear-package</strong>. Il n&rsquo;est pas disponible pour Ubuntu, il faut donc le compiler. Les sources préparés pour debian sont disponibles à l&rsquo;adresse suivante (à ajouter au fichier <em>/etc/apt/sources.list</em>) :  
+</p>
+<pre class="code">deb-src http://people.debian.org/~dexter pear-package sarge</pre>
+
+<p>
+ Encore une fois, nous allons mettre à jour notre liste de paquets disponibles : 
+</p>
+<pre class="code">apt-get update</pre>
+
+<p>
+ Puis nous téléchargerons les sources dans notre dossier de compilation : 
+</p>
+<pre class="code">cd ~/SOURCES
+apt-get source pear-package</pre>
+
+<p>
+ Nous installons aussi <strong>yada</strong> qui est un outils nécessaire à la compilation de <strong>pear-package</strong> : 
+</p>
+<pre class="code">sudo apt-get install yada</pre>
+
+<p>
+ Entrez dans le dossier des sources : 
+</p>
+<pre class="code">cd pear-package-*</pre>
+
+<p>
+ et mettez à jour les dépendances afin d&rsquo;adapter les sources à votre Ubuntu : 
+</p>
+<pre class="code">yada rebuild</pre>
+
+<p>
+ et enfin lancez la compilation en tant que superutilisateur :  
+</p>
+<pre class="code">sudo dpkg-buildpackage</pre>
+
+<p>
+ Une fois la compilation terminé, je vous laisse vous amuser avec l&rsquo;installation de <strong>pear-package</strong> et la création du paquet <strong>php5-oci8</strong> car il faut d&rsquo;abord commencer par installer le client oracle... dans ce cas, je vous conseille de récupèrer les fichiers rpm d&rsquo;installation de ce client, et d&rsquo;utiliser <strong>alien</strong> pour les transformer en paquet debian.
+</p>
+
+</div>
+<!-- SECTION [1658-3542] -->
+<a name="mise_en_garde"></a><h2> Mise en garde </h2>
+<div class="level2">
+
+<p>
+ Pour ceux qui souhaitent utiliser ces paquets, sachez qu&rsquo;ils ne sont pas officiels, et qu&rsquo;à priori, ils ne le deviendront pas, pour cause d&rsquo;utilisation de l&rsquo;outil <strong>yada</strong> dans leur conception. Aussi, lorsqu&rsquo;un PHP5 officiel deviendra disponible pour Ubuntu, vous pourriez avoir des problèmes de mise à jour...
+</p>
+
+<p>
+Vous êtes prévenus.
+</p>
+
+</div>
+<!-- SECTION [3543-3907] -->
+<a name="resolution_des_problemes"></a><h2> Résolution des problèmes </h2>
+<div class="level2">
+
+<p>
+ Si vous rencontrez l&rsquo;erreur suivante lors de l&rsquo;installation : 
+</p>
+<pre class="code">E: Certains paquets n'ont pas pu être authentifiés</pre>
+
+<p>
+ Essayez l&rsquo;astuce suivante : au lieu de répondre &ldquo;o&rdquo; à la question  
+</p>
+<pre class="code">Faut-il installer ces paquets sans vérification (o/N) ?</pre>
+
+<p>
+ Répondez par &ldquo;y&rdquo;.
+</p>
+
+</div>
+<!-- SECTION [3908-4216] -->
+<a name="remerciements"></a><h2> Remerciements </h2>
+<div class="level2">
+
+<p>
+ Bon, j&rsquo;espère que ce petit Howto vous aura été utile ;) Je ne suis pas un expert mais si vous avez un problème ou une remarque (ou des merci , c&rsquo;est bien aussi ;)), n&rsquo;hésitez pas à me contacter à :
+</p>
+
+<p>
+ &lt;Pierre-Yves Landuré&gt; landure at yahoo dot fr
+</p>
+
+<p>
+Ensuite, j&rsquo;aimerai remercier Dexter (ou quelque soit son nom ;), la personne qui s&rsquo;occupe de maintenir les paquets PHP5 non-officiels pour Debian et Ubuntu... Sans lui, ce petit Howto n&rsquo;existerais pas... Aussi, Merci Dexter ;) 
+</p>
+
+</div>
+<!-- SECTION [4217-] -->

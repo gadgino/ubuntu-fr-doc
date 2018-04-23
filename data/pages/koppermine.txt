@@ -1,0 +1,50 @@
+{{tag>graphisme internet}}
+----
+
+====== Koppermine ======
+
+Koppermine KDE est un client pour la galerie photos [[http://coppermine-gallery.net/ | Coppermine Photos Gallery]], une galerie web.
+Il vous permet de transférer vos photos sur votre galerie photo Coppermine.
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir installé le paquet [[alien]].
+
+===== Installation =====
+
+Pour installer Koppermine sur Ubuntu, vous pouvez compiler les sources, ou convertir le paquet rpm proposé en paquet Debian.
+Ici, nous nous limiterons à la conversion du paquet rpm :
+
+  * télécharger le paquet rpm pour fedora core 5 : [[http://koppermine.sourceforge.net/|ici]]
+  * puis exécuter la commande suivante (qui convertit et installe à la volée le paquet) : <file>sudo alien -i koppermine-1.1-1-FC5.i386.rpm</file>
+
+Il faut aussi ajouter à votre galerie l'API pour Coppermine :
+  * télécharger l'API pour Coppermine : [[http://koppermine.sourceforge.net/api/apiV0.4.tar.gz|ici]]
+  * décompresser l'API à la racine de votre galerie (et non pas dans le dossier « plugin »)
+
+ ===== Configuration =====
+
+  * dans un terminal, lancer la commande koppermine.
+  * dans les préférences, compléter les différents champs comme suit :
+    * **Name:** un nom au choix 
+    * **Host URL:** saisir l'URL vers l'API précédemment installée ( ex. : http://ma_gallerie/api/ ), sans oublier le dernier « / »
+    * **username:** nom d'utilisateur de votre galerie (testé uniquement avec le compte admin, mais ça devrait marcher pour tous les comptes...)
+    * **password:** le mot de passe afférent au compte précédemment renseigné...
+  * choisir un album par défaut :
+     * cliquer sur « Select default Album »
+     * dans la nouvelle fenêtre, cliquer sur « Refresh album list », puis sélectionner l'album préféré...
+   * il ne vous reste plus qu'à cliquer sur « Save » pour enregistrer la configuration.
+
+===== Utilisation =====
+
+L'utilisation de Koppermine est très simple.
+
+Cliquez sur « Add files » puis sélectionnez les photos que vous souhaiter envoyer.
+Dans le cadre « Files to upload », cliquez sur un fichier, afin de voir l'aperçu. Compléter la partie « image details » pour chaque photo.
+Vous pouvez faire un clic droit sur l'image afin de retoucher la photo...
+Pour mettre en ligne les photos, cliquez sur « Upload »
+
+----
+// Contributeur principal : wouldsmina//.

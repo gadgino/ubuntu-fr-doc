@@ -1,0 +1,93 @@
+{{tag>Precise matériel portable réseau BROUILLON}}
+
+----
+
+====== Boutons de lancements rapides sur les portables ======
+
+Sur certains PC portables, la carte wifi s'active avec un interrupteur non reconnu par Ubuntu. 
+Ce wiki explique comment faire fonctionner cet interrupteur et la carte wifi sur ces PC grâce au module //acerhk//.
+
+Le module //acerhk// permet également d'utiliser des boutons de lancement rapide des PC portables. Pour la mise au point, le module //xev// permet d'afficher les caractéristiques de la touche activée.
+
+<note>J'ai fait cette manipulation sur un Acer Aspire One (au hasard pour essayer) et le résultat était que le son, les videos et le déplacement de la souris étaient saccadés ! Ce n'est pas très grave car pour revenir au point de départ il suffit d'exécuter la commande : <code> sudo rm /etc/init.d/wifi ; sudo update-rc.d wifi remove </code>
+</note>
+
+===== Liste des portables concernés =====
+
+À compléter.
+
+^ Marque ^ Modèle ^
+| Compal | XBook XB7, CL56 |
+| Fujitsu siemens | Amilo pro v2020, Pro V3505, M7400, Li 2727, Li 2735, MS2828, Amilo A 1650G (et a priori une bonne partie de la gamme) |
+| Toshiba | :?: |
+| Compaq | M2000, Presario R4000, Presario C770EF |
+| Medion-Lifetec | (MD:LT)95400,(MD:LT)96500,(MD:LT)97500,(MD:LT)40100 |
+| Acer | TravelMate 2414LMi, 3003 WLMI, 3023 WLMi, 2001 WLMi, 4100, 1670 WLMI, Aspire 9500, Aspire 7720G, Aspire 7730G, Aspire 7738G |
+
+Listes: <del>[[http://www.cakey.de/acerhk/]]</del> lien H.S.
+[[http://rfswitch.sourceforge.net/?page=laptop_matrix]]
+FIXME
+
+
+
+
+=====Installation =====
+<note>Ceci est à vérifier après Precise.</note>
+sudo rm /dev/rfkill
+
+Redémarrer le pc.
+si pas de wifi aller dans le bios et exécuter l'option "load default settings" sauvegarde le bios et démarrer le pc.
+S' il n'y a toujours pas de wifi :
+
+<code bash>
+sudo add-apt-repository ppa:cogito-16/ppa 
+
+sudo apt-get update
+
+sudo apt-get install build-essential acerhk-source
+
+sudo -s
+
+cd /usr/src/
+
+tar -xjvf acerhk.tar.bz2
+
+cd modules/acerhk
+
+make
+
+make install
+
+modprobe acerhk
+
+echo 1 > /proc/driver/acerhk/wirelessled
+
+exit
+
+</code>
+
+===== Configuration et utilisation =====
+
+==== Réseau wifi ====
+
+[[:wifi|Pour configurer votre réseau wifi]].
+
+
+
+
+==== Configuration des autres boutons ====
+
+Se reporter  à la page [[tutoriel:creer_et_utiliser_un_agencement_de_clavier_personnalise]]\\ .
+
+
+
+
+
+===== Références =====
+
+  * Remerciement : Un grand merci à Cyp qui avait posté ce [[http://forum.ubuntu-fr.org/viewtopic.php?id=65664|tuto]] sur le forum il y a quelques mois. //Il m'a sorti une belle épine du pied// ;-)
+  * Basé sur « [[http://forum.ubuntu-fr.org/viewtopic.php?id=65664|[Résolu] Xbook XB7]] » par <Cyp>
+
+----
+
+//Contributeurs : [[utilisateurs:diabollo|<Diabollo>]], [[utilisateurs:Ner0lph]] (orthographe, typographie, etc.).//

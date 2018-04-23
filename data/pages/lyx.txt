@@ -1,0 +1,73 @@
+{{tag>precise bureautique}}
+
+----
+
+====== Édition de document avec LyX ======
+
+**LyX** est un logiciel libre d'édition WYSIWYM //(What You See Is What You Mean)// de document basé sur [[:LaTeX]]. Doté d'une interface graphique facile à prendre en main, il permet d'avoir en direct une visualisation grossière de ce qu'on veut dire, et pour voir le résultat il suffit de demander à visualiser le document. Une aide très bien fournie et en français favorise la prise en main du logiciel. Le rendu des documents n'a rien à envier à ce que peut produire LaTeX, et le logiciel est configurable aux petits oignons. La compilation en LaTeX et l'exportation en formats imprimables sont grandement facilités.
+
+===== Installation =====
+
+==== Version ====
+
+  * La dernière version de Lyx est la 2.2.2 (10/10/2016) [[http://www.lyx.org/Download|www.lyx.org/download]].
+  * La version disponible en paquet sous Lucid 10.04 est la 1.6.5.
+  * La version disponible en paquet sous Maverick 10.10 est la 1.6.7.
+  * La version disponible en paquet sous Precise 12.04 est la 2.0.2.
+  * La version disponible en paquet sous Raring 13.04 est la 2.0.3.
+  * La version disponible en paquet sous Saucy 13.10 est la 2.0.6.
+  * La version disponible en paquet sous Trusty 14.04 est la 2.0.6.
+  * La version disponible en paquet sous Xenial 16.04 est la 2.1.4.
+  * La version disponible en paquet sous Yakkety 16.10 est la 2.2.0.
+==== Par paquet ====
+
+Son installation se fait en [[:tutoriel:comment_installer_un_paquet|installant le paquet]] **[[apt>lyx]]**, qui installe automatiquement les autres paquets, y compris les librairies LaTeX.
+Il y a cependant un bogue dans l'encodage des caractères des menus : il se corrige en tapant la commande : <code>sudo locale-gen fr_FR</code>
+<note tip>Il semble que sous Precise 12.04, ce bogue soit corrigé.
+Ce bogue n'existe plus sur la version 2.0.3 sous Raring 13.04.</note>
+
+Par ailleurs, l'installation des langues n'est pas toujours complète. Il peut être nécessaire de les installer à part. Pour le français, il suffit de taper la commande : <code>sudo apt-get install texlive-lang-french</code>.
+
+
+==== depuis un ppa ====
+
+il y a 2 ppa disponibles : 
+
+stable : ppa:lyx-devel/release  (recommandé)
+
+<code>sudo add-apt-repository ppa:lyx-devel/release
+sudo apt-get update
+sudo apt-get install lyx</code>
+
+
+daily : ppa:lyx-devel/daily
+
+<code>sudo add-apt-repository ppa:lyx-devel/daily
+sudo apt-get update
+sudo apt-get install lyx</code>
+===== Utilisation =====
+
+==== Affichage des symboles mathématiques ====
+
+Si après l'installation, vous ne pouvez plus avoir accès aux symboles mathématiques et aux lettres grecques dans le mode « formules », il faut [[:tutoriel:comment_installer_un_paquet|installer le paquet]]** [[apt>latex-xft-fonts]]**.<note tip>Ce paquet semble ne plus être présent dans les dépôts sous Precise 12.04</note>
+==== Bibliographie ====
+
+En latex les fichiers bibliographiques sont au format BibTeX (//.bib//). Pour générer ce type de fichier on peut utiliser des éditeurs tels [[JabRef]].
+
+=== Lier la bibliographie à votre document ===
+Dans le menu "Insérer/Liste et TDM/Bibliographie BibTex", cliquez sur "ajouter" puis parcourez vos fichiers pour trouver votre fichier BibTeX. Le choix du style disponible à cette étape conditionne l'affichage lors de l'export de votre bibliographie. 
+<note tip>"Plain" est le style par défaut, cet affichage permet d'avoir les références sous forme [1] dans le texte. Pour avoir un affichage classique de type "(auteur, date)" , préférez "apalike". Lorsque vous aurez inséré vos citations vous pourrez cliquer dessus et choisir dans "citation style" celui que nous venons de décrire.</note>
+=== Pour insérer une citation ===
+Dans le menu "insertion", choisissez "citation". La liste des références de votre bibliographie est disponible, cliquez sur "ajouter" pour insérer votre citation. celle ci apparaît sous forme grisée dans votre texte.
+=== Problèmes ===
+Des erreurs d'affichage ou de génération du fichier peuvent survenir si Natbib n'est pas utilisé pour la gestion de la bibliographie de votre document. Pour l'activer, rendez vous dans "Document/Paramètres/Bibliographie" et activez Natbib en cochant la case.
+
+
+===== Liens =====
+
+  * Pour plus de détails, voir [[http://wiki.lyx.org/FAQ/Qt]]
+  * Site de l'éditeur : [[http://www.lyx.org]]
+
+----
+
+//Contributeurs : [[utilisateurs:Porche]], [[utilisateurs:commandant]], [[utilisateurs:Flo Rahl]]//

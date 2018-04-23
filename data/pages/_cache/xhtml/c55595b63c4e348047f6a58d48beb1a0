@@ -1,0 +1,76 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#installation_du_client_open_vpn" class="toc"> Installation du client Open VPN </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#version_1.x" class="toc"> Version 1.x </a></span></li>
+<li class="level2"><span class="li"><a href="#version_2.x" class="toc"> Version 2.x </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">Version Hoary</pre>
+ <a href="https://wiki.ubuntu.com/OpenVPNClientMiniHowto" class="urlextern" title="https://wiki.ubuntu.com/OpenVPNClientMiniHowto" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Traduit</a> par <a href="/utilisateurs/teolemon" class="wikilink1" title="utilisateurs:teolemon" onclick="return svchk()" onkeypress="return svchk()">teolemon</a>, complété par <a href="/utilisateurs/ostaquet" class="wikilink1" title="utilisateurs:ostaquet" onclick="return svchk()" onkeypress="return svchk()">ostaquet</a>
+<a name="installation_du_client_open_vpn"></a><h1> Installation du client Open VPN </h1>
+<div class="level1">
+
+<p>
+ OpenVPN est une application de tunneling robuste et très flexible qui offre toutes sortes de fonctionnalités cryptage, authentification et certification de la bibliothèque OpenSSL pour sécuriser des tunnels IP au travers d&rsquo;un simple port TCP/UDP.
+</p>
+
+</div>
+<!-- SECTION [150-448] -->
+<a name="version_1.x"></a><h2> Version 1.x </h2>
+<div class="level2">
+
+<p>
+ OpenVPN version 1.x est disponible dans le dépôt universe. Passez sur la page <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a> pour voir comment activer ce <a href="/installation/depots" class="wikilink1" title="installation:depots" onclick="return svchk()" onkeypress="return svchk()">depots</a> le paquet s&rsquo;appelle <strong>openvpn</strong>
+</p>
+
+<p>
+Bien que OpenVPN version 2 soit encore au stade de beta lors de l&rsquo;écriture de cette page, il est déjà utilisé d&rsquo;une manière assez importante (mes employeurs l&rsquo;utilisent depuis un certain temps à la fois sur des clients windows et linux).
+</p>
+
+</div>
+<!-- SECTION [449-898] -->
+<a name="version_2.x"></a><h2> Version 2.x </h2>
+<div class="level2">
+
+<p>
+ Si vous voulez (ou avez besoin, comme la version 2 contient certaines fonctionnalités non disponibles dans la version 1) passer à la version 2, vous pouvez télécharger le code source à partir de : <a href="http://sourceforge.net/projects/openvpn/" class="urlextern" title="http://sourceforge.net/projects/openvpn/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://sourceforge.net/projects/openvpn/</a>
+</p>
+
+<p>
+Vous aurez besoin d&rsquo;un certain nombre de paquets dont le script configure a besoin : 
+</p>
+<pre class="code">apt-get install libssl-dev liblzo-dev</pre>
+
+<p>
+Décompressez le fichier de code source et allez dans le répertoire <code>openvpn-2.0_rcXX</code> nouvellement crée (où XX est le numero de la version que vous avez téléchargée), ensuite c&rsquo;est juste un petit   
+</p>
+<pre class="code">./configure
+make
+sudo make install</pre>
+
+<p>
+C&rsquo;est tout, maintenant vous avez simplement besoin de paramètrer votre fichier de configuration et les certificats dans un endroit approprié :  
+</p>
+<pre class="code">sudo mkdir /etc/openvpn</pre>
+
+<p>
+ et ensuite, spécifier votre fichier de configuration comme un argument de la ligne de commande : 
+</p>
+<pre class="code">openvpn --with-config=</pre>
+
+</div>
+
+<a name="notes"></a><h4> Notes </h4>
+<div class="level4">
+
+<p>
+ Pour que tout fonctionne bien, vous avez besoin du module <code>tun</code> dans votre kernel et  assurez vous que le firewall autorise les instructions <code>vpn for creating a tap</code>. 
+</p>
+
+</div>
+<!-- SECTION [899-] -->

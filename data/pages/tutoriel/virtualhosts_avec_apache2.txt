@@ -1,0 +1,322 @@
+{{tag>Xenial serveur tutoriel BROUILLON}}
+
+----
+
+====== Les hôtes virtuels (virtual hosts) avec Apache2 cc======
+
+
+**Le Serveur Web Apache2 est capable de gérer simultanément plusieurs arborescences Web grâce à la notion d'hôtes Virtuels (Virtual Hosts). Nous allons voir les différentes méthodes pour les mettre en place.**
+
+Il est important de savoir que si vous avez déjà un serveur en activité, ce serveur doit lui aussi être configuré dans les hôtes virtuels ! Dans ce cas, vous voudrez sûrement le mettre en serveur "par défaut", répondant à toutes les requêtes, SAUF celles qui correspondront à vos autres serveurs virtuels.
+
+Nous renseignons le fichier **/etc/hosts** afin d'assurer la résolution de nom (Nom --> Adresse Ip) des **hôtes Virtuels** que nous allons créer. Ceci n'est nécessaire que si votre serveur DNS (Serveur Bind) n'est pas installé et/ou configuré pour vos domaines ou encore, que les noms DNS attribués aux **hôtes Virtuels** sont purement fictifs ou ne vous appartiennent pas.
+
+Si vous désirez tester toutes les méthodes proposées, pensez à effacer la configuration précédente pour ne pas créer des conflits entre les hôtes Virtuels. Il en va de même pour le fichier **/etc/hosts**.
+
+<note>Dans les 3 méthodes présentées sur ce tutoriel, on souhaite créer 2 hôtes virtuels : **virtual1.fr** et **virtual2.fr** ayant pour fichiers de configuration les fichiers **virtual1.conf** et **virtual2.conf**</note>
+
+===== Hôtes virtuels basés sur le nom =====
+
+Cette méthode est la plus utilisée et la plus conseillée. Elle tend même à devenir un standard. Il s'agit simplement d'associer plusieurs **noms DNS** à une seule adresse IP.
+
+<note important>Attention, il faut également déclarer ces 2 sites dans le fichier **/etc/hosts**</note>
+
+Dans un premier temps nous allons définir des **noms DNS** pour nos sites : monsite1.fr et monsite2.fr
+Il faut ajouter ces informations au fichier /etc/hosts pour que la résolution DNS pointe sur la machine locale (127.0.0.1) :
+<file>
+gksudo gedit /etc/hosts
+</file>
+et rajouter les deux lignes suivantes :
+<file>
+127.0.0.1 monsite1.fr
+127.0.0.1 monsite2.fr
+</file>
+
+Puis nous allons créer deux dossiers dans le dossier **/var/www** qui est par défaut la racine d'apache. Vous pouvez les créer en interface graphique ou en ligne de commande via ces deux commandes : 
+
+<file>
+sudo mkdir /var/www/monsite1
+sudo mkdir /var/www/monsite2
+</file>
+
+<note important>Il n'est pas recommandé de travailler directement dans des répertoires du serveur. Un lien symbolique depuis le répertoire principal du serveur vers un répertoire dans votre dossier personnel (par exemple: www-dev/monsite1) est mieux. Pour travailler ainsi, il faut ignorer les deux commandes "sudo" ci-dessus (Le mot "UTILISATEUR" dans les commandes ci-dessous doit être remplacé par votre identifiant) :
+
+<file>
+sudo mkdir /home/UTILISATEUR/www-dev/monsite1
+sudo mkdir /home/UTILISATEUR/www-dev/monsite2
+
+sudo ln -s /home/UTILISATEUR/www-dev/monsite1 /var/www/monsite1
+sudo ln -s /home/UTILISATEUR/www-dev/monsite2 /var/www/monsite2
+
+sudo chown -hR $USER:users /home/UTILISATEUR/www-dev/monsite1
+sudo chown -hR $USER:users /home/UTILISATEUR/www-dev/monsite2
+
+sudo chmod -R 755 /home/UTILISATEUR/www-dev/monsite1
+sudo chmod -R 755 /home/UTILISATEUR/www-dev/monsite2
+</file>
+
+
+</note>
+
+
+Ces dossiers faits, nous allons créer les fichiers de configurations pour apache. Dans **/etc/apache2/sites-available** se trouve un fichier nommé //default//, [[tutoriel:comment_modifier_un_fichier|ouvrez-le avec votre éditeur de texte]] favori (ne pas utiliser OpenOffice.org) puis modifiez de cette façon le fichier : 
+<file>
+<VirtualHost *:80>
+	ServerAdmin votre-mail@monsite1.fr
+	ServerName monsite1.fr
+	ServerAlias www.monsite1.fr
+	
+	DocumentRoot /var/www/monsite1
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride None
+	</Directory>
+	<Directory /var/www/monsite1>
+		Options Indexes FollowSymLinks MultiViews
+		AllowOverride None
+		Order allow,deny
+		allow from all
+	</Directory>
+
+	ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+	<Directory "/usr/lib/cgi-bin">
+		AllowOverride None
+		Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+		Order allow,deny
+		Allow from all
+	</Directory>
+
+	ErrorLog /var/log/apache2/error.log
+
+	# Possible values include: debug, info, notice, warn, error, crit,
+	# alert, emerg.
+	LogLevel warn
+
+	CustomLog /var/log/apache2/access.log combined
+
+    Alias /doc/ "/usr/share/doc/"
+    <Directory "/usr/share/doc/">
+        Options Indexes MultiViews FollowSymLinks
+        AllowOverride None
+        Order deny,allow
+        Deny from all
+        Allow from 127.0.0.0/255.0.0.0 ::1/128
+    </Directory>
+
+</VirtualHost>
+</file>
+
+Ceci fait, enregistrez le fichier sous le nom **monsite1.conf** puis modifiez-le en mettant cette fois **monsite2** à la place de **monsite1**, puis ré-enregistrez sous le nom de **monsite2.conf**.
+
+<note important>
+Si vous utilisez Drupal et le module apache mod_rewrite, vous devez corriger le fichier //default// dans **/etc/apache2/sites-available** qui est mentionné ci-dessus, et remplacer toutes les occurences  <file>AllowOverride None</file> par <file>AllowOverride All</file>
+</note>
+
+Pour terminer, il vous suffit de créer des liens des deux fichiers nouvellement créés dans le dossier **/etc/apache2/sites-enabled**. Pour ce faire, une commande a été faite spécialement : 
+<file>sudo a2ensite monsite1.conf
+sudo a2ensite monsite2.conf</file>
+
+Puis, afin de recharger la configuration d'Apache :
+<file>
+sudo /etc/init.d/apache2 reload
+</file>
+
+Vous pouvez alors accéder aux deux sites ! http://monsite1.fr affichera le contenu du dossier site1 et http://monsite2.fr affichera le contenu du dossier site2.
+
+<note warning>
+Si l'url http://monsite1.fr affiche seulement un index avec le dossier "/home/www/monsite1", et que le contenu du site lui-même est dans http://monsite1.fr/monsite1, c'est peut-être que votre lien vers /home/www/monsite1 qui devrait se trouver dans /var/www se trouve en fait dans /var/www/monsite1 (le répertoire qu'il n'aurait pas fallu créer avant la mise en place du lien symbolique).
+</note>
+
+<note>
+Voici la commande pour désactiver le site "monsite1" :
+<file>
+sudo a2dissite monsite1
+sudo /etc/init.d/apache2 reload
+</file>
+</note>
+
+===== Astuce: empêcher l'accès au serveur via son adresse IP =====
+
+Pour des raisons diverses, on peut souhaiter empêcher les utilisateurs ne découvrant que l'adresse IP du serveur, de consulter son contenu.
+
+La syntaxe est la suivante: il suffit de modifier le fichier /etc/apache2/sites-enabled/000-default, et d'y ajouter au début un VirtualHost répondant à l'adresse IP:
+
+<code><VirtualHost  www.xxx.yyy.zzz:80>
+ServerName www.xxx.yyy.zzz
+<Directory />
+Deny from all
+</Directory>
+</VirtualHost></code>
+
+Où "www.xxx.yyy.zzz" est l'adresse IP publique du serveur.
+
+Le //Deny from all// bloque l'accès à tout client qui appelle le site via l'adresse IP du serveur.
+
+On garde ensuite, dans le même fichier, la configuration habituelle, avec une petite modification:
+<code>
+<VirtualHost *:80>
+        ServerAdmin webmaster@localhost
+        ServerName mon_joli_domaine
+[...]blah blah
+</VirtualHost></code>
+Il faut ajouter la directive //ServerName// et y placer le nom de domaine du serveur. Cela peut-être un nom dynamique (fourni par des services comme no-ip ou Dyndns).
+
+Attention: cette technique n'est pas, à proprement parler, une "sécurisation". Elle évite juste de recevoir du trafic inutile de la part de bots, ou de se faire fouiller son serveur par des gens pratiquant le scan de port. Bien évidemment, si vous rendez publique le nom de domaine menant à votre serveur, ça ne change pas grand chose.
+
+===== Hôtes virtuels basés sur le port =====
+
+Par défaut, le Serveur Web Apache2 est configuré pour écouter sur le **port 80**. Il est possible d'utiliser des ports différents pour chaque hôte virtuel.
+
+Dans cet exemple, les deux Sites Virtuels **virtual1.com** et **virtual2.com** se partagent la même adresse IP : **192.168.0.2**. Seul le port d'écoute est différent.
+
+Dans un premier temps, nous allons éditer le fichier **/etc/hosts** afin de déclarer les 2 noms de domaine associés à la seule et unique adresse IP de notre interface réseau. Ceci permettra la résolution de nom (Nom => Adresse Ip).
+
+**Exemple de fichier hosts :**
+<file>
+127.0.0.1 	localhost
+192.168.0.2	virtual1.com
+192.168.0.2	virtual2.com
+</file>
+Ensuite, nous créons 2 fichiers de configuration **virtual1.conf** et **virtual2.conf** de la même manière qu'avec la méthode précédente, mais contenant :
+
+**virtual1.conf :**
+<file>
+<VirtualHost 192.168.0.2:80>
+	DocumentRoot	/var/www/virtual1.com
+	ServerName	virtual1.com
+</VirtualHost>
+
+</file>
+**virtual2.conf :**
+<file>
+<VirtualHost 192.168.0.2:8080>
+	DocumentRoot	/var/www/virtual2.com
+	ServerName	virtual2.com
+</VirtualHost>
+
+</file>
+
+Activez alors les hôtes virtuels de la même manière qu'avec la première méthode.
+
+Précisez au serveur Apache2 d'écouter sur le port 8080 en ajoutant la ligne suivante dans le fichier **/etc/apache2/ports.conf**
+
+<file>
+# If you just change the port or add more ports here, you will likely also
+# have to change the VirtualHost statement in
+# /etc/apache2/sites-enabled/000-default
+# This is also true if you have upgraded from before 2.2.9-3 (i.e. from
+# Debian etch). See /usr/share/doc/apache2.2-common/NEWS.Debian.gz and
+# README.Debian.gz
+
+NameVirtualHost *:80
+Listen 80
+Listen 8080
+<IfModule mod_ssl.c>
+    # SSL name based virtual hosts are not yet supported, therefore no
+    # NameVirtualHost statement here
+    Listen 443
+</IfModule>
+</file>
+
+
+Enfin, rechargez la configuration du serveur Apache2.
+
+Le site **virtual1.com** sera accessible via l'url : http://virtual1.com et le site **virtual2.com** via l'url : http://virtual2.com:8080
+
+===== Hôtes virtuels basés sur l'adresse IP =====
+
+Dans le cadre de cette méthode, le Serveur est soit doté de plusieurs interfaces réseau , soit de plusieurs adresses IP associées à une seule interface réseau.
+Dans ce dernier cas, on parlera d'**IP aliasing**. Les systèmes GNU/Linux, notamment les distributions Ubuntu et Debian, permettent de mettre facilement en oeuvre cette fonctionnalité.
+
+==== Association d'une 2nd adresse IP à une interface réseau (IP aliasing) ====
+
+Dans cet exemple, nous partirons du principe que nous possédons une seule interface réseau à laquelle nous voulons associer une seconde adresse IP.
+
+Consultons la configuration réseau de la machine :
+  ifconfig
+Nous obtenons quelque chose comme
+<file>
+eth0      Lien encap:Ethernet  HWaddr 00:13:D3:3C:58:84
+          inet adr:192.168.0.2  Bcast:192.168.0.255  Masque:255.255.255.0
+          adr inet6: fe80::213:d3ff:fe3c:5884/64 Scope:Lien
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          Packets reçus:1257 erreurs:0 :0 overruns:0 frame:0
+          TX packets:1247 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 lg file transmission:1000
+          Octets reçus:1037747 (1013.4 KiB) Octets transmis:423117 (413.2 KiB)
+          Interruption:209 Adresse de base:0x8000
+
+lo        Lien encap:Boucle locale
+          inet adr:127.0.0.1  Masque:255.0.0.0
+          adr inet6: ::1/128 Scope:Hôte
+          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+          Packets reçus:429 erreurs:0 :0 overruns:0 frame:0
+          TX packets:429 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 lg file transmission:0
+          Octets reçus:117583 (114.8 KiB) Octets transmis:117583 (114.8 KiB)</file>
+Ce qui nous intéresse ici est la première série d'informations. Elle nous indique que nous disposons d'une interface réseau (**eth0**) de type **Ethernet** à laquelle est associée l'adresse IP **192.168.0.2**.
+
+Nous devons donc associer une seconde adresse IP à notre interface réseau avec la commande :
+  sudo ifconfig eth0:0 192.168.0.100
+
+Notre interface réseau dispose maintenant de 2 adresses IP bien distinctes : **192.168.0.2** (Adresse IP) et **192.168.0.100** (Alias IP)
+
+Ceci est vérifiable avec la commande :
+  ifconfig -a
+
+==== Configuration des hôtes virtuels ====
+
+Ayant associé une nouvelle adresse IP à notre unique carte réseau, nous pouvons désormais créer nos deux **Hôtes Virtuels** utilisant chacun une adresse IP.
+
+Dans un premier temps, nous renseignons le fichier **/etc/hosts** avec deux noms de sites (ceux de nos hôtes Virtuels) associés respectivement aux deux adresses IP disponibles afin de permettre la résolution de nom (Nom => Adresse Ip). 
+
+**Exemple de fichier hosts :**
+<file>
+127.0.0.1 	localhost
+192.168.0.2	virtual1.com
+192.168.0.100	virtual2.com
+</file>
+
+Une fois notre fichier ''/etc/hosts'' correctement renseigné, il ne nous reste plus qu'à configurer nos hôtes virtuels en créant deux nouveaux fichiers dans le répertoire **/etc/apache2/sites-available** :
+
+**virtual1.conf :**
+<file>
+<VirtualHost 192.168.0.2:80>
+	DocumentRoot	/var/www/virtual1.com
+	ServerName	virtual1.com
+</VirtualHost>
+</file>
+
+**virtual2.conf :**
+<file>
+<VirtualHost 192.168.0.100:80>
+	DocumentRoot /var/www/virtual2.com
+	ServerName virtual2.com
+</VirtualHost></file>
+
+**Explication :**
+
+Dans chacun des fichiers de configuration, on retrouve pour l'hôte virtuel, l'adresse IP choisie, ainsi que le port (80). Les 2 directives minimales sont **DocumentRoot** et **ServerName**.
+
+**DocumentRoot** permet de déclarer l'emplacement de l'arborescence Web de l'hôte virtuel (l'emplacement des fichiers sur votre système). Le nom du répertoire ne doit pas comporter le caractère **/** final.
+
+**ServerName** permet de définir le **nom de domaine** du Serveur Virtuel.
+
+<note>Les répertoires ''/var/www/virtual1.com'' et ''/var/www/virtual2.com'' doivent exister et bénéficier des bonnes permissions.\\
+Pour les tests vous pouvez utiliser le chmod 755 sur ces répertoires.</note>
+
+Nos deux hôtes virtuels étant configurés, nous allons les activer avec les commandes :
+  sudo a2ensite virtual1.conf
+  sudo a2ensite virtual2.conf
+
+N'oubliez pas de recharger la configuration du serveur :
+  sudo /etc/init.d/apache2 reload
+
+
+===== Ressources externes =====
+
+  *  Exemples de la documentation officielle : [[https://httpd.apache.org/docs/2.4/vhosts/]] (fr)
+
+----
+
+ //Contributeurs : [[utilisateurs:M. DECLERCQ]], [[utilisateurs:_Enchained]], [[utilisateurs:dolmen]], [[utilisateurs:stephaneguedon]], [[utilisateurs:monsar01]]//

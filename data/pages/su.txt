@@ -1,0 +1,57 @@
+{{tag>administration système BROUILLON }}
+------
+====== Changer d'identité ======
+Pour quelque raison que ce soit, il peut parfois être utile de lancer une application, voire même une session complète, en tant qu'un autre utilisateur sans nécessairement se déconnecter de sa session graphique courante. Ceci peut être accompli à l'aide de quelques programmes inclus dans Ubuntu : **Nouvelle connexion** pour lancer un nouvel environnement de travail complet, **Lancer avec un utilisateur différent** pour exécuter un programme sous une autre identité dans la même session de travail courante, ou **''su''** en console.
+
+===== Lancer une session graphique avec une autre identité =====
+Pour lancer une nouvelle session graphique en tant qu'un autre utilisateur, sans clore la session graphique courante, utilisez l'outil **Nouvelle connexion**, disponible dans le menu //Applications -> Outils système//.  Ceci aura pour effet de lancer une nouvelle session graphique.
+
+Pour naviguer entre les différentes sessions graphiques lancées , utilisez la combinaison de touches [CTRL]+[ALT]+[Fn], où //Fn// correspond aux touches fonction de votre clavier (F7 à F12).
+
+===== Exécuter un programme graphique sous une autre identité dans la session courante =====
+
+{{  applications:su-gksu2.png}}
+
+L'utilitaire ''gksu'' permet d'exécuter une application graphique avec l'identité d'un autre utilisateur dans la session graphique courante.  Cet outil est disponible à partir du raccourci **Lancer avec un utilisateur différent**, dans le menu //Applications -> Outils système//.
+
+ La boîte //Lancer// doit contenir le nom de l'application graphique à démarrer.  Au-dessous, le menu déroulant //En tant qu'utilisateur// vous permet de choisir avec quelle identité lancer le programme.  Ainsi, dans l'exemple ci-contre, l'éditeur de texte gEdit serait exécuté avec l'identité du compte nommé //nobody//.
+
+Une boîte de dialogue graphique s'ouvre ensuite, afin de confirmer le mot de passe de l'utilisateur avec lequel exécuter l'application graphique.
+
+{{ applications:su-gksupasswd.jpg }}
+
+
+
+===== Changer d'identité en console =====
+Dans un terminal, l'utilitaire ''su'' //(pour "**s**witch **u**ser" ou "**s**ubstitute **u**ser")//((Souvent, à tort, les utilisateurs de GNU/Linux diront que la commande ''su'' signifie //"**s**uper **u**ser"// et permet de prendre l'identité du super-utilisateur.  La commandre ''su'' permet de prendre l'identité de //n'importe quel// utilisateur.)) permet de prendre l'identité d'un autre utilisateur.  Elle s'utilise de la façon suivante:<code>~$ su identifiant</code>(où //identifiant// est remplacé par le nom de l'utilisateur à qui prendre l'identité)
+
+{{ applications:su-console.png }}
+
+Le mot de passe demandé est celui de l'utilisateur à prendre l'identité.  Vous ne prendrez son identité que lorsque le mot de passe est valide.  Vous pourrez alors exécuter, dans la console lancée, toutes les actions voulues, comme si vous étiez l'utilisateur auquel vous venez de prendre l'identité.  Vous aurez son identité tout au long de cette session en console.  Pour mettre fin à cette session, saisissez la commande :<code>­~$ exit</code>
+
+ou appuyer sur CTRL-D
+
+==== su root ====
+Sous Ubuntu, le compte système (//root//) est bloqué.  Vous ne pourrez pas vous y connecter à l'aide de la commande ''su root'' (ou ''su'' seule).  Pour effectuer des tâches administratives, utilisez plutôt ''[[:sudo]]''. Néanmoins, vous pouvez [[:sudo#pseudo-root_une_console_superutilisateur|avoir accès à un terminal superutilisateur]] en utilisant ''sudo'' sans que vous activiez le compte ''root''.
+
+
+===== Changer de groupe =====
+Il est parfois nécessaire de changer de groupe. L'équivalent de la commande **su** pour les groupes est la commande **newgrp** :
+  newgrp autre_groupe
+
+
+===== Problèmes =====
+==== Échec lors de la communication avec gksu-run-helper  ====
+Il arrive parfois que **gksu** se dérègle (après une fausse manipulation), donnant une erreur :
+<code>Échec lors de la communication avec gksu-run-helper.
+
+Reçu :
+ su : Échec d'authentification
+Ce qui était attendu :
+ gksu: waiting</code>
+
+**Solution** : Sous Ubuntu 13.04 (à vérifier pour les autres versions) :
+
+Pour corriger ce problème, il faut utiliser l’éditeur de configuration **gconf-editor** et s'y situer en ''/apps/gksu/sudo-mode'' et cocher la valeur "vrai".
+
+______________________________________________________________

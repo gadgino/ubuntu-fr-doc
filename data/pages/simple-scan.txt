@@ -1,0 +1,48 @@
+{{tag>Precise Trusty scanner}}
+----
+{{ :applications:xsane:scanner_ico.png?70}}
+====== Simple Scan ======
+
+Comme son nom l’indique, **Simple Scan** est une interface graphique pour votre scanner permettant de numériser facilement ses documents. Utilisant la bibliothèque [[http://www.sane-project.org|SANE]], c'est l'application de numérisation installée par défaut dans Ubuntu.\\
+Sur cette [[http://www.sane-project.org/sane-mfgs.html|page du projet SANE]] vous pourrez y trouver la liste des scanners supportés. Si vous disposez d'un scanner assez récent, il peut être intéressant voir nécessaire d'utiliser la [[:sane-backends|dernière version de SANE]].
+
+{{ :applications:simple-scan.png?400 |Simple-scan}}\\
+=====Installation=====
+
+**Simple scan** est normalement installé par défaut dans Ubuntu. Si ce n'était pas le cas, [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>simple-scan]]**.
+
+=====Lancement=====
+Lancez l'application depuis le [[:unity#tableau_de_bord_dash|tableau de bord d'Unity]] ou pour les menus classiques, //Graphisme -> Simple scan//. \\
+Ou dans un [[:terminal]] pour toutes [[:variantes]] en saisissant la [[ :commande_shell|commande]] suivante: <code>simple-scan</code>
+
+=====Configuration=====
+Dans le menu "Document"->"Préférences" de Simple Scan, vous pouvez choisir le scanner, la résolution souhaitée, recto/verso et le format de la page.
+<note>Il se peut que le scanner fasse un bruit bizarre saccadé lors de son utilisation. Ceci est dû à une résolution trop élevée. Nous vous conseillons de la diminuer, dans les préférences. 75ppp pour texte et 150 ppp pour photo semblent tout à fait corrects dans une utilisation classique.</note>
+<note>Il se peut aussi que le format des pages obtenues ne corresponde pas à celui des préférences. Pour obtenir le format désiré, utilisez l'option "Recadrer" et repositionnez la zone obtenue, par exemple en haut à droite.</note>
+===== Utilisation=====
+Vous avez le choix entre deux modes : texte ou photo.\\
+ - Le mode texte affiche des images en **noir et blanc**.\\
+ - Le mode photo affiche des images **en couleur**.\\
+Une fois votre document numérisé, vous pouvez le recadrer, le redimensionner, le faire pivoter avant de l’enregistrer aux formats JPG, PNG ET PDF, l’imprimer ou l’envoyer par mail à l’aide d’une barre des tâches simple et fonctionnelle.\\
+Simple Scan permet la création de fichiers multi-pages, ce qui en fait une application tout à fait complète.\\
+ Si malgré cela vous recherchez encore plus de possibilité, [[:Xsane]] peut vous aider.
+
+=====Problèmes connus=====
+lancer en mode sudo <code>sudo simple-scan</code>
+
+==== Simple Scan ne fonctionne pas avec les Scanners ...... ====
+  * CanoScan N650U
+Simple Scan renvoie une image toute noire, par contre, [[xsane|XSane]] fonctionne très bien. En attendant que le problème soit réglé (sans doute un problème de pilotes) on peut utiliser XSane avec ce scanner.
+  * CanoScan 3000/3000F/3000ex/5600f
+
+====Scanner non reconnu====
+Votre scanner est très récent et n'est pas (encore) reconnu. Il est alors fort possible qu'il ne soit pas pris en compte par la bibliothèque "libsane" de votre [[:version|version d'Ubuntu]]. Vous pouvez mettre à jour les paquets vers la dernière version de cette bibliothèque. Mais avant d'aller plus loin, vérifier que votre scanner soit bien connecté et en service.
+
+=====Voir aussi=====
+  * **[[:Xsane]]**, une autre interface de numérisation plus complète utilisant aussi la bibliothèque [[http://www.sane-project.org|SANE]] 
+  * **(en)** [[https://launchpad.net/simple-scan|Page Launchpad]]
+
+----
+
+//Contributeurs://
+

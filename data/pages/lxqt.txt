@@ -1,0 +1,66 @@
+{{tag>Trusty Xenial environnements}}
+
+----
+
+====== LXQt, un environnement de bureau léger======
+{{http://lxqt.org/images/lxqt-white.png|Logo de LXQt}}
+
+LXQt est un [[:environnements|environnement de bureau]] léger basé sur le [[gestionnaire_de_fenetres|gestionnaire de fenêtres]] [[:Openbox]] né de la fusion de [[lxde|LXDE, un environnement de bureau léger]] et Razor-qt en Juillet 2013. 
+Tandis que LXDE utilise GTK, LXQt utilise [[:Qt]]. Il est conçu spécialement pour les vieux ordinateurs ou les configurations légères comme les netbooks ou les petits ordinateurs, puisqu'il peut se contenter de 128 Mio de RAM pour fonctionner "à vide".
+
+Le code source de LXQt est publié en partie sous GPL et pour le restant en LGPL. Le développement de LXDE est toujours actif mais en mai 2015, l'équipe de développement de [[:Lubuntu]] annonce que l'intégration de LXQt devrait se faire prochainement.
+
+{{ http://lxqt.org/images/screenshots/frost.png?500|Le nouveau thème "Frost" de LXQt}}
+
+LXQt est composé de (à confirmer) :
+  * lxqt-desktop-git -coeur des composants LXQt .
+  *  pcmanfm-qt-git - gestionnaire de fichiers et de bureau par défaut
+  *  openbox - gestionnaire de fenêtre par défaut
+  *  lximage-qt-git - visionneuse d'image LXQt par défaut
+  *  qterminal-git - Terminal léger Qt
+  *  obconf-qt-git - portage Qt d'OpenBox configuration tool ObConf.
+  *  lxqt-lightdm-greeter-git - fournit LXQt greeter pour le gestionnaire d'affichage LightDM.
+  *  oxygen-icons - thème d'icone pour le bureau LXQt.
+  *  qtcurve - fournit un thème compatible Qt pour le bureau LXQt.
+
+
+===== Pré-requis =====
+
+====Configuration minimale ====
+^ **Processeur** ^ **Ram** ^ **Disque dur** ^ **Résultat** ^
+| Pentium II 266 MHz  |	 192 Mo | 5400 tr/min | modérée - rapide |
+| VIA 400 MHz | 256 Mo | 5400 tr/min | modérée - rapide |
+| Pentium III 500 MHz | 128 Mo | 7200 tr/min | potable |
+
+
+==== Pré-requis pour réaliser l'installation ====
+
+  * Disposer des [[:sudo|droits d'administration]] ;
+  * Disposer d'une connexion à Internet configurée et activée ;
+
+===== Installation =====
+<note warning>
+Il semble que les instructions ci-dessous soit devenues obsolètes. Vous pouvez trouver la procédure d'installation sur le site officiel:
+https://wiki.ubuntu.com/Lubuntu/LXQt</note>
+
+À partir d'[[:xenial|Ubuntu 16.04]] il suffit d'installer le meta paquet **[[apt>lxqt-metapackage]]** qui se trouve dans les [[:depots|dépôts]].\\ Si vous avez déjà une [[:Lubuntu]] installée, il vous faudra par contre [[:tutoriel:comment_supprimer_un_paquet|supprimer les paquets]] **light-locker xfce4-power-manager**.\\
+Pour plus d'informations : https://wiki.ubuntu.com/Lubuntu/LXQt.
+
+Pour [[:Precise|Ubuntu 12.04]] et [[:trusty|Ubuntu 14.04]] :
+  * [[:ppa#ajout_d_un_ppa_a_vos_sources_logicielles|Ajoutez le PPA]] **ppa:lubuntu-art/daily**((https://launchpad.net/~lubuntu-art/daily/+archive/ppa)) dans vos sources de logiciels.
+  * puis [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]].
+  * [[:tutoriel:comment_installer_un_paquet|Installez les paquets]] **[[apt>lxqt-metapackage, lubuntu-artwork, lubuntu-icon-theme]]**.
+
+
+===== Utilisation=====
+Il n'y a pas d'utilisation particulière, lxqt venant remplacer [[:lxde]], sa configuration est sensiblement similaire.
+
+===== Désinstallation =====
+Pour désinstaller lxqt entrez la commande suivante dans un terminal :
+    sudo apt-get remove --purge  lxqt-metapackage lxqt-panel
+Attention il vous faudra penser à réisntaller le paquet lxde si vous êtes sous Lubuntu.
+
+===== Voir aussi =====
+
+  * [[http://lxqt.org/|Site officiel du projet LXQt]] (successeur de LXDE sous Qt)
+  

@@ -1,0 +1,100 @@
+{{tag>Trusty calcul_numérique cao mécanique À_RECYCLER}}
+----
+
+====== ANSYS Workbench ======
+<note warning>Cette page est ancienne et à besoin d'un bon nettoyage, une base de travail se trouve [[http://home.iitk.ac.in/~saiwal/linux/ansys-ubuntu-install|ici]] et [[https://www.cfd-online.com/Forums/cfx/25236-ansys-workbench-uncertified-linux-distros-13.html|là]].</note>
+
+**ANSYS Workbench** est un logiciel commercial d'[[wpfr>analyse numérique]] utilisant la [[wpfr>Méthode_des_éléments_finis|méthode des éléments finis]] (FEA en anglais). Il dispose d'interfaces d'importation pour les modèles aux formats de fichiers de CAO courants (IGES, STEP, ACIS, Parasolid).
+
+La version 12.1 fut la première version d'ANSYS à être disponible sous Linux. Cependant, ce logiciel est certifié (et donc conçu) pour les distributions Red Hat Enterprise Linux (RHEL) Version 4 et 5, et SUSE Linux Enterprise (SLES) Version 10. Le but de ce tutoriel est de transmettre la méthode par laquelle installer et faire fonctionner ce logiciel sous Ubuntu.
+
+À noter que la traduction française des menus de Workbench est maintenant disponible.
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Avoir activé l'[[accélération graphique]].
+
+
+===== Préparatifs pré-installation =====
+
+==== Lier Glibc à RPM ====
+
+Tout d'abord, il faut savoir que le script de lancement de Workbench est basé sur une détection de la version de la bibliothèque glibc via RPM (Redhat Package Manager). Ubuntu étant basé sur le gestionnaire de paquets Debian, l'installation va mal se dérouler. Il faut donc en premier lieu [[:tutoriel:comment_modifier_un_fichier|créer]] un petit [[:tutoriel:script_shell|script bash]] pour faire comme si RPM était présent :
+
+<code bash>#/bin/bash
+
+echo glibc-2.5-31.61</code>
+
+Placer ce script dans **/usr/bin**. FIXME //Il faudrait spécifier un nom spécifique pour ce script.//
+
+==== Lier uname ====
+
+Ensuite, la commande "uname" Ubuntu/Debian est légèrement différente de la commande "uname" utilisée dans SUSE ou Red Hat. En effet, l'option -m dans SUSE/Red Hat est remplacée dans Ubuntu/Debian par -i. Encore une fois pour contourner ce problème, il suffit de faire l'opération suivante :
+
+  - Renommer la commande "uname" se trouvant dans **/bin** en "uname2"
+  - [[:tutoriel:comment_modifier_un_fichier|Créer]] le [[:tutoriel:script_shell|script bash]] suivant :<code bash>#!/bin/bash
+
+if [ "$1" = "-i" ]; then
+	echo `uname2 -m | sed -e 's/i686/i386/' `
+else
+	uname2 $1
+fi</code>
+  - Renommer ce script **/bin/uname**.</code>
+
+Maintenant l'installation doit se dérouler sans problème.
+
+===== Installation =====
+
+FIXME //Donner des détails sur le lancement du script...//
+
+===== Configuration =====
+
+==== Création d'un alias ====
+
+Un alias est la manière la plus simple de lancer Workbench. Rajoutez simplement [[:tutoriel:comment_modifier_un_fichier|à votre fichier]] **~/.bashrc** la ligne suivante :
+
+<file>alias wb1xx='/usr/ansys_inc/v1xx/Framework/bin/Linux64/runwb2'</file>
+
+FIXME //Cet alias suppose une version 64 bits, il faudrait vérifier si la version 32 bits s'installe sous un dossier Linux32.//
+
+==== Icône de lanceur ====
+
+Si vous désirez créer un [[:raccourci-lanceur]], l'icône ANSYS se trouve dans le répertoire **/usr/ansys_inc/v1xx/Images**.
+
+===== Utilisation=====
+
+Lancez Workbench //via// la [[:commande_shell|commande]] suivante :
+
+  wb1xx
+
+Ou par un [[:raccourci-lanceur]] que vous aurez créé.
+
+===== Désinstallation =====
+
+FIXME
+
+
+===== Problèmes graphiques sous Ubuntu 10.04 =====
+
+ANSYS DesignModeller cherche libGL.so.1 dans /usr/lib/.
+
+Le lien symbolique n'étant pas fait par défaut, il faut le créer, en saisissant cette commande dans un [[:terminal]] :
+
+pour les cartes NVIDIA
+
+ <code>sudo ln -s /usr/lib/nvidia-current/libGL.so.1 /usr/lib/libGL.so.1</code>
+
+pour les cartes ATI
+
+ <code>sudo ln -s /usr/lib/fglrx/libGL.so.1 /usr/lib/libGL.so.1</code>
+
+
+===== Voir aussi =====
+
+  * **(en)** [[http://www.ansys.com/products/workbench/default.asp|Site officiel du produit]]
+  * **(en)** [[http://ansys.net/|Un site de ressources (astuces, macros, fichiers d'exemple) pour les utilisateurs d'ANSYS]]
+
+----
+//Contributeur principal : VM//.
+

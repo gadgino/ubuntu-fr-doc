@@ -1,0 +1,43 @@
+
+====== OpenCPN ======
+OpenCPN est le logiciel open-source de référence pour la cartographie maritime et l'aide à la navigation.
+
+<note> Documentation en construction</note>
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+Pour installer OpenCPN, commencer par ajouter le [[ppa]] mis à disposition par les développeurs : **ppa:opencpn/opencpn**, puis  [[:tutoriel:comment_installer_un_paquet|installer le paquet]]  [[apt>OpenCPN]].
+<code>sudo add-apt-repository ppa:opencpn/opencpn
+sudo apt-get update
+sudo apt-get install opencpn</code>
+
+
+===== Configuration =====
+FIXME \\
+Pour ceux qui ont des soucis pour faire fonctionner leur "souris GPS", vérifié qu' elle monte bien dans le dossier /dev en ttyUSB0 mais celle ci se trouve en permissions ROOT alors pas de soucis : \\
+Dans le terminal : \\ 
+<code>sudo adduser $USER dialout</code> \\
+Déconnecter et reconnecter le GPS et ouvrir Opencpn.
+ 
+===== Utilisation =====
+FIXME
+===== Désinstallation =====
+FIXME
+
+
+===== Voir aussi =====
+
+**Le site web officiel du logiciel :**
+  * **(en)** [[http://opencpn.org/ocpn/opencpn_manual|Le site web officiel]]
+
+**Les tutoriels en Français :**
+Les tutoriels décrivent essentiellement l'utilisation du logiciel sous Windows mais, ils sont globalement utilisables pour les linuxiens
+
+  * **(fr)** [[http://opencpn.shoreline.fr/|Un tutoriel en Français, à jour]]
+  * **(fr)** [[http://www.eauxturquoises.fr/a_tutopencpn/tutopencpn.htm|Un tutoriel en français en cours d'actualisation]]
+  * **(fr)** [[http://www.plaisance-pratique.com/-opencpn-|Le forum du site plaisance-pratique.com]]

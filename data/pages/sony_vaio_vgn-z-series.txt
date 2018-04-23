@@ -1,0 +1,107 @@
+{{tag>Precise matériel portable sony}}
+
+======  Installation d'Ubuntu sur portable Sony série VGN-Z ======
+
+<note>Ces informations sont vérifiées uniquement pour les modèles de type z11, z21, z31 et z41.
+
+Pour connaitre la version de votre [[http://en.wikipedia.org/wiki/Sony_VAIO_Z_series|Sony VAIO Z]], tapez la commande : ''sudo dmidecode -s system-product-name''
+
+depuis un LiveCD Ubuntu.</note>
+
+===== En un coup d’œil =====
+
+Le tableau suivant récapitule la prise en charge du matériel par les différentes versions d'Ubuntu testées sur cette machine.
+
+  * {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} : **Fonctionne immédiatement**
+  * {{wiki:modeles:laptop_work.png|Fonctionne après config}} : **Fonctionne après quelques manipulations**
+  * {{icons:process-stop.png|Ne fonctionne pas}} : **Ne fonctionne pas**
+  * {{icons:icon-support.png?30|Pas testé}} : **Information inconnue**
+
+^ Version ^ Installation ^ Carte graphique Intel ^ Carte graphique nVidia ^ Switch Hybrid Graphics ^ Sortie HDMI ^ Son ^ Wifi ^ Bluetooth ^ Module 3G ^ Webcam ^ Touchpad ^ Raccourcis multimédia / Fn ^ Lecteur de cartes SD ^ Lecteur de cartes MS ^ Lecteur d'empreintes ^ GPS (pour les modèles équipés) ^
+| [[:Precise|12.04 (Precise Pangolin)]] | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | {{icons:icon-support.png?30|Pas testé}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{icons:process-stop.png|Ne fonctionne pas}} | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | {{icons:process-stop.png|Ne fonctionne pas}} |
+
+**Utilisateurs du Wiki possédant cet ordinateur, fonctionnel :**
+  * **[[:utilisateurs:spineaker]]** : [[:Jaunty|9.04 (Jaunty Jackalope)]], [[:Karmic|9.10 (Karmic Koala)]], [[:Lucid|10.04 (Lucid Lynx)]], [[:Maverick|10.10 (Maverick Meerkat)]], [[:Natty|11.04 (Natty Narwhal)]].
+  * **[[:utilisateurs:FARHILL]]** : [[:Lucid|10.04 (Lucid Lynx)]], [[:Precise|12.04 (Precise Pangolin)]] .
+
+
+**Cet ordinateur portable n'est pas [[:pc_tatoué|tatoué]].**
+
+===== Installation =====
+
+L'installation s'effectue sans problème, consultez la partie optimisation pour améliorer la prise en charge du matériel après installation.
+
+La plupart de ces machines ont plus de 3Gb de mémoire. Pour les utiliser correctement, installez la version Ubuntu 64 bits (AMD64).
+
+La touche d'accès à l'UEFI (évolution du BIOS) pour vous permettre de paramétrer les périphériques sur lesquels démarrer est F2.
+
+===== Optimisation =====
+Les opérations suivantes permettent de tirer pleinement partie du matériel. La machine est alors 100% fonctionnelle (sauf peut être le Sony Magic Gate). La consommation wifi éteint et écran au minimum descend à 8-9W pour une autonomie jusqu'a 6:30 sur Z31 (batterie neuve). Pour un Z11 (SSD), la consommation dans les même conditions est de 13W (17-18W avec le Wifi). Lorsque la gestion des cartes graphiques hybrides (Intel/Nvidia) n'est pas configurée, la machine fonctionne bien, mais son autonomie sur batterie est réduite car les deux cartes graphiques sont alimentée, alors que seule la carte Intel est utilisée (cela se voit par exemple avec la commande ''lspci | grep VGA'').
+==== Hybrid graphics, touches multimédia et rfkill applet ====
+L'hybrid graphics est une technologie développée par nVidia, elle permet de basculer entre deux cartes vidéos afin de privilégier soit l'économie d'énergie (mode stamina), soit la performance (mode speed).
+
+Il n'est pas actuellement possible sous GNU/Linux de basculer de carte vidéo à chaud avec cette technologie, un rédémarrage sera donc nécessaire pour changer de mode.
+
+<note>De base, ce fonctionnement n'est pas du tout géré, il en résulte donc une impossibilité d'utiliser facilement la carte graphique nVidia (carte intel utilisée par défaut). De plus les deux cartes sont alimentées, ce qui réduit énormément l'autonomie lors d'une utilisation sur batterie !</note>
+
+=== Precise ===
+
+Le script  [[http://global-social.net/tiki-view_blog.php?blogId=4|sony-VGN-Zseries-janitor]] n'est plus facilement accessible,. Afin tout de même de configurer, même partiellement, la machine vous pouvez suivre les étapes suivantes:
+  * récupérez le module sony_laptop depuis [[https://gitorious.org/sony-laptop-zseries/sony-laptop-zseries/archive-tarball/master|sony-laptop-zseries sur gitorious]].
+  * extraire puis faire un : ''make ; sudo make install''
+  * installez [[jupiter]] et passez le en mode //Performance/On demand//, désactivez le bluetooth si besoin.
+  * installez ''powertop'' et lancez le. Dans la section tunable, passez en 'Good' les éléments à désactiver/gérer.
+  * éditez ''/etc/default/grub'' et ajoutez ''acpi_osi=\"\"'' à la ligne ''GRUB_CMDLINE_LINUX''. Lancez ensuite ''sudo update-grub''.
+<note>Sur le VGN-Z11, ajoutez "acpi_osi=Linux à la ligne "GRUB_CMDLINE_LINUX_DEFAULT". Ce qui donne pour la ligne du fichier grub: GRUB_CMDLINE_LINUX_DEFAULT="quiet splash acpi_osi=Linux" . Lancer ensuite "sudo update-grub"</note>
+  * rebootez... 
+Cette méthode installe ce qu'il faut pour maximiser l'autonomie, mais pas la carte Nvidia (fonctionnement seulement avec la carte Intel). Pour cela, vous pouvez installer [[nvidia_optimus|bumblbee]].
+
+==== Module 3G ====
+Pour les versions équipées du module Qualcomm Gobi, référez-vous à [[:3g_qualcomm_gobi|cette page d'installation]].
+
+Pour savoir si vous le possédez, tapez dans un terminal :
+
+  lsusb | grep Qualcomm
+
+cela doit renvoyer la ligne :
+
+  Bus 001 Device 004: ID 05c6:9221 Qualcomm, Inc.
+
+==== Lecteur d'empreintes ====
+
+Pour les modèles équipés d'un lecteur de marque Upek.
+  Bus 003 Device 002: ID 147e:1000 Upek Biometric Touchchip/Touchstrip Fingerprint Sensor
+
+Il est possible de faire fonctionner le lecteur d'empreintes avec le logiciel [[fingerprintgui|FingerprintGUI]] et l'installation des librairies propriétaires upek.
+Par contre même avec les librairies upek, le lecteur n'est pas reconnu et est donc inutilisable dans le logiciel [[:FPrint]].
+
+
+==== Virtualisation ====
+
+Initiallement, Sony a desactivé la [[virtualisation|virtualisation]] du CPU en mode 64 bits (VT-x/AMD-V) dans le BIOS/uEFI. Afin de restaurer cette option pour par exemple utiliser [[virtualbox|VirtualBox]] en mode 64 bits, vous devez mettre à jour le BIOS/uEFI depuis la page de [[http://www.sony.fr/support/fr|support de Sony]]. Malheureusement, cette opération ne peux se faire que depuis Windows. La procédure depuis Linux/GRUB est complexe ([[http://www.linuxinside.gr/content/how-unlock-and-enable-hardware-accelerated-virtualization-technology-vt-sony-vaio-laptop-and|page en anglais 1]] et [[http://forum.notebookreview.com/sony/189228-how-enable-intel-vt-ahci-napa-santa-rosa-platform-phoenix-bios-vaio-laptop.html|page en anglais 2]]).
+
+==== Audio ====
+Sous precise 12.04, la sortie audio peut être desactivée après l'installation du module sony-laptop (voir ci-dessus). Pour le récuperer, il suffit d'ajouter à la fin du fichier ''/etc/modprobe.d/alsa-base.conf''
+
+  options snd-hda-intel model=sony-alc889a
+  
+Si ca ne donne toujours rien (pas de son), essayez avec "model=sony-vaio-tt". Vous pouvez également reinstaller les paquets 'alsa' à partir de synaptic.
+  
+=====Problèmes=====
+
+Il semble que dans certains cas, l'adaptateur wifi 'disparaît'. Une solution qui semble le ramener est d'éteindre l'ordi, d'enlever la batterie, puis de redémarrer avec le switch wifi sur OFF, et si besoin une connexion Ethernet.
+
+Également, si vous avez installé un SSD, sachez que si vous conservez une partition pour Windows, elle ne doit pas être trop petite, ni trop pleine. Dans le cas contraire, vous obtenez un BSOD (écran bleu). Libérez de la place sur la partition pour supprimer le problème. Il semble qu'un minimum de 40 Go soit nécessaire. Cela est probablement du au besoin d'un fichier d'échange temporaire conséquent par le système. Ce problème ne se pose pas sous Ubuntu bien sur...
+
+Si vous devez re-initialiser la machine à l'aide de l'outil de restauration Sony, le boot loader GRUB sera remplacé par celui de Windows. Bootez ensuite sur un LiveCD Ubuntu, et utilisez ''update-grub --root-directory=/media/Ubuntu''.
+
+Sous [[precise]] le ventilateur semble tourner beaucoup plus qu'avec les version précédentes, ce qui réduit l'autonomie. FIXME
+=====Voir aussi=====
+
+  * (en) [[https://launchpad.net/~sony-vaio-z-series|Sony VAIO Z launchpad group]]
+  * (en) [[http://global-social.net/sony-VGN-Zseries|global-social.net]]
+
+
+----
+
+//Contributeurs : [[:utilisateurs:spineaker]], [[:utilisateurs:FARHILL]]//

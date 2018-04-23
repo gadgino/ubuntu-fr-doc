@@ -1,0 +1,175 @@
+{{tag> matériel portable Asus}}
+----
+======Asus N55SF======
+===== En un coup d'œil =====
+
+  * {{icons:important.png|Fonctionne après config}} : **Fonctionne après quelques manipulations**
+  * {{icons:icon-ubuntu.png|Fonctionne immédiatement}} : **Fonctionne immédiatement**
+  * {{icons:icon-support.png|Pas testé}} : **Pas d'informations disponibles**
+  * {{icons:process-stop.png|Ne fonctionne pas}} : **Ne fonctionne pas**
+
+^ Version ^ Installation ^ Carte graphique ^ Son ^ Caisson de basse ^ Wifi ^ Webcam ^ Touchpad ^ Raccourcis multimédia ^ Autres ^
+| [[precise|Ubuntu 12.04 LTS (« The Precise Pangolin »)]]  | {{icons:important.png|Fonctionne après config}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-support.png|Pas testé}} |
+| [[:saucy |13.10 (Saucy Salamander)]]  |{{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}}| {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}}  | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | 
+
+===== Présentation =====
+**Cet ordinateur portable n'est pas [[:pc_tatoué|tatoué]].**
+
+Configuration :
+
+  * Processeur : intel core i7 2670QM (2,2 GHz)
+  * Mémoire vive : 6Go DDR3
+  * Écran : 15" (1366x768)
+  * Carte graphique : NVIDIA GeForce GT 555M 2Go DDR3 (avec technologie optimus)
+  * Son : enceintes internes + un caisson de basses externe
+  * Disque dur : 750Go (5400 tours/minutes)
+  * Wifi : Atheros AR9285, wifi B/G/N
+  * Connectique : 1 VGA, 1 HDMI, 2 USB 2.0, 2 USB 3.0, 1 RJ-45, 1 prise casque, 1 prise micro
+OU  
+
+  * Processeur : intel core i5 2450M (2,5 GHz)
+  * Mémoire vive : 2Go DDR3
+  * Écran : 15" (1600x900)
+  * Carte graphique : NVIDIA GeForce GT 555M 2Go DDR3 (avec technologie optimus)
+  * Son : enceintes internes + un caisson de basses externe
+  * Disque dur : 750Go (7200 tours/minutes)
+  * Network controller: Intel Corporation Centrino Wireless-N 1030 (rev 34)
+
+OU  
+
+  * Processeur : intel core i5 2410M (2,3 GHz)
+  * Mémoire vive : 4Go DDR3
+  * Ecran 17.3" 16:9 HD+ (1600x900)
+  * Carte graphique : NVIDIA GeForce GT 555M 2Go DDR3 (avec technologie optimus)
+  * Son : enceintes internes + un caisson de basses externe
+  * Disque dur : 1000Go (7200 tours/minutes)
+  * Network controller: Intel Corporation Centrino Wireless-N 1030 (rev 34)
+
+Un fait intéressant est que asus "rembourse" une somme forfaitaire aux utilisateurs ne voulant pas du windows pré-installé sur leur pc. (cf : [[http://bons-constructeurs-ordinateurs.info/|ici]])
+===== Installation =====
+
+===Ubuntu 13.04 et 13.10===
+Aucun souci.
+
+===Ubuntu 12.04===
+Si le live cd ne se lance pas correctement de base, il faut activer l'option nomodeset (en pressant F6 dans le menu du live CD), ensuite tout fonctionne parfaitement.
+Mais pas de soucis sur ma machine, même configuration mais avec le core i5
+
+===== Cartes graphiques =====
+
+En cas d'erreur de ce type, sous Ubuntu 13.04 :
+<code>
+[   28.507128] [ERROR]Cannot access secondary GPU - error: [XORG] (EE) No devices detected.
+[   28.507158] [ERROR]Aborting because fallback start is disabled.
+</code>
+
+Recherchez le **BusID** en tapant dans un terminal
+<code>
+lspci | grep NVIDIA
+</code>
+
+Le résultat sera sous cette forme.
+<code>
+01:00.0 VGA compatible controller: NVIDIA Corporation GF116M [GeForce GT 555M/635M] (rev a1)
+</code>
+Ici, le **BusID** est **01:00**.
+
+Éditez le fichier suivant
+<code>
+sudo nano /etc/bumblebee/xorg.conf.nvidia
+</code>
+
+En ajoutant
+<code>
+BusID "PCI:VOTRE_BUSID:0"
+</code>
+(dans notre cas, cela donne **BusID "PCI:01:00:0"**)
+
+Redémarrez et testez les deux commandes "glxspheres" et "optirun glxspheres" citées précédemment.
+===== Son =====
+Le subwoofer (caisson de basse) fonctionne anormalement: le son qui lui est envoyé correspond à l'enceinte arrière droite et non au caisson de basse,  d'où le fait que certains sons restent inaudibles.\\
+La carte est considérée comme une 4.0 quand elle "fonctionne" sinon en "simple" stéréo, d'où le fait que le subwoofer ne sort aucun son.\\
+Son fonctionnement est aléatoire après redémarrage.
+<note tip>Le sujet est traité [[https://bugs.launchpad.net/ubuntu/+source/alsa-driver/+bug/871808|ici]] et semble être résolu.\\
+Il s'agit d'ajouter au fichier **/etc/modprobe.d/alsa-base.conf** la ligne suivante :\\ <file>options snd-hda-intel model=asus-mode4</file>\\
+</note>
+[[:tutoriel:comment_modifier_un_fichier|Ouvrez avec les droits d'administration]] le fichier **/etc/rc.local** pour y ajouter __avant__ la ligne //exit 0//:
+<file>echo 0x16 0x99130112 > /sys/class/sound/hwC0D0/user_pin_configs
+echo 1 > /sys/class/sound/hwC0D0/reconfig</file>
+Après enregistrement de vos modifications, redémarrez votre ordinateur avec le subwoofer branché.
+
+Il est possible qu'il faille augmenter le volume des basses dans [[:audio#Réglages en ligne de commande|alsamixer]].
+
+<note>  le volume master n'affecte pas le caisson de basse, vous baisser le volume au minimum mais le caisson reste à son niveau reglé dans alsamixer. Avis de solutions ??. Voir [[https://bugs.launchpad.net/ubuntu/+source/alsa-driver/+bug/871808/comments/54]]
+
+</note>
+
+
+===== Touchpad =====
+Le touchpad fonctionne correctement une fois la [[#Installation|procédure d'installation]] suivie. Cependant on peut activer le multitouch (scrolling avec 2 doigts), pour cela il suffit d'aller dans la rubrique souris et touchpad dans le panneau de configuration. Dans l'onglet touchpad, il y a une option pour activer ou non le scrolling à 2 doigts.
+
+===== Mise en veille =====
+
+[[:tutoriel:comment_modifier_un_fichier|Créez avec les droits d'administration]] le fichier **/etc/pm/sleep.d/20_custom-ehci_hcd** pour y insérer le texte suivant:
+
+<file bash 20_custom-ehci_hcd>
+#!/bin/sh
+#inspired by http://art.ubuntuforums.org/showpost.php?p=9744970&postcount=19
+#...and http://thecodecentral.com/2011/01/18/fix-ubuntu-10-10-suspendhibernate-not-working-bug    
+# tidied by tqzzaa :)
+
+VERSION=1.1
+DEV_LIST=/tmp/usb-dev-list
+DRIVERS_DIR=/sys/bus/pci/drivers
+DRIVERS="ehci xhci" # ehci_hcd, xhci_hcd
+HEX="[[:xdigit:]]"
+MAX_BIND_ATTEMPTS=2
+BIND_WAIT=0.1
+
+unbindDev() {
+  echo -n > $DEV_LIST 2>/dev/null
+  for driver in $DRIVERS; do
+    DDIR=$DRIVERS_DIR/${driver}_hcd
+    for dev in `ls $DDIR 2>/dev/null | egrep "^$HEX+:$HEX+:$HEX"`; do
+      echo -n "$dev" > $DDIR/unbind
+      echo "$driver $dev" >> $DEV_LIST
+    done
+  done
+}
+
+bindDev() {
+  if [ -s $DEV_LIST ]; then
+    while read driver dev; do
+      DDIR=$DRIVERS_DIR/${driver}_hcd
+      while [ $((MAX_BIND_ATTEMPTS)) -gt 0 ]; do
+          echo -n "$dev" > $DDIR/bind
+          if [ ! -L "$DDIR/$dev" ]; then
+            sleep $BIND_WAIT
+          else
+            break
+          fi
+          MAX_BIND_ATTEMPTS=$((MAX_BIND_ATTEMPTS-1))
+      done  
+    done < $DEV_LIST
+  fi
+  rm $DEV_LIST 2>/dev/null
+}
+
+case "$1" in
+  hibernate|suspend) unbindDev;;
+  resume|thaw)       bindDev;;
+esac
+</file>
+
+Changez les [[:droits]] sur le fichier :
+<code>sudo chmod 755 /etc/pm/sleep.d/20_custom-ehci_hcd</code>
+
+Le mode veille doit maintenant fonctionner.
+
+===== Voir aussi =====
+
+  * **(en)** [[http://ubuntuforums.org/showthread.php?s=4c44f5e98077c4c6ac0727850c69e0c1&p=11482967#post11482967|Un guide rapide sous Ubuntu 11.10]]
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=688891|Discussion sur ce portable]] dans le forum.
+
+----
+//Contributeurs:Joombuntu - FIXME//

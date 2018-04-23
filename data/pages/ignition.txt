@@ -1,0 +1,76 @@
+{{tag>Maverick entreprise BROUILLON}}
+
+----
+
+
+====== Ignition ======
+
+Ignition est un logiciel de supervision industrielle (mais pas uniquement) pour les applications suivantes : HMI, Supervision & Hypervision, Historian, Reporting, Plant-to-Management Interface (PMI)...\\
+  * multi plate-forme : windows, linux, OS X, hp-ux...toute plate-forme pouvant exécuter Java SE 6
+  * serveur web : une seule installation et tout se lance depuis une page web
+  * database centric : toutes les bases de données (sql server, mysql, postgresql, oracle, firebird...)
+
+
+Ignition est un logiciel non libre et payant.
+Ignition est gratuit pendant 2 heures en production afin de pouvoir le tester.
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]]
+  * Avoir [[Java]] 6 installé ([[:tutoriel:comment_installer_un_paquet|installez le paquet]] [[apt://sun-java6-jre|sun-java6-jre]])
+  * Pour une installation en production, installer la couche HAL ([[:tutoriel:comment_installer_un_paquet|installez le paquet]] [[apt://hal|hal]])
+  * Si possible mais pas indispensable, avoir une base de données accessible (mysql, postgresql, oracle...)
+
+===== Installation =====
+
+  * Télécharger la note d'installation [[http://www.on-solution.net/files/install_ignition_linux.pdf]]
+  * Télécharger l'installation correspondante (linux 32 et 64 bits, hp-ux) ici : [[http://www.on-solution.net/telechargements]]
+  * Dézipper les fichiers dans le répertoire /usr/local/bin/ingition ; si ce dernier n'existe pas le créer. remplacer #### par le build du paquet
+<code>unzip Ignition-build####-linux -d /usr/local/bin/ignition</code>
+  * Changez de répertoire pour le répertoire dans lequel vous avez dézippé
+<code>cd /usr/local/bin/ignition</code>
+  * Donnez les privilède d'exécution à ignition.sh et ignition-­‐gateway
+<code>chmod +x ignition.sh
+chmod +x ignition-gateway</code>
+  * Créez un lien sur ignition.sh dans /etc/init.d/
+<code>cd /etc/init.d/
+ln -s /usr/local/bin/ignition/ignition.sh ignition
+chmod +x ignition</code>
+  * Installez les liens vers les scripts d’initialisation à l’aide de l’utilitaire update-rc.d 
+      <code>update-rc.d ignition defaults</code>
+  * Vous pouvez maintenant démarrer Ignition (en tant que root/sudo)
+<code>
+/etc/init.d/ignition start
+/etc/init.d/ignition stop
+</code>
+  * Ignition va se lancer automatiquement dorénavant ; pour supprimer ce comportement, retirer le lien créé précédemment :
+<code> 
+      /etc/init.d/ignition stop
+      update-rc.d -f ignition remove
+      rm /etc/init.d/ignition
+</code>	
+
+  * L’utilitaire de contrôle de la gateway (Gateway Control Utility) peut être lancé via le script shell gcu.sh dans /usr/local/bin/ignition.  Il faut le rendre exécutable avant tout :
+<code>
+      chmod +x /usr/local/bin/ignition/gcu.sh
+</code>
+
+  * Vous pouvez à présent lancer un navigateur à l’adresse : http://localhost:8088/.
+
+
+
+
+===== Utilisation =====
+
+Une fois Ignition installé, vous pouvez regarder un tutoriel pour connecter la supervision sous linux à un automate programmable avec le driver MODBUS/TCP intégré : [[http://www.youtube.com/watch?&v=S1AjbS6bmLc]]
+
+=====Voir aussi=====
+  * http://www.on-solution.net
+  * la page de téléchargements : [[http://www.on-solution.net/telechargements/]]
+  * vidéo animation : [[http://www.youtube.com/watch?v=VL82lEg6DQQ]]
+  * vision : [[http://www.youtube.com/watch?v=uqfx7zVadCg]]
+  * premiers pas : [[http://www.on-solution.net/support/librairie-videos/videos-ignition/232-premiers-pas-avec-ignition]]
+
+----
+
+//Contributeurs principaux : [[:utilisateurs:gnguyen]]//

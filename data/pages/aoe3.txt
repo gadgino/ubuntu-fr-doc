@@ -1,0 +1,100 @@
+{{tag>jeu rts wine}}
+----
+
+====== Age of Empires III ======
+
+{{  http://perlbal.hi-pi.com/blog-images/63650/gd/1160754947/Age-Of-Empires-3.jpg?150x212}}
+
+Les conquérants prennent le large et voguent vers de nouveaux horizons ! Le troisième volet de la série, **Age of Empires III** (//AoE III//), s'inscrit dans la Renaissance ; il entraîne le joueur dans le XVIe siècle, une époque riche en découvertes et marquée par la conquête de l'Amérique. Un cadre idéal pour un jeu de stratégie temps réel très attendu.
+
+**[[http://www.ageofempires3.com|Age of Empires III]]** est un jeu de stratégie en temps réel développé par Ensemble Studios(tm) et distribué par Microsoft(r). Publié en 2007, il est la suite des célébrissimes [[:aoe|Age of Empires]] et [[:aoe2|Age of Empires II : The Age of Kings]]. L'expérience du jeu AoE III se poursuit avec deux extensions, **The WarChiefs** et **The Asian Dynasties**.
+===== Pré-requis =====
+
+Pour installer et jouer à Age of Empires III, il faut vous au préalable installer [[:Wine]]. Vous devrez aussi récupérer la toute dernière rustine.
+  * Dernière rustine : [[http://www.agecommunity.com/Mises_a_jour_du_jeu.aspx#french|version 1.12]] 
+
+Le CD d'installation de Age of Empires III dispose d'un système de protection anti-copie qui est incompatible avec Wine. Pour être en mesure d'exécuter le jeu une fois celui-ci installé, vous devrez utiliser une version modifiée du programme ne requérant pas l'utilisation du CD du jeu (un //no-CD crack//). L'utilisation d'une telle méthode est illégale au sens de la loi, que vous possédiez ou non le jeu original. Aucun lien vers un tel crack ne vous sera donné. Il est toutefois possible de lancer le jeu sans crack en utilisant le cd.
+
+
+
+
+
+
+===== Installation =====
+
+==== Installation via PlayOnLinux ====
+
+Pour installer AOE III avec [[playonlinux|play on linux]] il faut cliquer sur install (installer) , puis liveinstall (installer un programme non listé) .
+
+
+
+
+
+
+==== Installation via Wine ====
+
+L'installation est compliquée (en tout cas chez moi sur un Kubuntu 7.04), si quelqu'un a une méthode plus simple et qui marche, qu'il n'hésite pas à en faire part.
+
+1. Copier le contenu des trois CDs dans un même répertoire, par exemple ~/aoe3
+
+2. Copier tous les fichier.dll, trouvés dans le premier CD, dans .wine/drive_c/windows/system32
+
+3.télécharger mfc42.dll, par exemple sur [[http://www.dll-files.com/dllindex/dll-files.shtml?mfc42|dll-files]] et le copier au même endroit
+
+4. Il faut maintenant triturer Wine le temps de l'installation : 
+Actuellement sous ubuntu, wine en est à la version 0.9.41, il va nous falloir le mettre à jour à la version 0.9.43 grâce aux dépôts de WineHQ comme indiqué dans le [[wine|tutoriel de wine]]. Pensez à redémarrer le serveur Wine.
+
+5. Une fois ceci fait, ouvrer un shell et rentrez la commande winecfg et réglez votre version de windows sur "Windows XP". Puis dans l'onglet lecteurs, sélectionnez "D:" et changer le chemin vers le dossier dans lequel vous avez stocké le contenu des CDs (dans notre exemple ~/aoe3). Quittez winecfg.
+
+6. dans le shell tappez "wine cmd" puis "D:" et enfin autorun
+  $ wine cmd
+  CMD Version 0.9.41
+  I:\>d:
+  D:\>autorun
+
+Attention : Parfois message d'erreur à la ligne I:\>d: Accès refusé (précisions ?)
+
+7. Dans le menu qui apparaît cliquez sur installer, suivant, sélectionnez rapide ou personnalisée, selon votre choix, entrez votre CD-Key...
+
+8. Lorsqu'il demande d'insérer le disque 1, cliquez sur annuler, puis terminer et tuez tous les processus en .exe : IDriver.exe et IdriverT.exe
+
+9. Répétez les étapes 
+, l'installation va cette fois jusqu'au bout, cliquez sur terminer sans vous soucier du redémarrage et tuez les mêmes processus IDriver.exe et IDriverT.exe
+
+
+10. lancez la mise à jour vers aoe3 1.12
+
+11. Copier le age3.exe du Crack NO-CD téléchargé précédemment à la place de celui existant dans .wine/drive_c/Program Files/Microsoft Games/Age of Empires III
+
+12. On peut maintenant lancer le jeu, mais il freeze immédiatement (en tout cas avec ma Nvidia), pour pallier à ce problème il faut réinstaller wine 0.9.43. Pour cela, rendez vous dans adept ou synaptic, demandez la suppression de wine. Via la gestion des dépôts retirez le dépôt WineHQ qui vous aviez rajouté tout à l'heure. Actualisez et réinstallez wine. Vous avez normalement de nouveau la version 0.9.41
+
+13. avant de jouer , il faut renommer les videos du dossier avi comme ceci :
+
+- age3.bik en bakage3.avi
+- logos.bik en baklogos.bik 
+
+14. Il n'y a plus qu'à jouer !
+soit dans un shell
+  $ wine cmd
+  CMD Version 0.9.41
+  I:\>d:
+  D:\>autorun
+
+ si la premiere solution ne fonctionne pas.
+ ouvrer un terminal , avec la commande cd aller dans le repertoire wine ou age of empire III est  installer .
+
+  cd '/home/$votrepseudo/.wine/drive_c/Program Files/Microsoft Games/'
+  wine 'age3.exe' -dxlevel 81
+  
+Soit grâce à une icône sur votre bureau renvoyant à wine "C:\Program Files\Microsoft Games\Age of Empires III\age3.exe"-dxlevel 81
+
+
+===== Liens=====
+  * http://forum.ubuntu-fr.org/viewtopic.php?id=166912            lien mort
+  * http://appdb.winehq.org/objectManager.php?sClass=version&iId=3795
+  * discussion de la page correspondente sur [[http://appdb.winehq.org/appview.php?iVersionId=3795|WineHQ]]
+
+Voici le no-cd sur [[http://www.freeinfosociety.com/site.php?postnum=1813|freeinfosociety]]
+
+----
+// Contributeurs : [[utilisateurs:gurdil63]]// [[utilisateurs:Gtko]] [[utilisateurs:Tedsuo]]

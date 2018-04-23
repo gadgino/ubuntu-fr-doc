@@ -1,0 +1,113 @@
+{{tag>application_domestique}}
+
+----
+
+====== Gramps ======
+
+{{ gramps-logo.png?100}}
+
+**Gramps** est un acronyme de //Genealogical Research and Analysis Management Programming System//.
+
+Ce logiciel multiplateforme (Linux, BSD, Solaris et Windows) est régi par une licence libre GNU/GPL.
+
+
+===== Descriptions techniques =====
+
+Gramps est un logiciel qui possède une interface graphique conviviale, esthétique et surtout ergonomique. Dès lors, il devient très facile de construire un arbre généalogique.
+
+
+
+====Principes de fonctionnement ====
+
+=== Gramps possède 9 onglets ===
+
+  * **Individus** : Onglet dans lequel Gramps liste toutes les personnes inscrites dans la base (qu'elles soient liées ou non) {{ gramps_individus.png?100 }}
+  * **Relations** : Ici Gramps affiche le contexte familial de la personne courante (parents, Conjoint et enfants) {{ gramps_relation.png?100 }}
+  * **Liste Famille** : Dans cet onglet, Gramps liste toutes les familles ;
+  * **Arbre Généalogique** : Cet onglet permet d'avoir une représentation graphique des ascendants de la personne courante, mais permet aussi de naviguer dans l'ascendance et la descendance de la personne courante {{ gramps_arbre.png?100 }}
+  * **Événement** : Vous trouverez dans celui-ci une liste de tout évènement mentionné dans votre généalogie (Naissance, Mariage, Divorce, Décès...)
+  * **Source** : Cet onglet liste toute les sources que vous avez identifiées pour construire vos arbres généalogiques (certificat de naissance, de décès, carnet familial...)
+  * **Lieux** : Dans celui-ci vous pourrez voir ensemble des lieux mentionnés dans votre généalogie
+  * **Média**
+  * **Dépôt**
+  * **Notes** : Naissance, Mariage, décès ... pouvant être des copier-coller de retranscription d'actes
+  * **Cartes** : Geoview des lieux d'événements des individus (Naissance, Mariage, Décès) par localisation des communes
+
+=== Les Gramplets ===
+
+C'est un type particulier de plugins. Ce sont de petits plugins interactifs suivant les informations que l'on veut constamment voir à jour, que l'on peut déplacer indépendamment sur l'écran: statistiques, notes, parenté, attributs ....
+ 
+=== Les Filtres ===
+
+Vous pouvez sélectionner ou exporter des données par la méthode des filtres ( pour ne pas temporairement fonctionner sur la base entière) :
+  * filtres familiaux : individus ayant contracté plusieurs mariages, sans mariage, sans parents...
+  * filtres Généraux :  individus ayant des notes, des médias, un attribut spécifique ...
+  * filtres relationnels : Relation entre individus, entre individus marquées ...
+  * filtres sur les ascendants ou les descendants :
+  * filtres événements : individus avec un certain événement, avec des témoins ....
+ 
+
+=== La très grande force de ce logiciel, c'est aussi de générer des rapports graphiques textuels et html ===
+
+  * Des graphiques relationnels (*.dot ouvrable avec Graphviz)
+  * Des livres regroupant des informations que vous aurez préalablement choisies
+  * Des pages Internet
+  * Des rapports graphiques : Arbre des ascendants ou des descendants d'une personne de référence, des calendriers, des graphiques relationnels ou temporels, roue des ascendants... et ce en différent format de sortie (PDF, Open Document, PNG...)
+  * Rapport texte : liste des ascendants ou descendants d'une personne de référence, liste Ahnentafel (Sosa-Stradonitz)... et ce en différents formats de sortie (PDF, Open Document, PNG...)
+  *...
+
+
+
+==== Extensions ====
+
+Gramps possède sa propre extension : *.grdb. 
+Toutefois il est capable de générer des fichiers Gedcom ce qui lui assure une communication parfaite (que ce soit avec d'autres logiciels ou avec les sites internet de généalogie). 
+Mais aussi d'autres formats d'exportation tels les formats :
+  * [[http://fr.wikipedia.org/wiki/Norme_GEDCOM|Gedcom]] (fr)
+  * Geneweb
+  * Web Family Tree
+  * Gramps XML
+  * XML Portable
+  * VCard
+  * VCalendar
+
+N.B. : Pour effectuer une sauvegarde complète de votre généalogie, il est nécessaire de faire un export au "paquet Gramps (xml Portable)" ou "Gedcom" de votre base. En effet, le fichier grdb crée un sous-fichier de base de données sur le /home/.gramps/env
+
+===== Installation ===== 
+
+
+==== Par les dépôts Ubuntu ====
+
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt://gramps|gramps]]**.
+
+Pour lancer Gramps, allez dans le menu //Applications → Bureautique → Gramps//.
+
+
+==== Par téléchargement depuis le site officiel ====
+**Attention !** : suivant la version d'Ubuntu utilisée, il sera nécessaire d'installer un python plus récent.
+
+Il est possible d'installer par la voie du téléchargement internet la dernière version de Gramps. 
+Pour cela :
+  * allez sur [[http://www.gramps-project.org/wiki/index.php?title=Installation/fr|le site de Gramps]] ;
+  * allez dans la rubrique « Mettre à jour vers la dernière version », vous y trouverez un lien vers sourceforge.net ;
+  * téléchargez les fichiers qui vous intéressent (à savoir « gramps_x.x.x-1ubuntu1_all.deb » et « gramps-help_x.x.x-1ubuntu1_all.deb ») ;
+  * une fois le téléchargement terminé, il vous reste à les installer, pour cela double-cliquez sur les fichiers, ceci provoquera l'ouverture de l'installeur de paquets [[:gdebi]] ;
+  * vérifiez que toutes les dépendances sont trouvées ;
+  * cliquez sur « Installer le paquet ».
+
+Vous retrouvez l'application dans le menu //Applications → Bureautique → Gramps//.
+
+==== Utilisation par un live CD ====
+
+Si vous souhaitez utiliser Gramps et d'autres logiciels de généalogie sans les installer, Gramps Project a créé une distribution live/install CD basée sur Ubuntu nommé Linux Genealogy.
+
+
+===== Sources =====
+
+  * http://www.gramps-project.org/
+  * [[wpfr>Gramps]] (fr)
+  * [[wp>Gramps]] (en)
+
+----
+
+//Contributeurs : [[:utilisateurs:Pirrote]]//

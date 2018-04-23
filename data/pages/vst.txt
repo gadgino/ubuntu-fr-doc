@@ -1,0 +1,58 @@
+{{tag>mao multimédia audio}}
+
+----
+
+====== VST (Virtual Studio Technology) ======
+
+Le **VST** est un protocole et format de plug-in audio propriétaire dont le kit de développement appartient à la société **Steinberg**.
+
+Il s'agit d'un format de **plugin** qui permet le développement aussi bien d'effets que d'instruments, qu'on peut utiliser dans des [[:mao#daws_studios_virtuels_et_sequenceurs_midi|studios virtuels]] qui seront leurs "**hôtes**".
+
+**[[http://linuxmao.org/Vestige|VeSTige]]**, un projet lié à [[:LMMS]], a permis de fournir une implémentation ouverte de **VST** et donc d'utiliser le protocole dans le cadre de projets libres.\\ 
+Grâce à cela ces dernières années ont vu l'émergence de nombreuses applications implémentant ce protocole au sein de l'univers Gnu/Linux. De nombreux plugins ont pu être portés ou développés nativement pour Linux.\\ 
+**[[http://www.joebutton.co.uk/fst/|FST]]** permet même (grâce à [[:Wine]]) de charger des plugins compilés pour Windows (extension //.dll//) dans des logiciels Linux.
+
+===== Plugins =====
+
+==== Plugins natifs Linux ====
+
+Une liste impressionnante de plugins compilés pour Linux sur cette page : **(en)** http://linux-sound.org/linux-vst-plugins.html
+
+==== Plugins Windows ====
+
+Il est possible d'utiliser la plupart des VST compilés pour Windows (au format DLL) dans Linux (grâce à [[http://www.joebutton.co.uk/fst/|FST]]) :
+
+[[http://festige.sourceforge.net|FeSTige]] permet de les inclure comme plugin [[:DSSI]], ou comme standalone [[:jackd|JACK]].
+
+[[http://kxstudio.linuxaudio.org/Applications:Carla|Carla]] permet également, grâce à [[https://linuxmusicians.com/viewtopic.php?f=47&t=13280|carla-bridge-win32]] de les utiliser en standalone [[:jackd|JACK]], ou en plugin [[:LV2]] ou VST (dans un hôte qui attend du natif Linux).
+
+===== Hôtes =====
+
+==== Hôtes de plugins natifs Linux ====
+
+  * [[:Ardour]]
+  * [[http://linuxmao.org/Qtractor|Qtractor]]
+  * [[http://www.giadamusic.com|Giada]]
+  * [[http://www.muse-sequencer.org/|Muse]]
+  * [[http://users.notam02.no/~kjetism/radium/index.php|Radium]]
+  * [[https://sites.google.com/site/neilsequencer/home|neil]]
+  * [[http://www.bitwig.com/|Bitwig Studio]] (propriétaire)
+  * [[http://www.energy-xt.com/|energyXT2]] (propriétaire)
+  * [[http://www.renoise.com/|renoise]] (propriétaire)
+  * [[https://www.tracktion.com|Tracktion]] (en version payante - propriétaire)
+
+==== Hôtes de plugins Windows ====
+
+En plus des "adaptateurs" comme FeSTige et Carla, certains studios acceptent directement des plugins compilés pour Windows :
+  * [[:LMMS]] (via [[apt>lmms-vst-full]] dispo dans les [[http://kxstudio.linuxaudio.org/Repositories|dépots KXStudio]])
+  * [[:Ardour]] peut aussi supporter les VST Windows sous Linux, mais pas de manière officielle : **(en)** [[http://manual.ardour.org/working-with-plugins/windows-vst-support/]]
+
+===== Liens =====
+
+  * Voir aussi le format ouvert [[LV2]]
+  * Voir aussi et surtout [[mao|la page dédiée à la MAO]]
+  * **(en)** [[http://www.kvraudio.com/|KVR]], le site de référence des VST
+
+----
+
+//Contributeurs : [[:utilisateurs/krodelabestiole]]

@@ -1,0 +1,108 @@
+{{tag>Precise gnome personnalisation}}
+
+----
+
+====== Wallpapoz ======
+
+
+**Wallpapoz** est un logiciel en python permettant de gérer ses fonds d'écran sous Gnome. Il permet d'ajouter plusieurs fonds d'écran sur chacun des bureaux et de les faire apparaître aléatoirement, toutes les X minutes.
+
+Vous pouvez avoir un aperçu de ses fonctionnalités sur les [[http://wallpapoz.akbarhome.com/screenshots.html|captures d'écran du site officiel]].
+
+<note important>La version présente dans le dépôt imaginux (voir ci-après) est la version 0.4 : elle n'est pas compatible avec gnome 3. Pour Ubuntu 11.10 et supérieures, il faut télécharger la version 0.6 ou supérieure, compatible XFCE et gnome 3 [[https://github.com/vajrasky/wallpapoz/downloads|sur github, le site de développement]].
+
+Du fait de la façon dont Unity et Gnome Classic (à partir de 12.04 Precise) gèrent les espaces de travail((il n'y en a qu'un, divisé en quatre espaces virtuels)), Wallpapoz ne fonctionnera pas avec ces interfaces. Wallpapoz fonctionne avec l'interface Gnome-shell. Il devrait fonctionner avec XFCE (l'interface de Xubuntu).
+
+Lire le README inclut dans l'archive pour l'activer. //Cf//. ci-dessous procédure d'installation par script.</note>
+
+
+===== Installation =====
+
+Wallpapoz n'étant pas dans les paquets officiels d'Ubuntu, il existe différentes manières de l'installer.
+
+==== Installation via un paquet .deb ====
+
+Un paquet deb est disponible à cette adresse : [[http://www.imaginux.com/ccount/click.php?id=35|wallpapoz 0.4.1]]. Pour l'installer, consulter le tutoriel [[:tutoriel/comment_installer_un_paquet#paquet_.deb_telecharge|installer un paquet .deb]].
+
+
+==== Installation via un dépôt non officiel ====
+
+Wallpapoz est disponible sur le [[http://imaginux.com/roadtolinux/dotclear/index.php?2007/06/15/197-ubuntu-repository-by-renzo|dépôt imaginux.com]], également maintenu par [[http://imaginux.com/roadtolinux/dotclear/index.php|RenZo]].
+
+Pour l'installer par ce biais, il faut donc [[:tutoriel:comment_modifier_sources_maj|modifier vos sources de mises à jour]] pour y ajouter le dépôt suivant :
+<file>deb http://imaginux.com/repos/ ubuntu renzo</file>
+
+L'avantage d'utiliser un dépôt est que le logiciel installé par ce biais sera mis à jour automatiquement. Les inconvénient sont : la manipulation à effectuer, l'encombrement de son sources.list, l'instabilité du système si on installe des logiciels peu fiables.
+
+
+==== Installation par RTU ====
+
+
+Wallpapoz fait partie des logiciels contenus dans le pack [[RTU]], développé par RenZo.
+
+
+
+
+===== Utilisation =====
+
+Un raccourci de wallpapoz est créé dans le menu **Accessoires** d'Ubuntu.
+
+==== Configuration ====
+
+Il est simple et intuitif de configurer le logiciel par l'interface graphique : 
+
+{{wallpapoz-vraiment-reduit.png|}}
+
+Vous pouvez voir qu'il est possible d'attribuer un ou plusieurs fonds d'écrans à chaque bureau virtuel, et de donner un nom à ces bureaux virtuels. Ces fonds d'écrans peuvent être ajoutés un par un, ou par dossier entiers.
+
+La gestion de changement des fonds d'écrans se fait dans les préférences :
+
+{{wallpapoz-preferences.png|}}
+
+
+==== Lancement automatique au démarrage ====
+
+
+Pour lancer le logiciel à chaque démarrage du système, il faut créer un raccourci vers le processus dans le menu démarrer de votre session.
+
+Pour cela, allez dans **Système -> Préférences -> Applications au démarrage** et ajoutez aux programmes de démarrage :
+
+Faite parcourir
+ 
+Allez dans /usr/local/bin/ (si installé via paquet deb, sinon le répertoire d'installation choisi.)
+
+Sélectionnez daemon_wallpapoz
+
+Et validez.
+
+//Explication de daemon : Wallpapoz est constitué de deux logiciels : **wallpapoz**, l'interface graphique qui permet de créer le fichier de configuration, et **daemon_wallpapoz**, le logiciel en lui-même, sans interface graphique, qui gère les fonds d'écrans en utilisant le fichier de configuration. C'est donc le daemon qu'il faut lancer au démarrage de Gnome.//
+
+
+
+===== Problème de latence =====
+
+Lorsqu'on change de bureau virtuel, il est possible que le fond d'écran du nouveau bureau apparaisse après un léger temps de latence. Pendant ce temps de latence, c'est le fond d'écran du bureau précédent qui est visible.
+
+Ce problème est d'autant plus gênant si on utilise un [[interface_3d|bureau 3d]] : pendant la rotation du cube, on voit le même fond d'écran sur les 4 faces, et le fond d'écran spécifique au bureau X n'apparaît qu'une fois le bureau choisi.
+
+D'après la [[http://wallpapoz.akbarhome.com/faq.html|FAQ de Wallpapoz]], c'est un bug lié à Gnome et non à Wallpapoz. L'auteur se penchera sur sa résolution lorsqu'il aura plus de temps.
+
+Il existe un plugin à Compiz nommé **wallpaper**, équivalent à Wallpapoz et permettant de ne pas avoir ce problème de latence, mais il est actuellement incompatible avec la version de compiz distribuée avec gutsy, et nécessite de patcher nautilus.
+
+
+===== Désinstallation =====
+
+Pour désinstaller Wallpapoz  il vous suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer ce paquet]].
+  
+Pensez à supprimer **daemon_wallpapoz** de vos programmes au démarrage.
+
+
+===== Voir aussi =====
+
+  * **(en)** [[http://wallpapoz.akbarhome.com/|Site officiel de Wallpapoz]]
+  *[[:wallch]]
+  *[[:wally]]
+  *[[:drapes]]
+
+-----
+ //Contributeurs : [[:utilisateurs:Omnisilver]], [[:utilisateurs:mohican]]//

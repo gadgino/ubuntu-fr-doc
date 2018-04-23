@@ -1,0 +1,110 @@
+{{tag>Precise portable dell inspiron}}
+
+----
+
+====== Dell Inspiron 1720 ======
+
+**Ce tutorial s'applique également aux Inspiron 1420 et 1520 ainsi qu'aux Vostro 1400, 1500 et 1700**
+
+===== En un coup d’œil =====
+Le tableau suivant récapitule la prise en charge du matériel de portable par les différentes versions d'Ubuntu.
+Il utilise les notations suivantes :
+  * {{:icons:ok_32.png|OK 32 bits}} **Fonctionne immédiatement en 32 bits.**
+  * {{:icons:ok_64.png|OK 64 bits}} **Fonctionne immédiatement en 64 bits.**
+  * {{:icons:ok_32_64.png|32 et 64 bits}} **Fonctionne immédiatement en 32 et 64 bits.**
+  * {{wiki:modeles:laptop_work.png|Fonctionne après config}} **Fonctionne après quelques manipulations**
+  * {{wiki:modeles:laptop_notok.png|Ne fonctionne pas}} **Ne fonctionne pas**
+  * {{:laptop_help.png||Pas testé}} **Pas d'informations disponibles**
+  * {{:icons:edit-clear.png?32|Information obsolète}} **Information de support trop ancienne**, si possible mettez là à jour.
+
+^ Version ^ Installation ^ Carte graphique ^ Son ^ Wifi ^ Bluetooth ^ Webcam ^ Touchpad ^ Raccourcis multimédia ^ Autres ^
+|  [[:13.10]]  |  Live-CD  |  {{:icons:ok_64.png|OK 64 bits}}  |  {{:icons:ok_64.png|OK 64 bits}}  |  {{wiki:modeles:laptop_work.png|Fonctionne après config}}  |  {{:icons:ok_64.png|OK 64 bits}}  |  {{:icons:ok_64.png|OK 64 bits}}  |  {{:icons:ok_64.png|OK 64 bits}}  |  {{:icons:ok_64.png|OK 64 bits}}  |  {{:icons:ok_64.png|OK 64 bits}}  |
+|  [[:12.04]]  |  Live-CD  |  {{wiki:modeles:laptop_work.png|Fonctionne après config}}  |  {{:icons:ok_32_64.png|32 et 64 bits}}  |  {{wiki:modeles:laptop_work.png|Fonctionne après config}}  |  {{:icons:ok_32_64.png|32 et 64 bits}}  |  {{:icons:ok_32_64.png|32 et 64 bits}}  |  {{:icons:ok_32_64.png|32 et 64 bits}}  |  {{:icons:ok_32_64.png|32 et 64 bits}}  |
+
+**Utilisateurs du Wiki possédant cet ordinateur, fonctionnel :**
+  * **[[:utilisateurs:GeoffreyFrogeye]]** : [[:13.10]]
+  * **[[:utilisateurs:seb73]]** : [[:hardy|Karmic Koala]]
+  * **[[:utilisateurs:Zakhar]]** : [[:hardy|Karmic Koala]]
+  * **[[:utilisateurs:KinderSurpriZ]]** : [[:feisty|Feisty Fawn]]
+  * **[[:utilisateurs:Daëavelwyn]]** : [[:gutsy|Gutsy Gibbon]]
+  * **[[:utilisateurs:toomtooms]]** : [[:feisty|Feisty Fawn]]
+  * **[[:utilisateurs:Daddo]]** : [[:feisty|Feisty Fawn]]
+  * **[[:utilisateurs:slasher-fun]]** : [[:karmic|Karmic Koala]]
+  * **[[:utilisateurs:AToMiSeR]]** : [[:gutsy|Gutsy Gibbon]]
+  * **[[:utilisateurs:nicolinux]]** : [[:gutsy|Gutsy Gibbon]]
+  * **[[:utilisateurs:droide]]** : [[:jaunty|Jaunty Jackalope]]
+  * **[[:utilisateurs:grochat25]]** : [[:hardy|Intrepid Ibex]]
+  * **[[:utilisateurs:thomas01]]** : [[:intrepid|Intrepid Ibex]]
+  * **[[:utilisateurs:AschezuAsche]]** : [[http://www.debian.org/releases/stable/|Debian Lenny]]
+  * **[[:utilisateurs:BoiDLi]]** : [[:hardy|Hardy Heron]]
+  * **[[:utilisateurs:yvanxxx]]** : [[:Lucid|Lucid Lynx]]
+  * **[[:utilisateurs:LuNiKoFf]]** : [[http://www.debian.org/releases/stable/|Debian Lenny]]
+  * **[[:utilisateurs:alban.lopez]]** : [[:hardy|Hardy Heron]]
+  * **[[:utilisateurs:Thoradeon]]** : [[:hardy|Hardy Heron]]
+  * **[[:utilisateurs:Lpu8er]]** : [[:gutsy|Gutsy Gibbon]]
+  * **[[:utilisateurs:XenogaZ]]** : [[:hardy|Hardy Heron]]
+  * **[[:utilisateurs:Sancho81]]** : [[:hardy|Hardy Heron]]
+  * **[[:utilisateurs:olivbd]]** : [[:hardy|Jaunty Jackalope]]
+  * **[[:utilisateurs:jenkins]]** : [[:hardy|Hardy Heron]]
+  * **[[:utilisateurs:Tenaka]]** : [[:hardy|Hardy Heron]]
+  * **[[:utilisateurs:Jeoffrey54]]** : [[:hardy|Hardy Heron]]
+  * **[[:utilisateurs:Groggy]]** : [[:hardy|Hardy Heron]]
+  * **[[:utilisateurs:th0mas]]** : [[:jaunty|Jaunty Jackalope]]
+  * **[[:utilisateurs:bmwe21]]** : [[:gutsy|Gutsy Gibbon]]
+  * **[[:utilisateurs:Titoupath]]** : [[:intrepid|Intrepid Ibex]]
+  * **[[:utilisateurs:Nonux]]** : [[:karmic|Karmic Koala]]
+  * **[[:utilisateurs:alamueller]]** : [[:intrepid|Intrepid Ibex]]
+  * **[[:utilisateurs:Michou]]** : [[:intrepid|Intrepid Ibex]]
+  * **[[:utilisateurs:Keul]]** : [[:intrepid|Intrepid Ibex]]
+  * **[[:utilisateurs:Yrix]]** : [[:jaunty|Jaunty Jackalope]]
+  * **[[:utilisateurs:FabriceMG]]** : [[:jaunty|Jaunty Jackalope]] [[DELL Vostro 1720]]
+
+**Cet ordinateur portable n'est pas [[:pc_tatoué|tatoué]].**
+
+===== Installation =====
+
+Le [[http://fr.wikipedia.org/wiki/Partition_de_disque_dur|partitionnement]] du disque-dur, tel qu'il est réalisé à la sortie de l'usine mérite quelques explications. Celles-ci vous permettront de déterminer si vous désirez conserver le contenu de certaines, en effacer d'autres ...
+A la sortie de l'usine, l'Inspiron 1720 est formaté ainsi :
+
+  * /dev/sda1 : partition primaire de 86 Mo en FAT16, contenant les utilitaires Dell
+  * /dev/sda2 : partition primaire de taille maximum en NTFS, contenant Windows Vista
+  * /dev/sda3 : partition primaire de 10 Go en NTFS, contenant une image de restauration 'sortie d'usine'
+  * /dev/sda4 : partition étendue contenant :
+  * /dev/sda5 : partition logique de 2.5 Go en FAT32, cachée par HPA ([[http://actes.sstic.org/SSTIC07/Indiscretions_Zones_Constructeurs_Disques_Durs/SSTIC07-Dupuy-Indiscretions_Zones_Constructeurs_Disques_Durs.pdf|PDF expliquant notamment le HPA]]). Elle sert à Dell MediaDirect.
+
+La meilleure solution pour installer Linux consiste à tout d'abord réinstaller Dell MediaDirect (CD fourni par Dell, bootez dessus, choisissez "1" puis faites "y" et enfin "entrée" pour redémarrer), puis éventuellement Windows Vista (si un [[:windows|DualBoot]] est souhaité), et enfin Linux. Il semble difficile de conserver Dell MediaDirect en cohabitation avec Linux et Windows (voir [[http://www.notebookforums.com/thread164182.html|cette page]] pour plus d'infos), sauf en utilisant le boot manager de Windows, comme indiqué [[http://linuxfr.org/~WillHunting/25347.html|ici]]...
+
+**La réinstallation complète est nécessaire car la partition Dell MediaDirect (MD) est cachée par HPA, ce qui provoque des gros bugs dans la table de partition si on essaye de la modifier.** Celle-ci semble plus ou moins bloquée : il est possible de remplacer la partition Vista par une partition Linux, mais il est impossible d'en créer d'autres (pour le /home par exemple). C'est pourquoi il est plus que conseillé d'effectuer les manipulations précisée plus haut. Le CD d'installation MD recrée alors les partitions, mais cette fois-ci sans protection HPA, et donc la table de partition est aisément modifiable.
+
+A noter que si vous avez des connaissances en Assembleur, il pourrait être intéressant de retoucher le MBR installé par Dell, afin de réaliser un dualboot "matériel" : lancer Linux avec le bouton MD et Vista avec le bouton on/off (voir [[http://www.goodells.net/dellrestore/mediadirect.htm|cette page]] pour plus d'infos sur la réalisation de cette idée) ...
+
+Certains Inspiron possédant deux disques durs, il peut-être pratique d'installer Ubuntu sur ce deuxième disque (une partition NTFS vide à supprimer dans mon cas) car **les manipulations ci-dessus ne sont alors pas nécessaires** : vous pouvez donc garder Dell Media Direct et vous n'avez pas a retoucher les partitions Windows.
+
+<note tip>Cet ordinateur supporte le démarrage sur Clef USB. Il suffit d'appuyer sur **F12** sur l'écran du manufacturier</note>
+
+===== Problèmes =====
+
+==== Pilotes propriétaires pour la carte graphique ====
+
+Lors de l'installation des pilotes propriétaires Nvidia 319 (derniers pilotes Nvidia proposés à cette carte graphique à ce jour), l'écran de démarrage est "baveux" / pixelisé, la console tty1 apparaît pendant une dizaine de secondes suivi du logo Nvidia qui apparait en plein écran pendant une fraction de secondes, avant le lancement de [[lightdm|LightDM]].
+
+Le démarrage est en fait "normal", seul [[:plymouth|le gestionnaire de démarrage Plymouth]] est perturbé par le changement des pilotes.
+Reportez-vous à la Solution 1 du point 2.2 (Augmenter la résolution (sans interface graphique)) de la page sur [[plymouth|Plymouth]] en activant le framebuffer.
+
+==== Pilotes Wi-Fi ====
+Le Wi-Fi ne fonctionne pas dès le lancement du Live-CD. Il est uniquement nécessaire de [[tutoriel:comment_supprimer_un_paquet|supprimer le paquet]] **bcmwl-kernel-source** et d'[[tutoriel:comment_installer_un_paquet|installer les paquets]] **[[http://packages.ubuntu.com/search?lang=fr&keywords=b43-fwcutter&searchon=names|b43-fwcutter]]** et **[[http://packages.ubuntu.com/search?suite=default&section=all&arch=any&lang=fr&keywords=firmware-b43-installer&searchon=names|firmware-b43-installer]]**.
+
+===== Voir aussi =====
+
+Pour la rédaction de ce document, les pages suivantes ont été les plus utiles. Vous y trouverez peut-être des compléments d'information.
+  * [[http://ubuntuforums.org/showthread.php?t=501195|Topic sur l'Inspiron 1520 sur Ubuntuforums.org]]
+  * [[http://ubuntuforums.org/showthread.php?t=421588|Erreur dûe au controleur SATA Intel]]
+Les pages suivantes peuvent aussi vous intéresser :
+  * [[http://www.goodells.net/dellrestore/|Une étude du fonctionnement des outils Dell]]
+   * [[http://www.lesdelliens.com/forums/index.php?s=&showtopic=4679&view=findpost&p=77106 | Compilez vous-même un noyau pour votre inspiron 1720]]
+  * [[http://www.lesdelliens.com/forums/|Forum d'utilisateurs Dell francophone]]
+  * [[http://ubuntuondell.tuxfamily.org/?p=75&language=fr|Alternative au DELL Media Direct]]
+
+----
+
+//Contributeur(s) : [[utilisateurs:kindersurpriz|KinderSurpriZ]], [[utilisateurs:slasher-fun]], [[utilisateurs:Daeavelwyn|Daeavelwyn]], [[utilisateurs:aschezuasche|AschezuAsche]], [[utilisateurs:Nonux|Nonux]], [[utilisateurs:Yrix|Yrix]], [[:utilisateurs:GeoffreyFrogeye]]//

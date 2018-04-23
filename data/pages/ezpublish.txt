@@ -1,0 +1,90 @@
+{{tag>CMS}}
+
+----
+
+====== eZ Publish 4 ======  
+\\ {{  :ezsystems.gif}}
+eZ Publish est un système de gestion de contenu open source pour les entreprises. Tous comme d'autres CMS il va vous permettre de gérer et d'administrer facilement un site internet .eZ Publish est un logiciel libre publié sous licence GPL, mais aussi sous licence propriétaire avec support commercial.
+\\
+\\
+[[http://ez.no/fr/|Page d'accueil française de eZ publish]]
+
+
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Avoir activé l'accès aux [[:depots#universe_et_multiverse|dépôts Universe et Multiverse]].
+  * Avoir [[:tutoriel:comment_installer_un_paquet|installé les paquets]] **[[apt://libapache2-mod-php5|libapache2-mod-php5]]**.**[[apt://php5|php5]]** **[[apt://mysql-server|mysql-server]]** **[[apt://php5-mysql|php5-mysql]]**
+
+
+===== Installation d'eZ Publish=====
+
+
+ <note tip>Vous pouvez préférer une installation de eZ Publish dans une machine virtuelle. Cela ne risquera pas d'endommager votre ubuntu si jamais vous faites des  erreurs.Dans ce cas, installez un serveur sshd sur votre machine virtuelle afin de la contrôler plus facilement : par exemple pour gérer les dossiers plus facilement en utilisant l'option "se connecter à un serveur" de votre bureau gnome favori !</note>
+
+==== Base de donnée Mysql ====
+
+Téléchargement de la dernière version compressée en tar.gz sur la page :\\ \\
+[[http://share.ez.no/download-develop|http://share.ez.no/download-develop]] \\
+
+Décompression de eZ Publish dans notre répertoire web d'apache.\\
+Il faut ensuite créer une base de donnée pour eZ publish en se loguant en root :
+<code>#sudo -i</code>
+
+<code>#mysql</code>
+<code>mysql> CREATE DATABASE <database> CHARACTER SET utf8;</code>
+
+Si on veut créer la base de donnée "ezpublish" on procédera comme suit :
+<code>mysql> CREATE DATABASE ezpublish CHARACTER SET utf8;</code>
+Ensuite il convient d'attribuer à cette base un utilisateur qui a tous les droits. Notez bien que si l'utilisateur que vous nommez n'existe pas il sera créé par cette commande :
+<code>mysql> GRANT ALL ON <database>.* TO <user>@<ezp_host> IDENTIFIED BY '<password>';</code>
+Vous pouvez utiliser root comme utilisateur :
+<code> GRANT ALL ON ezpublish.* TO root@localhost IDENTIFIED BY '';</code>
+<note help>Si vous venez d'installer mysql-server, il n'y a pas de mot de passe par défaut.</note>
+
+==== Créations des droits ====
+
+Il faut s'assurer d'avoir les bons droits pour installer le CMS par interface web :\\
+Un simple:
+<code>
+debian:/var/www# chmod -R 777 ezpublish-4.0.3/</code>
+suffira pour éviter les problèmes de droits d'installation.
+\\
+==== Installation des modules de manipulation d'images ====
+
+Par ailleurs il est nécessaire d'installer des modules graphiques pour php afin qu'eZ détecte les images : [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt://php5-gd|php5-gd]]**.
+
+Ou le module image magick pour php5 : [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt://php5-imagick|php5-imagick]]**
+
+<note help>Si vous installez les deux il ne devrait pas y avoir de conflit, seulement php5-gd sera pris en compte</note>
+
+
+==== Configuration du fichier php.ini ====
+
+Ensuite il convient d'allouer suffisamment de mémoire pour l'exécutions de scripts php. Par défaut
+la mémoire alloué est limité à 16MO et il en faut minimum 64 MO pour eZ publish.
+Pour modifier la taille de mémoire alloué on doit modifier le fichier php.ini et rechercher la ligne présentant la variable de configuration : memory_limit. Une fois la ligne trouvée inséré la taille de mémoire que vous désirer allouée
+<code>memory_limt = 128M</code>
+Enfin dans le php.ini
+Configurer votre fuseau horaire :
+<code>
+date.timezone = "Europe/Paris"
+</code>
+
+Voilà vous pouvez rafraichir la configuration d'apache afin de bien prendre en compte les modifications effectuées :
+<code>sudo invoke-rc.d apache reload</code>
+
+===== Lancement de l'installation par interface web =====
+
+Maintenant vous pouvez procéder à l'installation d'ez Publish par l'interface web. Ouvrez votre navigateur préféré et entrez l'adresse d'ezpublish de votre serveur apache.
+Normalement vous devriez pouvoir procéder à l'installation d'ezpublish sans problème maintenant. Toutefois s'il restait des manipulations à effectuer ezpublish vous préviendrait par l'interface web.
+
+----
+
+
+//Contributeurs principaux : [[utilisateurs:OlivierR|OlivierR]].//
+
+
+
+//Basé sur [[http://ez.no/doc|« Documentutation de eZPublish »]] .//

@@ -1,0 +1,517 @@
+{{tag>matériel VÉTUSTE}}
+----
+
+<code>
+ Version : gutsy hardy, non vérifié pour les autes versions. 
+ Problème de calibration sous jaunty et karmic avec le pilote evTouch. 
+ Une autre solution est disponnible ci-dessous pour jaunty et karmic.
+</code>
+
+====== Ecran-tactile egalax evtouch ======
+Tout est [[https://docs.google.com/document/d/1G4oD6Y8vlyNHW6wJT89pxcjWHoETLLT-SEoAIW6_7Xc/pub|ici]] pour les versions récentes d'Ubuntu.
+===== Compatibilité =====
+
+
+
+  * D-WAV Scientific Co., Ltd eGalax TouchScreen
+  * Samsung Q1
+
+En fait il semble d'après le forum que d'autres dalles tactiles soient compatibles 
+  * Fujitsu Takamisawa USB Touch Panel
+  * panasonic cf37
+  * lifebook b2175
+  * ...
+
+Problème sous jaunty et karmic
+  * La version du pilote eGalax du fabriquant EETI [[http://www.eeti.com.tw/]] a été testée sous jaunty et karmic sur un eeePC 1000 en remplacement du pilote evTouch. Cette solution a été élaborée à cause de l'impossibilité apparente pour moi de calibrer correctement evTouch sous jaunty et karmic avec l'écran tactile D-WAV Scientific Co., Ltd eGalax TouchScreen.
+
+Problème sous Ubuntu 10.04: Le fichier xorg.conf n'existe plus.
+  * Passer dans une fenêtre de débug : le logger administrateur ou faire sudo devant toutes les commandes
+  * Stopper le service gdm : par exemple sur gnome et xfce : service gdm stop
+  * Générer le xorg.conf.new : X -configure
+  * copier le fichier sous /etc/X11/xorg.conf
+  * Relancer le service gdm : service gdm start
+
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]] ;
+  * Disposer d'une connexion à Internet configurée et activée ;
+  * Disposer d'un écran tactile compatible (voir plus haut) ;
+===== Introduction =====
+
+Cette aide permet d'installer et de configurer un écran tactile type egalax USB présent sur certains moniteurs et sur les UMPC ou tablettes Internet.
+Je ne garantis pas que cette aide fonctionne pour toutes les configurations.
+
+
+afin de vérifier le modèle de dalle tactile tapez dans un terminal : <code>lsusb</code>
+vous devriez voir quelque chose comme 
+<code>
+Bus 004 Device 001: ID 0000:0000  
+Bus 003 Device 002: ID 0a5c:2101 Broadcom Corp. 
+Bus 003 Device 001: ID 0000:0000  
+Bus 002 Device 002: ID 0eef:0001 D-WAV Scientific Co., Ltd eGalax TouchScreen
+Bus 002 Device 001: ID 0000:0000  
+Bus 001 Device 003: ID 05af:0408 Jing-Mold Enterprise Co., Ltd 
+Bus 001 Device 001: ID 0000:0000  
+</code>
+en fait seule la ligne 
+<code>
+Bus 002 Device 002: ID 0eef:0001 D-WAV Scientific Co., Ltd eGalax TouchScreen
+</code>
+représente la dalle tactile (seul son ID est à prendre en compte )  le Bus et Device représente la prise sur laquelle il est connecté.
+<del>Si ce périphérique n'apparait pas chez vous, cette procédure n'est certainement pas la bonne</del> 
+
+Autre possibilité
+<code>
+Bus 003 Device 002: ID 0430:0501 Sun Microsystems, Inc. 
+</code>
+
+autre possibilité (acer T230H)
+<code>
+Bus 003 Device 004: ID 0408:3000 Quanta Computer, Inc. 
+</code>
+
+===== Version gutsy et hardy =====
+
+==== Installation ====
+
+Premièrement vous devez installer le paquet xserver-xorg-input-evtouch via synaptic ou :[[apt://xserver-xorg-input-evtouch]]
+
+Pour ne pas avoir à chercher le bon "event" sur le quel sera connectée la dalle tactile il est plus simple de créer un lien via [[udev]] qui sera recrée à chaque  détection du périphérique et pointera toujours sur le bon "event".
+
+Pour cela, vous devez exécuter la commande suivante dans un terminal :
+<code>
+cat /proc/bus/input/devices
+</code>
+qui va vous renvoyer une liste de tous ce qui est connecter à votre PC
+il vas faloir rechercer un peut une section qui resemble à ça
+
+<code>
+I: Bus=0003 Vendor=0eef Product=0001 Version=0100
+N: Name="Touchkit HID-USB Touchscreen"
+P: Phys=usb-0000:00:1d.1-1/input0
+S: Sysfs=/devices/pci0000:00/0000:00:1d.1/usb2/2-1/2-1:1.0/input/input10
+U: Uniq=
+H: Handlers=mouse1 event2 js0 
+B: EV=1b
+B: KEY=30000 0 0 0 0 0 0 0 0
+B: ABS=3
+B: MSC=10
+</code>
+sur la ligne N: Name="Touchkit HID-USB Touchscreen"
+
+le Name est le nom avec lequel le peripherique s'identifie au systeme il faut donc le noter
+autre exemple (panasonic cf t2)
+<code>
+I: Bus=0003 Vendor=0430 Product=0501 Version=0100
+N: Name="Fujitsu Takamisawa USB Touch Panel"
+P: Phys=usb-0000:00:1d.2-1/input0
+S: Sysfs=/devices/pci0000:00/0000:00:1d.2/usb3/3-1/3-1:1.0/input/input2
+</code>
+
+ensuite
+créer un fichier de regle pour UDEV qui vas permetre de créer un lien sybolique dans /dev/input/ vers le peripherique et s'aquite de connaitre son numero (qui change en fonction de l'ordre de detection des peripheriques )
+ 
+<code>
+sudo gedit  /etc/udev/rules.d/10-local.rules
+</code>
+qui va ouvrir un éditeur de texte sur le fichier  /etc/udev/rules.d/10-local_rules qui n'existe sûrement pas et sera donc crée à l'enregistrement, ajoutez-y la ligne suivante :
+
+<code>
+SUBSYSTEM=="input", KERNEL=="event*", ATTRS{name}=="Touchkit HID-USB Touchscreen", SYMLINK+="input/touchscreen"
+</code>
+
+si chez vous le Nom du périphérique n'est pas "Touchkit HID-USB Touchscreen" il est bien sur nescessaire de le modifier  par ce que vous aurez trouvé plus haut dans le resultat du cat /proc/bus/input/devices
+
+SUBSYSTEM=="input", KERNEL=="event*", ATTRS{name}==//Name//, SYMLINK+="input/touchscreen"
+
+soit pour les version 0112 du controleur eGalax
+<code>
+SUBSYSTEM=="input", KERNEL=="event*", ATTRS{name}=="eGalax Inc. Touch", SYMLINK+="input/touchscreen"
+</code>
+
+soit pour le panasonic cf t2"
+
+<code>
+SUBSYSTEM=="input", KERNEL=="event*", ATTRS{name}=="Fujitsu Takamisawa USB Touch Panel", SYMLINK+="input/touchscreen"
+</code>
+<note help>A moins que votre système ne soit équipé de plusieur écran tactile vous pouvez ajouter plusieur lignes 
+seule le periphérique présent serat pris en compte
+</note>
+
+Enregistrez les modification et fermez gedit.
+
+
+Ensuite vous devez éditer /etc/X11/xorg.conf avec la commande :
+  sudo gedit /etc/X11/xorg.conf
+Vous devez ajouter :
+<code>
+Section "InputDevice"
+    Identifier    "touchscreen"
+    Driver    "evtouch"
+    Option    "Device"    "/dev/input/touchscreen"
+    Option    "DeviceName"    "touchscreen"
+    Option    "MinX"        "82"
+    Option    "MinY"        "195"
+    Option    "MaxX"        "3960"
+    Option    "MaxY"        "3900"
+    Option    "ReportingMode"    "Raw"
+    Option    "Emulate3Buttons"
+    Option    "Emulate3Timeout"    "50"
+    Option    "SendCoreEvents"
+    Option    "MoveLimit" "10"
+    #Option    "Calibrate"  "1"
+    #Option    "Rotation" "cw"  
+    #Option    "SwapX"    "1"
+    #Option    "SwapY"    "1"
+EndSection
+
+</code>
+Puis ajouter dans section Server layout :
+<code>
+  	InputDevice 	"touchscreen" "SendCoreEvents"
+</code>
+
+Attention les valeurs Min et Max sont adaptées à mon cas (samsung Q1 7"), vous devrez certainement entrer d'autres valeurs, adaptées à votre matériel.
+
+
+
+Voila normalement ça devrait marcher après avoir [[:xorg#comment_est-ce_que_je_redemarre_xorg|redémarré Xorg]].
+
+==== Calibrage ====
+
+
+Il semble que les utilitaires de calibrage fournis avec hardy ne marchent pas.
+
+<note tip>Chez moi le script <code>/usr/bin/calibrate_touchscreen</code> fonctionne. Seuls les inversions d'axes ne sont pas faites automatiquement. on peut alors soit physiquement changer les pattes (1<->3 ou 2<->4) de la dalle soit suivre le tuto http://forum.ubuntu-fr.org/viewtopic.php?id=243993</note>
+
+Cependant il existe une solution, 
+sur la page [[http://stz-softwaretechnik.com/~ke/touchscreen/evtouch.html#download]]
+téléchargez la version V0.8.7
+[[http://stz-softwaretechnik.com/~ke/touchscreen/evtouch-0.8.7.tar.gz]]
+ensuite il faut extraire le contenu de l'archive dans votre répertoire de travail.
+
+Vous devriez avoir un répertoire du nom de evtouch-0.8.7
+
+Il va falloir modifier les option dans le fichier /etc/X11/xorg.conf
+<code>
+  sudo gedit /etc/X11/xorg.conf
+</code>
+
+et décommenter la ligne (il suffit de supprimer le dièse en début de ligne) : #Option    "Calibrate"  "1"
+pour obtenir :
+
+<code>
+Section "InputDevice"
+    Identifier    "touchscreen"
+    Driver    "evtouch"
+    Option    "Device"    "/dev/input/touchscreen"
+    Option    "DeviceName"    "touchscreen"
+    Option    "MinX"        "82"
+    Option    "MinY"        "195"
+    Option    "MaxX"        "3960"
+    Option    "MaxY"        "3900"
+    Option    "ReportingMode"    "Raw"
+    Option    "Emulate3Buttons"
+    Option    "Emulate3Timeout"    "50"
+    Option    "SendCoreEvents"
+    Option    "MoveLimit" "10"
+    Option    "Calibrate"  "1"
+EndSection
+
+</code>
+Ensuite vous devez redémarrer en mode de secours(recovery mode) pour ne pas lancer le serveur graphique. 
+Sous hardy cela se termine par un menu qui vous demande quoi faire, dans lequel vous devrez sélectionner "root".
+
+Déplacez vous dans le répertoire evtouch-0.8.7
+<code>
+cd /home/xxx/evtouch-0.8.7
+</code>
+Les xxx sont à remplacer pas votre nom de connection
+
+Recopier ensuite le fichier empty_cursor.xbm à la racine
+<code>
+cp empty_cursor.xbm /
+</code>
+et lancer la calibration
+<code>
+./calibrate.sh
+</code>
+vous devriez voir un fond uni avec 9 petites croix.
+
+Si vous touchez l'écran vous devriez voir des coordonnées défiler...
+Appuyer sur la touche "Entrée".
+La croix en haut à gauche est passée en rouge, "cliquez" dessus en touchant l'écran, et ainsi de suite jusqu'à la fin.
+Vous pouvez détruire le fichier empty_cursor.xpm
+<code>
+rm /empty_cursor.xpm
+</code>
+
+et redémarrer le système normalement
+
+Ensuite dans le répertoire evtouch-0.8.7, éditez le ficher out.txt qui devrait ressembler à :
+<code>
+        Option        "MinX"        "111"
+        Option        "MinY"        "195"
+        Option        "MaxX"        "3943"
+        Option        "MaxY"        "3914"
+        Option        "x0"        "4"
+        Option        "y0"        "-164"
+        Option        "x1"        "-5"
+        Option        "y1"        "-167"
+        Option        "x2"        "-4"
+        Option        "y2"        "-167"
+        Option        "x3"        "3"
+        Option        "y3"        "-87"
+        Option        "x4"        "-5"
+        Option        "y4"        "-87"
+        Option        "x5"        "-3"
+        Option        "y5"        "-88"
+        Option        "x6"        "5"
+        Option        "y6"        "-4"
+        Option        "x7"        "0"
+        Option        "y7"        "-4"
+        Option        "x8"        "-5"
+        Option        "y8"        "-5"
+</code>
+Recopier tous ça dans votre fichier xorg.conf
+<code>
+sudo gedit /etc/X11/xorg.conf
+</code>
+
+Et n'oubliez pas de commenter la ligne Option    "Calibrate"  "1"
+<code>
+Identifier    "touchscreen"
+    Driver    "evtouch"
+    Option    "Device"    "/dev/input/touchscreen"
+    Option    "DeviceName"    "touchscreen"
+        Option        "MinX"        "111"
+        Option        "MinY"        "195"
+        Option        "MaxX"        "3943"
+        Option        "MaxY"        "3914"
+        Option        "x0"        "4"
+        Option        "y0"        "-164"
+        Option        "x1"        "-5"
+        Option        "y1"        "-167"
+        Option        "x2"        "-4"
+        Option        "y2"        "-167"
+        Option        "x3"        "3"
+        Option        "y3"        "-87"
+        Option        "x4"        "-5"
+        Option        "y4"        "-87"
+        Option        "x5"        "-3"
+        Option        "y5"        "-88"
+        Option        "x6"        "5"
+        Option        "y6"        "-4"
+        Option        "x7"        "0"
+        Option        "y7"        "-4"
+        Option        "x8"        "-5"
+        Option        "y8"        "-5"
+    Option    "ReportingMode"    "Raw"
+    Option    "Emulate3Buttons"
+    Option    "Emulate3Timeout"    "50"
+    Option    "SendCoreEvents"
+    Option    "MoveLimit" "10"
+    #Option    "Calibrate"  "1"
+EndSection
+</code>
+Et voilà, un dernier redémarrage du Xorg et votre écran sera installé et calibré ! 
+
+===== Version Jaunty et Karmic =====
+
+==== Installation ====
+
+Sous jaunty et karmic, evTouch inverse l'axe des X et les options de calibration dans le fichier xorg.conf ne fonctionne pas. La solution consiste à utiliser le pilote eGalax du fabriquant EETI.
+
+Donc, désinstaller evTouch via Synaptique ou la ligne de commande:
+<code>
+sudo apt-get remove xserver-xorg-input-evTouch
+</code>
+
+Vous devez télécharger le pilote qui correspond à la version de votre noyau linux. Pour connaître la version de votre noyau linux:
+<code>
+uname -r
+</code>
+
+Pour la version 2.6 du noyau linux avec un processeur 32bit, vous pouvez télécharger le pilote eGalax sur le site du fabriquant EETI [[http://home.eeti.com.tw/web20/drivers/touch_driver/Linux/2062905/eGalaxTouch-2.06.2905-32b-k26.tar.gz]] ou [[http://www.j2retailsystems.com/support/650/Touch/linux/eGalaxTouch-2.06.2905-32b-k26.tar.gz|http://www.j2retailsystems.com/support/650/Touch/linux/eGalaxTouch-2.06.2905-32b-k26.tar.gz]] et sauvegardé le sur votre bureau
+
+Vous trouverez la liste des autres pilotes disponnibles 32bit et 64bit sur site du fabriquant EETI dans la section Support et TouchScreen : [[http://home.eeti.com.tw/web20/eGalaxTouchDriver/linuxDriver.htm]]
+
+Décompresser le fichier sur votre bureau:
+<code>
+cd Bureau
+</code>
+<code>
+tar -xvf eGalaxTouch-2.06.2905-32b-k26.tar.gz
+</code>
+Vous devez vous positionner dans le répertoire qui vient d'être créer sur votre bureau:
+<code>
+cd eGalaxTouch32
+</code>
+
+Installer le pilote avec la ligne de commande suivante:
+<code>
+sudo sh setup.sh
+</code>
+
+Le script d'installation vous demande de choisir le port pour votre écran tactile, généralement l'option 3 est la bonne réponse si votre écran tactile est branché sur un port USB.
+<code>
+(Q) Which interface controller do you use?
+(I) [1] RS232 [2] PS/2 [3] USB : 
+</code>
+
+L'installation a modifié le fichier /etc/X11/xorg.conf que vous pouvez éditer au besoin:
+<code>
+sudo gedit /etc/X11/xorg.conf
+</code>
+Lors d'une nouvelle installation de Karmic, il est probable que vous deviez créer le fichier xorg.conf.
+Voici un exemple provenant d'un eeepc 1000 :
+<code>
+### Touch Configuration Beginning ###
+Section "ServerLayout"
+        Identifier 	"Default Layout"
+	Screen		"Default Screen"
+        InputDevice	"EETI" "SendCoreEvents"
+	InputDevice	"Configured Mouse"
+EndSection
+
+Section "Screen"
+    Identifier    "Default Screen"
+    Device        "Intel Corporation Mobile 915GM/GMS/910GML Express Graphics Controller"
+    Monitor        "Generic Monitor"
+    DefaultDepth    24
+    SubSection "Display"
+        Modes        "1024x600"
+    EndSubSection
+EndSection
+
+Section "Device"
+    Identifier    "Intel Corporation Mobile 915GM/GMS/910GML Express Graphics Controller"
+    Driver        "intel"
+    BusID        "PCI:0:2:0"
+EndSection
+
+Section "InputDevice"
+    Identifier    "Configured Mouse"
+    Driver        "mouse"
+    Option        "CorePointer"
+    Option        "Device"        "/dev/input/mice"
+    Option        "Protocol"        "ImPS/2"
+    Option        "ZAxisMapping"        "4 5"
+    Option        "Emulate3Buttons"    "true"
+EndSection
+
+Section "InputDevice"
+        Identifier "EETI"
+        Driver "egalax"
+        Option "Device" "usbauto"
+        Option "Parameters" "/var/lib/eeti.param"
+        Option "ScreenNo" "0"
+#       Option "SkipClick" "1"
+#	Option "HidOnEPC" "1"
+EndSection
+### Touch Configuration End ###
+</code>
+
+Redémarrer votre ordinateur
+
+Il vous reste une dernière étape qui sera la calibration.
+
+
+==== Calibrage ====
+
+À cette étape, votre écran tactile devrait déjà fonctionner. Il se peut qu'il inverse les déplacements du curseur. Il faut donc calibrer votre écran tactile.
+
+Pour calibrer votre écran tactile, utiliser l'utilitaire fournis avec le pilote. Pour le démarrer taper la ligne de commande suivante:
+<code>
+eGalaxTouch
+</code>
+
+Pour votre information, vous trouverez cet utilitaire, ainsi que les fichiers du pilote qui ont été installés, dans le répertoire suivant :
+<code>
+usr/local/eGalaxTouch32
+</code>
+Vous pourrez donc vous créer un raccourci si vous le désirez.
+
+Une fois l'utilitaire eGalaxTouch démarré, allez dans l'onglet Tool et choisissez Linearisation. Suivez ensuite les étapes affichées à l'écran.
+
+Et voilà, votre écran est installé et calibré ! 
+
+
+Il se peut sous certaines configuration que l'évenement touchscreen soit détecté plusieur fois à chaque touché. Concrètement, le pointeur saute de l'endroit pointé à un autre endroit sur l'écrant. Ce problème peut être résolu en modifiant le fichier edev.conf se situant /usr/lib/X11/xorg.conf.d (attention si vous avez d'autres écrans tactiles à connecter):
+
+<code>
+sudo gedit /usr/lib/X11/xorg.conf.d/05-evdev.conf
+</code>
+
+Et commenter les deux derniers paragraphes (il suffit d'ajouter un "#" en début de ligne):
+
+<code>
+# Catchall classes for input devices
+# We don't simply match on any device since that also adds accelerometers
+# and other devices that we don't really want to use. The list below
+# matches everything but joysticks.
+
+Section "InputClass"
+	Identifier "evdev pointer catchall"
+	MatchIsPointer "on"
+	MatchDevicePath "/dev/input/event*"
+	Driver "evdev"
+EndSection
+
+Section "InputClass"
+	Identifier "evdev keyboard catchall"
+	MatchIsKeyboard "on"
+	MatchDevicePath "/dev/input/event*"
+	Driver "evdev"
+EndSection
+
+Section "InputClass"
+	Identifier "evdev touchpad catchall"
+	MatchIsTouchpad "on"
+	MatchDevicePath "/dev/input/event*"
+	Driver "evdev"
+EndSection
+
+#Section "InputClass"
+#	Identifier "evdev tablet catchall"
+#	MatchIsTablet "on"
+#	MatchDevicePath "/dev/input/event*"
+#	Driver "evdev"
+#EndSection
+
+#Section "InputClass"
+#	Identifier "evdev touchscreen catchall"
+#	MatchIsTouchscreen "on"
+#	MatchDevicePath "/dev/input/event*"
+#	Driver "evdev"
+#EndSection
+</code>
+
+Redémarer Xorg, et le tactile devrait parfaitement fonctionner!
+
+===== Lien Utile =====
+voir aussi [[cellwriter]] qui permet d'écrire à l'écran
+
+=====Compatibilité XBMC =====
+Une fois le pilote installé, calibré et testé avec succès sur le serveur X, si sous XBMC le curseur fait n'importe quoi lorsque vous appuyez sur l'écran alors vous avez un problème lié à l'utilisation de SDL dans XBMC.
+
+Pour contourner le problème il suffit de créer un lanceur personnalisé:
+<code>
+nano /usr/bin/runXBMC
+</code>
+
+Y inscrire :
+<code>
+#!/bin/bash
+export SDL_MOUSE_RELATIVE=0
+xbmc
+</code>
+
+Le rendre exécutable :
+<code>
+chmod 755 /usr/bin/runXBMC
+</code>
+
+Source : http://passion-xbmc.org/support-xbmc-sous-linux/xbmc-touchscreen-egalax/?wap2

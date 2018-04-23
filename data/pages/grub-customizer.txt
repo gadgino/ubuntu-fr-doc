@@ -1,0 +1,84 @@
+{{tag>Precise Trusty grub_pc amorçage boot personnalisation}}
+----
+{{ :applications:grub-customizer:grubcustomizer_icone_00.png?80|}}
+====== Grub Customizer ======
+
+**Grub Customizer** est une application graphique permettant de configurer facilement les réglages des gestionnaires d'amorce [[grub-pc|GRUB 2]] ou [[BURG]]. En effet, assurez-vous de faire une sauvegarde des fichiers de configuration de GRUB, tel qu'expliqué dans la rubrique [[#Utilisation]].
+
+<note>Et si vous en avez la possibilité, enregistrez sur un support externe, par exemple une clé USB, Grub et un fichier grub.cfg pour pouvoir, en cas de problème, démarrer votre PC à partir de cette clé afin d'avoir accès au système et aux logiciels qui vous permettront de réparer votre configuration</note>
+
+===== Pré-requis =====
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+<note important>
+**Grub-Customizer** n'est pas une application présente dans les [[:depots|dépôts]] officiels. Elle ne bénéficie ni de la validation officielle Ubuntu, ni du support des développeurs des équipes officielles Ubuntu. \\
+Installer une application hors des dépôts officiels peut présenter des risques d’instabilité de votre système.</note>
+====Depuis un PPA====
+  - [[:PPA|Ajouter le PPA]] **ppa:danielrichter2007/grub-customizer**((https://launchpad.net/~danielrichter2007/+archive/grub-customizer)) dans vos sources de logiciels; 
+  - [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|recharger la liste des paquets]];
+  - [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>grub-customizer]]**. 
+
+Ou dans un [[:terminal]], saisir les [[:commandes_shell|commandes]] suivantes : 
+<code>sudo add-apt-repository ppa:danielrichter2007/grub-customizer</code>
+<code>sudo apt-get update</code>
+<code>sudo apt-get install grub-customizer</code>
+
+Début 2016 la source était celle-ci :
+https://launchpad.net/~danielrichter2007/+archive/grub-customizer
+
+ === Installation et lancement en une ligne===
+pour ubuntu 14.04 et suivants
+<code>sudo add-apt-repository -y ppa:danielrichter2007/grub-customizer && sudo apt update && sudo apt install -y  grub-customizer  &&  grub-customizer </code>
+
+===== Utilisation=====
+<note important>Avant de commencer à utiliser Grub Customizer, il est recommandé de faire une sauvegarde des fichiers de configuration de GRUB. Ouvrez un [[terminal]] et saisissez la [[:commande_shell|commande]] suivante :
+<code>sudo cp -Rp /etc/grub.d /etc/grub.d.ori</code>
+</note>
+Lancer **Grub Customizer** depuis le [[:unity#tableau_de_bord_dash|tableau de bord]] d'Unity. L'application se trouve dans la catégorie "système" une fois "filtrer les résultats" de la [[:unity-lens|loupe]] "application" .\\
+Ou dans un [[terminal]] (toutes versions d'Ubuntu), saisir la [[:commande_shell|commande]] suivante(([[:sudo#quand_doit-on_utiliser_sudogksudokdesudo|Quand doit-on utiliser sudo/gksudo/kdesudo ?]])) :
+<code>gksudo grub-customizer</code>
+
+L'application s'ouvre sur la liste des différentes entrées de votre gestionnaire d'amorce Grub. \\
+
+{{ :applications:grub-customizer:grub-customizer_saucy_01.png?550 |}} \\
+Vous pouvez : 
+  * Les renommer en cliquant dessus, 
+  * Les déplacer avec les flèches pour les mettre dans l'ordre de votre choix (Le système placé en tête sera celui amorcé par défaut),
+  * Les mettre à la corbeille. À noter que ceci ne supprime pas les noyaux présents sur votre système. Pour supprimer un noyau, voir [[:nettoyer_ubuntu#suppression_des_anciens_noyaux|suppression des noyaux]],
+  * Ajouter ou supprimer un script à votre configuration.
+\\
+Les autres onglets donnent accès à d'autres réglages.  
+
+{{:applications:grub-customizer:grub-customizer_quantal_02.png?500|}} {{:applications:grub-customizer:grub-customizer_quantal_03.png?500|}} \\ \\
+Le bouton //"paramètres avancés" // donne un accès graphique à la configuration du fichier/etc/default/**grub**. \\
+{{:applications:grub-customizer:grub-customizer_quantal_04.png?500|}} \\
+Une fois vos changements effectués, cliquez sur le bouton //« Enregistrer »// pour les sauvegarder. La [[:commande_shell|commande]] //update-grub// n'est pas nécessaire, le fichier /boot/grub/**grub.cfg** sera généré automatiquement. \\
+
+Pour plus de détails sur les réglages possibles, consultez la rubrique [[:grub-pc#configuration avancée]] de la page [[grub-pc]].
+
+===== Problèmes connus =====
+
+==== Le fond d'écran choisi n'apparaît pas ====
+
+Vous avez sélectionné une image de fond d'écran, et vous l'avez copiée dans le répertoire grub au moyen du bouton dans la fenêtre des préférences (onglet « Apparence »), mais l'image ne s'affiche pas.
+
+Il faut s'assurer que l'image ait la même résolution que l'écran de Grub, et qu'elle soit au format PNG, TGA ou JPG 8 bits. Si votre image jpg ne s'affiche pas, enregistrez-la au format PNG.
+
+Sur certains systèmes, en raison peut-être de problèmes liés à la carte graphique, la couleur de fond du texte sélectionné (onglet //"Paramètres d'apparence"//, ligne //"normal:"//, colonne //"arrière-plan"//) est appliquée à la totalité de l'écran, et pas seulement au texte sélectionné. Elle masque alors l'image. Pour résoudre le problème, laisser la couleur "Transparent" (par défaut) dans la liste.
+
+
+===== Désinstallation =====
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi =====
+  * **(en)** [[https://launchpad.net/grub-customizer|Site officiel sur Launchpad]]
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=437128|Discussion « Modifier GRUB avec GRUB CUSTOMIZER »]]
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?pid=4017941#p4017941|Discussion « Changer le nom des OS dans le menu du GRUB ».]]
+
+
+----
+//Contributeurs principaux : [[:utilisateurs:Gemnoc]], ☢☣SpokyZombie☣☢.//
+
+//Basé sur [[http://www.tux-planet.fr/grub-customizer/|« Grub Customizer »]] par Sébastien Bilbeau.//

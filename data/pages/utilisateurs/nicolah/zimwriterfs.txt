@@ -1,0 +1,94 @@
+{{tag>Precise Trusty logiciels archivage html}}
+
+----
+
+====== zimwriterfs ======
+
+L'application **[[http://sourceforge.net/p/kiwix/other/ci/master/tree/zimwriterfs|zimwriterfs]]** est un outil en ligne de commande destiné à produire une archive au format ouvert [[http://www.openzim.org|ZIM]]) à partir d'un répertoire local contenant un site web fonctionnant hors-ligne (avec images, code Javascript et feuilles de style CSS).
+Le fichier généré peut être lu à l'aide d'un [[http://openzim.org/wiki/ZIM_Readers|lecteur ZIM]] tel que par exemple [[http://www.kiwix.org|Kiwix]].
+
+zimwriterfs est un outil autonome faisant partie des [[http://sourceforge.net/p/kiwix/other/ci/master/tree/|autres outils]] mis à disposition par l'auteur de Kiwix. Kiwix est diffusé sous licence [[http://fr.wikipedia.org/wiki/Licence_publique_g%C3%A9n%C3%A9rale_GNU|GPL v3]] et zimwriterfs a une dépendance pour une bibliothèque diffusée sous licence [[http://www.apache.org/licenses/LICENSE-2.0|Apache V2]].
+
+Parmi les contenus accessibles hors ligne à ce format, on compte [[http://www.kiwix.org/wiki/Wikipedia_in_all_languages/fr|Wikipédia dans toutes les langues]], la [[https://en.wikipedia.org/wiki/Category:Wikipedia_books_%28community_books%29|collection des livres de la communauté Wikipedia]] mais aussi la [[http://doc.ubuntu-fr.org/documentation_hors_ligne|documentation hors ligne de Ubuntu]].
+
+[[http://openzim.org/wiki/Build_your_ZIM_file|D'autres outils permettent la construction de fichiers ZIM]] mais ils sont intrinsèquement liés au wiki [[http://www.mediawiki.org/wiki/MediaWiki/fr|MediaWiki]].
+
+===== Pré-requis  =====
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir installé la GNU autotools suite  **[[apt>automake|outil de création de « Makefiles » conformes aux standards GNU]]**  et  **[[apt>autoconf|créateur de scripts de configuration automatique]]**
+  * Avoir [[:tutoriel:comment_installer_un_paquet|installé le paquet]] **[[apt>liblzma5|librairie de compression au format XZ]]**  et celui de développement **[[apt>liblzma-dev]]** ([[http://tukaani.org/xz/]])
+  * Avoir [[:tutoriel:comment_installer_un_paquet|installé le paquet]] **[[apt>libmagic1|librairie de recherche des types MIME des fichiers]]**  et celui de développement **[[apt>libmagic-dev]]** ([[http://www.darwinsys.com/file/]])
+
+<note important>Le fichier README spécifie ces dépendances mais ne précise pas qu'il faut aussi installer les paquets de développement.
+Si vous ne le faites pas vous risquez d'observer les messages d'erreur de la sorte lors de la compilation :
+<code>zimwriterfs.cpp:21:19: erreur fatale: magic.h : Aucun fichier ou dossier de ce type</code>
+ou  <code> > configure: error: lzma header files not found</code>
+</note>
+
+==== Pré-requis sur Ubuntu 12.04 ====
+
+  * Avoir [[:tutoriel:comment_installer_un_paquet|installé le paquet]] **[[apt>libtool|script de prise en charge de bibliothèque générique]]** 
+
+Le package //libzim// n'est pas disponible dans les dépôts. Il faut 
+  - récupérer les sources sur [[http://openzim.org/download]] (testé avec la version la plus récente du moment :  zimlib-1.2.tar.gz  08-Jun-2014).
+  - les compiler et les installer avec la [[http://doc.ubuntu-fr.org/tutoriel/compilation|séquence de commandes suivantes]]
+<code>./configure  ; make; make install</code>
+
+<note important>
+Si une fois zimwriterfs installée, vous obtenez le message suivant à l'exécution
+[[http://sourceforge.net/p/kiwix/discussion/604122/thread/bc4b6d0f|zimwriterfs: error while loading shared libraries: libzim.so.0: cannot open shared object file: No such file or directory]] alors une solution possible est de copier les fichiers // /usr/local/lib/libzim*// dans // /usr/lib// 
+<code>cp /usr/local/lib/libzim* /usr/lib</code>
+</note>
+==== Pré-requis sur Ubuntu 14.04 ====
+
+  * Avoir [[:tutoriel:comment_installer_un_paquet|installé le paquet]] **[[apt>libzim0|library implementation of ZIM specifications]]**  et celui de développement **[[apt>libzim-dev]]** ([[http://openzim.org/download]])
+
+<note important>Ne pas oublier le paquet développement sans quoi vous observerez le message d'erreur suivant à la compilation
+ <code>zimwriterfs.cpp:23:35: fatal error: zim/writer/zimcreator.h: Aucun fichier ou dossier de ce type
+ #include <zim/writer/zimcreator.h></code>
+</note>
+===== Installation  =====
+
+Récupérer une version du code source 
+soit en récupérant manuellement  un //[[http://sourceforge.net/p/kiwix/other/ci/master/tarball?path=/zimwriterfs|snapshot de kiwix-other]]//
+ou bien en clonant le dépôt (30 Mib) :
+  git clone git://git.code.sf.net/p/kiwix/other kiwix-other
+
+Se rendre dans le dossier kiwix-other/zimwriterfs/ puis lancer la configuration de zimwriterfs
+  ./autogen.sh
+Puis
+  ./configure
+Et la compilation
+  make
+Et enfin l'installation
+  make install 
+ 
+===== Utilisation=====
+
+Lancez l'application via le [[:terminal]] (toutes versions d'Ubuntu) avec la [[:commande_shell|commande]] suivante :
+  zimwriterfs 
+
+Sans argument, vous obtiendrez la sortie suivante :  
+<code>
+You have too few arguments!
+zimwriterfs --welcome=index.html --favicon=m/favicon.png --language=fra --title=foobar --description=mydescription --creator=Wikipedia --publisher=Kiwix [--minChunkSize=1024] DIRECTORY ZIM
+	DIRECTORY is the path of the directory containing the HTML pages you want to put in the ZIM file,
+	ZIM       is the path of the ZIM file you want to obtain.
+</code>
+Il est nécessaire de spécifier tous les paramètres (y compris le //[[http://fr.wikipedia.org/wiki/Favicon|favicon]]//). 
+  * Le //DIRECTORY// désigne un chemin vers un répertoire contenant votre un site web fonctionnant hors-ligne
+  * les paramètres //welcome// et //favicon// désignent des chemins relatifs à //DIRECTORY//
+
+===== Avertissement =====
+<note warning>Le lecteur Kiwix vous permet de tester les ZIM que vous produisez. Mais attention, la version de [[http://sourceforge.net/projects/kiwix/|Kiwix for linux]] //0.9-rc2// [[http://sourceforge.net/p/kiwix/bugs/702/|présente un bug connu]] : affichage d'un icone //lien cassé// à la place d'images attendues. Pour remédier à ce problème télécharger la [[http://download.kiwix.org/nightly/bin/latest/|version de Kiwix la plus récente en cours de développement]].</note>
+===== Voir aussi =====
+
+  * **(en)** [[http://sourceforge.net/p/kiwix/other/ci/master/tree/zimwriterfs/|Site officiel du logiciel zimwriterfs]]
+  * **(en)** [[http://www.openzim.org/wiki/ZIM_file_format|La spécification du format ZIM]]
+  * **(en)** [[http://www.openzim.org/wiki/Readers|Lecteurs ZIM]] (avec/sans GUI, en python, en java...)
+  * **(en)** [[http://www.openzim.org/wiki/Build_your_ZIM_file|Liste d'outils pour construire des fichiers ZIM]]
+
+----
+
+//Contributeurs principaux : [[utilisateurs:nicolah|nicolah]].//

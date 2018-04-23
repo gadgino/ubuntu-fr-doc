@@ -1,0 +1,66 @@
+{{tag>gnome bureautique éducation ebook cycle_2 cycle_3 }}
+---------------------
+====== Alexandria ======
+
+<note warning>Projet mort.</note>
+
+**Alexandria** est un logiciel pour [[GNOME]] qui permet de gérer une collection de livres.
+Il est écrit en [[Ruby]] et est un logiciel libre (licence GPL 2 ou supérieure)
+
+{{:alexandria.png}}
+
+===== Fonctionnalités =====
+  * À partir du numéro ISBN, recherche automatiquement les informations sur internet (titre, auteur, couverture, éditeur...) grâce aux services comme ceux d'Amazon ;
+  * Ajout de livres facilités grâce à un lecteur de code-barres, ou bien à la main ;
+  * Gestion (basique) de prêt de livres : date du prêt et nom de l'emprunteur ;
+  * Filtrage par auteur, mots du titre, éditeur, date de publication, mots clé, etc.
+  * Marquage des livres par mots clé personnalisés ;
+  * Annotation libre des livres et système de notes (de 0 à 5 étoiles) ;
+  * Systèmes d'import : Z39.50 standard, ONIX, Tellico et listes EAN/ISBN ;
+  * Systèmes d'export : ONIX, Tellico, listes EAN/ISBN et pages HTML (avec des thèmes CSS).
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir activé l'accès aux [[:depots#universe_et_multiverse|dépôts Universe]].
+
+===== Installation =====
+
+<note warning>Ce programme n'est plus dans les dépôts d'Ubuntu. \\ Il n'est plus développé.</note>
+
+
+\\ Mais vous pouvez toujours l'installer à partir du site officiel, soit en téléchargeant le paquet [[http://rubyforge.org/frs/download.php/76354/alexandria_0.6.9-2_all.deb | alexandria_0.6.9-2_all.deb]], \\ ou à partir du dépôt PPA de l'équipe de développement: \\
+<code>
+ sudo add-apt-repository ppa:alexandria-team/ppa 
+ sudo apt-get update 
+ sudo apt-get install alexandria
+</code>
+
+
+<del>[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>alexandria|alexandria]]**.</del>
+===== Configuration =====
+
+Pour utiliser le service Amazon qui est le plus complet pour la recherche d'information sur les livres à partir de leur ISBN, il faut d'abord s'inscrire au service et récupérer ses identifiants de connexion sécurisée. cf. **(en)** http://alexandria.rubyforge.org/news/2009-08-15--amazon-support.html
+
+Puis, dans le logiciel Alexandria, allez dans //Édition -> Préférences -> Fournisseurs -> Amazon -> Configurer//, Sélectionner « fr » pour le français et entrez vos clés personnelles récupérées sur le site d'Amazon.
+
+===== Utilisation=====
+
+Lancez l'application depuis le menu //Applications -> Bureautique -> Alexandria// ou //via// la commande suivante :
+
+  alexandria
+
+=====Problème=====
+Si la recherche d'informations sur Amazon.com ne fonctionne pas avec la version présente dans les dépôts officiels de  [[lucid|Lucid 10.04]] ((Alexandria 0.6.5)), vous pouvez utiliser [[http://alexandria.rubyforge.org/download.html|le paquet du site officiel d'Alexandria]], avec les risques que cela comporte.
+
+===== Désinstallation =====
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi =====
+
+  * **(en)** [[http://alexandria.rubyforge.org/index.html|Site officiel d'Alexandria]]
+
+----
+
+//Contributeurs principaux : [[utilisateurs:Yannick@AMD64|Yannick@AMD64]].//

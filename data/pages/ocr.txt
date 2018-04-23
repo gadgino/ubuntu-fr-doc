@@ -1,0 +1,289 @@
+{{tag>precise bureautique portail}}
+
+----
+
+====== Reconnaissance optique de caractères (ROC) ======
+
+La [[wpfr>reconnaissance optique de caractères]] (ROC), ou encore appelé vidéo-codage (traitement postal, chèque bancaire) désigne les procédés informatiques pour la traduction d'images de textes imprimés ou dactylographiés en fichiers de texte.
+
+Il existe plusieurs logiciels sous GNU/Linux spécialement dédiés, et il est aussi possible d'employer les logiciels existants sous Windows via Wine.
+
+Pour le moment, la ROC (ou OCR) n'est pas un des domaines les plus avancés sous GNU/Linux : jusqu'en 2006, les résultats étaient même en général totalement inutilisables. Cependant, les choses ont évolué rapidement en 2007 et 2008 avec tesseract et le projet Ocropus. Voici un petit guide des différentes solutions possibles avec leurs avantages, leurs inconvénients et des liens pour vous en servir.
+
+Voir également :
+   * Les solutions de [[ged|Gestion Électronique des Documents (GED)]] 
+
+===== Logiciels d'OCR pour GNU/Linux (utilisables en ligne de commande) =====
+==== gocr ====
+http://jocr.sourceforge.net/
+
+  * **les plus :**
+    -empaqueté pour ubuntu ([[:tutoriel:comment_installer_un_paquet|installation]] de **[[apt>gocr|gocr]]**) ;
+    -reconnaît les png ;
+    -aide correcte ;
+    -facile à utiliser ;
+    -interface graphique: gocr-tk.
+    -la reconnaissance optique est fonctionnelle sur des fichiers images pour lesquelles tesseract ne donne aucun résultat. Par exemple une capture d'écran en mode console réalisée avec [[:fbgrab|fbgrab]].
+  * **les moins :**
+    -le résultat est loin d'être idéal.
+
+
+==== OCRopus ====
+
+ [[OCRopus]] (page détaillée) : ROC avec prise en compte de la mise en page (en développement). Initialement OCRopus utilisait le moteur **tesseract**, mais ce n'est plus le cas depuis 2009 (([[https://groups.google.com/forum/?fromgroups#!msg/ocropus/thYjUERaUro/zNsTMhoIxJYJ|OCRopus doesn't even link with
+Tesseract by default anymore.]]))
+
+ Site officiel : https://code.google.com/p/ocropus/
+
+==== tesseract-ocr ====
+
+Voir la page [[:tesseract-ocr]] pour plus d'informations sur l'installation et l'utilisation
+
+  * **les plus :**
+    -empaqueté pour ubuntu ([[:tutoriel:comment_installer_un_paquet|installation]] de [[apt>tesseract-ocr|tesseract-ocr]]) ;
+    -très bonne performance si l'image est bonne, bonne dans tous les cas ;
+    -accepte beaucoup de format d'images (Utilise Leptonica);
+    -gère plusieurs langues dont le français (avec les accents) dans les versions 2 ou postérieures (paquets disponibles dans Universe) ;
+    -possibilité de lui apprendre un nouveau jeu de caractères dans sa dernière version ;
+    -gestion de plusieurs jeux de caractères simultanés ;
+    -peut être utilisé dans les interfaces graphiques XSane (via les adaptateurs xsane2tess ou ocube) et gscan2pdf, disponibles sous Hardy et suivants.
+
+  * **les moins :**
+        -problème de compilation sur certaines plateformes (fedora core 6) ;
+
+==== Moteurs dont le développement est arrêté ====
+=== cuneiform ===
+
+Projet mort depuis 2011.
+
+[[http://cognitiveforms.com/ru/products_and_services/Cuneiform.html#1189-Cuneiform|cuneiform]] (en russe, ou en [[http://en.cognitiveforms.ru/products/cuneiform/|anglais]]) est un OCR multiplateforme, qui supporte 20 langues, dont le français. Pour les textes en français et les images propres et lisibles, il donne des résultats corrects. De plus, il semble être le seul à supporter (de façon basique) la mise en forme du texte. Ainsi, il reconnaît les textes soulignés, gras, en italique, et les images. Le texte qu'il ne réussit pas à traiter est également importé sous forme d'image. Il supporte les fichiers images en bmp, png, tiff,  Il peut exporter en format texte, html, rtf (mais j'ai obtenu de piètres résultats pour ce format), et d'autres.
+
+Le projet est en attente de nouveaux développeurs depuis mai 2011 ((https://code.launchpad.net/cuneiform-linux|Stepping down as maintainer)). Le projet dispose toujours d'une [[https://launchpad.net/cuneiform-linux|page Launchpad]] qui héberge le code et est maintenue. 
+
+Voir la  [[http://wiki.ubuntuusers.de/Cuneiform-Linux?highlight=cuneiform#Einbindung-in-XSane|documentation]] en allemand où on trouve un fichier de commande pour xsane du genre de celui de tesseract.
+
+  * **les plus :**
+    - empaqueté pour Ubuntu ([[:tutoriel:comment_installer_un_paquet|installation]] de [[apt>cuneiform|cuneiform]]) ; 
+  * **les moins :**
+    - ?
+<note>il est aussi possible de lancer cuneiform sur un fichier image par l'intermédiaire d'un nautilus-script tel que celui-ci : 
+<code>#!/bin/sh
+
+printf %s "$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS" | 
+while read -r arg
+do
+	convert -colorspace GRAY $arg tmp.tiff
+	cuneiform -l fra -f rtf -o $arg.rtf tmp.tiff
+	rm tmp.tiff
+done</code>
+</note>
+
+=== Ocrad ===
+[[http://www.gnu.org/software/ocrad/ocrad.html|Ocrad]] est un élément du projet GNU. Son développement semble arrêté (ou très ralenti) depuis 2011.
+
+  * **les plus :**
+     - empaqueté pour Ubuntu ([[:tutoriel:comment_installer_un_paquet|installation]] de [[apt://ocrad|ocrad]]) ; 
+     - présence d'une aide.
+  * **les moins :**
+    - résultat très médiocre et non utilisable.\\ (FIXME à vérifier, car on obtient de bons résultats avec Kooka utilisant ocrad : voir ci-dessous)
+
+
+===== Interfaces graphiques =====
+
+Il n'existe aucune interface utilisateur pour faire de la relecture d'OCR dans de bonnes conditions.
+==== xsane ====
+[[:Xsane]] (page détaillée) est une application graphique très complète pour scanner, qui utilise **gocr** ou **tesseract** ou **cuneiform**.
+=== xsane mode d'emploi ===
+
+Testé sous Hardy, Intrepid, Jaunty, Lucid (avec cunéiform), Oneiric
+
+== Pré-requis ==
+
+  * Avoir [[:tutoriel:comment_installer_un_paquet|installé l'un des paquets]] **[[apt>gocr|gocr]]** ou **[[apt>cuneiform|cuneiform]]**
+  * ou pour utiliser le moteur de ROC tesseract avec XSane, suivre les indications de la page [[:xsane2tess]].
+
+== Méthode ==
+
+  * Choisir son moteur d'OCR : ouvrir Xsane et dans //Préférence -> Configuration -> OCR// il faut, dans la commande OCR, remplacer **gocr** par : 
+      * pour  **gocr** avec la reconnaissance des caractères accentués <code>gocr -f UTF8</code>
+      * pour **tesseract** <code >xsane2tess  -l  fra'</code>
+      * pour **cuneiform** <code >cuneiform -l fra'</code>
+  * dans XSane : //Applications -> Images -> Scanneur d'images XSane// ;
+  * dans la zone à droite de la cible, sélectionner "Enregistrer" ;
+  * dans "Type", sélectionner "TEXT" ;
+  * dans le sélecteur couleur ou N/B, sélectionner "Gris" ou "Noir/Blanc ou Trait" (à tester selon le document à scanner).
+et en-dessous, sélectionner la résolution qui convient (pour obtenir les meilleurs résultats, les avis divergent entre 300 et 600 ppi ; un test fait sur des textes écrits en polices 10 et 12 //Arial//, //Times New Roman// et //Courier 10 Pitch// donne les meilleurs résultats en 300 ppi).
+
+| {{ xsane_0.97-2.png }} | {{ xsane_0.97.png }} |
+| //Captures d'écran réalisées avec Xsane 0.97 sous Dapper.
+La disposition des divers éléments diffère légèrement avec les versions suivantes de Xsane sous Hardy, Intrepid et Jaunty, mais le principe est le même.// ||
+
+Ensuite :
+  - dans la fenêtre "Aperçu", cliquer sur "Acquisition de l'aperçu" ;
+  - recadrer sur la zone de texte à scanner ;
+  - XSane va enregistrer le résultat dans un fichier texte, par défaut sur votre bureau ou dans "home/votre_identité" (selon les versions de Xsane). Il est possible de choisir le dossier d'enregistrement du fichier texte en indiquant le chemin dans la zone de saisie située à côté de l'icône "disquette". On peut aussi nommer le fichier. Par exemple en remplaçant "out.txt" des captures d'écran ci-dessus par "/home/votre_identité/essai_ocr_1.txt" ;
+  - cliquer sur "numériser" et attendre le "transfert de l'image" ;
+  - copier-coller le contenu du fichier texte dans un fichier ouvert avec un traitement de texte (OOo Writer ou autre) ;
+  - terminer le traitement "à la main" en utilisant le correcteur orthographique du logiciel de traitement de texte.
+
+cuneiform est le moteur (voir plus haut), paramétré sous xsane qui a donné les meilleurs résultats, reconnaissance optique presque parfaite, avec une détection excellente des colonnes.
+
+==== gscan2pdf ====
+
+Interface graphique permettant notamment de réaliser de la Reconnaissance Optique de Caractères avec les moteurs **gocr** et **tesseract**. Son développement dynamique lui permet d'intégrer les outils les plus performants sous GNU/Linux, dont bientôt **OCRopus**.
+
+gscan2pdf est présent dans les dépôts.
+
+Voir chapitre utilisation de la page détaillée [[:gscan2pdf]].
+
+==== OCRFeeder ====
+
+Il est présent dans les dépôts (Ubuntu Precise 12.04 LTS et 14.04 LTS).
+
+Interface graphique simple, permettant de choisir entre plusieurs moteurs : par défaut installe **tesseract**, fonctionne aussi avec **gocr**, **ocrad** et **cuneiform***. (* détecté mais n'a pas fonctionné dans mon test sur texte.)
+
+Attention, le paquet tesseract est installé pour la reconnaissance de l'anglais uniquement. Voir les paquet langues supplémentaires ici [[:tesseract-ocr]].
+
+Traite les images, les fichiers PDF et les sorties de scanner. On peut ajouter le contenu d'un dossier (plusieurs fichiers à la fois).
+
+  * **les plus :**
+    - empaqueté pour Ubuntu ([[:tutoriel:comment_installer_un_paquet|installation]] de [[apt>ocrfeeder|ocrfeeder]]);
+    - permet de sélectionner les zones à traiter
+    - permet de voir côte à côte l'image traitée et le résultat
+    - détecte automatiquement les colonnes et les images
+    - dispose d'un filtre de bruit et de gris paramétrable (unpaper, non testé)
+    - supprime les sauts de ligne (option)
+    - export en différents formats, en essayant de conserver la mise en page : ODT, PDF, HTML et texte brut
+  * **les moins :**
+    - ne permet pas la rotation de l'image obtenue via le scanner (gênant quand on scanne un livre au format A5 où deux pages = A4 paysage => il faut faire deux scans au lieu d'un)
+<del>    - l'outil de redressement est inefficace (testé sur texte)</del>
+
+
+==== ocrgui ====
+
+[[http://ocrgui.sourceforge.net/|ocrgui]] est une interface graphique pour, soit **tesseract**, soit **gocr**.
+
+==== kooka ====
+
+Kooka n'est plus développé pour KDE 4, il est remplacé par **Skanlite** (présent dans les dépôts).
+
+Voir : http://userbase.kde.org/Kooka
+
+==== xsane2tess ====
+Testé sous Precise 12.04.
+
+  *[[xsane2tess]]: un adaptateur tesseract pour XSane.
+
+==== gImageReader ====
+
+Site du logiciel : [[https://github.com/manisandro/gImageReader]]
+
+Facile et simple d'emploi.
+
+Une interface graphique pour **tesseract-ocr** sous gnome.
+
+http://sourceforge.net/projects/gimagereader/
+
+Pour avoir la reconnaissance du français : installer **[[apt>tesseract-ocr-fra|tesseract-ocr-fra]]**
+
+Fonctionnalités (recopiées et traduites du site officiel - version 0.9 de mars 2011 - info au 19/08/2012)
+    -Traite images et fichiers PDF
+    -Acquisition depuis scanner
+    -Sélection des parties de l'image à traiter
+    -Supporte différentes langues
+    -Comparaison cote à cote de la source et du résultat
+    -Supprime les saut de lignes dans le texte résultant
+    -Supporte tesseract 3.0
+
+A l'utilisation:
+
+- prise en charge des dictionnaires myspell
+
+- lecture des lignes tordues.
+
+- interface graphique ergonomique
+
+- fonctionne sous Ubuntu 12.04
+
+
+
+
+==== YAGF ====
+  * [[YAGF]] est une interface graphique pour [[#cuneiform|cuneiform]] (donc une bonne capacité de reconnaissance comme indiqué plus haut) et [[#tesseract|tesseract]]
+
+  * **(en)** [[http://symmetrica.net/cuneiform-linux/yagf-en.html|Site officiel du logiciel]]
+
+
+
+=====OCR en ligne=====
+
+====Free OCR====
+Le site [[http://www.free-ocr.com/|Free OCR]] permet de faire de la reconnaissance de caractères en ligne. Il est gratuit et utilise tesseract pour la reconnaissance. 
+
+Points forts :
+  * gratuit
+  * performant
+  * gère plusieurs langues
+  * reconnait les textes en colonne
+
+Points faibles :
+  * nécessité d'entrer un captcha à chaque texte soumis 
+  * on ne peut faire reconnaître que dix pages ( 2 Mo maximum ). Au bout de dix, il faut attendre une heure avant de pouvoir recommencer
+
+Voir également :
+   * Les solutions de [[:ged|Gestion Électronique des Documents (GED)]] 
+
+====WatchOCR - Server PDF et OCR du contenu====
+
+  * [[http://douglaswhitaker.com/2013/10/working-with-pdf-files-efficiently-watchocr//|WatchOCR]] : logiciel libre pour créer un serveur de PDF, capable de transcrire notamment les images en texte, ou les PDF d'image scanné en texte : le tout indexé et prêt pour la recherche ( ala google ).
+
+===== Programmes Windows utilisables sous GNU/Linux via Wine =====
+Simple OCR : image non PDF
+==== SimpleOCR ====
+
+  * [[http://appdb.winehq.org/appview.php?iAppId=1946|Fiche sur WineHQ.org]]
+Non libre mais gratuit. Basé sur WOCAR
+, image non PDF
+
+==== WebOCR ====
+
+  * [[http://appdb.winehq.org/appview.php?iAppId=829|Fiche sur Winehq.org]]
+
+==== Recognita ====
+
+Racheté par ScanSoft software. Une fiche sans aucun commentaire est néanmoins disponible pour la version 5.Tout retour, ici ou sur WineHQ serait grandement apprécié.
+
+==== ReadIris ====
+
+[[http://appdb.winehq.org/objectManager.php?sClass=application&iId=2543|Fiche sur WineHQ.org]]
+
+==== ABBY FineReader 8.0 OCR ====
+
+Certaines versions anciennes de FineReader fonctionnent plus ou moins sous Wine.
+
+===== Reconnaissance de l'écriture manuscrite =====
+==== Cellwriter (GNU/Linux) ====
+
+  * [[cellwriter|CellWriter: Reconnaissance de l'écriture manuscrite]]
+
+==== Xstroke (GNU/Linux) ====
+  * [[http://www.usenix.org/events/usenix03/tech/freenix03/full_papers/worth/worth_html/xstroke.html|Xstroke : reconnaissance de l'écriture manuscrite et des mouvements de pointeur]]
+
+==== Myscript (GNU/Linux et win) ====
+  * [[http://appdb.winehq.org/objectManager.php?sClass=application&iId=7180|Fiche de Myscript Note (reconnaissance écriture) sur WineHQ.org]]
+  * [[http://appdb.winehq.org/objectManager.php?sClass=application&iId=8569|Fiche de Myscript Stylus (logiciel interactif) sur WineHQ.org]] ([[http://www.visionobjects.com/handwriting_recognition/downloadstylus3.htm#Linux|existe pour GNU/Linux]] ), reconnaît l'écriture attachée
+Non libre, [[http://www.visionobjects.com/handwriting_recognition/onlinestore.htm|versions d'évaluation 30 jours]] des logiciels sur le site officiel. 
+
+==== CalliGrapher (win) ====
+
+  * [[http://www.phatware.com/index.php?q=product/details/calligrapher|Aller sur la page de calligrapher]]
+
+Non libre, version d'évaluation du logiciel sur le site officiel. 
+
+===== Voir aussi =====
+
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=78804|le fil de discussion du forum à propos de l'OCR]]
+ 
+----
+
+//Contributeurs : [[:utilisateurs:Teolemon|Pierre S.]] et [[:utilisateurs:Sorbus]].//

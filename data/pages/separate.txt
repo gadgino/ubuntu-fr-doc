@@ -1,0 +1,98 @@
+{{tag>graphisme gimp}}
+
+----
+
+====== Separate+ : un greffon pour l'impression professionnelle ======
+
+
+===== Présentation =====
+
+Créé par Yoshinori Yamakawa, ce greffon ajoute des fonctions CMJN à Gimp-2.4. Il permet de séparer une image RVB en CMJN à partir des deux profils ICC et d'enregistrer le résultat dans une image au format TIFF dans l'espace colorimétrique CMJN. 
+
+Cette fonctionnalité manque cruellement dans Gimp pour les utilisateurs qui ont besoin de fournir des documents à un imprimeur. En effet, une image qui n'est pas dans l'espace colorimétrique CMJN risque d'avoir des couleurs trop sombres et désaturées, après transformation par un logiciel de PAO.
+
+
+
+===== Pré-requis =====
+
+Separate+ requiert que [[apt://gimp]] (au moins Gimp 2.4.x) et la bibliothèque [[apt://liblcms1|LittleCMS]] soient installés.
+
+
+===== Installation =====
+
+==== à partir du paquet deb ====
+
+Attention uniquement sur plateforme 32 bits.
+
+Sur le blog de Eckhard M. Jäger, [[http://my.opera.com/area42/blog/index.dml/tag/seperate+|Linux for Designers]], on trouve un paquet .deb très bien fait qui installe le greffon très facilement :
+[[http://files.myopera.com/area42/files/gimp-seperate+-0.5.1-i386.deb|gimp-seperate+-0.5.1-i386.deb]]  (lien brisé [2016-01-10])
+
+<note>Sur Ubuntu 12.04 (et supérieur), **pour 32 bits ou 64 bits**, il faut simplement installer le paquet apt://gimp-plugin-registry</note>
+
+
+==== à partir des sources ===
+
+Il faut préalablement [[:tutoriel:comment_installer_un_paquet|installer les paquets]]  [[apt://libtiff-dev,libjpeg-dev,libgimp2.0-dev,liblcms1-dev|libtiff-dev, libjpeg-dev, libgimp2.0-dev et liblcms1-dev]].
+
+En ligne de commande :
+<code>
+sudo apt-get install libtiff-dev libjpeg-dev libgimp2.0-dev liblcms1-dev
+</code>
+
+
+Vous pouvez trouver les fichiers sources sur le site officiel : [[http://cue.yellowmagic.info/softwares/separate.html]] sous forme  d'archive zip (par exemple separate+-0.5.6.zip)
+
+Il vous faut dé-zipper l'archive dans un dossier temporaire.
+
+Ensuite les options par défaut du //Makefile// sont normalement bonne, vous pouvez toutefois vérifier le début de fichier.
+
+Reste à compiler et installer (dans le dossier dé-zippé)
+
+<code>
+make
+sudo make install
+</code>
+
+Si gimp était ouvert il vous faudra le redémarrer pour que le plugin soit chargé.
+
+
+==== profils colorimétriques (icc) ===
+
+
+Pour pleinement utiliser ce greffon, il faut des profils ICC (ou ICM) de votre moniteur (facultatif) et du périphérique de sortie, imprimante ou offset.
+
+[[:tutoriel:comment_installer_un_paquet|installez le paquet]] //icc-profiles// de multiverse qui permet d'avoir quelques profils couleurs, qui seront disponibles dans le dossier /usr/share/color/icc/
+
+En complément vous pouvez en télécharger gratuitement sur le site Adobe :
+[[http://www.adobe.com/downloads/|Adobe downloads [en]]]
+En bas de la page, dans "Others download" : Adobe ICC Color Profiles. Choisir Win ou Mac en fonction de votre matériel.
+Ou encore sur le site de l'[[http://eci.org/doku.php?id=en:downloads|ECI]] :
+[[http://eci.org/lib/exe/fetch.php?id=en%3Adownloads&cache=cache&media=downloads:icc_profiles_from_eci:eci_offset_2008.zip|icc_profiles_from_eci:eci_offset_2008.zip]]
+
+Vous devez alors télécharger les fichiers *.icc et *.icm dans votre home, puis les copier dans le répertoire /usr/share/color/icc/ : <code>sudo mv *.icc /usr/share/color/icc/</code><code>sudo mv *.icm /usr/share/color/icc/</code>
+
+Cette opération nécessite les droits administrateur (sudo).
+
+===== Utilisation =====
+
+Dans Gimp, aller dans le menu Édition > Préférences > Gestion des couleurs
+A partir de là, vous pouvez aller chercher les profils de votre choix pour :
+  * Profil RVB : Adobe RGB (1998)
+  * Profil CMJN : Coated FOGRA39
+  * Profil moniteur : Si vous avez le votre, sinon Adobe RGB.
+Ce sont juste des conseils si vous ne savez pas quoi mettre.
+
+Sur la fenêtre de votre image, ouvrez le menu Image > Separate(tout en bas) > Separate. Dans la fenêtre, entrez les profils pour l'Espace de couleur source (RVB) et l'Espace de couleur de destination (CMJN). Puis cliquez sur valider.
+
+Le greffon créé une nouvelle image en niveaux de gris composé de 4 calques: C, M, Y et K. Le blanc correspond à la quantité maximum d'encre à imprimer, le noir à aucune encre.
+
+Sur cette nouvelle image, le greffon Separate+ propose deux options :
+  * Proof (épreuve) pour avoir un aperçu réaliste dans l'espace colorimétrique choisi,
+  * Save (enregistrer), pour directement sauvegarder l'image en format TIFF (.tif) dans l'espace CMJN. Notez qu'à priori le TIFF n'est pas compressé, le mettre dans une archive zip est donc une bonne idée !
+
+
+===== Épilogue =====
+
+Une fois cette image CMJN créée, il ne reste plus qu'à l'insérer dans un document, grâce au logiciel Scribus (ou autre logiciel de PAO, il doit y en avoir plusieurs sur le marché ;)
+
+Mais attention, les couleurs risquent d'être vues très saturées (flashy). Cet effet est normal, et les couleurs redeviennent correctes quand on crée un PDF avec sortie pour imprimante (ce qui assombrit et dé-sature).

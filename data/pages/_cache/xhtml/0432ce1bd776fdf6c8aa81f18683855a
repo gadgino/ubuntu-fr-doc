@@ -1,0 +1,65 @@
+
+<a name="namespaces"></a><h1> Namespaces </h1>
+<div class="level1">
+
+<p>
+ Namespace &rArr; régle de nommage, espace de nommage <a href="/wiki/regles_de_nommage" class="wikilink1" title="wiki:regles_de_nommage" onclick="return svchk()" onkeypress="return svchk()">regles de nommage</a>
+</p>
+
+<p>
+<a href="/wiki/dokuwiki" class="wikilink1" title="wiki:dokuwiki" onclick="return svchk()" onkeypress="return svchk()">DokuWiki</a> supports so called <em>namespaces</em> to separate different types of content in the wiki. For example all information about DokuWiki is in the <code>wiki</code> namespace. Namespaces are created by colons in the <a href="/wiki/nom_de_page" class="wikilink1" title="wiki:nom_de_page" onclick="return svchk()" onkeypress="return svchk()">nom_de_page</a>. Alternatively you can use a semicolon and &ndash; when useslash is enabled &ndash; a slash as namespace separator.
+</p>
+
+<p>
+If there is no colon in a linked pagename the current namespace is assumed. You can escape to the default namespace by prepending a colon to the pagename. Here are some examples: 
+</p>
+<ul>
+<li class="level1"><span class="li"> <a href="/wiki/start" class="wikilink2" title="wiki:start" onclick="return svchk()" onkeypress="return svchk()">start</a> links to <code>wiki:start</code></span>
+</li>
+<li class="level1"><span class="li"> <a href="/wiki/start" class="wikilink2" title="wiki:start" onclick="return svchk()" onkeypress="return svchk()">start</a> links to <code>wiki:start</code></span>
+</li>
+<li class="level1"><span class="li"> <a href="/start" class="wikilink2" title="start" onclick="return svchk()" onkeypress="return svchk()">start</a> links to <code>start</code></span>
+</li>
+</ul>
+<pre class="code">
+  * [[wiki:start]] links to ''wiki:start''
+  * [[start]] links to ''wiki:start''
+  * [[:start]] links to ''start''
+</pre>
+
+<p>
+Sometimes you may want to link to a subnamespace without giving the full namespace. You can start the link with a dot (<code>.</code>) to always prepend the current namespace. Again some examples: 
+</p>
+<ul>
+<li class="level1"><span class="li"> <a href="/wiki/discussion" class="wikilink2" title="wiki:discussion" onclick="return svchk()" onkeypress="return svchk()">discussion</a> links to <code>wiki:discussion</code></span>
+</li>
+<li class="level1"><span class="li"> <a href="/discussion/visibility" class="wikilink2" title="discussion:visibility" onclick="return svchk()" onkeypress="return svchk()">visibility</a> links to <code>discussion:visibility</code></span>
+</li>
+<li class="level1"><span class="li"> <a href="/wiki/discussion/visibility" class="wikilink2" title="wiki:discussion:visibility" onclick="return svchk()" onkeypress="return svchk()">visibility</a> links to <code>wiki:discussion:visibility</code></span>
+</li>
+</ul>
+<pre class="code">
+  * [[discussion]] links to ''wiki:discussion''
+  * [[discussion:visibility]] links to ''discussion:visibility''
+  * [[.discussion:visibility]] links to ''wiki:discussion:visibility''
+</pre>
+
+<p>
+Namespaces are helpful to categorize or structure the content..
+</p>
+
+<p>
+One can use them to split content about the same subject from other unrelated content. This split occurs at two levels: storage and linking. 
+</p>
+<ul>
+<li class="level1"><span class="li"> storage - namespaces are stored as folders (directories) on the host file system. This helps keeping content about the same subject inside one folder, where all raw text files from the documents with that content are contained. Very handy to administrators, to work with the raw text files. Example: backup all project XYZ documents  &rArr; backup folder projectXYZ/*.txt</span>
+</li>
+<li class="level2"><span class="li"> linking - namespaces are the prefix &lt;name:&gt; before each page name. The raw text file with the content for that page will be stored inside the folder &lt;name&gt;, and while viewing documents belonging to that namespace, one can refer to all other documents of that namespace without having to prefix it with &lt;name:&gt;. That prefix is only necessary when linking pages outside this namespace &lt;name&gt; to pages inside it.</span>
+</li>
+</ul>
+
+<p>
+ Note: pages and documents are the same entity: document with content = <acronym title="HyperText Markup Language">HTML</acronym> page.  
+</p>
+
+</div>

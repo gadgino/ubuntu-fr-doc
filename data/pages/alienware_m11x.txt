@@ -1,0 +1,139 @@
+{{tag> Lucid  portable matériel}}
+======  Alienware : M11X ======
+
+===== Introduction =====
+Un Alienware M11X est un ordinateur portable de la Marque Alienware (sous-marque de Dell) de 11.6 pouces.
+Plusieurs modèles sont disponibles chez Alienware et [[:liste_portables_alienware|une page de la doc Ubuntu]] leur est dédiée.
+
+=====Pour commencer....=====
+
+Le modèle m11x r3 (i5/i7 nv GT 540m, 0x187c:0x0522) fonctionne relativement bien avec Natty.
+Pour les modèles antérieurs, le plus récent ubuntu devrait avoir une meilleure prise en charge du matériel.
+
+Globalement, une bonne aide se trouve sur la page:
+http://forum.ubuntu-fr.org/viewtopic.php?id=565321&p=1
+=====Graphique driver=====
+
+Pour l'utilisation de l'Optimus, Bumblebee project donne une bonne solution ((www.bumblebee-project.org)).
+Sinon, si le BIOS le permet, il serait possible de sélectionner la carte graphique au démarrage (soit on se retrouve à utiliser une seul carte graphique, soit avoir un dual boot pour avoir un OS pour chacune des cartes graphiques, soit...)
+
+Le modèle m11x r3 (i5/i7 nv GT 540m, 0x187c:0x0522) fonctionne bien avec Bumblebee pour une durée de batterie d'un peu plus 6h00 (voir ci-dessous).
+En fait, la durée de la batterie dépend bien sûr de la consommation du système d'exploitation entre autre... par exemple ubuntu 11.10 (Oneric) est plus gourmand que ubuntu 11.04 (Natty).
+
+^ Linux Distro         ^ Consomation bas régime           ^ Durée batterie                             ^
+| Linux Mint 11 (Katya)   | 8.5 W     | 7h                      |
+| Ubuntu 11.10   | 10.5 W | 6h |
+| Lubuntu 11.04   | 8.5 W     | 7h                      |
+|Ubuntu 12.04 | 8.5 W | 7h |
+
+<note>
+Quand le netbook est laissé sans action d'un utilisateur, on peut voir descendre la consommation encore de 1 W, pour une durée hypothétique à 8h!
+Sur Linux Mint Maya (Mate desktop) , on obtient jusqu'à 7,2 W environ...
+</note>
+
+
+====Batterie et Optimus====
+
+
+Premièrement, il faut installer le module acpi_call. Normalement disponible dans les dépôts (à vérifier, car peut-être installé par default dans ubuntu).
+
+> sudo apt-get install acpi-call-tools
+
+Si tout va bien, vous pouvez maintenant installer bumblebee.
+
+Pour cela, lancez un terminal, puis entrez les commandes suivantes une par une :
+
+>sudo apt-add-repository ppa:bumblebee/stable
+
+Si vous souhaitez des drivers nVidia plus récent que ceux disponibles dans les repos d'Ubuntu (mais stables tout de même, et je vous recommande de le faire), ajoutez ce PPA supplémentaire :
+
+>sudo add-apt-repository ppa:ubuntu-x-swat/x-updates
+
+>sudo apt-get update
+>sudo apt-get install bumblebee
+
+Il faut ensuite entrer dans un terminal (en remplaçant NOMDUTILISATEUR par votre nom d'utilisateur) :
+
+>sudo usermod -a -G bumblebee NOMDUTILISATEUR
+
+Redémarrage du m11x.
+Par défaut, la carte intel sera utilisée. L'activation de la nvidia GT540m se fera via la commande:
+
+> optirun "LeProgramme"
+
+<note tip>
+Pour tester la nvidia, taper dans un terminal: optirun glxspheres
+
+Et le test sans nvidia, dans un terminal: glxspheres 
+</note>
+<note tip>
+Powertop, programme dans les dépôts, permet une évaluation et quelques allégement de la consommation de la batterie
+</note>
+       
+=====AlienFX=====
+
+Les leds d'illumination pour le clavier, logo, etc fonctionnent à l'aide d'une application. Au moins, deux choix existent:
+
+pyAlienFX  http://code.google.com/p/pyalienfx/
+
+AlienFX Lite http://forum.notebookreview.com/alienware/458528-alienfx-lite-linux-windows-alienfx-tool.html
+
+Le premier, écrit en python, fonctionne avec le m11x r3 (i5/i7 nv GT 540m, 0x187c:0x0522) et à tester avec les autres modèles d'alienware. Le second, écrit en java, marche avec plusieurs modèles antérieures...
+ 
+
+^ Version ^ Installation ^ Carte graphique ^ Son ^ Wifi ^ Bluetooth ^ Webcam ^ Touchpad ^ Raccourcis multimédia ^ Autres ^
+| [[:karmic|9.10 (Karmic Koala)]] | {{icons:important.png|Fonctionne après config}} | {{icons:icon-support.png|Pas testé}} | {{icons:important.png|Fonctionne après config}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-support.png|Pas testé}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} |
+| [[:lucid|10.04 (Ludic Lynx)]] | {{icons:important.png|Fonctionne après config}} | {{icons:icon-support.png|Pas testé}} | {{icons:important.png|Fonctionne après config}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-support.png|Pas testé}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} |
+| [[maverick|10.10 (Maverick Meerkat)]] | {{icons:important.png|Fonctionne après config}} | {{icons:icon-support.png|Pas testé}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} |
+| [[natty|11.04 (Natty Narwhal)]] | {{icons:important.png|Fonctionne après config}} | {{icons:process-stop.png|Ne fonctionne pas}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} |
+
+**Cet ordinateur portable n'est à priori pas [[:pc_tatoué|tatoué]].**
+
+
+<note>
+Les tests pour l´installation de Karmic Koala ont été réalisés avec un M11X de cette configuration :
+
+Processeur Intel®  CoreTM  2 Duo SU7300 (1,3 GHz, 800 MHz, 3 Mo),4Go de RAM
+
+La gestion des éclarages fonctionne avec [[AlienFX|AlienFX Lite]].
+
+\\ 
+
+Les test pour l'installation de Natty Narwhal ont été réalisés avec un M11X-R2 de cette configuration :
+
+Processeur Intel® CoreTM I5 520 um (1,07Ghz, 3 Mo) 4 Go de RAM
+
+La gestion des éclarages fonctionne également avec [[AlienFX|AlienFX Lite]].
+
+Il est à noter pour le M11X-R2/R3, que la carte graphique Nvidia ne sera pas supportée tant que la technologie Optimus ne le sera pour Linux. En revanche la carte graphique Intel® intégrée permet de profiter pleinement d'Ubuntu.</note>
+
+===== Installation (avec suppression de Windows) =====
+
+> Note : il est difficile de dire si effectivement, il n'y aura pas de problèmes...l'installation et l'utilisation d'ubuntu devrait être ok. Cependant, au niveau du matériel certains compromis seront peut-être à faire...
+
+==== Vidéo ====
+Bumblebee est une option, permettant de mettre hors service la carte nvidia par défaut et l'activer par un terminal
+
+>optirun "PROGRAMME"
+
+==== Switch carte_graphique-chipset ====
+<note important>
+Ce qui suis est vrai pour le model M11xR1 ! Pour les models R2 et R3 disposant de la technologie Optimus (et non plus du Binary-GFX) merci de suivre ce lien : http://forum.ubuntu-fr.org/viewtopic.php?id=565321&p=1
+</note>
+
+
+
+=====Voir aussi=====
+  * [[http://www1.euro.dell.com/fr/fr/domicile/Portables/alienware-m11x/pd.aspx?refid=alienware-m11x&s=dhs&cs=frdhs1&~ck=mn|Site Dell.fr]] , revendeur officiel Alienware
+  * [[:liste_portables_alienware|Liste des portables Alienware]] sur la documentation Ubuntu francophone
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3361206|Discussion sur l´AlienWare M11X]] sur le forum ubuntu-fr
+  * (en) [[http://www.alienware.com/microsite/m11x/m11x.aspx|Site officiel de l´Alienware M11X]]
+  * (en) [[http://ubuntuforums.org/showthread.php?t=1396552|Discussion sur l´Alienware M11X]] sur le forum ubuntuforums.org
+
+----
+
+//Contributeurs : [[:utilisateurs:fandehp]], [[utilisateurs:sylvain83|Sylvain83]] //
+
+Mise en forme : [[:utilisateurs:draco31.fr]]
+
+//Merci à MarcSpitz pour la relecture et ses conseils//

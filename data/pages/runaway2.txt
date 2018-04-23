@@ -1,0 +1,65 @@
+{{tag>jeu wine}}
+
+----
+
+====== Runaway 2 ======
+
+Attention, pour pouvoir jouer à ce jeu sous Linux, il faudra (en ce qui concerne l'édition française) installer un crack, ce qui est illégal, que vous possédiez ou non le jeu original (en tout cas en France), dont je ne fournirai pas le lien.
+
+
+===== Installation de wine : =====
+
+Pré-requis : l'accélération graphique DOIT être activée, reportez-vous sur cette page pour plus d'info :
+
+http://doc.ubuntu-fr.org/acceleration_graphique
+
+Installez la dernière version de wine (testé avec la version 0.9.52) en utilisant les dépôts officiels de wine :
+
+http://doc.ubuntu-fr.org/wine#avec_le_depot_de_winehq
+
+
+
+===== Installation du jeu : =====
+
+  * Insérez le DVD, lancez Setup.exe via wine... tout doit se passer correctement.
+
+  * Récupérez le [[http://support.focus-home.fr/Runaway_2_French_Patch_1.4.zip|patch 1.4 Français]] qui apporte diverses [[http://www.runaway-lejeu.com/forum/viewtopic.php?t=4959|corrections de bugs]]
+
+  * Dézippez le patch puis exécutez le patch à l'aide Wine
+
+  * Vous devez ensuite installer un crack no-cd (la protection ne fonctionnant pas sous wine), dont voici la somme md5 :
+
+  a4a1186ee5008cf43b693615b4bfee22  Runaway2.exe
+
+ Aucun lien vers ce crack (qui est illégal) ne vous sera donné ici.
+ Attention a utiliser le bon crack no-cd , sinon le jeu ne démarrera pas.
+ Testé sous wine 0.9.59 et fonctionne parfaitement.
+
+  * Une icône pour lancer le jeu à du être créée sinon lancez le jeux à partir de la console.
+
+===== Problèmes rencontrés : =====
+
+
+ ==== Le clavier ne fonctionne pas ====
+ Ouvrez winecfg, dans l'onglet "affichage", cochez "émuler un bureau virtuel" et saisissez 1024x768 (le jeu redimensionnera automatiquement dans cette résolution si vous mettez une valeur supérieure)
+
+==== Couleurs incorrectes ====
+
+Voir [[https://www.winehq.org/pipermail/wine-bugs/2014-December/402108.html|Bug wine 37762]]. Pour les versions de wine 1.7.33 et 1.8, les couleurs sont complètement perturbées.
+
+//Solution brève :// Installer le jeu via [[playonlinux|PlayOnLinux]], puis à installer spécifiquement [[wine|wine]] 1.7.2.
+
+//Solution détaillée ://
+  - Installer RunAway2 via [[playonlinux|PlayOnLinux]]
+  - Patcher le jeu en version 1.4
+  - Sélectionner dans [[playonlinux|PlayOnLinux]] "Runaway 2" et cliquer sur "Configuration"
+  - Pour le préfixe "Runaway 2", sélectionner dans l'onglet "Général" la version de [[wine|wine]] 1.7.2 (si elle n'y figure pas, cliquer sur le + situé à côté pour l'installer).
+
+Le jeu devrait dès lors se lancer correctement.
+
+==== Pas de son ====
+
+[[playonlinux|PlayOnLinux]] installe par défaut le jeu avec [[wine|wine]] 1.4, or celui-ci ne semble pas compatible avec [[pulseaudio|PulseAudio]]. Dans ce cas il suffit d'installer une version de [[wine|wine]] plus récente (typiquement là 1.7.2).
+===== Liens =====
+
+Runaway 2 sur WineHQ : http://appdb.winehq.com/appview.php?iAppId=4200

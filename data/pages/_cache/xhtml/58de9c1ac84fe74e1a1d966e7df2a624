@@ -1,0 +1,195 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#partager_les_marques-page_signets_ou_favoris_entre_linux_et_windows_avec_firefox" class="toc"> Partager les marques-page (signets ou favoris) entre Linux et Windows avec Firefox </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#version" class="toc"> Version </a></span></li>
+<li class="level2"><span class="li"><a href="#preambule" class="toc"> Préambule </a></span></li>
+<li class="level2"><span class="li"><a href="#installer_les_dernieres_versions_de_firefox" class="toc"> Installer les dernières versions de Firefox </a></span></li>
+<li class="level2"><span class="li"><a href="#synchroniser_ses_favoris_avec_firefox" class="toc"> Synchroniser ses favoris avec Firefox </a></span></li>
+<li class="level2"><span class="li"><a href="#exemple_concret" class="toc"> Exemple concret </a></span></li>
+<li class="level2"><span class="li"><a href="#synchronisation_a_distance_via_internet" class="toc"> Synchronisation à distance via Internet </a></span></li>
+</ul>
+</li>
+<li class="level1"><span class="li"><a href="#methode_n_2" class="toc"> Methode n°2 </a></span></li>
+</ul>
+</div>
+</div>
+
+<a name="partager_les_marques-page_signets_ou_favoris_entre_linux_et_windows_avec_firefox"></a><h1> Partager les marques-page (signets ou favoris) entre Linux et Windows avec Firefox </h1>
+<div class="level1">
+
+<p>
+ Rédigé par L’ami René : <a href="mailto:&#x6c;&#x61;&#x6d;&#x69;&#x40;&#x77;&#x65;&#x62;&#x65;&#x73;&#x74;&#x72;&#x69;&#x65;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x6c;&#x61;&#x6d;&#x69;&#x40;&#x77;&#x65;&#x62;&#x65;&#x73;&#x74;&#x72;&#x69;&#x65;&#x2e;&#x63;&#x6f;&#x6d;">&#x6c;&#x61;&#x6d;&#x69;&#x40;&#x77;&#x65;&#x62;&#x65;&#x73;&#x74;&#x72;&#x69;&#x65;&#x2e;&#x63;&#x6f;&#x6d;</a>
+</p>
+
+</div>
+<!-- SECTION [1-151] -->
+<a name="version"></a><h2> Version </h2>
+<div class="level2">
+<pre class="code">Hoary, Sarge (Stable), Sid (unstable)</pre>
+
+</div>
+<!-- SECTION [152-213] -->
+<a name="preambule"></a><h2> Préambule </h2>
+<div class="level2">
+
+<p>
+ La présente page vise les utilisateurs de Linux et <acronym title="Microsoft">MS</acronym>-Windows (Dual-Boot). 
+</p>
+
+<p>
+Dans le cadre d&rsquo;une migration progressive de vos activités informatiques de <acronym title="Microsoft">MS</acronym>-Windows vers Linux, nous souhaitons progresser par étape le temps que notre nouveau système Linux (en l&rsquo;ocurence Ubuntu ou Kubuntu) soit pleinement fonctionnel. Cela a l&rsquo;avantage de nous permettre de prendre nos marques sous Linux tout en poursuivant nos activités.
+</p>
+
+<p>
+Si le partage de vos courriels (emails) et de votre carnet d&rsquo;adresse électronique vous intéresse, je vous recommande la page : <a href="/applications/mozilla-thunderbird" class="wikilink1" title="applications:mozilla-thunderbird" onclick="return svchk()" onkeypress="return svchk()">mozilla-thunderbird</a>.
+</p>
+
+<p>
+De plus, avoir deux systèmes fonctionnels sur un ordinateur est une très bonne chose dans le cas où il nous arriverait un pépin.
+</p>
+
+</div>
+<!-- SECTION [214-967] -->
+<a name="installer_les_dernieres_versions_de_firefox"></a><h2> Installer les dernières versions de Firefox </h2>
+<div class="level2">
+
+<p>
+ Pour télécharger ces logiciels, il suffit de se rendre sur le site de Mozilla Europe : <a href="http://www.mozilla-europe.org/fr/" class="urlextern" title="http://www.mozilla-europe.org/fr/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.mozilla-europe.org/fr/</a> et de se laisser guider pour télécharger chacune des versions nécessaires au partage.
+</p>
+
+<p>
+<strong>Sous Windows</strong> : 
+</p>
+
+<p>
+Très simple à installer, le répertoire d&rsquo;installation n&rsquo;est pas très important pour réaliser ce qui va suivre donc laissez-vous guider.
+</p>
+
+<p>
+<strong>Sous Linux (Ubuntu / Kubuntu)</strong> : 
+</p>
+
+<p>
+Chercher dans <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a> le paquet <em>mozilla-firefox</em> ou : 
+</p>
+<pre class="code">sudo apt-get install mozilla-firefox</pre>
+
+<p>
+ Vous avez maintenant les dernières versions de vos logiciels préférés sur vos deux systèmes, on va donc pouvoir procéder à leur synchronisation.
+</p>
+
+</div>
+<!-- SECTION [968-1712] -->
+<a name="synchroniser_ses_favoris_avec_firefox"></a><h2> Synchroniser ses favoris avec Firefox </h2>
+<div class="level2">
+
+<p>
+ Là c&rsquo;est vraiment simple ! Il suffit de sauver la liste de vos favoris sur la <a href="/installation/partitions_windows" class="wikilink1" title="installation:partitions_windows" onclick="return svchk()" onkeypress="return svchk()">partition d'échange en FAT32</a> entre vos deux systèmes au format de Firefox, soit bookmarks.html, puis ensuite de dire à Firefox d&rsquo;aller les chercher à cet endroit en ajoutant une nouvelle chaîne de caractères dans le pref.js de Firefox pour votre répertoire utilisateur user_pref(&rdquo;browser.bookmarks.file&rdquo;, &ldquo;E:\\votre_repertoire\\bookmarks.html&rdquo;);.
+</p>
+
+<p>
+Vous ouvrez firefox (<strong>Windows</strong>) et vous tapez comme adresse Web : 
+</p>
+<pre class="code">about:config</pre>
+
+<p>
+ Puis vous faites clic-droit : Nouvelle &raquo; Chaîne de caractères, vous l&rsquo;appellez : 
+</p>
+<pre class="code">browser.bookmarks.file</pre>
+
+<p>
+ Et lui donner la chaîne : 
+</p>
+<pre class="code">C:\\votre_repertoire\\bookmarks.html.</pre>
+
+<p>
+ Voir à la fin du présent document, l&rsquo;exemple concret.
+</p>
+
+<p>
+Réitérez l&rsquo;opération sous Linux :
+</p>
+
+<p>
+Vous ouvrez firefox (<strong>Linux</strong>) et vous tapez comme adresse Web : 
+</p>
+<pre class="code">about:config</pre>
+
+<p>
+ Puis vous faites clic-droit : Nouvelle &raquo; Chaîne de caractères, vous l&rsquo;appellez : 
+</p>
+<pre class="code">browser.bookmarks.file</pre>
+
+<p>
+ Et lui donner la chaîne : 
+</p>
+<pre class="code">/votre_repertoire/bookmarks.html.</pre>
+
+</div>
+<!-- SECTION [1713-2852] -->
+<a name="exemple_concret"></a><h2> Exemple concret </h2>
+<div class="level2">
+
+<p>
+ Attention : il faut doubler les \ sous windows mais laisser de simples / sous linux, par exemple chez moi j&rsquo;ai les deux chaînes suivantes :
+</p>
+
+<p>
+Sous Linux (Kubuntu / Ubuntu) : 
+</p>
+<pre class="code">/home/rene/hde2/Logiciel/Firefox/bookmarks.html</pre>
+
+<p>
+ Sous Windows : 
+</p>
+<pre class="code">D:\\Logiciels\\Firefox\\bookmarks.html</pre>
+
+</div>
+<!-- SECTION [2853-3165] -->
+<a name="synchronisation_a_distance_via_internet"></a><h2> Synchronisation à distance via Internet </h2>
+<div class="level2">
+
+<p>
+ Si vous souhaitez synchroniser vos marque-pages entre chez vous et à votre bureau, par exemple, le plus simple est d&rsquo;installer sur les deux Firefox l&rsquo;extension <a href="http://extensions.geckozone.org/BookmarksSynchronizer/" class="urlextern" title="http://extensions.geckozone.org/BookmarksSynchronizer/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Bookmarks Synchronizer</a>, et de la paramétrer avec le site <acronym title="File Transfer Protocol">FTP</acronym> que vous propose votre fournisseur d&rsquo;accès à Internet.
+</p>
+
+</div>
+<!-- SECTION [3166-3559] -->
+<a name="methode_n_2"></a><h1> Methode n°2 </h1>
+<div class="level1">
+
+<p>
+ Proposé par <a href="/utilisateurs/eks" class="wikilink1" title="utilisateurs:eks" onclick="return svchk()" onkeypress="return svchk()">eks</a>
+</p>
+
+<p>
+Une autre méthode consiste à remplacer le fichier bookmarks.html de votre profil par un lien symbolique vers le même fichier du profil windows : 
+</p>
+<pre class="code">$ ln -s /mnt/win/Documents\ and\ Settings/Moi/Application\ Data/Mozilla/Firefox/Profiles/xxxxxxxxx.default/bookmarks.html ~/.mozilla/firefox/yyyyyyyyy.default/bookmarks.html</pre>
+
+<p>
+ Où :
+</p>
+<ul>
+<li class="level1"><span class="li"> /mnt/win est le point de montage de votre partition windows principale</span>
+</li>
+<li class="level1"><span class="li"> Moi est votre nom d&rsquo;utilisateur windows</span>
+</li>
+<li class="level1"><span class="li"> xxxxxxxxxx.default est le dossier de votre profil firefox sous windows</span>
+</li>
+<li class="level1"><span class="li"> yyyyyyyyyy.default est le dossier de votre profil firefox sous linux</span>
+</li>
+</ul>
+
+<p>
+ <strong>Attention :</strong> vous devez avoir les droits en écriture sur ce fichier (donc sur la partition windows) si vous voulez pouvoir modifier vos bookmarks ;)
+</p>
+
+<p>
+(Cela fonctionne aussi avec le carnet d&rsquo;adresse de Thunderbird : il s&rsquo;agit du fichier abook.mab de votre profil thunderbird)
+</p>
+
+</div>
+<!-- SECTION [3560-] -->

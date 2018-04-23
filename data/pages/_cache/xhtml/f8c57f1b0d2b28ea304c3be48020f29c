@@ -1,0 +1,234 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#installer_une_webcam_logitech_et_un_client_msn_compatible_webcam" class="toc"> Installer une webcam logitech et un client msn compatible webcam </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#creation_du_peripherique_video0" class="toc"> Création du périphérique video0 </a></span></li>
+<li class="level2"><span class="li"><a href="#installation_de_la_quickam_messenger_logitech" class="toc"> Installation de la quickam messenger logitech </a></span></li>
+<li class="level2"><span class="li"><a href="#les_problemes_potentiels" class="toc"> Les problèmes potentiels </a></span></li>
+<li class="level2"><span class="li"><a href="#et_les_clients_msn" class="toc"> Et les clients MSN ? </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+Rédigé par Nehuzel (nehuzel (at) free (dot) fr)
+</p>
+
+<a name="installer_une_webcam_logitech_et_un_client_msn_compatible_webcam"></a><h1> Installer une webcam logitech et un client msn compatible webcam </h1>
+<div class="level1">
+
+<p>
+ Après avoir passé de nombreuses heures à tourner dans tous les sens pour parvenir à utiliser ma webcam Logitech avec un client MSN, je me décide à écrire un résumé de ces recherches afin de faciliter cette étape aux utilisateurs débutants.
+</p>
+
+</div>
+<!-- SECTION [82-413] -->
+<a name="creation_du_peripherique_video0"></a><h2> Création du périphérique video0 </h2>
+<div class="level2">
+
+<p>
+ Avant toute chose nous allons vérifier la prise en charge de l&rsquo;usb par votre pc: 
+</p>
+<pre class="code">
+lsmod | grep usb
+lsmod | grep uhci
+</pre>
+
+<p>
+En principe la hoary les charge à l&rsquo;installation donc pas vraiment de soucis. En cas d&rsquo;absence de réponse du système à ces commandes utilisez la commande <code>modprobe</code> pour charger les modules nécessaires: 
+</p>
+<pre class="code">
+sudo modprobe uhci
+sudo modprobe usbcore
+</pre>
+
+<p>
+Une fois les modules chargés, nous allons créer le périphérique proprement dit. Dans une console tapez: 
+</p>
+<pre class="code">
+sudo mknod /dev/video0 c 81 0
+sudo mknod /dev/video1 c 81 1
+sudo chmod a+rw /dev/video0
+sudo ln -s /dev/video0 /dev/video
+</pre>
+
+<p>
+Et voila, votre périphérique vidéo est créé. Passons à la webcam.
+</p>
+
+</div>
+<!-- SECTION [414-1180] -->
+<a name="installation_de_la_quickam_messenger_logitech"></a><h2> Installation de la quickam messenger logitech </h2>
+<div class="level2">
+
+<p>
+ Tout d&rsquo;abord il va falloir vérifier et, le cas échéant les installer, la présence des <code>kernel-headers</code> correspondant à votre systeme. Toujours dans la console, entrez :
+</p>
+<pre class="code">
+sudo apt-get install linux-headers-`uname -r`
+sudo ln -s /usr/src/linux-headers-`uname -r` /lib/modules/`uname -r`/build
+</pre>
+
+<p>
+Il nous reste encore à installer les drivers de la quickcam. Nous les téléchargeons à cette adresse:
+</p>
+
+<p>
+<a href="http://home.mag.cx/messenger/source/qc-usb-messenger-0.8.tar.gz" class="urlextern" title="http://home.mag.cx/messenger/source/qc-usb-messenger-0.8.tar.gz" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://home.mag.cx/messenger/source/qc-usb-messenger-0.8.tar.gz</a>
+</p>
+
+<p>
+<em><strong>Note du 26-07-2005 :</strong> Ce driver est aussi disponible dans les paquets Ubuntu (Universe). Il suffit d&rsquo;installer via apt-get qc-usb-source (et optionnellement qc-usb-utils qui contient des outils de tests de la webcam). qc-usb-source ne contient que le tarball des sources du driver ainsi que les explications d&rsquo;installation, il faut donc continuer l&rsquo;installation manuelle comme expliquée dans cette page. <br/>
+
+Le driver présent dans le dépôt officiel peut être d&rsquo;une version antérieure à celle téléchargée manuellement, ne le préférez que si vous souhaitez ne pas dépendre de fichiers extérieurs à la distribution. </em>
+</p>
+
+<p>
+<em><strong>Note du 25-07-2005 :</strong> Certaine versions recentes du matériel concernant les quickcam Express (a savoir acheté recement) ne fonctionnent pas avec le driver &ldquo;standard&rdquo; qc-usb cité ci-dessus.<br/>
+
+En attendant une prochaine mise à jour, il est conseillé de verifier la version de votre matériel avec la commande &ldquo;lsusb&rdquo;. Un tutorial d&rsquo;installation de ce driver alternatif est disponible sur le forum FR ici :
+<a href="http://forum.ubuntu-fr.org/viewtopic.php?id=8157" class="urlextern" title="http://forum.ubuntu-fr.org/viewtopic.php?id=8157" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://forum.ubuntu-fr.org/viewtopic.php?id=8157</a> </em>
+</p>
+
+<p>
+ Une fois téléchargée, décompressez l&rsquo;archive, en mode console si vous le préférez ou plus simplement à l&rsquo;aide de <code>file-roller</code>.
+</p>
+
+<p>
+Ensuite il faut installer xawtv ou gcc si ils sont pas installés , pour pouvoir compiler le driver et voir l&rsquo;aperçu de la webcam.
+</p>
+<pre class="code">
+sudo apt-get install xawtv
+sudo apt-get install gcc
+</pre>
+
+<p>
+De retour dans la console, on se place dans le dossier décompressé précédemment puis on rentre la commande: 
+</p>
+<pre class="code">
+sudo ./quickcam.sh
+</pre>
+
+<p>
+S&rsquo;ensuit un long, très long moment de questions de la part de l&rsquo;installeur auxquelles vous devrez répondre par &ldquo;entrée&rdquo;. Au bout d&rsquo;un moment un test se lance et vous montre l&rsquo;image de la cam via <code>xawtv</code>. Quittez le logiciel et le script reprend et termine l&rsquo;intallation.
+</p>
+
+</div>
+<!-- SECTION [1181-3591] -->
+<a name="les_problemes_potentiels"></a><h2> Les problèmes potentiels </h2>
+<div class="level2">
+
+<p>
+ <em><strong>La webcam fonctionne lors de la compilation, mais ça ne marche plus après un redémarrage...</strong></em>
+</p>
+
+<p>
+Avec certaines version du chipset de la Quickcam Messenger, le driver fonctionne bien lors de la compilation et le test avec xawtv est concluant, mais après un reboot, cela ne fonctionne plus. Ceci est du à un mauvais chargement du driver. La solution la plus commune est de le recharger de la manière suivante: 
+</p>
+<pre class="code">
+sudo rmmod quickcam &amp;&amp; sudo modprobe quickcam
+</pre>
+
+<p>
+Néanmoins, ceci peut s&rsquo;avérer pénible à la longue, donc voici comment automatiser ce procédé lors de la phase de boot. nous allons d&rsquo;abord créer un script dans /etc/init.d: 
+</p>
+<pre class="code">
+sudo touch /etc/init.d/quickcam &amp;&amp; sudo chmod 755 /etc/init.d/quickcam
+</pre>
+
+<p>
+Editer le script avec l&rsquo;éditeur de votre choix (sudo gedit, sudo nano...) et saisissez ce contenu: 
+</p>
+<pre class="code">
+#! /bin/sh
+# /etc/init.d/quickcam: reload the Logitech Quickcam Messenger driver.
+
+rmmod quickcam
+modprobe quickcam
+</pre>
+
+<p>
+Il faut ensuite créer un lien dans /etc/rcS.d vers ce script. Tout script lié dans ce dossier sera lancé automatiquement lors du boot. 
+</p>
+<pre class="code">
+sudo ln -s /etc/init.d/quickcam /etc/rcS.d/S99quickcam
+</pre>
+
+<p>
+Une fois ceci fait, vous pouvez redemarrer et vous ne devriez plus avoir ce facheux problème.
+</p>
+
+<p>
+<em><strong>Si je démarrage avec la webcam branchée, je n&rsquo;ai plus de son...</strong></em>
+</p>
+
+<p>
+Avec certain chipsets de carte mère (Nforce2, entre autres), le micro intégré de la webcam peut être détectée comme carte son principale, ce qui a pour effet, logiquement, de faire planter le moteur de son Alsa. <br/>
+ Ceci est du au fait que le driver snd_usb_audio se charge avant le driver son de votre chipset. <br/>
+ La solution pour contourner ce problème consiste à forcer le chargement de votre driver de chipset son via le fichier /etc/modules . Pour connaitre le nom du module à charger, démarrez avec la webcam débranchée et tapez la commande suivante: 
+</p>
+<pre class="code">
+lsmod | grep snd
+</pre>
+
+<p>
+Dans le cas le plus courant, vous verrez quelque chose comme ceci: 
+</p>
+<pre class="code">
+snd_intel8x0           29984  1
+snd_ac97_codec         64608  1 snd_intel8x0
+</pre>
+
+<p>
+ On voit ici que le codec snd_ac97_codec est chargé par snd_intel8x0 qui est donc le driver du chipset son. <br/>
+ Ceci peut parraitre étonnant quand on a un chipset Nforce comme c&rsquo;est mon cas, mais c&rsquo;est bien ce driver la :)
+</p>
+
+<p>
+Il suffit alors d&rsquo;éditer le fichier /etc/modules en Super Utilisateur et de rajouter &ldquo;snd_intel8x0&rdquo; à la liste des modules à charger.
+</p>
+
+<p>
+En faisant ceci, au moment du lancement d&rsquo;Alsa, le driver de chipset son sera déjà chargé et votre carte détectée avant le micro de la Webcam, ce qui résoud le problème.
+</p>
+
+</div>
+<!-- SECTION [3592-6290] -->
+<a name="et_les_clients_msn"></a><h2> Et les clients MSN ? </h2>
+<div class="level2">
+
+<p>
+ L&rsquo;une des plus grandes attentes des nouveaux utilisateurs linux est le support webcam avec MSN, c&rsquo;est désormais possible avec le cvs de <code>amsn</code>.   Téléchargez le dernier tarball à cette adresse: <a href="http://amsn.sourceforge.net/amsn_cvs.tar.gz" class="urlextern" title="http://amsn.sourceforge.net/amsn_cvs.tar.gz" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://amsn.sourceforge.net/amsn_cvs.tar.gz</a> et décompressez le dans votre répertoire personnel. 
+</p>
+
+<p>
+Ensuite, rien de plus simple: 
+</p>
+<pre class="code">
+./configure &amp;&amp; make
+sudo make install
+</pre>
+
+<p>
+et l&rsquo;installation se termine sans soucis (si tant est que vous ayez les dernières versions de tcl/tk installées, dans le cas contraire installez les).
+</p>
+
+<p>
+Il arrive fréquemment qu<code>&rsquo;amsn</code> se gèle avec les kernels 2.6.x, la solution consiste donc à lancer amsn à partir d&rsquo;une console en utilisant la commande suivante :  
+</p>
+<pre class="code">
+export LD_ASSUME_KERNEL=2.2.5 &amp;&amp; msn/amsn&amp;
+</pre>
+
+<p>
+Et si tout se passe bien la magie opère et <code>amsn</code> vous permet désormais de voir et d&rsquo;être vus par vos correspondants <img src="/smileys/icon_wink.gif" align="middle" alt=";-)" />. 
+</p>
+
+</div>
+<!-- SECTION [6291-] -->

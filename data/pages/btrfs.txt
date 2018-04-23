@@ -1,0 +1,87 @@
+{{tag>système partitions}}
+----
+
+<note>Cette page est en cours de rédaction. Quiconque veut y participer et l'améliorer est le bienvenu... Il s'agit surtout de synthétiser et de traduire la documentation disponible ici: https://help.ubuntu.com/community/btrfs et/ou ici: https://btrfs.wiki.kernel.org/index.php/UseCases</note>
+
+====== Le système de fichiers BTRFS ======
+
+Btrfs (souvent prononcé "ButterFS") est un système de fichiers développé par Oracle et placé sous licence GPL. Au contraire d'ext4 qui est une évolution des systèmes de fichiers ext2/3, btrfs se veut conçu différemment, et apporte certaines fonctionnalités inédites.
+Officiellement, ce système de fichiers est [[https://btrfs.wiki.kernel.org/index.php/Main_Page#Stability_status | stable]].
+
+===== Fonctionnalités =====
+
+  * Capacité maximale de 2^64 octets == 16 Eo. max.
+  * Meilleure gestion de l'espace occupé par les petits fichiers
+  * Possibilité de créer des snapshots en lecture seule ou en lecture-écriture (cf. plus bas)
+  * Possibilité de créer des sous-volumes
+  * Sommes de contrôle des données et des méta-données
+  * Compression (gzip / LZO)
+  * Sauvegarde incrémentale intégrée au système de fichiers
+  * Défragmentation à chaud
+  * conscient des SSD (stockage flash) (TRIM / Élimination de la notification blocs libres pour réutilisation) et optimisations (par exemple en évitant des optimisations de recherche inutiles, l'envoi d'écritures en cluster, même si elles proviennent de fichiers indépendants. Cela se traduit par des opérations d'écriture plus grandes et plus rapide débit d'écriture)
+    
+
+===== Commencer avec BTRFS =====
+Attention ! Je vous conseille de faire un essai sur une partition de test ! Vous pouvez par exemple formater une clé USB vide et vous familiariser avec les commandes de BTRFS avant de l'utiliser pour vos données...
+
+Je vous conseille également d'utiliser la dernière version d'Ubuntu, et si vous choisissez de déplacer des données sur votre partition BTRFS, faites une sauvegarde que vous êtes prêt à restaurer !
+
+Il faut d'abord [[:tutoriel:comment_installer_un_paquet|Installer le paquet]] **[[apt>btrfs-tools]]**.
+==== Créer une nouvelle partition ou formater une partition existante ====
+Utilisez simplement le gestionnaire de disque d'Ubuntu, ou bien en ligne de commande:
+''mkfs.btrfs /dev/sdaX''
+//où sdaX est la partition que vous souhaitez formater.//
+
+==== Convertir une partition ext4 vers BTRFS ====
+Utiliser la commande btrfs-convert /dev/<device>
+<note important>Il est possible, voire probable que le système de fichiers ainsi créé se corrompe et se retrouve accessible uniquement en lecture. Donc, à utiliser avec énormément de prudence et avec une sauvegarde. Voir ici : http://www.overclock.net/t/1373950/solved-btrfs-root-booting-read-only </note>
+===== Utilisation des fonctions avancées =====
+
+Nous allons maintenant voir quelques unes des fonctions de BTRFS qui le rendent intéressant par rapport à des systèmes de fichiers comme EXT4.
+
+==== Les sous-volumes ====
+Un sous-volume est une branche du système de fichiers qui se comporte comme un sous-système de fichiers. il apparaît comme un répertoire.
+
+=== Créer un sous-volume ===
+''btrfs subvolume create test''
+pour créer un sous-volume intitulé //test// (en supposant que vous êtes quelque part dans votre système de fichiers BTRFS)
+
+=== Supprimer un sous-volume ===
+"sudo btrfs subvolume delete test"
+
+
+==== Les snapshots ====
+Un snapshot est une image du système de fichiers ou d'un de ses sous-volumes que vous "fixez" à un instant précis, dans le but de pouvoir y accéder ou la restaurer plus tard. Une fois créé, un snapshot se comporte comme un dossier ordinaire de votre système de fichiers : vous pouvez le copier, le déplacer vers un support externe, le renommer...
+
+=== Prendre un snapshot ===
+
+Pour créer un snapshot du système de fichiers entier :
+''btrfs subvolume snapshot test test_v1''
+Cette commande va prendre un snaphsot du sous-volume (répertoire) test. Cette version figée de votre répertoire sera accessible à travers le répertoire "test_v1". Les modifications faites dans chacun des deux répertoires sont indépendantes. Le système de fichiers gère les modifications pour qu'elles soient transparentes aux yeux de l'utilisateur (avec ext4, il aurait fallu créer une copie du répertoire, ce qui aurait occupé le double d'espace disque. Un snapshot ne consomme pas d'espace disque supplémentaire).
+
+===Restaurer un snapshot ===
+Utilisez simplement la commande "mv". Notez que vous pouvez faire la même chose à travers votre gestionnaire de fichiers en mode graphique. Les snapshots apparaissent comme des répertoires que vous pouvez manipuler à votre guise.
+
+====La compression====
+Ceci permet de compresser les données lorsqu'elles seront écrites sur le disque. Deux algorithmes de compression sont disponibles :
+  * zlib (par défaut)
+  * lzo : plus rapide et prend moins de charge CPU, mais compresse moins
+
+Pour ceci, il faut éditer le fichier /etc/fstab :
+<code># <file system>                      <mount point>    <type>  <options>          <dump>  <pass>
+proc                                        /proc  proc    nodev,noexec,nosuid   0  0
+# / was on /dev/sda2 during installation
+UUID=07e198ed-18a3-41ed-9e48-bde82ead65fc   /      btrfs   defaults,compress     0  1
+# /boot was on /dev/sda1 during installation
+UUID=90983817-83f8-464f-a50c-39cd02317447   /boot  ext2    defaults              0  2
+# swap was on /dev/sda5 during installation
+UUID=a3da3212-876f-4350-94b3-4b5b5040c871   none   swap    sw                    0  0
+</code>
+C'est le compress ligne 4 qui agit.
+Pour compresser en lzo, tapez <code>compress=lzo</code>
+
+
+
+===== Liens =====
+
+  * Le wiki officiel du projet [[https://btrfs.wiki.kernel.org/index.php/Main_Page]]

@@ -1,0 +1,102 @@
+{{tag>bureautique gestion_de_projet entreprise travail_collaboratif}}
+----
+
+
+====== GanttProject ======
+
+**GanttProject** est une application programmée en Java permettant de gérer un projet constitué de tâches auxquelles on assigne des propriétés (dates, ressources, priorité, etc.) et qu'on peut lier entre elles par des relations de dépendances. Le tout est édité sous forme de diagrammes de Gantt.
+
+GanttProject a été initialement développé par Alexandre Thomas et est distribué sous licence GPL.
+
+GanttProject est similaire sur bien des points à [[:planner|Planner]].
+
+===== Prérequis =====
+
+  * Vérifiez que [[Java]] soit bien installé sur votre machine.
+
+===== Installation =====
+
+==== Téléchargement ====
+
+Rendez-vous sur la page http://www.ganttproject.biz/download
+
+Cliquez sur le lien «Debian package» dans l'onglet de téléchargements pour Linux.
+
+Et installer le paquet .deb voulu.
+
+
+===== Utilisation =====
+
+==== Lancement de l'application =====
+
+Saisissez ganttproject dans un terminal ou cliquez sur l'icone dans la liste des applications installées
+
+===== Utilisation de l'archive .zip à la place de .deb =====
+Rendez-vous sur la page http://www.ganttproject.biz/download
+
+
+Zip archive\\ Download size 12.9 Mb\\ Multiplate-forme compatible archive. Contains shortcut for linux(sh), macos (command), windows(bat)
+
+...et enregistrez le fichier ganttproject-2.0.9.zip (version au 26/10/2006 ) sur votre espace de travail.
+
+Nous allons installer Ganttproject dans le répertoire /opt. Entrez la commande suivante dans un terminal.
+<code>
+cd /home/nom_d_utilisateur/Desktop/
+sudo unzip -K -q ganttproject-2.0.10.zip -d /opt
+</code>
+
+Dans un terminal placez-vous dans le répertoire d'installation.
+<code>
+cd /opt/ganttproject-2.0.10/
+</code>
+donner les permissions
+<code>
+sudo chmod +x ganttproject.sh
+</code>
+lancez Ganttproject avec la commande  suivante :
+<code>
+./ganttproject.sh
+</code>
+
+
+=====Problèmes =====
+====  L'application ne démarre pas ? ====
+
+
+Une issue possible : dans un terminal tapez la commande suivante
+<code>
+sudo update-alternatives --config java
+</code>
+
+Vérifiez que la ligne J2re1.5-sun/bin/java soit bien sélectionnée sinon tapez son numéro (3 dans l'exemple).
+
+<code>
+There are 3 alternatives which provide `java'.
+
+  Selection    Alternative
+-----------------------------------------------
+
+
+      1        /usr/bin/gij-wrapper-4.0
+ +    2        /usr/lib/jvm/java-gcj/bin/java
+*     3        /usr/lib/j2re1.5-sun/bin/java
+
+Press enter to keep the default[*], or type selection number:
+</code>
+==== GanttProject rame ====
+Si GanttProject rame beaucoup, et est pratiquement inutilisable essayez [[http://code.google.com/p/ganttproject/issues/detail?id=784|d'appliquer la solution indiquée ici]]. Ceci peut-être particulièrement le cas si vous avez beaucoup de polices installées, il suffit alors de commenter l'appel à une partie de ces polices dans un plugin. Lancez GanttProject en console pour que la localisation du plugin s'affiche.
+
+==== Gantt Project se lance mais n'est plus visible sur le Bureau ====
+
+Une issue possible : dans un terminal tapez la commande suivante de façon à supprimer la configuration des éléments de votre utilisateur sur GanttProject. 
+<code>
+rm -fR .ganttProject
+</code>
+===== Voir aussi =====
+
+  * [[http://ganttproject.sourceforge.net/demo/demo.html|démo en ligne]]
+  * [[http://prdownloads.sourceforge.net/ganttproject/ganttproject-handbook-fr-0.52.pdf?download|manuel en français]].
+
+----
+
+//Contributeur principal : [[utilisateurs:yann-kavan]], [[utilisateurs:bionet]].//

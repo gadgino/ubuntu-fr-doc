@@ -1,0 +1,89 @@
+{{tag>Trusty Xenial gestionnaire_de_photos photo}}
+----
+====== digiKam ======
+
+**digiKam** est un gestionnaire de photos libre très complet pour l'environnement de bureau [[:KDE]]. Il peut aussi être utilisé sous d'autres environnements, tel que [[:GNOME]].
+
+{{ http://lh5.googleusercontent.com/-ZQoHDqhopcw/UkNZO8KNe8I/AAAAAAAABeU/Tqzod0tekSo/w1002-h564-no/digikamWindows3.4.0.png?500 }}
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+=====Installation=====
+
+Il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>digikam]]** et si vous souhaitez avoir la dcumentation [[:tutoriel:comment_installer_un_paquet|installez encore le paquet]] **[[apt>digikam-doc]]**.
+
+Un paquet complémentaire est nécessaire si vous souhaitez bénéficier des outils de modifications des photos et d'édition des métadonnées (EXIF, IPTC...) **[[apt>kipi-plugins]]** ([[http://extragear.kde.org/apps/kipi/|Site]]).
+
+==== Installer sous Ubuntu en limitant les dépendances KDE ====
+
+**digiKam** étant intégré au bureau [[:KDE]], son installation s'accompagne de beaucoup de bibliothèques et de logiciels associées qui ne sont pas nécessaires sous un environnement [[:GNOME]] (entre autres [[:Dolphin]], [[:Konqueror]], [[:Apper]] et diverses bibliothèques).
+
+Pour limiter le nombre de dépendances KDE installées avec **digiKam**, voici comment faire l'installation :
+  * Installez **[[:Synaptic]]** ;
+  * Ouvrir le menu //Configuration -> Préférences// ;
+  * Sous l'onglet //Général//, **décocher** //« Traiter les paquets recommandés comme des dépendances »// ;
+  * Cliquer sur le bouton //Valider// ;
+  * Installer **digiKam** dans Synaptic.
+
+Ou bien en une ligne de commande: <code>sudo apt-get install --no-install-recommends digikam</code> et si vous souhaitez installer les plugins : <code>sudo apt-get install --no-install-recommends kipi-plugins</code>
+
+Par contre sans les dépendances KDE, les thèmes de Digikam ne seront pas disponibles. Si vous désirez néanmoins pouvoir changer de thème, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>kde-workspace-data]]**.
+  
+==== Installer la dernière version ====
+<note important>Pour une mise à jour depuis une précédente version de digiKam, il est conseillé de désinstaller l'installation existante, afin de limiter les problèmes de dépendances. Il est également préférable de supprimer les fichiers ''thumbnails-digikam.db'' et ''digikam4.db'' ainsi que de sauvegarder vos "TAG" sur vos images à partir de votre ancienne version Digikam avant de supprimer ces deux fichiers.
+</note>
+Pour avoir la dernière version de digiKam:
+  * [[:ppa#ajout_d_un_ppa_a_vos_sources_logicielles|Ajoutez les PPAs]] **ppa:philip5/extra**((http://ppa.launchpad.net/philip5/extra/ubuntu/)) (Ubuntu) ou **ppa:philip5/kubuntu-backports**((http://ppa.launchpad.net/philip5/kubuntu-backports/ubuntu/)) (Kubuntu) dans vos sources de logiciels.
+  * Puis [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]],
+  * Et [[:tutoriel:comment_installer_un_paquet|installez les paquets]] **[[apt>digikam5, kipi-plugins5]]**.
+
+
+=====Configuration=====
+<note important>Depuis la version d'ubuntu 16.04, la géolocalisation des photos ne marche plus dans Digikam4. Installer Digikam5 si vous utilisez cette fonctionnalité.
+</note>
+==== Mettre Digikam en français sous Ubuntu ====
+
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>kde-l10n-fr]]**.
+
+
+==== Améliorer l'intégration au bureau GNOME ====
+
+Il est possible de faire en sorte que **digiKam** s'intègre mieux à l'environnement d'Ubuntu (thème, polices, icônes). Pour plus de détails, consultez [[:integration_qt_gtk#applications_kde|cette page]].
+
+Constatez la différence entre cette capture d'écran, et celle en haut de page :
+
+{{applications:digikam_lucid_02.png?450}}
+
+Vous pourrez alors changer les thèmes en allant dans : //Configuration -> Thèmes -> Configuration//.
+<note tip>Une solution rapide est de demander à Digikam de ne pas utiliser  GTK+ : dans //Configuration / Configuer Digikam / Divers / Style des Composants Graphiques//, choisir une autre méthode que  GTK+. Vous pourrez utiliser les thèmes Digikam sans problème d'affichage des panneaux latéraux.</note>
+
+=====Utilisation=====
+Pour lancer l'application faites une recherche dans [[:unity#tableau_de_bord_dash|le tableau de bord Unity]] avec le mot clé **digiKam** ou //via// la [[:commande_shell|commande]] suivante : <code>digikam</code>.
+
+==== Ajouter des collections ====
+
+Les **collections** sont les répertoires principaux, les //albums racines// qui contiennent des photos ou des albums. Elles peuvent se trouver sur un disque local, un média amovible ou un dossier réseau.
+
+Pour ajouter des **collections**, allez dans le menu //Configuration -> Configurer digiKam…//, rubrique //Collections//.
+
+==== Reconnaissance des appareils photos ====
+Allez dans //Configurer -> Configurer digikam -> Appareils photo//, cliquez sur Ajouter ou détection automatique pour ajouter votre appareil photo.
+
+==== Reconnaissance faciale / de visages ====
+La reconnaissance faciale fonctionne correctement, mais pas la détection des visages. Il faut donc indiquer manuellement le nom de la personne pour chaque étiquette.
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi =====
+
+  * **(en)** [[http://www.digikam.org/|Site officiel]]
+
+{{backlinks>.}}
+
+----
+//Contributeurs : [[contributeurs|Les contributeurs d'Ubuntu-fr]], [[:utilisateurs:Gemnoc]], [[:utilisateurs:Bionet]].//

@@ -1,0 +1,150 @@
+{{tag>Precise Trusty Xenial unity BROUILLON}}
+
+----
+====== Unity lens : les lentilles d'Unity ======
+
+Les **lentilles** (ou **lenses**, en anglais) figurent en bas du tableau de bord ([[:unity#tableau_de_bord_dash|dash]]), accessible en cliquant sur le logo Ubuntu du lanceur ou en appuyant sur la touche "méta" (ou "super" ou "windows"), cf [[:unity|la page sur Unity]]. Les lentilles peuvent observer plusieurs sources d'informations, selon le type de données pour lesquelles elles sont conçues. Les lentilles disponibles par défaut sont les suivantes :
+  * **la page d'accueil** (icône représentant une maison), regroupant depuis la version 12.04 les applications récemment utilisées, les documents récemment ouverts et les téléchargements;
+
+  * la lentille "**Applications**" permet de n'afficher que des programmes d'un certain type en cliquant sur "filtrer les résultats" en haut à droite  (Internet, multimédia, jeux…) et par évaluation. C'est ce qui remplace l'ancien menu "Applications" disponible sur les versions d'Ubuntu jusque 10.10, l'ancien menu "Système" peut être retrouvé dans par le filtre "Système" de cette lentille application;
+
+  * la lentille "**Documents**" permet de filtrer les documents par type (audio, diaporamas, images…), par date de dernière modification (moins de sept jours, moins de 30 jours, moins d'un an…) ou par taille des fichiers;
+
+  * la lentille "**Musique**" permet de n'afficher de la musique relative qu'à un genre musical (pop, classique, rock…) ou à une décennie en particulier.
+
+  * la lentille "**Vidéos**" vous donne accès aux vidéos récemment vues, aux vidéos disponibles dans le répertoire Vidéos de votre dossier personnel, et à des vidéos en ligne.
+
+  * La lentille "**Historique web**" donne accès aux marque-pages de Firefox, à l'historique de navigation et aux sites les plus visités.
+
+Vous pouvez également naviguer plus rapidement en entrant l'objet de votre recherche dans le champ de recherche situé en haut du tableau de bord.
+
+Cette page est là pour présenter d'autres lentilles et la façon de les installer.
+
+=====  unity-lens-video =====
+Cette lentille est installée par défaut, si elle est toutefois manquante sur le système pour l'installer, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>unity-lens-video|unity-lens-video]]** (depuis Ubuntu 12.04).
+
+Pour supprimer la recherche de vidéos en ligne :
+  sudo apt-get remove unity-scope-video-remote
+===== unity-lens-music =====
+Cette lentille permet de rechercher des morceaux de musique présents sur l'ordinateur.
+
+Elle est installée par défaut, si elle est toutefois manquante sur le système, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>unity-lens-music|unity-lens-music]]** 
+
+La « scope » //unity-scope-musicstores// permet de rechercher de la musique en ligne au seins de la lens-music.
+Cette fonctionnalité peut poser des problèmes de confidentialité à certaines personnes, pour la supprimer (sans supprimer la recherche de musique sur le pc) :
+  sudo apt-get remove unity-scope-musicstores
+  
+===== unity-lens-applications =====
+Cette lentille est installée par défaut, si elle est toutefois manquante sur le système pour l'installer, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>unity-lens-applications| unity-lens-applications]]** 
+===== unity-lens-files =====
+Cette lentille est installée par défaut, si elle est toutefois manquante sur le système pour l'installer, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>unity-lens-files| unity-lens-files]]** 
+
+===== unity-lens-shopping =====
+Cette lentille est installée par défaut, si elle est toutefois manquante sur le système pour l'installer, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>unity-lens-shopping| unity-lens-shopping]]** (depuis Ubuntu 12.10)
+
+Pour supprimer la recherche en ligne :
+  sudo apt-get remove unity-lens-shopping
+===== unity-lens-wikipedia =====
+Pour installer cette lentille, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>unity-lens-wikipedia|unity-lens-wikipedia]]** 
+<note> la lentille unity-lens-wikipedia n'est plus présente sous [[saucy|Ubuntu 13.10 (« The Saucy Salamander »)]].</note>
+===== unity-lens-gwibber =====
+Cette lentille est installée par défaut, si elle est toutefois manquante sur le système pour l'installer, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>unity-lens-gwibber| unity-lens-gwibber]]** 
+===== unity-lens-radios =====
+Cette lentille permet de rechercher et de lancer des [[radio|radios]] à partir du dash.
+Pour l'installer (à partir d'Ubuntu 12.10),  il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]]
+ **[[apt>unity-lens-radios]]**.
+
+===== unity-lens-vm =====
+Cette lentille permet de chercher et de lancer les machines virtuelles de [[VirtualBox]] installées sur le PC à partir du dash.
+Pour l'installer (à partir d'Ubuntu 12.10),  il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]]
+ **[[apt>unity-lens-vm]]**.
+===== unity-lens-github =====
+Cette lentille permet d'effectuer des recherches sur [[wpfr>GitHub]].
+Pour l'installer (à partir d'Ubuntu 12.10),  il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]]
+ **[[apt>unity-lens-github]]**.
+===== unity-web-history-lens =====
+Cette lentille est installée par défaut (depuis Ubuntu 12.10), si elle est toutefois manquante sur le système pour l'installer, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]]
+ **[[apt>unity-web-history-lens|unity-web-history-lens]]**.
+
+Avant d'installer ce paquet de cette manière lisez le texte ci-dessous.
+
+Pour Ubuntu 12.04 le paquet installé par le dépôts officiel ne liste pas l'historique web mais seulement les marque-pages. Pour bénéficier de l'historique il faut passer par un dépôt PPA et installer aussi le paquet intitulé zeitgeist-datasource-firefox.
+
+Voici les commandes à entrer dans un terminal pour installer le [[PPA]] puis les paquets **unity-web-history-lens** et  **zeitgeist-datasource-firefox** disponibles dans ce PPA :
+
+  sudo add-apt-repository ppa:markjtully/ppa 
+
+puis :
+
+  sudo apt-get update
+
+puis :
+
+  sudo apt-get install unity-web-history-lens zeitgeist-datasource-firefox
+
+Il vaut mieux redémarrer l'ordinateur après l'installation. Le raccourci  "super + h" affiche cette lentille.
+
+===== unity-lens-askubuntu & unity-scope-askubuntu =====
+Pour installer cette lentille, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>unity-lens-askubuntu|unity-lens-askubuntu]]** 
+
+À partir d'Ubuntu 12.10, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>unity-scope-askubuntu|unity-scope-askubuntu]]** 
+
+===== unity-scope-grooveshark ====
+Cette lentille permet d’effectuer des recherches sur [[wpfr>Grooveshark]] depuis le dash((Source de cette section :[[http://www.la-vache-libre.com/2012/11/unity-grooveshark-effectuer-des.html|Effectuer des recherches sur Grooveshark depuis le dash d'Unity]] la-vache-libre.com)).
+Voici les commandes à entrer dans un terminal pour installer le [[PPA]] puis le paquet **unity-scope-grooveshark** disponible dans ce PPA :
+
+   sudo add-apt-repository ppa:scopes-packagers/ppa
+
+puis :
+
+  sudo apt-get update
+
+puis :
+
+  sudo apt-get install unity-scope-grooveshark
+
+
+===== Autres lentilles proposées sur AskUbuntu=====
+Pour la plupart de ces lentilles, l'installation de PPA supplémentaires est nécessaire.
+Les captures d'écran et les instructions d'installation sont présentées [[http://askubuntu.com/questions/38772/what-lenses-for-unity-are-available|sur AskUbuntu]], de nouvelles lentilles sont fréquemment proposées :
+  * Ask Ubuntu
+  * Adult Lens & Porn Scope
+  * Cooking lens
+  * Dash-based Calculator : une calculette sans ouvrir l'application calculette
+  * Google Books
+  * Google Docs Lens
+  * Grooveshark Lens
+  * Gwibber Lens for Unity
+  * Pidgin Lens
+  * Pirate Bay Scope & Torrent Lens
+  * Recoll Lens (recherche et indexation des fichiers)
+  * Reddit Lens (liste les articles sur les nouveautés du web)
+  * Spotify scope
+  * SSHSearch-Lens
+  * Tomboy Lens
+  * Unity Binary Clock
+  * Unity Bliss Lens
+  * Ubuntu Cities Scope : voir la carte, température, heure d'une ville
+  * Unity Calendar Lens
+  * Unity Dictionary Lens
+  * Unity Duckduckgo
+  * Unity Graphic Design lens
+  * Unity Lens News
+  * Unity Music Lens for 11.04
+  * Unity web history lens (historique et marque-pages)
+  * Web Sources Lens
+  * Wikipedia lens
+  * YouTube Scope & Lens (pour versions 11.04 et 11.10)
+
+===== Autres lentilles proposées sur OMG Ubuntu =====
+
+Vous trouverez [[http://www.omgubuntu.co.uk/2012/01/10-unity-lenses-scopes/?utm_source=feedburner&utm_medium=feed&utm_campaign=Feed%3A+d0od+%28OMG!+Ubuntu!%29|ici]] quelques lentilles supplémentaires (certaines se recoupent avec celles présentées sur AskUbuntu):
+  * Book Lens
+  * Contact Lens
+  * Photo/Flickr Lens
+  * Torrent Lens
+  * Unity Medicine Lens
+
+----
+
+//Contributeurs principaux : [[utilisateurs:Id2ndR]], [[utilisateurs:mydjey]] ...//

@@ -1,0 +1,49 @@
+{{tag>Precise Trusty }}
+----
+
+====== Vérifier l'intégrité d'un fichier avec QuickHash======
+**Quickhash** est une application graphique (en anglais uniquement) permettant de vérifier l'intégrité d'un fichier en comparant les empreintes numériques [[wpfr>MD5]], [[wpfr>SHA1]], [[wpfr>SHA256]] et [[wpfr>SHA512]]. Initialement conçu pour %%GNU/Linux%%, des versions sont maintenant disponibles pour Windows® et Apple® Mac OS.\\ 
+L'interface et son fonctionnement est quasi identique à tous les [[wpfr>système d'exploitation|systèmes d'exploitation]]. Sauf indication contraire, les procédures ci dessous leurs sont identiques.
+
+===== Pré-requis =====
+  * Disposer d'une connexion à Internet configurée et activée;
+  * Avoir récupéré et copié dans le [[:presse-papier]] l'[[:tutoriel/comment_verifier_l_integrite_de_son_image_cd?&#liste_des_empreintes_md5|empreinte de contrôle]] du fichier à vérifier.
+
+===== Installation =====
+**Quickhash** n'est pas disponible depuis les [[:dépots]] officiels. \\
+** Quickhash** ne nécessite pas d'installation dans votre système et se lance directement depuis l'exécutable, ce qui permet de l'utiliser aussi depuis une unité externe.
+De fait, une fois l'exécutable déposé dans votre espace personnel, vous n'avez pas besoin des [[:sudo|droits d'administration]] pour l'utiliser et ne peut donc pas en l'état causer de dommage à votre système. Aucun lanceur ne sera créé.
+  - Télécharger depuis [[http://sourceforge.net/projects/quickhash/files/|cette page]] l'archive correspondant à votre système;
+  - Enregistrer-la dans votre espace personnel;
+  - [[:archivage|Extraire cette archive]]: vous obtiendrez un dossier contenant entre autre l'exécutable et le manuel d'utilisation (en anglais).
+  - Un simple double-clic sur l'exécutable lancera l'application. Si vous êtes en présence de 2 exécutables (32bits ou64bits), choisissez celui-ci en fonction de l'architecture de votre système d'exploitation.
+===== Utilisation=====
+//Exemple de vérification d'une image ISO d'Ubuntu. La procédure est identique sous %%GNU/Linux%%®, Windows® ou Apple® Mac OS. Seul l'habillage de la fenêtre diffère.//
+
+  - Récupérer puis "copier" dans le [[:presse-papier]] l'[[:tutoriel/comment_verifier_l_integrite_de_son_image_cd?&#liste_des_empreintes|empreinte de l'image ISO d'Ubuntu]] à contrôler;
+  - Lancer **Quikhash** d'un double-clic sur l'exécutable;
+  - Se rendre dans l'onglet "**File**";
+  - Dans la partie gauche, choisir l'algorithme de hachage utilisé;
+  - Dans la ligne du bas "//Expected hash value...//", "coller" l’empreinte récupérée;
+  - Dans la partie haute, cliquer sur le bouton "**Select File**" pour sélectionner l'image ISO d'Ubuntu à contrôler; (Vous pouvez aussi utiliser la fonction "Glisser/déposer")
+Le calcul démarre immédiatement. Patientez, plus le fichier est grand, plus cela prend du temps. 
+
+//Quickhash sous Ubuntu 14.04 avec une image ISO d'Ubuntu intègre:// \\
+{{:applications:quickhash:hashage_ok.png?620|Quickhash onglet "file"}}
+\\ \\
+Si vous avez ce message, {{:applications:quickhash:hachage_failed.png?200|Erreur de contrôle}}l'image ISO d'Ubuntu présente des erreurs.
+
+===== Aller plus loin=====
+**Quickhash** ne fait pas que comparer l'empreinte de hachage d'un fichier. Il peut aussi générer des empreintes pour plusieurs fichiers, du texte, ou des dossiers,... Le manuel d'utilisation (en anglais seulement) disponible dans l'archive contenant l'exécutable vous permettra d'en savoir plus.
+ 
+===== Désinstallation =====
+N'étant pas installée dans votre système, pour supprimer cette application, il suffit de supprimer l'exécutable.
+=====Voir aussi=====
+  * **(fr)** [[wpfr>Fonction de hachage]] sur Wikipédia
+  * **(fr)** [[wpfr>MD5]]
+  * **(fr)** [[wpfr>SHA1]]
+  * **(fr)** [[wpfr>SHA256]]
+
+----
+
+//Contributeurs ://

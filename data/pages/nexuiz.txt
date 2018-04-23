@@ -1,0 +1,197 @@
+{{tag>Lucid jeu fps}}
+----
+
+====== Nexuiz - Xonotic ======
+
+===== Nexuiz =====
+
+Nexuiz est un jeu de tir à la première personne, sous licence GPL (pour la version PC), et disposant d'un graphisme relativement soigné. 
+
+<note warning>Le créateur du jeu a revendu ses droits sur le jeu à la société Illfonic, il existe donc actuellement un léger flou autour de la licence de Nexuiz. La licence du jeu peut devenir propriétaire donc non-libre et verrouillée ! Une version sous [[wpfr>Logiciel_propri%C3%A9taire|licence propriétaire]] pour PS3 est désormais disponible. Un [[wpfr>Fork|fork]] développé par les principaux contributeurs a d'ailleurs vu le jour sous le nom de [[http://www.xonotic.org/|Xonotic]].\\
+Pour les 2 versions de l'histoire, voir [[http://www.xonotic.org/faq/|ici]] et [[http://alientrap.org/nexuiz/news|là (billets du 3 et 22 mars 2010)]]. On en parle également [[http://forum.ubuntu-fr.org/viewtopic.php?id=387915|sur le forum]].</note>
+
+{{:jeux:nexuiz.jpg}}
+
+==== Pré-requis ====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir activé l'[[accélération graphique]]. 
+
+==== Installation ====
+
+Il suffit d'[[tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>nexuiz]]**. 
+
+Si votre gestionnaire de paquets est configuré pour ne pas inclure les paquets recommandés, installez également le paquet **[[apt>nexuiz-music]]** pour avoir les musiques du jeu.
+
+==== Utilisation====
+ 
+Lancez l'application depuis le menu //Applications -> Jeux -> Nexuiz// ou //via// la [[:commande_shell|commande]] suivante :
+<code>nexuiz</code>
+
+
+=== Jouez en ligne ===
+
+Si vous cherchez des serveurs de jeux, Nexuiz est pris en charge par [[XQF]]. 
+
+=== Multijoueur local ===
+
+Les options sont à peu prêt évidentes via le menu du jeu. Il peut être nécessaire d'ouvrir un port sur le pare-feu du poste hébergeant le jeu (serveur). Le n° de port est le 26000. 
+
+
+=== Problèmes d'affichage ===
+
+Le jeu s'installe avec une résolution par défaut de 1024x768. Seulement si vous avez une résolution plus petite en largeur ou en hauteur, exemple 1280x720, le jeu ne voudra pas se lancer. Une solution simple existe. Il suffit soit de changer sa résolution en 1024x768 ou plus grande, de démarrer le jeu et d'aller dans "settings" pour mettre la même résolution que vous avez exemple 1280x720 puis de fermer le jeu et de remettre la résolution que vous aviez. Et là vous pourrez démarrer le jeu sans problème.  
+
+=== Quitter le jeu ===
+
+**La touche F10** utilisable à tout moment !
+==== Désinstallation ====
+ 
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+ 
+==== Voir aussi ====
+
+  * **(en)** [[http://www.nexuiz.com/|Site officiel]]
+
+=====Xonotic=====
+
+[[wpen>http://en.wikipedia.org/wiki/Xonotic|Xonotic]] est le [[wpfr>http://fr.wikipedia.org/wiki/Fork|fork]] de [[wpfr>http://fr.wikipedia.org/wiki/Nexuiz|Nexuiz]] sous licence GPL. La version actuelle est la 0.8.2 (avril 2017), il s'agit d'une version bêta. En effet, le projet Nexuiz étant abandonné (du moins dans sa version libre), c'est Xonotic qui continue à être activement développé.
+
+{{http://www.xonotic.org/wp-content/themes/xpop/img/logo_nav.png}}
+====Pré-requis====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir activé l'[[accélération graphique]].
+
+====Installation====
+
+=== Téléchargement de l'archive ===
+
+C'est la méthode la plus simple pour pouvoir jouer à Xonotic.
+Rendez-vous sur [[http://www.xonotic.org/download/|cette page]] et téléchargez la dernière version disponible pour GNU/Linux.
+Décompressez ensuite l'archive ZIP dans votre dossier //home//, par exemple dans ///home/utilisateur/Xonotic// , où //utilisateur// est à remplacer par votre nom d'utilisateur.
+
+Avant de pouvoir jouer, il faut avoir installé certains paquets non forcément présents dans une installation d'origine d'Ubuntu, tels que **[[apt>libsdl1.2debian]]** et **[[apt>libcurl]]**.
+
+=== Installation via GetDeb ===
+
+Installez [[getdeb|GetDeb]], [[:tutoriel/comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]] puis [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>xonotic]]**
+
+=== Compilation basique ===
+
+  * Vous devez d'abord [[tutoriel:comment_installer_un_paquet|installer les paquets]] : **[[apt>build-essential,xserver-xorg-dev,x11proto-xf86dri-dev,x11proto-xf86dga-dev,x11proto-xf86vidmode-dev,libxxf86dga-dev,libxcb-xf86dri0-dev,libxpm-dev,libxxf86vm-dev,libsdl1.2-dev,libsdl-image1.2-dev,libclalsadrv-dev,libasound2-dev,libxext-dev,libjpeg62,libjpeg62-dev,git-core,unzip,wget|build-essential xserver-xorg-dev x11proto-xf86dri-dev x11proto-xf86dga-dev x11proto-xf86vidmode-dev libxxf86dga-dev libxcb-xf86dri0-dev libxpm-dev libxxf86vm-dev libsdl1.2-dev libsdl-image1.2-dev libclalsadrv-dev libasound2-dev libxext-dev libjpeg62 libjpeg62-dev git-core unzip wget]]**
+  * En ligne de code : <code>sudo apt-get install build-essential xserver-xorg-dev x11proto-xf86dri-dev x11proto-xf86dga-dev x11proto-xf86vidmode-dev libxxf86dga-dev libxcb-xf86dri0-dev libxpm-dev libxxf86vm-dev libsdl1.2-dev libsdl-image1.2-dev libclalsadrv-dev libasound2-dev libxext-dev libjpeg62 libjpeg62-dev git-core unzip wget</code>
+
+<note important>Si vous n'utilisez pas pulseaudio, n'installez pas libsdl1.2debian-pulseaudio, mais libsdl1.2debian-alsa (pour alsa) ou libsdl1.2debian-oss (pour OSS)</note>
+<note warning>Le paquet libsdl1.2debian-pulseaudio ne semble plus être dans les dépôts, c'est pourquoi il a été enlevé de la liste. Cela ne change strictement rien (enfin du point de vue de l'utilisateur)</note>
+
+  * Ensuite, entrez les commandes suivantes :
+<code>git clone git://git.xonotic.org/xonotic/xonotic.git
+cd xonotic/
+./all update -l best</code>
+Ces commandes auront pour effet de copier tous les codes sources nécessaires au lancement de la dernière version de Xonotic.
+Sauf que qui dit "code source", dit "[[compilation|compilation]]" ;-).
+(toujours dans le répertoire xonotic/) :
+<code>./all compile</code>
+
+=== Compilation avancée ===
+
+<note important>Cette partie est à traiter après la compilation basique. La compilation basique est nécessaire !</note>
+
+L'installation avancée consiste à installer le jeu proprement, c'est-à-dire comme un jeu installé depuis un paquet. Je recommande cette installation car elle permet ensuite de lancer le jeu par une commande, et elle dégage votre /home/ des fichiers du jeu. J'ai utilisé les mêmes dossiers que ceux utilisés par les installeurs d'id software (Quake, Doom, ...).
+<code>sudo cp -r xonotic/ /usr/local/games/</code>
+<note tip>Je copie car prudence est mère de sûreté, mais le dossier dans le /home est inutile, vous pouvez le supprimer</note>
+On va maintenant créer le script de démarrage de Xonotic
+<code>cd /usr/local/games/xonotic/
+gksudo gedit xonotic</code>
+<code>#!/bin/bash
+cd /usr/local/games/xonotic/
+exec ./all run</code>
+<code>sudo chmod +x xonotic</code>
+Créons le lien pour pouvoir lancer ce script, et donc le jeu, depuis la console
+<code>cd /usr/local/bin/
+sudo ln -s /usr/local/games/xonotic/xonotic xonotic</code>
+Vous pouvez ensuite créer un raccourci sur votre bureau de la même façon (c'est à dire en refaisant/copiant le lien sur le bureau)
+
+====Utilisation====
+
+  * Si vous avez téléchargé l'archive depuis le site officiel du projet, il suffit ensuite de lancer le script "xonotic-linux-glx.sh" ou "xonotic-linux-sdl.sh". Celui-ci est situé dans le dossier qui a été précédemment extrait.
+Cela peut se faire graphiquement (double-clic sur le script) ou en passant par la ligne de commande :
+<code>sh /chemin_vers_dossier_Xonotic/xonotic-linux-glx.sh</code>
+ou
+<code>sh /chemin_vers_dossier_Xonotic/xonotic-linux-sdl.sh</code>
+où //chemin_vers_dossier_Xonotic// est à remplacer par votre propre chemin d'installation.
+
+L'utilisation de la version GLX ou SDL est laissée au choix de l'utilisateur, selon les configurations l'une ou l'autre de ces versions aura de meilleures performances que l'autre.
+
+  * Si vous avez fait l'installation avancée, il suffit d'entrer la commande :
+<code>xonotic</code>
+
+  * Si vous êtes restés à l'installation basique, il vous faut entrer les commandes suivantes :
+<code>cd xonotic
+./all run</code>
+
+====Désinstallation====
+
+===Pour une installation avec l'archive ZIP===
+
+Il suffit de supprimer le dossier précédemment extrait, qui contient toutes les données et les exécutables liés au jeu.
+Vous pouvez aussi supprimer le dossier de config créé dans le ///home// :
+<code>rm -rv ~/.xonotic</code>
+
+===Pour une compilation basique===
+
+Il vous suffit de supprimer le dossier xonotic/
+
+===Pour une compilation avancée===
+
+Là, il faut supprimer les dossiers dans /usr/local/... et le dossier de config créé dans le home. Donc :
+<code>sudo rm -rv /usr/local/games/xonotic
+sudo rm -v /usr/local/bin/xonotic
+rm -rv ~/.xonotic</code>
+
+====Faire durer le plaisir====
+
+  * Bien qu'étant en version bêta, Xonotic s'est entouré d'une communauté active de joueurs. Si vous avez des questions, n'hésitez pas à consulter le [[http://forums.xonotic.org/|forum anglophone]]. N'hésitez pas également à consulter le [[http://www.xonotic.org/team/blog/|blog]] (les tutoriels de la série "Halogene's Newbie Corner", en particulier, sont très utiles pour bien débuter dans le jeu).
+
+  * Vous pouvez consulter vos statistiques sur le [[http://stats.xonotic.org/|portail]] dédié et suivre vos progrès (pour les parties en ligne seulement).
+
+  * Pour toute demande de support, il existe un salon IRC sur le réseau [[http://www.quakenet.org/|QuakeNet]] :
+ <code>/join #xonotic</code>
+ Le salon #xonotic.pickup accueille quant à lui de nombreux joueurs actifs, et vous permet de les affronter ;-) :
+ <code>/join #xonotic.pickup</code>
+
+====Autres====
+===Scripts de lancement===
+On peut aussi faire un script pour mettre à jour le jeu de la même façon que pour le lancer :
+<code>cd /usr/local/games/xonotic
+sudo vim xonotic-update</code>
+<code>#!/bin/bash
+cd /usr/local/games/xonotic
+exec ./all update -l best
+exec ./all compile</code>
+<code>sudo chmod +x xonotic-update
+cd /usr/local/bin
+sudo ln -s /usr/local/games/xonotic/xonotic-update xonotic-update</code>
+Pour mettre à jour le jeu ,il vous suffira d'entrer la commande
+<code>sudo xonotic-update</code>
+
+===Bug compiz===
+Si vous avez votre écran raccourci en haut et en bas dans ce jeux et d'autres, c'est à cause de compiz, il faut le désactiver. Pour ce faire, vous pouvez tout simplement modifier le script de lancement et rajouter
+<code>killall compiz</code>au début.
+Le problème c'est qu'on doit le relancer, et je n'ai pas encore trouvé comment l'intégré au script.
+
+===Maps entièrement noires===
+Lors de parties en ligne, si certaines maps vous apparaissent entièrement noires, assurez-vous d'avoir installé le paquet **[[apt>libcurl]]**.
+
+<note tip>
+On peut dans ce jeu activer la 3D stéréoscopique (avec les lunettes), pour cela rendez vous dans l'onglet autre du panneau des préférences, vous y trouverez le bouton paramètres avancées, il ne vous reste plus qu'à régler les paramètre r_stéréo_ selon votre besoin.</note> 
+====Voir aussi====
+
+  * **(en)** [[http://www.xonotic.org|site officiel]]
+  * **(en)** [[http://dev.xonotic.org/projects/xonotic/wiki/Repository_Access|installation]]
+
+----
+//Contributeurs : [[utilisateurs:_Enchained]], Kmeleon, gobgab//, [[utilisateurs:SpiKe]].

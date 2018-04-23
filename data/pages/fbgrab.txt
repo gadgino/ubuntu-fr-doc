@@ -1,0 +1,66 @@
+{{tag>capture_d'écran}}
+
+----
+
+====== FBGrab : captures d’écran en mode console ======
+
+**FBGrab** est une application de capture d'écran, permettant de réaliser des captures d'écran du //framebuffer// Linux et de les convertir au format PNG.
+
+D'autres applications permettent de réaliser des captures d'écran dans le [[:terminal]] d'une interface graphique, mais la plupart ne fonctionnent pas dans une console en mode texte.
+<note tip>
+  * Ctrl+Alt+F1 (et Ctrl+Alt+F2 à F6) : consoles en mode texte
+  * Ctrl+Alt+F7 : retour en mode graphique
+</note>
+
+
+===== Pré-requis =====
+
+[[:tutoriel:comment_activer_le_framebuffer|Activer le framebuffer]] sans oublier de [[:tutoriel:comment_activer_le_framebuffer#problemes_sous_gutsy|faire le nécessaire pour Gutsy.]]
+
+Il est facile de vérifier si le framebuffer est activé. Il suffit d'aller en mode texte (Ctrl+Alt+F1).
+  * si les caractères sont fins et nets, il est activé,
+  * si ils sont gros et moches, il ne l'est pas.
+
+<note>Il est beaucoup plus confortable de travailler en mode texte avec le framebuffer activé.</note>
+
+
+===== Installation =====
+
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] [[apt://fbgrab|fbgrab]].
+
+===== Configuration =====
+
+==== Choix des options ====
+
+Voir le manuel (en anglais)
+  man fbgrab
+
+
+===== Utilisation =====
+
+Pour réaliser une simple capture de l'ensemble de l'écran console sur lequel on se trouve, il suffit de lancer la commande :
+  fbgrab /chemin_du_fichier/nom_du_fichier.png
+
+Par exemple, pour créer sur votre bureau la capture d'écran de la console dans un fichier "capture.png" :
+  fbgrab /home/votre_identité/Desktop/capture.png
+
+
+===== Voir aussi =====
+
+==== Autres applications de capture d’écran ====
+
+  * [[:imagemagick]]
+  * [[:gnome-screenshot]]
+
+
+==== Liens externes ====
+
+  * [[http://hem.bredband.net/gmogmo/fbgrab/|Présentation de fbgrab]] (en)
+  * [[http://wiki.gp2x.org/wiki/Fr:fbGrab|Quelques informations en français]]
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?pid=946426|Fil de discussion du forum]]
+
+----
+
+//Page réalisée par : [[utilisateurs:Sorbus]] (7 janvier 2008) d'après les indications de [[utilisateurs:Link31]] sur le forum//
+
+//Contributeurs : [[utilisateurs:naoli|naoli]]//

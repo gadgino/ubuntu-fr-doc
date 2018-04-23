@@ -1,0 +1,59 @@
+{{tag>Xenial mao BROUILLON}}
+----
+
+====== Aeolus ======
+**Aeolus** est un émulateur destiné uniquement à la reproduction de qualité d'un son de grandes orgues et à la simulation de leur jeu. Les sons sont synthétisés et non samplés. Ce programme n'est guère vorace en ressources et tourne sans problème sur une machine disposant d'un processeur cadencé à 1GHz, avec 256Mb de mémoire vive.
+
+{{ :aeolus1.png?500 }}
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir installé un serveur [[:jackd|JACK]] et [[:jackd|Qjackctl]] pour faciliter les branchements.
+
+===== Installation =====
+
+Pour installer ce logiciel, il suffit d'[[:tutoriel:comment_installer_un_paquet#paquet_present_dans_les_depots|installer le paquet aeolus]] **[[apt://aeolus|aeolus]]** .
+===== Utilisation=====
+
+  * Lancez Qjackctl. Appuyez sur le bouton **Connecter**.
+  * Lancez l'application depuis le menu Applications -> Son et vidéo -> Aeolus.
+  * Dans l'onglet ALSA de Qjackctl, connectez votre ou vos claviers MIDI à Aeolus.
+  
+{{ :audio:connection_lucid_01.png?500 }}
+
+  * Puis dans l'onglet Audio de Qjacktl, reliez les sorties audio d'Aeolus aux entrées du système.
+
+{{ :audio:aeolus_lucid_03.png?500 }}
+
+  * Vous remarquerez qu'Aeolus dispose de plusieurs registres (P, I, II, III, IV) qui correspondent au pédalier et aux différents claviers des grandes orgues.
+
+{{ :audio:aeolus_lucid_04.png?500 }}
+
+  * Vous devez indiquer quel clavier MIDI pilote quel registre. Pour ce faire cliquez sur le bouton "Midi" en bas de la fenêtre principale d'Aeolus. Une autre fenêtre s'ouvre. Sur l'axe des abscisses vous voyez des nombres de 1 à 16 qui correspondent à tous les claviers MIDI que vous pouvez connecter. Sur l'axe des ordonnées vous allez vous intéresser à la partie "Keyboards" ("Claviers" ceux d'Aeolus, pas les claviers physiques dont vous disposez). Vous ne pouvez piloter qu'un clavier d'Aeolus avec un clavier MIDI. Mais il existe un possibilité pour synchroniser les autres registres sur ce clavier. Ici nous choisissons de piloter le pédalier avec le seul clavier MIDI à disposition.
+
+{{ :audio:aeolus_lucid_05.png?500 }}
+
+  * Il ne vous reste plus qu'à choisir l'instrument dont vous désirez jouer. Revenez à la fenêtre principale du programme et cliquez sur le timbre désiré. N'oubliez pas de choisir parmi ceux du pédalier, puisque les autres registres ne sont pas connectés à un clavier MIDI dans notre exemple et ne répondront donc pas. Les timbres sélectionnés apparaissent en surbrillance.
+
+{{ :audio:aeolus_lucid_06.png?500 }}
+
+  * Si vous souhaitez superposer des timbres en utilisant ceux des autres claviers d'Aeolus, vous pouvez lier le pédalier à l'aide des boutons P+1, P+2... entourés en rouge. N'oubliez pas de choisir un ou des timbres dans les autres registres. Dans notre exemple, nous utilisons, en plus des registres sélectionnés du pédalier, le timbres "Principal 8", entouré en jaune, du premier clavier.
+
+{{ :audio:aeolus_lucid_07.png?500 }}
+
+Vous avez les principaux éléments pour débuter, je vous laisse explorer les possibilités de l'application : enregistrement des configurations et rappel de celles-ci par touches programmées ; manipulation des paramètres du son ; accordage de l'instrument selon plusieurs tempéraments - le terme est à comprendre au sens musical bien entendu. Amusez-vous bien, et surtout n'oubliez pas le bouton "Stop", ce logiciel est vraiment très prenant.
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, le configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+===== Voir aussi =====
+
+  * **(fr)** [[http://www.linuxmao.org/aeolus|Fiche linuxmao]]
+  * **(en)** [[http://www.kokkinizita.net/linuxaudio/aeolus/index.html|Site officiel]]
+  * **(en)** [[http://www.64studio.com/primer_aeolus|Aeolus Primer]], //un guide d'introduction//
+  * **(en)** [[http://www.geocities.jp/midi_organ_net/aeolus/|How to install Aeolus]]
+
+----
+//Contributeur principal : [[utilisateurs:pseudovingtcinqcaracteres]].//

@@ -1,0 +1,291 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#connexion_internet_sympatico.ca_adsl" class="toc"> Connexion Internet Sympatico.ca ADSL </a></span><ul class="toc">
+<li class="clear"><ul class="toc">
+<li class="level3"><span class="li"><a href="#territoire_couvert" class="toc"> Territoire couvert </a></span></li>
+<li class="level3"><span class="li"><a href="#versions_testees" class="toc"> Versions testées : </a></span></li>
+<li class="level3"><span class="li"><a href="#les_pre-requis" class="toc"> Les pré-requis : </a></span></li>
+<li class="level3"><span class="li"><a href="#debut_de_la_configuration" class="toc"> Début de la configuration </a></span></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+Rédigé par <a href="mailto:&#x6c;&#x61;&#x6d;&#x69;&#x40;&#x77;&#x65;&#x62;&#x65;&#x73;&#x74;&#x72;&#x69;&#x65;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x6c;&#x61;&#x6d;&#x69;&#x40;&#x77;&#x65;&#x62;&#x65;&#x73;&#x74;&#x72;&#x69;&#x65;&#x2e;&#x63;&#x6f;&#x6d;">&#x6c;&#x61;&#x6d;&#x69;&#x40;&#x77;&#x65;&#x62;&#x65;&#x73;&#x74;&#x72;&#x69;&#x65;&#x2e;&#x63;&#x6f;&#x6d;</a>
+</p>
+
+<a name="connexion_internet_sympatico.ca_adsl"></a><h1> Connexion Internet Sympatico.ca ADSL </h1>
+<div class="level1">
+
+</div>
+<!-- SECTION [66-117] -->
+<a name="territoire_couvert"></a><h3> Territoire couvert </h3>
+<div class="level3">
+
+<p>
+ Québec, Canada.
+</p>
+
+</div>
+<!-- SECTION [118-166] -->
+<a name="versions_testees"></a><h3> Versions testées : </h3>
+<div class="level3">
+
+<p>
+ Ubuntu / Kubuntu Hoary
+</p>
+
+</div>
+<!-- SECTION [167-221] -->
+<a name="les_pre-requis"></a><h3> Les pré-requis : </h3>
+<div class="level3">
+<ol>
+<li class="level1"><span class="li"> Avoir activé son compte en téléphonant au fournisseur.</span>
+</li>
+<li class="level1"><span class="li"> Avoir branché les câbles (téléphoniques, électriques, réseau ou USB) comme indiqué dans la documentation du fournisseur.</span>
+</li>
+<li class="level1"><span class="li"> Avoir installé le paquet <code>pppoeconf</code></span>
+</li>
+<li class="level1"><span class="li"> Avoir accès aux privilèges <code>sudo</code> (super utilisateur) ou entrer les commandes sans le <code>sudo</code> en début de ligne, mais dans un terminal superutilisateur.</span>
+</li>
+</ol>
+
+</div>
+<!-- SECTION [222-651] -->
+<a name="debut_de_la_configuration"></a><h3> Début de la configuration </h3>
+<div class="level3">
+
+<p>
+ Tout est simple pour cette configuration, il suffit de suivre les étapes : 
+</p>
+<ul>
+<li class="level1"><span class="li"> Démarrez un terminal (une console en mode texte) :</span>
+</li>
+</ul>
+
+<p>
+ <strong>Dans Gnome :</strong> Menu <em>Applications &rArr; Outils système &rArr; Terminal</em>
+</p>
+
+<p>
+<strong>Dans KDE :</strong> Menu KDE : <em>Utilitaire &rArr; Konsole</em> 
+</p>
+<ul>
+<li class="level1"><span class="li"> Pour lancer le module de configuration de la connexion <em>pppoe</em>, entrez la commande suivante dans le terminal :</span>
+</li>
+</ul>
+<pre class="code">
+  sudo pppoeconf
+</pre>
+
+<p>
+Suivez les instructions suivantes : 
+</p>
+<pre class="code">┌─────┤ Tous les périphériques ont-ils été trouvés ? ├─────┐
+│                                                          │
+│ Il a été trouvé 1 périphériques Ethernet :               │
+│ eth0                                                     │
+│                                                          │
+│ Veuillez indiquer si toutes vos interfaces Ethernet      │
+│ apparaissent dans la liste.                              │
+│ (Dans le cas contraire, modconf va être lancé pour que   │
+│ vous puissiez charger les pilotes des cartes             │
+│ manuellement).                                           │
+│                                                          │
+│               &lt;Oui&gt;                  &lt;Non&gt;               │
+└──────────────────────────────────────────────────────────┘</pre>
+<ul>
+<li class="level1"><span class="li"> Répondez : <code>&lt;Oui&gt;</code></span>
+</li>
+</ul>
+<pre class="code">┌────────────────┤ Connexion DSL trouvée ├─────────────────┐
+│                                                          │
+│ Un concentrateur d'accès a été trouvé sur eth0.          │
+│ Veuillez confirmer si PPPoE doit être configuré pour     │
+│ cette connexion.                                         │
+│                                                          │
+│               &lt;Oui&gt;                  &lt;Non&gt;               │
+└──────────────────────────────────────────────────────────┘</pre>
+<ul>
+<li class="level1"><span class="li"> Répondez : <code>&lt;Oui&gt;</code></span>
+</li>
+</ul>
+<pre class="code">┌──────────────┤ Faut-il continuer la configuration ? ├──────────────┐
+│                                                                    │
+│ Si vous continuez, le fichier de configuration                     │
+│ /etc/ppp/peers/dsl-provider sera modifié. Assurez-vous d'avoir     │
+│ une copie de sauvegarde avant d'accepter.                          │
+│                                                                    │
+│ Veuillez confirmer la poursuite de la configuration.               │
+│                                                                    │
+│                  &lt;Oui&gt;                     &lt;Non&gt;                   │
+└────────────────────────────────────────────────────────────────────┘</pre>
+<ul>
+<li class="level1"><span class="li"> Répondez : <code>&lt;Oui&gt;</code></span>
+</li>
+</ul>
+<pre class="code">┌───────────────────────┤ Options courantes ├────────────────────────┐
+│                                                                    │
+│ La plupart des utilisateurs des services de fournisseurs de        │
+│ connexion intermittentes préfèrent mettre les options « noauth »   │
+│ et « defaultroute » dans leur configuration et suppriment          │
+│ l'option « nodetach ». Veuillez confirmer si vous souhaitez que    │
+│ votre fichier de configuration soit vérifié et ces paramètres      │
+│ changés si nécessaire.                                             │
+│                                                                    │
+│                  &lt;Oui&gt;                     &lt;Non&gt;                   │
+└────────────────────────────────────────────────────────────────────┘</pre>
+<ul>
+<li class="level1"><span class="li"> Répondez : <code>&lt;Oui&gt;</code></span>
+</li>
+</ul>
+<pre class="code">┌────────────────────┤ Identifiant : ├─────────────────────┐
+│ Veuillez indiquer l'identifiant que vous devez fournir   │
+│ habituellement à votre fournisseur d'accès pour la       │
+│ connexion PPP. Si vous voulez voir les écrans d'aide,    │
+│ indiquez une valeur vide.                                │
+│                                                          │
+│ b1xxxxXX@sympatico.ca___________________________________ │
+│                                                          │
+│                          &lt;Ok&gt;                            │
+└──────────────────────────────────────────────────────────┘</pre>
+<ul>
+<li class="level1"><span class="li"> Entrez ici votre numéro de compte Sympatico, suivi de : @sympatico.ca (Comme dans l&rsquo;exemple ci-dessus)</span>
+</li>
+</ul>
+<pre class="code">┌────────────────────┤ Mot de passe : ├────────────────────┐
+│ Veuillez indiquer le mot de passe que vous devez         │
+│ fournir habituellement à votre fournisseur d'accès       │
+│ pour la connexion PPP.                                   │
+│                                                          │
+│ Remarque : le mot de passe sera visible pendant que      │
+│ vous le taperez.                                         │
+│                                                          │
+│ xxxxxxxx________________________________________________ │
+│                                                          │
+│                                                          │
+│                          &lt;Ok&gt;                            │
+└──────────────────────────────────────────────────────────┘</pre>
+<ul>
+<li class="level1"><span class="li"> Entrez ici votre mot de passe pour la connexion Sympatico. </span>
+</li>
+<li class="level1"><span class="li"> <em>Remarque :</em> pas pour votre courriel, ils ne sont pas les mêmes !</span>
+</li>
+</ul>
+<pre class="code">┌┤ Faut-il utiliser le serveur de noms du fournisseur d'a ├┐
+│                                                          │
+│ You need at least one DNS IP address to resolve the      │
+│ normal host names. Normally your provider sends you      │
+│ addresses of useable servers when the connection is      │
+│ established. Would you like to add these addresses       │
+│ automatically to the list of nameservers in your local   │
+│ /etc/resolv.conf file? (recommended)                     │
+│                                                          │
+│               &lt;Oui&gt;                  &lt;Non&gt;               │
+└──────────────────────────────────────────────────────────┘</pre>
+<ul>
+<li class="level1"><span class="li"> Répondez : <code>&lt;Oui&gt;</code></span>
+</li>
+</ul>
+<pre class="code">┌─────────────────┤ Problème de « MSS » restreint ├──────────────────┐
+│                                                                    │
+│ Many providers have routers that do not support TCP packets with   │
+│ a MSS higher than 1460. Usually, outgoing packets have this MSS    │
+│ when they go through one real Ethernet link with the default MTU   │
+│ size (1500). Unfortunately, if you are forwarding packets from     │
+│ other hosts (i.e. doing masquerading) the MSS may be increased     │
+│ depending on the packet size and the route to the client hosts,    │
+│ so your client machines won't be able to connect to some sites.    │
+│ There is a solution: the maximum MSS can be limited by pppoe.      │
+│ You can find more details about this issue in the pppoe            │
+│ documentation.                                                     │
+│                                                                    │
+│ Should pppoe clamp MSS at 1452 bytes?                              │
+│                                                                    │
+│ If unsure, say yes.                                                │
+│                                                                    │
+│ (If you still get problems described above, try setting to 1412    │
+│                                                                    │
+│                  &lt;Oui&gt;                     &lt;Non&gt;                   │
+└────────────────────────────────────────────────────────────────────┘</pre>
+<ul>
+<li class="level1"><span class="li"> Répondez : <code>&lt;Non&gt;</code></span>
+</li>
+</ul>
+<pre class="code">┌─────┤ Faut-il activer la connexion au démarrage ? ├──────┐
+│                                                          │
+│ Le démon pppd est maintenant configuré. Veuillez         │
+│ indiquer si la connexion doit être activée au            │
+│ démarrage de la machine.                                 │
+│                                                          │
+│               &lt;Oui&gt;                  &lt;Non&gt;               │
+└──────────────────────────────────────────────────────────┘</pre>
+<ul>
+<li class="level1"><span class="li"> Répondez : <code>&lt;Oui&gt;</code>, si la confidentialité et la sécurité de vos données ne vous préoccupent pas !</span>
+</li>
+<li class="level1"><span class="li"> Dans le cas contraire, répondez <code>&lt;Non&gt;</code>, mais vous devrez activer votre connexion pour avoir accès à Internet.</span>
+</li>
+</ul>
+<pre class="code">┌────────────┤ Faut-il établir la connexion ? ├────────────┐
+│                                                          │
+│ Vous pouvez maintenant établir une connexion DSL en      │
+│ exécutant « pon dsl-provider » et la terminer par        │
+│ « poff ». Veuillez indiquer si vous souhaitez            │
+│ effectuer cette opération maintenant.                    │
+│                                                          │
+│               &lt;Oui&gt;                  &lt;Non&gt;               │
+└──────────────────────────────────────────────────────────┘</pre>
+<ul>
+<li class="level1"><span class="li"> Répondez : <code>&lt;Oui&gt;</code> pour tester votre nouvelle connexion, vous devriez avoir le message suivant :</span>
+</li>
+</ul>
+<pre class="code">┌──────────────────┤ Connexion établie ├───────────────────┐
+│                                                          │
+│ La connexion DSL a été établie. Vous pouvez utiliser     │
+│ la commande « plog » pour en voir l'état ou « ifconfig   │
+│ ppp0 » pour des informations générales sur l'interface.  │
+│                                                          │
+│                          &lt;Ok&gt;                            │
+└──────────────────────────────────────────────────────────┘</pre>
+<ul>
+<li class="level1"><span class="li"> À la fin de votre promenade sur le Net, n&rsquo;oubliez pas de vous déconnecter avec la commande <code>poff</code> et utilisez la commande <code>pon dsl-provider</code> pour vous reconnectez ! </span>
+</li>
+</ul>
+
+<p>
+ Un conseil : Notez ces commandes pour les avoir à portée de main au besoin : 
+</p>
+<ul>
+<li class="level1"><span class="li"> <code>sudo pon dsl-provider</code> : Pour établir une connexion DSL.</span>
+</li>
+<li class="level1"><span class="li"> <code>sudo poff</code> : Pour terminer votre connexion.</span>
+</li>
+<li class="level1"><span class="li"> <code>plog</code> : Pour voir l&rsquo;état de la connexion.</span>
+</li>
+<li class="level1"><span class="li"> <code>ifconfig ppp0</code> : Pour voir les informations générales sur l&rsquo;interface.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Tapez, simultanément sur les touches <code>&lt;Ctrl&gt;&lt;D&gt;</code> pour fermer et quitter la console.</span>
+</li>
+</ul>
+
+<p>
+ <strong>Bonne navigation...</strong>
+</p>
+
+<p>
+Auteur : <a href="mailto:&#x6c;&#x61;&#x6d;&#x69;&#x40;&#x77;&#x65;&#x62;&#x65;&#x73;&#x74;&#x72;&#x69;&#x65;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x6c;&#x61;&#x6d;&#x69;&#x40;&#x77;&#x65;&#x62;&#x65;&#x73;&#x74;&#x72;&#x69;&#x65;&#x2e;&#x63;&#x6f;&#x6d;">&#x6c;&#x61;&#x6d;&#x69;&#x40;&#x77;&#x65;&#x62;&#x65;&#x73;&#x74;&#x72;&#x69;&#x65;&#x2e;&#x63;&#x6f;&#x6d;</a> 
+</p>
+
+</div>
+<!-- SECTION [652-] -->

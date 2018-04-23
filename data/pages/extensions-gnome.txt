@@ -1,0 +1,129 @@
+{{tag>extensions gnome personnalisation}}
+
+---
+
+{{ :variantes:gnome_shell:gnome-icon.png?80|Icone}}
+====== Extensions GNOME Shell ======
+
+Le bureau [[:gnome-shell|GNOME Shell]] se complète avec des extensions bien utiles écrites en JavaScript. Ces extensions vous permettent d'**ajouter/supprimer/modifier des fonctionnalités de l'interface** : barre de tâches, dock, gestionnaire de presse-papiers, menus pour les emplacements favoris ou les applications, etc.
+
+Si vous envisagez de faire de GNOME Shell votre environnement principal, alors il est plus que recommandé d'y jeter un coup d’œil.
+
+===== Installer des extensions =====
+
+==== Un vaste catalogue ====
+
+La **SEULE** source d'installation recommandée par les développeurs de Gnome Shell est le site officiel [[https://extensions.gnome.org|extensions.gnome.org]] : un vaste catalogue d'extension y est disponible (ci-dessous), vous pouvez également y constater quelles sont les extensions les plus populaires, et y accéder à la liste des extensions présentes sur votre système (onglet "Installed Extensions").
+
+Grâce à de petits interrupteurs, on peut installer, mettre à jour, activer ou désactiver les extensions proposées directement depuis le site (compatible avec les navigateurs [[:Epiphany]] (Gnome Web), [[:Firefox]], et aussi Chromium/Vivaldi/Chrome si ils disposent de [[https://chrome.google.com/webstore/detail/gnome-shell-integration/gphhapmejobijbbhgpjhcjognlahblep?hl=fr |l'extension pour navigateur appropriée]]).
+
+<note important>Pensez à y rechercher des extensions **compatibles avec votre version** de Gnome Shell grâce aux paramètres de recherche du site.</note>
+
+Le but du site officiel extensions.gnome.org est de proposer des extensions dont le code a été lu et compris par des responsables liés à la fondation GNOME : les extensions proposées présentent donc rarement des bugs majeurs, et sont normalement dignes de confiance.
+
+| {{ http://image.noelshack.com/fichiers/2017/17/1493381277-capture-d-ecran-de-2017-04-28-14-07-49.png?350|Le site officiel de Gnome recense l'immense majorité des extensions existantes. }} | {{ http://i.imgur.com/4OuPEYW.png?350|Les extensions sont installables via la logithèque }} |
+^ Installation via le site officiel ^ Installation via la [[:gnome-software|logithèque]] ^
+
+Avec la **logithèque GNOME** ([[:gnome-software|Logiciels]], qui est la logithèque par défaut sur certaines versions d'Ubuntu), il est aussi possible d'installer de manière sûre les extensions en provenance du site officiel extensions.gnome.org sans avoir à utiliser un navigateur.
+
+==== Le paquet des extensions officielles ====
+
+Les développeurs de GNOME proposent une douzaine d'extensions réunies dans un seul paquet depuis Gnome 3.4 (donc depuis Ubuntu 11.04). **Ces extensions sont normalement installées par défaut avec GNOME Shell**, et visibles dans l'onglet "Extensions" de l'Outil de Personnalisation Gnome.
+<note>On peut installer ces extensions officielles par la commande <code>sudo apt-get install gnome-shell-extensions</code> Le redémarrage de la session est parfois nécessaire pour que ces extensions officielles soient disponibles dans l'utilitaire "Gnome Tweak Tool". </note>
+
+Voici une brève description de ces extensions officielles :
+  * **Alternate tab** propose un fonctionnement différent pour l'ALT+TAB où les fenêtres ne sont pas regroupées par application
+  * Alternative status menu fait apparaître les items "hiberner" et "éteindre" dans le menu utilisateur (n'est plus disponible pour les versions récentes)
+  * **Applications menu** ajoute un menu "classique" (comme sur Cinnamon, Xfce ou Budgie) dans la barre supéreure
+  * **Auto move window** permet de choisir pour chaque application dans quel bureau virtuel ses fenêtres s'ouvriront
+  * **Native window placement** propose un affichage moins monotone des fenêtres dans le mode exposition
+  * **Launch new instance** si une application est déjà lancée, cliquer sur l'icône du dash lance une nouvelle fenêtre au lieu de restaurer celle existante.
+  * **Place status indicator** ajoute à la zone de notification un raccourci vers les signets de Nautilus (Documents, Musique, etc.)
+  * **Removable drive menu** ajoute un raccourci à la zone de notification permettant d'accéder aux médias amovibles, s'il y en a de branchés
+  * **Screenshot window sizer** ctrl+alt+s redimensionne les fenêtres en format 16:9 pour qu'on puisse prendre de jolis screenshots
+  * **System monitor** ajoute dans la barre de notification (en bas) un graphique indiquant la consommation mémoire et processeur
+  * **User theme** permet de charger les thèmes du répertoire ~/.themes 
+  * **Workspace indicator** ajoute dans la zone de notification un indicateur du bureau virtuel en cours et la possibilité d'atteindre un autre bureau
+  * **Window navigator** permet de naviguer au clavier dans le mode exposition entre les différentes fenêtres (ALT) ou les différents bureaux (CTRL)
+
+===== Exemples d'utilisation des extensions =====
+
+<note>Ces exemples ne sont pas tous avec Ubuntu, mais ça n'a aucune importance dans ce contexte. Les thèmes changent peu car le but est juste de montrer les extensions.</note>
+^ Exemples ^^^
+| {{ http://i.imgur.com/McqqrZg.png?250|Exemple 1 }} | {{ http://i.imgur.com/3Vw8Mnj.png?250|Exemple 2 }} | {{ http://i.imgur.com/axS9D29.png?250|Exemple 3 (menu horloge ouvert) }} |
+^ Exemple 1 \\ (interface à la Windows) ^ Exemple 2 \\ (dock vertical) ^ Exemple 3 \\ (dock ; avec menu horloge ouvert) ^
+| **Thème du Shell :** aucun \\ (utilisation d'Activities Configurator) \\ **Thème GTK+ (fenêtres) :** Vertex-Dark \\ **Thème d'icônes :** Faenza \\ **Extensions :** \\ - Dash to Panel \\ - Activities Configurator \\ - Places status indicator \\ - Lock Keys Indicator \\ - Clipboard Indicator  \\ - Caffeine | **Thème du Shell :** aucun \\ (utilisation d'Activities Configurator) \\ **Thème GTK+ (fenêtres) :** Vertex-Dark \\ **Thème d'icônes :** Faenza \\ **Extensions :** \\ - Pixel Saver \\ - Dash to Dock \\ - Activities Configurator \\ - Places status indicator \\ - Clipboard Indicator \\ - Caffeine \\ - etc. | **Thème du Shell :** Vertex \\ **Thème GTK+ (fenêtres) :** Vertex-Dark \\ **Thème d'icônes :** Faenza \\ **Extensions :** \\ - User Theme \\ - Dash to Dock \\ - Places status indicator \\ - Lock Keys Indicator \\ - Clipboard Indicator \\ - Emoji Selector \\ - Caffeine \\ - etc. | 
+
+===== Petite sélection arbitraire d'extensions =====
+
+Il existe près de 220 extensions disponibles pour Gnome Shell en version 3.22 en ce jour (28 avril 2017), et environ 800 toutes versions confondues !
+Il est parfois dur de s'y retrouver. Aussi  je vous propose un petit florilège de celles qui me paraissent les plus intéressantes, que vous pouvez bien sûr compléter.
+Si l'extension est disponible sur le site Gnome, un lien y mène, si l'extension est officielle, vous voudrez bien vous référer au [[#breve_description_des_extensions_officielles|paragraphe en question]] pour sa description.
+
+==== Extensions qui me semblent indispensables ====
+  * **[[https://extensions.gnome.org/extension/307/dash-to-dock/|Dash to dock]]** \\ Transforme le //dash// de la vue activités en un dock disponible directement depuis le bureau, et richement paramétrable (taille, transparence, position, comportement, etc.)
+  * **[[https://extensions.gnome.org/extension/358/activities-configurator/|Activities Configurator]]** \\ Permet de personnaliser en détails la barre supérieure (couleur, transparence), le bouton "Activités" (texte, icône, etc.), le "hot corner", etc.
+  * **[[https://extensions.gnome.org/extension/779/clipboard-indicator/|Clipboard Indicator]]** \\ Un gestionnaire de presse-papier assez avancé.
+  * **[[https://extensions.gnome.org/extension/327/axe-menu/|Axe Menu]]** ou **[[https://extensions.gnome.org/extension/6/applications-menu/|Applications Menu (extension officielle)]]** \\ un menu classique pour ceux qui n'aiment pas la vue des applications ni la recherche au clavier.
+  * **[[https://extensions.gnome.org/extension/8/places-status-indicator/|Places Status Indicator]]** ([[#les_extensions_officielles_de_gnome_shell|extension officielle]]) mais diverses alternatives existent.
+  * **[[https://extensions.gnome.org/extension/36/lock-keys/|Lock Keys]]** \\ Affiche des indicateurs dans la barre supérieure pour indiquer si le verrouillage numérique ou le verrouillage majuscule sont activés.
+  * **[[https://extensions.gnome.org/extension/723/pixel-saver/|Pixel Saver]]** \\ Supprime les barres des fenêtres maximisées n'ayant "que" un titre et des boutons. Le titre est mis à la place de l'appmenu dans la barre supérieure, et les boutons de fenêtre sont eux aussi déplacés dans la barre supérieure.
+  * **[[https://extensions.gnome.org/extension/570/todotxt/|Todo.txt]]** \\ Pense-bête et gestion avancée des tâches, hautement paramétrable.
+  * **[[https://extensions.gnome.org/extension/1031/topicons/|Topicon plus]]** \\ Les applications comme Skype, Discord ou Steam qui mettent un icône dans la zone de statut des barres de tâches des environnements habituels sont assez dérangeantes avec Gnome Shell, et dépassent généralement en bas de l'écran. Cette extension les envoie dans la barre supérieure.
+  * **[[https://extensions.gnome.org/extension/800/remove-dropdown-arrows/|Remove Dropdown Arrows]]** \\ Supprime les petites flèches irritantes qui indiquent que les extensions sont des menus.
+  * **[[https://extensions.gnome.org/extension/97/coverflow-alt-tab/|Coverflow AltTab]]** \\ Remplace le banal sélecteur AltTab par défaut par un défilement en 3D des fenêtres.
+
+==== Extensions intéressantes ====
+  * **[[https://extensions.gnome.org/extension/1160/dash-to-panel/|Dash to panel]]** \\ Fusionne le dash et la barre supérieure en une unique "barre de tâches" moderne et élégante, avec miniatures de fenêtres au survol, qui vous rappellera peut-être des interfaces comme Windows 7 ou 10.
+  * **[[https://extensions.gnome.org/extension/517/caffeine/|Caffeine]]** \\ Empêche la session de se verrouiller ou l'ordi de se mettre en veille si l'indicateur est activé.
+  * **[[https://extensions.gnome.org/extension/55/media-player-indicator/|Media Player Indicator]]** \\ Permet d'avoir un indicateur en haut à droite permettant de contrôler les lecteurs multimédia compatible MPRIS.
+  * **[[https://extensions.gnome.org/extension/112/remove-accesibility/|Remove Accessibility]]** \\ Enlève le menu 'accessibilité' de la barre supérieure.
+  * **[[https://extensions.gnome.org/extension/750/openweather/|Open Weather]]** \\ Affiche la météo dans la barre supérieure, avec un menu qui montre les prévisions sur plusieurs jours.
+  * **[[https://extensions.gnome.org/extension/10/windownavigator/|Window Navigator]]** ([[#les_extensions_officielles_de_gnome_shell|extension officielle]])
+  * **[[https://extensions.gnome.org/extension/249/remove-recent-item/|Remove Recent Item]]** \\ Permet d'effacer certains fichiers récent de la recherche dans le tableau de bord.
+  * **[[https://extensions.gnome.org/extension/72/recent-items/|Recent Items]]** \\ Affiche un menu permettant d'accéder aux documents ouverts récemment.
+  * **[[https://extensions.gnome.org/extension/7/removable-drive-menu/|Removable Drive Menu]]**([[#les_extensions_officielles_de_gnome_shell|extension officielle]])\\ Indispensable si vous avez réglé le système pour qu'il ne fasse rien par défaut, et surtout pour qu'il n'ouvre pas à la fois Nautilus ET un pop-up quand un média amovible est inséré.
+  * **[[https://extensions.gnome.org/extension/234/steal-my-focus/|Steal My Focus]]** \\ Supprime les notifications du type “votre application est prête” et donne automatiquement le focus à la nouvelle fenêtre ouverte.
+  * **[[https://extensions.gnome.org/extension/19/user-themes/|User Themes]]** (extension officielle). \\ Permet de changer le thème de Gnome Shell (et **NON** cette extension n'est **pas du tout** nécessaire pour changer le thème des fenêtres !).
+
+===== Avancé : installation manuelle des extensions et fonctionnement de base =====
+
+==== Emplacement du code ====
+Les extensions de l'utilisateur sont stockées dans ~/.local/share/gnome-shell/extensions/
+
+Il est possible d'y installer des extensions depuis du code source trouvé sur un dépôt github par exemple, ou de modifier une extension existante, ou pourquoi pas d'y contribuer, d'en traduire une, ou d'en coder soi-même 8-) 
+
+<note warning>Si vous ne comprenez pas ce que fait le code javascript d'une extension que vous trouvez quelque part sur internet, il peut être dangereux d'installer l'extension en question : le but du site officiel extensions.gnome.org est de proposer des extensions dont le code a été lu et compris par des responsables liés à la fondation GNOME, et si une extension a été rejetée de leur site, c'est qu'elle est codée n'importe comment, ou pire qu'elle présente une faille de sécurité, voire elle est malveillante. N'installez une extension depuis son dépôt source que si vous comptez par exemple y contribuer, ou si vous faites une confiance aveugle à son développeur et que vous voulez absolument la dernière version disponible.</note>
+
+==== Structuration du code ====
+
+Chaque extension possède un dossier qui lui est propre et qui répond à des conventions de nommage spécifiques : les identifiants des extensions (uuid) ressemblent à des adresses email par exemple.
+
+Ces dossiers contiennent forcément au moins :
+  * **metadata.json** Ce fichier décrit l'extension (son nom, son identifiant, la description qui apparaît dans Gnome Tweak Tool, là où ses éventuels paramètres sont accessibles dans dconf, etc.) et surtout les versions de Gnome Shell théoriquement compatibles avec l'extension.
+  * **extension.js** Ce fichier contient le code de l'extension : une fonction init(), une fonction enable() et une fonction disable() y sont forcément présentes.
+
+Le code de chaque fichier **extension.js** est chargé en mémoire et interprété par GNOME Shell à chaque démarrage de session (la fonction enable sera exécutée si l'extension est active, init est exécutée même si l'extension est inactive). En cas de bug sur certaines extensions mal testées par le développeur ou par les reviewers de extensions.gnome.org, il est parfois nécessaire de redémarrer le shell (dans l'invite de commande alt+f2, tapez "r" et confirmez).
+
+La plupart des extensions possèdent également :
+  * un dossier "locale" où se trouvent les traductions ;
+  * un dossier "schemas" où se trouvent les préférences dans un format compris par dconf (avec un peu de débrouillardise, vous pouvez donc paramétrer certaines extensions avec la commande gsettings ou l'éditeur dconf !) ;
+  * prefs.js qui contient la petite fenêtre de préférences de l'extension accessible depuis Gnome Tweak Tool ;
+  * un fichier .css pour gérer l'apparence des composants de l'extension (polices, couleurs, tailles, etc.)
+
+==== Fonctionnement ====
+
+Gnome Shell agit en fait comme un moteur Javascript, qui exécute d'abord le code de l'interface par défaut (qui est en Javascript aussi), puis le code des fonctions //init// de toutes les extensions, puis le code des fonctions //enable// des extensions activées.
+
+Il s'agit d'ajouter des choses à l'interface, ou de réécrire des fonctionnalités existantes (souvent pour les enrichir) en redéfinissant dans la fonction //enable()// des fonctions de l'interface par défaut, ou en y injectant du code.
+
+Les changements de GNOME Shell au cours du temps provoquent parfois des incompatibilités, et des extensions périmées peuvent hélas être chargées de manière incomplètes avant de commencer à buguer, et parfois cela rend l'interface inutilisable, il est donc essentiel de n'installer que des extensions faites pour la bonne version de GNOME !
+
+==== Looking Glass ====
+
+ Une console Javascript, nommée "Looking Glass" permet d'analyser l'interface et d'exécuter quelques instructions en Javascript. On y accède en faisant Alt+F2, et en tapant la commande spéciale "lg" dans la boite de dialogue qui apparaît alors.
+
+===== Voir aussi =====
+
+  * [[https://extensions.gnome.org/]]
+  * Tutoriel : [[:tutoriel/personnaliser_gnome|personnaliser GNOME]]

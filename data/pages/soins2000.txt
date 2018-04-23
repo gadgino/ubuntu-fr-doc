@@ -1,0 +1,128 @@
+{{tag>Trusty santé entreprise wine}}
+
+----
+
+====== SOINS 2000 : Logiciel de gestion pour cabinet médical======
+
+Soins2000 est un logiciel propriétaire et payant de télétransmission pour infirmier - infirmière, kinésithérapeute, orthophoniste.
+
+Il est téléchargeable gratuitement sur le site de l'éditeur.
+
+<note>Cette page n'a pas pour objectif de faire la promotion de ce logiciel, mais de permettre à ceux qui l'auraient choisi de le faire tourner sur un système d'exploitation libre. Il existe évidemment des alternatives : voir le portail [[Santé]].</note>
+
+===== Pré-requis =====
+
+  * Avoir installé [[Wine]]
+
+=====Installation=====
+
+Ce logiciel pour Windows fonctionne sous UBUNTU avec wine + 1 fichier dll (vérifié avec Ubuntu 10.10 + Wine-1.2.1) :
+
+  * Installer wine.
+  * Télécharger le logiciel soins2000 sur [[http://soins2000.com/|le site de l'éditeur]].
+  * Autoriser l'exécution de soins2000.exe et le lancer avec wine.
+  * Ajouter le fichier [[http://fr.dll-files.com/pop.php?dll=msvcp60|msvcp60.dll]] dans le répertoire ~/.wine/drive_c/windows/system32.
+
+<note help> L'ajout manuel de cette dll ne semble plus nécessaire car elle est déjà présente dans wine 1.6.1 (testé avec Ubuntu 12.04 LTS 64 bits + wine 1.6.1) </note>
+=====Utilisation=====
+
+Lancer le logiciel soins2000 avec l'icône présente sur le bureau.
+Pour le reste, contacter l'éditeur...
+
+
+=====Connexion du lecteur de carte=====
+
+FIXME  A vérifier pour le câble USB : ln -s /dev/ttyUSB0 ~/.wine/dosdevices/com1
+
+<note warning>Cette commande ne fonctionne pas (testé avec un TLA modèle Vital'Act3S) car le TLA apparaît sous /dev/ttyACM0.</note>
+
+<note tip>
+Il faut adapter la commande :
+<code>ln -s /dev/ttyACM0 ~/.wine/dosdevices/com1</code>
+</note>
+
+<note important>
+Il faut aussi adapter la commande à la variable d'environnement WINEPREFIX utilisée lors de l'installation de Soins2000. Par exemple, si elle a été modifiée avec Winetricks, WINEPREFIX n'est plus ~/.wine/ mais /home/$USER/.local/share/wineprefixes/vc2008express/
+
+Vérifier dans les propriétés du lanceur de Soins2000 situé sur le bureau.
+
+
+<note tip>
+Testé avec Ubuntu 12.04 LTS 64 bits + wine 1.6.1 + TLA Vital'Act-3S + Soins2000 version 2.1.0
+
+Créer le lien :
+
+<code>ln -s /dev/ttyACM0 /home/$USER/.local/share/wineprefixes/vc2008express/dosdevices/com1</code>
+</note>
+</note>
+
+Une alternative est de créer un lien à partir de l'identifiant du lecteur de cartes, dont le nom figure dans le dossier /dev/serial/by-id/ (ici, le Vital'Act-3S de Xiring) :
+<code>ln -s /dev/serial/by-id/usb-XIRING_XIRING_Vital_Act-3S-if00 ~/.wine/dosdevices/com1</code>
+
+Il n'est toujours pas possible d'avoir accès au TLA depuis Soins2000 à cause d'une restriction des droits d'accès : lorsque le TLA est connecté, le lien COM1 créé précédemment appartient au groupe "dialout". Il faut donc ajouter l'utilisateur courant au groupe "dialout" :
+<code>sudo adduser $USER dialout</code>
+
+Puis se déconnecter (ou éteindre le PC) et se reconnecter (ou redémarrer le PC) pour la prise en compte de ce changement.
+
+Démarrer Soins2000 via Wine, l'accès au TLA est maintenant possible. Il est bien reconnu par le logiciel.
+
+(Testé avec Ubuntu 14.04 LTS 64 bits + wine 1.6.2 + TLA Vital'Act-3S + Soins2000 version 2.1.0)
+=====Scanner=====
+
+FIXME Le scanner (testé avec une imprimante multifonction EPSON) ne fonctionne pas avec Soins2000 sous Wine. Le logiciel freeze lors de la recherche du scanner, et finit par se fermer.
+
+<note tip>Numériser les ordonnances avec son logiciel de [[scanner]] préféré sous Ubuntu, puis les importer sous Soins2000 via le bouton "Scanner" puis "Importer/Exporter".</note>
+
+
+=====Installation alternative : la virtualisation=====
+
+Si l'installation de Soins2000 via Wine ne fonctionne pas, il est possible de l'installer sur un système d'exploitation Windows émulé ou virtualisé.
+====Pré-requis====
+  * Nécessite un système d'exploitation Windows et son numéro de licence authentique
+  * Processeur supportant la virtualisation. Pour cela, voir [[:kvm#mise_en_place|Ici]]
+
+====Installation====
+  - Installer un logiciel de [[virtualisation]]
+  - Créer une machine virtuelle Windows
+  - Lancer sa machine virtuelle Windows, puis comme vous l'auriez fait sous un système d'exploitation Windows :
+    - Installer soins2000.exe fourni par l'éditeur
+    - Installer les drivers du TLA, du scanner, de l'imprimante
+    - Pour [[virtualbox]] : dans les paramètres USB de la machine virtuelle, créer un filtre pour que le TLA soit monté automatiquement lors du démarrage de votre système virtualisé. Pour les autres périphériques (imprimante, scanner), un simple clique droit sur l'icône USB de la fenêtre de virtualisation permet de monter les appareils reconnus par Ubuntu.
+
+<note> Testé sous Ubuntu 12.04 LTS 64 bits pour la création d'une machine virtuelle Windows XP SP3 :
+
+  * Avec [[kvm]] : installation de Windows XP longue ; reconnaissance des ports usb plus "délicate"
+
+  * Avec [[virtualbox]] : installation de Windows XP rapide ; gestion des ports usb simple
+</note>
+
+====Utilisation====
+
+  - Lancer votre machine virtuelle Windows
+  - Lancer le logiciel soins2000 avec l'icône présente sur le bureau de Windows virtualisé
+  - Pour le reste, contacter l'éditeur...
+
+===== Problèmes connus =====
+
+==== Via WINE ====
+  * Non reconnaissance du scanner sous WINE
+  * Freeze du programme
+
+==== Via VirtualBox ====
+  * Le système d'exploitation Windows ne se lance plus suite à une mise à jour de la version de VirtualBox ? Pensez à vérifier si les versions du programme VirtualBox et du pack d'extension sont rigoureusement identiques (voir [[:virtualbox#peripheriques_usb_virtualbox_4_et_5|ici]]).
+
+<note important>Ne pas avoir la même version entre le pack d'extensions et le programme VirtualBox peut empêcher le lancement de l'OS virtualisé. Par exemple : Windows XP SP3 virtualisé par VirtualBox 4.3.34 sur Ubuntu 14.04 LTS ne se charge pas jusqu'à son terme : il est stoppé après le chargement du driver "mup.sys", le système tentant ensuite de charger les périphériques USB (plus d'informations [[http://www.techrepublic.com/forums/questions/mupsys/|ici]]). La mise à jour du pack d'extensions de 4.3.10 à 4.3.34 a résolu le problème.</note>
+
+
+=====Voir aussi=====
+
+  * [[http://www.soins2000.com/|Site officiel de Soins2000]]
+  * Portail [[Santé]]
+  * Portail [[Wine]] et [[https://www.winehq.org/|Site officiel de Wine]]
+  * Portail [[Virtualisation]]
+  * Discussion "[[http://forum.ubuntu-fr.org/viewtopic.php?id=154217|Application planning de soins infirmiers]] sur le forum ubuntu-fr
+
+----
+//Contributeurs principaux : [[utilisateurs:vavincavent|]], [[utilisateurs:DamS|]] (pour la reconnaissance du TLA, le scanner, la virtualisation, les problèmes connus)//
+
+//Dernière mise à jour : 02-12-2015//

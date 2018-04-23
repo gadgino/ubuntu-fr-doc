@@ -1,0 +1,50 @@
+{{tag>Karmic matériel réseau modem}}
+
+----
+
+====== SpeedTouch USB/330 avec speedtouch-ng ======
+
+{{ materiel:speedtouch.jpg?200}}
+
+**Installer le modem ADSL USB de Thomson/Alcatel sur Ubuntu, en quelques minutes !**
+
+
+//[[http://perso.wanadoo.fr/superdindon/speedtouch-ng/|speedtouch-ng]] est un paquetage contenant tout le nécessaire pour configurer un modem Speedtouch USB/330. Attention néanmoins, il inclut des micro-codes qui ne sont pas autorisés à être redistribués. Il n'est donc pas tout à fait légal, seulement toléré.//
+
+Vous venez d'installer Ubuntu ou dérivé et avez déjà essayé de configurer une connexion avec speedtouchconf, speedtouch-suite, ou un autre vieux script de ce genre ? Ces scripts ne sont pas vraiment des modèles de propreté, le mieux à faire est de réinstaller complètement Ubuntu avant de suivre ce tutoriel.
+
+De même, **n'utilisez surtout pas** les outils de configuration du réseau de Gnome ou de KDE pour configurer ''ppp0'' ( et ''nas0'' ), même si vous rencontrez des problèmes.
+
+=====Pré-requis =====
+
+  * Vous devez tout d'abord connaître le protocole utilisé par votre FAI ( PPPoA ou PPPoE ? le plus répandu est le PPPoA ), et vos valeurs de VPI/VCI qui dépendent de votre pays, de votre FAI et dans des cas particuliers de votre situation (dégroupé ? non dégroupé ?). Les valeurs de VPI/VCI sont recencées [[http://faq.eagle-usb.org/wakka.php?wiki=ListConfigADSL|ici]], et à la limite pour le protocole vous pourrez essayer d'abord PPPoA puis PPPoE.
+  * Le paquet <del>[[http://www.moigeeknevro.com/speedtouch-ng/files/1.3.1/speedtouch-ng_1.3.1_all.deb|speedtouch-ng]]</del>
+  * Le paquet [[apt>br2684ctl]] pour le PPPoE (inutile pour le PPPoA, mais vous pouvez l'installer quand même, cela ne pose aucun problème).
+=====Installation =====
+
+Retrouvez les paquets dans votre gestionnaire de fichiers, ouvrez-les en double-cliquant dessus puis démarrez l'installation en cliquant sur //Installer//. Dans la fenêtre de progression vous verrez une petite flèche intitulée //Terminal//. Cliquez dessus et répondez aux questions posées, aucune ne devrait poser problème.
+
+
+Un bug affecte ceux qui ont utilisé //network-admin//, l'outil de configuration du réseau de Gnome ( Administration -> Réseau ). Au moindre changement ( relatif ou non au Speedtouch ), l'application modifie incorrectement l'un des fichiers de speedtouch-ng ! Si pour une raison ou une autre vous en avez fait usage, regénérez les fichiers de configuration de speedtouch-ng avec la commande :
+<code>sudo dpkg-reconfigure speedtouch-ng</code>
+
+===== En cas de problème =====
+
+
+==== 1. Utiliser speedtouch-diag ====
+
+Si vous êtes néophyte, le plus simple est encore d'utiliser un script fourni par le créateur de speedtouch-ng ( moi-même :) ), qui génèrera un fichier à partir d'informations glanées un peu partout sur votre système.
+
+Téléchargez le script en question [[http://moigeeknevro.com/speedtouch-ng/files/misc/speedtouch-diag|ici]], copiez-le dans votre répertoire personnel ( vous ne pouvez pas le lancer depuis une partition Windows ), rendez-le exécutable ( Clic droit sur le fichier -> //Propriétés// -> Onglet //Permissions// ) s'il ne l'est pas déjà. Double-cliquez ensuite dessus et choisissez //Lancer//.
+
+Envoyez le fichier généré à cette [[mailto:lachienne@wanadoo.fr|adresse]] puis attendez ma réponse.
+
+<note important>Le script doit être lancé **modem branché.**</note>
+
+==== 2. Trouver de l'aide sur le forum ====
+
+Posez toutes vos questions sur ce [[http://forum.ubuntu-fr.org/viewtopic.php?id=12257|topic]].
+
+----
+
+//Contributeurs : [[utilisateurs:superdindon|SuperDindon]].//

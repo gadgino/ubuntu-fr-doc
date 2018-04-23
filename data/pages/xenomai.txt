@@ -1,0 +1,57 @@
+{{tag>Lucid BROUILLON}}
+----
+
+====== Xenomai ======
+
+Xenomai est un socle applicatif qui permet de développer des applications temps réel. Pour faire bref, c'est un noyau temps réel qui se juxtapose au noyau Linux qui lui a un fonctionnement en temps partagé. Xenomai offre plusieurs API native, posix, vrtx, ... L'application peut s'exécuter dans l'espace utilisateur ou l'espace noyau.
+
+
+Xenomai est sous licence GPL.
+
+===== Pré-requis =====
+
+  * Peut-être assez simple comme difficile
+
+===== Installation =====
+
+=== Méthode simple: ===
+
+Cette méthode est à privilégier. Utilisation des paquets ubuntu.
+
+[[:tutoriel:comment_installer_un_paquet|Installez les paquets]] **[[apt://xenomai-doc,libxenomai1,libxenomai-dev,xenomai-runtime,linux-image-2.6.32.20-xenomai-2.5.5.2|xenomai-doc libxenomai1 libxenomai-dev xenomai-runtime linux-image-2.6.32.20-xenomai-2.5.5.2]]**
+
+Fabrication du initramfs du noyau xenomai et mise à jour du menu de démarrage
+<code>$ update-initramfs -c -k 2.6.32.20-xenomai-2.5.5.2 && update-grub</code>
+
+Redémarrer la machine et choisir le noyau xenomai.
+
+<note important>L'erreur au démarrage **MP-BIOS bug: 8254 timer not connected to IO-APIC** n'est pas grave.</note>
+
+Lancer un programme de test:
+<code>$ latency</code>
+
+Si le programme fonctionne, c'est bon votre installation a réussie vous pouvez commencer à développer des applications temps réel.
+
+=== Méthode avec compilation de sources: ===
+
+
+Voir [[http://www.xenomai.org/index.php/Building_Debian_packages#Xenomai_packages_in_Debian|Building Debian packages]]
+
+<note tip> Lors de la configuration du noyau désactiver les options déconseillées voir [[http://www.xenomai.org/index.php/FAQs#Tips_and_tricks_setting_up_your_x86_kernel|Les options à éviter]] et [[http://kernel.xc.net/html/linux-2.6.8/i386/|Options de configuration]]
+</note>
+
+===== Utilisation=====
+
+Pour la compilation utiliser le **Makefile** mis à disposition.
+Vous pouvez également lire, compiler et exécuter les autres exemples.
+
+[[http://xenomai.org/index.php/Examples|Les exemples]]
+
+===== Voir aussi =====
+
+  * [[http://www.xenomai.org|Site Officiel]]
+  * [[http://www.mail-archive.com/xenomai-help@gna.org/|Archive mèl Xenomai Help]]
+   
+----
+//Contributeurs principaux : [[:utilisateurs:gg_ste]].//
+

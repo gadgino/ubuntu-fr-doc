@@ -1,0 +1,175 @@
+{{tag> Precise Trusty système personnalisation}}
+
+----
+
+====== Plymouth ======
+
+**Plymouth** est le chargeur graphique par défaut d'Ubuntu. Il remplace usplash et xsplash présents dans les anciennes versions d'Ubuntu.
+Son but est de permettre un démarrage en douceur, supprimant les semblants d'hésitation générés par les transitions entre l'écran de connexion, la session à proprement parler ou lors d'un changement d'utilisateur. Conjointement à [[wpfr>Kernel-based_mode-setting|KMS]] ceci permet d'avoir un démarrage sans clignotement. 
+
+[[wpfr>Plymouth_(informatique)|Description de Plymouth sur Wikipedia]]
+
+{{:plymouth_lucid_01.png?450}}
+
+===== Pré-requis=====
+
+  * Disposer des [[:sudo|droits d'administration]] ;
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+Plymouth est déjà installé par défaut, mais vous pouvez changer de thèmes en installant d'autres paquets. Pour voir les thèmes disponibles reportez-vous à ce [[#Changer de thème|chapitre]].
+
+
+===== Configuration =====
+
+=== Avec  Super Boot Manager ===
+Il existe une interface graphique à Plymouth, [[:superbootmanager|Super boot manager (SMB)]], qui peut vous faciliter grandement la modification de l'écran de démarrage. Se reporter à [[:superbootmanager#plymouth-manager|la page de documentation]] qui traite de SBM. Cette application est valable aussi bien pour [[#changer de thème]] que pour [[#augmenter la résolution]].
+
+==== Changer de thème ====
+===Méthode automatique avec les thèmes par défaut===
+<note tip>En cas d'installation de l'environnement [[:KDE]] en plus de [[:Gnome]], ou le contraire, ce qui suit permet également de changer le thème qui a généralement été modifié par la même occasion.</note>
+Plusieurs thèmes sont disponibles dans les [[:depots|dépôts]]. Pour les installer, [[:tutoriel:comment_installer_un_paquet|installez les paquets]] commençant par //''plymouth-theme''// ou depuis un [[:terminal]] avec la [[:commande_shell|commande]] suivante :
+<code>sudo apt-get install 'plymouth-theme*'</code>
+De nombreux thèmes se trouvent aussi dans le [[:PPA]] de [[:superbootmanager|Super Boot Manager]].\\
+Puis:
+  -  Pour choisir un thème, tapez : <code>sudo update-alternatives --config default.plymouth</code> Vous avez alors un écran de ce type :<code>
+ Il existe 6 choix pour l'alternative default.plymouth (qui fournit /lib/plymouth/themes/default.plymouth).
+
+  Sélection   Chemin                                                 Priorité  État
+------------------------------------------------------------
+* 0            /lib/plymouth/themes/ubuntu-logo/ubuntu-logo.plymouth   100       mode automatique
+  1            /lib/plymouth/themes/fade-in/fade-in.plymouth           10        mode manuel
+  2            /lib/plymouth/themes/glow/glow.plymouth                 10        mode manuel
+  3            /lib/plymouth/themes/script/script.plymouth             10        mode manuel
+  4            /lib/plymouth/themes/solar/solar.plymouth               10        mode manuel
+  5            /lib/plymouth/themes/spinfinity/spinfinity.plymouth     10        mode manuel
+  6            /lib/plymouth/themes/ubuntu-logo/ubuntu-logo.plymouth   100       mode manuel
+
+Appuyez sur <Entrée> pour conserver la valeur par défaut[*] ou choisissez le numéro sélectionné :</code>
+  - Faites votre choix en tapant un numéro au clavier.
+  - Pour prendre en compte les changements : <code>sudo update-initramfs -u</code>
+  - Redémarrez.
+Admirez !
+
+Il est possible de visualiser le thème Plymouth sans redémarrer. Pour cela, 
+  - il faut lancer le démon //Plymouthd// (à chaque nouvelle visualisation) avec la [[:commande_shell|commande]] : <code>sudo plymouthd</code>
+  - Puis lui demander de visualiser le thème actuel:<code>sudo plymouth --show-splash</code>
+  - Pour quitter, il suffit d'un simple : <code>sudo plymouth quit</code>
+Pour tout faire en une fois, lancer le démon, avoir un aperçu de 20 secondes, puis quitter l'aperçu, on peut aussi lancer la  [[:commande_shell|commande]] : <code>sudo plymouthd && sudo plymouth --show-splash && sleep 20 && sudo plymouth quit</code>
+
+
+<note important>Sous [[:Precise|Precise 12.04]] le thème ''plymouth-theme-spinfinity'' est bogué. Au démarrage, l'écran reste noir et les pilotes graphiques ne sont pas chargés/reconnus. Pour arriver au bureau, il faut passer sur une [[:console]] (ctrl+alt+F1), se connecter et taper: <code>sudo killall plymouth</code> et repasser sur le bureau graphique (ctrl+alt+F7). 
+Le problème disparaît une fois le thème changé. Ce problème est résolu sous [[:Trusty|Trusty 14.04]].</note>
+
+=== Méthode manuelle avec d'autres thèmes===
+Commencez par télécharger les thèmes de votre choix, [[http://gnome-look.org/index.php?xcontentmode=160|ici]] pour les environnements [[:Gnome|Gnome/Unity]] et [[:xfce]], et [[http://kde-look.org/index.php?xcontentmode=35x45|ici]] pour [[:kde]].\\
+Pour l'installer suivez cette procédure en saisissant dans un [[:terminal]] les [[:commande_shell|commandes]] suivantes :
+  - Placez les fichiers nécessaires dans ///lib/plymouth/themes//, par exemple : ///lib/plymouth/themes/mon-theme// : <code>sudo cp -r /chemin/vers/le/dossier/de/mon-theme /lib/plymouth/themes/</code>
+  - Installez le thème désiré (la syntaxe à utiliser peut-être lue dans le manuel //man update-alternatives//) :<code>sudo update-alternatives --install /lib/plymouth/themes/default.plymouth default.plymouth /lib/plymouth/themes/mon-theme/mon-theme.plymouth 200 </code>
+  - Ensuite définissez votre thème comme thème par défaut :<code>sudo update-alternatives --set default.plymouth /lib/plymouth/themes/mon-theme/mon-theme.plymouth</code>
+  - Et finalement, reconstruisez votre img :<code>sudo update-initramfs -u</code>
+<note tip>Si le dossier ///lib/plymouth/themes// n'existe pas, remplacez-le alors par ///usr/share/plymouth/themes//</note>
+==== Augmenter la résolution====
+
+Il peut arriver que la résolution de l'écran de démarrage soit faible, ou bien qu'il ne s'affiche pas du tout. Pour modifier cela il faut en premier lieu déterminer quelles résolutions d'écran sont acceptées par Grub et Plymouth.
+Reportez-vous au paragraphe de la page [[:grub-pc#exempleresolution_d_affichage|Grub-pc]] qui traite de la résolution de l'affichage.\\
+L'utilisation de l'application [[:grub-customizer|Grub Customizer]] permet aussi de le faire graphiquement.\\
+
+
+===== Résolution de problèmes =====
+
+==== Warning: No support for locale ====
+
+Il peut arriver qu'un message d'avertissement indique un problème avec les polices d'écriture en UTF-8. Cela est du à la gestion locale des polices via le paquet **locale-gen** qui peut être résolu avec la commande qui remplace les polices locale par les version en UTF-8((source : https://forums.linuxmint.com/viewtopic.php?t=111527)).
+
+  sudo locale-gen --purge --no-archive
+
+==== Afficher le splashscreen plus tôt ====
+Pour que Plymouth se déclenche un peu plus tôt, vous pouvez lancer ces deux lignes de commandes :
+<code>echo FRAMEBUFFER=y | sudo tee /etc/initramfs-tools/conf.d/splash
+sudo update-initramfs -u</code>
+
+Cela permet aussi, lorsque l'animation n'est plus qu'en mode texte, de réactiver le mode graphique.
+
+<note important>Attention, cette manipulation peut parfois avoir des effets indésirables. Il se peut (comme pour moi) quelle vous mette en mode texte. Pour remédiez à cela je vous conseille d'installer tout les thèmes (FIXME J'avais fait cela, mais est-ce nécessaire ?)
+
+  sudo apt-get install 'plymouth-theme*'
+
+Ensuite avec 
+
+  sudo update-alternatives --config default.plymouth
+  sudo update-initramfs -u
+  
+réglez l'écran de démarrage. La manipulation de "prévisualisation" de Plymouth plus haut ne fonctionne pas (elle met le mode texte). Donc maintenant vous devriez ravoir de nouveau Plymouth en mode graphique et... qui se lance immédiatement :-D
+Le log du boot sera redirigée sur tty1 (qui reste accesible au boot via le touches fléchées) mais qui reste tout a fait utilisable
+
+Notez que Grub sera sur un autre thème (noir avec texte blanc).
+
+FIXME Cette méthode reste cependant à confirmer (j'avais tenté avant des bidouillage)</note>
+==== L'affichage de Plymouth est dégradé suite à l'installation du pilote privateur Nvidia  ====
+
+
+Suite à l'installation du pilote privateur Nvidia, vous pouvez peut être apercevoir que l'affichage est fortement dégradé, pour résoudre ce problème, veuillez pendant le démarrage de votre Ubuntu, appuyer sur la touche **espace**, puis veuillez saisir la commande suivante :
+
+<code>vbeinfo</code>
+
+La liste des résolutions supportées par Grub s'affiche. Notez celle qui est la plus haute (par exemple: 1280x1024x32). Elle se trouve généralement tout en bas. Puis, appuyez sur la touche Echap **(Esc)** pour revenir au menu de Grub et démarrer votre ordinateur.((Extrait tiré de cette documentation : [[:grub-pc#exempleresolution_d_affichage]])) 
+
+Une fois que vous êtes logué, veuillez ouvrir un terminal avec pour contenu:
+
+<code>sudo apt-get install v86d</code>
+ 
+<note>v86d est requis par le module noyau uvesafb.</note>
+
+Ensuite, nous allons éditer notre fichier [[:grub-pc|grub]]. 
+
+<note>Dans notre exemple.. nous utiliserons [[:nano|nano]].</note>
+
+Veuillez donc saisir dans votre terminal la commande suivante : 
+
+<code>sudo nano /etc/default/grub</code>
+
+Veuillez repérer la ligne qui a pour contenu **#GRUB_GFXMODE=640x480**, décommentez cette ligne pour avoir ceci : **GRUB_GFXMODE=640x480**, veuillez indiquer une résolution **SUPPORTÉE** par Grub.
+
+Nous répétons la manipulation, mais cette fois pour **#GRUB_GFXPAYLOAD_LINUX=..** veuillez y ajouter l'option **keep**.
+
+Nous aurons donc quelque chose dans ce style :
+
+<code>
+
+GRUB_GFXMODE=1280x800x32
+GRUB_GFXPAYLOAD_LINUX=keep
+
+</code>
+
+<note>Sous Ubuntu 16.04, ces deux ligne n'ont pas complètement corrigé le problème pour ma part, le chargement était encore entrecoupé de messages suivi d'une image de chargement dégradée, l'ajout de cette ligne supplémentaire a fini de corriger mon soucis d'affichage :
+<code>GRUB_VIDEO_BACKEND="vbe"</code></note>
+
+Nous allons maintenant enregistrer notre modification, via ces raccourcis clavier **ctrl+x** touche **o** touche **entrée**.
+
+À ce stade, il nous manque encore à faire passer l'argument **framebuffer=y** à votre fichier /etc/initramfs-tools/conf.d/splash, pour ce faire :
+
+<code>echo FRAMEBUFFER=y | sudo tee /etc/initramfs-tools/conf.d/splash</code>
+
+Nous allons mettre à jour notre initramfs via cette commande :
+
+<code>sudo update-initramfs -u</code>
+
+Et pour finir, nous mettons à jour notre fichier Grub :
+
+<code>sudo update-grub2</code>
+
+=====Voir aussi=====
+
+  * **(en)** [[http://www.freedesktop.org/wiki/Software/Plymouth|Site officiel]].
+  * **(en)** [[http://blog.fpmurphy.com/2009/09/project-plymouth.html|Project Plymouth]]. Tout sur Plymouth et bien plus encore.
+  * **(en)** [[http://gnome-look.org/index.php?xcontentmode=160|Splash-screen chez Gnome-look.org]] Plusieurs dizaines de thèmes Plymouth.
+  * **(fr)** [[http://www.tutoriels-video.fr/personnaliser-lecran-de-demarrage-dubuntu/|Tutoriel vidéo : personnaliser l'écran de démarrage d'ubuntu]]
+  * **(en)** [[http://forum.ubuntu-fr.org/viewtopic.php?id=391343&p=1|HowTo - Installer le thème plymouth Space-Sunrise ]]
+  * **(en)** [[http://brej.org/blog/?p=158|HowTo - Plymouth theming guide (part 1) (en)]] [[http://brej.org/blog/?p=174|(part 2)]] [[http://brej.org/blog/?p=197|(part 3)]].
+  * **(fr)** [[:superbootmanager|Tutoriel : Super Boot Manager]]
+
+----
+
+//Contributeurs : [[:utilisateurs:Mario_26]], yoritomo, [[:utilisateurs:l_africain|L'Africain]], [[:utilisateurs:BeAvEr]].////

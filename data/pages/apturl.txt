@@ -1,0 +1,199 @@
+{{tag>apt paquet gestionnaire_de_paquets logiciels installation_logiciel}}
+
+----
+
+
+====== Apturl : gestion du protocole apt:// pour l'installation en un clic d'un paquet depuis une page web ======
+
+//Le **protocole APT**, ou **apturl**, est une façon extrêmement facile d'installer un paquet logiciel, et est avantageux pour les utilisateurs et les distributeurs de contenu.//
+
+Dans les ordinateurs dans lesquels //apturl// est installé et configuré, le clic dans une page web sur un lien spécial démarre l'installation d'un ou de plusieurs paquets donnés présents dans les dépôts de paquets accessibles à cet ordinateur.
+
+<note tip>Cette page est une sous-partie de la page **"[[tutoriel:comment_installer_un_paquet|Comment installer un paquet]]"**.</note>
+
+{{ :applications:apturl_lucid2.png|Apt-url}}
+Par exemple, dans une page web, lorsqu'un utilisateur d'Ubuntu clique sur le lien **[[apt>gimp]]**, //apturl// intercepte l'action et exécute le [[gestionnaire de paquets]] pour proposer l'installation du paquet ''gimp'' depuis [[:depots|les sources de paquets accessibles]]. Pour l'utilisateur, il n'y a pas besoin de lire une marche à suivre fastidieuse pour installer un paquet ; pour le diffuseur de contenu, il n'y a pas besoin d'écrire une marche à suivre fastidieuse.
+
+Notez que //apturl// n'a pas pour but de remplacer le système de dépôts ni les gestionnaires de paquets actuels. C'est une méthode complémentaire qui s'inscrit par-dessus ceux-ci, qui exploite les ressources des dépôts et des gestionnaires existants.
+
+===== Pré-requis =====
+Pour que votre système puisse utiliser cette méthode d'installation de paquets, il vous faut :
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * disposer d'un navigateur compatible //(voir la liste ci-dessous)//.
+
+===== Installation =====
+Sur Ubuntu, apturl est installé par défaut, toutefois si il ne l'est pas , il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>apturl|apturl]]**.
+
+<code>sudo apt-get install apturl</code>
+
+Note : une interface existe pour [[:KDE]], elle se nomme **[[apt>apturl-kde|apturl-kde]]**.
+
+<code>sudo apt-get install apturl-kde</code>
+
+==== Choisir apturl comme « gestionnaire de paquet » lors d'un clic sur un lien apt ====
+Apturl peut se substituer au gestionnaire de paquet habituel et installer des paquets sur le système lors du clic sur un lien apt.
+
+Pour utiliser apturl comme gestionnaire de lien apt, entrer dans un [[terminal]] la commande suivante :
+  xdg-mime default apturl.desktop x-scheme-handler/apt
+Pour plus d'informations sur le choix des gestionnaires associé au protocole apt consulter la section : [[gestionnaire_de_paquets#choisir_quel_gestionnaire_de_paquet_se_lance_avec_les_liens_apt|choisir quel gestionnaire de paquet se lance avec les liens apt]].
+
+=====Configuration=====
+==== Firefox et Epiphany  ====
+
+{{ :applications:apturl_firefox_lucid2.png?300|Besoin d'activer les liens apturl ?}}
+
+Cliquez sur ce lien : **[[apt>gimp]]**. La fenêtre "lancement de l'application" (ci-contre) apparaît. (Dans l'exemple ci-contre "apturl" est déjà sélectionné ; si dans votre cas "apturl" n'est pas visible, cliquez sur le bouton "choisir", puis "système de fichiers", puis le répertoire /usr/bin puis le fichier "apturl".)
+
+Ne pas oublier de cocher "se souvenir de mon choix" et validez.
+
+Si ça ne fonctionne toujours pas, saisissez //about:config// (sans espace) dans la barre de navigation et rajoutez :
+
+  * **network.protocol-handler.app.apt** en chaîne de caractères avec pour valeur **/usr/bin/apturl**,
+  * **network.protocol-handler.app.apt+http** en chaîne de caractères avec pour valeur **/usr/bin/apturl**,
+  * **network.protocol-handler.warn-external.apt** en valeur booléenne et mettez **false** comme valeur,
+  * **network.protocol-handler.warn-external.apt+http** en valeur booléenne et mettez **false** comme valeur.
+<note aide>
+Si sous KDE (testé avec Firefox 8), lorsque l'on clique sur le lien **[[apt>vlc]]**, il apparaît un erreur qui indique que le protocole apt n'est relié à aucun logiciel, il suffit d'aller dans les préférences (édition/préférence)->applications->apt et changer "toujours demander" par le fichier /usr/bin/apturl.
+</note>
+
+
+===Configurer Firefox 23.0 sous Ubuntu 13.04 64 bits et sous KDE ===
+== Installer en un clic les paquets apt depuis le navigateur Firefox (Testé sous Kubuntu 13.04 64 bits) ==
+
+Après s'être assuré d'avoir les paquets  **[[apt>apturl]]** et **[[apt>apturl-kde]]** installés (commandes <code>sudo apt-get install apturl</code> et <code>sudo apt-get install apturl-kde</code>),
+
+saisissez  //about:config// (sans espace) dans la barre de navigation et rajoutez en faisant clic-droit puis //nouvelle// :
+
+  *  Une entrée //chaîne de caractères// en saisissant (le nom de l'option) **network.protocol-handler.app.apt** puis validez et saisissez **/usr/bin/apturl**  pour valeur (chaine).
+
+  *  Une entrée //chaîne de caractère// en saisissant (le nom de l'option) **network.protocol-handler.app.apt+http** puis validez et saisissez **/usr/bin/apturl**  pour valeur (chaine).
+
+  *  Une entrée //valeur booléenne// en saisissant (le nom de l'option) **network.protocol-handler.warn-external.apt** puis validez et sélectionnez **false** comme valeur.
+
+  *  Une entrée //valeur booléenne// en saisissant (le nom de l'option) **network.protocol-handler.warn-external.apt+http** puis validez et et sélectionnez **false** comme valeur.
+
+  *  Une entrée //valeur booléenne// en saisissant (le nom de l'option) **network.protocol-handler.expose.apt** puis validez et et sélectionnez **false** comme valeur.
+
+Cliquez ensuite sur le lien apt d'une application que vous voulez installer, choisissez l'application **apturl** dont le chemin est **///usr/bin/apturl//** pour l’ouvrir, cochez "Se souvenir de mon choix" et validez.
+
+-
+-
+== Sous Ubuntu 13.10 (ajout par malain) ==
+
+
+Après toutes les manips décrites ici, sous Ubuntu 13.10 (et Firefox 26), il me restait impossible d'utiliser les liens apt dans Firefox. Rien ne se passait, et un rapport de bug s'ouvrait. En cliquant sur "détails", le gestionnaire de bugs donnait l'erreur suivante :
+
+''apturl-gtk crashed .... icone deb pas presente dans le theme''
+
+J'ai résolu ce problème par une manipulation pas très professionnelle, mais qui marche :
+
+- lancez le gestionnaire de fichier en tant qu'administrateur en tapant dans un terminal : <code>sudo nautilus</code>
+
+<note warning>Attention à ne rien faire que vous ne compreniez pas : vous avez ici le pouvoir de détruire ou déplacer des fichiers vitaux pour le système, le rendant inutilisable.</note>
+
+puis :
+
+- copiez une icône en 16x16 (par exemple, depuis //usr/share/icons/gnome//) et renommez-la en deb.png
+
+- collez cette icône //deb.png// dans //usr/share/icons/unity-icon-theme// et dans //usr/share/icons/gnome// (Je ne sais grâce à quel dossier cela marche...)
+
+
+Pardon si le conseil est donné au mauvais endroit, merci aux auteurs de me le signaler. Je suis inscrit sur le forum. //malain//
+
+-
+== Sous Ubuntu 14.04.3 LTS  (ajout par Watchoum) ==
+
+J'ai vu, pour ma part, dans la fenêtre de la console où j'ai lancé Firefox, un message d'erreur me disant qu'il manquait un fichier nommé //deb.png//. Inspiré par les conseils de malain ci-dessus, j'ai placé une icône nommée //deb.png// dans ///usr/share/icons/gnome/16x16/apps// et ça marche !
+==== Konqueror ====
+  * Exécutez l'éditeur de texte [[:Kate]] en mode [[sudo|administrateur]] en saisissant dans un [[:terminal]] la [[:commande_shell|commande]] suivante: <code>kdesudo kate</code>
+  * Créez un nouveau fichier texte contenant ces informations : <file - apt.protocol>[Protocol]
+exec=apturl "%u"
+protocol=apt
+input=none
+output=none
+helper=true
+reading=true
+writing=true</file>Enregistrez ce fichier sous le nom **''apt.protocol''** dans le dossier ///usr/share/services//
+  * Créez un second fichier texte contenant ces informations : <file - apt+http.protocol>[Protocol]
+exec=apturl "%u"
+protocol=apt+http
+input=none
+output=none
+helper=true
+reading=true
+writing=true</file>Enregistrez ce fichier sous le nom **''apt+http.protocol''** dans le dossier ///usr/share/services//
+
+==== Opera ====
+Si vous utilisez [[:Opera]], il suffit d'aller dans le //menu principal// puis //Réglages// puis //Préférences//. Cliquez sur l'onglet //Avancés// puis //Programmes//, et choisissez //Ajouter//. Dans //Protocole//, entrez **apt** et dans //Ouvrir avec une autre application//, entrez **/apturl**. Appuyez sur le bouton OK.
+
+Si vous utilisez une version d'Opera antérieure à la 10.5, allez dans le menu //Outils// puis //Préférences// puis suivez la même procédure que ci-dessus.
+
+Si les modifications ne prennent pas effet immédiatement, redémarrez Opera.
+
+
+==== Google Chrome (et probablement Chromium) ====
+
+Pour info : Apturl est installé maintenant par défaut (constaté sur Xenial Xerus 16.04 et Chrome Version 50.0.2661.94 64-bit) et fonctionne...
+
+
+
+ 
+===== Utilisation =====
+
+Une fois le protocole pris en charge par votre système, vous trouverez parfois sur internet des liens du style **[[apt>nom_du_paquet]]** qui vous permettront d'installer le paquet en question.
+
+Sur cette documentation, vous trouverez une icône sur lequel vous pourrez cliquer pour installer divers logiciels ou paquets, se présentant sous cette forme :{{apt.png}}
+
+Si vous voulez aider un ami ou un utilisateur d'Ubuntu sur les [[http://forum.ubuntu-fr.org/|forums d'Ubuntu-fr]], vous pourrez lui donner de simples liens à cliquer. On peut alors construire ces liens de plusieurs façons détaillées si dessous.
+
+==== Installer un seul paquet ====
+
+Pour installer, par exemple, le paquet **unrar** : [[apt://unrar]] (tout simplement)
+
+
+
+
+==== Installer plusieurs paquets d'un coup ====
+
+Il suffit de séparer les paquets par une virgule : [[apt://unrar,vlc,vim]]
+
+==== Utiliser un dépôt alternatif ====
+
+On peut spécifier un dépôt à utiliser pour installer le paquet en question avec un lien du style :
+[[apt://archive.canonical.com?package=acroread?dist=feisty?section=commercial]]
+
+Ici, on installera le paquet **acroread** disponible sur le dépôt Feisty Commercial de Canonical.
+
+Tous les dépôts conformes à la norme Debian pourront être utilisés avec cette méthode.
+
+<note important>Attention : en utilisant des liens pointant sur des dépôts tiers, vous devez être sûr de la qualité du dépôt en question et personne ne pourra vous aider en cas de problèmes avec un dépôt non supporté.</note>
+
+==== Utiliser un PPA ====
+
+<note warning> La fermeture de la page GitHub de ce projet et le dernier message((" Michael Vogt s'est finalement décidé à me répondre.
+En réalité, l'idée avait déjà été abordée depuis un moment en interne et du code inclus à cet effet dans "apturl".
+
+Cependant, ce code partiellement créé à été désactivé (je m'en suis resservi) pour plusieurs raisons : éviter les malwares et autres softs malicieux, les softs mal codés etc.
+
+Du coup, Michael salue mon initiative mais est hésistant (je pense qu'il est plus qu'hésitant mais il a mis les formes) quant à l'inclusion de mon code pour les risques pré-cités.
+
+Ce qu'il manque d'après lui est une "évaluation par les pairs" (peer review) sur les PPA.
+Dans ce cas précis, un apturl "amélioré" aurait sa place...
+Du coup, on pourrait avoir, selon l'évaluation du PPA (négative ou positive), un message d'alerte ou non.
+
+Maintenant, il ne m'a pas précisé si le peer review était une fonctionnalité attendue de Launchpad.
+Je vais tenter d'en savoir plus à ce niveau... car maintenir un fork qui ne sera jamais inclus ne me semble pas judicieux. "))
+ (datant de 2014) laissent penser que ce projet a été abandonné. </note>
+Il existe un projet de fork d'apturl permettant d'ajouter des PPA via un lien :
+voir le forum dédié : http://forum.ubuntu-fr.org/viewtopic.php?id=1441781
+===== Liens =====
+
+  * [[http://www.cedynamix.fr/2007/09/30/le-protocole-apt-quest-ce-que-cest/|Billet de Cedynamix présentant le protocole apt]]
+  *[[http://forum.ubuntu-fr.org/viewtopic.php?id=157707|Procédure pour Opéra]]
+  * (en) [[http://blog.appnr.com/help/#howto-install-packages|Enable the AptURL protocol (Appnr blog)]]
+  * [[http://appnr.com/|Site proposant tous les paquets Ubuntu installables par AptUrl]]
+
+----
+
+//Contributeurs : [[:utilisateurs:Enchained]],[[:utilisateurs:jewome_62]],[[:utilisateurs:poupoul2]], [[:utilisateurs:Sallé]], [[:utilisateurs:mydjey]]//

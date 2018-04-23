@@ -1,0 +1,225 @@
+{{tag>Precise internet moteur_de_recherche VÉTUSTE}}
+
+----
+======Seeks, moteur de recherche libre======
+<note warning>Seeks ne semble plus disponible pour les versions récentes d'Ubuntu.</note>
+{{ http://blog.pastoutafait.org/dotfiles/public/images/linux/seeks/seeks_logo_shadowed_transparent.png}}
+
+[[wpfr>Seeks]] est un moteur de recherche libre (sous licence AGPL).
+
+Son objectif est de mettre en place un moteur ouvert, décentralisé, qui permet une recherche collaborative. A ce jour, un méta-moteur libre, avec personnalisation, et possibilité de collaboration avec d'autres instances est disponible.
+
+Nœuds web public, de démonstration: <del>[[http://www.seeks-project.info/wiki/index.php/List_of_Web_Seeks_nodes|Liste des nœuds publics]]</del>. FIXME Lien brisé après une redirection...
+
+
+=====Installation=====
+
+====Installation par Launchpad (recommandée)====
+==Installation==
+  * [[:PPA|Ajoutez le PPA]] **ppa:seeks-packaging** ((https://launchpad.net/~seeks-packaging/+archive/ppa)) dans vos sources de logiciels ;
+  * [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste des paquets]] ;
+  * [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>seeks|seeks]]**
+
+
+==Configuration, lancement==
+
+Une fois le paquet installé le service ne sera lancé automatiquement qu'après le redémarrage de l'ordinateur.
+Si vous ne voulez pas redémarrer ce dernier, exécutez dans un terminal la commande :
+<code>
+sudo service seeks start
+</code>
+
+Les fichiers de configuration sont disponibles dans le dossier **/etc/seeks**.
+
+__/etc/seeks/config__
+
+Permet la configuration du couple ip/port d'écoute (attention à ne pas laisser votre proxy ouvert)
+Par défaut, seeks écoute sur le port 8250 (depuis la version 0.3, il s'agissait du port 8118 pour les versions précédentes).
+
+Un serveur web léger est disponible, sous forme de plugin, il suffit pour l'activer de décommenter la ligne 
+  #activated-plugin http-serv
+
+__/etc/seeks/httpserv-config__
+
+permet la configuration du couple ip/port d'écoute pour le serveur web intégré (port 8080 par défaut).
+L'usage du serveur web n'est pas obligatoire, l'architecture prévue initialement est bien de passer par le proxy.
+
+
+
+__/etc/seeks/websearch-config et /etc/seeks/img-websearch-config__
+
+Permet la configuration des métamoteurs texte et images, (des)activation des moteur amonts, nombre de résultats par page,  analyse de contenu, et timeouts divers
+
+
+__/etc/seeks/lsh-config__
+
+Sert pour le chargement des listes de «stopwords» utilisés pour les fonctionnalités similar et cluster (inutile en l'état, permet uniquement l'ajout de langues au moteur)
+<note>L'emplacement des fichiers de configuration diffère si l'on compile à la main</note>
+
+====Compilation du proxy====
+  * [[:tutoriel:comment_installer_un_paquet|Installez les bibliothèques]] de compilation suivantes : **[[apt>autoconf,automake,libtool,libcurl4-gnutls-dev,libpcre3-dev,build-essential,libxml2-dev,libtokyocabinet,libtokyocabinet-dev,libprotobuf,libprotobuf-dev,protobuf-compiler|autoconf automake libtool libcurl4-gnutls-dev libpcre3-dev build-essential libxml2-dev libtokyocabinet libtokyocabinet-dev libprotobuf libprotobuf-dev protobuf-compiler]]**
+Si l'on se trouve sur une machine de bureau, on peut ajouter :
+  * **[[apt>libcv,libcvaux,libhighgui|libcv libcvaux libhighgui ]]**
+  * Lancer dans un [[:terminal]] : 
+<code>
+mkdir ~/src
+cd ~/src
+echo "on télécharge les sources"
+sudo apt-get install git-core
+git clone git://seeks.git.sourceforge.net/gitroot/seeks/seeks
+cd seeks
+./autogen.sh
+
+echo "compilation"
+./configure --enable-libevent1
+make
+</code>
+<note>On peut remplacer **make** par **make -j X** où X est le nombre de cores disponible pour accélérer la compilation.</note>
+
+==Lancer le proxy==
+<code>
+cd src
+./seeks
+</code>
+==Relancer le proxy en cas de crash==
+
+Il est peut être intéressant de relancer automatiquement en cas de crash. Pour faire ça en vitesse, il est possible de le lancer dans une boucle :
+<code>
+while true ; 
+do ./seeks ; 
+done
+</code>
+
+Ou solution plus propre : on peut utiliser Cron et lancer Seeks en tant que daemon. Il faut pour cela mettre la ligne suivant dans la [[:cron|crontab]] :
+<code>
+*/5 * * * * root [ ! -f /var/run/seeks.pid -o -z "$(cat /var/run/seeks.pid 2>/dev/null )" -o ! -d "/proc/$(cat /var/run/seeks.pid 2>/dev/null)" ]  && cd /chemin/vers/seeks/ && ./seeks --daemon
+</code>
+Et lancer Seeks en précisant le fichier .pid à utiliser et qu'il faut lancer le programme en tant que daemon :
+<code>
+./seeks --daemon --pidfile /var/run/seeks.pid
+</code>
+
+====Installation de l'interface web (facultatif)====
+
+  * [[:tutoriel:comment_installer_un_paquet|Installez les paquets]] suivants : **[[apt>lighttpd,php5-cgi,php5-curl|lighttpd php5-cgi php5-curl]]**
+   * Lancer dans un [[:terminal]] :
+<code>
+lighty-enable-mod fastcgi
+/etc/init.d/lighttpd force-reload
+</code>
+
+Le script de recherche doit être copié dans un fichier nommé, par exemple, "search.php" à placer dans le "Document-Root" de votre serveur web, par défaut le répertoire "/var/www" :
+<file>
+<?
+
+/* Copyright Camille Harang
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program. If not, see http://www.fsf.org/licensing/licenses/agpl-3.0.html. */
+
+if (array_key_exists('HTTPS', $_SERVER) && $_SERVER['HTTPS']) $scheme = 'https://server7.kproxy.com/servlet/redirect.srv/sruj/shhzdcy/s7iwolzo/p2/servlet/redirect.srv/s/p2/';
+else $scheme= 'https://server7.kproxy.com/servlet/redirect.srv/sruj/shhzdcy/s7iwolzo/p2/servlet/redirect.srv/s/p1/';
+
+$seeks_uri = 'https://server7.kproxy.com/servlet/redirect.srv/sruj/shhzdcy/s7iwolzo/p2/servlet/redirect.srv/sx/sz/p1/';
+$proxy = 'localhost:8250';
+$base_script = $_SERVER['SCRIPT_NAME'];
+$base_url = $scheme.$_SERVER['HTTP_HOST'].$base_script;
+
+if ($_SERVER['REQUEST_URI'] == '/') { header('Location: '.$base_url.'/websearch-hp'); }
+else $url = $seeks_uri.str_replace($base_script, '', $_SERVER['REQUEST_URI']);
+
+$curl = curl_init();
+curl_setopt($curl, CURLOPT_URL, $url);
+curl_setopt($curl, CURLOPT_PROXY, $proxy);
+curl_setopt ($curl, CURLOPT_RETURNTRANSFER, 1) ;
+$header = array("Seeks-Remote-Location: ".$base_url);
+if (array_key_exists('HTTP_ACCEPT_LANGUAGE', $_SERVER)) $header[] = "Accept-Language: ".$_SERVER['HTTP_ACCEPT_LANGUAGE'];
+curl_setopt ($curl, CURLOPT_HTTPHEADER, $header);
+$result = curl_exec($curl);
+$result_info = curl_getinfo($curl);
+if(curl_errno($curl)) echo 'CURL ERROR: '.curl_error($curl);
+curl_close($curl);
+
+header('Content-Type: '.$result_info['content_type']);
+
+echo $result;
+?>
+
+</file>
+
+
+Le script est maintenant disponible à l'adresse http://localhost/search.php/websearch-hp
+
+==Ne pas conserver les logs de recherche==
+
+Plusieurs solutions pour cela. La première et la plus simple consiste à classiquement rediriger les sorties de stderr vers /dev/null lors du lancement du proxy :
+<code>
+./seeks 2> /dev/null
+</code>
+Mais il est également possible d'indiquer au serveur web de ne pas conserver les requêtes en utilisant les lignes suivantes :
+<code>
+$HTTP["host"] =~ "^your_node_address$" 
+{
+accesslog.filename = "/dev/null"
+server.errorlog = "/dev/null"
+}
+</code>
+
+=====Utilisation====
+
+Il est possible d'interroger Seeks de diverses manières : 
+   * **En configurant votre navigateur pour passer par le proxy (recommandé si utilisation en local) :** il suffit de faire pointer son navigateur favori sur le proxy fourni par Seeks. L'adresse est "127.0.0.1" (ou "localhost") et le port par défaut à partir de la version 0.3 est "8250". Pour cela, il est judicieux d'utiliser un plugin de gestion de proxy comme [[https://addons.mozilla.org/fr/firefox/addon/foxyproxy-standard/|FoxyProxy]]. Contrairement à la configuration par défaut du navigateur, plusieurs proxys peuvent alors cohabiter. De plus, des motifs URL peuvent aussi être spécifiés pour rediriger sélectivement sur le proxy Seeks. Ainsi le motif "*/s.s/*" en liste blanche n'autorisera la redirection que dans le cas des requêtes spécifique à Seeks.
+      * __Utilisation directe de la page d'accueil de Seeks__ : rendez-vous à l’adresse http://s.s/websearch-hp (adresse spéciale interceptée par le proxy).
+      * __Requête via la barre de recherche de Firefox__ : pour l'intégrer, rendez vous sur la page de recherche "http://s.s/websearch-hp" et sélectionnez "Gérer les moteurs de recherche", puis rechercher et installer Seeks Search, n'oubliez pas ensuite de le monter en première position pour qu'il soit par défaut.
+      * __Requête via la barre d'adresse de Firefox (au lieu de Google par défaut)__ : pour ce faire, avant de taper  "about:config" dans la barre d'adresse, vérifier que vous avez installé le moteur Seeks dans votre liste de moteurs de recherche (cf ligne ci-dessus).
+        * Ensuite taper about:config et dans la ligne browser.search.defaultenginename    écrire dans la ligne Valeur Seeks
+      * __Par interception de requête__ : par défaut, lorsqu'une requête est effectuée sur un moteur de recherche que Seeks connaît, il l'intercepte et effectue lui même la requête, avant de proposer les résultats. Ce comportement peut-être modifié dans "/usr/share/seeks/plugins/websearch/patterns/qi_patterns" (si vous avez utilisé le paquet .deb) ou "~/seeks/src/plugins/websearch/patterns/qi_patterns" (si vous avez utilisé les sources). Pour ne plus intercepter aucune requête, commentez tout les moteurs de recherche :
+<code># .google.*/search?
+# .google.*/custom?
+# .bing.*/search?
+# .cuil.com/search? </code>
+
+ La base de données qui stocke les recherches passées et résultats associés se situe dans /var/lib/seeks ou ~/.seeks suivant la méthode d'installation.
+
+   * **En interrogeant le serveur web intégré (le port par défaut est "8080")**
+     * Par défaut, le plugin httpserv est désactivé. il faut donc l'activer dans le fichier config (/etc/seeks/config ou ./src/config) :
+  <code>#snip#
+activated-plugin httpserv
+#snip#
+</code>
+attention, cela désactive le proxy, il faut désactiver l'option automatic-proxy-disable pour utiliser à la fois le proxy et le plugin http.
+
+    * relancer le service, puis accéder à la page de recherche sur http://localhost:8080/websearch-hp
+
+
+=====Configuration=====
+
+Vous pouvez configurer le [[wkpf>proxy]] (qui est basé sur [[:Privoxy]]) grâce au fichier "/etc/seeks/config" ou ~/src/seeks/src/config suivant la méthode d'installation. Ce fichier de configuration est similaire à celui de Privoxy.
+
+Il est également possible de paramétrer le comportement du proxy concernant les recherches, par exemple en choisissant les moteurs à interroger, l'affichage d'une vignette représentant chaque résultat et le nombre de résultats par page, etc. Pour cela il faut éditer le fichier "/etc/seeks/websearch-config ou ~/src/seeks/src/plugins/websearch/websearch-config".
+
+Pour plus de détails, voir la documentation de toutes les options de configuration de Seeks http://www.seeks-project.info/wiki/index.php/Seeks_Configuration (en anglais). 
+
+=====Voir aussi=====
+  * (en) [[http://www.seeks-project.info/site/|Site officiel de Seeks]]
+  * [[http://www.drumbeat.org/project/seeks-project-decentralized-collaborative-web-search|Voter pour le projet Seeks sur la plate-forme Drumbeat de Mozilla]].
+  * [[http://www.seeks-project.info/wiki/index.php/User-Manual_Seeks_Bubs-0.2-SOLO|page d'utilisation officielle(en)]]
+  * [[:Yacy]] : autre moteur de recherche décentralisé et libre
+  * [[http://www.seeks-project.info/wiki/index.php/List_of_Web_Seeks_nodes|Liste des nœuds web disponible]] : http://www.seeks.fr/
+  * [[http://blog.pastoutafait.org/billets/Pr%C3%A9sentation-de-Seeks-et-installation-sous-Debian-Lenny|Présentation de Seeks et installation sous Debian Lenny]]
+  * [[http://www.seeks-project.info/wiki/index.php/Seeks_On_Web|Installation de l'interface web]]
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=384501|Discussion "Seeks"]] sur le forum Ubuntu-fr
+
+----
+
+//Contributeurs : [[:utilisateurs:psychederic|Psychederic]], piti, lylambda, …//

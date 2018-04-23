@@ -1,0 +1,112 @@
+{{tag>Trusty gravure dvd blu-ray VÉTUSTE}}
+----
+
+====== Nero Linux ======
+
+{{applications:nerolinux_lucid_01.png?350}} {{applications:nerolinux_lucid_02.png?350}}
+
+**Nero Linux** est un logiciel **propriétaire et payant** de gravure de CD, [[:DVD]], **HD-DVD** et **[[:Blu-Ray]]**. C'est la version Linux du très connu //Nero Burning ROM// sous Windows. Depuis la version 3, une version **64 bits** est aussi proposée.
+
+<note important>A ce jour (Sept 2013), Néro Linux n'est plus distribué : vous ne le trouverez plus sur le site de Nero !
+Mais l'ancienne page existe toujours : [[http://www.nero.com/fra/downloads/previous-versions/download-linux4-update.php]]
+ </note>
+
+La version 4 se compose de deux applications distinctes:
+  * //Nero Linux Express 4// qui propose une interface simplifiée
+  * //Nero Burning ROM// aux fonctionnalités avancées.
+
+Une version d'essai fonctionnelle pour 30 jours est disponible pour téléchargement. Nero Linux peut ensuite être acheté au prix de 19,99€ par la boutique en ligne de Nero A.G.
+
+<note important>Renseignez-vous sur la technologie de votre lecteur et sa compatibilité avec ce programme.</note>
+
+<note tip>Le HD-DVD est un support qui a été abandonné depuis début 2008 par Toshiba au profit du Blu-Ray. Si vous possédez déjà un graveur HD-DVD, Nero Linux est le seul programme capable de l'exploiter sous Linux</note>
+
+=== Fonctions ===
+
+    * ISO 9660 CD/DVD (prise en charge de Joliet)
+    * Création de CD audio (CD-DA)
+    * Copie de CD, DVD, DVD double-couche, Blu-ray et HD DVD (+ options avancées)
+    * CD-Text
+    * Prise en charge CD-Extra (+ options avancées)
+    * Création de CD/DVD amorçables
+    * CD, DVD, disques Blu-ray et HD DVD multisessions (+ options avancées)
+    * Prise en charge de Layer Jump Recording
+    * Création de DVD vidéo et miniDVD (à partir de fichiers DVD vidéo)
+    * Capture d'images sur CD, DVD, Blu-ray et HD DVD
+    * Crée et copie les images .nrg/.cue/.iso sur vos disques
+    * Prise en charge de la surcapacité pour CD et DVD
+    * Technologie de gravure du logiciel Ultra-Buffer™
+    * Tests de vitesse et simulation de gravure
+    * Vérification des données après gravure
+
+D'autres fonctions comme l'audio sont également comprises dans ce logiciel. Pour plus de détails : [[http://www.nero.com/fra/linux4-features.html|Fonctions]]
+
+<note tip>**Note:** **Nero Linux** peut être utile:
+  * si les autres logiciels de gravure ne fonctionnent pas bien, comme c'est parfois le cas à cause du graveur ou d'un autre facteur indéterminé.
+  * si vous avez un graveur HD-DVD
+  * si vous avez des images .nrg multipistes qui ne peuvent pas être converties en .iso
+
+</note>
+
+===== Installation =====
+  * Téléchargez puis [[:tutoriel:comment_installer_un_paquet|installez le paquet]] identifié **DEB package** pour votre [[:architecture matérielle]] (32 bits ou 64 bits) 
+
+pour la version 64 bit
+
+<code>wget http://ftp20.us.nero.com/PUB/26caa45475d48fa0834e90bef39ecaa6/nerolinux-4.0.0.0b-x86_64.deb</code>
+
+ou si le lien est mort second miroir
+
+<code>wget http://nero-mirror.com/support/NeroLINUX/nerolinux-4.0.0.0b-x86_64.deb</code>
+
+<code>sudo dpkg -i nerolinux-4.0.0.0b-x86_64.deb</code>
+
+pour la version 32 bit
+
+<code>wget http://ftp20.us.nero.com/PUB/26caa45475d48fa0834e90bef39ecaa6/nerolinux-4.0.0.0b-x86.deb</code>
+
+ou si le lien est mort second miroir
+
+<code>wget http://nero-mirror.com/support/NeroLINUX/nerolinux-4.0.0.0b-x86.deb</code>
+
+
+<code>sudo dpkg -i nerolinux-4.0.0.0b-x86.deb</code>
+
+<note tip>**Comment savoir si mon Ubuntu est en 32 bits ou en 64 bits?**\\ 
+  * **Méthode graphique** avec l'[[:environnements|environnement]] [[:unity]] : aller dans //paramètres système -> Informations système// et noter le " Type d'OS "
+  * ** Depuis un [[:terminal]]**, tapez la [[:commande_shell|commande]] <code>uname -a</code>\\ Si le retour de la commande se termine par //x86_64 GNU/Linux//, c'est que votre système d'exploitation Ubuntu est en 64 bits.\\
+</note>
+
+===== Utilisation=====
+
+  * Lancez l'application depuis le menu //Applications -> Son et vidéo -> Nero Linux Express// pour la **version simplifiée**
+  * Lancez l'application depuis le menu //Applications -> Son et vidéo -> Nero Linux// pour les **fonctionnalités avancées**.
+
+L'utilisateur qui connaît le fonctionnement de //Nero Burning ROM// ou de //Nero Express// sous Windows ne sera pas dépaysé, car l'interface est quasi identique.
+
+<note important>**Problème pour créer des CD audio ou pour encoder des fichiers audio sous architecture 64 bits** (vérifié sous Lubuntu 14.04 LTS) :
+
+S'il n'est pas possible d'ajouter des morceaux musicaux ogg, mp3 ou autres à une nouvelle compilation audio ou encore d'encoder des fichiers depuis le menu 'extras', il faut:
+
+- créer le dossier /usr/lib64 (s'il n'existe pas déjà)
+
+- créer un raccourci entre /usr/lib/nero et /usr/lib64
+
+<code>sudo mkdir /usr/lib64
+sudo ln -s /usr/lib/nero /usr/lib64</code>
+
+Source: [[http://ubuntuforums.org/showthread.php?t=1864876&page=2]]</note>
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, le configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi =====
+
+  * [[http://www.nero.com/fra/linux4.html|Page du produit sur le site Officiel]]
+  * [[:Brasero]], //une alternative libre pour le bureau GNOME//
+  * [[:K3B]], //une alternative libre pour le bureau KDE//
+
+----
+
+//Contributeurs : [[utilisateurs:fourminux]], [[utilisateurs:Gemnoc]].//

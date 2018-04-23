@@ -1,0 +1,138 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#configuration_de_ndiswrapper" class="toc"> Configuration de NDISWrapper </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#pre-requis" class="toc"> Pré-requis </a></span></li>
+<li class="level2"><span class="li"><a href="#configuration_de_ndiswrapper" class="toc"> Configuration de NDISWrapper </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/ostaquet" class="wikilink1" title="utilisateurs:ostaquet" onclick="return svchk()" onkeypress="return svchk()">ostaquet</a>.
+</p>
+
+<a name="configuration_de_ndiswrapper"></a><h1> Configuration de NDISWrapper </h1>
+<div class="level1">
+
+<p>
+ NDISWrapper est un utilitaire permettant d&rsquo;utiliser les pilotes (drivers) Windows pour faire reconnaitre les cartes réseaux sous Ubuntu (et plus particulièrement, les cartes réseaux Wifi).
+</p>
+
+<p>
+NDISWrapper ne fonctionne que sur i386, vous ne pourrez donc pas l&rsquo;installer si vous utilisez une Ubuntu 64bits.
+</p>
+
+</div>
+<!-- SECTION [72-422] -->
+<a name="pre-requis"></a><h2> Pré-requis </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> Avant de pouvoir installer les pilotes Windows avec NDISWrapper, vous devez les télécharger ou utiliser ceux fournis sur le CD d&rsquo;installation de votre carte réseau.</span>
+</li>
+</ul>
+
+<p>
+ <em>Remarque : </em> Si vous avez le choix, utilisez plutôt les pilotes destinés à Windows 2000. Dans la plupart des cas, les pilotes Windows XP fonctionnent également mais certaines personnes ont eu quelques dysfonctionnements. 
+</p>
+<ul>
+<li class="level1"><span class="li"> Copier le répertoire (décompressé) contenant les pilotes Windows (fichier .inf) que vous allez utiliser dans <code>/opt</code>; par exemple (dans mon cas via un terminal) :</span>
+</li>
+</ul>
+<pre class="code">
+sudo cp -Rf ~/Desktop/80211g/ /opt/
+</pre>
+<ul>
+<li class="level1"><span class="li"> Installez les paquets suivant à l&rsquo;aide du gestionnaire de paquets Synaptic :</span>
+</li>
+</ul>
+<pre class="code">
+ndiswrapper-utils
+ndiswrapper-source
+</pre>
+<ul>
+<li class="level1"><span class="li"> Déterminez la version du noyau utilisé sur votre système:</span>
+</li>
+</ul>
+<pre class="code">
+uname -r
+</pre>
+
+<p>
+ Nous supposerons par la suite que cette commande a renvoyé <em>2.6.10-5-386</em>. Adaptez selon votre système. 
+</p>
+<ul>
+<li class="level1"><span class="li"> Installez les headers du noyau à l&rsquo;aide du gestionnaire de paquets Synaptic. <strong>Adaptez le nom du paquet à votre version du noyau</strong>.</span>
+</li>
+</ul>
+<pre class="code">
+linux-headers-2.6.10-5-386
+</pre>
+<ul>
+<li class="level1"><span class="li"> Construisez le module ndiswrapper à l&rsquo;aide de la commande:</span>
+</li>
+</ul>
+<pre class="code">
+sudo module-assistant auto-install ndiswrapper
+</pre>
+
+</div>
+<!-- SECTION [423-1713] -->
+<a name="configuration_de_ndiswrapper"></a><h2> Configuration de NDISWrapper </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> Premièrement, nous allons charger le pilote Windows dans le système. Pour ce faire, utilisez la commande suivante dans un terminal : (le nom du fichier .inf et le chemin dépend de votre driver)</span>
+</li>
+</ul>
+<pre class="code">
+sudo ndiswrapper -i /opt/80211g/Win2k/neti2220.inf
+</pre>
+
+<p>
+ Pour voir si ndiswrapper as bien installé votre driver, taper la commande suivante: 
+</p>
+<pre class="code">
+sudo ndiswrapper -l
+</pre>
+
+<p>
+ Vous devriez voir un message dans le genre de celui-ci: 
+</p>
+<pre class="code">
+Installed ndis drivers:
+netasag driver present, hardware present
+</pre>
+<ul>
+<li class="level1"><span class="li"> Ensuite, nous allons créer un module pour le charger dans le noyau Linux. Ce module sera créé à partir du pilote Windows que nous avons chargé précédemment. Pour faire ceci, utilisez la commande suivante dans un terminal :</span>
+</li>
+</ul>
+<pre class="code">
+sudo ndiswrapper -m
+</pre>
+<ul>
+<li class="level1"><span class="li"> Nous allons maintenant tester si le module que nous venons de créer fonctionne. Pour cela, on va le charger dynamiquement dans le noyau avec la commande suivante :</span>
+</li>
+</ul>
+<pre class="code">
+sudo modprobe ndiswrapper
+</pre>
+<ul>
+<li class="level1"><span class="li"> Si tout s&rsquo;est bien passé, vous devriez avoir une interface wlan0 existante. Vous pouvez vérifier cela en allant dans le menu <strong>Système &rArr; Administration &rArr; Réseau</strong>. Vous pouvez maintenant configurer l&rsquo;interface sans fil (voir <a href="/installation/wifi" class="wikilink1" title="installation:wifi" onclick="return svchk()" onkeypress="return svchk()">wifi</a>).</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Si l&rsquo;interface est présente et fonctionne, vous pouvez indiquer au système de charger le module à chaque démarrage de la machine. Pour ce faire, ajoutez la ligne suivante à la fin du fichier <code>/etc/modules</code> :</span>
+</li>
+</ul>
+<pre class="code">
+ndiswrapper
+</pre>
+
+</div>
+<!-- SECTION [1714-] -->

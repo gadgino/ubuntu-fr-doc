@@ -1,0 +1,186 @@
+{{tag>système administration}}
+
+----
+
+====== Programmer des tâches avec CRON ======
+
+
+
+
+
+===== Qu'est-ce que Cron ? =====
+**Cron** est le gestionnaire des tâches devant être exécutées à un moment précis.  Chaque utilisateur a un fichier **crontab**, lui permettant d'indiquer les actions à effectuer régulièrement.
+
+
+
+===== Comment fonctionne Cron ? =====
+<note important>Il est conseillé de ne pas modifier /etc/crontab directement et d'utiliser plutôt la méthode décrite dans la section suivante (crontab -e)</note>
+Pour utiliser **cron**, ajoutez simplement les entrées à votre fichier **crontab** (situé dans le répertoire /etc). 
+Une entrée dans **cron**.  Les champs, dans l'ordre(( Le mois et le jour de la semaine permettent une abréviation (suivant les jours et mois en anglais), telle que **jan** pour janvier, **thu** pour jeudi (Thursday).)) :
+    * //minute//,
+    * //heure//,
+    * //jours dans le mois//,
+    * //mois//.
+    * //jour de la semaine//
+  * La commande à lancer.
+
+----
+Si __//jour du mois//__ et __//mois//__ sont définis, __//jour de la semaine//__ n'est pas nécessaire. Cependant, si le champ est indiqué en plus, la commande sera executée à la date //jour du mois// et //mois// mais AUSSI tous les  //jour de la semaine// définis.
+Exemple avec  <code>0 0 13 1 5 tâche</code>  la tâche sera exécutée le 13 janvier ET tous les vendredis.
+
+---- L'exemple ci-dessous exécutera ///usr/bin/apt-get update//, chaque jour, de chaque mois à 03:05 (le **cron** fonctionne sur 24 h) avec les droits de l'utilisateur **nomdutilisateur**.
+<code>
+5 3  * *  * nomdutilisateur /usr/bin/apt-get update
+</code>
+---- Vous pouvez faire tourner **cron** toutes les 5 minutes tout au long de la journée de travail (9am-5pm) avec un message :
+
+<code>
+*/5 9-17 * * mon,tue,wed,thu,fri wall "Où en es tu ?"
+</code>
+
+
+ou vous rappeler un anniversaire à 9h du matin le 10 janvier chaque année :
+
+<code>
+0 9 10 jan  * echo "C'est l'anniversaire de ta Maman aujourd'hui !" >>~/readme
+</code>
+
+----
+Il existe des raccourcis intéressants :
+
+    * @reboot # se lance au reboot avec les droits utilisateurs, bien commode
+    * @yearly
+    * @annually
+    * @monthly
+    * @weekly
+    * @daily
+    * @midnight
+    * @hourly
+
+Cf aussi :
+
+   man 5 crontab
+
+
+Pour exécuter des applications graphiques, il faut tout d'abord être sûr que l'usager root a accès au //display// si jamais le contrôle d'accès est actif (cf. **xhost**), par exemple en exécutant (soi-même, ou en rajoutant la ligne dans un script de démarrage comme //rc.local//) :
+<code>
+xhost + local:root
+</code>
+Puis il faut préciser quel //display// utiliser lors de l'exécution de la commande à cron en ajoutant DISPLAY=//nom_du_display// au début de la commande à exécuter ; par exemple :
+<code>
+0 8 * * * DISPLAY=:0.0 totem "mon_fichier_son.mp3"
+</code>
+
+
+Vous pouvez générer une commande grâce à  **[[http://www.openjs.com/scripts/jslibrary/demos/crontab.php|cet outil]]**.
+===== Commande pour Cron =====
+
+Pour regarder le contenu de votre **crontab**, tapez :
+
+<code>
+crontab -l
+</code>
+
+Pour éditer le fichier de votre **crontab**, tapez :
+
+<code>crontab -e</code>
+
+Quand vous sortez de l'éditeur, le nouveau fichier **crontab** sera installé. Le fichier est stocké dans ///var/spool/cron/crontabs/<user>// mais doit seulement être édité par l'intermédiaire de la commande **crontab**.
+
+Note : sur xubuntu, il faut auparavant indiquer que l'utilisateur a le droit d'utiliser crontab. Pour cela il faut créer un fichier ///etc/cron.allow// et y saisir le nom des utilisateurs autorisés à utiliser crontab.
+
+L'éditeur utilisé pour modifier la crontab peut être modifié par la commande :
+<code>
+sudo update-alternatives --config editor
+</code>
+ou par :
+  select-editor
+  
+<note tip>  Lors du premier accès à "crontab -e" un menu apparaît et donne le choix de l'éditeur à utiliser.</note>
+===== Lancement graphique =====
+Si vous avez besoin d'une interface graphique par exemple pour utiliser zenity, kdialog, dialog ou encore totem, vlc, ... Il vous faudra effectuer plusieurs choses :
+1° ajouter un DISPLAY=:0 devant la commande dans le cron.
+Exemple :
+<code>
+*/5 * * * * DISPLAY=:0 zenity --info --text="Toto va bien"
+</code>
+
+<note important>Il est parfois nécessaire de faire "xhost +" dans un terminal pour autoriser l'accès à X</note>
+
+2° Si vous utilisez un script nécessitant des caractères tels que des accents, n'oubliez pas d'ajouter un export LANG="fr_FR.UTF-8" ou LANG="fr_BE.UTF-8" au début de ce script. D'autre part il est grandement conseillé de mettre le chemin absolu vers les exécutables et fichiers.
+Exemple :
+<code>
+#!/bin/bash
+
+export LANG="fr_BE.UTF-8"
+
+/usr/bin/zenity --info --text="Toto va bien.\nReviens manger à la maison\!"
+</code>
+
+
+===== Autres Considérations =====
+
+Les commandes ci-dessus sont stockées dans un fichier **crontab** appartenant à votre compte d'utilisateur et exécutées avec votre niveau des permissions. Si vous voulez exécuter, régulièrement, une commande exigeant un plus haut niveau de permission (root), vous devez utiliser le fichier **crontab** root (ou racine) :
+
+<code>sudo crontab -e</code>
+
+Remarque : cette commande édite directement le fichier // /var/spool/cron/crontabs/<utilisateur>// (avec ici root comme utilisateur).
+
+Selon les commandes à exécuter, vous devrez changer la variable //PATH// des utilisateurs ayant les droits //root// en mettant la ligne suivante au dessus de leurs fichiers **crontab** :
+
+<code>
+PATH=/usr/sbin:/usr/bin:/sbin:/bin
+</code>
+
+
+Il est aussi important de noter que le fichier **crontab** de l'utilisateur système ''root'' peut être édité avec l'instruction 
+<code> sudo crontab -e </code>. 
+Dans ce cas il ne faut pas préciser l'utilisateur sinon ''root'' est compris comme une instruction à exécuter et il ne se passera rien.
+  * Bon : <code>@midnight /sbin/shutdown -r now></code>
+  * Mauvais : <code>@midnight root /sbin/shutdown -r now</code>
+
+(Vérifié avec ubuntu-server 14.04.1, xubuntu 14.04.1 et xubuntu 16.0.1)
+
+Il est important de vérifier que vos travaux dans **cron** fonctionnent comme prévu. Une méthode pour faire un test est de paramétrer le travail dans la **crontab** pour qu'il se fasse quelques minutes plus tard et de vérifier les résultats, avant de mettre la synchronisation de cette tâche à la bonne heure. Vous pouvez également trouver utile de mettre les résultats des commandes dans un fichier texte qui notent les succès ou les échecs, par exemple :
+
+<code>
+echo "Sauvegarde de nuit: $(date)" >>/tmp/mybackup.log
+</code>
+
+**NOTA IMPORTANT:** Dans le cas où votre **crontab** refuserait de s'exécuter, vérifiez que vous disposez bien du package mailutils.
+En effet, **cron** logue ses actions en envoyant un mail à l'utilisateur courant.
+<code>
+sudo apt-get install mailutils
+</code>
+Si vous ne voulez ou pouvez pas envoyer d'email, pas besoin d'installer mailutils, il suffit de rajouter au tout début :
+<code>
+MAILTO=""
+</code>
+Et si ça ne marche toujours pas, alors il se peut que le démon **cron** soit planté, il faut le réinitialiser en faisant :
+<code>
+sudo service cron restart
+</code> 
+
+Pour plus d'information, regardez les pages du //man// pour **cron** et **crontab** (le //man// est détaillé sur [[:tutoriel:console_ligne_de_commande|les commandes basiques]]). Si votre machine est régulièrement éteinte, vous pouvez également être intéressé par **at** (fait partie de l'installation de base d'Ubuntu) et **anacron** (à trouver dans le dépôt `universe repository`) qui fournit d'autres approches aux tâches programmées.
+
+**NOTE:** 
+pour modifier crontab directement (par un script par exemple) 
+<code>
+crontab < <(crontab -l ; echo "0 * * * * echo plop")
+</code> 
+
+
+<note>Cron, comme [[anacron]] devraient être remplacés par [[fcron]], plus souple et remplissant les fonctions des deux logiciels.\\ 
+18/07/2014 : une version stable de fcron est disponible [[http://fcron.free.fr/]]</note>
+===== Liens =====
+  * [[https://help.ubuntu.com/community/CronHowto]] (EN)
+  * [[http://www.math-linux.com/spip.php?article16|Programmation des tâches régulières : crontab]]
+  * [[:nano|Editeur de texte de Crontab : gnu nano]]
+  * [[incron]] : effectuer une action, commande(s), scripts, etc, en cas de modifications de fichiers ou de répertoires donnés
+  * [[https://www.easycron.com/|EasyCron - Cron Jobs Alternatives]]
+  * [[:Anacron]] : planificateur de commande « anachronique »
+  * [[fcron]] : programmer des tâches devant être exécutées
+----
+
+//Contributeurs : Martigo, [[:contributeurs|Les contributeurs d'Ubuntu-fr]], l'entreprise Simplistay.
+//

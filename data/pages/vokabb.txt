@@ -1,0 +1,26 @@
+====== Vokabb ======
+Vokabb est un logiciel de gestion de liste de vocabulaires. Grâce à lui, vous pourrez écrire vos listes de vocabulaires, les réviser grâce à un système de test.
+Le logiciel est disponible sous licence GNU GPL.
+
+===== Installation =====
+Les sources officielles sont disponibles sur Qt-apps.org. Cependant, ces sources comprennent quelques bugs qui peuvent entrainer des pertes de mots. Ainsi, j'ai ([[utilisateurs:geenux|geenux]]) modifié les sources pour corriger ces bugs, et ajouter quelques fonctionnalités.
+Ainsi, je vous conseille de compiler à partir de [[http://cloud.github.com/downloads/geenux/Vokabb/geenux-Vokabb.tar.gz|ces sources]]
+Une fois les sources récupérées, il vous faudra les compiler. Pour ce faire, il vous faut le framwork Qt ainsi que les outils de base de développement.
+<code>sudo apt-get install libqt4-dev build-essential</code>
+Décompressez ensuite l'archive téléchargée, puis rendez vous dans le dossier contenant les sources :
+<code>tar xzvf geenux-Vokabb.tar.gz
+cd geenux-Vokabb
+qmake vokabb.pro
+make
+./Vokabb</code>
+
+===== Configuration =====
+La configuration de Vokabb se fait via le fichier vokabb.ini.
+Ce fichier est assez intuitif. 
+Par exemple, la ligne
+<code>displayExample=true</code>
+Permet d'afficher (true) ou non (false) la colonne contenant les exemples.
+
+
+----
+//Contributeurs principaux : [[utilisateurs:geenux|geenux]].//

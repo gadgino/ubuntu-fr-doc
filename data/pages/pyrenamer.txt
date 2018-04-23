@@ -1,0 +1,125 @@
+{{tag>Xenial gestionnaire_de_fichiers bureautique}}
+----
+{{ :application:pyrenamer:pyrenamer_icone_00.png?100|Icône}}
+====== Renommer en nombre : pyRenamer ======
+
+Vous l'avez certainement remarqué: sous Ubuntu il n'est pas possible, d'un clic de souris, de renommer en même temps plusieurs fichiers sélectionnés. **PyRenamer** permet de pallier cette impossibilité en changeant facilement le nom de plusieurs fichiers (et aussi des dossiers) en une seule fois. \\
+\\
+{{ :applications:pyrenamer.png?400 |Écran principal}} \\
+PyRenamer s'intègre parfaitement dans l'environnement [[:gnome|GNOME]] et dans [[Nautilus]] en particulier. Grâce à un [[:nautilus_scripts|script]]  (décrit plus bas), il peut même s'intégrer directement au menu de gestion des fichiers. \\
+
+**PyRenamer** permet de renommer des fichiers et/ou des dossiers en utilisant :
+  * des modèles de substitution par segments de chaînes de caractères ;
+  * l'insertion ou la suppression de caractères à un emplacement défini ;
+  * la substitution de chaîne de caractères ;
+  * des méta-données EXIF (pour les [[photo|photos]]) ;
+  * des méta-données [[audio]] (pour la musique mp3 par exemple) ;
+  * des variations de casse (majuscule, minuscule, initiale,...) ;
+  * un facteur aléatoire ;
+  * et bien d'autres possibilités.
+
+===== Pré-requis =====
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>pyrenamer|pyrenamer]]**.
+
+=====Utilisation=====
+Lancer l'application depuis le [[:unity#tableau_de_bord_dash|tableau de bord]] d'Unity. L'application se trouve dans la catégorie "Code".\\
+(Pour les menus classiques :  //Applications -> accessoires -> PyRenamer//). \\
+
+ **Pyrenamer** propose de très nombreuses possibilités de renommer vos fichiers. Il serait trop long d'en faire la liste sur cette page. Pour faciliter votre choix et accéder aux tâches, placer votre curseur au-dessus des éléments pour obtenir des info-bulles. Vous pouvez faire tous les tests que vous souhaitez, rien ne sera modifié tant que vous n'avez pas cliqué sur le bouton **Renommer**.
+
+=====Configuration=====
+
+====Options====
+Pour accéder aux options, il suffit de cliquer sur l’icône **outils** en haut à droite de la fenêtre de Pyrenamer. \\
+<note help>Pour faciliter la prise en main de Pyrenamer, il est conseillé d'activer l'aperçu automatique et l'option "Garder les extensions" pour modifier facilement les noms de fichiers sans toucher à leur extension.</note>
+
+==== Intégration à l'explorateur de fichier Nautilus ====
+Pour vous faciliter encore plus la tâche, vous pouvez lancer **pyRenamer** directement depuis le dossier contenant les fichiers à renommer.
+
+=== Création du script ===
+  * Se rendre dans le dossier contenant les scripts pour [[Nautilus]].
+<note tip>
+Pour s'y rendre rapidement, et à condition qu'un script y soit déjà présent, faire un clic droit sur n'importe quel objet (dossier ou fichier) puis dans le menu déroulant, choisir : //Scripts → Ouvrir le dossier de script//.</note>
+==Pour Précise 12.04 LTS==
+Le dossier contenant les scripts se nomme **nautilus-scripts**. Il est dans le [[:fichier_cache#afficher_les_elements_caches|dossier caché]] **.gnome2** du dossier personnel.
+
+==Pour Trusty 14.04 LTS et suivant==
+Le dossier contenant les scripts se nomme **scripts**. Il est dans le [[:fichier_cache#afficher_les_elements_caches|dossier caché]] **.local/share/nautilus** de votre dossier personnel.
+
+  * Faire un clic droit sur l'espace vide du dossier puis dans le menu déroulant, choisir : //Créer un nouveau document → Document vide// ;
+  * Nommer ce nouveau document : //Renommer en masse// ;
+<note>Vous pouvez nommer le fichier comme bon vous semble, mais sachez que c'est sous ce nom qu'il apparaîtra dans vos menus [[:Nautilus]]</note>
+  * Ouvrir ce dernier avec un éditeur de texte (en double-cliquant dessus avec Gedit par défaut).
+  * Copier-coller le code suivant dans le fichier **Renommer en masse**
+
+<file bash Renommer en masse>
+#!/bin/bash
+#Lance l'application Pyrenamer dans le dossier courant.
+#########################################################################
+# Nautilus "Renommer en masse" Script #
+##########################################################################
+if [ "$1" = "" ];then
+wdir=${NAUTILUS_SCRIPT_CURRENT_URI#file://}
+wdir=${wdir//%20/ }
+else
+filetype=$(file "$1")
+filetype=${filetype##*: }
+
+if [ "$filetype" = "directory" ];then
+wdir=${NAUTILUS_SCRIPT_SELECTED_FILE_PATHS%%$1*}
+wdir=$wdir/$1
+else
+wdir=${NAUTILUS_SCRIPT_SELECTED_FILE_PATHS%%$1*}
+fi
+fi
+pyrenamer "$wdir"
+</file>
+
+  * Fermer ce fichier en enregistrant les modifications ;
+  * [[:permissions|Rendre ce fichier exécutable]] ( clic droit sur le fichier puis choisir //"Propriétés"// -> onglet //"permission"// et cocher la case //"autoriser l'exécution du fichier comme un programme"//).
+
+=== Utilisation du script ===
+
+Pour renommer plusieurs fichiers en même temps avec **Pyrenamer**, il suffit dorénavant de faire un simple clic droit sur n'importe quel objet du dossier actif et dans le menu déroulant, choisir : //Scripts → Renommer en masse//.
+
+<note>Ce script est utilisable avec tous les explorateurs de fichiers basés sur Nautilus. L'intégration se fait de la même façon que sous Nautilus. \\
+Pour [[:Nemo]] (un [[wpfr>Fork_%28d%C3%A9veloppement_logiciel%29|fork]] de Nautilus dans [[:Cinnamon]]) par exemple, il faut simplement mettre le script ci-dessus dans le dossier  **~/.gnome2/nemo-scripts**. Et pour plus de cohérence, on peut remplacer les variables NAUTILUS_... par NEMO_... (mais cela fonctionnerait quand même). </note>
+
+=== Intégration dans le comportement de Nemo ===
+
+Une option est désormais disponible dans Nemo pour que lorsque plusieurs fichiers sont sélectionnés et que vous cliquez sur renommer, vous pouvez invoquer la commande de votre choix. Le seul problème est que lorsque l'on invoque l'argument "%P" de Nemo, il contient des caractères en trop. Voici un code que j'ai personnellement placé dans /usr/local/bin/pyrenamer et bien entendu destiné à pyrenamer :
+
+<file pyrenamer>
+#!/bin/bash
+# /usr/local/bin/pyrenamer (MagicMint) O0116
+# pyRenamer wrapper for Nemo
+
+cmd="/usr/bin/pyrenamer"
+
+if [[ $# != 0 ]]; then
+ #Remove "file://" from the 1st name
+ dir=/`dirname "$1" | cut -d'/' -f4-`
+fi
+eval "$cmd" --root "$dir"
+#End of script
+</file>
+
+Il faut tout de même le rendre exécutable par la commande :
+<code>sudo chmod +x /usr/local/bin/pyrenamer</code>
+
+Ainsi, dans les paramètres de Nemo, onglet Comportement, vous pourrez rentrer dans le renommage de plusieurs fichier 
+<code>/usr/local/bin/pyrenamer %P</code>
+===== Suppression =====
+Pour désinstaller **pyRenamer**, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, le configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.\\
+
+Effacez aussi le fichier de [[:nautilus_scripts|script Nautilus]] le cas échéant.
+=====Voir aussi=====
+  * **(en)** [[https://launchpad.net/pyrenamer|pyRenamer sur Launchpad]]
+
+----
+
+//Contributeurs ://

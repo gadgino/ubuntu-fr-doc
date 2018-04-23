@@ -1,0 +1,191 @@
+{{tag> Trusty calendrier contacts seveur BROUILLON}}
+----
+ 
+====== Baikal ======
+ 
+Baikal est un serveur de calendrier et de contacts basé sur sabre/dav (CalDAV CardDAV) qui comporte une interface d'administration destinée à en faciliter l'administration.
+
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir installé [[xampp|XAMPP : un serveur web de développement facile]] (l'installation autonome d'Apache et MySql fonctionne aussi mais cette page est conçue à partir d'exemples portant sur une installation XAMPP).
+ 
+===== Installation =====
+
+=== Installation de baikal ===
+Pour installer ce logiciel, il suffit de se rendre sur le site github de [[https://github.com/fruux/Baikal/releases|baikal]] et de télécharger la dernière version de l'application (latest release).
+ 
+Ensuite il convient de modifier les droits sur l'archive zip ainsi téléchargée (dont on considère ici qu'elle a été téléchargée dans le répertoire <Téléchargements> - adapter le nom du fichier zip à la version courante et noter le répertoire </opt/lampp/htdocs> qui serait </var/www/html> dans une installation autonome d'apache) :
+<code>
+ unzip ~/Téléchargements/baikal-x.x.x.zip -d /opt/lampp/htdocs/
+</code>
+
+L'étape suivante consiste à modifier les droits de l'ensemble du répertoire baikal de manière à accorder les droits en écriture à apache :
+<code>
+sudo chmod -R 770 /opt/lampp/htdocs/baikal
+</code> 
+
+Enfin, créer un fichier qui sera utilisé ultérieurement :
+<code>
+touch /var/www/baikal/Specific/ENABLE_INSTALL
+</code> 
+<note warning>L'usage de ce fichier sera précisé ultérieurement, toutefois sa création sera impossible une fois l'hôte virtuel créé dans apache, il est donc nécessaire de créer ce fichier à cette étape de l'installation</note>
+
+<code>
+
+</code> 
+
+=== Création d'un hôte virtuel dans apache ===
+Éditer le fichier <httpd.conf> du répertoire </etc> de l'installation lampp en qualité de super-utilisateur :
+<code>
+sudo gedit /opt/lampp/etc/httpd.conf
+</code> 
+
+puis dé-commenter la ligne suivante :
+<code>
+# Virtual hosts
+# Include etc/extra/httpd-vhosts.conf
+</code>
+qui devient :
+<code>
+# Virtual hosts
+Include etc/extra/httpd-vhosts.conf
+</code>
+et sauvegarder.
+
+Ouvrir ensuite le fichier <httpd-vhosts.conf> du répertoire <etc/extra/> :
+<code>
+sudo gedit /opt/lampp/etc/extra/httpd-vhosts.conf
+</code> 
+
+et compléter :
+<code>
+<VirtualHost *:80>
+       DocumentRoot "/opt/lampp/htdocs/"
+       ServerName localhost
+</VirtualHost>
+</code> 
+
+par :
+<code> 
+<VirtualHost *:80>
+    DocumentRoot /opt/lampp/htdocs/baikal/html/
+    ServerName baikal.localhost
+</VirtualHost> :
+</code> 
+et sauvegarder.
+
+Il faut désormais mettre à jour le fichier </etc/hosts> des hôtes du serveur local en ajoutant la ligne  :
+<code>
+127.0.0.1       baikal.localhost
+</code> 
+
+Pour éditer le fichier, saisir :
+<code>
+sudo gedit /etc/hosts
+</code> 
+et transformer :
+<code>
+127.0.0.1	localhost
+127.0.1.1	pc
+
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+</code> 
+
+en :
+<code>
+127.0.0.1	localhost
+127.0.1.1	pc
+127.0.0.1	baikal.localhost
+
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+</code> 
+Ne pas oublier de sauvegarder.
+
+Enfin redémarrer xamp, soit par la console virtuelle, soit en ligne de commande :
+<code>
+sudo /opt/lampp/lampp restart
+</code> 
+
+Si tout s'est bien passé, voici ce qui apparaît dans la fenêtre du navigateur lorsque l'on saisit <http://baikal.localhost/> :
+
+{{ baikal:baikal.png?400 |}}
+
+<note tip>En cas de difficulté, saisir <http://baikal.localhost/baikal/html/> au lieu de <http://baikal.localhost/>, il y a probablement une subtilité qui échappe au rédacteur de la page</note>
+
+<note warning>Ne pas oublier d'accorder à baikal des droits suffisants sur le répertoire <Specific>. Un chmod 777 n'est pas ce qui se fait de mieux en terme de sécurité, loin s'en faut, mais pour un serveur exploité en local on peut considérer que la prise de risque est limitée.
+<code>chmod -R 777 /opt/lampp/htdocs/baikal/Specific/</code></note>
+===== Configuration =====
+ 
+La configuration s'effectue dans le module web d'administration qui a été ouvert lors de l'étape précédente.
+
+Commencer par indiquer un mot de passe d'administration puis valider.
+
+Le choix de type de base de donnée est libre. Sqlite est plus léger, c'est ce choix qui sera retenu dans l'exemple en cours. Valider en cliquant sur <save changes>.
+
+Lors de cette étape baïkal supprime le fichier <ENABLE_INSTALL> créé précédemment afin de désactiver l'accès à la configuration. Si toutefois la configuration doit être modifiée ultérieurement, il suffit d'y accéder au travers des menus Settings et System settings de l'interface d'administration.
+
+L'interface d'administration est désormais accessible à cette adresse :
+
+<https://baikal.localhost/baikal/html/admin/>
+
+{{ :baikal:baikal_admin1.png?500 |}}
+
+{{ :baikal:baikal_admin2.png?500 |}}
+
+
+===== Utilisation =====
+ 
+La création de comptes utilisateurs se fait en cliquant sur <Users an ressources> dans la barre de menu située en haut de page.
+Cliquer sur <add user> puis compléter les renseignements demandés.
+
+=== Intégration dans Thunderbird ===
+
+== Calendrier ==
+
+Installer l'extensions Ligthning depuis le gestionnaire des extensions de Thunderbird (Outils/Modules complémentaires/Catalogue puis rechercher <<Lignthning>> dans le catalogue).
+Une fois l'extension installée, le redémarrage de Thunderbird est nécessaire.
+
+Il est également nécessaire d'installer une extension non officielle intitulée SoGo Connector. Télécharger le fichier <sogo-connector-x.x.x.xpi> sur la page [[https://sogo.nu/download.html#/frontends|soGo]] puis ouvrir le fichier dans Thunderbird (cliquer sur la roue dentée à gauche de la barre de recherche des extensions) :
+{{ ::thunderbird:baikal_sogo.png?400 |}}
+
+Une fois Thunderbird redémarré, créer un nouveau calendrier (Fichier/Nouveau/Agenda), choisir <sur le réseau> puis <CalDav>, <prise en charge du mode hors connexion> étant coché.
+
+Ajouter ensuite le lien pour accéder au calendrier sur le serveur : <https://baikal.localhost/baikal/html/cal.php/principals/nom_utilisateur/>
+
+C'est fini.
+
+== Contacts ==
+
+Se rendre dans <Adresses> puis <Fichier/Nouveau/Carnet d'adresses distant>
+
+Dans <Nom> indiquer le nom souhaité pour le carnet d'adresse dans Thunderbird.
+
+Dans <URL> saisir <https://baikal.localhost/baikal/html/card.php/principals/nom_d_utilisateur/>
+
+Et valider.
+ 
+===== Désinstallation =====
+ 
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+ 
+===== Voir aussi =====
+ 
+  * **(en)** [[Site officiel du logiciel]]
+  * **(fr)** [[Site de la communauté francophone du logiciel Bidule]]
+  * [[https://www.rezine.org/documentation/auto-hebergement/services/agenda-contact/serveurs-cal-card/|tutoriel]] sur rezine.org
+  * [[https://www.guillaume-leduc.fr/synchronisez-baikal-avec-thunderbird-et-lightning.html|tutoriel]] sur guillaume-leduc.fr
+----
+//Contributeurs principaux : [[zococo|zococo]].//
+ 

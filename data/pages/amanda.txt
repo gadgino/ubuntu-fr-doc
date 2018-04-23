@@ -1,0 +1,56 @@
+{{tag>sauvegarde administration sécurité BROUILLON}}
+
+----
+
+====== Amanda ======
+
+**Amanda** est un logiciel permettant de faire des sauvegardes de vos PC. Sauvegarde incrémentielle, différentiels.
+Amanda est conçu pour effectuer les sauvegardes de multiples ordinateurs en réseaux sur bandes dans une logique maître/esclaves (DAT ...).
+
+
+===== Pré-requis =====
+
+Amanda effectue des sauvegardes sur un support séquentiel, soit un dérouleur de bande (DDS, DAT…), soit un disque utilisé de manière séquentielle.
+
+===== Installation =====
+
+[[:tutoriel:comment_installer_un_paquet|Installez les paquets]] [[apt://amanda-server,amanda-client|amanda-server amanda-client]]
+
+
+===== Configuration =====
+
+On ajoute un fichier de configuration à partir de celui fourni en exemple
+
+<code>sudo -u backup -s
+cd /etc/amanda/
+cp /usr/share/doc/amanda-server/examples/amanda.conf.in.gz .
+gunzip -d amanda.conf.in.gz
+cp -a amanda.conf.in amanda.conf
+</code>
+
+On va préparer le système pour avoir une sauvegarde journalière (daily), une archive, et une de test
+<code>sudo -u backup -s
+mkdir -m 770 -p /etc/amanda/{daily,archive,test1}</code>
+
+On en profite pour créer le fichier de la liste des bandes utilisées
+<code>touch /etc/amanda/{daily,archive,test1}/tapelist</code>
+
+===== Utilisation =====
+
+FIXME
+
+===== Désinstallation =====
+
+FIXME
+
+
+===== Voir aussi =====
+
+  * [[http://www.amanda.org|(en) Site officiel d'AMANDA .]]
+  * [[http://www.linux-france.org/article/sys/amanda/|(fr) Documentation d'AMANDA.]]
+
+FIXME
+
+----
+
+//Contributeurs : FIXME.//

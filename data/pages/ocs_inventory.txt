@@ -1,0 +1,189 @@
+{{tag>entreprise erp inventaire gestion_de_parc}}
+
+----
+====== OCS Inventory  ======
+
+**Open Computer and Software Inventory Next Generation** est une application conçue pour aider les administrateurs systèmes ou réseau à  suivre les configurations matériels et les logiciels sur le réseau. **Il peut aussi déployer des paquets sur des postes Windows ou Linux.**
+
+
+Le dialogue entre les postes clients et le serveur de gestion est basé sur des standards actuels, les protocoles  HTTP/HTTPS et le format de donnée XML
+
+ Le client d'inventaire fonctionne sous  Microsoft Windows 95/98/Me/NT4/2000/XP/2003/Vista ou Linux. Des contributions existent aussi pour    Sun Solaris, *BSD, IBM AIX 5.X, HP-UX et Mac OS X.
+
+OCS Inventory est un logiciel sous licence **GPL**[[http://www.opensource.org/licenses/gpl-license.php]], Libre à l'utilisation et à la copie . **OCS Inventory** est aussi Open Source! Si vous   désirez modifier les sources, vous pouvez! Cependant, si vous voulez mettre à jour le code source pour le distribuer, vous devez fournir vos mises à jour en vertu des conditions de licence  de GPL.
+
+OCS Inventory supporte les langages suivants : 
+  * Portuguais
+  * Anglais
+  * Français
+  * Allemand
+  * Hongrois
+  * Italien
+  * Polonais
+  * Portuguais
+  * Espagnol
+  * Russe
+  * Turque
+Utilisé avec le logiciel de gestion de parc tel que **GLPI**[[http://www.glpi-project.org]] , vous aurez un logiciel puissant de gestion d'inventaire et d'information de ressource avec les mises à 
+jour automatiques de la configuration d'ordinateur, de la gestion de licences, du HELPDESK, de la base de connaissance et plus.
+
+====== Installation ======
+
+
+Depuis Intrepid Ibex (8.10), il suffit d'installer le paquet [[apt>ocsinventory-server|ocsinventory-server]] et le tour est joué!.
+
+
+
+===== Pré-requis =====
+  * Apache version 1.3.33 ou plus / Apache version 2.0.46 ou plus.
+    * Mod_perl version 1.29 ou plus.
+    * Mod_php version 4.3.2 ou plus.
+  * PHP 4.3.2 ou plus, avec ZIP et support GD activé.
+  * PERL 5.6 ou plus.
+    * Perl module XML::Simple version 2.12 ou plus.
+    * Perl module Compress::Zlib version 1.33 ou plus.
+    * Perl module DBI version 1.40 ou plus.
+    * Perl module DBD::mysql version 2.9004 ou plus.
+    * Perl module Apache::DBI version 0.93 ou plus.
+    * Perl module Net::IP version 1.21 ou plus.
+    * Perl module SOAP::Lite version 0.66 ou plus (pas de proxy)
+  * MySQL version 4.1.0 ou plus avec InnoDB engine active.
+  * Make 
+
+===== Installation Make =====
+  sudo apt-get install make
+
+===== Installation Apache =====
+  sudo apt-get install apache2 apache2-doc
+  sudo su -c ' echo ServerName www.monsite.tld >> /etc/apache2/apache2.conf'
+  sudo /etc/init.d/apache2 reload
+
+
+
+===== Installation mysql =====
+  sudo apt-get install mysql-server
+  sudo mysqladmin -u root password votre_pass
+  sudo /etc/init.d/mysql reload
+
+
+
+
+
+
+===== Installation PHP5 =====
+  sudo apt-get install php5 libapache2-mod-php5 php5-mysql php5-gd
+  sudo su -c ' echo "<?php" > /var/www/html/info.php'
+  sudo su -c ' echo "  phpinfo()" >> /var/www/html/info.php'
+  sudo su -c ' echo "?>" >> /var/www/html/info.php'
+  sudo /etc/init.d/apache2 reload
+
+[[http://localhost/info.php|Si en cliquant sur ce lien une page de configuration PHP s'affiche cette partie de l'installation est bonne.]]
+
+===== Installation PERL =====
+  sudo apt-get install perl libapache2-mod-perl2 libxml-simple-perl libio-compress-perl  libdbi-perl libapache-dbi-perl 
+  sudo apt-get install libdbd-mysql-perl libnet-ip-perl libsoap-lite-perl libxml-libxml-perl
+
+Pour 12.04 et plus :
+  sudo apt-get install perl libapache2-mod-perl2 libxml-simple-perl libio-compress-perl libdbi-perl libapache-dbi-perl 
+  sudo apt-get install libdbd-mysql-perl libnet-ip-perl libsoap-lite-perl libxml-libxml-perl
+
+===== Installation divers =====
+Pour l'outil IPDISCOVER contenu dans l'agent, installer ce qui suit 
+
+
+  sudo apt-get install libc6-dev
+
+===== Installation Serveur =====
+Telecharger le package serveur à cette adresse : [[http://www.ocsinventory-ng.org/fr/telechargement/telecharger-serveur.html]]
+Extraire le package
+
+  tar -xvf OCSNG_UNIX_SERVER-xx.tar.gz
+
+et lancer 
+
+  sudo sh setup.sh
+  
+Dans la majorité des cas, les valeurs par défaut proposées sont bonnes, et vous n'avez qu'à taper "Entrée" à chaque proposition. Pour certaines installations "custom", vous aurez peut être à modifier certaines valeurs.
+
+Enfin, redémarrez Apache :
+
+  sudo apache2ctl restart
+
+Rendez vous ensuite à [[http://localhost/ocsreports/index.php|http://{{SERVEUR}}/ocsreports/index.php]] pour configurer le serveur OCS comme ci-dessous :
+
+{{ocs.png|}}
+
+===== Installation du client LINUX =====
+==== par les dépots (méthode recommandée )====
+Au moins pour [[:Lucid]] , [[:Maverick]] et [[:Natty]]
+il suffit d'[[:tutoriel:comment_installer_un_paquet|Installer le paquet]] **[[apt>ocsinventory-agent|ocsinventory-agent]]** \\
+de choisir HTTP comme mode et de mettre l'IP ou le FQDN de votre serveur.\\
+=== pour reconfigurer votre client ===
+[[:tutoriel:comment_modifier_un_fichier|modifier]] **/etc/ocsinventory/ocsinventory-agent.cfg**\\
+ou utiliser <code> dpkg-reconfigure ocsinventory-agent </code>
+=== pour forcer la remontée des informations de votre client/agent vers le serveur ===
+<code>sudo ocsinventory-agent</code>
+==== À la main ====
+
+=== Pré-requis ===
+
+Le client OCS nécéssite Perl ainsi que certaines de ses librairies.
+
+  sudo apt-get install dmidecode libxml-simple-perl libcompress-zlib-perl libnet-ip-perl libwww-perl libdigest-md5-perl libnet-ssleay-perl
+
+On en profite pour installer certains modules optionnels : 
+
+  sudo apt-get install libcrypt-ssleay-perl libnet-snmp-perl libproc-pid-file-perl libproc-daemon-perl net-tools libsys-syslog-perl pciutils smartmontools read-edid nmap
+
+=== Installation ===
+
+Telecharger le package agent à cette adresse : [[http://www.ocsinventory-ng.org/fr/telechargement/telecharger-agent.html]], puis extraire l'archive.
+
+  cd /usr/src/
+  sudo wget https://launchpad.net/ocsinventory-unix-agent/stable-2.1/2.1rc1/+download/Ocsinventory-Unix-Agent-{{VERSION}}.tar.gz
+  tar xvzf Ocsinventory-Unix-Agent-{{VERSION}}.tar.gz
+  cd Ocsinventory-Unix-Agent-{{VERSION}}
+
+On vérifie la configuration de Perl et on génère le Makefile : 
+
+  env PERL_AUTOINSTALL=1 perl Makefile.PL
+
+Si aucun message de type "Please Install XXX" n’apparaît, vous pouvez poursuivre l'installation. Sinon, installez le package/bibliothèque manquant.
+
+Pour installer un package Perl : 
+
+  cpan -i {{PACKAGE_NAME}}
+
+Pour installer l'agent : 
+
+  sudo make
+  sudo make install
+
+À la fin du 'make install', le script doit vous proposer de configurer le client : 
+
+  Do you want to configure the agent
+  Please enter 'y' or 'n' ?> [y]
+
+Si le script ne vous le propose pas, tapez :
+
+  sudo /usr/bin/perl postinst.pl
+
+<note>
+Comme pour le serveur, les choix par défaut sont corrects. Sinon, entrez les valeurs correspondant à votre configuration.</note>
+
+Le client est installé, et vous devez normalement le voir apparaître dans l'interface Web du serveur.
+===== Erreur avec logrotate =====
+Les administrateurs qui utilisent logrotate peuvent recevoir ce message:
+  /etc/cron.daily/logrotate:
+  error: ocsinventory-NG:18 lines must begin with a keyword or a filename (possibly in double quotes)
+  error: ocsinventory-NG:19 unexpected text
+  error: ocsinventory-NG:20 unexpected text
+  error: ocsinventory-NG:21 unexpected text
+  error: ocsinventory-NG:22 unexpected text
+  error: ocsinventory-NG:23 unexpected text
+  error: ocsinventory-NG:24, unexpected text after {
+  error: ocsinventory-NG:24 lines must begin with a keyword or a filename (possibly in double quotes)
+
+Cette erreur est due au format du fichier //ocsinventory-NG// qui se trouve dans ///etc/logrotate.d// .\\
+Le fichier est au format MS-DOS et il faut donc reconvertir le fichier au format unix.\\
+Pour ce faire vous pouvez utiliser //dos2unix// ou alors éditer le fichier pour le réécrire au format unix.

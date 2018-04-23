@@ -1,0 +1,119 @@
+{{tag>navigateur plugin_navigateur flash}}
+-----
+
+
+
+====== Swfdec : un lecteur d'animations Flash alternatif ======
+
+<note warning>Le développement de Swfdec semble arrêté depuis 2010.</note>
+
+**[[http://swfdec.freedesktop.org/wiki/|Swfdec]]** est un logiciel libre et gratuit qui permet de lire les animations interactives Flash. Il est disponible pour les architectures 32 bits, 64 bits et PowerPC d'Ubuntu, et est proposé en tant qu'application individuelle (//standalone//) ou en tant que greffon pour les navigateurs [[firefox|Mozilla Firefox]] et [[Epiphany]]. Swfdec est distribué sous licence GNU LGPL 2.1.
+
+Son principal avantage face au [[flashplayer|lecteur officiel]] propriétaire d'Adobe Systems est qu'il peut fonctionner avec différentes architectures de processeur et qu'il peut être porté vers de nombreuses plate-formes. (Le lecteur officiel n'est disponible que pour les plate-formes et les architectures les plus populaires.) De plus, puisqu'il s'agit d'un logiciel libre, il est possible de le distribuer avec d'autres logiciels libres, alors que la distribution du lecteur officiel se fait suite à l'acceptation d'une licence de distribution contraignante seulement.
+
+Les systèmes d'exploitation Fedora et Debian en ont fait leur lecteur officiel d'animations Flash. Swfdec est un projet de [[http://www.freedesktop.org|Freedesktop.org]].
+
+== Compatibilité avec le format Flash ==
+Swfdec gère les animations Flash jusqu'à la version 4 du format, et il possède, à l'heure actuelle, de nombreuses fonctionnalités de la version 9. Lorsque ses utilisateurs compilent régulièrement la version de développement de Swfdec, ils peuvent profiter d'avancées fréquentes, dont la prise en charge des vidéos de YouTube, Google Video, Lulu.tv, AOL video et CNN video.
+
+<note warning>Le développement de Swfdec semble arrêté depuis 2010.</note>
+
+===== Installation =====
+Swfdec est inclus dans [[depots#depots_officiels|la section Universe des dépôts officiels]]. Dans Ubuntu 8.04 LTS et versions ultérieures, l'accès à cette section est paramétrée par défaut ; vous n'avez pas de manipulation supplémentaire pour l'activer.
+
+[[:tutoriel:comment_installer_un_paquet|Installez le ou les paquets suivants]] :
+  * **[[apt://swfdec-gnome|swfdec-gnome]]** : lecteur indépendant ;
+  * **[[apt://swfdec-mozilla|swfdec-mozilla]]** : greffon pour les navigateurs basés sur Mozilla (Firefox, Epiphany...).
+
+
+
+===== Utilisation =====
+
+{{  swfdec-mozillaplugin.png?400|Swfdec en tant que greffon pour Mozilla Firefox, lisant une vidéo depuis YouTube. ["Love is Noise" par The Verve, (c) EMI]}}
+
+==== ... en tant que greffon pour les navigateurs Mozilla ====
+Une fois le paquet d'extension pour les navigateurs Mozilla installé, fermez toutes les instances de votre navigateur web. À l'ouverture suivante, Swfdec est automatiquement intégré à votre navigateur. Vous pouvez immédiatement lire du contenu Flash en vous rendant dans votre site préféré. Dans l'exemple ci-contre, Swfdec affiche une vidéo de YouTube.
+
+
+==== ... en tant que logiciel individuel ====
+En tant que logiciel individuel, Swfdec s'exécute à l'aide de la commande **''swfdec-player''**, exécutée dans un terminal ou une invite de commande rapide (''[ALT]+[F2]'')
+
+À l'intérieur du logiciel, servez-vous du menu //Fichier// pour sélectionnez l'animation ''.swf'' à afficher. (Dans sa dernière version stable [0.8.4], Swfdec ne peut pas lire des vidéo FLV directement dans son interface individuelle. Elle ne gère que les animations SWF. Les vidéos locales FLV peuvent être lues avec d'autres lecteurs vidéo, comme [[Totem]] et [[VLC]]. Les vidéos FLV d'Internet peuvent être lues directement dans le navigateur à l'aide de [[apt://swfdec-mozilla|swfdec-mozilla]].
+
+
+
+===== Désinstallation =====
+
+Pour désinstaller Swfdec, ouvrez votre [[gestionnaire de paquets]] et supprimez les paquets **swfdec-gnome**, **swfdec-mozilla** et **libswfdec-0.8-0**. Alternativement, exécutez la commande suivante, dans un terminal, pour obtenir l'exact même effet : <code>~$ sudo apt-get remove --purge -y swfdec-gnome swfdec-mozilla libswfdec-0.8-0</code>
+
+
+
+===== Pour profiter des dernières avancées =====
+
+==== ... compilation de la version de développement de Swfdec ==== 
+
+Vous pouvez également installer la version de développement grâce à [[git|git-core]] et [[http://git.or.cz/cogito/|cogito]]. Voici la procédure à suivre((Librement inspirée de [[http://revis.co.uk/site/?q=node/157|ce tutoriel]] (en).)) (toutes les commandes sont à taper dans un [[terminal]]).
+
+Il faut d'abord satisfaire un certain nombre de dépendances :
+  sudo apt-get install git-core cogito autoconf automake gcc g++ libglib2.0-dev libgtk2.0-dev libasound2-dev liboil0.3-dev libmad0-dev libavcodec-dev firefox-dev libpango1.0-dev build-essential libtool libgstreamer0.10-dev libgnome-vfs-dev libgnomevfs2-dev liblame-dev libxvidcore4-dev libx264-dev libfaac-dev libfaad2-dev
+
+Récupérez les sources de swfdec, et placez-vous dans le répertoire les contenant :
+  git clone git://anongit.freedesktop.org/git/swfdec/swfdec
+  cd swfdec
+
+<note>Pour mettre la version à jour, au lieu de tout reprendre dès le départ, revenez dans ce répertoire et tapez simplement :
+  git pull origin
+</note>
+
+Attelez-vous ensuite à la configuration et à la compilation du programme :
+  ./autogen.sh
+  make
+  cd flashcam-1.3/
+  sudo make install
+(En cas de problème durant l'exécution de autogen.sh, [[tutoriel/comment_installer_un_paquet|recherchez et installez les paquets manquants]]).
+
+La procédure est identique pour le greffon pour Firefox :
+  cd .. # Sortons d'abord du répertoire...
+  git clone git://anongit.freedesktop.org/git/swfdec/swfdec-mozilla
+  cd swfdec-mozilla
+  ./autogen.sh
+  make
+  sudo make install
+
+Il ne reste plus qu'à créer un lien vers ce greffon pour Firefox :
+  ln -s /usr/local/lib/mozilla-firefox/plugins/libswfdecmozilla.so $HOME/.mozilla/plugins
+
+Au redémarrage de Firefox, le changement devrait être effectif.
+
+==== ... installation par le PPA de Swfdec (Hardy et supérieur) ==== 
+
+Si vous souhaitez bénéficier des dernières améliorations, il vaut mieux utiliser ce PPA pour l'installation et les mises à jour.
+
+<note important> Vous allez installer un dépôt non officiel. Les logiciels installés à partir de ce dépôt n'auront pas de support officiel. Contactez le mainteneur du dépôt si vous avez un problème.</note> 
+
+Il faut alors [[:tutoriel:comment_modifier_sources_maj#modifier_les_sources_de_mises_a_jour|ajouter le PPA à vos sources de mise à jour]], avec la ligne ci-dessous en fonction de votre version d'Ubuntu :
+
+  * pour Hardy:
+<code>deb http://ppa.launchpad.net/swfdec-team/ppa/ubuntu hardy main</code>
+  * pour Intrepid:
+<code>deb http://ppa.launchpad.net/swfdec-team/ppa/ubuntu intrepid main</code>
+  * pour Jaunty:
+<code>deb http://ppa.launchpad.net/swfdec-team/ppa/ubuntu jaunty main</code>
+
+Ajoutez la clé PGP qui signe les paquets des PPA en collant dans un terminal : 
+
+  sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 34F13038
+
+  * pour karmic
+Ajoutez le PPA et la clé PGP
+
+   sudo add-apt-repository ppa:swfdec-team
+
+[[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste des paquets]] et [[:tutoriel:comment_installer_un_paquet|installez]] **[[apt://swfdec-gnome|swfdec-gnome]]** et **[[apt://swfdec-mozilla|swfdec-mozilla]]**.
+
+===== Ressources =====
+  * **(en) [[http://swfdec.freedesktop.org/wiki/|Site officiel de Swfdec]]**
+  * **(en)** [[http://www.freedesktop.org|Freedesktop.org]]
+
+------
+//Basé sur : [[wpfr>Swfdec|Wikipedia]]//

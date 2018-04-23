@@ -1,0 +1,121 @@
+{{tag>système partitions}}
+----
+====== Le système de fichiers ext4 ======
+
+Ext4 est une évolution du système de fichier ext3, qui est actuellement le système de fichier le plus utilisé sous Linux. Il présente de nombreux avantages et optimisations par rapport à l'ancienne version, tout en assurant une rétro-compatibilité. Ext4 est stable et est le système de fichier par défaut sous 9.10.
+
+Cette page vous permettra de passer vos systèmes de fichiers ext2 ou ext3 en ext4 sans avoir à réinstaller ni copier vos fichier autre part.
+
+Voir [[benchmark#systeme_de_fichier_ext_contre_les_autres|le benchmark des systèmes de fichier ext]].
+
+===== Nouveautés =====
+
+  * Ext4 a une option : **extents** qui permet de limiter grandement et automatiquement la fragmentation du système de fichiers.
+  * Ext4 est nativement présent depuis la distribution Fedora 9 et son utilisation est considérée comme stable depuis la version 2.6.28 du noyau Linux.
+  * Ext4 présente des performances en hausse par rapport à Ext3, ReiserFS 3 et XFS comme en témoigne ce bench de Phoronix [[http://www.phoronix.com/scan.php?page=article&item=ext4_benchmarks&num=1
+]]
+  * Ext4 peut se transformer en système de fichier non journalisé comme Ext2.
+
+===== Prérequis pour migrer vers l'ext4 =====
+
+  * Utiliser Ubuntu 9.10 ou suivant (mettre à niveau vers fonctionne aussi).
+  * **Avoir fait une sauvegarde!** (C'est préférable)
+  * Avoir déjà une partition ext3 avec une taille d'inodes de 256 octets (pour vérifier utilisez la commande **sudo tune2fs -l /dev/sda1|grep "Inode size"** ) (pensez à remplacer sda1 par la partition ext3 correspondante le cas échéant, dans la commande précédente)
+
+> //Dans mon cas, mon disque de données (/mount/disk/) avait des inodes de 128 octets, la conversion en ext4 avec la commande ci-dessous n'a pas posé de problème.//
+> //Mais d'après [[https://ext4.wiki.kernel.org/articles/c/o/n/Considerations_when_creating_ext3_filesystems.html|le wiki ext4]] [en], il faut une taille d'inode de 256 octets minimum pour stocker les attributs liés certaines fonctionnalités avancées de l'ext4.//
+
+
+===== Convertir une partition ext3 en ext4 =====
+
+Si vous avez tout ceci de prêt, vous devez commencer par [[:tutoriel:comment_modifier_un_fichier|modifiez le fichier]] **/etc/fstab**
+
+remplacez dans ce fichier **ext2** et **ext3** par **ext4** à chaque fois que vous le voyez.
+
+<note important>Il est nécessaire d'ajouter un journal à vos partitions ext2 (i.e. migration ext3) avant de pouvoir les convertir en ext4 :<code>sudo tune2fs -j "Partition à convertir"</code></note>
+
+redémarrez ensuite votre système et ouvrez un [[terminal]] et tapez ce qui suit ( il faut mettre "sudo" en tête, sinon le résultat de la commande sous Ubuntu 12.04 retourne "tune2fs: Permission non accordée lors de la tentative d'ouverture de "Partition à convertir". Impossible de trouver un superbloc de système de fichiers valide.") : 
+
+<code>sudo tune2fs -O extents,uninit_bg,dir_index "Partition à convertir"</code>
+
+**"Partition à convertir"** étant le nom de la partition dans **/etc/fstab** que vous voulez convertir. (par exemple /dev/sda1 ou /dev/sdb2)
+
+Puis redémarrez à nouveau ou lancez manuellement une vérification de la partition :
+<code>sudo fsck.ext4 -fDC0 "Partition à convertir"</code>
+
+Si vous convertissez la partition root "/" il faudra ensuite **réinstaller grub**. \\
+Vérifiez d'abord si le paquet **grub2** est bien [[:tutoriel:comment_installer_un_paquet|installé]]. \\
+Puis ouvrez un [[terminal]] et tapez:
+
+<code>grub-install /dev/sda</code>
+  sudo update-grub
+
+<note warning>Pour les **ordinateurs tatoués** et/ou qui s'[[:tutoriel:comment_amorcer_ubuntu_avec_ntldr|amorcent en utilisant le ntldr]] :
+
+Réinstaller le grub sur la partition où a été installé Ubuntu (par exemple, /dev/sda2), sinon, vous risquez de perdre le mbr.
+
+Ne pas oublier de **recopier** le fichier d'amorce dans la partition windows avant de faire le reboot :
+<code>sudo dd if=/dev/sdxY of=~/grub.bs bs=512 count=1</code>
+où sdxY est la partition sur laquelle est installé Ubuntu.
+<code>mkdir /media/windows
+mount -t ntfs-3g /dev/sdwZ /media/windows</code>
+où sdwZ est la partition sur laquelle est installée Windows.
+<code>cp /media/windows/grub.bs /media/windows/grub.bs.bak
+cp ~/grub.bs /media/windows/grub.bs
+umount /dev/sdwZ</code>
+</note>
+
+====  Grub Error 13 / Grub Error 24  ====
+
+Si lors d'un futur redémarrage une de ces erreurs apparaît :
+
+<code>Error 13: Invalid or unsupported executable format</code>
+
+ou
+
+<code>Error 24: Cannot boot without kernel loaded</code>
+
+Cela signifie que vous n'avez pas réinstallé grub après une conversion. Grub ne reconnaît pas votre partition ext4. Redémarrez avec un Live CD de Jaunty et entrez ces commandes :
+
+<code>mkdir /media/ubuntu
+mount -t ext4 /dev/sda1 /media/ubuntu
+mount -t proc proc /media/ubuntu/proc
+mount -t sysfs sys /media/ubuntu/sys
+mount -o bind /dev /media/ubuntu/dev
+chroot /media/ubuntu
+grub-install /dev/sda
+</code>
+
+
+<note tip>À faire aussi si vous avez des messages d'erreur lors de l'installation du grub.</note>
+
+===== Accessibilité depuis Windows =====
+
+<note important>  
+  * MÀJ février 2014 : Il existe un autre logiciel permettant de faire apparaitre les partitions linux dans l'explorateur de fichier : [[http://www.paragon-software.com/home/extfs-windows/|Ext for Windows by paragon]]. Celui-ci fonctionne en lecture/écriture et fonctionne sous Windows 8 et Windows 8.1.
+  * MÀJ janvier 2012  : Il existe une alternative fonctionnant très bien en lecture / écriture : [[http://archive.siejak.pl/fsprox/|FSProxy]]. Ce dernier mappe un lecteur réseau qui permet d'accéder aux partitions désirées. Pour y accéder tapez simplement dans la barre d'adresse de l'explorateur Windows "\\fsproxy".
+  * novembre 2011 : Le logiciel [[http://www.ext2fsd.com/|ext2fsd]] dispose d'un support partiel ext4 (lecture/écriture sur ext4 "standard", lecture uniquement en ext4 "extent"), et se présente sous la forme d'un driver, donc utilisable directement depuis l'explorateur et autres applications.
+  * mai 2010 : Le logiciel [[http://ext2read.blogspot.com/|ext2read]] permet maintenant de lire des fichiers de partitions ext4, mais comme il ne s’agit pas d’un driver il n’est pas intégré à l’explorateur et peut être un peu fastidieux à utiliser pour l’instant.
+
+([[tutoriel::comment_acceder_a_ses_partitions_d_ubuntu_sous_windows|Comment accéder à ses partitions d'Ubuntu sous Windows]])</note>
+
+===== Désactiver la journalisation =====
+
+Ext4 peut devenir un système de fichiers non journalisé comme Ext2 depuis [[karmic#noyau_2631|Ubuntu 9.10]].
+Pour désactiver le journal d'Ext4 vous devez installer Ubuntu sur une partition Ext4 journalisée normal, puis une fois l'installation terminée redémarrez sur le LiveCD pour ouvrir un terminal et tapez :
+<code>sudo tune2fs -O^has_journal /dev/sda1
+sudo e2fsck -f -v -C0 /dev/sda1</code>
+en remplaçant sda1 par votre partition. 
+
+===== Récupérer de l'espace disque =====
+Par défaut une partition ext4 va se réserver 5% d'espace pour root afin d'éviter que le système ne "meure" parce qu'un utilisateur a consommé toute la place. Si votre disque est petit cela ne comporte guère d’inconvénient, mais si vous avez une partition de plusieurs To, la perte de place est tout de même importante.\\
+[[partitions#remedier_a_l_erreur_indiquant_qu_il_n_y_a_plus_assez_d_espace_sur_le_disque|Récupérer de l'espace disque]]
+
+===== Liens =====
+
+  * La page officielle du projet ext4: [[http://ext4.wiki.kernel.org/index.php/Main_Page]]
+  * Page wikipedia: [[wpfr>ext4]]
+  * https://ext4.wiki.kernel.org/index.php/Main_Page
+
+----
+//Contributeurs: [[utilisateurs:Fabien26]] [[utilisateurs:Nicolarius]] [[utilisateurs:Vincent85]].//

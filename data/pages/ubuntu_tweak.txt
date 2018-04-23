@@ -1,0 +1,128 @@
+{{tag> Precise Trusty unity administration personnalisation nettoyer_ubuntu}}
+
+----
+
+{{ :application:tweak:tweak_icone_00.png?100|}}
+
+====== Ubuntu Tweak ======
+<note warning>**Le développement d'Ubuntu Tweak est officiellement "arrêté" depuis le 2 mai 2016**(([[http://news.softpedia.com/news/ubuntu-tweak-is-now-officially-dead-and-buried-503672.shtml|Source]])). Cependant, il reste disponible [[#Via le dépôt PPA|depuis le PPA]] pour Ubuntu [[:trusty|Trusty 14.04]]. Vous pourrez aussi retrouver certaines fonctionnalités d'Ubuntu-Tweak dans l'utilitaire de configuration [[:unity-tweak-tool]]. 
+
+En ce qui concerne le nettoyage de votre système, les documentations suivantes sont un bon point de départ :
+  * [[kernel#suppression_des_anciens_noyaux|Kernel : supprimer les anciens noyaux]]
+  * [[nettoyer_ubuntu|Nettoyer Ubuntu]]
+</note>
+
+Véritable boîte à outils  pour Ubuntu et disponible sous %%GNU/Linux%% en licence libre [[http://www.gnu.org/licenses/old-licenses/gpl-2.0.html|LGPL v2.0]], **Ubuntu Tweak** est très simple à prendre en main et permet en quelques clics de configurer ou gérer, efficacement et en mode graphique, de nombreux paramètres d'environnement et de système dont certains sont difficiles d'accès ou peu connus.
+Il permet aussi de libérer un peu de place en nettoyant le système d'éléments qui, au fil du temps, sont devenus encombrants et inutiles.
+
+{{:application:tweak:tweak_01.png?600|}}
+
+<note important>Ubuntu Tweak n'est pas une application disponible dans les [[:depots|dépôts Ubuntu]]  mais depuis un [[:PPA]]. Elle ne bénéficie ni de la validation officielle Ubuntu, ni du support des développeurs des équipes officielles Ubuntu. Installer un paquet hors des dépôts officiels peut présenter un risque d'instabilité du système.\\
+\\
+</note>
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+<note important> Pour éviter tout dysfonctionnement, il est fortement conseillé d'utiliser la version d'Ubuntu Tweak correspondant à votre [[:versions|version d'Ubuntu]]. Après chaque [[:migration|mise à niveau d'Ubuntu]], installez et utilisez alors la version adéquate. </note>
+
+==== Via le dépôt PPA ====
+
+<note tip>Cette méthode est recommandée pour sa simplicité d'installation et permet de bénéficier de la version stable d'Ubuntu Tweak la plus récente.</note>
+
+  - [[:ppa#ajout_d_un_ppa_a_vos_sources_logicielles|Ajoutez à vos sources de logiciels le PPA]] suivant : **ppa:tualatrix/ppa**((https://launchpad.net/~tualatrix/+archive/ppa)),
+  -  [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|recharger la liste des paquets]],
+  - [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>ubuntu-tweak|ubuntu-tweak]]**.
+
+À partir d'Ubuntu 16.04, vous pouvez trouvez Ubuntu-tweak à partir des dépôts [[:getdeb]].
+
+==== Via le paquet DEB ====
+
+<note important>Cette méthode n'est pas conseillée, la version stable à télécharger n'étant pas nécessairement celle optimisée pour votre version d'Ubuntu.
+De plus, si vous désirez qu'Ubuntu Tweak soit mis à jour avec le reste de votre distribution, vous devez privilégier l'installation [[#via le dépôt PPA]].</note>
+Télécharger et [[:tutoriel/comment_installer_un_paquet#installer_un_paquet_isole|installer le paquet DEB]] disponible sur le [[http://ubuntu-tweak.com/|site officiel]]. 
+
+=====Lancement=====
+Vous pouvez lancer Ubuntu Tweak :
+  * Depuis le [[:unity#tableau_de_bord_dash|tableau de bord]] d'Unity. L'application se trouve dans la catégorie //Système// ;
+  * Depuis le lanceur **Paramètres système** de [[:unity_launcher|la barre de lanceurs]] ;
+  * Depuis le menu de l'//indicateur système// (en haut à droite de l'écran) ;
+  * Depuis un [[:terminal]] (toutes versions d'Ubuntu), en saisissant la [[:commande_shell|commande]] :
+<code>ubuntu-tweak</code>
+
+===== Utilisation =====
+
+Il existe 5 chapitres principaux (les onglets) donnant accès à de nombreuses fonctionnalités de configuration :
+  * [[#Vue d'ensemble]]
+  * [[#Apps]] 
+  * [[#Ajustements]]
+  * [[#Administration]] 
+  * [[#Nettoyage]].
+
+<note tip>Si vous avez rencontré un problème suite à la modification d'une option dans Ubuntu Tweak, vous devriez pouvoir le corriger en remettant simplement cette option à sa valeur précédente.</note>
+
+==== Vue d'ensemble ====
+
+C'est la page d'accueil d'Ubuntu Tweak, elle vous donne les informations principales sur votre système.
+
+==== Apps ====
+Gestion des applications installées ou à installer à la manière de la [[:software-center|Logithèque Ubuntu]].
+<note important> Attention aux applications proposées. Elles ne proviennent pas forcément de dépôts officiels. Vous pouvez vérifier leur provenance en les sélectionnant.
+L'installation d'applications hors des dépôts officiels peut présenter des risques pour la stabilité de votre système.</note>
+Après avoir cliqué sur l'application, il suffit de cliquer sur le bouton "installer". L'application sera installée depuis les dépôts officiels.\\
+En cochant la case "source", l'application sera installée depuis une autre source (site officiel, dépôt tiers, [[:PPA]],...).\\
+Si au lieu du bouton "installer" vous avez la mention "non disponible", l'application est absente des dépôts officiels d'Ubuntu. L'installation ne pourra se faire qu'à partir d'une autre source, la case "source" doit alors être cochée.
+
+==== Ajustements ====
+
+Permet de configurer facilement  un grand nombre de paramètres de personnalisation d'Ubuntu, comme l'apparence (polices, thèmes...), le démarrage des sessions, le bureau et sa barre de lanceur, etc.
+
+==== Administration ====
+Vous trouverez ici les différentes possibilités de configuration en tant qu'administrateur. Gérer les dossiers utilisateurs, les modèles de documents, les [[nautilus_scripts|scripts Nautilus]], configurer les raccourcis clavier...
+Bien que ne présentant pas de difficultés particulières, sachez ce que vous faites avant d'utiliser certaines fonctions d'administration comme la gestion des sources. 
+===Restauration du bureau===
+Pour sauvegarder et restaurer les réglages de votre bureau et de vos applications ou certains réglages systèmes.\\
+Permet aussi de retrouver les réglages par défaut.
+
+=== Éditeur des Quicklists === 
+
+Configure les raccourcis de la barre de lanceurs en ajoutant des entrées au menu contextuel (clic droit) de ces derniers. Très pratique si vous souhaitez lancer directement une option avec l'application.\\
+Voici par exemple comment ajouter **Ubuntu Tweak** au menu du lanceur {{:application:tweak:tweak04.png?100|}} "Paramètres système", d'Unity : 
+  - Dans l'//Éditeur des quicklists//, partie de gauche, cliquer sur l'icône //Paramètres système// ;
+  - Dans la partie droite, cliquer sur //+// pour ajouter une entrée supplémentaire ;
+  - Vérifier que la case //actif// est bien cochée ;
+  - Dans le champ //nom//, taper **Ubuntu Tweak** ;
+  - Et dans le champ //commande//, taper ''ubuntu-tweak''
+  - Puis cliquer sur //Enregistrer//, en bas à droite.
+Les modifications prendront effet à l'ouverture de session suivante.
+
+{{:application:tweak:tweak_02.png?600|}}
+
+===Les scripts nautilus=== 
+Ubuntu Tweak propose aussi l'utilisation de certains scripts disponibles par défaut. Dans l'onglet "Administration" allez dans le champs "Personnel" puis cliquer sur  Scripts. Pour  rendre un script actif, il suffit de le faire glisse de la fenêtre de droite vers celle de gauche.
+====Nettoyage ====
+
+Vous pourrez ici procéder aux nettoyages des différents fichiers devenus encombrants avec le temps (accessible aussi directement depuis le bouton //Nettoyage// de la page principale //Vue d'ensemble//). Pour développer la liste des éléments à supprimer : dans la partie de droite, cliquer sur la petite flèche triangulaire à gauche du titre de liste.
+
+=== Nettoyage des noyaux ===
+
+D'un clic de souris, Ubuntu Tweak offre une méthode graphique particulièrement simple pour [[kernel#suppression_des_anciens_noyaux- supprimer|supprimer les anciens noyaux]].
+Par prudence, il est préférable de conserver au moins un ancien noyau, de préférence le plus récent.
+Vidéo tuto pour le nettoyage :[[https://www.youtube.com/watch?v=Fb5YG5dzvoo]]
+
+Pour identifier la seconde version la plus récente, une solution possible est de lancer ubuntu en prenant "advanced options for ubuntu" au lieu de la ligne par défaut.
+
+===== Désinstallation =====
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, ainsi que les fichiers de préférence des utilisateurs (stockés dans leurs dossiers personnels) sont toujours conservés.
+
+===== Voir aussi =====
+  * **(en)** [[http://ubuntu-tweak.com|Site officiel]]\\
+  * **(en)** [[http://blog.ubuntu-tweak.com/|Blog officiel]]\\
+  * **(cn)** [[http://imtx.me//|Blog officiel du développeur à jour des derniers messages]]
+
+----
+//Contributeurs : [[utilisateurs:honeyshell|honeyshell]], [[utilisateurs:psychederic|psychederic]], [[utilisateurs:percherie]], Pika3D, //

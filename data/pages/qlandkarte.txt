@@ -1,0 +1,71 @@
+{{tag>gps carte sig}}
+----
+======QlandKarte======
+QLandkarte GT est un logiciel complet de gestion des données acquises ou à charger dans un GPS. Il permet entre autre une visualisation sur des fonds de cartes divers.
+
+Ce programme peut être considéré comme l’équivalent de Mapsource sous Windows.
+
+Le développement de QLankarte a été stoppé par son développeur et est remplacé/poursuivi par 
+[[https://bitbucket.org/maproom/qmapshack/wiki/Home|Qmapshack]] qui en reprend la philosophie.
+
+===== Installation =====
+====Installation depuis les dépôts====
+=== Installation graphique ===
+Qlandkarte est disponible dans les [[depots|dépots]]. Il suffit de saisir //**qlandkarte**// dans le moteur de recherche de l'installeur ou de [[synaptic|synaptic]]
+
+=== Installation en ligne de commande ===
+<code>sudo apt-get install qlandkartegt</code>
+
+
+==== installation de la dernière version (ppa) ====
+
+=== installation graphique ===
+Ajouter le ppa suivant à votre liste de ppa : https://launchpad.net/~ubuntugis/+archive/ubuntugis-unstable
+
+Il peut également être nécessaire d'ajouter le ppa complémentaire suivant :  https://launchpad.net/~mapopa/+archive/qt4.6
+
+=== Installation en ligne de commande ===
+<code>
+sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable
+sudo add-apt-repository ppa:mapopa/qt4.6
+sudo apt-get update
+</code>
+
+puis
+<code>
+sudo apt-get install qlankartegt
+</code>
+______________________________________________________
+
+Communication entre un GPS Garmin et ubuntu (testé le 04/05/2015, lubuntu 14.04LTS, etrex vista HCx)
+
+-1- connecter le GPS allumé.
+
+-2- Installer Qlandkarte (trouvable directement dans synaptic)
+
+-3- lancer la console (menu démarrer / exécuter / LXTerminal)
+
+-4- copier et coller ceci dans la fenêtre noire :
+sudo nano /etc/udev/rules.d/51-garmin.rules
+
+-5- copier et coller alors :
+ATTRS{idVendor}=="091e", ATTRS{idProduct}=="0003", MODE="666"
+
+-6- choisir « enregistrer et quitter »
+-7-fermer tout, reconnecter le GPS.
+
+-8- lancer Qlandkarte
+
+-9- Sélectionner votre modèle de GPS dans « préférences / générale / appareil et transféré »
+
+-10- essayer de télécharger le contenu du GPS en cliquant « télécharger tout » ou « F10 »
+
+
+
+===== Voir aussi =====
+
+[[http://www.qlandkarte.org/|Site officiel]]
+
+[[http://www.gpspassion.com/forumsen/topic.asp?TOPIC_ID=121724|Tuto]]
+
+[[http://blog.roozeec.fr/2010/11/18/rajouter-des-cartes-routables-openstreetmap-sur-gps-garmin-avec-qlandkartegt/|Ajouter des cartes routables]]

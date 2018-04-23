@@ -1,0 +1,127 @@
+{{tag>tutoriel sauvegarde serveur sgbd mysql }}
+
+----
+
+====== Sauvegarder automatiquement ses bases de données MySQL ======
+
+Ce mini tutoriel vous présente une méthode simple pour mettre en place une sauvegarde automatique des bases de données de votre serveur [[:MySQL]]. Ce script doit être installé sur le serveur MySQL.
+
+<note tip>Bien que le contenu de cette page reste valide, il est à noter que cette opération peut être réalisée directement avec un script fourni par votre distribution (depuis la version 9.10 inclue) : [[:automysqlbackup]]. Cette méthode est généralement à préférer, car plus propre.</note>
+
+Pour ce faire, nous allons utiliser 2 scripts bash et les tâches cron.
+
+Nous allons utiliser le cas suivant :
+  * Nous voulons sauvegarder nos 3 bases de données **mon_site**, **mon_forum**, et **mon_blog** automatiquement chaque nuit (nous le faisons la nuit car c'est le moment où un site a le moins de visites et donc le plus de ressources inutilisées disponibles).
+  * Nous nous connectons au serveur de base de données avec le login **root** et le mot de passe **monpass**.
+
+Attention : en aucun cas vous devez sauvegarder la base de données "à l'état brute", depuis le répertoire /var/mysq/*. En effet, ce n'est pas très portable et d'autre part, si le serveur n'est pas arrêté, vous risquez d'avoir des données non cohérentes. A la place, en utilisant mysqldump, vous avez une extraction ASCII de vos données (que vous pouvez compresser), et surtout, un mécanisme de verrou sur les bases à chaque extraction (option -opt de mysqldump par défaut). Vous n'avez en principe pas besoin d'arrêter le serveur.
+
+Pour sauvegarder les fichiers de votre site accessibles en ftp uniquement, voir avec [[:lftp#sauvegarde_sur_votre_ordinateur_de_votre_site_internet|lftp]]
+
+
+===== Création des scripts =====
+
+Nous allons créer nos scripts dans le répertoire **/root/scripts/**. Seul root y aura accès en lecture (et écriture).
+
+Si le sous répertoire script n'existe pas déjà, le créer :
+<code> sudo mkdir /root/scripts
+</code>
+
+Nous créons un premier script que l'on appellera backup_bdd.sh qui contient :
+
+<code>#!/bin/bash
+#
+## on se place dans le repertoire ou l'on veut sauvegarder les bases
+#
+cd /root/scripts/backups/
+
+for i in mon_site mon_forum mon_blog; do
+
+## Sauvegarde des bases de donnees en fichiers .sql
+mysqldump -uroot -pmonpass ${i} > ${i}_`date +"%Y-%m-%d"`.sql
+
+## Compression des exports en tar.bz2 (le meilleur taux de compression)
+tar jcf ${i}_`date +"%Y-%m-%d"`.sql.tar.bz2 ${i}_`date +"%Y-%m-%d"`.sql
+
+## Suppression des exports non compresses
+rm ${i}_`date +"%Y-%m-%d"`.sql
+
+done
+</code>
+
+Mettez dans la ligne
+
+<code>for i in mon_site mon_forum mon_blog; do</code>
+
+ou pour avoir toutes vos bases de données, remplacer cette ligne par 
+
+<code>
+# Récupère toutes les bases de données
+databases=`mysql --user=root --password=monpass -e "SHOW DATABASES;" | grep -Ev "(Database|information_schema)"`
+
+# parcours les bases
+for i in $databases; do
+</code>
+
+la liste de toutes les bases de données que vous voulez sauvegarder.
+
+Par sécurité, on ne veut pas garder que la dernière sauvegarde faite (elle peut être corrompue). Nous insérons donc la date du jour dans le nom de fichier avec `date +"%Y-%m-%d"` qui générera une date au format AAAA-MM-JJ.
+
+Il faut créer un second script pour faire le ménage régulièrement dans le dossier de backup pour éviter son embonpoint inévitable.
+
+On nomme ce fichier clean_backups.sh et son contenu est :
+
+<code>#!/bin/bash
+#
+## Supprime les sauvegardes vieilles de plus de 5 jours
+#
+find /root/scripts/backups/ -type f -mtime +4 -delete
+</code>
+
+
+Note : si votre mot de passe ou votre utilisateur contient les caractères : "!@#$%^" vous recevrez l'erreur 1045 "Access denied for user 'xxx'@'localhost " 
+
+pour cela (à part changer de user/pass) il faut modifier la ligne :
+
+<code>mysqldump -uroot -pmonpass $i > ${i}_`date +"%Y-%m-%d"`.sql</code>
+
+par
+
+<code>mysqldump --user=xxx --password=xxx $i > ${i}_`date +"%Y-%m-%d"`.sql</code>
+
+
+===== Modification des permissions =====
+Nous allons faire en sorte que seul root puisse lire, exécuter, et modifier ces 2 scripts :
+  cd /root/scripts && sudo chmod 700 backup_bdd.sh clean_backups.sh
+
+
+
+===== Programmation de l'exécution des scripts avec Cron =====
+
+<note tip>Si votre ordinateur n'est pas allumé en permanence, il vaut mieux utiliser [[:fcron|fcron]], car cron ne s'exécute qu'à une heure précise de la journée alors que fcron prend en compte le temps pendant lequel reste allumé la machine</note>
+
+Dans le répertoire **/etc**, vous pouvez voir qu'il existe des répertoires cron.daily, cron.hourly, etc
+
+dans le fichier **/etc/crontab**, est notée la fréquence de lancement des tâches cron. Vous pouvez voir que le contenu du répertoire **cron.daily** est exécuté par défaut tous les jours à 6h25. vous pouvez modifier l'horaire si vous le souhaitez. Par exemple en y mettant l'heure où votre site est le moins fréquenté (en général vers 3h du matin). Pour plus d'informations sur la programmation des tâches cron consultez la page sur [[:cron]].
+
+Donc comme nous l'avons dit, les scripts contenus dans le répertoire cron.daily seront exécutés à l'heure définie dans crontab. Nous allons donc y placer des liens vers nos 2 scripts en utilisant une notation à chiffres pour être sûr qu'ils seront exécutés dans l'ordre :
+  cd /etc/cron.daily
+  sudo ln -s /root/scripts/backup_bdd.sh 01-backup_bdd
+  sudo ln -s /root/scripts/clean_backups.sh 02-clean_backups
+
+<note>Bien sûr, si vous avez déjà des scripts numérotés, incrémentez les numéros en fonction de ceux-ci...</note>
+
+<note important>
+Surtout ne faites pas de lien symbolique avec un point "." dans le nom du lien, celui-ci ne serait pas exécuté et cron ne log pas cette non exécution.
+</note>
+
+C'est fini :)
+
+===== Conclusion =====
+Chaque nuit, à l'heure définie pour cron.daily, votre serveur sauvegardera automatiquement vos bases de données et supprimera les sauvegardes trop anciennes.
+
+Si vous avez un problème sur une base de données, vous pourrez donc extraire l'archive correspondant à l'état de votre base de données à une date précise, vider la base de ses tables et ré-importer le fichier sql dans la base. Ce qui veut dire qu'en cas de soucis vous pouvez remettre vos bases de données en état en moins de 15 secondes ;)
+
+----
+
+ //Contributeurs : [[:utilisateurs:_Enchained]]//

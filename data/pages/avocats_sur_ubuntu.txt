@@ -1,0 +1,129 @@
+{{tag>Xenial bureautique BROUILLON}}
+
+----
+
+====== Utiliser Linux pour se connecter au Réseau Privé Virtuel des Avocats ======
+
+Les avocats exerçant devant les juridictions dont la procédure relève de la procédure écrite sont dans l'obligation de transmettre certains actes de procédure par voie électronique aux juridictions.
+
+Ce transfert ce fait par connexion, via un navigateur internet, sur un serveur sécurisé en charge de la gestion des échanges entre les avocats et les juridictions..
+
+Le système nécessitait deux dispositifs de sécurité : un boitier NAVISTA faisant office de VPN et une clef de certification fournies par l'ordre des avocats utilisé par le navigateur internet pour le chiffrage et la sécurisation de la connexion au serveur.
+
+https://cuifavocats.com/read-offline/604/le-rpva-et-linux-la-suite.print
+
+Le boitier NAVISTA n'est plus nécessaire depuis le mois d'avril 2016. Désormais la connexion au RPVA ne nécessite que l'installation d'une clef de sécurité permettant l'identification de l'utilisateur.
+
+Cette clef est commandée auprès du CNB - organisme national fédérant les différentes organisations locales des avocats (les barreaux).
+
+L'avocat va récupérer auprès de son ordre local, une clef USB et des instructions d'installation et d'activation pour Windows et MacOs.
+
+Sur Linux, la clef de certification nécessite d'être reconnue par le navigateur internet.
+
+A ce jour, sur linux, je n'ai pu le faire fonctionner qu'avec Firefox.
+
+Ce tutoriel décrit une méthode permettant de le faire selon que vous disposiez d'un ancien modèle de clef (avant 2016) ou d'un nouveau modèle (après 2016).
+
+===== Installation de la clef de sécurité =====
+
+<note tip>Il y a, à ma connaissance, deux types de clef RPVA en circulation, un modèle ancien et un modèle nouveau</note>
+
+
+==== Ancienne clef ====
+
+Les utilitaires initialement requis (pcsc-tools) et pcscd sont complétés par libpcsc-perl. L’installation se fait via sudo  :
+
+ ~$ sudo apt-get install pcsc-tools pcscd libpcsc-perl
+ The following additional packages will be installed:
+ [...]
+ Souhaitez-vous continuer ? [O/n]
+Répondre par oui.
+
+~$ sudo pcsc_scan
+
+La clé si elle est reconnue doit être listée dans le retour de commande.
+
+Installer le driver Gemalto (libclassicclient). Celui-ci nécessite une dépendance plus ancienne que la version actuellement disponible dans les distributions GNU/Linux ; Il s’agit donc d’une faille de sécurité qui n’a pas été corrigée par Gemalto à ce jour, ce qui est très regrettable :
+
+libssl0.9.8_0.9.8o-7ubuntu3.2_amd64.deb
+libclassicclient_6.1.0-b07_amd64.deb
+Télécharger ces 2 paquets logiciels et les installer avec Gdebi dans l’ordre que j’indique (d’abord libssl, puis libclassicclient, sinon l’installation n’est pas possible).
+
+1.1.2. Le chargement du module (la clé USB) dans Firefox
+
+Rendez-vous dans : préférences > avancé > certificats > périphériques de sécurité.
+
+Cliquez sur « charger » pour pouvoir chercher la librairie libgclib.so
+
+Elle se trouve dans à cet endroit : /usr/lib/classicclient/libgclib.so
+
+Validez et redémarrez Firefox.
+
+Rendez-vous sur le site : https://connexion.avocat.fr (sans boîtier Navista qui ne vous sert plus à rien).
+
+==== Nouvelle clef ====
+
+1.2.1. Les paquets nécessaires
+
+La nouvelle est une IDGO 800 qui nécessite de nouveaux drivers que vous trouverez ici. Ils ne sont fournis que pour Ubuntu 14.04
+
+Pour Ubuntu 16.04, il faut installer toute une série de dépendances.
+
+libboost-filesystem1.54.0_1.54.0-4ubuntu3_amd64.deb
+libboost-serialization1.54.0_1.54.0-4ubuntu3_amd64.deb
+libboost-system1.54.0_1.54.0-4ubuntu3_amd64.deb
+libboost-thread1.54.0_1.54.0-4ubuntu3_amd64.deb
+libwxbase3.0-0_3.0.0-2_amd64.deb
+libwxgtk3.0-0_3.0.0-2_amd64.deb
+Elles se trouvent sur http://packages.ubuntu.com/ et s’installent avec le logiciel Gdebi.
+
+1.2.2. Le chargement du module (la clé USB) dans Firefox
+
+Il faut ensuite charger le module (token) dans Firefox,
+
+Le chemin est :
+
+/usr/lib/libidprimepkcs11.so
+
+ou
+
+/usr/lib/pkcs11/libidprimepkcs11.so
+
+
+2. Les certificats de sécurité
+
+Firefox est obligatoire car il gères les périphériques physiques de sécurité.
+
+Cliquez sur les liens ci-dessous et validez tous les choix proposés :
+
+http://www.certeurope.fr/certificats2009/certeurope_root_ca.crt
+http://www.certeurope.fr/fichiers/certificats/ac_avocats_classe_3plus.crt
+Téléchargez les certificats dans votre ordinateur :
+
+http://www.certeurope.fr/reference/certeurope_root_ca_2.cer
+http://www.certeurope.fr/fichiers/certificats/ac_avocats_classe_3plus_v2.cer
+
+Puis, depuis le gestionnaire de certificats de Firefiox, importer les certificats que vous venez de télécharger.
+
+3. L'activation de la clef
+
+Les dernières clefs arrivent non-activées, c'est à dire sans code PIN défini.
+
+L'activation se fait en téléchargeant un exécutable qui n'est disponible que pour windows et OsX.
+
+Cette activation ne prend que 5 minutes.
+
+Il doit être possible de l'activer sur Linux, si quelqu'un y est arrivé, qu'il n'hésite pas à compléter ce texte.
+
+===== Conclusion =====
+
+Vous voilà, en principe, en mesure de vous connecter avec la plateforme E-Barreau.
+
+
+===== Voir aussi =====
+
+  * **(fr,)** [[https://cuifavocats.com/tag/rpva/|Les articles sur le sujet de Me CUIF, avocat]]]
+
+----
+
+//Contributeurs principaux : //

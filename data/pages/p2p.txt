@@ -1,0 +1,188 @@
+{{tag>portail réseau logiciels internet}}
+
+----
+
+====== Pair-à-pair (P2P) : l'échange d'informations entre clients ======
+
+{{ http://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/P2P-network.svg/200px-P2P-network.svg.png|Exemple d'un réseau pair-à-pair: chaque ordinateur télécharge et propose en même temps des ressources (Source: Wikipedia)}}
+
+Le [[wpfr>pair-à-pair]] (en anglais, //peer-to-peer//, abrégé //P2P//) est un modèle de réseau informatique proche du modèle client-serveur. À la différence du modèle client-serveur où un seul gros ordinateur (serveur) dessert de l'information à de nombreux terminaux (clients), dans le modèle P2P, chaque client est aussi un serveur. Tous les ordinateurs récupèrent de l'information et resservent l'information obtenue. 
+
+Contrairement aux idées généralement admises, le pair-à-pair est loin de servir uniquement à l'échange de musique, de vidéos et de logiciels. De nombreuses entreprises en font un usage quotidien et de diverses manières. Quelques exemples :
+  * La technologie [[:flashplayer|Flash]] développée par [[http://www.adobe.com/fr/|Adobe Systems]] intègre maintenant un système d'échange P2P de flux vidéo(([[http://www.beet.tv/2010/05/adobes-big-peertopeer-plans-.html|Adobe's Big Peer-to-Peer Plans: "We can Eliminate Bandwidth Costs"]])).
+  * Le service de [[cloud|stockage dans le nuage]] Amazon S3 est basé sur un système de stockage des données distribuées ou P2P(([[http://s3.amazonaws.com/AllThingsDistributed/sosp/amazon-dynamo-sosp2007.pdf|Dynamo: Amazon's Highly Available Key-value Store]]));
+  * La plate-forme de micro-blogging [[wpfr>Twitter]] utilise le P2P pour ses mises à jour(([[http://github.com/lg/murder|Code source de Murder]]));
+  * Le distributeur de musique libre [[http://www.jamendo.com|Jamendo]] transmet ses 36 000 albums au travers du réseau P2P BitTorrent(([[http://www.jamendo.com/fr/faq|FAQ : Comment ça marche ?]])) ;
+  * La plate-forme de [[wpfr>calcul distribué]] [[BOINC]] se base sur le P2P pour accéder à de la puissance de calcul supplémentaire, dans le but de faire avancer la science, l'économie, l'art, etc.. [[http://www.boinc-af.org/|La puissance de calcul moyenne sur 24 heures]] de l'ensemble des participants atteint 11,418 PetaFlops ↓ (soit 33,72 % du plus puissant [[wpfr>superordinateurs]] mondial).
+
+
+
+<note tip>**Du bon usage des méthodes d'échanges pair-à-pair** \\ L'utilisation des outils d'échange de fichiers pair-à-pair est légale lorsque la licence des fichiers échangés permet leur duplication et leur redistribution. C'est entre autre le cas des logiciels libres et des œuvres publiées sous des licences libres, telles la licence Art Libre, les licences GNU ou les licences Creative Commons. D'autres licences personnalisées ou particulières sont aussi dans ce cas. \\ \\ Il est illégal de retransmettre ou de télécharger des fichiers dont la licence en interdit la duplication ou la redistribution. En téléchargeant ou transmettant des fichiers dont la licence ne l'autorise pas, vous vous exposez à des délits de contrefaçon. Avant de procéder, renseignez-vous davantage à propos de la licence d'un fichier bien précis. \\ \\ Ceci est valable pour les fichiers échangés sur n'importe quel réseau d'échanges, pas pour un logiciel en particulier.</note>
+
+
+
+===== Échange de paquets de logiciels pour Ubuntu =====
+Le système de gestion de paquets de logiciels utilisé par Ubuntu, APT, peut fonctionner à travers un système pair-à-pair : **[[apt-p2p]]**. En utilisant //apt-p2p//, votre gestionnaire de paquets télécharge les paquets désirés depuis les milliers d'ordinateurs sous Ubuntu disposant de ceux-ci, plutôt que de les télécharger depuis des serveurs centraux parfois surchargés. De plus, votre ordinateur propose aussi aux autres utilisateurs de //apt-p2p// les paquets que vous emmagasinez dans votre ordinateur. Cela permet d'alléger la charge nécessaire aux serveurs de paquets logiciels, qui doivent servir un nombre toujours plus grand d'utilisateurs.
+  * //[[apt-p2p|Plus d'informations à propos de apt-p2p]]//
+
+
+===== Image ISO d'Ubuntu =====
+Ubuntu étant libre, et gratuit. Une fois que vous avez procédé à l'installation, vous pouvez partagez l'image ISO dont vous vous êtes servi pour l'installation à l'aide de [[transmission|Transmission]] ou tout autre logiciel utilisant le [[#reseau_bittorrent|réseau BitTorent]]. Vous avez d'ailleurs peut-être téléchargé cette image ISO à l'aide du P2P, et ce ne sera que rendre la pareille de la partagez à votre tour ! Cela permet d'alléger la charge des serveurs d'images ISO. Vous pouvez trouvez les torrents les plus récents [[http://www.ubuntu.com/download/desktop/alternative-downloads|ici]].
+
+===== Réseaux sociaux décentralisés =====
+Les **services de réseaux sociaux** sont des plate-formes dont le but est de regrouper des utilisateurs qui se connaissent et de partager de l'information (nouvelles, photos, vidéos, hyperliens...) entre eux, selon le type de relations entretenus. //([[reseau_social|Plus d'informations]])//
+
+À la différence d'un service de réseau social centralisé (comme Facebook, MySpace ou LinkedIn), où toutes vos informations sont gérées par une seule entité, les réseaux sociaux décentralisés offrent un stockage et une diffusion flexibles de vos informations. Ceci apporte une sécurité accrue, un meilleur contrôle de votre vie privée et moins de contraintes quant à votre liberté d'expression : vous n'êtes plus seulement l'éditeur de vos informations, vous en êtes aussi //le diffuseur//.
+
+   * [[Movim]] ([[http://www.movim.eu/|site]], [[wpfr>Movim|"Movim" sur Wikipedia]]) est un projet français très prometteur
+   *  [[http://www.joindiaspora.com/|Diaspora]],  [[wpfr>Diaspora (logiciel)|"Diaspora" sur Wikipedia]]
+   * Lorea ([[http://lorea.cc/|site]]) (fermé)
+===== Moteurs de recherche décentralisés =====
+Les **moteurs de recherche** parcourent le Web et indexent ses diverses ressources, de manière à ce que les utilisateurs du Web puissent rechercher et trouver facilement du contenu qui les intéressent.
+
+À la différence des moteurs de recherche centralisés (comme Google et Bing), les moteurs de recherche décentralisés distribuent leurs index à travers tous les ordinateurs participant au réseau. De cette manière, il devient impossible de censurer de l'information ou d'arrêter le service de recherche. 
+  * [[Seeks]]  ([[wpfr>Seeks|"Seeks" sur Wikipedia]]) 
+  * [[YaCy]] ([[wpfr>YaCy|"YaCy" sur Wikipedia]])
+===== Réseaux et logiciels d'échange de fichiers =====
+//En **gras** sont mis en évidence des logiciels populaires. Ils ne sont pas nécessairement installés par défaut dans Ubuntu.//
+
+
+==== Réseau BitTorrent ====
+   * **[[:Transmission]]**, client BitTorrent simple et léger (GTK). Installé par défaut dans Ubuntu et Xubuntu
+   * **[[:qBittorrent]]**, client BitTorrent léger, très semblable à µtorrent, permettant de rechercher directement un torrent sur 4 sites en même temps
+   * **[[:Ktorrent]]**, client BitTorrent léger pour KDE. Installé par défaut dans Kubuntu
+   * [[:Tribler]],  Client BitTorrent décentralisé (streaming vidéo libre et open source)
+   * [[:Bittorrent]], client officiel de partage de donnée utilisant le réseau p2p BitTorrent
+   * [[:Vuze]], dernière version de Azureus, ajoutant une plate-forme de téléchargement légale
+   * [[:Deluge]], client BitTorrent en GTK, facile d'utilisation. Le paquet deluge-console fournit une interface en ligne de commandes pour le client Deluge.
+   * [[:Anomos]], client BitTorrent anonyme
+   * [[:bittorrentsync|BitTorrent Sync]], Synchroniser des répertoires entre plusieurs Pc&Mobile local & Internet mondial (crypté-AES)
+   * [[:uTorrent]], client BitTorrent propriétaire.
+   * [[:Torrentflux]], interface Web pour différents clients BitTorrent.
+//Une liste plus complète de logiciels est disponible en fin de page, dans la rubrique [[#Pages sur le sujet|"Pages sur le sujet"]].//
+
+==== Réseau eDonkey2000 ====
+  * **[[aMule]]**, clône de eMule pour Ubuntu
+  * [[eMule]], la version Windows adaptée à Ubuntu (nécessite l'utilisation de [[Wine]])
+  * [[mldonkey]], client P2P multiplate-forme et multi-réseaux. Principalement conçu pour eDonkey2000, il prend en charge aussi BitTorrent, FastTrack, Gnutella et d'autres réseaux
+
+//Une liste plus complète de logiciels est disponible en fin de page, dans la rubrique [[#Pages sur le sujet|"Pages sur le sujet"]].//
+
+==== Réseau Gnutella ====
+  * **[[Frostwire]]**, client multiplate-forme, logiciel libre.
+  * **[[Gtk-Gnutella]]**, client Gnutella stable, léger, bien fourni en options et réglages
+  * [[mldonkey]], client P2P multiplate-forme et multi-réseaux. Principalement prévu pour eDonkey2000, il prend en charge aussi BitTorrent, FastTrack, Gnutella et d'autres réseaux
+
+//Une liste plus complète de logiciels est disponible en fin de page, dans la rubrique [[#Pages sur le sujet|"Pages sur le sujet"]].//
+
+==== Réseau DirectConnect ====
+   * [[http://code.google.com/p/eiskaltdc/|EiskaltDC++]], activement développé, stable et en Français. //[[http://www.jellykernel.org/2010/04/p2p-internet/eiskaltdc-un-client-p2p-direct-connect-actif/|Plus d'informations...]]//
+   * [[https://launchpad.net/linuxdcpp|LinuxDC++]]
+   * [[http://wxdcgui.sourceforge.net/|Valknut]]
+   * [[http://opendchub.sourceforge.net/|OpenDChub]], fonctionne en tant que service
+
+==== Réseaux Friend-to-Friend (F2F) ====
+   * [[RetroShare]], logiciel d'échange de fichiers basé sur les concepts F2F et PGP, avec forums internes, tchat et messagerie
+   * [[http://sourceforge.net/projects/alliancep2p/|Alliance P2P]]
+   * [[OneSwarm]] ([[http://www.oneswarm.org/|site]])
+   * [[bittorrentsync|BitTorrent Sync]], Synchroniser des répertoires entre plusieurs Pc&Mobile local & Internet mondial (crypté-AES)
+   * [[https://syncthing.net/|Syncthing]], Alternative opensource fonctionnelle à BitTorrent Sync
+
+
+
+===== Réseaux « anonymes » ===== 
+
+Ces logiciels sont multiplate-formes, et fonctionnent aussi sous windows, ou mac.
+
+  * **[[Calypso]]** ([[http://calypso.sourceforge.net/|téléchargez]]((puis installez))) client P3P anonyme évolué
+  * **[[StealthNet]]** ([[http://fr.wikipedia.org/wiki/StealthNet|Wikipedia]], [[http://downloads.freenetproject.org/alpha/installer/mac/freenet.jnlp|installez]]), client P3P anonyme
+  * **[[Anomos]]** ([[http://www.getdeb.net/updates/Ubuntu/10.04/?q=anomos|installez]] si [[getdeb]]), client BitTorrent anonyme, nouvelle génération ([[http://git.anomos.info/|les trackers doivent être mis à jour]])
+
+  * **[[Freenet]]** ([[http://downloads.freenetproject.org/alpha/installer/mac/freenet.jnlp|installez]]), réseau informatique anonyme et décentralisé bâti au dessus d'Internet visant à permettre une liberté d'expression et d'information totale profitant de la sécurité de l'anonymat. 
+  * **[[I2P]]** ([[http://fr.wikipedia.org/wiki/I2P|Wikipedia]], [[http://www.i2p2.de/|téléchargez]]((puis lancez dans un terminal "java -jar i2pinstall_0.8.exe -console"))), (Invisible Internet Project) est une couche réseau anonyme. Précision : les applications ci-dessous sont adaptés pour I2P (elles étaient parfois conçues pour Internet habituel) mais ne fonctionneront que dans le réseau I2P. Le nombre de fichiers disponibles est donc moins grand, mais l'anonymat de l'utilisateur est hautement renforcée.
+     * **[[i2p#i2psnark|I2PSnark]]** : client BitTorrent installé par défaut avec i2p. (fonctionnel) 
+     * [[iMule]] : clone de eMule , basé sur aMule. Réseau Kad dans I2P.
+     * [[Nachtblitz]] : compatible avec iMule. Réseau Kad dans I2P.
+     * [[i2p#i2phex|I2Phex]] : adaptation de Phex (ex client Gnutella) pour fonctionner dans le réseau i2p. 
+     * [[Robert]] : client BitTorrent.
+     * [[Vuze]], dernière version de Azureus.
+     * [[Osiris]] (non libre), solution de création de portail (site) ne nécessitant pas de serveur, sans contrôle et anonyme
+
+Pour de l'[[anonymat]] dans toutes les communications internet (ex: Web, emails) et pas seulement pour le P2P (généralement dédié au partage de fichiers) : voir [[vpn]], [[proxy]]
+
+===== Les réseaux maillés=====
+Les [[wpfr>Topologie mesh|réseaux maillés]] permettent de créer un réseau décentralisé et libre, remplaçant Internet lui-même (sans FAI, sans son contrôle) : 
+  * [[wpfr>Netsukuku]]
+  * [[B.A.T.M.A.N]] 
+
+Voir [[fournisseurs d acces a internet locaux]] et comment une association ou une [[collectivité]] peut devenir FAI, et voir aussi [[téléphonie]] : le protocole [[P2PSIP]]
+
+
+=====P2P en ligne=====
+Java : 
+   * [[http://www.bitlet.org/|BitLet]] : Applet java pour téléchargement bittorent
+
+Flash avec ses technologie P2P permet d'échange de pair a pair :
+Basique : B2B (browser to browser(s)((en marketing B2B business to business)) : nécessite que le navigateur soit connecté pour envoyer le fichier :
+   * [[http://fr.filesovermiles.com/|FilesOvermiles]]
+   * [[http://www.jetbytes.com/|Jetbites]]
+   * [[http://isendr.com/|Isendr]] (page d'erreur en date du 18 aout 2012)
+   * [[http://www.dushare.com/|Dushare]] (site expiré en date du 18 aout 2012) : Échange d'ami a ami direct, en partageant l'url. 
+
+
+B2C2B browser to [[cloud]] to browser(s) ((En marketing : Business to Consumer to Business)), du navigateur au [[cloud]](**libre** c'est à dire **décentralisé** et ou **vos informations vous appartiennent**, ou inversement centralisé) aux navigateurs.
+   * [[http://burnbit.com/|BurnBit]] : Transformer toute fichier ( en provenance d'url) en torrent, qui allégera le serveur. ( nécessite un client torrent )
+   * [[http://www.torrelay.com/fresh/|Torrelay]] Client Torrent web, payant (site mort en date du 18 aout 2012)
+   * [[http://drop.io/|Drop.io]] : non libre (site mort en date du 18 aout 2012)
+   * [[http://torrific.com/|Torrific]] (site mort en date du 18 aout 2012)
+
+   * [[http://bwtp.wikidot.com/|Bidirectional Web Transfer Protocol - BWTP ]]
+   * [[http://www.darkreading.com/security/encryption/showArticle.jhtml?articleID=217801293|Researchers has discovered a way to use modern browsers to more easily build networks]]
+
+===== HTTP P2P - Le partage d'internet en p2p =====
+<note>L'extension Firefox est un projet d'étudiant lancé en 2009, et qui à cette date (2013) ne bénéficie plus de mises à jour.</note>
+
+   * **L'extension Firefox : [[FireCoral]]** ([[https://addons.mozilla.org/fr/firefox/addon/firecoral/|téléchargement]])(le site web étrait http://firecoral.net ) permet de distribuer les pages et le contenu d'internet, et ainsi d'augmenter le débit de tous ( en allégeant les serveurs officiels). Nous vous proposons également d'ajouter [[http://sharebee.com/181063b4|cette liste de sites de la culture libre]] ( dont ubuntu-fr.org ). Tout site et tout contenu ((sauvé en cache du navigateur )) peut maintenant être partagé : Tout site peut rivaliser avec des sites avec d'énormes ressources. 
+     * Ajouter un site/domaine : *.site.org | XPath : *
+     * Les créateurs de firecoral ont choisi que nous hébergions nous même les listes ... si quelqu'un veut se charger de la liste ci dessus.
+
+<note tip>A SAVOIR - Une bonne idée pour des développeurs (pour des bons site et/ ou une bonne extension firefox de partage du cache) : [[wpfr>HTML 5]] ((W3C information :
+*Regarding peer to peer connections: http://www.w3.org/TR/2008/WD-html5-20080122/#peer-to-peer
+* Regarding broadcast connections to the local network: http://www.w3.org/TR/2008/WD-html5-20080122/#broadcast
+* Regarding TCP connections (in the encoded protocol): http://www.w3.org/TR/2008/WD-html5-20080122/#tcp-connections
+* Complete proposed spec: http://www.w3.org/TR/2008/WD-html5-20080122/#network
+))((HTML 5 plans to allow peer to peer connections from javascript, but these connections will not be raw TCP. The complete spec can be found at http://dev.w3.org/html5/websockets/))(([[http://www.igvita.com/2009/08/18/smart-clients-reversehttp-websockets/|Smart Clients: ReverseHTTP & WebSockets]]))(([[http://stackoverflow.com/questions/1032006/will-html5-allow-web-apps-to-make-peer-to-peer-http-connections| Will HTML5 allow web apps to make peer-to-peer HTTP connections?]]))(([[http://www.zdnet.fr/actualites/internet/0,39020774,39377738,00.htm| P2P, audio et vidéo au menu du HTML 5]])) se voit doter de la capacité de réaliser des connections entre utilisateurs ''PeerToPeerConnection()'', et également grâce aux ''websocket''.
+
+</note>
+   * [[NativeClient]] ([[http://code.google.com/p/nativeclient/|site]]) Lancer du code natif dans une application web.
+
+   * [[http://www.20minutes.fr/article/405186/Web-Diaspora-et-Movim-des-alternatives-a-Facebook.php|Diaspora et Movim, des alternatives à Facebook?]]
+
+===== Streaming =====
+
+Voir la page [[streaming#streaming_p2p|Streaming P2P]]
+
+===== Autres =====
+
+  * **[[nicotine_plus|Nicotine Plus]]**, client P2P un peu particulier développé en python/GTK2 pour le réseau[[http://www.nicotine-plus.org/wiki/SoulseekHowtoSoulseek|Soulseek]]
+  * **soulseek-qt**, un autre client soulseek adapté notamment pour Linux. On peut l'obtenir [[http://www.soulseekqt.net/|sur le site du projet]]
+  * [[:GNUnet]], réseau P2P décentralisé anonyme et chiffré
+
+Une liste plus complète est disponible en fin de page dans la rubrique [[#Pages sur le sujet|Pages sur le sujet]]
+=====Voir aussi=====
+
+  * [[Le Monde du Libre]]
+  * **[[wpfr>Économie de l'abondance]]**
+  *[[http://p2pfoundation.net/The_Foundation_for_P2P_Alternatives|P2PFoundation : La Fondation pour des Alternatives P2P]] : étudie l'impacte du Peer to Peer sur la société.
+  * [[wpfr>p2p|"P2P" sur Wikipedia]]
+  * [[http://translate.google.com/translate?js=y&prev=_t&hl=fr&ie=UTF-8&layout=1&eotf=1&u=http%3A%2F%2Fwww.planetpeer.de%2Fwiki%2Findex.php%2FMain_Page&sl=en&tl=fr|The Planet Peer : P2P anonyme]]
+  * [[http://owni.fr/2010/09/27/le-partage-est-legitime/|Le partage est légitime]] 
+
+
+===== Pages sur le sujet =====
+
+{{backlinks>.}}
+
+
+-----
+//Contributeurs :  [[utilisateurs:psychederic]], [[utilisateurs:percherie|Percherie]]// \\ //Sources : [[wpfr>Pair à pair|Wikipedia]]//

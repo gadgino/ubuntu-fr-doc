@@ -1,0 +1,309 @@
+{{tag>administration serveur système supervision}}
+
+----
+
+====== Munin : le grapheur pour monitorer les machines d'un parc ======
+
+[[http://munin-monitoring.org/|Munin]] est un système complet de monitoring (ou métrologie) de machine. Il permet de générer une série de graphes à partir des informations reçues par les autres machines : utilisation de la mémoire vive, load average, usage CPU, réseau,... Il permet même d'envoyer des alertes par mail ou vers [[Nagios]] en fonction de seuils d'alerte prédéfinis.
+
+Munin fonctionne sur le modèle client-serveur. Un petit démon tourne sur chacune des machines devant être surveillée (''munin-node''). Ce démon fournit les informations brutes concernant la machine dès que le grapheur (''munin'') les lui demande.
+
+Pour surveiller un parc informatique, vous devez donc installer :
+  * le grapheur ''munin'' sur une machine qui va se charger de la surveillance.
+  * le démon de nœud ''munin-node'' sur chaque machine qui va fournir son état au grapheur.
+
+Dans la mythologie nordique, Hugin et Munin sont les deux corbeaux messagers d'Odin. Tous les jours, ils parcourent le monde et reviennent ensuite rapporter au dieu tout ce qu'ils ont vu et entendu. Hugin représente la pensée, tandis que son comparse Munin représente la mémoire.
+
+===== Munin (le grapheur) =====
+
+==== Installation ====
+
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>munin]]** (suivez la procédure d'installation sur les nœuds, ci-dessous, si vous désirez monitorer également la machine qui génère les graphes) et assurez-vous que le paquet **[[apt>apache2]]** est bien installé : <file>dpkg -l | egrep -e "^ii.*apache2 "</file>
+
+==== Configuration ====
+
+=== Serveur web (ici apache) ===
+
+Déjà, si vous n'êtes pas en local (vous exécutez munin sur un serveur par exemple), il faut aller éditer le fichier **/etc/munin/apache.conf**.
+À la ligne "Allow from localhost 127.0.0.1/8 ::1" il faut la modifier pour accepter votre adresse, si c'est dans votre réseau local : "Allow from 192.168.0.0/16 ::1 127.0.0.1/8 localhost".
+SI vous voulez que tout le monde ait le droit de consulter munin, remplacer  "Allow from localhost 127.0.0.1/8 ::1" par "Allow from all".
+Sur la version de apache 2.4 il faut remplacer "Order allow,deny  et Allow from all" par "Require all granted" 
+ 
+== CGI ==
+
+Pour avoir un rendu des images à la demande (économise le processeur du serveur munin tout le reste du temps), il faut indiquer à munin de ne pas générer les graphs lors de la tâche de mise-à-jour, et autoriser le rendu dans apache (déjà actif par défaut, sous /munin-cgi/munin-cgi-graph). Dans ce cas, il faudra aussi installer le paquet **libapache2-mod-fcgid**.
+
+Créer le ficher ''/etc/munin/munin-conf.d/graph.conf'' :
+<file>
+graph_strategy cgi
+cgiurl /munin-cgi
+cgiurl_graph /munin-cgi/munin-cgi-graph
+</file>
+
+<note warning>Surtout ne pas rajouter un paramètre **html_strategy cgi** qui aurait pour effet de ne plus générer la page html avec le relevé des mesures des nœuds (ce qui reste très rapide), et aurait surtout pour effet néfaste de casser tous les liens vers les images qui non seulement ne s'afficherait pas, mais en plus serait « calculée » par munin-cgi-html qui ne sait pas faire des images.</note>
+
+=== Serveur Munin central ===
+
+Il faut indiquer à Munin quels hôtes il doit surveiller. Dans le fichier **/etc/munin/munin.conf**. Vous devriez avoir une configuration par défaut qui ressemble à ceci :
+
+<file>
+[localhost.localdomain]
+    address 127.0.0.1
+    use_node_name yes
+</file>
+
+
+<note help>Si rien n'apparaît au bout de 5 minutes sur la partie web, c'est que la machine ne sait pas résoudre localhost.localdomain. Il faut au choix :
+  - changer le nom entre crochet pour mettre la même chose que le retour de la commande //hostname -f// (ou rajouter un bloc avec la bonne info)
+  - ignorer ce bloc, pour rajouter un autre nœud plus intéressant
+</note>
+
+Pour chacune de vos machines, vous devez indiquer son ''nom d'hôte'', son ''domaine'' et son ''adresse ip''.
+
+Par exemple, pour la machine ''www.ubuntu-fr.org'' qui est sur l'IP ''192.168.0.1'', on ajoute l'entrée suivante dans le fichier **/etc/munin/munin.conf** :
+
+<file>
+[www.ubuntu-fr.org]
+    address 192.168.0.1
+    use_node_name yes
+</file>
+
+<note tip>Le paramètre **use_node_name yes** permet de prendre en compte la machine même si le nom entre crochets ne correspond pas au nom de la machine. Dans munin la machine sera toujours affichée avec le nom entre crochets. \\
+S'il n'est pas précisé, il est nécessaire de mettre la même chose que le retour de la commande //hostname -f// sur la machine en question, sinon la machine n'apparaîtra tout simplement pas dans la partie Web car munin demandera à la machine distante si cette dernière connaît un nœud correspondant au nom entre crochet, ce qui ne sera pas le cas.</note>
+
+Les informations graphées sont choisies au niveau du nœud.
+
+Vous pouvez également être averti par mail en cas de dépassement d'un seuil d'alerte (par ex:disque plein) :
+<file>
+contact.someuser.command mail -s "Munin notification" votre@mail.com
+</file>
+
+ou encore envoyer une alerte vers Nagios :
+<file>
+contact.nagios.command /usr/sbin/send_nsca -H nagios.host.com -c /etc/send_nsca.cfg
+</file>
+
+La périodicité des mises à jour des graphes est déterminée par le programme ''munin-cron'' qui (par défaut) se lance toutes les 5 minutes.
+
+A l'installation, le fichier **/etc/cron.d/munin** a été créé. En éditant ce dernier, vous pourrez modifier la périodicité des mises à jour des graphes.
+
+Si besoin, changer aussi les droits sur les répertoires de munin : 
+
+<code>sudo chown -R www-data:www-data /var/cache/munin/www</code>
+
+<code>sudo chown -R munin:munin /var/cache/munin/www/localdomain</code>
+==== Voir les graphes ====
+
+Il vous suffit d'aller sur la page web suivante : http://localhost/munin si vous avez installé Munin sur votre machine en local. Sinon, remplacez localhost par l'ip de la machine où se trouve le grapheur.
+
+==== Mise à jour des indicateurs des nœuds ====
+
+La mise-à-jour (télé-relevé) se fait par défaut toutes les 5 minutes, grâce à la cron ''/etc/cron.d/munin''.
+Pour déclencher une mise-à-jour manuelle supplémentaire : <code>sudo -u munin /usr/bin/munin-cron</code>
+Et pour suivre ce qui se passe, le fichier journal est ''/var/log/munin/munin-update.log''
+
+===== Munin-node (le démon sur les nœuds) =====
+
+Sur chaque machine que vous désirez surveiller, il vous faut installer le démon qui va répondre aux requêtes du grapheur.
+
+==== Installation ====
+
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>munin-node]]**.
+==== Configuration ====
+
+=== Accès au nœud ===
+
+Pour que le grapheur accède aux informations du nœud, il faut ouvrir le firewall (si nécessaire, il s'agit du port **4949** par défaut) et indiquer quels sont les grapheurs qui peuvent se connecter.
+
+Cette information est indiquée dans le fichier de configuration **/etc/munin/munin-node.conf**. À la fin du fichier de configuration, vous trouverez une ligne de ce style :
+
+  allow ^127\.0\.0\.1$
+
+Pour autoriser votre grapheur à se connecter, vous ajouter une ligne du même type. Par exemple, si votre grapheur possède l'IP 192.168.0.253, vous ajoutez la ligne :
+
+  allow ^192\.168\.0\.253$
+
+=== Configuration des plugins ===
+
+Chaque information affichée dans les graphes est traitée par un plugin. Les plugins actifs sont en réalité des liens symboliques qui se trouvent dans le répertoire **/etc/munin/plugins**. La plupart des plugins Munin sont installés par défaut dans le répertoire **/usr/share/munin/plugins/**
+
+À l'installation du paquet, les plugins détectés sont automatiquement ajoutés.
+
+Le fichier de configuration des plugins est **/etc/munin/plugin-conf.d/munin-node**
+
+Normalement, on ne règle que les utilisateurs et les groupes sous lesquels tournent les plugins (rapport aux droits d'exécution, de lecture et d'écriture... si vous ne savez pas de quoi il est question, lisez donc la documentation sur les [[:permissions]].
+
+Pour visualiser facilement les plugins installés, vous pouvez utiliser la commande :
+  munin-node-configure
+Cette commande vous permet également d'obtenir une suggestion des pluggins à rajouter :
+  munin-node-configure --suggest
+vous obtiendrez les commandes de création des liens pour l'activation des plugins avec la commande :
+  munin-node-configure --suggest --shell
+
+=== Test des plugins ===
+
+Si vous créez vos plugins ou si vous désirez seulement tester la bonne configuration de vos plugins, vous ne devez pas lancer le plugins comme si vous lanciez un script shell. Vous devez utiliser la commande **munin-run**, par exemple :
+  munin-run postgres_bgwriter
+le plugin sera alors lancé avec les variables nécessaires (nom utilisateur,nom BDD ...)
+
+=== Prise en compte d'une configuration du nœud modifiée ===
+
+Une fois les modifications effectuées, il faut redémarrer le nœud munin pour les prendre en compte à la prochaine interrogation depuis le serveur munin : <code>service munin-node restart</code>
+==== plugins Apache ====
+
+Les plugins Apache ont besoin de la bibliothèque **[[apt>libwww-perl]]**.
+
+Afin de récupérer les données statistique d'apache le module **status** doit être activé avec le mode étendue.
+Pour cela on vérifiera la présence des liens :
+<code>/etc/apache2/mods-enabled/status.load 
+/etc/apache2/mods-enabled/status.conf
+</code>
+Si ceux-ci ne sont pas présents on l'installera avec la commande :
+<code>
+sudo a2enmod status
+</code>
+
+Le fichier status.conf doit contenir, au minimum, les directives suivantes :
+<code>
+<IfModule mod_status.c>
+
+<Location /server-status>
+    SetHandler server-status
+    Order deny,allow
+    Deny from all
+    Allow from localhost ip6-localhost
+</Location>
+ExtendedStatus On
+
+</IfModule>
+</code>
+
+==== plugins Mysql====
+
+Normalement les plugins mysql sont directement activé à l'installation. 
+
+Si ce n'est pas le cas, vous pouvez taper:  <code>munin-node-configure</code>
+
+Cela vous donnera une liste des mods en présicant s'ils sont installé et s'ils peuvent fonctionner. 
+
+Si vous avez une erreur pour les plugins mysql, vous devrez corriger les erreurs et réactiver manuellement les plugins mysql. 
+
+== Erreur Missing dependency Cache::Cache==
+Vous pouvez résoudre cette erreur en installant le paquet: **[[apt>libcache-cache-perl]]**
+
+Une fois installé, vérifier que votre problème est bien corrigé avec munin-node-configure. 
+Vous pouvez ensuite réactiver les plugins mysql: <code>ln -s /usr/share/munin/plugins/mysql_* /etc/munin/plugins/</code>
+Pour finir, rechargez la configuration de munin pour que ce soit pris en compte: reload munin-node
+
+== Installer d'avantage de plugin MySQL==
+Vous pouvez installer plusieurs autres plugins mysql pour suivre par exemple la valeur de max_connection, le débit réseau, le type de requête etc ...
+Pour avoir une liste des plugins que vous pouvez ajouter allez dans le dossier: 
+<code>cd /usr/share/munin/plugins</code>
+et faites:
+<code>./mysql_ suggest</code>
+Vous obtiendrez donc la liste des graphs que peut faire mysql_. 
+Exemple:
+  * bin_relay_log
+  * commands
+  * connections
+  * files_tables
+  * innodb_bpool
+  * innodb_bpool_act
+  * innodb_insert_buf
+  * innodb_io
+  * innodb_io_pend
+  * innodb_log
+  * innodb_rows
+  * innodb_semaphores
+  * innodb_tnx
+  * myisam_indexes
+  * network_traffic
+  * qcache
+  * qcache_mem
+  * replication
+  * select_types
+  * slow
+  * sorts
+  * table_locks
+  * tmp_tables
+
+Si vous voulez ajouter qcache par exemple, faites un lien de la sorte:
+<code> ln -s /usr/share/munin/plugin/mysql_ /etc/munin/plugins/mysql_qcache</code>
+C'est donc sous la forme: ln -ls /usr/share/munin/plugin/mysql_ /etc/munin/plugins/mysql_NomDuPlugin
+
+==== Plugins Proftpd ====
+
+Les plugins Proftpd ont besoin de **[[apt>logtail]]**. D'autre part, il faut que vous puissiez lire le contenu du log de transfert de proftpd. Ce dernier est normalement situé à **/var/log/proftpd/xferlog** , mais une vérification s'impose : lisez le fichier de configuration de proftpd, normalement **/etc/proftpd/proftpd.conf** :
+
+<code>less /etc/proftpd/proftpd.conf</code>
+
+et repérez la balise TransferLog, elle indique l'emplacement du fichier de log qui nous intéresse.
+
+Regardez les permissions et propriétaires du fichier. Si le propriétaire est root et son groupe, root, peut être vaut-il mieux modifier son groupe. Je l'ai mis à adm. Et j'ai autorisé la lecture et l'écriture. (l'écriture, je ne sais pas si c'est nécessaire, mais la lecture, oui, assurément !)
+
+<code>chown root:adm xferlog
+chmod ug+rw xferlog</code>
+
+Ensuite, assurez vous que les plugins proftpd tournent bien dans le bon groupe. Pour ce faire, éditez le fichier /etc/munin/plugin-conf.d/munin-node, et repérez (ou ajoutez) la balise [proftpd*] ou [proftpd_*], ajoutez en dessous, le groupe ou l'utilisateur que vous avez réglé sur xferlog, pour moi, cela donne :
+
+<code>[proftpd*]
+group adm
+</code>
+
+<note>L'auteur tient à signaler que les options de configuration pour les plugins Proftpd peuvent changer (groupe et propriétaire...), c'est à vous de décider suivant ce qui vous parait le mieux.</note>
+
+==== Résolution des problèmes courants ====
+
+Si au niveau de votre grapheur, une sonde ne génère //aucun// graphe, vérifiez que les access-list configurées dans /etc/munin/munin-node.conf sont correctes et que le pare-feu de la sonde autorise les connexions sur le port associé à la sonde munin (4949 par défaut).
+
+Si certains graphes sont générés mais pas tous, vous avez probablement un plugin qui n'est pas fonctionnel. Connectez vous sur une machine pouvant accéder à la sonde (par exemple le grapheur). Sur cette machine, [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>telnet]]**. Supposons que la sonde défectueuse ait pour IP x.x.x.x et écoute sur le port 4949. Lancez la commande suivante :
+
+<code>
+telnet x.x.x.x 4949
+</code>
+
+Vous pouvez alors afficher l'aide en appuyant sur entrée afin de voir quelle commande sont disponibles. On retiendra principalement les trois directives suivantes :
+  *  //list :// liste les plugins munin activés,
+  * //fetch __nom_du_plugin__ :// déclenche une collecte de point avec ce plugin,
+  * //quit :// quitte la sonde.
+
+//Exemple :// dans ce qui suit, on liste les plugins (list), on déclenche une collecte de point pour le plugin apache_accesses (fetch apache_accesses) et on quitte (quit)
+
+<code>
+Trying 127.0.0.1...
+Connected to localhost.localdomain.
+Escape character is '^]'.
+# munin node at nom_de_la_machine_sonde
+list
+apache_accesses apache_processes apache_volume cpu cpuspeed df df_inode entropy exim_mailqueue exim_mailstats forks fw_conntrack fw_forwarded_local http_loadtime if_eth0 interrupts iostat iostat_ios irqstats load memory mysql_queries mysql_slowqueries mysql_threads open_files open_inodes proc_pri processes smart_sda smart_sdb swap threads uptime users vmstat
+fetch apache_accesses
+accesses80.value 11705
+.
+quit
+Connection closed by foreign host.
+</code>
+
+Dans cet exemple, la commande s'est bien déroulée, donc le plugin est fonctionnel. En cas de message d'erreur, vérifiez dans la section dédiée au plugin mis en cause que vous n'avez pas oublié d'installer un paquet sur la machine sonde (par exemple libwww-perl si vous utilisez un plugin munin concernant apache).
+===== Règles Iptables (Firewall) =====
+
+   iptables -A OUTPUT -p tcp --sport 4949 -j ACCEPT
+   iptables -A INPUT -p tcp --dport 4949 -j ACCEPT
+
+Vous pouvez également autoriser la "récolte" d'informations depuis un seul serveur en spécifiant la source autorisée dans la deuxième règle.
+
+Par exemple, chez moi, seul le pc de la maison est autorisé à récupérer les informations du serveur dédié. En supposant que mon ip à la maison soit 82.xxx.xxx.xxx Les commandes iptables à lancer sur le serveur ressembleraient donc à ceci:
+
+   iptables -A OUTPUT -p tcp --sport 4949 -j ACCEPT
+   iptables -A INPUT -p tcp --dport 4949 -s 82.xxx.xxx.xxx -j ACCEPT
+
+ps: ces règles s'appliquent uniquement avec une police par défaut "DROP"
+
+===== Liens =====
+
+  * [[http://munin-monitoring.org//|Site officiel de Munin (EN)]]
+  * [[http://muninexchange.projects.linpro.no/|Autres plugins Munin (EN)]]
+  * Exemple de Munin en action : [[http://munin.ping.uio.no/]], [[http://demo.munin-monitoring.org | Démo sur le site officiel]]
+
+----
+
+//Contributeurs : [[utilisateurs:ostaquet]], [[utilisateurs:stephaneguedon]], [[utilisateurs:elemmire]], [[utilisateurs:rapidos]], [[utilisateurs:MaMieMando]], [[http://karchnu.fr|Karchnu]] //

@@ -1,0 +1,303 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#introduction" class="toc"> Introduction </a></span></li>
+<li class="level1"><span class="li"><a href="#preambule_a_l_installation" class="toc"> Préambule à l'installation </a></span></li>
+<li class="level1"><span class="li"><a href="#premiere_etape_de_l_installation" class="toc"> Première étape de l'installation </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#les_options_de_boot" class="toc"> Les options de Boot </a></span></li>
+<li class="level2"><span class="li"><a href="#demarrage_de_l_installation" class="toc"> Démarrage de l'installation </a></span></li>
+<li class="level2"><span class="li"><a href="#partitionnement_de_disque" class="toc"> Partitionnement de disque </a></span></li>
+<li class="level2"><span class="li"><a href="#installation_du_systeme" class="toc"> Installation du système </a></span></li>
+</ul>
+</li>
+<li class="level1"><span class="li"><a href="#deuxieme_partie_de_l_installation" class="toc"> Deuxième partie de l'installation </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#menu_de_demarrage" class="toc"> Menu de démarrage </a></span></li>
+<li class="level2"><span class="li"><a href="#fin_de_l_installation" class="toc"> Fin de l'installation </a></span></li>
+</ul>
+</li>
+<li class="level1"><span class="li"><a href="#post_configuration" class="toc"> Post configuration </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#clavier" class="toc"> Clavier </a></span></li>
+<li class="level2"><span class="li"><a href="#trackpad" class="toc"> Trackpad </a></span></li>
+<li class="level2"><span class="li"><a href="#bouton_droit_de_la_souris" class="toc"> Bouton droit de la souris </a></span></li>
+<li class="level2"><span class="li"><a href="#gestion_d_energie" class="toc"> Gestion d'énergie </a></span></li>
+<li class="level2"><span class="li"><a href="#yaboot" class="toc"> Yaboot </a></span></li>
+<li class="level2"><span class="li"><a href="#flashplayer_et_swf" class="toc"> Flashplayer et SWF </a></span></li>
+</ul>
+</li>
+<li class="level1"><span class="li"><a href="#note" class="toc"> Note </a></span></li>
+</ul>
+</div>
+</div>
+
+<p>
+Rédigé par <a href="/utilisateurs/manu" class="wikilink1" title="utilisateurs:manu" onclick="return svchk()" onkeypress="return svchk()">manu</a>.
+</p>
+
+<a name="introduction"></a><h1> Introduction </h1>
+<div class="level1">
+
+<p>
+ Cette page décrit comment installer <strong>Ubuntu Hoary 5.04</strong> pour les processeurs PPC (IBM/Motorola et Apple ). Vous trouverez une description des différentes étapes pour une installation standart. La distribution <strong>Ubuntu PPC</strong> ne peut être installé que sur des machines Apple étant équipées des processeurs appelés <em>New World</em> G3 (bleu et blanc), G4 et G5.
+</p>
+
+</div>
+<!-- SECTION [38-433] -->
+<a name="preambule_a_l_installation"></a><h1> Préambule à l'installation </h1>
+<div class="level1">
+
+<p>
+ Avant d&rsquo;installer <strong>Ubuntu</strong> sur votre machine vous pouvez tester cette distribution grâce au <strong>Live CD</strong> que vous trouverez sur un miroir proche de chez vous. <a href="http://www.ubuntulinux.org/download/" class="urlextern" title="http://www.ubuntulinux.org/download/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow"> Télécharger</a> 
+</p>
+
+<p>
+Pour installer <strong>Ubuntu</strong> sur votre Mac, <a href="http://www.ubuntulinux.org/download/" class="urlextern" title="http://www.ubuntulinux.org/download/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow"> téléchargez</a>  l&rsquo;image <acronym title="International Organization for Standardization">ISO</acronym> du disque d&rsquo;installation et gravez là avec les outils que vous disposez (Toast, ou autre).
+</p>
+
+<p>
+Un petit rappel, pour booter sur le CD d&rsquo;Ubuntu, inserez le dans le lecteur, et redémarrez votre Mac en maintenant le touche <strong>C</strong> appuyée .
+</p>
+
+<p>
+Pour finir, l&rsquo;installation est plus pratique si vous (ré)installez Mac Os 9 ou 10 en ayant partitionné votre disque dur en 2 : une partition pour le Mac Os et un espace libre équivalent (la taille dépend de vos besoins). si vous comptez installer Ubuntu sur un disque différent, il est conseillé de le placer sur le disque en premier (exemple: hda &rArr;Ubuntu ; hdb &rArr; Mac Os) pour que le <strong>bootloader Yaboot</strong> puisse gérer facilement les partitions linux.
+</p>
+
+</div>
+<!-- SECTION [434-1507] -->
+<a name="premiere_etape_de_l_installation"></a><h1> Première étape de l'installation </h1>
+<div class="level1">
+
+</div>
+<!-- SECTION [1508-1557] -->
+<a name="les_options_de_boot"></a><h2> Les options de Boot </h2>
+<div class="level2">
+
+<p>
+ Une fois que vous avez booté sur le CD d&rsquo;Ubuntu PPC, vous aurez un prompt:
+</p>
+<pre class="code">
+Boot:                              #taper help pour avoir des informations
+</pre>
+
+<p>
+Pour avoir toutes les commandes possibles spécifiants les différentes options, utilisez la touche <strong>Tabulation</strong>.
+</p>
+
+<p>
+Si vous désirez une installation standart (qui correspond à la majorité des cas) taper directement sur la touche <strong>Entrée</strong> ou entrez la commande <strong>install</strong>.
+</p>
+
+<p>
+Les autres options sont, <strong>expert</strong> pour faire une installation détaillée point par point, <strong>server</strong> pour avoir une installation minimaliste pour installer ensuite chaque paquet en fonction de vos besoins (type install de serveur ou machine ayant de petite capacitée). Mais vous pouvez également donner d&rsquo;autres commandes concernant votre matériel. Ainsi vous pouvez spécifier si vous avez un PPC G3 avec <strong>power3</strong> ou <strong>power4</strong> pour les G4. 
+</p>
+
+<p>
+Ainsi le résultat pour faire une installation d&rsquo;un serveur en mode expert sur un PPC G4 donne:
+</p>
+<pre class="code">
+boot:server-expert-power4
+</pre>
+
+<p>
+Les installations en mode <strong>expert</strong> et <strong>server</strong> ne sont pas détaillés dans cette page.
+</p>
+
+</div>
+<!-- SECTION [1558-2723] -->
+<a name="demarrage_de_l_installation"></a><h2> Démarrage de l'installation </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> Vous avez choisi l&rsquo;installation par défaut, l&rsquo;installeur d&rsquo;Ubuntu vous demandera de choisir votre langue, puis un pays. Si vous n&rsquo;y trouvez pas le votre, choisisser <strong>autre</strong> qui vous renvoie sur la liste global. </span>
+</li>
+<li class="level1"><span class="li"> Aprés ces choix, vous devrez confirmer le clavier par défaut:<strong>Français(mac-usb-fr)</strong> ou le modifier en conséquence.</span>
+</li>
+<li class="level1"><span class="li"> L&rsquo;installateur d&rsquo;Ubuntu charge maintenant différents composants et analyse le matériel</span>
+</li>
+<li class="level1"><span class="li"> Puis l&rsquo;analyse de la cartes réseau et de sa configuration, d&rsquo;abord en mode DHCP puis en mode manuel si besoin. Vous pouvez reporter cette configuration aprés l&rsquo;installation.</span>
+</li>
+<li class="level1"><span class="li"> Donnez un nom à votre machine (par defaut: ubuntu)</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [2724-3439] -->
+<a name="partitionnement_de_disque"></a><h2> Partitionnement de disque </h2>
+<div class="level2">
+
+<p>
+ Si vous avez l&rsquo;intention de partager le disque avec MacOS, vous devrez d&rsquo;abord créer les partitions MacOS avec <strong>Outil Disque Dur</strong>. Lors de la création des partitions pour MacOS, vous devrez créer avec Outil Disque Dur une partition HFS suffisamment grande pour accueillir <strong>toutes</strong> les partitions que vous utiliserez avec GNU/Linux. Par exemple, si vous avez prévu 4 partitions d&rsquo;un Go, vous crérez <strong>une seule</strong> partition de 4 Go. Vous détruirez cette partition avec l&rsquo;utilitaire <strong>partman</strong> lors de l&rsquo;installation. Cette partition réservée à Ubuntu doit être la dernière du disque.
+</p>
+
+<p>
+<strong>N&rsquo;essayez pas</strong> de créer les partitions Linux avec Outil Disque Dur d&rsquo;Apple !
+</p>
+
+<p>
+Pour en savoir plus : <a href="http://www.linux-france.org/macintosh/mac-fdisk.html" class="urlextern" title="http://www.linux-france.org/macintosh/mac-fdisk.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.linux-france.org/macintosh/mac-fdisk.html</a>. 
+</p>
+<ul>
+<li class="level1"><span class="li"> Aprés le réseau, l&rsquo;installateur détecte le(s) disque(s) dur(s) et lance l&rsquo;utilitaire <strong>partman</strong>.</span>
+</li>
+<li class="level1"><span class="li"> Partman vous propose par défaut d&rsquo; <strong>utiliser intégralement le disque</strong>. Ce cas est à utiliser si vous avez un disque dédié pour Ubuntu ou si vous ne voulez que Ubuntu sur votre Mac. </span>
+</li>
+<li class="level1"><span class="li"> L&rsquo;autre choix intéréssant, si vous avez pu (ré)installer votre Mac <acronym title="Operating System">OS</acronym> sur une partition et avoir de l&rsquo;espace libre pour Ubuntu, c&rsquo;est <strong>utiliser le plus grand espace disponible possible</strong> . Avant de choisir cette option, il faut d&rsquo;abord supprimer la dernière partition Apple_HFS du disque, celle qui était destinée à Ubuntu. Ensuite, elle sera automatiquement repartitionnée selon les besoins d&rsquo;Unix (une partition racine, une partition swap, une partition de démarrage).</span>
+</li>
+<li class="level1"><span class="li"> Sinon vous pouvez dans tous les cas choisir <strong>Modification manuelle de la table de partition</strong>. Dans ce cas n&rsquo;oubliez pas qu&rsquo;il faut au minimun, une partition pour <strong>/</strong> (la racine du système) et une autre pour la <strong>SWAP</strong> (échange).</span>
+</li>
+<li class="level1"><span class="li"> Une fois que vous avez fait vos partitions, lancez le partitionnement du disque.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [3440-5349] -->
+<a name="installation_du_systeme"></a><h2> Installation du système </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> Le partitionnement terminé, l&rsquo;installateur copie le système de base d&rsquo;Ubuntu et les paquets nécéssaires.</span>
+</li>
+<li class="level1"><span class="li"> Comme il est impossible de tout avoir sur le CD d&rsquo;installation, on vous demandera de télécharger les paquets manquants. Si vous n&rsquo;avez pas de réseau ou que vous n&rsquo;avez pu le configurer correctement répondez <em>non</em> sinon laissez le choix par défaut <em>oui</em>.</span>
+</li>
+<li class="level1"><span class="li"> Puis vous devez configurer le fuseau horaire en fonction de votre localisation géographique.</span>
+</li>
+<li class="level1"><span class="li"> Création du compte principal d&rsquo;Ubuntu qui vous permettra de configurer votre machine avec la commande <strong>sudo</strong>. Donnez votre nom (ou surnom) puis le nom d&rsquo;utilisateur (username) pour la connexion et pour finir le mot de passe de ce compte.</span>
+</li>
+<li class="level1"><span class="li"> Maintenant l&rsquo;installateur essaye de télécharger les parquets manquants et fait les mises à jour du système via <strong>apt</strong>.(si vous avez un réseau configuré)</span>
+</li>
+<li class="level1"><span class="li"> Cette première partie se termine sur l&rsquo;installation du bootloader <strong>yaboot</strong> qui prendra en compte si vous avez un autre système présent, et le CD sera éjecté pour redémarrer la machine.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [5350-6472] -->
+<a name="deuxieme_partie_de_l_installation"></a><h1> Deuxième partie de l'installation </h1>
+<div class="level1">
+
+</div>
+<!-- SECTION [6473-6522] -->
+<a name="menu_de_demarrage"></a><h2> Menu de démarrage </h2>
+<div class="level2">
+
+<p>
+ Au démarrage de votre machine, maintenant vous aurez un menu de sélection:
+</p>
+<pre class="code">
+First Stage Ubuntu Bootstrap
+
+Press  l for linux
+       x for macosx
+       c for cdrom
+
+Stage l boot:
+</pre>
+
+<p>
+Pressez la touche <strong>L</strong> pour démarrer Ubuntu, maintenant vous pouvez aller boire un café ou autre <img src="/smileys/icon_smile.gif" align="middle" alt=":-)" /> car le système va se <em>dépaquetter</em> pour terminer l&rsquo;installation de votre nouveau système. Cela prend du temps en fonction de votre configuration matériel.
+</p>
+
+</div>
+<!-- SECTION [6523-7017] -->
+<a name="fin_de_l_installation"></a><h2> Fin de l'installation </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> Une fois que tout le système s&rsquo;est finalisé, vous vous retrouvez devant l&rsquo;écran de connexion, tapez l&rsquo; <strong>username</strong> que vous avez configuré et son mot de passe.</span>
+</li>
+<li class="level1"><span class="li"> Pour terminer complétement l&rsquo;installation, vous devez installer les paquets de localisation pour le navigateur <strong>Firefox</strong> et <strong>Open-Office</strong> qui sont en anglais par défaut. Le plus simple est d&rsquo;utiliser <strong>Synaptic</strong> (voir la page <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">synaptic</a>).</span>
+</li>
+<li class="level1"><span class="li"> Si vous avez un Mac récent, votre lecteur de CD/DVD est aussi graveur de CD au minimun, donc je vous recommande d&rsquo;installer le logiciel <strong>gnomebaker</strong> qui est trés intuitif pour graver (voir la page <a href="/applications/gnomebaker" class="wikilink1" title="applications:gnomebaker" onclick="return svchk()" onkeypress="return svchk()">GnomeBaker</a>)</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [7018-7721] -->
+<a name="post_configuration"></a><h1> Post configuration </h1>
+<div class="level1">
+
+</div>
+<!-- SECTION [7722-7755] -->
+<a name="clavier"></a><h2> Clavier </h2>
+<div class="level2">
+
+<p>
+ Les claviers Mac ne sont pas utilisables de la même manière que ceux des PC. Vérifiez que le clavier est paramétré en fonction de vos besoins. Je m&rsquo;explique, si vous désirez utiliser votre machine simplement pour le web/mail/office, choisissez le pilote <strong>Macintosh</strong> comme ça vous aurez les touches de votre clavier qui correspondront parfaitement. Mais si vous désirez faire un peu plus, et surtout utilisez pleinement un terminal avec les symboles suivants: <strong>| ` \ ¹ ¬ ~</strong> et plus encore, je vous conseille de choisir le pilote de clavier <strong>clavier généric 105-key (Intl) PC</strong>, mais dans ce cas vous devrez connaître les touches en <em>aveugle</em>.  Pour information, dans ce cas la touche <strong>Alt Gr</strong> sur les claviers PC correspond à la touche <strong>Pomme</strong> sur les Mac.
+</p>
+
+<p>
+Pour sélectionnez le pilote, menu : <strong>Système&rArr;Préférences&rArr;Clavier</strong> puis choisissez l&rsquo;onglet <strong>Agencement</strong> et sélectionnez le <strong>Modéle du clavier</strong>.
+</p>
+
+</div>
+<!-- SECTION [7756-8717] -->
+<a name="trackpad"></a><h2> Trackpad </h2>
+<div class="level2">
+
+<p>
+ Vous souhaitez peut-être activer le &ldquo;clic&rdquo; par tapotement sur le trackpad. Il n&rsquo;y a pas d&rsquo;interface graphique pour ça, vous devez éditer le fichier /etc/pbbuttons.conf. Voir : <a href="http://forum.ubuntu-fr.org/viewtopic.php?pid=42650#23" class="urlextern" title="http://forum.ubuntu-fr.org/viewtopic.php?pid=42650#23" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://forum.ubuntu-fr.org/viewtopic.php?pid=42650#23</a>.
+</p>
+
+</div>
+<!-- SECTION [8718-8978] -->
+<a name="bouton_droit_de_la_souris"></a><h2> Bouton droit de la souris </h2>
+<div class="level2">
+
+<p>
+ Si vous utilisez une souris Apple ou un portable iBook/Powerbook, vous n&rsquo;avez pas de <em>bouton droit de souris</em> pour le menu contextuel. Vous pouvez utiliser la touche <strong>F12</strong> (éjection CD sous Mac seulement).
+</p>
+
+<p>
+Et pour éjecter un CD c&rsquo;est toujours la touche F12... mais avec la touche <strong>fn</strong> simultanément.
+</p>
+
+</div>
+<!-- SECTION [8979-9328] -->
+<a name="gestion_d_energie"></a><h2> Gestion d'énergie </h2>
+<div class="level2">
+
+<p>
+ Pour ceux qui utiliserons Ubuntu sur un portable Apple, la gestion de l&rsquo;énergie fonctionne trés bien. Vous avez le temps qui vous reste en mode batterie qui s&rsquo;affiche (et % aussi). Mais la fonction mise en veille quand on rabat l&rsquo;écran sans avoir fermer Ubuntu ne fonctionne pas bien, enfin c&rsquo;est ce que j&rsquo;ai constaté mais comme j&rsquo;ai fais les tests avec un multi-boot, es que cela pouvait géner la remise en route ??
+</p>
+
+</div>
+<!-- SECTION [9329-9783] -->
+<a name="yaboot"></a><h2> Yaboot </h2>
+<div class="level2">
+
+<p>
+ Pour configurer <strong>yaboot</strong>, consultez la page dédiée <a href="/applications/yaboot" class="wikilink1" title="applications:yaboot" onclick="return svchk()" onkeypress="return svchk()">yaboot</a>.
+</p>
+
+</div>
+<!-- SECTION [9784-9884] -->
+<a name="flashplayer_et_swf"></a><h2> Flashplayer et SWF </h2>
+<div class="level2">
+
+<p>
+ Le module <strong>Flash</strong> de Macromédia n&rsquo;est pas compatible avec les plateformes PPC. Donc officiellement, vous ne pouvez pas avoir avec votre navigateur Firefox les animations flash ou SWF. Mais vous pouvez installer d&rsquo;autres utilitaires pour avoir accés à ce type d&rsquo;affichage.
+</p>
+
+<p>
+Via <strong>Synaptic</strong> (voir <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">synaptic</a>) ou <strong>APT</strong> (voir <a href="/applications/apt-get" class="wikilink1" title="applications:apt-get" onclick="return svchk()" onkeypress="return svchk()">Apt-Get</a>), téléchargez et installez les paquets suivant  (les numéros de paquets peuvent varier depuis la création de cette page) : 
+</p>
+<pre class="code">
+libflash-dev (0.4.11-2)
+libflash-mozplugin (0.4.11-2)
+libflash-swfplayer (0.4.11-2)
+libflash0 (0.4.11-2)
+libglib2.0-dev (2.6.3-1)
+libjpeg62-dev (6b-9)
+libswfdec0.3 (0.3.2-2)
+libswfdec0.3-dev (0.3.2-2)
+swf-player (0.3.2-2)
+zlib1g-dev (1:1.2.2-4ubuntu1)
+</pre>
+
+</div>
+<!-- SECTION [9885-10681] -->
+<a name="note"></a><h1> Note </h1>
+<div class="level1">
+
+<p>
+ Cette page a été créée d&rsquo;aprés une installation en multi-boot sur un iBook G4 1,33 Gz 14 pouce et sur un iBook G3 500MHz 12 pouces. Il faut moins de 3 heures pour installer l&rsquo;ensemble, Mac Os 10.3 en ayant repartitionné et Ubuntu 5.04 aprés, le tout à jour (Mac Os 10.3.9). 
+</p>
+
+</div>
+<!-- SECTION [10682-] -->

@@ -1,0 +1,37 @@
+{{tag>Precise Trusty personnalisation système}}
+
+----
+
+====== Créer un thème d'icône ======
+Il est tout à fait possible de créer un thème d'icônes personnalisé, à partir de rien en dessinant soit même les icônes, ou en faisant une sélection personnalisée d'icônes particulières.
+=====Création des dossiers de travail=====
+Il faut d'abord créer un dossier portant le nom du thème avec un sous dossier **128x128** : <code>mkdir -p mon_thème/128x128/</code>
+Placez-vous dans ce dossier et créez les sous-dossiers  : <code>cd mon_thème/128x128/ && mkdir action apps devices filesystems mimetypes</code>
+
+Placez ensuite dans chacun de ces dossiers les icônes que vous souhaitez utiliser pour votre thème. Reportez-vous à un thème déjà existant pour placer les icônes dans les bonnes catégories et avec les noms adéquats. Les thèmes se trouvent dans **/usr/share/icons**. Il faut utiliser des images au format png.\\
+À titre indicatif les dossiers doivent contenir les icônes suivants:
+  * **action** : tous les icônes attribuées aux actions dans vos différentes applications, par exemple "play", "stop", "ffwd" et "rew" dans Amarok, ou "avancer" et "reculer" dans Konqueror, ou encore "nouveau message" dans Kmail, etc, etc...  
+  * **apps** : les icônes des applications,
+  * **devices** : les icônes attribuées aux média et matériel,
+  * **filesystems** : les dossiers et les corbeilles,
+  * **mimetypes** : les icônes des différents types de fichier (mp3, avi, deb, jpeg, odt, etc, etc...).
+
+=====Création du thème=====
+Téléchargez ce {{tutoriel:script_theme_icone.tar.gz|fichier}} et décompressez-le puis copiez les fichiers ''buildset'' et ''index.desktop'' qu'il contient dans le dossier principal du thème que vous avez créé. Puis :
+  * Modifiez le script ''buildset'' en rajoutant le nom que vous souhaitez donner à votre thème, cherchez la ligne: <file>PACKAGENAME="nom_du_theme"</file> et remplacez ''nom_du_theme'' par le nom de votre thème,
+  * Éditez ensuite ''index.desktop''et modifiez les lignes **Name=nom_du_theme** et **Comment=votre_commentaire**,
+  * Rendez le script [[:tutoriel:script_shell#executer_un_script|exécutable]],
+  * Il vous reste à exécuter le script : <code>./buildset</code>
+Une archive **tar.gz** résultera du travail du script.
+
+S'il peut être fastidieux de créer un thème de toutes pièces en partant de zéro, on peut facilement combiner des thèmes déjà existant pour en créer un original.
+
+<note warning>Si les icônes placés dans **filesystems** ne fonctionne pas, renommer ce dernier par **places**, et modifier en conséquence le script ''buildset'' ainsi que le fichier ''index.desktop''. Attention, le script ''buildset'' convertira les icônes uniquement dans les dossiers action, apps, devices, filesystems et mimetypes. Pour qu'il se charge d'autres dossier, ajoutez-les au script.</note>
+
+=====Utilisation====
+Pour utiliser votre thème [[:archivage#graphiquement|extrayez l'archive]] dans le dossier **/usr/share/icons** si vous le voulez accessible pour tous les utilisateurs, ou dans le dossier caché **.icons** de votre **Dossier Personnel**, si vous souhaitez le rendre accessible à un seul utilisateur (à créer s'il n'existe pas). \\
+Il ne vous reste plus qu'à [[:tutoriel:comment_installer_un_paquet|installet le paquet]] **[[apt>Unity-tweak-tool]]**, ou **[[apt>gnome-tweak-tool]]**. Votre thème se trouvera dans l'onglet **Icônes**.
+
+--------------
+
+Contributeurs : [[:utilisateurs:l_africain|L'Africain]]

@@ -1,0 +1,200 @@
+{{tag>serveur vétuste brouillon}}
+
+----
+
+====== Sécuriser Apache2 avec SSL ======
+Ce tutoriel présente une procédure permettant de sécuriser un [[:tutoriel:virtualhosts_avec_apache2|hôte virtuel]] grâce au **protocole SSL**.
+
+===== Introduction =====
+
+==== Le protocole SSL ====
+
+SSL est un protocole qui a été développé par la société Netscape. 
+
+Ce protocole permet à deux machines de communiquer de manière sécurisée. Les informations échangées entre les deux machines sont de ce fait inviolables.
+
+Le protocole SSL se traduit par la combinaison de deux protocoles bien distincts (//Handshake// et //Record//) qui permettent la négociation entre les deux machines et le chiffrement des données échangées.
+
+[[http://sebsauvage.net/comprendre/ssl|plus d'informations concernant le fonctionnement du Protocole SSL]]
+
+==== Les Certificats ====
+
+Un certificat permet de fournir diverses informations concernant l'identité de son détenteur (la personne qui publie les données). Ce certificat s'accompagne d'une **clé publique** qui est indispensable pour que la communication entre les machines soit chiffrée. 
+
+De même, afin de garantir l'authenticité du certificat, ce dernier est signé numériquement par le biais d'une **clé privée** provenant soit d'un organisme officiel (Société spécialisée dans la certification) soit par le détenteur du Certificat lui même. Dans ce dernier cas, on parlera de certificat auto-signé.
+
+Dans la plupart des cas, l'obtention d'un Certificat certifié par une autorité officielle ayant un prix assez élevé, les webmasters auront tendance a vouloir signer eux-même leur certificat. Ce faisant, il est à noter que dans ce cas, le certificat ne sera pas reconnu par les navigateurs web comme étant certifié. 
+
+[[http://www.cacert.org|CA Cert]] permet d'obtenir des certificats gratuits. Il vous faudra néanmoins installer le certificat racine dans votre navigateur.
+
+[[https://letsencrypt.org/|Let's encrypt]] permet également d'obtenir des certificats gratuits. Soutenu par le Internet Security Research Group (ISRG), utilisé pas OVH, facebook, Sucuru, etc. Si vous avez un accès SSH, c'est enfantin (par rapport aux méthodes décrites plus bas, j'ai basculé mon serveur en https en même pas 5 mn, montre en main). Vous avez un excellent tuto pour ubuntu 16.04 [[https://www.digitalocean.com/community/tutorials/how-to-secure-apache-with-let-s-encrypt-on-ubuntu-16-04|Ici]]
+
+<note>Dans ce tutoriel, la procédure présentée explique la marche à suivre pour mettre en place un **Site Web sécurisé via protocole SSL en utilisant un Certificat auto-signé**.</note>
+
+Pour ce tutoriel, nous supposons que nous avons déjà mis en place un [[:tutoriel:virtualhosts_avec_apache2|hôte virtuel]] basé sur le nom **nuxwin.com**, ce dernier étant accessible sur le **port 80** à l'adresse http://nuxwin.com
+
+===== Mise en application avec le Serveur Http Apache2 =====
+
+==== Activation du module SSL ====
+
+Pour que le protocole SSL puisse fonctionner avec le Serveur HTTP Apache2, il faut activer le module **ssl** avec la commande :
+  sudo a2enmod ssl
+puis recharger la configuration d'Apache2 faites :
+  sudo service apache2 force-reload
+Ou si vous êtes sur une ancienne version d'Ubuntu :
+  sudo /etc/init.d/apache2 force-reload
+
+==== Création du certificat ====
+
+Installer si necessaire le package :   (déjà installé sous Lucid)
+
+<code>sudo apt-get install ssl-cert</code>
+
+Pour générer un certificat auto-signé avec Ubuntu, il nous suffit de taper les commandes suivantes dans un terminal :
+  * Créer le certificat ssl :<code>sudo make-ssl-cert /usr/share/ssl-cert/ssleay.cnf /etc/ssl/private/localhost.pem</code>
+  * Pour un certificat d'autorité gratuit => [[http://startssl.com|StartSSL]] ( Ne provoque pas d'exception de sécurité sur le navigateur )
+  * troisième option : suivre ce [[tutoriel:comment_creer_un_certificat_ssl|tutoriel]]
+  * Une autre option est d'utiliser les certificats let's encrypt, gratuits et reconnus par les navigateurs 
+
+<note important>Suivre ensuite la //méthode 1// pour la //Configuration Apache2//.</note>
+
+
+=== Hardy Heron ===
+
+On peut créer son certificat SSL auto signé en [[:tutoriel:comment_installer_un_paquet|installant le paquet]] **openssl**. FIXME -> Il est aussi possible d'installer **ca-certificates**, mais ça ne semble pas utile dans le cas d'un certificat auto-signé.
+
+Plutôt que de repartir de l'ancien script, je propose de se baser sur [[http://httpd.apache.org/docs/2.0/ssl/ssl_faq.html#selfcert|la documentation de apache]].
+  sudo openssl req -x509 -nodes -days 365 -newkey rsa:1024 -out /etc/apache2/server.crt -keyout /etc/apache2/server.key
+
+**Explications :**
+  * **-x509 -nodes** donne le type de certificat voulu
+  * **-days 365** indique la durée de validité (en jours) de votre certificat
+  * **-newkey rsa:1024** demande une clé RSA de 1024 bits - d'après la doc apache, il est déconseillé de créer une clé plus grosse pour des histoires de compatibilité
+  * **-out /etc/apache2/server.crt** est le chemin de votre certificat
+  * **-keyout /etc/apache2/server.key** est le chemin de la clé privée
+
+Répondez alors aux questions posées :
+  Country Name (2 letter code) [GB]:
+Entrez **FR** si vous êtes situé en France et validez par la touche « Entrée »
+  State or Province Name (full name) [Some-State]:
+Entrez **FRANCE** et validez par la touche « Entrée » 
+  Locality Name (eg, city) []:
+Indiquez ici le nom de votre ville. (//exemple :// **CAEN**)  et validez par la touche « Entrée »
+  Organization Name (eg, company; recommended) []:
+Indiquez le nom de votre organisation, de votre société. (//exemple :// **france-hosting**) et validez par la touche « Entrée ». Si vous n'avez pas de société, vous pouvez mettre un nom fictif, le nom de notre site Web par exemple.
+  Organizational Unit Name (eg, section) []:
+Indiquez ici le nom de la section de votre organisation, de votre société. Si vous n'en avez pas, mettez la même chose que pour la question précédente.
+  Common Name (eg, YOUR name) []:
+Ici, il convient de faire particulièrement attention à ce que vous allez entrer. Vous devez indiquer le __nom de domaine__ que vous désirez sécuriser. En ce qui nous concerne, il s'agit du domaine : **nuxwin.com**. Nous indiquons donc **nuxwin.com** et nous validons par la touche « Entrée ».
+  Email Address []:
+Ici, il s'agit d'indiquer l'adresse E-mail de l'administrateur. En ce qui nous concerne, il s'agit de : admin@nuxwin.com. Nous terminons bien entendu en validant par la touche « Entrée ».
+
+Enfin, on empêche les curieux de lire notre clé privée :
+  sudo chmod o-rw /etc/apache2/server.key
+
+<note important>Peut importe la méthode ou le chemin des certificats il doivent être pointer dans la configuration SSL pour que celle ci fonctionne. **nano /etc/apache2/sites-available/default-ssl.conf**</note>
+Mentionner, dé-commenter (avec #) ou modifier le chemin des certificats précédemment généré dans le fichier default-ssl.conf, il est présent dans 
+"/etc/apache2/sites-available/". 
+
+
+Ligne par defaut
+  SSLCertificateFile /etc/ssl/certs/ssl-cert-snakeoil.pem
+  SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key
+  SSLCertificateChainFile /etc/apache2/ssl.crt/server-ca.crt                
+Ligne modifier
+  #SSLCertificateFile /etc/ssl/certs/ssl-cert-snakeoil.pem #on dessactive cette ligne
+  SSLCertificateChainFile /etc/apache2/server.crt 
+  SSLCertificateKeyFile /etc/apache2/server.key
+
+On active la configuration 
+  a2ensite default-ssl.conf
+On relance apache
+  service apache2 restart
+On fait un test 
+  openssl s_client -connect localhost:443
+
+//[[:utilisateurs:djullius|djullius]] Le 02/05/2017, 07:01//
+
+<note important>Suivre ensuite la //méthode 2// pour la //Configuration Apache2//.</note>
+
+==== Configuration Apache2 ====
+
+=== Méthode 1 : en se basant sur la configuration du site par défaut ===
+
+  * Se placer dans le dossier de configuration des sites apache : <code>cd /etc/apache2/sites-available/</code>
+  * Recopier la configuration par défaut pour la nouvelle configuration ssl :<code>sudo cp default ssl</code>
+  * Assigner le port ssl :<code>sudo sed -i '1,2s/\*:80/*:443/' ssl</code>
+  * Ajouter les directives ''SSLEngine On'' et ''SSLCertificateFile /etc/ssl/private/localhost.pem'' à la configuration :<code>sudo sed -i "3a\\\tSSLEngine On\n\tSSLCertificateFile /etc/ssl/private/localhost.pem" ssl</code>
+  * Activer la configuration du site ssl :<code>sudo a2ensite ssl</code>
+
+=== Méthode 2 ===
+
+== Ajout de la directive Listen 443 ==
+
+Par défaut, Apache2 est configuré pour écouter sur le port 80. Il s'agit là de la configuration usuelle d'un Serveur Web. Cependant, le protocole SSL a besoin d'un port spécifique pour pouvoir fonctionner. Il s'agit du **port 443**.
+
+Nous allons donc rajouter une directive de configuration nommée **Listen** qui permettra d'indiquer à Apache2 qu'il doit aussi écouter sur le port 443.
+
+Pour ce faire, [[:tutoriel:comment_editer_un_fichier|éditez le fichier]] **/etc/apache2/ports.conf** et rajoutez la ligne suivante :
+  Listen 443
+
+== Création du fichier de configuration ==
+
+Ayant déjà configuré notre hôte virtuel **nuxwin.com**, un fichier de configuration nommé **nuxwin.com.conf** doit exister dans le répertoire **/etc/apache2/sites-available**.
+
+Voici le contenu de ce fichier : 
+<code>
+<VirtualHost 192.168.0.2:80>
+	DocumentRoot /var/www/nuxwin.com
+	ServerName nuxwin.com
+</VirtualHost>
+</code>
+**Note :** Il s'agit ici du contenu minimal d'un virtualhost.
+
+Pour sécuriser cet Hôte Virtuel, nous allons donc devoir modifier ce fichier en y ajoutant un hôte virtuel accessible sur le **port 443**, ce dernier contenant des directives particulières qui sont les suivantes :
+
+  - Directive **SSLEngine** :\\ Cette directive permet d'activer le moteur SSL au sein d'un hôte virtuel, Elle peut prendre deux arguments --> **on/off**
+  - Directive **SSLCertificateFile** :\\ Cette directive définit le certificat authentifiant le Serveur auprès des clients. L'argument est le chemin d'accès au certificat. En ce qui nous concerne, le certificat se trouve dans le répertoire **/etc/apache2/**
+  - Directive **SSLCertificateKeyFile** :\\ Cette directive définit la clé privée du Serveur utilisée pour signer l'échange de clé entre le client et le serveur. Elle prend en argument le chemin d'accès à la clé (fichier). Dans notre cas, la clé se trouve dans le répertoire **/etc/apache2/**.
+
+Par ailleurs, comme nous l'avons déjà fait pour notre hôte virtuel accessible sur le **port 80**, nous allons devoir rajouter une directive **NameVirtualHost** qui permettra que l'adresse nommée par le nom de notre hôte virtuel accessible sur le **port 443** soit résolue correctement.
+Nous rajouterons donc cette directive (//NameVirtualHost 192.168.0.2:443//) au début de notre fichier de configuration.
+
+Enfin, afin que les clients puissent continuer d'accéder au site Web en tapant une url de type **http** et non **https**, nous allons modifier l'hôte virtuel accessible sur le **port 80** en remplaçant la directive **DocumentRoot** par une directive de redirection.
+
+Voici donc le contenu de notre fichier une fois modifié :
+<file>
+NameVirtualHost	 192.168.0.2:443
+
+<VirtualHost 192.168.0.2:80>
+    ServerName nuxwin.com/
+    Redirect / https://nuxwin.com/
+</VirtualHost>
+
+<VirtualHost 192.168.0.2:443>
+	ServerName nuxwin.com
+	DocumentRoot /var/www/nuxwin.com
+
+	SSLEngine on
+	SSLCertificateFile /etc/apache2/server.crt
+	SSLCertificateKeyFile /etc/apache2/server.key
+</VirtualHost>
+</file>
+
+
+==== Relance du serveur HTTP Apache2 ====
+Afin que les modifications que nous venons d'effectuer soient prises en compte, nous devons demander au **Serveur Http Apache2** de relire ses fichiers de configuration.
+
+Pour ce faire, il suffit de taper la commande suivante dans un terminal :
+  sudo /etc/init.d/apache2 reload
+Normalement, si tout s'est bien passé, vous devriez désormais avoir accès à votre site Web de manière sécurisée.
+----
+
+====Voir aussi====
+**(fr)** [[https://lafibre.info/cryptographie/tuto-https/|Ubuntu 14.04 : Tutoriel pour chiffrer un site web gratuitement en 14 étapes simples]]
+
+**(fr)** [[http://www.it-connect.fr/configurer-le-ssl-avec-apache-2%ef%bb%bf/|Configurer le SSL avec Apache 2]] sur IT-Connect
+
+**(fr)** [[http://www.magdiblog.fr/divers/creer-une-passerelle-securisee-avec-un-raspberry-pi/|Exemple complet avec authentification client par certificat]]
+
+//Contributeurs : [[utilisateurs:M. DECLERCQ]], [[utilisateurs:_Enchained]], [[utilisateurs:anthony43]], [[utilisateurs:davy014]], [[utilisateurs:Id2ndR]]//

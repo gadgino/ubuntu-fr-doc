@@ -1,0 +1,227 @@
+{{tag>Xenial jeu émulation}}
+====== Émulateurs de consoles de jeux ======
+===== Préalables ====
+**[[wpfr>Émulateur|Définition d'un émulateur…]]**
+==== Dépôts et dépendances utiles ====
+===Dépôts utiles===
+Assurez vous d'avoir [[:tutoriel:comment_modifier_sources_maj|activé les dépôts]] **//Multiverse//** et/ou **Universe** car certains émulateurs y sont disponibles.
+
+Des dépôts avec des versions plus récentes de certains émulateurs vous seront parfois proposés.
+<note important>L'ajout de dépôts externes peut entraîner l'instabilité de votre système. Vous les utilisez à vos risques et périls.</note>
+=== Compilation===
+Si l'émulateur n'est disponible qu'en sources ou binaires, veuillez bien lire la documentation (FAQ, Readme, Install) pour savoir quelles sont les dépendances [[:tutoriel:comment_installer_un_paquet|à installer]].
+
+Parmi les dépendances les plus communes en cas de [[compilation]] : **libpng**, **zlib**, **build-essential**, **nasm**, **libgtk2.0** ou **libgtk1.2**, **libsdl**, **libasound2 libasound2-dev libegl1-mesa-dev libgles2-mesa-dev cmake qtbase5-dev qtmultimedia5-dev libqt5opengl5-dev libopenal-dev libsdl2-dev **
+==== Éléments de configuration ====
+La plupart des émulateurs de console se configurent de la même manière, mais certains sont plus configurables que d'autres. Nous indiquons ici quelques éléments de configuration de base à connaître pour s'y retrouver à peu près dans l'utilisation de n'importe quel émulateur.
+
+  * **Lancer un jeu** : dans bon nombre de cas, cliquez sur fichier en haut à gauche, puis open rom, open rom image, open, ou disk, etc. À noter que de nombreux émulateurs de machines les plus anciennes (jusqu'à la Nintendo 64) prennent en charge les roms compressés (au format zip en général).
+  * **Arrêter un jeu** sans arrêter l'émulateur : Fichier > Close.
+  * **Paramètres vidéo** : préférences, display ou vidéo.
+  * Modifier la « **pixellisation** » : dans les paramètres vidéo, cherchez Filtres, Appliquer un filtre ou //Filter//, et essayez les différents filtres proposés pour lisser l'image. Certains émulateurs permettent de combiner lissage et //scanlines// (fines lignes horizontales atténuant le crènelage)
+  * **Taille de la fenêtre** : option scale ou changer la taille (1x, 2x, 2x, etc).
+  * **Résolution interne** : Très intéressante pour la 3D (donc à partir de la Playstation, Saturn, Nintendo 64, Nintendo DS, etc) : cette option augmente réellement la résolution de l'image, puisque tous les éléments en 3D sont recalculés avec en autres une meilleure finesse. Les résultats pour des jeux PSP ou Nintendo DS peuvent être spectaculaires, mais cela demande un ordinateur très performant.
+  * **Améliorer la vitesse** : Dans quelques cas (Yabause et d'autres), on peut essayer d'activer l'option //Dynamic Recompiler//, mais quelques jeux peuvent ne pas la supporter. Plus basiquement, l'option **Frameskip** permet de diminuer le nombre d'images de l'animation. Il est souvent déterminé automatiquement par l'émulateur, mais si un jeu s'avère un peu poussif, définir //Frameskip// à 2 peut résoudre le problème sans diminuer sensiblement la qualité de l'affichage. Un saut d'images plus élevé dégrade en général beaucoup trop le jeu. À noter que **si la vitesse est au contraire trop importante**, cette option //Frame Limiter// peut arranger les choses. 
+  * **Mettre en pause** quand vous n'utilisez pas l'émulateur : Pause when inactive, Mettre en pause quand l'émulateur n'a pas le focus.
+  * Définir les **touches du clavier** : pas toujours facile à trouver, cherchez Pad, Configure pad, Joypad.
+<note tip>
+Bien que généralement optionnelle, [[:materiel#carte_video|une accélération 3D]] fonctionnelle est conseillée.
+</note>
+
+Les **manettes de jeu** //(joysticks)// sont automatiquement reconnues et accessibles //via// ''/dev/js0'' pour le premier joueur, ''/dev/js1'' pour le second joueur, etc. et la plupart des émulateurs les prennent en charge, certains permettent même de les configurer de façon précise.
+
+<note important>Cette page n'a pas pour but d'être exhaustive : seuls sont listés les émulateurs en développement actif ou anciens mais toujours fonctionnels.</note>
+=====Odyssey =====
+{{ https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Magnavox-Odyssey-Console-Set-FL.jpg/800px-Magnavox-Odyssey-Console-Set-FL.jpg?200}}
+Sortie en 1972, l'Odyssey de Magnavox est la première console de jeux vidéos.
+  * [[http://www.pong-story.com/odyemu.htm|Odyemu]] est un émulateur MS-DOS qui fait fonctionner quelques jeux. Il faut toutefois émuler l'émulateur avec [[DOSBox]].
+
+===== Deuxième génération (1976-1983) =====
+Ce sont les consoles 8 bits de deuxième génération. Cette époque est dominée par l'Atari 2600, mais plusieurs autres consoles se vendent à des millions d'exemplaires.
+
+Fonctionnent plus ou moins bien avec [[MAME]] : **[[APF M-1000|APF Imagination Machine/MP-1000]], Bally Astrocade*, Bandai Super Vision 8000*, [[Emerson Arcadia 2001]], [[Entex Adventure Vision]], Fairchild Channel F*, VTech CreatiVision.** (* Consoles émulées seulement par [[MAME]])
+
+==== ColecoVision ====
+{{ https://upload.wikimedia.org/wikipedia/commons/3/37/ColecoVision.jpg?200}}
+>  //Voir la page d'aide complète :// **[[ColecoVision]]**.
+
+  * [[http://fms.komkon.org/ColEm|ColEm]]
+  * [[http://atariage.com/forums/topic/240800-coolcv-emulator-for-mac-os-x-linux-windows-and-raspberry/|CoolCV]]
+==== Intellivision ====
+>  //Voir la page d'aide complète :// **[[Intellivision]]**.
+
+  * [[http://spatula-city.org/~im14u2c/intv/|jzIntv]]
+==== Magnavox Odyssey²/Videopac ====
+  * [[http://o2em.sourceforge.net/|O2EM]] : binaire, code source et front-end. Pour un tuto d'installation, voir [[http://emulvideopac.blogspot.fr/2016/03/linux-64-bits-et-emulation-videopac.html|Emulation videopac]]
+  * ou plus simplement O2EM, via [[Retroarch]]
+==== Vectrex ====
+{{ https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Vectrex-Console-Set.png/480px-Vectrex-Console-Set.png?100}}
+>  //Voir la page d'aide complète :// **[[Vectrex]]**.
+
+  * [[http://www.vectrex.fr/ParaJVE/|ParaJVE]] : très simple à utiliser.
+  * vecx, [[https://github.com/jhawthorn/vecx|GitHub]] ou via [[retroarch|RetroArch]]
+===== Atari =====
+{{ https://upload.wikimedia.org/wikipedia/commons/a/a6/Atari_Inc_logo.png?200 }}
+==== Atari VCS 2600 ====
+{{ https://upload.wikimedia.org/wikipedia/commons/d/dc/Atari2600a.JPG?150}}
+  * [[Stella]] : très bonne émulation de l'Atari 2600, projet libre et toujours actif depuis des années.
+  * [[http://www.whimsey.com/z26/z26.html|z26]], émulateur assez correct, facile à compiler.
+==== Atari 5200 ====
+  * Atari800 : [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt://atari800|atari800]]**
+  * kat5200 http://kat5200.jillybunch.com/
+==== Atari 7800 ====
+  * ProSystem disponible sous Linux par RetroArch
+==== Atari Lynx ====
+{{ https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Atari-Lynx-I-Handheld.png/800px-Atari-Lynx-I-Handheld.png?150}}
+  * [[http://handy.sourceforge.net/|Handy]], le développement de cet émulateur a été abandonné (dernière version 0.95), mais il a été repris par les projets suivants :
+    * [[Mednafen]]
+    * libretro/RetroArch
+==== Atari Jaguar ====
+  * [[http://icculus.org/virtualjaguar/|VirtualJaguar]] ([[https://github.com/mirror/virtualjaguar|GitHub]]) (activez « Use fast blitter » afin d'avoir une bonne vitesse sur de vieux ordinateurs)
+
+===== NEC =====
+==== PC-Engine/TurboGrafx-16, CD, SuperGrafx ====
+{{ https://upload.wikimedia.org/wikipedia/commons/b/b6/PC-Engine-Console-Set.jpg?200}}
+  * [[Mednafen]] PCE et PCE-Fast. Disponibles également dans RetroArch.
+  * [[http://zeograd.com/|Hu-Go!]], paquet debian 32bit.
+  * [[http://www.ouma.jp/ootake/|Ootake]], fonctionne bien sous Wine 2.3. Manette reconnue d'emblée.
+  * [[http://takeda-toshiya.my.coocan.jp|ePCEngine]] pour Windows, fonctionne avec Wine.
+==== PC-FX ====
+  * [[Mednafen]]
+===== Nintendo =====
+{{ https://upload.wikimedia.org/wikipedia/commons/2/29/NintendoLogo.png?200 }}
+==== NES ====
+>  //Voir la page d'aide complète :// **[[NES]]**.
+
+Il existe des dizaines d'émulateurs pour la NES. Les trois suivants sont considérés comme les meilleurs, leur qualité d'émulation étant quasi-parfaite :
+{{ https://upload.wikimedia.org/wikipedia/en/3/3b/8_Eyes_%28video_game_-_screenshot%29.png?200}}
+  * Mesen présente la meilleure compatibilité [[https://github.com/SourMesen/Mesen|code sur github]]
+  * [[http://forums.nesdev.com/viewtopic.php?f=3&t=6928|puNES]], l'un des émulateurs NES les plus précis, code ouvert depuis octobre 2015 ([[https://github.com/punesemu/puNES|code sur github]]).
+  * [[http://0ldsk00l.ca/nestopia/|Nestopia UE]], reprise de Nestopia qui n'était plus développé depuis quelques années, performances comparables à puNES. Code source sur [[https://github.com/rdanbrook/nestopia|GitHub]].
+
+On peut ajouter aussi cet émulateur qui fut très populaire :
+  * [[FCEUltra|FCEUX]], remplace FCEU et son interface GFCEU, compatibilité beaucoup plus faible que puNES et Nestopia.
+==== Super Nintendo ====
+{{ https://upload.wikimedia.org/wikipedia/commons/7/7e/PJ-1.jpg?300}}
+**higan/bsnes** et **Snes9x** sont les meilleurs émulateurs de la Super Nintendo et les seuls actuellement développés.
+
+Ils permettent de faire fonctionner à peu près tous les jeux. Snes9x-GTK est le plus simple à installer pour d'anciennes machines.
+
+  * [[Snes9x-GTK]] : Snes9x-GTK est un port de Snes9x embarquant une interface graphique GTK. **[[apt>snes9x-gtk|Snes9x-GTK]]** .Il n'est pas disponible par défaut dans les dépôts. Pour l'installer, ajoutez ce PPA :  ppa:random-stuff/ppa
+  * [[http://byuu.org/emulation/higan/|higan/bsnes]] : l'émulateur le plus précis de la Super Nintendo, il fait fonctionner tous les jeux commerciaux. En revanche, il a besoin d'un bon ordinateur (processeurs Intel Core-series), mais il est possible de l'utiliser en mode « performance » sur des ordinateurs pas trop vieux.
+  * [[:ZSNES]] : émulateur pour X86, très performant sur les anciennes configurations, mais compatibilité médiocre et présente des vulnérabilités.
+==== Game Boy, Game Boy Color, Game Boy Advance ====
+{{ https://upload.wikimedia.org/wikipedia/commons/3/32/Gameboy.jpg?100}}
+  * [[https://github.com/sinamas/gambatte|Gambatte]] : émulateur très fiable des Game Boy/Game Boy Color.
+  * [[https://github.com/drhelius/Gearboy|GearBoy]] est également un excellent émulateur.
+  * [[Gnuboy]] : émulateur obsolète, existe en 3 versions, SVGA,  X et une version SDL.
+VBAM et mGBA sont les deux références pour l'émulation de la Game Boy Advance :
+  * **[[https://github.com/visualboyadvance-m/visualboyadvance-m|VBA-M]]** remplace [[:Visual Boy Advance]] (abandonné en 2004) : fonctionne dès l'installation, mais il faut tout de même parfois régler quelques paramètres vidéo et de vitesse. Cette configuration reste assez simple à faire.
+  * [[https://mgba.io/|mGBA]] : émulateur récent de Game Boy Advance (interfaces Qt et SDL et noyau libretro pour RetroArch). Il émule également les Game Boy/Game Boy Color.
+
+==== Nintendo 64 ====
+L'émulation de la Nintendo 64 a toujours été médiocre, à cause de difficultés techniques, mais aussi de fréquents conflits entre développeurs. S'il est possible de jouer à presque tous les jeux, attendez-vous à de nombreux bugs et plantages.
+
+La Nintendo 64 tourne bien sur de vieux ordinateurs (+ 10 ans), type AMD64x2 avec le plugin video rice. Mais pour les meilleurs plugins, donc avec un meilleur rendu et une meilleure compatibilité, il faudra un ordinateur plus récent.
+
+  * [[mupen64|mupen64plus]], le seul bon émulateur de N64 pour Linux. Installer l'interface graphique M64Py ou mupen64plus-qt permet d'avoir tout ce qu'il faut pour jouer. Disponible également avec l'interface [[https://m64p.github.io/|m64p]] et le plugin GLideN64.
+  * [[Project64]], fonctionne moyennement dans sa version 2.1 sous Wine, installeur contenant des malwares.
+  * [[https://github.com/tj90241/cen64|CEN64]] : En cours de développement et encore peu fonctionnel, CEN64 a pour but d'émuler parfaitement la N64, mais demande de ce fait une configuration solide.
+==== Nintendo DS ====
+  * [[:desmume|DeSmuME]], émulateur libre, développement actif (pas compatible avec les manettes de jeu)
+  * [[https://github.com/StapleButter/melonDS|melonDS]], un émulateur en cours de développement depuis 2017 suite aux nombreuses plaintes concernant les pratiques discutables du développeur principal de DeSmuME.
+  * [[https://mgba.io/downloads.html|medusa]] qui sera intégré à la version 2.0 de mGBA.
+
+==== Nintendo 3DS ====
+   * [[https://citra-emu.org/|Citra]] : émulateur libre, développement actif. Certains jeux commerciaux tournent, mais sont souvent très lents. Les binaires sont disponibles sur la page de téléchargement (https://citra-emu.org/download/). Pour compiler : [[https://github.com/citra-emu/citra|GitHub]].
+
+====Nintendo GameCube et Wii ====
+  * [[:dolphin emulateur|Dolphin]] : développement très actif pour les versions Mac, Windows et Ubuntu, émule quasiment tous les jeux. Exigeant une configuration solide, notamment pour la Wii (i5). Les jeux GameCube passe correctement avec un i3.
+
+====Wii U====
+  * [[https://github.com/decaf-emu/decaf-emu|decaf-emu]] : développement actif, mais il faudra encore un bon moment avant d'avoir quelque chose de pleinement jouable.
+
+===== Sega =====
+{{ https://upload.wikimedia.org/wikipedia/commons/4/41/SEGA_logo.png?200 }}
+==== SG-1000 ====
+  * [[http://www.eidolons-inn.net/tiki-index.php?page=Kega|Kega]], n'est plus développé mais reste une référence.
+
+==== Sega Master System/Game Gear ====
+{{ https://upload.wikimedia.org/wikipedia/commons/b/b9/Ms1v1.png?200}}
+  * [[http://www.eidolons-inn.net/tiki-index.php?page=Kega|Kega]], n'est plus développé, mais demeure un émulateur performant.
+  * [[Osmose]] : [[https://github.com/coringao/osmose-emulator/releases|GitHub]]
+  * [[http://fms.komkon.org/MG/|MasterGear]], pas libre et 32bits uniquement...
+  * [[https://github.com/ocornut/meka|Meka]] : grosse interface qui plaira à certains.
+  * [[https://github.com/mattgodbolt/Miracle|Miracle]] : un émulateur disponible dans un navigateur (en javascript). ex : http://xania.org/miracle/miracle.html
+==== Sega Mega Drive/Genesis, Mega-CD, 32X ====
+{{ https://upload.wikimedia.org/wikipedia/commons/f/fe/SegaMegadrive2.jpg?150}}
+Depuis déjà quelques années, l'émulation de la Mega Drive n'est plus très active. Gens et surtout Fusion restent de bons émulateurs, mais leur développement est  abandonné.
+  * [[http://www.eidolons-inn.net/tiki-index.php?page=Kega|Kega Fusion]] : Emulateur multilingue très simple d'utilisation, offrant de nombreuses options à paramétrer, ainsi qu'un mode multijoueur en ligne. Paquet d'installation sur le site officiel : [[http://segaretro.org/images/c/ca/Kega-fusion_3.63-2_i386.deb|kega-fusion_3.63-2_i386.deb]].
+  * [[Gens-GS]] : version modifiée de Gens ; configuration facile de l'affichage, du joystick, etc. Fonctionne bien. Site officiel : [[http://segaretro.org/Gens/GS]]
+  * [[https://github.com/ekeeke/Genesis-Plus-GX/|Genesis Plus GX]] et PicoDrive (via [[retroarch|RetroArch]]) : tous deux émulent Master System, Game Gear et SegaCD. PicoDrive n'est conseillé que pour la Sega 32X.
+  * [[https://www.retrodev.com/blastem/|Blastem]] : un des rares émulateurs en cours de développement très actif en 2017.
+  * [[https://github.com/GerbilSoft/gens-gs-ii|Gens/GS II]] en cours de développement
+==== Sega Saturn ====
+  * [[mednafen]] est depuis mi-2016 le meilleur émulateur de la Saturn, avec une compatibilité et une qualité d'émulation très élevées.
+  * [[Yabause]], disponible dans les dépôts officiels, est un émulateur honnête dont la compatibilité reste cependant loin derrière mednafen, mais il est beaucoup moins gourmand en ressources et conviendra pour des machines moins récentes (voir [[http://wiki.yabause.org/index.php5?title=Compatibility_list|liste officielle]]). Le développement de cet émulateur est assez lent ([[https://github.com/Yabause/yabause|GitHub]]). Site : [[http://yabause.org/|Yabause]].
+==== Sega Dreamcast ====
+L'état général de  [[:dreamcast|l'émulation de la Dreamcast]] n'est pas très bon. Si reicast émule de nombreux jeux sous Linux, cet émulateur n'est quasiment plus développé. Fin 2016, redream est une tentative pour faire évoluer les choses (voir la [[Dreamcast|doc de la dreamcast]]).
+
+Les jeux Dreamcast sont facilement émulés par des configurations du type i3. Reicast tourne aussi très bien avec un Intel Core 2 Quad CPU Q6600 @ 2.40GHz et une bonne carte graphique, sans ralentissements notables.
+===== SNK =====
+{{ https://upload.wikimedia.org/wikipedia/fr/e/e5/SNK_logo.gif?200 }}
+==== NeoGeo ====
+{{ https://upload.wikimedia.org/wikipedia/commons/5/59/Neogeoaes.jpg?200px}}
+La NeoGeo étant une version console d'un système d'arcade, les émulateurs de jeux d'arcade suivant peuvent être utilisés :
+  * [[MAME]]
+  * [[http://www.fbalpha.com/|FinalBurn Alpha]] (disponible pour Linux en utilisant RetroArch).
+==== NeoGeo CD ====
+  * NeoRaine
+
+==== NeoGeo Pocket ====
+  * [[Mednafen]]
+
+===== Sony =====
+<note important>**Attention** : Il n'existe pas d'émulateur de Playstation 4. Les sites qui en proposent sont des arnaques. En revanche l'émulation de la Playstation 3 a commencé, mais n'est pas fonctionnelle à l'heure actuelle et demande une configuration très puissante.</note>
+==== PlayStation ====
+{{ https://upload.wikimedia.org/wikipedia/commons/2/2c/PlayStationConsole_bkg-transparent.png?150}}
+La Playstation peut être facilement émulée sur de vieux ordinateurs, type AMD64, à condition de ne pas utiliser Mednafen, trop gourmand du fait de ses très bonnes perfomances, mais plutôt PCSX ou ePSXe.
+  * **[[Mednafen]]** : très bonne compatibilité, sans doute le meilleur émulateur de la PlayStation pour Linux. N'utilise pas de plugins.
+  * **[[:ePSXe]]** : émulateur propriétaire de bonne qualité, utilisant des plugins pour gérer les multiples entrées et sorties de la PS1.
+  * **[[:PCSX-Reloaded]]** : peu compatible, bugué et instable, cet émulateur ne présente plus guère d'intérêt. Reprend [[PCSX]] et dispose des mêmes atouts que celui ci, la simplicité d'utilisation et d'installation en plus (configuration facile de l'affichage, du joystick, etc).
+==== Playstation 2 ====
+  * [[:PCSX2]] : Émulateur libre, fait tourner 95% des jeux, développement très actif. Depuis la version stable 1.4.0 l'émulateur s'est énormément amélioré et est de ce fait moins gourmand qu’auparavant. Il demande un processeur quadcore genre i5 cadencé à environ 3Ghz mais vous pouvez tenter avec un processeur dualcore de type i3 à 3Ghz +. Une carte graphique décente est aussi conseillée pour jouer en HD, autrement on se contentera d'une résolution native.
+
+==== Playstation 3 ====
+  * RPCS3 : L'un des deux émulateurs de PS3 sous Linux (l'autre émulateur, nucleus, ne semble plus développé). Il peut faire tourner quelques jeux, mais il faut un PC très puissant (i7 @ 4Ghz). Son développement a beaucoup avancé fin 2016/début 2017. Le code à compiler : [[https://github.com/RPCS3/rpcs3|GitHub]].
+==== PSP ====
+  * [[http://www.ppsspp.org/|PPSSPP]] : émulateur développé en C++, rapide et fonctionnel, fait tourner de nombreux jeux. PPA : ppa:ppsspp/stable, ou ppa:ppsspp/testing pour la version de développement.
+
+> Dans le cas où PPSSPP ne reconnaîtrait pas votre manette ou joypad, malgré le fait que votre OS le fasse, tournez vous vers [[antimicro|AntiMicro]]. Ce logiciel assigne une fonction aux boutons et axes de la manette selon les touches du clavier. PPSSPP pouvant faire fonctionner les jeux avec le clavier, il vous suffira d'assigner votre bouton ou axe de manette à la configuration clavier de PPSSPP.
+
+  * [[http://www.jpcsp.org/|Jpcsp]] :  émulateur développé en Java, peut servir de bon complément à PPSSPP
+
+===== Microsoft =====
+==== Xbox ====
+
+  * XQEMU : le développement de cet émulateur, qui est encore bien loin d'être fonctionnel, progresse sensiblement et régulièrement. À réserver aux amateurs disposant d'une configuration puissante qui pourront trouver le code à compiler sur GitHub : https://github.com/espes/xqemu
+
+==== Xbox 360 ====
+
+  * Xenia : https://github.com/benvanik/xenia (mais le support pour Linux est encore expérimental).
+===== 3DO Interactive Multiplayer =====
+  * [[http://www.arts-union.ru/node/23|Phoenix]] (fichier de traduction sur [[http://www.emu-france.com/emulateurs/5-consoles-de-salon/231-3do/|Emu-France]])
+===== Multi-consoles =====
+==== Mednafen ====
+**[[Mednafen]]**  est un émulateur multi-consoles en ligne de commande (voir [[mednafen|la page du wiki consacrée à cet émulateur]]). Mednafen émule les consoles suivantes : Atari Lynx, Neo Geo Pocket (Color), WonderSwan (Color), Virtual Boy, Game Boy (Color), Game Boy Advance, NES, Super Nintendo, PC Engine/TurboGrafx 16 (CD) et SuperGrafx, PC-FX, Mega Drive, Master System, Game Gear, Saturn et PlayStation.
+
+==== Libretro/Retroarch ====
+Libretro est une API. Il y a plusieurs émulateurs disponibles sous la forme de noyaux (<<cores>>). Utilisable avec [[retroarch|RetroArch]], interface dont l'ergonomie est peu évidente mais qui s'améliore au fur et à mesure des versions ; cela peut tout de même rebuter.
+
+  * Installable grâce au PPA : ppa:libretro/stable ou ppa:libretro/testing
+  * RetroArch est l'interface (<<frontend>>) officielle de configuration.
+  * Autre interface : [[https://github.com/team-phoenix/Phoenix|Phoenix]]
+
+Pour certains noyaux vous avez besoin des BIOS listés ici : [[http://hastebin.com/anubifesuz.coffee]]
+
+

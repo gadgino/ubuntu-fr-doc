@@ -1,0 +1,58 @@
+{{tag>Xenial Trusty Precise multimédia dvd}}
+---------
+
+====== DVDStyler : Créez vos DVD ======
+Vous avez de nombreux films de vacances, de soirées, de spectacles, etc et vous souhaitez les mettre sur un DVD ?\\
+Vous voulez épater la galerie ou tout simplement faire comme les pros et créer un menu interactif pour accéder à ces vidéos ?\\
+[[http://www.dvdstyler.org/fr/|DVDStyler]], interface graphique de [[http://dvdauthor.sourceforge.net/|dvdauthor]] va vous permettre d'y arriver en un tournemain car il s'occupe de tout jusqu'à la gravure !\\
+
+Distribué en [[wpfr>Licence_publique_générale_GNU|Licence libre GNU/GPL V2]], **DVDStyler** est multi-plateforme (%%GNU/Linux%%, Windows®, Mac-OS®) et supporte les formats de fichiers AVI, MOV, MP4, MPEG, OGG, WMV,.. ainsi que les formats audio/vidéo MPEG-2, MPEG-4, DivX, Xvid, MP2, MP3, AC-3.\\
+L'utilisation de la fonction "[[wpfr>Glisser-déposer]]" en fait une application simple et intuitive. Idéal pour débuter.
+
+Et aussi:
+  * Placement des boutons, du texte, des images et autres objets graphiques partout sur l'écran de menu;
+  * Choix des polices, de la couleur et autres paramètres des boutons et objets graphiques;
+  * Adaptation de tout objet du menu par simple glissement des contours;
+  * ...
+
+===== Installation =====
+====Via les dépôts officiels pour version d'Ubuntu <= 15.10 ====
+[[:tutoriel:comment_installer_un_paquet#paquet_present_dans_les_depots|Installez le paquet]] **[[apt>dvdstyler|dvdstyler]]**.\\
+<note warning>__**[[:trusty|Trusty 14.04 uniquement]]**__\\
+La version 2.5.2 de **DVDstyler** disponible depuis les [[:dépôts]] officiels pour [[:trusty|Trusty 14.04]] provoque un arrêt de l'application à la création du DVD.([[https://bugs.launchpad.net/ubuntu/+source/dvdstyler/+bug/1440374|bug sur Launchpad]]). La solution consiste alors à utiliser la [[#via un ppa|dernière version stable disponible depuis le PPA ci-dessous]]. 
+</note>
+
+====Via un PPA====
+//(Non disponible pour [[:precise|Precise 12.04]])// 
+<note important>Les [[:PPA|dépôts PPA]] sont des [[:dépôts]] non-officiels. Installer un paquet hors des [[:dépôts]] officiels peut présenter un risque d'instabilité pour votre système. </note>
+Vous souhaitez profiter de la toute dernière version stable de **DVDstyler**? Elle est disponible depuis un [[:PPA]].
+  - [[:ppa|Ajoutez le PPA]] **ppa:ubuntuhandbook1/dvdstyler**((https://launchpad.net/~ubuntuhandbook1/+archive/ubuntu/dvdstyler)) à vos sources de logiciels;
+  - [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste de vos paquets]];
+  - et [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>dvdstyler]]**. 
+Ou dans un [[:terminal]], saisir les [[:commande_shell|commandes]] suivantes: <code>sudo add-apt-repository ppa:ubuntuhandbook1/dvdstyler
+sudo apt-get update
+sudo apt-get install dvdstyler</code> 
+
+=====Lancement=====
+Lancez l'application depuis le [[:unity#tableau_de_bord_dash|tableau de bord d'Unity]] ou pour les menus classiques, //Multimedia - > son et vidéo -> Dvdstyler//. \\
+Ou dans un [[:terminal]] pour toutes [[:variantes]] en saisissant la [[:commande_shell|commande suivante]]:
+<code>dvdstyler</code>
+
+===== Utilisation===== 
+  
+Son interface intuitive avec la possibilité d'utiliser le "[[wpfr>Glisser-déposer]]" rend très facile sa prise en main. \\
+Un très bon [[http://www.dvdstyler.org/fr/documentation?id=103|tutoriel en français sur le site officiel]] pour vous aider à démarrer avec **DVDstyler**.
+
+=====  Désinstallation ===== 
+
+Pour supprimer cette application, il suffit de [[tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leur dossier personnel sont toujours conservés. 
+
+===== Voir aussi =====
+
+  * [[http://www.dvdstyler.org/fr/|Site officiel]].
+  * [[http://egroc.free.fr/|Guide d'utilisation de DVDStyler]]. (fr)
+  * [[ http://www.funix.org/fr/linux/creedvd.htm#DVD_authoring_avec_DVDStyler|DVD authoring avec DVDStyler]]. (fr)
+  * [[http://www.lprod.org/wiki/doku.php/association:livre_eyrolles|Livre "montage audio-vidéo libre" Editions Eyrolles - Ecrit par lprod.org]]
+
+-----
+//Contributeurs: [[utilisateurs:MBt]].//

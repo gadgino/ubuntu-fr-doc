@@ -1,0 +1,170 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="clear"><ul class="toc">
+<li class="level2"><span class="li"><a href="#wine" class="toc">Wine</a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#introduction" class="toc">Introduction</a></span></li>
+<li class="level3"><span class="li"><a href="#quelques_mythes_au_sujet_de_wine" class="toc">Quelques mythes au sujet de Wine</a></span></li>
+<li class="level3"><span class="li"><a href="#et_comment_on_l_installe" class="toc">Et comment on l'installe ?</a></span></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<a name="wine"></a><h2>Wine</h2>
+<div class="level2">
+
+</div>
+<!-- SECTION [1-16] -->
+<a name="introduction"></a><h3>Introduction</h3>
+<div class="level3">
+
+<p>
+ Wine est un composant qui permet d&rsquo;utiliser vos logiciels Windows sur Ubuntu. Son nom est un acronyme récursif qui veut dire Wine Is Not an Emulator.Actuellement en version bêta,il supporte pourtant déjà de nombreux logiciels windows et la plupart des derniers jeux vidéos populaires. Il y en a en fait un nombre énorme.Je ne vais pas tous les citer ici ,mais par exemple World Of Warcraft, SimCity, Dreamweaver et même Internet Explorer!(Si par un curieux hasard il venait à vous manquer..;-D ) 
+</p>
+
+</div>
+<!-- SECTION [17-542] -->
+<a name="quelques_mythes_au_sujet_de_wine"></a><h3>Quelques mythes au sujet de Wine</h3>
+<div class="level3">
+
+<p>
+ &ldquo;Wine est lent car c&rsquo;est un émulateur&rdquo; Non: Wine Is Not an Emulator, Wine n&rsquo;émule pas Windows et même si en théorie les programmes devraient tourner légèrement plus lentement, les programmes bien codés sous Windows marcheront plus vite que certains programmes Linux mal codés!
+</p>
+
+</div>
+<!-- SECTION [543-870] -->
+<a name="et_comment_on_l_installe"></a><h3>Et comment on l'installe ?</h3>
+<div class="level3">
+
+</div>
+
+<a name="la_version_apt-get"></a><h4>La version apt-get</h4>
+<div class="level4">
+
+<p>
+ Et bien d&rsquo;abord on édite le fichier suivant: 
+</p>
+<pre class="code">
+$ sudo gedit /etc/apt/sources.list
+</pre>
+
+<p>
+ <em> Si le fichier est vide, fermez-le, tapez </em>synaptic<em>, fermez-le, et refaites la commande précédente</em> Vérifiez que les deux lignes marquées à leur fin avec &ldquo;universe&rdquo;, sont bien décommentées (qu&rsquo;il n&rsquo;y a pas de # devant). Enregistrez le fichier si nécessaire.
+</p>
+
+<p>
+Entrez ensuite la commande suivante: 
+</p>
+<pre class="code">
+$ sudo apt-get update
+</pre>
+
+<p>
+ Cette commande a pour effet de réactualiser la liste interne des paquets disponibles sur les serveurs de ubuntu. Wine fera partie de cette liste, c&rsquo;est pourquoi nous pouvons ensuite entrez ceci: 
+</p>
+<pre class="code">
+$ sudo apt-get install wine winetools
+</pre>
+
+<p>
+ ou  
+</p>
+<pre class="code">
+$ sudo apt-get install wine wine-tools
+</pre>
+
+<p>
+ Hep Hep !!! C&rsquo;est quoi Wine-Tools ??? Eh bien mon petit, WineTools c&rsquo;est ce qui te permettra de lancer Wine en simple débutant. Allez file dans ta chambre ! Quand les deux paquets seront téléchargés et installés (et il est fort possible que ces deux paquets soient dépendants de quelques autres, si tel est le cas, ils seront aussi téléchargés), vous devrez lancer WineTools et vous lancer dans la folie Windows: 
+</p>
+<pre class="code">
+$ sudo wt2
+</pre>
+
+</div>
+
+<a name="la_version_cvs_snapshoot"></a><h4>La version CVS Snapshoot</h4>
+<div class="level4">
+
+<p>
+ Wine est en développement constant, et il n&rsquo;est pas rare qu&rsquo;il bugue ou qu&rsquo;il plante, sachez aussi que la version de Wine distribuée par <em>apt-get</em> (ou Synaptic, qui n&rsquo;est qu&rsquo;une interface graphique de <em>apt-get</em>) n&rsquo;est pas forcément à jour, et les bugs que vous obtiendrez avec la version <em>apt-get</em> seront sûrement corrigés dans la version <acronym title="Concurrent Versions System">CVS</acronym>.   Hep Hep !!! C&rsquo;est quoi la version <acronym title="Concurrent Versions System">CVS</acronym> ??? Tu en poses des questions ! La version <acronym title="Concurrent Versions System">CVS</acronym> eh bien c&rsquo;est tout simplement le code source qui est directement récupéré chez les développeurs, comme ça la version est toute fraîche et constament mise à jour... Mais je t&rsquo;avais pas dis d&rsquo;aller dans ta chambre ???
+</p>
+
+<p>
+Pour récupérer la version <acronym title="Concurrent Versions System">CVS</acronym>.... eh bien il vous faut <acronym title="Concurrent Versions System">CVS</acronym> (pas bête !!!). Donc à moins de récupérer la version <acronym title="Concurrent Versions System">CVS</acronym> de <acronym title="Concurrent Versions System">CVS</acronym>  <img src="/smileys/icon_doubt.gif" align="middle" alt=":-/" />, on va plutot récupérer la version <em>apt-get</em> (oui oui c&rsquo;est mieux): 
+</p>
+<pre class="code">
+$ sudo apt-get install cvs
+</pre>
+
+<p>
+ Le paquet (et ses dépendances) sera donc installé et nous pourrons enfin télécharger la toute dernière version de Wine !!! A nous Windows !!! 
+</p>
+<pre class="code">
+$ export CVSROOT=:pserver:cvs@rhlx01.fht-esslingen.de:/home/wine
+</pre>
+
+<p>
+ Ici nous indiquons à <acronym title="Concurrent Versions System">CVS</acronym> que le serveur auquel nous nous connecterons est le serveur, basé en Europe, de Wine. Nous allons maintenant nous connecter au serveur: 
+</p>
+<pre class="code">
+$ cvs login 
+</pre>
+
+<p>
+ Et là on vous demande un mot de passe, eh bien entrez tout simplement <em>cvs</em> (ouaaaaah). Maintenant on va récupérer wine: 
+</p>
+<pre class="code">
+$ cvs -z 0 checkout wine
+</pre>
+
+<p>
+ <acronym title="Concurrent Versions System">CVS</acronym> va maintenant créer le répertoire <em>wine</em> et récupérer tous les fichiers sur le serveur <acronym title="Concurrent Versions System">CVS</acronym>... Ensuite le reste se fait comme quand vous compilez un programme basique: 
+</p>
+<pre class="code">
+$ ./configure
+$ make
+$ make install
+</pre>
+
+<p>
+ A noter que WineTools ne fonctionne pas avec la toute dernière version de Wine, du moins à l&rsquo;heure où j&rsquo;écris ce petit tutoriel.
+</p>
+
+</div>
+
+<a name="lancer_un_programme"></a><h4>Lancer un programme</h4>
+<div class="level4">
+
+<p>
+ On y arrive !!! Alors maintenant disons que vous souhaitez installer Winrar (il marche très bien), téléchargez votre fichier comme si vous étiez sous windows, vous obtiendrez donc votre beau <em>Winrarxx.exe</em>. Lancer un terminal, placez vous dans votre répertoire de téléchargement, et entrez: 
+</p>
+<pre class="code">
+$ wine Winrarxx.exe
+</pre>
+
+<p>
+ xx étant bien sûr la version de Winrar ainsi récupérée, utilisez la touche &lt;TAB&gt; (les deux flèches) pour compléter le nom. L&rsquo;installation se lance, Vous choisissez où installer le programme, etc... L&rsquo;installation se termine, on indique les associations de fichiers et on clique sur <em>ok</em>... 
+</p>
+
+<p>
+MAIS OU EST PASSE WINRAR ???? Eh bien dans <em>Program Files</em> !!! N&rsquo;oublies pas que tu es sous Windows ! Pour ouvrir on va donc entrer: 
+</p>
+<pre class="code">
+$ wine &quot;C:\Program Files\Winrar\winrar.exe&quot;
+</pre>
+
+<p>
+ Le chemin dépend évidement de l&rsquo;endroit où vous avez décompressé Winrar lors de l&rsquo;installation. Winrar se lance, et voilà c&rsquo;est fini !
+</p>
+
+<p>
+<strong>Téléchargement, Installation, Utilisation de Wine par Kmeleon <a href="mailto:&#x6b;&#x6d;&#x65;&#x6c;&#x65;&#x6f;&#x6e;&#x33;&#x40;&#x66;&#x72;&#x65;&#x65;&#x2e;&#x66;&#x72;" class="mail" title="&#x6b;&#x6d;&#x65;&#x6c;&#x65;&#x6f;&#x6e;&#x33;&#x40;&#x66;&#x72;&#x65;&#x65;&#x2e;&#x66;&#x72;">&#x6b;&#x6d;&#x65;&#x6c;&#x65;&#x6f;&#x6e;&#x33;&#x40;&#x66;&#x72;&#x65;&#x65;&#x2e;&#x66;&#x72;</a></strong> 
+</p>
+
+</div>
+<!-- SECTION [871-] -->

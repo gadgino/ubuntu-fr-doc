@@ -1,0 +1,31 @@
+{{tag>Trusty Precise ubuntu_studio linux kernel}}
+----
+====== Noyau temps réel Linux-lowlatency ======
+
+Un **[[wpfr>Noyau_de_système_d'exploitation#Noyaux_temps_r.C3.A9el|noyau temps réel]]** est un [[:kernel|noyau]] spécialisé qui a pour fonction de base stricte de garantir les temps d’exécution des tâches. Un usage spécifique pour l'informatique domestique est la [[:mao|musique assistée par ordinateur]], puisque le noyau temps réel permet de réduire la [[wpfr>latence]] lors de l'enregistrement.
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+Il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>linux-lowlatency]]**\\
+<note>Une [[:variantes|variante d'Ubuntu]] appelée **Ubuntu Studio** est conçue pour fonctionner avec le noyau temps réel, cette variante propose de nombreuses applications pour la création musicale. Pour plus de détails, consultez la page [[:Ubuntu Studio]].</note>
+  * Il existe un [[http://forum.ubuntu-fr.org/viewtopic.php?pid=21611581#p21611581|Script]]: Pour installer la dernière version **Release Candidate** ou la dernière version **Lowlatency** du noyau
+===== Utilisation du noyau temps réel =====
+Une fois le noyau installé, vous n'avez plus qu'à redémarrer et choisir la version du noyau "lowlatency" dans le menu de démarrage [[:grub-pc|GRUB]], rubrique "Options avancées pour Ubuntu".
+
+=====Désinstallation====
+Pour désinstaller un noyau, consultez [[:kernel|cette page]].
+
+===== Voir aussi =====
+
+  * [[http://sourceforge.net/projects/freertos/|FreeRTOS Real Time Kernel (sur SourceForge)]], un noyau temps réel pour les systèmes embarqués de type ARM et autres
+  * [[http://sourceforge.net/projects/art-linux/|Advanced Real-Time Linux (sur SourceForge)]], un noyau temps réel spécialisé pour la robotique
+  * [[http://www.xenomai.org/index.php/Building_Debian_packages|Xenomai]], un framework de développement temps réel
+
+
+----
+//Contributeurs ://

@@ -1,0 +1,66 @@
+{{tag>Lucid calcul_numérique mécanique BROUILLON}}
+----
+
+====== Code_Saturne ======
+
+Code_Saturne est un logiciel généraliste de Mécanique des Fluides Numérique (CFD). C'est un logiciel libre sous licence GPL, développé par EDF.
+
+Code_Saturne permet de modéliser les écoulements incompressibles ou dilatables, avec ou sans turbulence ou transfert de chaleur. Des modules dédiés sont disponibles pour des physiques particulières comme le transfert de chaleur par rayonnement, la combustion (gaz, charbon pulvérisé, fioul lourd, ...), la magnéto-hydrodynamique, les écoulements compressibles, les écoulements polyphasiques (approche Euler/Lagrange avec couplage inverse), ou bien des extensions à des applications spécifiques (par exemple Mercure_Saturne pour les écoulements atmosphériques).
+
+{{ http://innovation.edf.com/fichiers/fckeditor/Commun/Innovation/logiciels/logocs_petit.jpg }}
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+Si vous désirez compiler le code source, les paquets de base à installer sont les suivants:
+  * Installer un compilateur [[::fortran|fortran]] [[apt>gfortran|gfortran]]
+  * Installer la librairie [[apt>pyqt4-dev-tools|PyQt4-dev-tools]] pour l'interface graphique
+  * Installer [[apt>libptscotch-dev|libptscotch-dev]] pour le traitement des graphiques, mesh,
+  * Installer le gestionnaire de version [[apt>subversion|subversion]] si vous n'utilisez pas le code source présent sur le site web
+===== Installation =====
+
+==== Via les PPA ====
+
+sudo apt-get install code-saturne
+
+==== Via le code source ====
+
+
+Pour installer ce logiciel, il suffit de suivre les instructions données sur la [[http://research.edf.com/research-and-the-scientific-community/software/code-saturne/introduction-code-saturne-80058.html|page "Téléchargement" du site Code Saturne.]]
+
+Voir aussi [[http://code-saturne.org/cms/|cette page]] en complément.
+
+Téléchargez une version [[http://code-saturne.org/cms/download/3.0|stable]] ou les sources avec [[:subversion|svn]]:
+
+  svn checkout http://code-saturne.org/svn/saturne/trunk saturne
+  cd saturne
+  ./configure
+  make
+  sudo make install 
+
+Il vous faut un compilateur fortran: **[[apt>gfortran]], [[apt>pyqt4-dev-tools|PyQt4-dev-tools]]**
+===== Configuration =====
+
+FIXME
+
+===== Utilisation=====
+
+FIXME 
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, le configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi =====
+
+  * **(fr)** [[http://innovation.edf.com/recherche-et-communaute-scientifique/logiciels/code-saturne/presentation-45341.html|site EDF présentant le logiciel]]
+  * **(en)** [[https://code-saturne.info/products/code-saturne|Site officiel]] avec, entre autres, son forum officiel.
+  * **(en)** [[http://cfd.mace.manchester.ac.uk/twiki/bin/view/Saturne/WebHome|Twiki de l'université de Manchester]] des infos, des cas test et autres.
+  * **(fr)** [[http://caelinux.com/|Site de la distribution CAElinux]] (voir notamment [[http://caelinux.com/CMS/index.php?option=com_joomlaboard&Itemid=52&func=showcat&catid=18|son forum]])
+  * **(en)** [[http://code-saturne.blogspot.com|Free your CFD.]] Blog contenant des infos sur la CFD libre et notamment des tutoriels d'installation de Code_Saturne.
+
+
+----
+//Contributeurs principaux : [[:utilisateurs:YannUbuntu]], [[:utilisateurs:ZondeR]].//

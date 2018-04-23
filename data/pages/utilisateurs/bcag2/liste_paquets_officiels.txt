@@ -1,0 +1,26 @@
+il peut-être intéressant de connaître la liste des paquets officiels liée à une version desktop, server, lubuntu, xubuntu...
+afin de vérifier la présence d'un paquet, la version...
+
+Il suffit de consulter packages.ubuntu.com/nom_de_la_distribution ... exemples actuels : [[http://packages.ubuntu.com/trusty/]], [[http://packages.ubuntu.com/xenial/]]
+
+... et des paquets pas forcément officiels mais souvent utilisés (un peu voir très personnel) :\\
+GRAPHISME : \\ gthumb gimp inkscape exiv2 imagemagick rawtherapee darktable phatch camorama\\
+INTERNET : \\ filezilla chromium-browser ekiga owncloud-client  lamp : apache2 mysql php5 phpmyadmin\\
+JEUX : \\ supertux supertuxkart gnuchess swell-foop flightgear \\
+SON ET VIDEO : \\ vlc shotcut kazam\\
+PROGRAMMATION : \\ g++ gcc git doxygen doxygen-gui doxygen-doc graphviz\\
+SYSTÈME : \\ gparted cifs-utils\\
+openjdk-8-jre icedtea-8-plugin vim hplip-gui\\
+PERSONNALISATION: \\
+wallch\\
+
+pour les installer, vous pouvez faire quelques chose du style :\\
+<code> sudo apt-get install -y vlc gimp filezilla </code>
+
+Suppression des polices //exotiques//, vous pouvez rechercher avec:
+<code>dpkg -l fonts*</code>
+puis les désinstaller:
+<code>sudo apt-get remove fonts-tlwg-* fonts-japanese* fonts-k* fonts-la* fonts-lk* fonts-lo* fonts-na* fonts-sil* fonts-t* fonts-not*</code>
+
+modif hosts à partir de 
+http://rlwpx.free.fr/WPFF/hosts.htm … voir aussi peerguardian

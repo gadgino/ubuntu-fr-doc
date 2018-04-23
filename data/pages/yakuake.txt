@@ -1,0 +1,46 @@
+{{tag> terminal console}}
+
+----
+
+====== Yakuake : Terminal graphique ======
+
+== De l'intérêt des terminaux graphiques ==
+La console est sans doute la meilleure amie du Linuxien, car on se rend vite compte qu'elle est indispensable à un nombre important de tâches d'administration et de reconfiguration (exemple : la [[compilation]]).
+== Un problème bien futile ==
+Or, sous Linux, pour entrer une commande en console, l'utilisateur dispose de deux solutions : le [CTRL][ALT][F1] si effrayant pour le débutant et les terminaux en fenêtre comme xterm ou gnome-terminal.
+Le problème de la deuxième solution (inutile de répéter ceux de la première LOL ), est que la fenêtre prend énormément d'espace et beaucoup de temps à s'ouvrir.
+== Zorro est arrivé ==
+C'est ici qu'arrive Yakuake, le Zorro des terminaux graphiques, monté sur son  cheval Qt et qui trace des Y sur les docks de KDE.
+Le programme, une fois ouvert depuis le Menu K, tourne en arrière plan, pour lancer une commande, il suffit de  presser une touche, par défaut F12.
+Notez que le programme s'intègre mieux dans un bureau KDE, car il utilise les bibliothèques Qt.
+
+=====Pré-requis=====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+Pour installer Yakuake, il suffit d'[[:tutoriel/comment_installer_un_paquet|installer]] le paquet [[apt://yakuake|yakuake]].
+
+=====Configuration=====
+
+Il semblerait que certaines personnes rencontrent des problèmes avec l'enregistrement des modifications de profil de Yakuake.\\
+Pour résoudre ce problème fermez Yakuake (croix en bas à droite), éditez les profiles depuis Konsole (lancer Konsole puis configuration > configurer les profils), faites vos modifications.\\
+Au redémarrage de Yakuake, le profil est le même que celui de Konsole
+=====Utilisation=====
+
+Touche F12
+
+=====Désinstallation=====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+==== Voir aussi ====
+
+  * [[:Guake]], [[:Terminator]] et [[:Tilda]] des logiciels similaires pour Gnome.
+
+  * **(en)** [[http://yakuake.kde.org/|Site du projet]]
+
+----
+
+//Contributeurs : daypitoum//

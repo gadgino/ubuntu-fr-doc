@@ -1,0 +1,210 @@
+{{tag>variante lxde}}
+----
+
+{{ :lubuntu.png?100|}}
+
+====== Lubuntu ======
+
+**Lubuntu** est une variante d'Ubuntu dont [[environnements|l'environnement de bureau]] est [[LXDE]] (comme [[Kubuntu]] a pour environnement de bureau [[KDE]]). Depuis le 11 mai 2011, **Lubuntu** est une [[:variantes#variantes_reconnues|variante reconnue d'Ubuntu]]((http://www.h-online.com/open/news/item/Lubuntu-to-become-official-Ubuntu-derivative-1241561.html)).
+
+<note important>Pour assurer un compromis de compatibilité avec le nouveau matériel, **Lubuntu** ne convient plus à partir de [[:Precise|Precise 12.04]] à des machines équipées de moins de 512Mo de RAM et d'un processeur de moins de 800 MHz.</note>
+
+
+
+
+<note important>__**Lubuntu Precise 12.04**__\\
+Attention :!: Bien qu'étant une [[#variantes#variantes_reconnues|variante reconnue]], Lubuntu Precise 12.04 n'était pas une [[:lts|version LTS (Long Term Support)]]  mais une version "intermédiaire", supportée pendant 18 mois. Elle est donc maintenant [[:old-releases|en fin de vie]] depuis novembre 2013. Voir: [[https://help.ubuntu.com/community/Lubuntu#Lubuntu_12.04_is_not_an_LTS|Lubuntu 12.04 is not an LTS]]. 
+Ceci était dû simplement à un défaut de "main d’œuvre" pour rendre possible le support durant 5 ans.
+
+Lubuntu 14.04 est la **première version de Lubuntu qui soit une [[:LTS]]** et a donc un support étendu durant 3 ans (se termine en avril 2017 [[https://fr.wikipedia.org/wiki/Lubuntu#Historique_de_versions|source]]).
+</note>
+
+
+{{wiki:lubuntu_lucid_01.png?500}}
+
+=====Principales différences avec Ubuntu=====
+
+
+Utilisant [[environnements|l'environnement de bureau]] [[lxde|LXDE]] (encore plus léger que Xfce), **Lubuntu** est particulièrement recommandé pour les vieux ordinateurs (ou [[netbook|netbooks]]) équipés d'au moins <del>256 Mio</del> 512 Mo de [[wpfr>Mémoire_vive|RAM]]. Grâce à cette légèreté, cette [[:variantes|variante]] est une solution intéressante aussi pour des questions de moindre consommation en énergie (donc autonomie des ordinateurs portables).
+
+Cette [[:variantes|variante d'Ubuntu]] embarque par défaut (([[https://wiki.ubuntu.com/Lubuntu/Applications]])) :
+  * [[:pcmanfm|PCManFM]] comme [[gestionnaire de fichiers]]
+  * [[:OpenBox]] comme [[gestionnaire_de_fenetres|gestionnaire de fenêtres]]
+  * [[:lightdm]] comme [[fenetre_de_connexion|gestionnaire de connexion]]
+  * [[firefox|Navigateur web Mozilla Firefox]] comme navigateur web
+  * [[:Sylpheed]] comme client de courriel
+  * [[:Audacious]] comme lecteur audio  
+  * [[:Gnumeric]] comme tableur
+  * [[:Abiword]] comme traitement de texte
+  * [[:leafpad]] comme [[éditeur de texte]]
+  * [[:mtpaint]] comme logiciel d'édition d'images
+  * [[:GPicView]] comme visionneuse d'images
+  * [[:guvcview]] comme logiciel de capture vidéo
+
+=====D'autres captures d'écran=====
+
+{{wiki:lubuntu_lucid_02.png?300|PCMan File Manager permet aussi de lancer des programmes}}
+{{wiki:lubuntu_lucid_03.png?300|Page d'accueil d' ubuntu-fr.org dans Chromium}}
+
+
+  * [[http://www.thecodingstudio.com/opensource/linux/screenshots/index.php?linux_distribution_sm=Lubuntu%2012.10|Autres captures d'écran de Lubuntu 12.10 Quantal]]
+  * [[http://www.thecodingstudio.com/opensource/linux/screenshots/index.php?linux_distribution_sm=Lubuntu%2013.04|Autres captures d'écran de Lubuntu 13.04 Raring]]
+
+===== Téléchargement =====
+
+Vous pouvez télécharger Lubuntu sur le site officiel de la variante, ou sur le site officiel d'Ubuntu, les miroirs ainsi que sur Ubuntu-Fr !
+
+Bien entendu, le téléchargement par BitTorrent (permettant à la communauté de faire des économies de bande passante) est disponible et recommandé.
+
+Téléchargez Lubuntu 16.04 depuis [[http://cdimages.ubuntu.com/lubuntu/releases/16.04/release/|le site officiel]] et [[:tutoriel/comment_verifier_l_integrite_de_son_image_cd|vérifiez votre image CD]].
+
+=====Installation=====
+====Par live-cd ====
+
+Cette méthode demande un minimum de <del>384 Mio</del> 512 Mo de [[wpfr>Mémoire_vive|RAM]] avec la "Desktop image" de Lubuntu Trusty 14.04.
+====Par live-USB====
+Voir [[:live_usb|cette page]].
+
+==== Par "Alternate install image" ====
+Si votre ordinateur dispose de moins de <del>384 Mo</del> 768Mo de mémoire vive (RAM), l'installation depuis le [[live_CD|live-CD]] Lubuntu [[:trusty|Trusty 14.04]] devrait être impossible.
+Il faut alors utiliser l'image "Alternate install image" qui permet de faire une installation en mode texte.
+
+====Par paquet ====
+
+<note important>Cette méthode ne remplace pas votre installation existante d'Ubuntu mais la complète en installant en plus de celles présentes, toutes les applications de **Lubuntu** (et leurs lanceurs), ce qui est difficile à annuler. Pour éviter ce problème, essayez **Lubuntu** en [[:virtualisation]] ou en dual-boot via le live-CD.</note>
+
+Vous pouvez installer le bureau **Lubuntu** et ses applications depuis une installation existante d'Ubuntu (ou une [[variante]]) en [[:tutoriel:comment_installer_un_paquet|installant le méta-paquet]] **[[apt>lubuntu-desktop|lubuntu-desktop]]**. \\
+Vous pourrez ensuite choisir votre bureau lors de la [[:lightdm|connexion à votre session]] en cliquant sur le bouton représentant le logo Lubuntu en haut à droite de l'écran de connexion (au moment où le mot de passe vous est demandé) pour sélectionner **Lubuntu** (ou lubuntu netbook).
+ 
+Remarque : l'écran de connexion va basculer sur celui de Lubuntu (LightDM version LUbuntu). Un second redémarrage peut s'avérer nécessaire.
+
+=====Configuration=====
+
+==== Applications au démarrage  ====
+Voici comment rajouter des applications au démarrage de session. Exemple avec [[radiotray|RadioTray]] :
+  - Aller dans le menu "Préférences" -> "Default apps for LXSession"
+  - Dans l'onglet "Autostart", sous "Manual autostarted applications", taper "radiotray", et cliquer sur Ajouter.
+  - Relancer la session.
+
+==== Verrouiller la touche Num ====
+
+Pour verrouiller la touche <Num> au démarrage, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>numlockx]]**.
+
+==== Ouverture automatique de session ====
+Il faut [[:tutoriel/comment_modifier_un_fichier|créer ou modifier le fichier]] **''/etc/lightdm/lightdm.conf''**. Pour cela, dans un [[:terminal]], saisir la [[:commande_shell|commande]] suivante: <code>sudo leafpad  /etc/lightdm/lightdm.conf</code> Le contenu du fichier doit être le suivant :<file>
+[SeatDefaults]
+autologin-user=votre_nom_d_utilisateur
+autologin-user-timeout=0
+user-session=Lubuntu
+greeter-session=lightdm-gtk-greeter</file>Adapter évidemment votre_nom_d_utilisateur au nom d'utilisateur souhaité.\\
+Pour __éviter__ la connexion automatique au démarrage, commenter les 2 premières lignes en les faisant commencer par le caractère **#** :<file>
+[SeatDefaults]
+# autologin-user=votre_nom_d_utilisateur
+# autologin-user-timeout=0
+user-session=Lubuntu
+greeter-session=lightdm-gtk-greeter</file>
+
+
+====Modifier les programmes du menu ====
+
+En utilisant le gestionnaire de menu **[[:Alacarte]]**. Vous pouvez l'appeler par Menu / Préférences / Main Menu
+
+=====Problèmes=====
+
+====Perte du tableau de bord inférieur ====
+
+Voici le lien du topic que j'ai lancé pour régler mon problème de bouton Shutdown. En effet, après avoir installé la version 10.10 et créé un tableau de bord supérieur pour l'utiliser comme dock, le tableau de bord inférieur a disparu et donc le bouton d'extinction également. Je l'ai donc recréé mais impossible de trouver le bouton shutdown dans les applications disponibles à installer. ([[http://forum.ubuntu-fr.org/viewtopic.php?id=444751|Source]])
+
+La solution (qui a parfaitement fonctionné pour moi) a été de rajouter le code ci-dessous, dans le fichier ~/.config/lxpanel/Lubuntu/panels/panel (dans mon cas personnel le [[:tutoriel/comment_modifier_un_fichier|fichier à modifier]] était "bottom" mais le principe reste le même).
+
+<file>
+Plugin {
+    type = launchbar
+    Config {
+        Button {
+            id=lubuntu-logout.desktop
+        }
+    }
+}
+</file>
+
+====Problèmes de son ====
+
+Article détaillé : [[:audio|Le son sous GNU/Linux]].
+
+====Pas de son / carte Wi-Fi ne fonctionne pas===
+
+L'absence de son est souvent liée à une carte Wi-Fi ne disposant pas d'une configuration correcte.
+
+Se reporter à [[wifi| documentation Wi-Fi]] afin de configurer correctement le Wi-Fi d'abord. Il est ensuite probable que le problème soit résolu.
+
+====Le bouton « Muet » du clavier ne fonctionne pas====
+
+<note>Ce tutoriel s'adresse uniquement aux utilisateurs de Lubuntu 12.04, qui est une version en fin de vie (elle n'est plus soutenue). Il est déconseillé d'utiliser ou d'installer Lubuntu 12.04 désormais.</note>
+
+Sous Lubuntu Precise 12.04, il semble que le bouton « activer/désactiver le son » du clavier ne fonctionne pas (impossible de réactiver le son).\\
+La solution est relativement simple, il suffit de [[:tutoriel/comment_modifier_un_fichier|modifier le fichier]] de configuration de Lubuntu :
+<code> leafpad .config/openbox/lubuntu-rc.xml </code>
+Chercher alors la section //<!-- Keybinding for Volume management -->//, et remplacer la ligne 
+<file>
+        <command>amixer -q sset Master toggle</command>
+</file>
+        
+par
+
+<file>
+        <command>amixer -D pulse set Master toggle</command>        
+</file>
+(Ceci permet de transmettre correctement la commande « unmute » à Pulse).
+
+Sous Lubuntu 16.04 :
+Les commandes "augmenter" et "diminuer" ne fonctionnaient pas. Le principe est le même que ci dessus. Il faut remplacer deux lignes 
+
+<file>
+          <command>amixer -q sset Master 3%+ unmute</command>
+</file>
+
+et
+
+<file>
+         <command>amixer -q sset Master 3%- unmute</command>
+</file>
+
+par celles ci : 
+ 
+<file>
+         <command>amixer -D pulse set Master 3%+ unmute</command>
+</file>
+
+et
+
+<file>
+        <command>amixer -D pulse set  Master 3%- unmute</command>
+</file>
+
+Les changements nécessitent un redémarrage. 
+==== Son muet et absence de l'icône volume sonore ====
+
+Sous Lubuntu [[:trusty|Trusty 14.04]], l'installation de [[apt>pulseaudio, gnome-alsamixer|pulseaudio et gnome-alsamixer]] permettent de résoudre ce problème.
+Le redémarrage de la session permet de voir apparaître l'applet du volume sonore. [[http://ubuntuforums.org/showthread.php?t=997506|Source Forum Ubuntu]]
+
+==== Pas d'icône d'impression en notification ====
+
+Sous Lubuntu, il peut arriver que, lorsqu'on lance une impression, aucune icône n'apparaisse dans la zone de notification, ce qui rend plus difficile l'annulation des travaux en cours.
+
+Pour y remédier, il faut [[:tutoriel/comment_modifier_un_fichier|modifier le fichier]] ///etc/xdg/autostart/print-applet.desktop//. Pour cela, 
+  - Dans un [[:terminal]], saisir la [[:commande_shell|commande]] suivante: <code>sudo leafpad /etc/xdg/autostart/print-applet.desktop</code>
+  - À la ligne //NotShowIn//, il faut supprimer « LXDE; » pour ne laisser que les autres bureaux :<file>NotShowIn=KDE;Unity;GNOME;</file>
+  - Redémarrer ensuite la session.
+
+=====Voir aussi======
+
+  * **(fr)** [[http://fr.wikipedia.org/wiki/Lubuntu|Lubuntu sur Wikipédia]]
+  * **(en)** [[http://lubuntu.net|Light Ubuntu for faster computing]]
+  * **(en)** [[http://lubuntu.lafibre.info/|Téléchargement de Lubuntu]], [[https://help.ubuntu.com/community/Lubuntu/GetLubuntu|sur le site officiel]]
+  * **(fr)** [[http://forum.ubuntu-fr.org/viewtopic.php?id=399144|Alternative à Lubuntu: "Obuntu"]]
+----
+
+//Contributeurs : [[:utilisateurs:HacKurx]], [[:utilisateurs:lowje]], yoritomo, [[:/utilisateurs:albanmartel]]//
+
+//Article en partie inspiré et images reprises de l'article [[http://gilir.wordpress.com/2010/05/03/lubuntu-premiere|Lubuntu, première !]]//

@@ -1,0 +1,50 @@
+{{tag>bureautique pdf }}
+----
+ 
+====== Livret ======
+ 
+Livret est un petit programme libre écrit en Java permettant de créer des petits livres à partir d’un document au format PDF. Il crée, à partir d’un fichier source PDF, deux fichiers contenant les rectos et les versos prêts à être imprimés et agrafés.
+
+ {{http://www.biotechno.fr/IMG/png/principe_mode_livret.png?500}}
+
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir Java 1.5 minimum d'installé
+ 
+===== Installation =====
+  - Récupérer le paquet .deb sur [[http://www.biotechno.fr/Livret-v0-2.html|la page du logiciel]]
+  - Pour installer ce logiciel, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] .deb téléchargé (il est possible d'avoir un message de warning qui est prévisible car le paquet n'a pas été créé spécifiquement pour Ubuntu mais pour Debian), pour cela il faut entrer la ligne de commande :
+<code>sudo dpkg -i livret.deb && sudo apt-get -f install</code>
+
+ Installation sans problème sous kubuntu 15.10 par double.clic sur fichier .deb.    À noter que l'auteur n'est plus accessible.
+ 
+===== Utilisation =====
+ 
+Lancez l'application via le [[:terminal]] (toutes versions d'Ubuntu) avec la [[:commande_shell|commande]] suivante :
+<code>livret</code>
+ 
+{{http://www.biotechno.fr/IMG/png/livret_en_fonctionnement.png?500}}
+
+<note help>
+
+d'après la [[http://www.framasoft.net/article4854.html|notice de Framasoft]] :
+//«Une fois votre document exporté en PDF « traditionnel » à l’aide de l’option idoine de votre logiciel, ou grâce à une imprimante PDF, il vous suffit de le sélectionner dans le logiciel, de régler éventuellement les marges, votre type d’imprimante (jet d’encre ou laser ; avec support de recto-verso ou non), et si vous désirez le fichier en un ou deux PDF (un recto, l’autre verso ; très utile pour les imprimantes non recto-verso !), le dossier de destination si différent de celui d’origine, et voilà !»
+
+«La rapidité du programme est exemplaire, deux secondes pour un livre de 128 pages, réduit à 64 pages (soit 32 feuilles A4 recto-verso !). Ce logiciel n’a pas d’autres options, mais il fait ce pour quoi il est prévu réellement vite et bien. Une perle pour tous ceux qui ne disposent pas d’une telle option sur leur imprimante !»//</note>
+===== Désinstallation =====
+ 
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+ 
+===== Voir aussi =====
+ 
+  * **(fr)** [[http://www.biotechno.fr/Livret-v0-2.html|Page référençant le logiciel]]
+  * **(fr)** [[http://www.framasoft.net/article4854.html|Notice Framasoft du logiciel]]
+
+
+ 
+----
+//Contributeurs principaux : [[utilisateurs:bionet|Bionet]].//
+ 
+//Basé sur [[http://wayback.archive.org/web/20100706100428/http://brunetton.tuxfamily.org/index.php?n=Main.Livret|la page du site]] de Bruno Duyé (auteur du logiciel).//

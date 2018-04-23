@@ -1,0 +1,165 @@
+{{tag>application_domestique télévision A_RECYCLER}}
+
+----
+
+====== OnTV, programme TV ======
+
+
+<note warning>ontv semble ne plus fonctionner à ce jour (07/11/2010)</note>
+
+===== Le besoin =====
+
+Il y a quelques temps de ça, en ayant marre d'aller voir en permanence sur www.programme-tv.net les programmes du soir, je me suis posé la question de savoir s'il n'existait pas un logiciel qui pourrait automatiquement rapatrier les programmes TV du jour, un peu à la manière d'un agrégateur de flux RSS.
+
+Il existe un outil qui fait ca très bien c'est On TV.
+
+{{:ontv_9.04_01.png?500|}}
+
+===== Le format XMLTV =====
+
+
+Mais qu'est-ce donc ?((Source: [[http://www.lahiette.com/biboobox/?XMLTV|Biboobox]]))
+
+> [[http://www.xmltv.org|XMLTV]] est un paquet logiciel écrit en perl qui définit un format de description de programmes TV (le DTD xmltv) et des outils associés. Ces outils consistent principalement en des récupérateurs, qui récupèrent les informations de programmes TV sur des sites Web et qui les formatent en XMLTV.
+
+===== Sous Ubuntu 9.04 Jaunty =====
+
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **ontv** disponible dans les [[:depots#universe_et_multiverse|dépôts Universe]]
+[[apt://ontv|{{apt.png}}]]
+
+Sous Jaunty, l'installation est beaucoup plus simple qu'auparavant. Il suffit d'installer le paquet ontv présent dans les dépôts et d'en suite ajouter l'applet ontv sur un tableau de bord. Un écran de configuration se lancera pour vous demander les chaines désirées. A la fin de ce processus qui peut être très long suivant le nombre de chaines désirés, un fichier xmtv sera téléchargé et enfin vous pourrez afficher votre programme tv!
+
+Pour avoir le détails des émissions en faisant un clic droit dessus, il suffit de rajouter le paramètre --slow dans les préférences de ontv. Pour cela clic droit dessus puis préférence. Dans Commande d'acquisition rajouter le paramètre --slow comme ceci: tv_grab_fr --slow --output /home/votre_nom/.xmltv/tv_grab_fr.xml
+
+Le fichier xmtv téléchargé contient les programmes des 7 prochains jours. Il faut donc le mettre à jour une fois par semaine en faisant un clic droit mise à jour des programmes tv. Une solution plus élégante consiste à rajouter une commande dans anacrob pour le télécharger tous les 3 jours:
+
+  sudo gedit /etc/anacrontab 
+
+en y ajoutant la ligne
+
+  3	20	grab.xmltv	 tv_grab_fr --quiet --slow --output /home/votre_nom/.xmltv/tv_grab_fr.xml
+
+De cette manière, le fichier .xml sera mis à jour tous les 3 jours, sachant que sa validité est d'une semaine.
+
+<note important>
+Les url ne sont plus les bonnes...
+Il faut remplacer le fichier /usr/bin/tv_grab_fr par http://www.lahiette.com/biboobox/download/tv_grab_fr en attendant que le nouveau binaire arrive dans les dépôts... (Prévu ?)
+</note>
+<note important>
+Le tv_grab_fr de www.lahiette.com ne semble pas être le bon. Essayer plutôt le tv_grab_fr des sources du lien  http://sourceforge.net/projects/xmltv/files/latest/download?source=files .
+</note>
+
+
+==== OnTV ==== 
+(Sur gutsy gibbon les logos se mettent en place automatiquement)
+
+Il faut tout d'abord installer ontv si vous ne l'avez pas fait à l'étape précédente :
+<code none>sudo apt-get install ontv</code>
+ou [[apt://ontv]]
+
+<note important>21 mars 2008 : les URL de télépoche ont changé récemment. Pour que xmltv fonctionne à nouveau, il faut remplacer le fichier /usr/bin/tv_grab_fr par http://www.lahiette.com/biboobox/download/tv_grab_fr</note>
+
+Ensuite, pour ajouter l'applet **OnTV** à votre tableau de bord ; faites donc un clic-droit sur la barre de menu principale de votre GNOME et cliquez sur « Ajouter au tableau de bord », sélectionnez ensuite l'applet « OnTV » qui se trouve dans la catégorie « Accessoires » :
+
+{{applications:gnome-app-install:applet.png}}
+
+Une icône s'ajoute alors à votre tableau de bord, faites un clic-droit dessus puis choisissez « Préférences ».
+Dans la zone « Fichier XMLTV » cliquez sur parcourir, puis sélectionnez votre fichier XMLTV généré auparavant (attention ce fichier est dans un dossier caché, pour le voir cliquez droit dans la zone de sélection des fichiers, puis « Afficher les fichiers cachés »), votre fichier devrait logiquement se trouver dans /home/votre_nom_de_login/.xmltv/tv_grab_fr.xml.
+Une fois le fichier sélectionné, allez dans l'onglet « Chaînes » et cochez celles que vous désirez : 
+
+{{applications:gnome-app-install:generaltv.png}}
+
+{{applications:gnome-app-install:chaines.png}}
+
+Voilà la configuration est maintenant terminée ; il suffit de dire à OnTV de mettre à jour les programmes TV. Pour cela, cliquez droit sur l'icône dans le tableau de bord et choisissez « Recharger le fichier XMLTV ».
+
+==== Enfin... ====
+
+
+Un simple clic sur l'icône de OnTV suffit alors pour afficher les programmes en cours et/ou ceux à venir...
+
+{{applications:gnome-app-install:action.png}}
+
+=== Pour peaufiner ===
+
+
+
+=== Logos des chaînes ===
+
+[[http://blog.uggy.org/|Yannick]] a créé un script qui permet de récupérer les images des chaînes de télévision.
+
+En effet, il a remarqué qu'il était possible d'ajouter le logo des chaînes dans les préférences d'OnTV, en cliquant avec le bouton droit sur une chaîne, apparaît la commande « add logo ». L'ennui, c'est qu'il ne va pas chercher automatiquement les images des chaînes. Yannick a donc créé un script qui se base sur votre configuration et qui permet de récupérer toutes les images de vos chaînes. Dans une console, taper :
+
+  cat ~/.xmltv/tv_grab_fr.xml | head -200 | grep http | grep .GIF | awk '{print $ 2}' | awk -F '"' '{print $2}' | xargs wget
+
+(à modifier éventuellement en fonction de l'emplacement et du nom de votre fichier xml)
+
+Les images récupérées sont en gif, il faut donc sélectionner le format gif lorsque vous faîtes « add logo » et non png (par défaut) :
+
+{{applications:gnome-app-install:pref.png}}
+
+et voici le résultat :
+
+{{applications:gnome-app-install:newontv.png}}
+
+=== Détails des émissions ===
+
+La plupart des programmes TV sont accompagnés d'un petit descriptif. On peut y accéder par un clic droit sur l'émission. Alors si vous tenez absolument à connaître à l'avance le résumé d'un épisode riche en rebondissements de l'inspecteur Derrick, ou de savoir si vous devez enregistrer la prochaine recette de Joël Robuchon, xmltv vous donnera pleinement satisfaction !
+Pour cela, suivez tout d'abord une configuration normale de xmltv, de façon à ce que le fichier /home///utilisateur///.xmltv/run-tv-grab soit créé.
+
+  * Lancez ensuite :
+
+  tv_grab_fr --configure --slow
+
+Le programme vous demandera notamment pour quels types d'émissions ainsi que la plage horaire pour laquelle vous désirez les détails.
+
+  * Éditez run-tv-grab :
+
+    gedit ~/.xmltv/run-tv-grab
+
+Remplacez :
+
+  OPTIONS="--quiet"
+
+par :
+
+  OPTIONS="--quiet --slow"
+
+  * Il ne reste plus qu'à mettre à jour le fichier .xml :
+
+  ~/.xmltv/run-tv-grab
+
+Attention, ça peut prendre du temps (plus d'une heure si vous avez sélectionné beaucoup de chaînes).
+
+=== Mise à jour programmée du fichier XML ===
+
+OnTV ne met pas à jour le contenu du fichier XML comme on pourrait le croire, il se contente de mettre à jour les programmes en cours et à venir. Pour mettre à jour périodiquement votre fichier XML, nous utiliserons [[http://www.delafond.org/traducmanfr/man/man8/anacron.8.html|anacron]]. Installez-le si ce n'est déjà fait, puis éditez le fichier anacrontab :
+
+  sudo gedit /etc/anacrontab 
+
+en y ajoutant la ligne
+
+  2	20	grab.xmltv	~/.xmltv/run-tv-grab
+
+De cette manière, le fichier .xml sera mis à jour tous les 2 jours, sachant que sa validité est d'une semaine.
+
+
+==== Pour les Belges et autres ====
+
+Pour les programmes tv Belge penser à changer fr par be lors des lignes de commandes et le tour est joué...
+
+==== Pour les utilisateurs de Kde ====
+
+Il existe un logiciel d'affichage des programmes télé pour Kde. Celui-ci s'appelle  Maxemum TV-Guide et peut être récupéré dans le dépôt Universe.
+
+===== Voir aussi =====
+
+  * [[http://live.gnome.org/OnTV|Site officiel]]
+  * [[https://launchpad.net/~flamingolof/+archive/ontv/|Dépôt Ontv pour version à Precise ]]
+  * [[http://www.tatane.com/index.php/programme-tv-sous-ubuntu]]
+
+Voir aussi la page de [[:qmagneto|QMagneto]]
+
+----
+
+//Contributeurs : [[utilisateurs:Tatane]], [[utilisateurs:CLark17]], [[utilisateurs:Herbie]].//

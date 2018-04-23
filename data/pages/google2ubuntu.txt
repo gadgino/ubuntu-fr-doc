@@ -1,0 +1,133 @@
+{{tag>Precise reconnaissance_vocale BROUILLON}}
+----
+ 
+<note>Le projet a été officiellement abandonné en septembre 2014, Google l'ayant rendu inopérant depuis mai 2014 (abandon API v1).
+[[http://handylinux.org/forum/viewtopic.php?f=12&t=1836]]</note>
+
+====== Google2Ubuntu ======
+ 
+Google2Ubuntu est un outil libre (GPLv3) permettant d'utiliser la reconnaissance vocale de Google sur Ubuntu.
+
+Principe: cet outil nécessite une connexion Internet, il acquiert votre voix dans un fichier audio, l'envoie à Google qui nous retourne alors le texte prononcé. On peut alors lier certaines actions à certains mots.
+
+J'ai récemment repris le projet dans le but de le simplifier et de le rendre plus souple. Pour cela, toute la structure du projet a été revue et le code a totalement été réécrit en Python.
+
+<note important>Il s'agit d'un outil en cours de développement, à utiliser à vos propres risques. Vous pouvez y contribuer via [[http://forum.ubuntu-fr.org/viewtopic.php?id=804211|cette discussion]] sur le forum ubuntu-fr. </note>
+
+
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+ 
+===== Installation =====
+Le projet est disponible sur Github: [[https://github.com/benoitfragit/google2ubuntu]]
+
+==== Installation via ppa ====
+<code>
+sudo add-apt-repository ppa:benoitfra/google2ubuntu
+sudo apt-get update
+sudo apt-get install google2ubuntu
+</code>
+ 
+
+==== Installation "manuelle" ====
+<code>
+sudo apt-get install bash python python-gi python-simplejson libsox-fmt-mp3 sox libnotify-dev acpi xdotool
+wget https://github.com/benoitfragit/google2ubuntu/archive/master.zip
+unzip master.zip
+rm master.zip
+cd google2ubuntu-master
+chmod +x INSTALL
+./INSTALL
+</code> 
+
+<note important>Ceci est l'ancienne installation avec le fichier INSTALL. Aujourd'hui, il n'existe plus. La procedure d'installation doit etre mise à jour</note>
+
+===== Configuration =====
+
+==== Configuration basique ====
+ 
+google2ubuntu se veut extensible mais il n'y a pas besoin de le configurer.
+L'application fonctionne grâce à un unique fichier de configuration:
+<code>
+~/.config/google2ubuntu/google2ubuntu.conf
+</code>
+
+Ce fichier regroupe l'ensemble des actions que l'utilisateur veut lancer avec des phrases.
+Ainsi le formatage de chaque ligne est du type:
+<code>
+[O/o]uvre*documents=xdg-open ~/Documents &
+</code>
+
+La première partie avant le "=", est la phrase clé c.a.d. la phrase à prononcer pour lancer l'action voulue.
+Justement l'action est la seconde partie de la ligne.
+
+Au premier lancement, si le fichier de conf est absent on charge un fichier minimal:
+<code>
+/usr/share/google2ubuntu/default.conf
+</code>
+
+Trois types de commandes peuvent être ajoutées:
+  * Commandes basiques: Comme celle présentée plus haut
+  * Commandes internes: Commande qui fait appel a des fonction codée dans google2ubuntu.py le but étant d'en avoir le moins possible
+  * Modules: Des modules sont des scripts externes que l'on peut appeler
+==== Gestion des commandes ====
+
+La gestion des commandes se fait via une interface graphique développée en Python+Gtk3. 
+On ajoute une commande en cliquant sur "Ajouter". On peut choisir d'ajouter un certain type de commandes. Une ligne pré-remplie est ajoutée à vos commandes.
+
+=== Ajout d'une commande basique ===
+
+Si vous ajouter une commande basique, la ligne est de cette forme:
+<code>phrase clé  commande</code>
+Il faut alors modifier chacun des 2 champs comme dans l'exemple de partie précédente
+
+=== Ajout d'une commande interne ===
+Si vous ajouter une commande interne:
+<code>phrase clé  interne/mot</code>
+Il suffit juste de modifier le terme "mot" par "heure" ou "batterie". Pour l'instant, il n'y a que ces commandes qui ont été implémentées.
+
+=== Ajout d'un module ===
+== Constitution d'un module ==
+Un module est un ensemble de 2 fichiers regroupés au sein d'un dossier. Ces fichiers sont l'exécutable du module et le fichier de configuration. Deux exemples sont installés par défaut weather et search dans <code>~/.config/google2ubuntu/modules</code>
+
+Un module est donc constitué d'un fichier exécutable (script) et d'un fichier nommé args.
+Il va servir à envoyer les paramètres au script. Ce fichier args doit contenir 2 paramètres:
+  * linker = " à " # qui va servir à séparer l'appel du module du texte à lui envoyer
+  * spacebyplus = 0  # qui sert à transformer si 1, les espaces en +
+
+== Choisir un module ==
+Pour choisir un module, cliquer sur "Ajouter" puis "Module". Une fenêtre de sélection de fichier s'ouvre. Rendez-vous dans le dossier du module et cliquez sur le script. Le programme vérifie qu'il y a bien le fichier args et copie le dossier dans le dossier regroupant les modules.
+Si tout est bon, une nouvelle ligne s'ajoute automatiquement dans votre liste de commande, ex:
+<code>phrase clé  /modules/search/search.sh</code>
+Il vous suffit alors de modifier la phrase clé comme vous le souhaitez
+===== Utilisation =====
+Pour ajouter les commandes comme décrit plus haut, il suffit de chercher l'application :
+<code>google2ubuntu-manager</code> 
+
+Ensuite, lancez l'outil de reconnaissance, en cherchant l'application:
+<code>google2ubuntu</code>
+
+Une notification sonore et une notification vous signal que vous pouvez parler. Votre voix est enregistrée pendant 5 secondes et envoyée à Google. Celui-ci, nous retourne la traduction. On cherche ensuite l'action associée aux mots proconcés
+
+===== Désinstallation =====
+=== Désinstallation après installation via ppa ===
+Il faut desinstaller l'application puis supprimer le ppa => à compléter pour les détail
+
+=== Désinstallation après installation manuelle ===
+Pour supprimer cette application, il suffit d'utiliser le script de désinstallation fournit dans l'archive et de le lancer:
+<code>
+chmod +x UNINSTALL
+./UNINSTALL
+</code>
+
+<note important>Cette partie doit etre mise à jour car le fichier UNINSTALL n'existe plu</note>
+===== Voir aussi =====
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=804211|Discussion « Google2Ubuntu »]] sur le forum Ubuntu-fr
+  * [[http://handylinux.org/forum/viewtopic.php?f=19&t=740|Discussion  « Google2Ubuntu »]] sur le forum Handylinux-fr (lien mort)
+  * [[reconnaissance_vocale|Reconnaissance vocale]]
+
+----
+
+//Contributeurs principaux : [[:utilisateurs:benoitfra]], [[:utilisateurs:YannUbuntu]].//

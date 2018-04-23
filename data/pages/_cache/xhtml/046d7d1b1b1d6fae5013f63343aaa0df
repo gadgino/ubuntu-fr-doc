@@ -1,0 +1,86 @@
+
+<a name="ajout_des_privileges_super-utilisateur_sudo_a_un_utilisateur"></a><h1> Ajout des privilèges super-utilisateur (sudo) à un utilisateur </h1>
+<div class="level1">
+<pre class="code">Version Hoary</pre>
+
+<p>
+ <em>Rédigé par L&rsquo;ami René : <a href="mailto:&#x6c;&#x61;&#x6d;&#x69;&#x40;&#x77;&#x65;&#x62;&#x65;&#x73;&#x74;&#x72;&#x69;&#x65;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x6c;&#x61;&#x6d;&#x69;&#x40;&#x77;&#x65;&#x62;&#x65;&#x73;&#x74;&#x72;&#x69;&#x65;&#x2e;&#x63;&#x6f;&#x6d;">&#x6c;&#x61;&#x6d;&#x69;&#x40;&#x77;&#x65;&#x62;&#x65;&#x73;&#x74;&#x72;&#x69;&#x65;&#x2e;&#x63;&#x6f;&#x6d;</a></em>
+</p>
+
+<p>
+Le tutoriel suivant vous permet d&rsquo;ajouter un utilisateur à la liste des personnes pouvant disposer (temporairement) des droits du super-utilisateur (<em>root</em>) à l&rsquo;aide de la commande <code>sudo</code>.  Il a été testé avec Ubuntu et Kubuntu 5.04.
+</p>
+
+<p>
+Pour cela, il vous faut modifier le fichier <code>/etc/sudoers</code> (en mode super-utilisateur) en lui ajoutant une ligne avec le nom de l&rsquo;utilisateur auquel vous voulez permettre l&rsquo;accès aux permissions du super-utilisateur.
+</p>
+
+<p>
+1. Menu principal : Applications &rArr; Outils système &rArr; Terminal
+</p>
+
+<p>
+Dans la nouvelle fenêtre qui s&rsquo;ouvre, taper &ldquo;su -&rdquo; et confirmer par la touche Entrée, puis entrer le mot de passe du compte root : 
+</p>
+<pre class="code">su -
+&lt;MotDePasseDuRoot&gt;</pre>
+
+<p>
+ 2. Pour éditer le fichier avec l&rsquo;éditeur de texte Nano, copier la commande suivante : 
+</p>
+<pre class="code">nano /etc/sudoers</pre>
+
+<p>
+ 3. Avec les touches de déplacement, ajouter cette ligne à la fin du fichier : 
+</p>
+<pre class="code">&lt;Identifiant_de_l_utilisateur&gt; ALL=(ALL) ALL</pre>
+
+<p>
+ 4.Exemple du contenu : 
+</p>
+<pre class="code"># /etc/sudoers
+# This file MUST be edited with the 'visudo' command as root.
+# See the man page for details on how to write a sudoers file.
+# Host alias specification
+# User alias specification
+# Cmnd alias specification
+# Defaults
+Defaults	!lecture,tty_tickets,!fqdn
+# User privilege specification
+root	ALL=(ALL) ALL
+# Members of the admin group may gain root privileges
+rene	ALL=(ALL) ALL</pre>
+
+<p>
+ 5. Les touches Ctrl+O, pour enregistrer la modification.
+</p>
+
+<p>
+6. Les touches Ctrl+X, pour fermer le logiciel nano.
+</p>
+
+<p>
+7. Les touches Ctrl+D, pour fermer la console root.
+</p>
+
+<p>
+8. Les touches Ctrl+D, pour fermer la console utilisateur.
+</p>
+
+<p>
+9. Je vérifie si cela fonctionne en lançant le logiciel Synaptic, le gestionnaire graphique d&rsquo;installation de paquetage.
+</p>
+
+<p>
+10. Menu principal : Système &rArr; Administration &rArr; Gestionnaire de paquets Synaptic.
+</p>
+
+<p>
+11. Je tape mon mot de passe utilisateur normal, pas le super utilisateur root.
+</p>
+
+<p>
+Voilà, le tour est joué. 
+</p>
+
+</div>

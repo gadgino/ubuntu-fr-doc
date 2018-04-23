@@ -1,0 +1,224 @@
+
+<p>
+Problèmes de démarrage - Grub 
+</p>
+<pre class="code"> 1. Introduction
+ 2. Qu'est-ce Grub ?
+ 3. Conventions d'écriture pour désigner les disques et partition
+ 4. La prévention: une disquette de démarrage
+ 5. Restaurer Grub
+ 6. Ajouter windows au menu de démarrage
+ 7. Les fichiers de Grub ont disparu !
+ 8. En savoir plus sur Grub</pre>
+
+<p>
+ Introduction
+</p>
+
+<p>
+Grub est le chargeur de système installé par défaut avec Ubuntu. Suite à l&rsquo;installation d&rsquo;un autre système d&rsquo;exploitation ou d&rsquo;une éventuelle erreur de manipulation, il arrive que ce programme soit malmené. Ce qui peut aboutir à l&rsquo;impossibilité de démarrer votre machine sous Linux ! Le but de ce document est de vous aider à rebondir face à ce genre de situation. Qu&rsquo;est-ce Grub ?
+</p>
+
+<p>
+Grub signifie en anglais GRand Unified Bootloader. Il s&rsquo;agit donc d&rsquo;un chargeur de système (en anglais boot loader, qu&rsquo;on écrit parfois en un mot). Un chargeur de système est le premier programme executé par un ordinateur. C&rsquo;est lui qui affiche le menu qui vous permet de choisir entre les différents noyaux Linux disponibles et les éventuels autres systèmes d&rsquo;exploitation, différents d&rsquo;Ubuntu, également installés sur votre machine. Si votre ordinateur ne parvient plus à lancer le démarrage d&rsquo;Ubuntu, il est fort probable que la cause de ce problème soit une modification, voire mme un effacement, de ce programme. Conventions d&rsquo;écriture pour désigner les disques et partition
+</p>
+
+<p>
+Grub désigne les disques et partitions présentes sur votre machine d&rsquo;une manière différente que celle utilisée par Ubuntu.
+</p>
+
+<p>
+Avec Grub, les disques et les partitions sont identifiés à l&rsquo;aide d&rsquo;expressions écrites entre parenthèses. Si par exemple on souhaite désigner le lecteur de disquettes, on écrira (fd0). &lsquo;fd&rsquo; signifie qu&rsquo;on s&rsquo;intéresse au lecteur de disquettes. Le &lsquo;0&rsquo; est là pour indiquer qu&rsquo;il s&rsquo;agit du premier lecteur de disquettes. Si on possède un deuxième lecteur de disquettes, celui-ci sera désigné par (fd1). Notez que mme si l&rsquo;on ne possède qu&rsquo;un seul lecteur, il est nécessaire de mentionner le &lsquo;0&rsquo;.
+</p>
+
+<p>
+Pour désigner un disque dur, on utilise la mme notation en remplaant &lsquo;fd&rsquo; par &lsquo;hd&rsquo;. Comme pour les lecteurs de disquettes, la numérotation des disques commence à &lsquo;0&rsquo;. Le disque /dev/hda est donc désigné par (hd0). Pour indiquer une partition, on fait suivre l&rsquo;expression entre parenthèse par une virgule et le numéro attribué à la partition. Commme pour les lecteurs, la numérotation débute à &lsquo;0&rsquo;. La notation utilisée pour designer la deuxième partition du disque /dev/hdb (i.e. /dev/hdb2) est donc (hd1,1).
+</p>
+
+<p>
+Nous arrêtons ici la description des conventions d&rsquo;écriture employées par Grub pour désigner des disques et des partitions. Si vous désirez en connaître plus de détails à ce sujet, vous pouvez consulter la documentation officielle de Grub. La prévention: une disquette de démarrage
+</p>
+
+<p>
+Afin de pouvoir aisément démarrer votre système Ubuntu lorsque Grub a été désinstallé par accident, il est utile de posséder une disquette de démarrage. En effet, une telle disquette vous permet de démarrer votre système indépendamment du fait que Grub soit installé ou non sur votre système.
+</p>
+
+<p>
+Attention, il est nettement plus facile de construire cette disquette de manière préventive, c&rsquo;est-à-dire avant que ne survienne la désinstallation accidentelle Grub. Pour créer cette disquette, lancez un terminal et passez en mode &ldquo;super utilisateur&rdquo; à laide de la commande:
+</p>
+
+<p>
+$ sudo -s
+</p>
+
+<p>
+(Rappel des conventions : les symboles $ et # représentent la fin de l&rsquo;invite du terminal. Dans ce document, vous ne devez donc entrer que les caractères situés après ces symboles.)
+</p>
+
+<p>
+Ensuite, vous devez formater la disquette:
+</p>
+
+<p>
+# mke2fs /dev/fd0
+</p>
+
+<p>
+Puis monter la disquette:
+</p>
+
+<p>
+# mount /dev/fd0 /media/floppy
+</p>
+
+<p>
+Créez alors un répertoire grub/ sur la diquette et copiez-y les fichiers stage1, stage2 et menu.lst situés dans le répertoire /boot/grub/. (Il ne faut pas copier les fichiers *stage1_5)). Pour effectuer ces opérations, entrez les commandes suivantes:
+</p>
+
+<p>
+# cd /media/floppy /media/floppy # mkdir grub /media/floppy # cp /boot/grub/stage1 ./grub/ /media/floppy# cp /boot/grub/stage2 ./grub/ /media/floppy # cp /boot/grub/menu.lst ./grub/
+</p>
+
+<p>
+On y est presque ! Il ne reste plus qu&rsquo;à lancer Grub en mode batch et de lui donner 5 instructions. Pour lancer Grub, faites:
+</p>
+
+<p>
+# grub &ndash;batch &ndash;device-map=/dev/null
+</p>
+
+<p>
+Quelques informations sur la version de Grub présente sur votre système suivi d&rsquo;une invite grub grub&gt; sont alors affichées. Entrez maintenant les quatre lignes suivantes (sans recopier l&rsquo;invite):
+</p>
+
+<p>
+grub&gt; device (fd0) /dev/fd0 grub&gt; root (fd0) grub&gt; setup (fd0) grub&gt; quit
+</p>
+
+<p>
+Si aucun message vous prévenant de l&rsquo;occurence d&rsquo;une erreur n&rsquo;est apparu, le tour est joué ! Votre disquette est prte.
+</p>
+
+<p>
+Avant de retirer la diquette, n&rsquo;oubliez pas de la démonter:
+</p>
+
+<p>
+/media/floppy # cd / # umount /dev/fd0
+</p>
+
+<p>
+Et de quitter le mode &ldquo;super utilisateur&rdquo; avant de faire des bétises <img src="/smileys/icon_wink.gif" align="middle" alt=";-)" />:
+</p>
+
+<p>
+# exit
+</p>
+
+<p>
+Terminons cette section par quelques notes relatives à l&rsquo;emploi de cette disquette:
+</p>
+
+<p>
+Pour démarrer votre ordinateur à partir de cette disquette, vous devez l&rsquo;insérer dans le lecteur de disquettes avant que votre machine soit mise sous tension, c&rsquo;est-à-dire lorsqu&rsquo;est est éteinte. De cette façon, quand vous allumerez votre ordinateur, celui-ci démarrera à partir de la disquette. Si ce n&rsquo;est pas le cas, cela est sans doute d au fait que la séquence de démarrage du BIOS de votre ordinateur n&rsquo;est pas configurée de faon à ce qu&rsquo;elle contienne le lecteur de disquettes de manière prioritaire par rapport aux disques durs. Généralement, pour accéder à la configuration du BIOS de votre machine, il faut enfoncer la touche &lt;delete&gt; pendant les premieres secondes du démarrage de votre machine. Nous ne pouvons malheureusement pas indiquer une marche à suivre pour configurer votre BIOS, car elle varie en fonction de la marque de votre ordinateur. Si vous avez besoin d&rsquo;informations à ce sujet, vous pouvez vous référer à la documentation de votre carte mère. Restaurer Grub
+</p>
+
+<p>
+Lorsque Grub a été effacé par l&rsquo;installation d&rsquo;une autre système d&rsquo;exploitation (par exemple Windows), la disquette de démarrage créée au point 4 s&rsquo;avère utile. En effet, car grce à elle, vous pouvez démarrer votre système Ubuntu ! Toutefois, si vous ne possédez pas de disquette de démarrage, ne cédez toutefois pas à la panique car il y a moyen de s&rsquo;en sortir à l&rsquo;aide d&rsquo;un live-CD contenant le programme Grub. Si vous n&rsquo;avez pas encore de live-CD, vous pouvez, par exemple, télécharger SystemRescueCd dont la taille avoisine 100Mo.
+</p>
+
+<p>
+Sous Ubuntu ou à partir d&rsquo;une machine démarrée avec un liveCD, dans un terminal, lancez Grub :
+</p>
+
+<p>
+$ sudo -s # grub &ndash;batch 
+</p>
+
+<p>
+Si vous ne savez pas sur quelle partition se trouvent les fichiers de Grub, entrez à l&rsquo;invite grub&gt;
+</p>
+
+<p>
+grub&gt; find /boot/grub/stage1
+</p>
+
+<p>
+cette commande vous indiquera la partion sur laquelle son située ces fichiers. Imaginons que cette commande nous a fournit (hd0,1) comme réponse. Dans ce cas, il faut entrer:
+</p>
+
+<p>
+grub&gt; root (hd0,1)
+</p>
+
+<p>
+Remplacez bien entendu (hd0,1) par la partition que vous a indiquée par la commande find.
+</p>
+
+<p>
+L&rsquo;étape suivante consiste à indiquer à Grub le disque sur lequel il doit (ré)installer le chargeur de système. Si par exemple, on souhaite l&rsquo;installer sur le disque (hd0):
+</p>
+
+<p>
+grub&gt; setup (hd0) grub&gt; quit
+</p>
+
+<p>
+Voilà le travail est fini. Grub est remis d&rsquo;aplomb ! Ajouter Windows au menu de démarrage
+</p>
+
+<p>
+Pour ajouter windows, au menu de démarrage affiché par Grub, il faut éditer le fichier /boot/grub/menu.lst. Par exemple, avec nano comme éditeur de texte:
+</p>
+
+<p>
+$ sudo nano /boot/grub/menu.lst
+</p>
+
+<p>
+Ajoutez-y les lignes suivantes à la fin du fichier :
+</p>
+
+<p>
+title       Windows NT/2000/XP root        (hd0,0) savedefault makeactive chainloader +1
+</p>
+
+<p>
+Sauvez et quittez. Avec nano, ceci s&rsquo;effectue l&rsquo;aide de la séquence &lt;ctrl-o&gt; puis &lt;ctrl-x&gt; Les fichiers de Grub ont disparu !
+</p>
+
+<p>
+Si vous avez malencontreusement effacé le répertoire /boot/grub/, vous pouvez vous en sortir en recréant un nouveau répertoire grub/ dans /boot/ et en y copiant le contenu de /lib/grub/i386-pc/:
+</p>
+
+<p>
+$ sudo -s #mkdir /boot/grub #cp -a /lib/grub/i386-pc/* /boot/grub/
+</p>
+
+<p>
+Ensuite, suivez les étapes décrites au point 5 à partir d&rsquo;ici.
+</p>
+
+<p>
+De plus, si vous comptez également regénérer le fichier /boot/grub/menu.lst, vous pouvez vous inspirer du fichier /usr/share/doc/grub/examples/menu.lst. En savoir plus sur Grub
+</p>
+
+<p>
+Voici quelques liens, pour ceux qui veulent approfondir le sujet: 
+</p>
+<ul>
+<li class="level1"><span class="li"> Site du projet GNU GRUB (en anglais):</span>
+</li>
+</ul>
+
+<p>
+      <a href="http://www.gnu.org/software/grub/" class="urlextern" title="http://www.gnu.org/software/grub/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.gnu.org/software/grub/</a>
+</p>
+<ul>
+<li class="level1"><span class="li"> Traduction franaise du manuel de la version 0.92 de Grub:</span>
+</li>
+</ul>
+
+<p>
+      <a href="http://www.linux-france.org/article/sys/chargeurs/ix86/grub/grub-manual-fr.html" class="urlextern" title="http://www.linux-france.org/article/sys/chargeurs/ix86/grub/grub-manual-fr.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.linux-france.org/article/sys/chargeurs/ix86/grub/grub-manual-fr.html</a>
+</p>

@@ -1,0 +1,291 @@
+====== Comment utiliser son PDA Ipaq hx4700 sous Ångström avec Ubuntu ======
+
+<note warning>Abandonné par son auteur pour cause de vol de son PDA</note>
+===== Configuration du PDA Ipaq hx4700 pour fonctionner avec Ångström =====
+
+<note important>Cette documentation est un peu délicate pour un utilisateur non averti.</note>
+
+==== Sauvegarde du hx4700 ====
+=== Objectif ===
+Sauvegarder le système d'exploitation Windows CE original du hx4700
+
+=== Prérequis ===
+  * Une carte SD d'une taille minimum de 256Mo
+  * Le support USB avec son alimentation du hx4700
+  * Le PDA Ipaq hx4700
+
+=== Comment sauvegarder Windows CE ===
+
+== Mettre le hx4700 en mode connexion série ==
+
+Chargez électriquement le PDA avec son alimentation secteur ou sur le socle.
+
+Mettre sous tension le PDA
+Appuyez sur les touches contacts et itache simultanément puis avec le stylet faire un reset du hx4700
+
+Le PDA n'est pas rétro-éclairé mais il affiche
+  "serial".
+
+Le poser sur son socle USB avec l'alimentation de brancher au secteur et le câble USB connecté à votre ordinateur Ubuntu
+
+Le pda affiche maintenant
+  "usb"
+
+Sur votre ordinateur Ubuntu doit apparaître le périphérique /dev/ttyUSB0.
+<code bash>
+ls /dev/tty*
+</code>
+
+Mettre la carte SD dans le PDA.
+
+Attention ! toutes les données contenues sur la carte SD seront effacées.
+
+== Installation de minicom ==
+à faire
+== Configuration de minicom ==
+à faire
+    115200 8N1
+    NO Hardware Flow Control
+    NO Software Flow Control
+
+== Exécution de minicom ==
+Vous devez avoir le prompt USB>.
+
+== Sauvegarde sur la SD ==
+
+USB> password BOOTLOADER
+        
+USB> d2s
+        
+Le PDA affiche
+
+Après la sauvegarde le hx4700 affiche 
+  remove the PDA from the cradle
+retirer la SD et faire un reset du PDA avec le stylet.
+
+== Sauvegarde du contenu de la SD dans votre poste Ubuntu ==
+
+dd if=/dev/sdb of=wince-backup.image bs=130M count=1
+        
+
+
+
+==== Restauration de Windows CE sur le hx4700 ====
+=== Avec la sauvegarde de Windows CE  sur la carte SD ===
+à faire
+Chargez électriquement le PDA avec son alimentation secteur ou sur le socle.
+
+Mettre la carte SD dans le PDA. 
+
+Mettre sous tension le PDA
+Appuyez sur les touches contacts et itache simultanément puis avec le stylet faire un reset du hx4700
+
+Le PDA n'est pas rétro-éclairé mais il affiche " ".
+
+Le poser pendant la restauration sur son socle USB avec l'alimentation de brancher au secteur et le câble USB connecté à votre ordinateur Ubuntu
+
+=== Rétablir la sauvegarde de Windows CE  sur la carte SD ===
+à faire
+
+=== Si vous n'avez pas de sauvegardes de Windows CE ===
+à faire
+
+==== Configuration du hx4700 pour faire fonctionner la distribution Ångström====
+=== Matériel ===
+à faire
+=== Logiciel ===
+à faire
+===== Configuration de la connexion internet du hx4700 sous Ubuntu =====
+==== Configuration de la station Ubuntu ====
+Pour une station qui se connecte en DHCP à internet :
+<code bash>
+vi /etc/network/interfaces
+</code>
+
+<file>
+# L'interface de boucle locale
+auto lo
+iface lo inet loopback
+
+# L'interface réseau primaire
+auto eth0
+iface eth0 inet manual
+
+# L'interface réseau du hx4700
+auto usb0
+iface usb0 inet manual
+
+# L'interface du pont virtuel liant usb0 à eth0
+auto br0
+iface br0 inet dhcp
+bridge_ports eth0 usb0
+</file>
+==== Configuration de la connexion réseau du hx4700 ====
+=== Opie ===
+à faire
+=== GPE ===
+à faire
+=== Gnome ===
+à faire
+
+===== Création d'images Ångström avec Ubuntu pour le PDA IPAQ hx4700 =====
+==== Prérequis ====
+
+Vérifier que la valeur de vm.mmap_min_addr est nulle.
+<code bash>
+cat /proc/sys/vm/mmap_min_addr
+</code>
+
+Si cela n'est pas le cas editez
+<code bash>
+sudo vi /etc/sysctl.conf
+</code>
+
+changez alors la valeur comme suit
+<file>
+vm.mmap_min_addr = 0
+</file>
+
+puis exécutez
+<code bash>
+sudo sysctl -p
+</code>
+Pour valider le changement
+
+Créer le répertoire qui va contenir tous les outils pour créer une image Ångström du hx4700
+<code bash>
+mkdir ~/openembedded
+cd openembedded
+</code>
+
+==== Installation des paquets ubuntu minimum ====
+
+Configurez dash pour qu'il ne soit pas le shell par défaut (Préférer Bash)
+<code bash>
+sudo apt-get install dash
+sudo dpkg-reconfigure dash
+</code>
+Répondre "no" à la question posée
+
+Installation des paquets minimum pour le fonctionnement
+<code bash>
+sudo apt-get install subversion cvs git-core build-essential help2man diffstat texi2html texinfo libncurses5-dev gawk python-dev python-pysqlite2 scrollkeeper gnome-doc-utils gettext automake
+</code>
+
+==== Script d'installation Ångström ====
+
+Copier le script d'installation de la distribution Ångström
+<code bash>
+git clone git://gitorious.org/angstrom/angstrom-setup-scripts.git
+</code>
+
+Allez dans ce répertoire
+<code bash>
+cd angstrom-setup-scripts/
+</code>
+
+Puis configurez votre environnement pour le hx4700
+<code bash>
+MACHINE=hx4700 ./oebb.sh config hx4700
+</code>
+
+Mettez à jour votre dépot
+<code bash>
+./oebb.sh update
+</code>
+
+Modifiez votre environnement personnel des variables d'environnement
+<code bash>
+vi ~/.profile
+</code>
+
+Ajoutez à la fin du fichier
+<file>
+source .oe/environment-2008
+</file>
+
+Puis déconnectez vous de votre session graphique et reconnectez vous pour valider les changements
+
+==== Création d'une Image Ångström Opie pour le hx4700 ====
+Modifier le fichier /home/user/openembedded/angstrom-setup-scripts/sources/openembedded/recipes/base-files/base-files/hx4700/fstab
+
+Compiler l'image opie du hx4700
+<code bash>
+bitbake opie-image
+</code>
+
+Si vous avez une erreur de compilation openssl-1.0.0d modifiez
+<code bash>
+vi /home/franc/openembedded/angstrom-setup-scripts/sources/openembedded/conf/distro/include/angstrom-2008-preferred-versions.inc
+</code>
+et changez
+<file>
+PREFERRED_VERSION_openssl = "1.0.0d"
+PREFERRED_VERSION_openssl-native = "1.0.0d"
+</file>
+en
+<file>
+PREFERRED_VERSION_openssl = "0.9.8m"
+PREFERRED_VERSION_openssl-native = "0.9.8m"
+</file>
+
+Si vous avez une erreur de compilation bluez4-4.84
+<file>
+ERROR: The checksums for "/home/franc/openembedded/angstrom-setup-scripts/sources/downloads/bluez-4.84.tar.gz" did not match.
+  MD5: expected "95e66f26f69aa425d27718f487b6bc74", got "fd2586143e2d87ee5cb1474cf2d6a221"
+  SHA256: expected "2913b0b09738295547c1bfdcca9e1da456c9ad6950cc499b1ee83b330bf8a5b6", got "7dac3fb1c6d92fd86e5d98923c4da48b14fffec7b327f9008cacd1ca7777f371"
+</file>
+<code bash>
+vi /home/franc/openembedded/angstrom-setup-scripts/sources/openembedded/recipes/bluez/bluez4_4.84.bb
+</code>
+<file>
+SRC_URI[md5sum] = "fd2586143e2d87ee5cb1474cf2d6a221"
+SRC_URI[sha256sum] = "7dac3fb1c6d92fd86e5d98923c4da48b14fffec7b327f9008cacd1ca7777f371"
+</file>
+
+Si vous avez une erreur
+<file>
+...
+Failed to find the necessary bits to build these modules:
+| _bsddb             bsddb185           dbm
+| dl                 imageop            linuxaudiodev
+| ossaudiodev        sunaudiodev
+| To find the necessary bits, look in setup.py in detect_modules() for the module's name.
+...
+ERROR: '/home/franc/openembedded/angstrom-setup-scripts/sources/openembedded/recipes/python/python_2.6.6.bb' failed
+</file>
+Simple relance compilation OK
+<code bash>
+bitbake opie-image
+</code>
+
+=== Récupération des éléments de la compilation ===
+<code bash>
+ls -ail ~/openembedded/angstrom-setup-scripts/build/tmp-angstrom_2008_1/deploy/glibc/images/hx4700/
+</code>
+
+<code bash>
+17706774 drwxr-xr-x 3 user user     4096 2012-01-06 02:25 .
+17706772 drwxr-xr-x 3 user user      4096 2012-01-05 23:47 ..
+17698538 -rw-r--r-- 1 user user  24441592 2012-01-06 02:25 Angstrom-opie-image-glibc-ipk-2011.03-hx4700.rootfs.jffs2
+17698539 -rw-r--r-- 1 user user  25427968 2012-01-06 02:25 Angstrom-opie-image-glibc-ipk-2011.03-hx4700.rootfs-summary.jffs2
+17698548 -rw-rw-r-- 1 user user  18135986 2012-01-06 02:25 Angstrom-opie-image-glibc-ipk-2011.03-hx4700.rootfs.tar.bz2
+17698550 drwxrwxr-x 2 user user      4096 2012-01-05 23:51 Angstrom-opie-image-glibc-ipk-2011.03-hx4700-testlab
+17706776 -rw-rw-r-- 1 user user   1973161 2012-01-05 23:47 modules-2.6.21-hh20-r26-hx4700.tgz
+17698549 lrwxrwxrwx 1 user user        57 2012-01-06 02:25 opie-image-hx4700.jffs2 -> Angstrom-opie-image-glibc-ipk-2011.03-hx4700.rootfs.jffs2
+17698534 lrwxrwxrwx 1 user user        59 2012-01-06 02:25 opie-image-hx4700.tar.bz2 -> Angstrom-opie-image-glibc-ipk-2011.03-hx4700.rootfs.tar.bz2
+17706782 -rw-rw-r-- 1 user user       290 2012-01-06 02:25 reflash.ctl
+17706783 -rw-rw-r-- 1 user user      1784 2012-01-05 23:47 startup.txt
+17706775 -rw-r--r-- 1 user user   1282428 2012-01-05 23:47 zImage-2.6.21-hh20-r26-hx4700.bin
+17706780 lrwxrwxrwx 1 user user        33 2012-01-05 23:47 zImage-hx4700.bin -> zImage-2.6.21-hh20-r26-hx4700.bin
+</code>
+
+==== Création d'une Image Ångström GPE pour le hx4700 ====
+à faire
+==== Création d'une Image Ångström Gnome pour le hx4700 ====
+à faire
+==== Création d'une Image Ångström E17 pour le hx4700 ====
+à faire
+
+==== Création d'une Image Ångström Ubuntu pour le hx4700 ====
+à faire

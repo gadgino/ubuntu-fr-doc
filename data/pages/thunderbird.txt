@@ -1,0 +1,239 @@
+{{tag>Precise courriel bureautique}}
+----
+
+====== Thunderbird ======
+
+{{ :thunderbird:logo.png?|}}
+Thunderbird est un courrielleur multi-plateforme développé par la [[http://www.mozilla.org|Fondation Mozilla]] sous licences MPL (Mozilla Public License) et MPL/GNU GPL/GNU LGPL (tri-licence).\\
+Il gère les comptes de type messagerie électronique, groupes de discussions et abonnements aux blogs et autres fils d'information. Il est aussi équipé d'un carnet d'adresses et - en option - de [[thunderbird_lightning|fonctions d'agenda.]]
+
+ {{ :thunderbird:capture_fenetre_principale.png?400 |}}
+
+===== Installation =====
+Thunderbird est **installé par défaut** depuis [[:oneiric|la version 11.10 d'Ubuntu]], en remplacement d'[[evolution|Évolution]]. Pour installer Thunderbird sur d'autres variantes d'Ubuntu ou des versions plus anciennes, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer les paquets]] **[[apt>thunderbird]]** et  **[[apt>thunderbird-locale-fr]]** pour la prise en charge du français.
+
+==== Mise à jour ====
+Les mises à jour fréquentes (1 nouvelle version toutes les 6 semaines) sont intégrées au gestionnaire de mise à jour d'Ubuntu (dans les quelques jours suivant leur parution officielle). 
+Toutefois, la politique de développement de Thunderbird ayant changé (cf https://blog.lizardwrangler.com/2012/07/06/thunderbird-stability-and-community-innovation/). Thunderbird ne bénéficie plus d'ajout de nouveautés, Mozilla fournit l'infrastructure pour la gestion des correctifs de sécurité. Ainsi, il ne sort environ qu'une version de Thunderbird par an, les autres étant des correctifs de sécurité. Ce cycle de développement se rapproche du cycle [[http://www.mozilla.org/fr/thunderbird/organizations/faq/| ESR de Mozilla]].
+Les nouveautés peuvent être amenées par la communauté (dont Canonical et Ubuntu font partie). 
+
+<note importante>Cette page est assez ancienne, et depuis la politique de développement de Thunderbird a bien changé, le développement étant reparti, ([[http://blogzinet.free.fr/blog/index.php?post/2015/04/03/Thunderbird-n-est-pas-mort-Testez-nouveautes-en-beta|voir ici]]) si vous souhaitez avoir les nouveautés apportées par les mises à jour, il vous faudra désinstaller la version dépôt, et télécharger l'archive de la dernière version directement sur le site de mozilla [[https://www.mozilla.org/fr/thunderbird|ici]], extraire l'archive dans un dossier de votre choix, puis ouvrez Thunderbird, il s'intègrera dans le dash de unity, les mises à jour se feront par le menu aide.
+</note>
+
+==== Personnalisation par défaut pour Ubuntu ====
+Afin de s'intégrer au mieux à Ubuntu, l’installation de Thunderbird est accompagnée, par défaut, de certains modules complémentaires spécifiques :
+  * [[https://addons.mozilla.org/thunderbird/addon/eds-contact-integration/|EDS Contact Integration]] qui assure la synchronisation du carnet d'adresses de Thunderbird avec Evolution Data Server. Cela permet notamment la synchronisation avec [[ubuntuone|UbuntuOne]].
+  * [[https://launchpad.net/globalmenu-extension|Global menubar integration]] assure le support de la barre de menu d'Unity
+  * "CouchDB addressbook integration" assure la création automatique du carnet d'adresses lié à EDS (Evolution Data Server)
+  * [[https://addons.mozilla.org/thunderbird/addon/messaging-menu-integration/|Messaging Menu and Unity Launcher Integration]] qui permet d'intégrer Thunderbird au lanceur et au menu des messages d'[[unity|Unity]].
+
+Par ailleurs, l'apparence (icônes et barres de menu dans les tons gris-noir) est propre à Ubuntu.
+
+Nota: depuis Ubuntu 12.04, la synchronisation des contacts avec UbuntuOne ne fonctionne plus. Elle devrait être  à nouveau introduite sous une nouvelle forme dans Ubuntu 12.10 (Source: [[http://askubuntu.com/questions/135808/is-ubuntu-one-evolution-thunderbird-sync-still-working-in-older-versions-like|AskUbuntu]]). 
+
+==== Gestion des profils ====
+Thunderbird enregistre vos messages ainsi que vos carnets d'adresses, mots de passe, extensions et préférences dans un ensemble de fichiers appelé "profil". Il est stocké et caché dans votre dossier utilisateur (/home/<utilisateur>/.thunderbird). 
+
+-> **[[:tutoriel:thunderbird_profils|voir ce tutoriel]]**.
+
+==== Migration depuis un autre ordinateur ou OS ====
+Si vous utilisiez précédemment Thunderbird sur un autre ordinateur ou sur un autre OS, vous pouvez procéder de plusieurs manières pour retrouver et partager vos données. 
+
+=== Via un compte IMAP ===
+La méthode la plus simple pour vos mails consiste à utiliser un compte IMAP. En effet, dans ce cas, vos messages sont synchronisés avec votre serveur de messagerie et tous les appareils qui pourraient s'y connecter (Thunderbird sur Ubuntu, sur Windows, votre smartphone,...). Vous trouverez plus de détails sur l'utilisation de l'IMAP dans Thunderbird dans l'article: [[https://support.mozillamessaging.com/fr/kb/le-protocole-imap|Le protocole IMAP]].
+
+L'avantage de cette méthode est sa robustesse et son fonctionnement universel. De plus, vous pouvez accéder à vos mails depuis n'importe quel appareil. Il vous faut, par contre, importer manuellement votre carnet d'adresses qui n'est pas synchronisé par cette méthode.
+
+=== En déplaçant votre profil existant ===
+-> **[[:tutoriel:thunderbird_profils#recuperer_un_profil_exchangement_de_pc|voir ce tutoriel]]**.
+
+Cette méthode permet de récupérer rapidement toutes vos données mais pas de les synchroniser sur les 2 appareils (en particulier si vous utilisez un compte POP). Cette méthode est donc plutôt recommandée dans le cas de l'abandon de la machine précédente ou si vous utilisez un compte IMAP (vous permettra de récupérer vos extensions et carnets d'adresses notamment).
+
+==== Partager votre profil entre Windows et Linux ====
+Cette méthode permet d'utiliser le même profil entre Windows et Linux (dans le cas d'un dual boot). On aura parfois quelques problèmes d'incompatibilité (essentiellement des problèmes de numéro de version, d'extensions spécifiques à un système,...).
+
+-> **[[:tutoriel:thunderbird_profils#partager_un_profil_entre_deux_os_sur_une_meme_machine|voir ce tutoriel]]**.
+
+==== Migration depuis ou vers un autre logiciel de messagerie ====
+-> **[[:tutoriel/comment_recuperer_ses_emails_entre_client_de_messagerie|voir ce tutoriel]]**.
+
+===== Configuration =====
+====  Configurez votre compte de messagerie ====
+[[https://support.mozillamessaging.com/fr/kb/configuration-automatique-de-compte|L'assistant de configuration automatique de compte]] vous permettra de configurer simplement Thunderbird avec votre adresse mail:
+
+{{::creation_compte_courriel.png?direct&300|}}
+
+En cas de besoin, les paramètres des principaux fournisseurs d'adresses de messagerie sont indiqués dans l'article: [[http://support.mozillamessaging.com/fr/kb/configuration-des-principaux-fournisseur-adresse-internet|Paramètres de compte des principaux fournisseurs d'adresses de messagerie]]
+ 
+-> Pour des cas particuliers ou plus d'information, consulter **[[:configurer_mail|cet article]]**.
+
+====  Abonnez vous à des blogs ====
+Vous pouvez ajouter vos flux RSS favoris à Thunderbird de plusieurs façons :
+  * soit en vous abonnant à un blog via Firefox, qui vous demandera alors quelle application choisir (sélectionner Thunderbird)
+  * soit en entrant directement l'adresse du flux dans Thunderbird (par exemple en cliquant droit sur votre compte de blogs et en choisissant l'option "S'abonner...")
+  * soit en important un fichier au [[http://fr.wikipedia.org/wiki/OPML|format OPML]] généré par une autre application
+
+Il faut au préalable avoir créer un compte de type "Blogs et nouvelles" (via le menu "Fichier", "Nouveau", "Autre compte...") qui recueillera tous vos abonnements.
+
+Voici une suggestion de quelques blogs en rapport avec Mozilla et Thunderbird si vous souhaitez tester cette fonctionnalité :
+  * [[http://planete.mozfr.org/?type=atom10|Le "planet" francophone]], qui collecte tous les blogs relatifs à Mozilla (fr)
+  * [[http://blog.mozilla.com/thunderbird/feed/|Le blog officiel de Mozilla Thunderbird]], pour les annonces importantes (en)
+  * [[http://planet.mozillamessaging.com/rss20.xml|Le "planet" anglophone]] qui collecte tous les blogs relatifs à Thunderbird (dont le précédent) (en)
+==== Préférence-Pièces jointes ====
+Il est possible de modifier les logiciels utilisés pour éditer tel ou tel type de fichier attaché. Aller dans les préférences, onglet Pièce jointes, trouver le type de fichier puis cliquer sur l'action toujours demander, utiliser (défaut)... et sélectionner Autre. Vous pouvez ensuite sélectionner votre logiciel préféré en pointant sur son lanceur généralement dans le répertoire /usr/bin
+
+=====  Installez des modules complémentaires =====
+Voici quelques exemples de modules complémentaires populaires qui peuvent-être installés dans Thunderbird:
+
+==== Personnaliser Thunderbird ====
+  * **[[:thunderbird_lightning|Lightning]]** qui permet d'ajouter à Thunderbird des fonctions d'agenda et de gestion des taches.
+  * [[https://addons.mozilla.org/thunderbird/addon/gmail-conversation-view/|Conversations]] qui affiche une vue en conversation (à la "Gmail"), avec les infobulles des contacts, des vignettes pour les fichiers joints, un champ de réponse rapide et bien d'autres fonctionnalités.
+  * [[https://addons.mozilla.org/thunderbird/addon/extra-folder-columns|Extra Folder Columns]] permet d'ajouter au panneau des dossiers des indications sur le nombre des messages et la taille du dossier.
+  * installer [[apt://libnotify-bin|libnotify-bin]] et [[apt://libnotify4|libnotify4]] sous KDE permet à Thunderbird d'utiliser les notifications système pour informer des nouveaux mails - plutôt que l'ancien pop-up en bas à droite de l'écran.
+==== Utiliser les comptes Google ====
+**Avantage** : accès direct au même compte Google que sur son smartphone Android (si on en a un).
+
+  * voir le tutoriel : **[[tutoriel:thunderbird_et_agendas_google|Les agendas Google dans Thunderbird]]**.
+  * [[https://addons.mozilla.org/fr/thunderbird/addon/gcontactsync/|gContactSync]] permet de **gérer** et **synchroniser** directement les **contacts** de Google depuis Thunderbird.
+
+==== Suppression des doublons ====
+
+  * [[https://addons.mozilla.org/fr/thunderbird/addon/remove-duplicate-messages-alte/|Supprimer les messages en double]] pour les messages,
+  * [[https://addons.mozilla.org/fr/thunderbird/addon/duplicate-contact-manager/|Duplicate Contact Manager]] pour les contacts.\\ Il présente en vis-à-vis les doublons détectés pour choisir celui à garder.\\ Note : Il faut se mettre sur le carnet d'adresses concerné avant de lancer le processus.
+
+==== Sécuriser Thunderbird ====
+  * [[:enigmail|Enigmail]] permet de signer et chiffrer vos messages avec Mozilla Thunderbird
+  * [[https://addons.mozilla.org/thunderbird/addon/signal-spam/|Signal Spam]] permet de signaler vos spam auprès d'un organisme chargé de les traiter
+  * [[http://adullact.net/plugins/mediawiki/wiki/milimail/index.php/Trustedbird_Project/fr|TrustBird]] regroupe une série de modules développés par la défense nationale pour adapter Thunderbird aux besoins de sécurité de ce secteur.
+  * Chiffrer les mots de passe dans un [[seahorse#thunderbird|trousseau de clef Gnome]]
+
+==== Améliorer l’intégration à Ubuntu ====
+  * [[https://addons.mozilla.org/thunderbird/addon/evolution-mirror/|Evolution Mirror]] permet de synchroniser l'agenda Lightning avec Evolution Database Server afin d'afficher les événements de Lightning dans le panneau "Horloge" de Gnome.
+
+==== Modules de synchronisation ====
+
+    * [[https://sogo.nu/download.html#/frontends|SOGO Connector]] : Support de CardDav pour synchroniser ses contacts sans passer par un compte Google. cf. [[http://www.insolit.org/2012/03/support-de-carddav-pour-thunderbird/|tutoriel]].
+**__Attention__** : Pour effectuer les synchronisations, le connecteur a besoin de l'identifiant (Id) et du mot de passe (Mp) associés au compte Owncloud ou autre serveur accessible via CardDav. Comme par magie, ces informations ne sont pas demandées lors de la première synchronisation et c'est bloquant. 
+Une solution efficace consiste à les introduire en dur dans l'URL du carnet distant
+
+Exemple :
+<code>https://monID:momMP@webcloud.zaclys.com/remote.php/carddav/addressbooks/monID/contacts/</code>
+Après la première synchronisation, ces Id et Mp sont enregistrés par Thunderbird, ils n'ont plus besoin de rester visibles dans les propriétés du carnet de contacts. On peut alors paramétrer un second carnet avec l'adresse de base :
+<code>https://webcloud.zaclys.com/remote.php/carddav/addressbooks/monID/contacts/</code>
+et supprimer le carnet distant initial.
+
+Pour la synchronisation d'un agenda distant avec CalDav, on peut procéder de la même manière.
+==== Affichage dans le Systray ====
+  * [[https://addons.mozilla.org/fr/thunderbird/addon/firetray/|FireTray]] : Affiche dans le Systray (barre des tâches) un bouton indiquant le nombre de messages non-lus, et permettant d'ouvrir/fermer rapidement la fenêtre de Thunderbird.
+Le module doit être téléchargé et enregistré sur le disque dur. Ensuite :
+  - Dans Thunderbird, ouvir //Modules complémentaires// du menu //Outils//.
+  - Choisir //Installer un module à partir d'un fichier// en cliquant sur l'icone //Outils// située à gauche de la zone de saisie "Rechercher dans tous les modules".
+  - Une fois le module installé, dans l'onglet Extensions, modifiez ses Préférences et cochez la case "//Start application hidden to tray//"
+  - Fermer Thunderbird
+  - Dans les "Applications au démarrage", ajouter une ligne pour lancer Thunderbird. (La commande est : ''/usr/bin/thunderbird'' )
+
+
+==== Modules divers ====
+    * [[https://addons.mozilla.org/thunderbird/addon/test-pilot-for-thunderbird/|TestPilot]] permet de participer aux études visant à comprendre l'utilisation de Thunderbird afin de l'améliorer. Il est installé par défaut sur la version Windows de Thunderbird, mais pas avec la version pour Ubuntu. Il serait dommage que les développeurs ne disposent pas de données pour notre système, c'est pourquoi il ne faut pas hésiter à installer ce module.
+
+<note>
+DELETEME Ce plugin n'est plus utilisé par Mozilla !
+</note>
+
+Vous trouverez la liste complète des modules sur le site [[https://addons.mozilla.org/thunderbird/|Mozilla Addons]].
+
+Pour toute question générale relative à leur installation, désinstallation, consultez la [[https://support.mozillamessaging.com/fr/kb/faq-des-modules-complementaires/|FAQ des modules complémentaires sur Support Mozilla Messaging (fr)]].
+
+===== Utilisation=====
+
+Jusqu’à Ubuntu 11.10, lancez l'application depuis le menu //Applications -> Internet -> Thunderbird//, sur les versions suivantes lancez l'application //via// le [[:unity#tableau_de_bord_dash|dash]]. Sur n'importe quelle version d'Ubuntu vous pouvez utiliser le [[:terminal]] avec la [[:commande_shell|commande]] suivante :
+<code>thunderbird</code>
+
+==== Les fonctionnalités de Thunderbird ====
+Les fonctionnalités de Thunderbird sont nombreuses (carnet d'adresses, recherche et filtres, dossiers virtuels, archivage des messages, gestion des spams et protection anti-hameçonnage, ...). 
+
+Vous pouvez en avoir un aperçu [[https://www.mozilla.org/fr/thunderbird/features|ici]] ou les découvrir plus en détail dans :
+  * [[http://support.mozillamessaging.com/fr/home|les articles de support de Thunderbird]] 
+  * ou via [[http://fr.flossmanuals.net/Thunderbird/|le manuel Floss]], qui peut-être imprimé pour offrir un support papier.
+
+=== Afficher les fils de discussion ===
+
+{{ :thunderbird:avecarborescence.png?300|Discussions groupées}}
+
+Il s'agit d'une fonctionnalité incontournable pour les utilisateurs qui suivent des suites de messages consécutifs ayant chacun un même thème. Elle permet à ces suites de messages d'être lus dans l'ordre et de manière compréhensible, dans l'ordre des réponses. 
+
+Les réponses sont les unes sous les autres lorsqu’elles sont la réponse au message
+précédent qui est un peu moins en retrait, et sont en retrait les unes par rapport aux
+autres lorsqu'elles sont la réponse au message précédent.
+
+Pour afficher les discussions par groupe comme illustré sur l'image ci-contre, cliquez dans le menu de Thunderbird: **Affichage -> Trier par -> Discussions groupées**.
+
+==== Raccourcis claviers ====
+La liste des raccourcis clavier pour Thunderbird se trouve sur [[https://support.mozilla.org/fr/kb/raccourcis-clavier-tb|cette page]]  du site de support de Mozilla.
+
+==== J'ai un problème, comment le résoudre ? Des pistes : ====
+
+Vous pouvez parcourir la [[https://support.mozillamessaging.com/fr/home|documentation officielle]]. Elle est directement accessible via le **Menu** -> **Aide** -> **Rubriques d'aide** ou en pressant simplement la touche [**F1**].
+{{ :thunderbird:informations_de_depannage.png?direct&200|}}
+Vous pouvez aussi redémarrer Thunderbird en **mode sans échec** en tapant la commande suivante dans un [[:terminal]] :
+<code>thunderbird -safe-mode</code>
+Cela vous permettra de vérifier que le problème ne vient pas d'une extension. Pour plus d'informations, consultez la [[https://support.mozillamessaging.com/fr/kb/le-mode-sans-echec|page dédiée de la documentation officielle]].
+
+//Pour aider au mieux les personnes présentes sur le forum, vous pouvez leur fournir les **informations de dépannage** en allant dans **Menu** -> **Aide** -> **Informations de dépannage**. Copiez-les dans le presse papier et vous pourrez ensuite les coller dans votre message.//
+
+===== Problèmes connus =====
+==== Impossible de personnaliser le son à l'arrivée d'un nouveau message ====
+Ceux qui auront cherché à modifier ce son (via le menu "Éditions, Préférences, Général") l'auront constaté: ça ne fonctionne tout simplement pas. Le bogue est identifié sous le [[https://bugzilla.mozilla.org/show_bug.cgi?id=635918|Bogue 635918 - Does not play user defined sound for incoming mail]] et devrait être corrigé dans Thunderbird 12.
+<note>Le bogue est en effet corrigé.</note>
+
+==== Limite de stockage du serveur de messagerie ====
+-> voir [[https://support.mozillamessaging.com/fr/kb/comment-eviter-de-depasser-le-quota-autorise?s=pop&as=s|cet article]].
+
+==== Boite de dialogue pour Ouvrir avec ====
+Si vous choisissez un autre logiciel que celui que vous propose Thunderbird pour une pièce jointe, Thunderbird vous demandera où est son emplacement en ouvrant par défaut les derniers documents ouverts. Le même souci se pose si vous passez par **Édition** -> **Préférences** -> **Pièces jointes**.
+
+Quand cette boîte de dialogue vous demande l'emplacement, allez directement dans **Système de fichiers** -> **usr** -> **bin** et rechercher le nom de votre programme (cela peut prendre du temps à charger). Autre méthode : tapez directement **/usr/bin**.
+
+Bogue déclaré sur Launchpad [[https://bugs.launchpad.net/firefox/+bug/18995|Bogue 18995 [MASTER] "Open With" dialog not user-friendly]]
+
+==== Problèmes d'ouverture des liens http via Thunderbird ====
+Si les liens sous thunderbird ne déclenchent pas leur ouverture sur un navigateur, ou si ceux-ci affichent le navigateur à la page d'accueil, il suffit de repréciser l'emplacement du programme. **Édition**->**Préférences**->**Pièces jointes**.
+
+Dans la colonne **types de contenus** ligne **http** cliquez sur **Autre** et précisez le chemin manuellement de votre navigateur préféré (ex: **/usr/bin/firefox**).
+
+==== Multiples fenêtres au démarrage (clones)  ====
+Il se peut qu'au lancement de Thunderbird vous ayez un phénomène assez désagréable de "fenêtres clonées".
+Pour  y remédier après avoir arrêté Thunderbird, allez dans le dossier de votre profil Thunderbird, ce dernier se trouve dans le [[fichier_cache|dossier caché]] **//./thunderbird//** de votre dossier personnel. Une fois que vous y êtes supprimer simplement le fichier se nommant **//sessions.json//** et redémarrer Thunderbird.
+
+==== Calendrier Lightning : vue des événements anciens et/ou rappels en retard après mise en veille  ====
+Si vous mettez en veille votre ordinateur, Lightning est décalé dans le passé de la durée pendant laquelle l'ordinateur a été en veille. Ce bug est référencé [[https://bugs.launchpad.net/ubuntu/+bug/1052800|1052800]]. \\
+Pour contourner le bug, il faut relancer Thunderbird après chaque sortie de veille. Pour ce faire, utiliser le script //workaround// attaché au rapport de bug, en le mettant dans les applications lancées au démarrage. Le script détectera la veille et relancera Thunderbird à la sortie de la veille. <note>Bug corrigé dans Lightning 1.9.2 </note>
+
+==== Calendrier Lightning : Perte de l'agenda après une mise à jour de Thunderbird  ====
+{{ :thunderbird:1385392266.png?200|}}
+Depuis, Lightning 2.6, chaque version de Thunderbird possède une version associée précise de Lightning (cf https://blog.mozilla.org/calendar/2013/10/dont-upgrade-to-thunderbird-24-0-1-yet/ et https://bugzilla.mozilla.org/show_bug.cgi?id=925823).  
+
+Ainsi, lors d'une mise à jour de Thunderbird, vous pouvez vous retrouver avec sans affichage des agendas.
+Pour corriger le problème, vous pouvez forcer la vérification de nouvelles versions d'extensions:
+https://support.mozillamessaging.com/fr/kb/faq-des-modules-complementaires#w_comment-mettre-aa-jour-un-module
+
+====Impossibilité de supprimer des conversations chat====
+Il est possible de chatter directement avec Thunderbird, mais il n'est pas possible de supprimer les conversations à partir de l'application. Pour cela vous devez supprimer manuellement les fichier **.json**, qui se trouvent dans le dossier caché //.thunderbird// de votre dossier personnel,(exemple avec gtalk): //~/.thunderbird/profil.default/logs/gtalk/[CONVERSATION]/[xxxx].json//
+
+====Imprime au format US par défaut====
+ Aller dans le menu //Édition -> Préférences//. Sous l'onglet « Avancé » puis le sous-onglet « Général », cliquer sur le bouton « Éditeur de configuration… ». Puis la procédure est semblable à [[:firefox?&#impression_sur_2_pages_au_lieu_d_une_ou_en_format_us|ici]].
+===== Désinstallation =====
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférences des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+ 
+===== Autres pages liées à Thunderbird =====
+{{topic> thunderbird}}
+
+===== Voir aussi =====
+  * **(fr)** [[http://www.mozilla.org/thunderbird/|Site officiel de Thunderbird]]
+  * **(fr)** [[http://support.mozillamessaging.com|Documentation officielle de Thunderbird, à consulter avant de poser toute question]]
+  * **(fr)** [[http://forums.mozfr.org/viewforum.php?f=4|Forum d'entraide officiel de la communauté francophone]]
+  * **(fr)** [[http://fr.flossmanuals.net/thunderbird/|Manuel d'utilisation en français]] réalisé par flossmanuals francophone et l'équipe de traduction mozilla
+  * **(fr)** [[http://fr.openclassrooms.com/informatique/cours/mozilla-thunderbird|Tutoriel pour débutants sur OpenClassRooms]]
+
+----
+//Contributeurs principaux : [[utilisateurs:el cameleon|El cameleon]], pygmee//,  [[utilisateurs:claudiux|Claudiux]]

@@ -1,0 +1,16 @@
+====== Comment Ubuntu démarre / le startup / le démarrage ======
+
+  - Mise sous tension
+  - Démarrage du [[https://fr.wikipedia.org/wiki/BIOS|BIOS]]
+  - Lecture de la zone de boot (master boot record)
+    - Démarrage du boot loader ([[grub]], [[lilo]], ...)
+  - Lancement du 1er processus init
+    - Lancement des scripts du dossier  [[init_d|/etc/init.d/]] ou  /etc/rc*.d/
+  - Lancement de [[environnements|l'interface graphique]] (commande startx)
+  - Lancement du [[fenetre_de_connexion|gestionnaire de session/connexion]]
+  - Lancement des applications
+    * Cinnamon : lancement des fichiers .desktop du dossier ~/.config/autostart
+    * Gnome : à compléter
+    * KDE : à compléter
+    * LXDE : lancement du script /etc/xdg/lxsession/LXDE/autostart
+    * XFCE : à compléter

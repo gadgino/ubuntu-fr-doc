@@ -1,0 +1,153 @@
+{{tag>Gutsy Ubuntu_64bits téléphonie}}
+----
+
+
+====== ObexFS, ou comment accéder simplement aux donnés de son téléphone USB ou infrarouge ======
+
+ObexFS est un logiciel libre permettant d'accéder à la mémoire de son téléphone via le câble usb fourni ou une connexion infrarouge, lorsque le téléphone ne fonctionne pas comme une clé USB...
+
+**Cette méthode marche aussi avec les Palms et autres assistants personnels.**
+
+Ce logiciel permet en quelque sorte de faire passer son téléphone pour une clé usb, ce qui aura pour conséquences de permettre sont utilisation via le gestionnaire de fichiers.
+
+
+
+===== Matériel supporté =====
+
+  * Tous les téléphones et palms avec un câble en port Série (non USB), nom interne **/dev/ttyS0** ou **/dev/ttyS1** si vous utilisez le port série secondaire
+  * La plupart des Palm et assistants personnels USB
+  * **//Sony Ericsson v600i://** marche avec la méthode 1 et la méthode 2 avec comme nom interne: **/dev/ttyACM0**. (ce nom de périphérique désigne aussi certains **nokia**, notamment le **6670**)
+  * **//Sony Ericsson k700i://** Marche avec la méthode 1, 2 et 3(infrarouge); le câble non officiel ne permet pas la méthode 1, rabattez vous sur la méthode 2 (avec comme nom interne **/dev/ttyUSB0**) et infrarouge.
+  * **//Sony Ericsson k610i://** pas de nom interne fonctionnel, utilisez seulement la méthode 1.
+  * **//Alcatel One Touch 535/735://** avec connexion infrarouge (méthode 3)
+
+s'il n'est pas dans la liste, testez quand même et ajoutez-le :)
+
+===== Installation =====
+
+  * [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] [[apt://obexftp]].
+
+  * Faire parti du groupe fuse (par défaut sur Gutsy)
+
+  * Créer un dossier tel dans /media:
+
+  sudo mkdir /media/tel
+
+===== Monter le téléphone =====
+
+
+
+
+
+
+
+
+==== Méthode 1 : avec la référence USB ====
+
+D'abord, vérifier qu'il est installé et/ou installer le paquet [[apt://obexfs]]:
+
+  sudo apt-get install obexfs
+
+Pour cette méthode la commande pour le montage sera:
+
+  sudo obexfs -u 0 /media/tel
+
+<note>Ici on utilise 0 comme identifiant. Il s'agit du numéro d'interface du téléphone qui peut être obtenu en lançant: 
+sudo obexftp -u 
+Dans le cas de mon N70 par exemple, je doit choisir l'interface 1 (celle correspondant à "PC Suite Services").
+</note>
+
+Vous pouvez accéder à votre dossier par la commande:
+
+  gksudo nautilus /media/tel
+
+<note>Problème temporaire ... pour le sudo</note>
+
+Pour pallier à ça, j'ai utilisé cette méthode : 
+
+j'ai [[:tutoriel:comment_editer_un_fichier|édité le fichier]] **/etc/fstab** pour ajouter cette ligne:
+
+  obexfs#-u1 /media/tel fuse defaults,users,user,rw,noauto,allow_other 0 0
+
+Après quoi j'ai créé un mini script comme ceci :
+
+  #!/bin/bash
+  pmount /media/tel
+
+placé dans /root, appartenant à root, et auquel on donne les droits d'exécution.
+Ce script sera alors invoqué par une règle udev.
+
+<note>Si le dossier /media/tel a les droits pour le user courant, il n'est pas utile de lancer la commande mount en su(do) (obexfs -u 1 /media/tel) et donc pas de problèmes d'accès: le téléphone est accessible par le raccourci "tel" dans nautilus (/media/tel)</note>
+
+----
+
+
+==== Méthode 2 : méthode 1 non fonctionnelle ou avec un port série ; avec le nom interne ====
+
+Si votre téléphone est dans la liste tan mieux ;-) passer la prochaine étape.
+
+(Vous pouvez aussi essayer les nom interne de ceux de la liste sur le votre sans risques)
+
+=== Connaître le nom interne de son périphérique ===
+
+Si le nom interne de votre téléphone portable (/dev/tty'?') n'est pas dans la liste ou si celui de la liste ne marche pas faite comme ceci:
+  ***Débrancher** son téléphone
+  *ouvrir un terminal et taper :<code>sudo udevmonitor –udev</code>
+  *Garder le terminal ouvert et **brancher** votre téléphone
+  *Vous trouverez plein de lignes, dans celle ci vous trouverez sûrement un truc du genre ( elle doit contenir à sa fin (tty)):
+
+UEVENT[1184187965.536823] add      /class/tty/**ttyUSB0** (tty)
+
+retenez ce qui est artificiellement en gras
+
+<note>Il se peut qu'il y en ait plusieurs qui défile essayer avant tous le premier puis s'il ne marche pas ... le second.</note>
+
+  *Pour moi c'est donc /dev/ttyUSB0 pour vous ce sera /dev/'le truc que vous avez trouvé'
+
+=== Une fois le nom interne connu (via la méthode ci-dessus ou la liste des compatibles) ===
+
+Pour cette méthode la commande pour le montage sera:
+
+  obexfs -t /dev/tty... /media/tel
+
+Vous pouvez accéder à votre téléphone par nautilus ou un autre navigateur de fichiers via le poste de travail, le bureau ou le dossier **/media/tel**
+
+----
+
+
+
+==== Méthode 3 : En infrarouge ====
+
+Tous d'abord je précise que l'infrarouge peut aussi fonctionner (de façon bien plus simple) sans obexfs: [[:irda_port_infrarouge|Voir cette page.]]
+
+Pour cette méthode la commande pour le montage sera:
+
+  obexfs -i /media/tel
+
+Vous pouvez accéder à votre téléphone par nautilus ou un autre navigateur de fichiers via le poste de travail, le bureau ou le dossier **/media/tel**
+
+----
+
+
+==== Méthode 4 : En Bluetooth ====
+
+Pour le bluetooth une interface graphique est disponible dans feisty: [[:Bluetooth|Voir cette page.]]
+
+----
+
+===== Démonter le Téléphone =====
+
+Pour démonter le téléphone (pas très utile) vous devez taper ceci dans un terminal:
+
+  sudo fusermount -u /media/tel
+
+Et le répertoire est ainsi libéré.
+
+===== Liens =====
+
+  * http://dev.zuckschwerdt.org/openobex/wiki/ObexFs
+  * http://simbot.wordpress.com/2006/06/04/bluetooth-fuse-obexfs-under-debian/
+  * [[:ObexFTP]]
+
+----
+//Contributeurs: [[utilisateurs:Fabien26]].//

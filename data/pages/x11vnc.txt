@@ -1,0 +1,147 @@
+{{tag>bureau_à_distance sécurité}}
+----
+
+====== X11vnc : contrôler un ordinateur à distance ======
+
+Ce logiciel permet à un utilisateur de se connecter sur sa machine à distance à la manière de [[wpfr>Remote_Desktop_Protocol|RDP]] sur Windows (Connexion Bureau à distance).
+
+Vous prenez le contrôle physique de l'ordinateur, c'est-à-dire l'écran (:0) du serveur X, le clavier et la souris. Si une personne se trouve devant l'écran, elle voit alors ce que vous faites.
+De plus, le serveur VNC est persistant, vous pouvez déconnecter votre client vnc sans que cela ne ferme la session locale. Pratique pour donner un coup de main à quelqu'un en difficulté sur ubuntu ou tout autre distribution.
+
+Peut aussi être utile pour contrôler un PC sans écran ([[NFS|Serveur NFS]], d'impression ou autres)
+
+===== Installation =====
+
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>x11vnc]]**
+
+===== Utilisation =====
+
+Vous pouvez utiliser l'interface graphique de x11vnc disponible maintenant dans votre menu applications.
+
+==== En ligne de commande ====
+
+Commencez par ouvrir un **[[Terminal]]**
+
+Générez un fichier password :
+<code>
+x11vnc -storepasswd "password" ~/.vnc_passwd
+</code>
+
+<note>Remplacez bien évidemment "password" par le mot de passe de votre choix</note>
+
+Ensuite lancez x11vnc en tapant dans un terminal:
+
+  x11vnc -many -rfbauth ~/.vnc_passwd
+  
+=== Démarrer VNC avec la session ===
+
+Il vous reste maintenant à tester votre serveur VNC avec le visionneur de votre choix. Voir: **[[Bureau à distance]]**
+
+Vous pouvez maintenant ajouter x11vnc à vos "Applications au démarrage" en y ajoutant la commande de lancement citée juste au dessus.
+
+<note>Pour ajouter une commande lancée au démarrage il suffit généralement de chercher l'option vous le permettant dans votre environnement de bureau. Malheureusement sous LXDE (LUbuntu) il n'existe pas encore d'interface graphique pour ajouter une telle commande.
+
+L'astuce consiste à créer le fichier "~/.config/autostart/x11vnc.desktop" à la main et y ajouter ces lignes:
+<code>
+[Desktop Entry] 
+
+Type=Application
+Name=x11vnc
+Exec=x11vnc -many -rfbauth /root/.vnc_passwd
+</code>
+</note>
+
+=== Autre méthode ===
+(fonctionne sous Lucid, contrairement à ce qui précède)
+
+Editer le fichier **///etc/gdm/Init/Default//** et rajouter une ligne, à la fin juste avant **//exit 0//**, comme celle-ci:
+
+///usr/bin/x11vnc -rfbauth /home/utilisateur/.vnc_passwd -noxdamage -forever -bg -o /var/log/x11vnc.log -rfbport 5900//
+
+Remplacer //utilisateur// par le nom de l'utilisateur. Le port //5900// est celui prévu par défaut. S'il a été modifié l'adapter en conséquence.
+
+//.vnc_passwd// correspond à la commande citée au-dessus pour la création du mot de passe.
+
+Enregister le fichier et se déconnecter pour que changement prenne effet.
+==== Démarrer VNC comme service inetd ==== 
+
+<note warning>Méthode déconseillée ! Ne marche que depuis Ubuntu 11.10 et ne marche avec aucune variante pour l'instant. De plus le fonctionnement peut être un peu aléatoire étant donné que Lightdm est encore très jeune.</note>
+
+En démarrant x11vnc via inetd vous aurez la possibilité de voir l'écran de votre ordinateur distant quel que soit l'utilisateur connecté ! (Vous verrez même l'écran de login !)\\
+Pratique si vous ne voulez pas que l'ordinateur distant ne soit pas en autologin et donc soit protégé par un second mot de passe par dessus le protocol VNC.
+
+<note info>Inetd est un "superserveur", une sorte de "serveur de serveurs". \\
+Il gère les services réseaux et ne démarre les serveurs que s'ils sont demandés, puis les ferment quand ils ne servent plus ! \\
+Ceci permet d'économiser de la mémoire vive, peut être même du processeur dans certains cas, mais aussi permet d’échapper à un plantage du serveur en question. En effet si vnc plante, il serra mis dans un coin et quand vous accéderez à nouveau à VNC un nouveau serveur x11vnc serra lancé !</note>
+
+Pour cela, il faut tout d'abord installer inetd. Installez inetd en [[:tutoriel:comment_installer_un_paquet|installant le paquet]] **openbsd-inetd** (je vous déconseille le traditionnel inetd qui n'est plus supporté ni xinetd qui n'est pas bien intégré dans Ubuntu)
+
+Créez un mot de passe pour votre serveur VNC en tapant dans un **[[terminal]]**:
+
+  sudo x11vnc -storepasswd "password" /root/.vnc_passwd
+
+<note>Remplacez bien évidemment "password" par le mot de passe de votre choix</note>
+
+[[:tutoriel:comment_modifier_un_fichier|Ouvrez ensuite le fichier de configuration d'inetd]] **/etc/inetd.conf**
+
+ajoutez une ligne pour VNC entre les lignes **#:INTERNAL: Internal services** et ** #:STANDARD: These are standard services**:
+
+  5900 stream tcp nowait root /usr/sbin/tcpd /usr/bin/x11vnc -inetd -q -rfbauth /root/.vnc_passwd -display :0 -auth /var/run/lightdm/root/:0
+  
+Enregistrez le fichier, puis redemarrez le service inetd via la commande:
+
+  sudo service openbsd-inetd restart
+  
+VNC devrait maintenant être en route dès le démarrage de votre PC 
+
+=== Accéder à VNC via internet ===
+
+Dans l'état actuel des choses, si vous avez un routeur, VNC n'est accessible que sur votre réseau local. Si vous voulez y accéder à travers internet il faudra ouvrir le port 5900 en TCP en pointant le port vers l'IP de l'ordinateur hébergeant le serveur VNC.
+
+<note important>Si vous décidez d'ouvrir l'accès VNC vers internet ne désactivez surtout pas l'authentification par mot de passe ! Et ne choisissez pas un mot de passe trop simple.</note>
+<note important>L'accès à la machine par SSH forwarding est préféré car SSH apporte plus de sécurité.
+Cette méthode (accessible après installation sur le serveur de [[apt://openssh-server]]) est un peu plus complexe, mais elle peut être simplifiée en utilisant le [[remmina|Visionneur de bureaux distants Remmina]] depuis le PC client</note>
+
+
+===== Configuration =====
+
+  * Vous pouvez spécifier un emplacement pour les log ajoutant **-o /var/log/x11vnc.log** à la commande de lancement.
+  * Vous pouvez enlever l'obligation d'utiliser un mot de passe en supprimant **-rfbauth /root/.vnc_passwd** de la commande de lancement (**Hautement déconseillé si votre VNC est accessible via internet ! Tout le monde pourrait contrôler votre ordinateur**)
+
+==== Quelques pistes en cas d'échec ====
+
+  * ouvrez le parefeu, surtout le port 5900.
+  * Vérifiez que l'option **--nolisten** n'est pas activée pour gdm, en console tapez : <code>ps wwaux|grep auth</code>
+
+Pour enlever l'option **nolisten** il faut apparemment ajouter dans le fichier//[[:tutoriel:comment_modifier_un_fichier| /etc/gdm/custom.conf]]//:
+
+<code>[security] 
+DisallowTCP=false</code>
+
+<note>Avec **Lubuntu** 
+modifier le fichier// [[:tutoriel:comment_modifier_un_fichier|/etc/lightdm/lightdm.conf]]// et ajouter la directive **xserver-allow-tcp=true** dans la section **SeatDefaults**
+<code>
+[SeatDefaults]
+xserver-allow-tcp=true]]
+</code>
+
+Pour redemarrer Lightdm : 
+<code>sudo service lightdm restart</code>
+</note>
+
+Au prochain démarrage l'option aura disparu.
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. La configuration de l'application sera conservée ou supprimée selon la méthode de désinstallation que vous choisirez.
+
+===== Liens utiles =====
+
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=197925]]
+  * [[http://www.karlrunge.com/x11vnc/#faq-inetd]]
+  * [[http://ubuntuforums.org/showthread.php?t=122402]]
+  * [[http://www.libre-astux.info/?p=79]]
+  * [[http://ubuntuforums.org/showpost.php?p=2377920&postcount=19]] x11vnc et :0
+
+----
+//Contributeur principal : FIXME.//

@@ -1,0 +1,72 @@
+{{tag>Precise portable asus}}
+
+----
+
+======  ASUS X200CA ======
+
+===== En un coup d’œil =====
+Le tableau suivant récapitule la prise en charge du matériel de portable par les différentes versions d'Ubuntu.
+Il utilise les notations suivantes :
+  * {{:icons:ok_32.png|OK 32 bits}} **Fonctionne immédiatement en 32 bits.**
+  * {{:icons:ok_64.png|OK 64 bits}} **Fonctionne immédiatement en 64 bits.**
+  * {{:icons:ok_32_64.png|32 et 64 bits}} **Fonctionne immédiatement en 32 et 64 bits.**
+  * {{wiki:modeles:laptop_work.png|Fonctionne après config}} **Fonctionne après quelques manipulations**
+  * {{wiki:modeles:laptop_notok.png|Ne fonctionne pas}} **Ne fonctionne pas**
+  * {{:laptop_help.png||Pas testé}} **Pas d'informations disponibles**
+  * {{:icons:edit-clear.png?32|Information obsolète}} **Information de support trop ancienne**, si possible mettez là à jour.
+
+^ Version ^ Installation ^ Carte graphique ^ Son ^ Wifi ^ Bluetooth ^ Webcam ^ Touchpad ^ Raccourcis multimédia ^ Autres ^
+|  [[:13.10]]  |  {{:icons:ok_64.png|OK 64 bits}}  |  {{:icons:ok_64.png|OK 64 bits}}  |  {{:icons:ok_64.png|OK 64 bits}}  |  {{:icons:ok_64.png|OK 64 bits}}  |  {{:laptop_help.png||Pas testé}}  |  {{:icons:ok_64.png|OK 64 bits}}  | {{:icons:ok_64.png|OK 64 bits}}  |  {{:icons:ok_64.png|OK 64 bits}}  | {{:laptop_help.png||Pas testé}}  |
+|  [[:13.04]]  |  {{wiki:modeles:laptop_work.png|Fonctionne après config}}  |  {{:icons:ok_64.png|OK 64 bits}}  | {{:icons:ok_64.png|OK 64 bits}}  |  {{:icons:ok_64.png|OK 64 bits}}  |  {{:icons:ok_64.png|OK 64 bits}}  |  {{:icons:ok_64.png|OK 64 bits}}  |  {{:icons:ok_64.png|OK 64 bits}}  |  {{:icons:ok_64.png|OK 64 bits}}  |  {{:icons:ok_64.png|OK 64 bits}}  |
+|  [[:12.10]]  |  {{:laptop_help.png||Pas testé}}  |  {{:laptop_help.png||Pas testé}}  |   {{:laptop_help.png||Pas testé}}  |   {{:laptop_help.png||Pas testé}}  |   {{:laptop_help.png||Pas testé}}  |   {{:laptop_help.png||Pas testé}}  |   {{:laptop_help.png||Pas testé}}  |   {{:laptop_help.png||Pas testé}}  |  {{:laptop_help.png||Pas testé}}  |
+|  [[:12.04]]  |   {{wiki:modeles:laptop_notok.png|Ne fonctionne pas}}  |   {{:laptop_help.png||Pas testé}}  |   {{:laptop_help.png||Pas testé}}  |   {{:laptop_help.png||Pas testé}}  |   {{:laptop_help.png||Pas testé}}  |   {{:laptop_help.png||Pas testé}}  |   {{:laptop_help.png||Pas testé}}  |   {{:laptop_help.png||Pas testé}}  |   {{:laptop_help.png||Pas testé}}  |
+
+**Utilisateurs du Wiki possédant cet ordinateur, fonctionnel :**
+  * **[[utilisateurs:bwv]]** : [[:13.04]]
+
+**Cet ordinateur portable n'est a priori pas [[:pc_tatoué|tatoué]].**
+
+===== Installation =====
+Il faut utiliser une [[live_usb]] (il n'y a pas de lecteur de CD)\\
+
+
+==== Problème ====
+Pas moyen d'installer la version 12.04.3 (l'ordinateur ne démarre pas sur la clef).
+Et l'installateur de la 13.10 ne reconnaît pas qu'un OS est déjà installé (Windows 8).
+
+
+
+==== Résoudre le problème  ====
+
+  - Graver  [[linux_secure_remix]] sur une clef, ce qui permettra d'installer 13.04 immédiatement (sans avoir à intervenir pour sauvegarder le MBR, etc.).
+  - Préparer Windows 8 :
+    * Si l'ordinateur a déjà été utilisé sous Windows 8 sauvegarder les fichiers, etc (suivre les consignes de la page [[cohabitation_ubuntu_windows]] ). Ensuite :
+    * Désactiver le démarrage rapide ; voir l'astuce http://www.zebulon.fr/astuces/273-desactiver-le-demarrage-rapide-de-windows-8.html
+    * Redémarrer en maintenant la touche F2 enfoncée
+    * Choisir : ''security'' (se déplacer avec les flèches puis Entrée)
+    * Choisir : ''secure boot control''
+    * Changer [''enable''] en [''desabled''] (avec +)
+    * ''save and exit''
+  - Pour le faire démarrer (booter) sur la clef :
+    * Ne pas utiliser la fonction //Éteindre// mais //Redémarrer// (sinon l'ordinateur est en veille prolongée)
+    * Redémarrer en maintenant la touche F9 enfoncée
+    * Choisir : ouvrir clef USB
+  - L'installation : On peut choisir soit l'installation de Ubuntu à côté de Windows (= en dual boot) soit l'installation à la place de Windows (suppression de Windows) : la procédure est décrite ici : [[:tutoriel:installer_ubuntu_avec_le_live_cd]]
+
+==== Démarrage d'une installation en dual boot ====
+
+=== Lorsque le PC tourne sous Ubuntu ===
+
+Il faut l’« éteindre » (pas le « redémarrer »). Puis au démarrage presser « Échap » et choisir Ubuntu ou Windows (si on souhaite simplement relancer Ubuntu on fait « redémarrer »).
+
+=== Lorsque le PC tourne sous Windows ===
+
+Il faut le « redémarrer » (pas l’« éteindre ») et choisir.
+
+==== Pavé tactile ====
+
+La page dédiée au [[:touchpad|pavé tactile]] indique comment utiliser toutes ses possibilités. Lorsqu'on tape au clavier, on clique parfois involontairement avec la paume :  [[:touchpad#problemes_de_contact_de_paume|ce paragraphe]] indique des remèdes.\\
+
+----
+
+//Contributeur principal : [[BWV]].//

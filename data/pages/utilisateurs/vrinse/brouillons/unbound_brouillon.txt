@@ -1,0 +1,96 @@
+{{tag>réseau dns}}
+
+====== Unbound ======
+
+Unbound permet de mettre en place un [[:dns|DNS]] local, il est une alternative plus simple à configurer que l'ancien [[:bind9|Bind9]] pour un LAN de petite taille.
+
+Unbound peut être couplé avec DNSsec, qui vérifie l'intégrité des noms de domaine.
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]] sur le serveur.
+  * Disposer d'un réseau local.
+  * Connaître les bases de TCP/IP.
+  * Éventuellement disposer d'une connexion à Internet configurée et activée, pour faire les tests.
+
+
+===== Installation =====
+[[:tutoriel:comment_installer_un_paquet#installer_un_paquet_present_dans_les_depots_recommande|Installer le paquet]] **[[apt>unbound|unbound]]**, disponible dans le [[:dépôts|dépôt]] principal.
+
+===== Configuration Unbound =====
+
+Dans cette configuration, Unbound va effectuer les requêtes DNS et mettre les réponses en mémoire cache pour les requêtes à venir.\\ 
+Cette méthode permet de faire moins de requêtes DNS, et surtout gagner en temps de latence DNS.
+
+Pour la configuration, il faut [[:tutoriel:comment_editer_un_fichier|éditer en tant qu'administrateur un seul fichier]] **/etc/unbound/unbound.conf**
+
+Les variables sont nombreuses et relativement bien expliquées en lignes de commentaires.
+
+Voici un exemple de configuration, avec des résolutions de 3 machines du LAN : xbox, freeboxplayer et freebox
+
+  server:
+	verbosity: 1
+	 num-threads: 4                                                          #car cpu 4 coeurs
+	interface: 0.0.0.0
+	 do-ip4: yes
+	 do-udp: yes
+	 do-tcp: yes
+	 access-control: 192.168.0.0/24 allow                # j'autorise toutes les machines de mon LAN a interroger le dns
+	 chroot: ""                                                              #pas de chroot par défaut
+	 logfile: "/var/log/unbound.log"                       #ici un fichier est dédié aux logs
+	 use-syslog: no                                #log par défaut dans syslog
+	 hide-identity: yes                 #pas besoin d être verbeux ici
+	 hide-version: yes                   #pas besoin d être verbeux ici
+	 harden-glue: yes
+	 harden-dnssec-stripped: yes
+	 use-caps-for-id: yes                                     # on résout gOogLe.cOm et google.com de la même manière
+   private-domain: "monvlan"     #a partir d'ici on définit son propre suffix dns de réseau local
+	 local-zone: "monvlan." static
+	 local-data: "freebox.monvlan. IN A 192.168.0.254"                                               #résolution sens nom -> adresse
+	 local-data: "freeboxplayer.monvlan. IN A 192.168.0.18"
+	 local-data: "xbox.monvlan. IN A 192.168.0.50"
+	 local-data-ptr: "192.168.0.50 xbox.monvlan"                                                 #résolution inverse : adresse -> nom
+	 local-data-ptr: "192.168.0.18 freeboxplayer.monvlan"
+	 local-data-ptr: "192.168.0.254 freebox.monvlan"
+  python:
+  remote-control:
+  forward-zone:
+       name: "."
+       forward-addr: 212.27.40.240  #serveur DNS de FAI
+       forward-addr: 8.8.8.8  #serveur DNS de google
+     
+     
+=== Pour utiliser les 13 serveurs racines d'internet, supprimer tout ce qu'il y a apres "forward-zone", et ajouter ceci : ===
+  root-hints: "/etc/unbound/root.hints"
+  
+La dernière version du fichier root.hints est a télécharger ici : ftp://FTP.INTERNIC.NET/domain/named.cache
+
+Cela permet (entre autres) de court-circuiter les serveurs DNS de son FAI
+
+===== Configuration DNSsec =====
+Ajouter cette ligne au fichier de conf:
+  auto-trust-anchor-file: "/etc/unbound/root.key"
+Le fichier root.key est fabriqué depuis a partir du fichier délivré par l'IANA disponible ici : https://data.iana.org/root-anchors/root-anchors.xml
+<note>Comment automatiser le téléchargement du fichier en question?
+Botzmeyer écrit:
+''Un des intérêts de Unbound (et d'un résolveur DNS sur sa propre machine) est de pouvoir valider les réponses DNS avec DNSSEC (RFC 4033 et suivants). J'édite /etc/unbound/unbound.conf pour activer la validation.
+
+server:
+     ...
+     dlv-anchor-file: "dlv.isc.org.key"
+     trust-anchor-file: "itar-trusted-anchors"
+''
+</note>
+
+===== Désinstallation =====
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Ne pas oublier de repositionner les DNS de son choix dans /etc/resolv.conf.
+
+===== Voir aussi =====
+
+  * **(en)** [[http://en.wikipedia.org/wiki/Unbound_%28DNS_Server%29]]
+  * **(en)** [[http://unbound.net/]]
+  * **(fr)** [[http://www.bortzmeyer.org/unbound.html]]
+  * **(fr)** [[http://fr.wikipedia.org/wiki/DNSSEC]]
+
+----
+
+<note>FIXME Article  a développer/compléter (cf. le [[http://forum.ubuntu-fr.org/viewtopic.php?id=1821361|forum]])</note>

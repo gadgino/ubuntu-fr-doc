@@ -1,0 +1,36 @@
+{{tag>Trusty Xenial matériel imprimante canon}}
+----
+======Installation d'une imprimante Canon depuis un dépôt ppa=====
+
+Ce tutoriel a pour but de vous montrer comment installer de la façon la plus simple possible, un [[:PPA]] qui contient les pilotes officiels pour de nombreuses imprimantes et multifonctions Canon.
+
+Vous trouverez sur la page [[:liste_imprimantes_canon|liste imprimantes canon]] les imprimantes prises en charge par le ppa avec ses pilotes spécifiques.
+
+Attention ce PPA n'est plus forcement maintenu en fonctionnement
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+À partir de [[:xenial|Ubuntu 16.04]] [[:tutoriel:comment_modifier_sources_maj|modifiez vos sources de mises à jour]] pour y ajouter le dépôt suivant :
+<file>deb http://ppa.launchpad.net/michael-gruz/canon-trunk/ubuntu trusty main</file>
+Pour **[[:Trusty]]** ajoutez à vos sources de logiciels la [[:PPA]] correspondant à votre version d'Ubuntu:
+  * **ppa:michael-gruz/canon-trunk**((https://launchpad.net/~michael-gruz/+archive/canon-trunk)).
+  * [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste des paquets]].
+
+Si celle-ci apparaît dans la [[#liste des imprimantes supportées]], vous pouvez désormais installer le paquet correspondant à votre imprimante.\\
+Par exemple pour une Canon MP520 vous [[:tutoriel:comment_installer_un_paquet|installerez les paquets]]:
+  *  **[[apt>cnijfilter-mp520series]]** pour l'imprimante,
+  *  **[[apt>scangearmp-mp520series]]** pour la partie numérisation.
+
+
+<note tip>Il est possible que vous ayez un message suite à l'ajout du dépôt. Celui-ci ne semble pas bloquant pour la suite, vérifiez juste qu'il existe bien un fichier non vide **/etc/apt/sources.list.d/michael-gruz-canon-stable-<votre-version>.list**.\\ 
+Le cas échéant, changez de méthode pour [[:tutoriel:comment_modifier_sources_maj|ajoutez le dépôt]]:
+<file>deb http://ppa.launchpad.net/michael-gruz/canon-stable/ubuntu <votre-version> main</file>
+</note>
+
+
+----
+//Contributeurs: [[:utilisateurs:fabux]], [[:utilisateurs:l_africain|L'Africain]].//

@@ -1,0 +1,113 @@
+dossier{{tag>Precise Trusty disque_dur récupérer photo vidéo}}
+
+----
+
+
+====== Récupération de données effacées : Photorec ======
+<note important>Aussitôt que vous constatez la perte de fichiers, arrêtez d'utiliser, autant que faire se peut, le disque dur (ou autre périphérique de stockage sur lequel a eu lieu la perte). Autrement, vous risquez de ré-écrire par dessus vos fichiers perdus. Ainsi pour l'installation de **PhotoRec** puis la sauvegarde des fichiers récupérés, vous ne devez pas utiliser la partition sur laquelle les fichiers ont été perdus.
+**PhotoRec** étant disponible depuis le [[:depots|dépôt officiel Universe]], il n'y a aucun problème à l'installer et l'utiliser depuis une [[:live_cd|session live Ubuntu]] pour ainsi, éviter toute écriture sur la partition des fichiers à récupérer si celle-ci est la partition système.</note>
+
+**Photorec** fonctionne de pair avec [[:Testdisk]] et s'utilise en [[:commande_shell|lignes de commandes]] depuis un [[:terminal]] (pas d'interface graphique).
+Il fonctionne sous Windows, %%GNU/Linux, Mac OS X, Solaris et BSD. Il est distribué sous licence GPL%%.\\
+Son but est de retrouver un ou des fichiers supprimés à tort ou perdus suite à une corruption de la partition puis de les récupérer. Pour cela, il scanne l'unité de stockage, //([[:disque dur]], support USB, cartes mémoire, CD/DVD-ROM,...)// à la recherche de fichiers (notamment photos, vidéos, documents, et archives) existant physiquement sur le disque mais non répertoriés dans l'//index// du système de fichier puis les récupère.\\
+Par contre, il ne récupère pas le [[:partitions#la_table_des_partitionsun_schema_des_partitions_d_un_disque| table des partitions]]. C'est son "ami", [[:Testdisk]], qui sert lui à scanner une unité de stockage pour récupérer une [[:partitions#la_table_des_partitionsun_schema_des_partitions_d_un_disque| table des partitions]] effacée ou endommagée.
+====Types de fichiers récupérables====
+  * Sun/NeXT audio data (.au)
+  * RIFF audio/video (.avi/.wav)
+  * BMP bitmap (.bmp)
+  * bzip2 compressed data (.bz2)
+  * Source code written in C (.c)
+  * Canon Raw picture (.crw)
+  * Canon catalog (.ctg)
+  * FAT subdirectory
+  * Microsoft Office Document (.doc)
+  * Nikon dsc (.dsc)
+  * HTML page (.html)
+  * JPEG picture (.jpg)
+  * MOV video (.mov)
+  * MP3 audio (MPEG ADTS, layer III, v1) (.mp3)
+  * Moving Picture Experts Group video (.mpg)
+  * Minolta Raw picture (.mrw)
+  * Olympus Raw Format picture (.orf)
+  * Portable Document Format (.pdf)
+  * Perl script (.pl)
+  * Portable Network Graphics (.png)
+  * Raw Fujifilm picture (.raf)
+  * Contax picture (.raw)
+  * Rollei picture (.rdc)
+  * Rich Text Format (.rtf)
+  * Shell script (.sh)
+  * Tar archive (.tar )
+  * Tag Image File Format (.tiff)
+  * Microsoft ASF (.wma)
+  * Sigma/Foveon X3 raw picture (.x3f)
+  * zip archive (.zip)
+
+
+
+===== Pré-requis =====
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Savoir ce qu'est une [[:partitions|partition]]
+  * Connaître le type de [[:système de fichiers]] sur lequel les données ont été perdues :
+     * FAT
+     * NTFS
+     * exFAT
+     * ext2/ext3/ext4
+     * HFS+ 
+     * Et d'autres...
+
+
+===== Installation =====
+[[:tutoriel:comment_installer_un_paquet|Installer le paquet]] **[[apt>testdisk|testdisk]]** (Photorec est distribué avec l'outil de récupération de partition [[:testdisk]]).
+Pour une installation alternative, voir la page [[:Testdisk#Via le site officiel|Testdisk]].
+
+===== Configuration =====
+Pour plus de sécurité, **PhotoRec** utilise un accès en lecture seule au lecteur que vous essayez de récupérer. L'écriture des fichiers récupérés sera faite sur une autre unité. **PhotoRec** vous demandera où créer un dossier **Recup_dir** dans lequel il mettra les fichiers récupérés lors du scan.
+<note important>**Attention**, avant de lancer PhotoRec, assurez-vous qu'il y a suffisamment d'espace libre sur l'unité qui accueillera les fichiers récupérés. </note>
+
+=====Lancement=====
+Dans un [[:terminal]], saisir la [[;commande_shell|commande]] <code>sudo photorec</code>
+
+===== Utilisation=====
+====Récupérer les fichiers====
+Même interface que [[:Testdisk]] ; on choisit le disque (flèches haut et bas) et 
+  - On lance le scan (//proceed//) (flèches gauche droite puis touche <entrée> pour valider);\\ {{applications:photorec_xenial.png?500}}\\
+  - On choisit son type de partition (//intel// pour PC standard, les autres sauront faire le bon choix ;-))\\ {{application:photorec:photorec2.png?500}}\\ Touche <entrée> pour valider 
+  - Puis on choisit quoi scanner :
+    * Soit tout le disque (peut éventuellement récupérer des fichiers plusieurs formatages auparavant).\\ À priori dans ce cas il ne s'occupe pas de la [[:partitions#la_table_des_partitionsun_schema_des_partitions_d_un_disque|table de partition]] (mon index) existante. \\ {{:application:photorec:photorec3.png?500}}\\ À sélectionner si on a formaté son disque et que l'on veut récupérer des fichiers d'avant formatage. (ici j'ai ma partition FAT32 qui recouvre mon ancienne partition NTFS) voir le tuto [[:Testdisk]]
+    * Soit la partition dans laquelle on sait que se trouvait les fichiers que l'on veut récupérer. \\ {{application:photorec:photorec4.png?500}}
+<note tip>Pour cette démo j'ai effacé, vidé la corbeille puis formaté mon disque. Mais avant de lancer **photorec**, j'ai récupéré mon ancienne partition avec [[:Testdisk]]. Ma [[:partitions#la_table_des_partitionsun_schema_des_partitions_d_un_disque|table de partition]] étant valide (mon index) je peux donc choisir l'option de scanner ma partition.</note>
+<note tip>Si je ne peux pas récupérer une partition effacée et que je veux récupérer des fichiers sur cette ancienne partition je choisis plutôt de scanner tout le disque</note>
+
+4. Pour récupérer les fichiers, il est possible que PhotoRec vous demande le type de système de fichiers où les fichiers perdus étaient stockées:
+  * Si vous avez opté pour le disque entier, choisissez <whole>
+
+5. **Photorec** vous demandera alors dans quel dossier mettre les fichiers récupérés (Il y créera un dossier nommé **recup-dir** pour y mettre les fichiers récupérés). Si vous souhaitez sauvegarder les fichiers sur un autre disque (un disque dur externe par exemple), le disque se trouvera dans /media/[nom de l'utilisateur]/[nom du disque], ou dans /mnt ou dans /run/media. Le disque de destination doit être monté.
+
+6. Puis je lance le scan en validant avec « search » (bouton flèche gauche flèche droite)
+
+7. Puis on oublie son PC pendant quelques heures…
+
+Par contre ce qui est sympa ;-) c'est que si vous arrêtez le scan (STOP), au prochain lancement du programme il vous demande si vous voulez reprendre ou vous vous étiez arrêté.
+
+====Accéder aux fichiers ====
+Le dossier de récupération créé par **Photorec** est accessible uniquement avec les [[:sudo|droits d'administration]]. Vous ne pourrez donc pas accéder aux fichiers récupérés ni les manipuler depuis votre [[:gestionnaire de fichiers]] habituel. Pour cela, nous devrons avant tout, modifier les droits d'accès de ce dossier à l'aide de la [[:commande_shell|commande]]:
+<code>sudo chown -R <utilisateur> recup_dir*</code>
+//(Remplacer "<utilisateur>" par votre nom d'utilisateur et modifier éventuellement le chemin si vous aviez choisi un autre emplacement que votre dossier personnel pour créer le dossier **recup_dir**)// \\
+Vous pouvez maintenant utiliser votre [[:gestionnaire de fichiers]] normalement.
+Il est également possible d'afficher les dossiers cachés avec la commande Ctrl + H, le dossier Recup_dir est ainsi accessible directement dans votre gestionnaire de fichiers.
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer le paquet]] **testdisk**. La configuration de l'application sera conservée ou supprimée selon la méthode de désinstallation que vous choisirez.
+
+
+
+===== Voir aussi =====
+
+  * **(fr, en)** [[http://www.cgsecurity.org/wiki/PhotoRec_FR|Site de Photorec]]
+  * **(fr, en)**  [[http://www.cgsecurity.org/wiki/PhotoRec_Etape_par_Etape|PhotoRec étape par étape]] : mode d'emploi simple et détaillé sur le site officiel.
+  * http://www.octetmalin.net/linux/tutoriels/photorec.php
+
+----
+//Contributeurs : [[utilisateurs:toth_o]], [[utilisateurs:sheep]].//

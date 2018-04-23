@@ -1,0 +1,113 @@
+{{tag>personnalisation}}
+
+====== XWinWrap - Ajouter facilement de l'animation sur votre bureau! ======
+
+[[http://www.youtube.com/watch?v=WIbJ5S3PUJc|{{http://www.dreamscene.org/scene_pics/__Fairytale_Dream.JPG?250  }}]]
+XWinWrap est un logiciel qui permet de remplacer votre fond d'écran par la sortie d'un autre logiciel : par exemple un économiseur d'écran, une vidéo, etc ...
+
+
+[[http://www.youtube.com/watch?v=WIbJ5S3PUJc|Voir en vidéo]].
+
+=====Installation=====
+
+====Par paquet====
+[[http://tech.shantanugoel.com/resources/downloads/shantz-xwinwrap.zip|Téléchargez et décompressez l'archive zip]], puis installer le paquet deb à partir du dossier i386 ou x86_64 en fonction de votre type de processeur.
+
+<note warning>Lien mort, le logiciel est telechargeable depuis ce site : [[https://dolys.fr/forums/topic/un-fond-decran-anime-pour-xubuntu-ubuntu/]]</note>
+
+Xwinwrap ne fonctionne correctement, pour moi, qu'une fois que j'ai désactivé les icônes du bureau. Faites-le avec la commande suivante:<code>
+gconftool-2 -s '/apps/nautilus/preferences/show_desktop' --type bool false</code>
+
+Exécutez cette option si vous souhaitez activer à nouveau les icônes du bureau:<code>
+gconftool-2 -s '/apps/nautilus/preferences/show_desktop' --type bool true </code>
+
+Si les autres fenêtres ont du mal à rester en avant plan (xwinwrap prend le dessus), sous compiz activez la "couche widget" (Dans la catégorie "Bureau" du gestionnaire de configuration).
+
+====Compilation====
+<code>
+sudo apt-get install xorg-dev build-essential libx11-dev x11proto-xext-dev libxrender-dev libxext-dev cvs
+cvs -d :pserver:anoncvs@cvs.freedesktop.org:/cvs/xapps co xwinwrap
+cd xwinwrap
+make
+sudo ln -s /usr/src/xwinwrap/xwinwrap /usr/bin/ 
+</code>
+
+=====Utilisation d'xwinwrap=====
+
+Vous pouvez lancer xwinwrap à partir d'un terminal ou à partir de la boîte de dialogue Application Run (F2), en lançant.
+
+Pour quitter xwinwrap depuis le terminal, appuyez simplement sur Ctrl-C. Pour quitter xwinwrap quand il a commencé à la demande de dialogue Exécuter, exécutez la commande ci-dessous:<code>
+killall xwinwrap</code>
+
+====Options====
+    * -g geometry
+    * -ni aucune entrée
+    * -argb argb?? Alpha, Red, Green, Blue??
+    * -fs fullscreen
+    * -s collante
+    * -st sauter la barre des tâches
+    * -sp Skip pager
+    * -a Au-dessus : pour lancer en premier plan
+    * -b En-dessous : pour lancer en second plan
+    * -noFocus nf
+    * -o opacity = # Entre 0 et 1 : c'est pour l'opacité donc -o 0.6 vous donne une fenêtre opaque à 60%
+
+====Lancement d'un économiseur d'écran====
+
+===Gl Matrix===
+{{http://tombuntu.com/wp-content/uploads/2008/12/xwinwrap1.jpg?250 }}
+<code>
+xwinwrap -ov -fs -- /usr/lib/xscreensaver/glmatrix -root -window-id WID
+</code>
+
+===Plasma===
+
+<code>
+xwinwrap -ov -fs -- /usr/lib/xscreensaver/plasma -window-id WID -x 30 -s 1
+</code>
+
+====Lancement d'une vidéo====
+
+===Mplayer===
+    * Installer [[MPlayer]]
+    * Dans un terminal :
+<code>
+xwinwrap -ov -fs -- mplayer -wid WID -quiet -loop 0 video.ogg
+</code>
+L'option loop peut vous permettre de lancer cette animation vidéo en boucle.
+
+====Nautilus Script ====
+
+Un [[Nautilus scripts]] :
+   * [[http://gnome-look.org/content/show.php/Animated+Desktop+%28GUI%29?content=88248|ORIGINAL A-DESK AnimatedDesktopGUI]]
+   * [[http://gtk-apps.org/content/show.php/Animated+Desktop+%28With+XWINWRAP%29+Fixed?content=104598&PHPSESSID=9e0f49b3a15f120a1ed0ad1919a29f99|Animated Desktop (With XWINWRAP)]]
+   * [[http://gnome-look.org/content/show.php/Escritorio+Animado%2BAnimated+Desktop?content=121238|Animated Desktop nautilus script]]
+
+=====Gwinwrap - Interface graphique pour xwinwrap =====
+
+[[http://code.google.com/p/gwinwrap/|Une interface graphique GTK simple pour xwinwrap (écrit en PyGTK + Glade)]]
+
+=====Animation de bureau Dreamscene (video)=====
+{{http://2.bp.blogspot.com/_uqNpCiJ2FmM/Sc7ACcZQO8I/AAAAAAAAAcI/l_wIiKnO9p8/s400/Dreamscene_Video_Clip_Bloom_Nature.jpg?250 }}
+Les animations de bureau Dreamscene sont des vidéos créées spécialement pour une animation continue ( en boucle ) sur le bureau de votre ordinateur. 
+
+[[http://www.youtube.com/watch?v=WIbJ5S3PUJc|Voir en vidéo]].
+
+Gratuit/libre pour une utilisation privée, non-commerciale.
+
+  - [[http://www.dreamscene.org/gallery.php?Cmd=Show&site=all#downloadgallery|Téléchargez la dreamscene que vous désirez]]. ( [[http://rapidyard.blogspot.com/search/label/DreamScene|site alternatif]] )
+  - Décompressez dans le dossier désiré.
+  - Lancez ( en remplaçant par le bon nom ) ((il y aura peut-être besoin du paquet ubuntu-restricted-extras)) : <code>xwinwrap -ov -fs -- mplayer -wid WID -quiet -loop 0 NOMDREAMSCENE.wmv</code>
+
+=====Voir aussi=====
+====Liens internes====
+   * [[http://forum.ubuntu-fr.org/viewtopic.php?id=31112|Sur le forum]]
+
+==== Liens externes==== 
+   * [[http://tombuntu.com/index.php/2008/12/15/animated-wallpaper-on-your-ubuntu-810-desktop/|Animated Wallpaper on your Ubuntu 8.10 Desktop]]
+   * [[https://dolys.fr/forums/topic/un-fond-decran-anime-pour-xubuntu-ubuntu/|Tuto très bien fait pour Xubuntu - Ubuntu sur une Xubuntu   Voyager 16.04.1 LTS ]]
+
+
+---- 
+
+//Contributeurs :  [[:utilisateurs:psychederic|Psychederic]].//

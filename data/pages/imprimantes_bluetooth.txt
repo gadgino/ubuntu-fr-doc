@@ -1,0 +1,55 @@
+{{tag> bluetooth imprimante matériel}}
+
+====== Les imprimantes bluetooth ======
+
+Comment faire fonctionner une imprimante bluetooth, ou derrière un serveur d'impression bluetooth ?
+
+Allumer votre imprimante et vérifiez qu'elle est bien utilisable en [[bluetooth]]. Il se peut qu'elle n'active le bluetooth que si elle détecte des équipements bluetooth à côté. C'est le cas d'une Deskjet 995c avec laquelle il faut rendre l'adaptateur bluetooth //visible et autorisant la connexion d'autres périphériques//.
+
+==== Ubuntu 7.10 ====
+
+Ouvrez Préférences -> Administration -> Impression. //Choisissez Nouvelle imprimante//.
+Dans la fenêtre suivante, vous verrez votre imprimante bluetooth (2ième choix). Suivez la procédure à l'écran.
+
+Un [[https://bugs.launchpad.net/bugs/147800|bug]] empêche actuellement d'utiliser la connexion bluetooth.
+En attendant qu'il soit corrigé, vous pouvez le contourner en arrêtant apparmor avant de lancer l'impression : <code>$ sudo /etc/init.d/apparmor stop</code>
+
+==== Ubuntu 7.04 et antérieur ====
+
+D'abord il vous faut trouver votre imprimante. Utilisez pour cela la commande suivante :
+
+  hcitool scan
+
+Notez l'adresse MAC de votre imprimante.
+Vérifiez alors qu'elle propose un service d'impression avec la commande :
+
+  sdptool browse <AdresseMAC>
+
+Vous devriez observer //Service Name: Serial Port// parmi les résultats.
+
+
+Ajouter alors un imprimante comme précédemment. Choisissez une imprimante réseau et remplissez l'URI ainsi :
+
+<file>
+bluetooth://<AdresseMACsansDeuxPoints>/<service>
+</file>
+
+service sera remplacé par //spp// (Serial Port Printing) pour les imprimantes.
+
+L'adresse MAC est écrite sans les « : ». Exemple : « 00:0A:3A:0E:59:A4 » donne « 000A3A0E59A4 ».
+
+La partie « service » devrait pouvoir rester vide (choisie automatiquement), mais n'ayant pas réussi à la faire marcher avec succès, [[:utilisateurs:Id2ndR|je]] vous conseille de la remplir.
+
+Sinon un exemple serait :
+
+<file>bluetooth://000A3A0E59A4/</file>
+
+Imprimez une page de test. Si ça ne fonctionne pas :
+  - Éditez le fichier « /etc/cups/printers.conf ».
+  - Vérifiez que la ligne « DeviceURI » contient la bonne URI. En particulier elle doit débuter par bluetooth:// et non ipp://.
+  - Redémarrez le service CUPS :<code>sudo /etc/init.d/cupsys restart</code>
+  - L'impression dans la file d'attente devrait commencer immédiatement.
+
+===== Configuration =====
+Ici une explication des paramètres possibles (format page, couleur...)
+

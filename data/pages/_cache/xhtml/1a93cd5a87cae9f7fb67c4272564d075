@@ -1,0 +1,130 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#installation_et_parametrage_de_bittorrent" class="toc"> Installation et paramétrage de Bittorrent </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#pour_l_installation_de_bittorrent" class="toc"> Pour l'installation de Bittorrent: </a></span></li>
+<li class="level2"><span class="li"><a href="#comment_cela_fonctionne" class="toc"> Comment Cela Fonctionne ? </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#utilisation" class="toc"> Utilisation </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#autre_clients" class="toc"> Autre clients </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+En cours de traduction + à améliorer
+</pre>
+
+<p>
+Traduction libre de <a href="http://wiki.ubuntu.com/BitTorrent" class="urlextern" title="http://wiki.ubuntu.com/BitTorrent" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">BitTorrent</a>
+</p>
+
+<a name="bittorrent"></a><h5> BitTorrent </h5>
+<div class="level5">
+
+<p>
+ Une manière intelligente et rapide pour télécharger des fichiers. Une fois que vous aurez installé le logiciel de BitTorrent (voyez ci-dessous) il est TRÈS facile d&rsquo;utilisation.  Vous cliquetez simplement sur le fichier à télécharger identifié par .torrent comme extension puis choisissez l&rsquo;emplacement où l&rsquo;enregister. Par exemple pour télécharger l&rsquo;image iso d&rsquo;Ubuntu, cliquez dessus <em>warty-release-install-i386.iso.torrent</em> au lieu de <em>warty-release-install-i386.iso</em> - Tout simplement.
+</p>
+
+</div>
+
+<a name="installation_et_parametrage_de_bittorrent"></a><h1> Installation et paramétrage de Bittorrent </h1>
+<div class="level1">
+
+</div>
+<!-- SECTION [651-708] -->
+<a name="pour_l_installation_de_bittorrent"></a><h2> Pour l'installation de Bittorrent: </h2>
+<div class="level2">
+<pre class="code">
+    bash:~$ sudo apt-get install libwxgtk2.4-python bittorrent
+</pre>
+
+</div>
+<!-- SECTION [709-835] -->
+<a name="comment_cela_fonctionne"></a><h2> Comment Cela Fonctionne ? </h2>
+<div class="level2">
+
+<p>
+ La manière dont cela fonctionne, est que, tandis que vous téléchargez le fichier vous aidez également d&rsquo;autres à le télécharger (ils téléchargent des parties du fichier à partir de votre ordinateur). En téléchargeant des fichiers de manière traditionnelle, plus les personnes le téléchargent plus les ressources (largeur de bande passante) sont saturées. Ceci a pour conséquence que le téléchargement ralentit ou les personnes désirant ce fichier doivent acheter plus de débit. Avec BitTorrent plus il y a des personnes qui le téléchargent, plus le téléchargement est rapide - ils coopèrent efficacement ensemble.  Pour plus d&rsquo;information voir le <a href="http://bittorrent.com/" class="urlextern" title="http://bittorrent.com/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow"> site officiel</a>
+</p>
+
+</div>
+<!-- SECTION [836-1591] -->
+<a name="utilisation"></a><h3> Utilisation </h3>
+<div class="level3">
+
+<p>
+ Récupérez un fichier .torrent Il y en a sur <a href="http://www.linuxisotorrent.com/" class="urlextern" title="http://www.linuxisotorrent.com/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">linux ISO torrent</a>.<br/>
+ Ouvrez un terminal, pour pouvoir fermer le terminal et laisser le téléchargement actif, utilisez <a href="/applications/screen" class="wikilink1" title="applications:screen" onclick="return svchk()" onkeypress="return svchk()">screen</a>. Dans le dossier dans lequel vous avez mis le fichier torrent :
+</p>
+<pre class="code">
+btlaunchmanycurses  --max_upload_rate 8 .</pre>
+
+<p>
+ Explication : 
+</p>
+<ul>
+<li class="level1"><span class="li"> <code>btlaunchmanycurses</code> est la commande en mode Curse qui permet de lancer le téléchargement de plusieurs torrent à la fois</span>
+</li>
+<li class="level1"><span class="li"> &ndash;max_upload_rate 8 pour allouer 8 ko/s en upload (de moi vers eux)</span>
+</li>
+<li class="level1"><span class="li"> . pour spécifier le dossier courant comme dossier de téléchargement (c&rsquo;est là que doivent se trouver les .torrent)</span>
+</li>
+</ul>
+
+<p>
+ Pour lancer une commande en arrière plan vous pouvez aussi utiliser :
+</p>
+<pre class="code">nohup comand [option] [paramètre] &amp;</pre>
+
+<p>
+ Explication :
+</p>
+<ul>
+<li class="level1"><span class="li"> le &lsquo;&amp;&rsquo; en fin de ligne met la commande en arrière plan</span>
+</li>
+<li class="level1"><span class="li"> nohup (no hang up) protége la commande qui continuera même si vous quittez le système.</span>
+</li>
+</ul>
+
+<p>
+ Si la commande est lancée et bloque votre terminal (vous ne récupérer plus l&rsquo;incite) vous pouvez taper ^Z (appui simultanée sur Contrôle et Z), la commande est envoyée en arrière plan, mais dans ce cas, la commande n&rsquo;est pas protégée par un arrêt intempestif du shell.
+</p>
+
+</div>
+<!-- SECTION [1592-2853] -->
+<a name="autre_clients"></a><h2> Autre clients </h2>
+<div class="level2">
+
+</div>
+
+<a name="gnome_bittorent"></a><h4> Gnome Bittorent </h4>
+<div class="level4">
+
+<p>
+Ce client est installé par défaut (sur Hoary). Il peut être lancé dans le menu <strong>Applications &rArr; Internet &rArr; GNOME BitTorrent</strong> ou, plus simplement, en double-cliquant sur le fichier .torrent à télécharger.
+</p>
+
+</div>
+
+<a name="azureus"></a><h4> Azureus </h4>
+<div class="level4">
+
+<p>
+Si vous préférez un client plus riche en options (le plus riche, sans doute), vous aurez peut-être envie d&rsquo;essayer Azureus. Il peut être installé dans <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a> si vous avez activé le <a href="/installation/depots" class="wikilink1" title="installation:depots" onclick="return svchk()" onkeypress="return svchk()">dépot</a> <em>backports</em>
+</p>
+
+</div>
+
+<a name="bittornado"></a><h4> Bittornado </h4>
+<div class="level4">
+
+<p>
+Egalement disponible dans les backports, bittornado est une version avancée du client originel. Il reste une solution plus légère qu&rsquo;Azureus. 
+</p>
+
+</div>
+<!-- SECTION [2854-] -->

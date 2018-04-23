@@ -1,0 +1,157 @@
+{{tag>audio lecteur_audio}}
+----
+
+====== ProjectM : Les visualisations sous ubuntu ======
+
+{{  http://www.milkdrop.co.uk/images/screenshots/Starquake%28mix%29_small.jpg?250}}
+projectM est un visualiseur de musique incroyable. Il n'y a rien de mieux dans le monde d'Unix. La grandeur de projectM provient du travail acharné de la communauté, et les Utilisateurs comme vous, peuvent créer des presets qui relient la musique avec des effets visuels incroyables.((traduction))
+
+ProjectM est l'équivalent libre des AVS de winamp, et il est compatible avec milkdrop.
+
+Site officiel : http://projectm.sourceforge.net/
+
+===== Installation =====
+==== Par les dépôts ====
+
+[[apt://libvisual-projectm,libprojectm-data|Cliquer ici]] ou :
+        sudo apt-get install libvisual-projectm libprojectm-data
+
+Risque d'être insuffisant, il n'y a que des modules.
+==== Par les dépôts (à partir de Ubuntu Maverick) ====
+[[apt://libvisual-projectm,libprojectm-data,projectm-pulseaudio|Cliquer ici]] ou :
+        sudo apt-get install libvisual-projectm libprojectm-data projectm-pulseaudio
+
+==== Par un dépôt PPA (sur Ubuntu LTS Lucid) ====
+<code>
+sudo add-apt-repository ppa:ximion/ppa && sudo apt-get update -qq && sudo apt-get install libvisual-projectm libprojectm-data projectm-pulseaudio
+</code>
+
+====Compilation Manuelle====
+
+Lancer le script :
+
+<code>
+#!/bin/sh
+# Changes:
+# - 2009
+
+echo "Télécharger les dépendances"
+sudo apt-get install libglew1.5 libglew1.5-dev libftgl-dev libpulse-dev subversion cmake libvisual-0.4-dev libsdl1.2-dev libqt4-dev build-essential cmake-curses-gui
+
+
+echo "Créer les dossier"
+
+cd ~
+mkdir projectm
+cd projectm
+echo "le téléchargement svn peut prendre du temps"
+svn co http://projectm.svn.sf.net/svnroot/projectm/trunk projectM-Trunk
+
+echo "On va dans le dossier"
+cd projectM-Trunk/src
+
+echo " par défaut aller à 2)"
+echo "1)méthode manuelle avec la commande : ccmake ."
+echo "Appuyez sur 'c' pour ouvrir l'écran configurer cmake."
+echo "Modifiez la valeur 'CMAKE_INSTALL_PREFIX' valeur de '/usr/local' à '/usr'"
+echo "Changer le CMAKE_BUILD_TYPE 'à 'Release' "
+echo "Appuyez sur 'c' pour ouvrir l'écran configurer cmake."
+echo "Appuyez sur 'g' pour générer vos changements, qui permettront de créer votre fichier makefile nécessaires pour la compilation."
+echo "Appuyez sur 'q' après ce qui a été généré."
+echo "2)Méthode semi automatique"
+echo "vous n'avez qu'a appuyer sur 'c','c','g' et 'q'"
+ccmake . -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release
+
+echo "on compile"
+make 
+sudo make install
+
+</code>
+
+  * **Voilà**.
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3245237|Voir ou partager sur le forum]].
+  * [[http://ubuntuforums.org/showthread.php?t=749793&|tuto en anglais]]
+
+=====Lancer projectM =====
+
+Vous pouvez lancer projectM ou dans le menu Application -> son et vidéo. Ce qui l'activera pour tous les sons sur votre pc ([[pulseaudio]]).
+
+
+ProjetM peut être lancé par la commande :
+       projectM-pulseaudio
+
+Les lecteurs compatibles projectM (par leur plugin):
+  * [[:Amarok]] *
+  * [[:Audacious]]
+  * [[:Clementine]]
+  * [[:Xmms]]
+
+<note important>Il n'y a pas ou plus de plugin projectM pour Amarok2</note>
+
+Les [[media center]] compatibles projectM :
+  * [[xbmc]] (intégré)
+===== Utilisation =====
+==== Raccourci clavier ====
+
+
+Contrôles (ceux-ci sont répertoriés dans le menu "raccourcis clavier"):
+
+  * m - fait apparaître un menu
+  * f - permet de basculer en plein écran on / off
+  * L - «verrouille» à un préréglage particulier
+  * y - bascule dans le mode aléatoire (shuffle)
+  * n - preset suivant
+  * p - preset précédent
+  * R - sélectionne au hasard un preset
+
+  * F1 - Menu d'aide
+  * F2 - Bascule titre de la chanson on / off (ne fonctionne pas dans libvisual ou pulseaudio apparement)
+  * F3 - Bascule nom de la présélection on / off
+  * F4 - Bascule info rendu on / off
+  * F5 - Affiche fps
+
+==== Installer des autres presets ====
+
+
+**Vous pouvez télécharger ces packs** : 
+  * [[http://sharebee.com/76d6ce4c|Le pack de preset milkdrop de winamp]] (mirroir). (LIENS MORTS)
+  * [[http://sharebee.com/e965e6d0|le pack de presets psychédélique]]. (Mot de passe : ubuntu ) (LIENS MORTS)
+
+Il faut mettre ces presets dans (nécessite d'être root) :
+        /usr/share/projectM/presets
+
+Vous pouvez trouver d'autres preset sur :
+  * [[http://www.milkdrop.co.uk/downloads.htm|Le site du projet milkdrop]] ( qui sont en théorie tous présent si vous avez compilé normalement )
+  * [[http://forums.winamp.com/forumdisplay.php?s=265d8192b5b93a8a9e79e7fdc7294db4&forumid=84|Des presets milkdrop sur le forum winamp]]
+
+Une alternative est de créer un dossier ou vous voulez, puis de créer un lien symbolique , ainsi vous n'aurais pas à être root par la suite :
+        cd /usr/share/projectM/presets && sudo ln -s ~/projectm/presets/ others
+
+==== Support avancé nvidia et shader effect ====
+
+Si vous avez une carte nvidia récente, vous avez de la chance! Vous pouvez activer des effets de shader et obtenir certains effets impressionnants avec les presets Milkdrop 2,0 . D'abord, vous devez installer :
+<code>sudo aptitude install nvidia-cg-toolkit</code>
+
+puis activer l'option CG au cmake et compiler. Cela ne changera pas le comportement avec les presets standard, mais essayez de les Presets dans le répertoire projectM-Trunk/presets_milkdrop_200/  et voir des effets awesome. C'est encore très expérimental et ne fonctionnera probablement pas avec autre chose que les cartes nvidia 6xxx, 7xxx 8xxx ou 9xxx.
+
+===== Problèmes =====
+==== Écran noir ====
+
+Si vous avez un écran noir à la place des visualisations, il faut taper dans la console la commande export LC_NUMERIC='C' avant de lancer projectM-pulseaudio.
+En résumé pour lancer projectm, le code est le suivant :
+<code>
+export LC_NUMERIC='C'
+projectM-pulseaudio
+</code>
+Vous pouvez mettre ça dans un fichier texte, afin de l'utiliser pour lancer plus simplement projectm.
+===== Liens =====
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=81928|Sur le forum ubuntu (fr)]]
+  * [[http://ubuntuforums.org/showthread.php?t=749793|(en)How to sur le forum ubuntu]].
+  * [[http://www.ubuntugeek.com/ubuntu-howto-install-projectm-audio-visualizer.html|(en)Sur ubuntu geek]]
+  * [[http://bestiario.org/research/eyecandy/|Visualisation en flash]]
+
+
+
+-----
+
+//Contributeurs : [[utilisateurs:Psychederic]] [[utilisateurs:bugs néo]]//

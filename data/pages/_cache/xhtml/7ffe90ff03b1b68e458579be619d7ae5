@@ -1,0 +1,178 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#howto_-_installation_parametrage_et_lancement_automatique_de_folding_home_pour_ubuntu" class="toc"> [HowTo] - Installation, parametrage et lancement automatique de Folding@Home pour Ubuntu ! </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#introduction" class="toc">  Introduction </a></span></li>
+<li class="level2"><span class="li"><a href="#installation_et_parametrage" class="toc">  Installation et parametrage </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#installation" class="toc"> Installation </a></span></li>
+<li class="level3"><span class="li"><a href="#creation_du_fichier_de_demarrage_automatique" class="toc"> Création du fichier de demarrage automatique  </a></span></li>
+<li class="level3"><span class="li"><a href="#demarrage_automatique_au_lancement_d_ubuntu" class="toc"> Démarrage automatique au lancement d'ubuntu </a></span></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">Version Hoary</pre>
+ Traduit/Rédigé par <a href="/utilisateurs/dukiclock" class="wikilink1" title="utilisateurs:dukiclock" onclick="return svchk()" onkeypress="return svchk()">dukiclock</a> Remarques et commentaires  sur le <a href="http://forum.ubuntu-fr.org/viewtopic.php?pid=44821#p44821" class="urlextern" title="http://forum.ubuntu-fr.org/viewtopic.php?pid=44821#p44821" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">forum Ubuntu-fr</a>.
+<a name="howto_-_installation_parametrage_et_lancement_automatique_de_folding_home_pour_ubuntu"></a><h1> [HowTo] - Installation, parametrage et lancement automatique de Folding@Home pour Ubuntu ! </h1>
+<div class="level1">
+
+</div>
+<!-- SECTION [182-287] -->
+<a name="introduction"></a><h2>  Introduction </h2>
+<div class="level2">
+
+<p>
+ Folding@Home est un projet de distribution de données à plusieurs ordinateurs qui étudie  le repliement des protéines, les repliements anormaux, l’agrégation des protéines, et les maladies liées. L&rsquo;idée est d&rsquo;utiliser des méthodes informatiques nouvelles et une répartition des données aux ordinateurs dit &ldquo;distribués&rdquo; à grande échelle pour simuler des échelles de temps des milliers voire des millions de fois plus longues que celles qu’on réalisait auparavant. Cela nous a permis de simuler un repliement pour la première fois, et de mener désormais notre recherche vers l’étude des maladies associées.
+</p>
+
+</div>
+<!-- SECTION [288-946] -->
+<a name="installation_et_parametrage"></a><h2>  Installation et parametrage </h2>
+<div class="level2">
+
+</div>
+<!-- SECTION [947-988] -->
+<a name="installation"></a><h3> Installation </h3>
+<div class="level3">
+<ul>
+<li class="level1"><span class="li"> Par exemple dans /home/[utilisateur]/fah </span>
+</li>
+</ul>
+
+<p>
+ <strong>(tout au long du texte, <em>[utilisateur]</em> est a remplacer par le nom de votre session !!!)</strong>
+</p>
+<pre class="code">mkdir /home/[utilisateur]/fah</pre>
+<ul>
+<li class="level1"><span class="li"> Telecharger le client F@H dans le dossier nouvellement crée </span>
+</li>
+</ul>
+<pre class="code">cd /home/[utilisateur]/fah
+sudo wget http://www.stanford.edu/group/pandegroup/release/FAH502-Linux.exe</pre>
+<ul>
+<li class="level1"><span class="li"> Changer les droits du fichier</span>
+</li>
+</ul>
+<pre class="code">sudo chmod +x FAH502-Linux.exe</pre>
+<ul>
+<li class="level1"><span class="li"> Executer le programme afin de parametrer F@H </span>
+</li>
+</ul>
+<pre class="code">sudo ./FAH502-Linux.exe</pre>
+<ul>
+<li class="level1"><span class="li"> Entrer les infos requises </span>
+</li>
+</ul>
+
+<p>
+ Quand F@H commence a traiter la premiere WU, fermer le client !
+</p>
+
+</div>
+<!-- SECTION [989-1610] -->
+<a name="creation_du_fichier_de_demarrage_automatique"></a><h3> Création du fichier de demarrage automatique  </h3>
+<div class="level3">
+<ul>
+<li class="level1"><span class="li"> Crer un fichier nommé fah dans le dossier /etc/init.d</span>
+</li>
+</ul>
+<pre class="code">sudo gedit /etc/init.d/fah</pre>
+<ul>
+<li class="level1"><span class="li"> Maintenant, copier les infos suivantes a l&rsquo;interieur</span>
+</li>
+</ul>
+<pre class="code">#!/bin/sh
+# /etc/init.d/fah for Ubuntu
+# Start/stop/restart the F@H service.
+
+fah_start() {
+if [ -x /home/[utilisateur]/fah/startfah.sh ]; then
+echo &quot;Starting F@H: /home/[utilisateur]/fah/startfah.sh&quot;
+/home/[utilisateur]/fah/startfah.sh
+fi
+}
+
+fah_stop() {
+sudo killall FAH502-Linux.exe
+}
+
+fah_restart() {
+fah_stop
+sleep 2
+fah_start
+}
+
+case &quot;$1&quot; in
+'start')
+fah_start
+;;
+'stop')
+fah_stop
+;;
+'restart')
+fah_restart
+;;
+*)
+fah_start
+esac</pre>
+
+<p>
+ Verifier que vous avez bien remplacer [utilisateur] pour votre login. Sauvegarder et fermer &amp;#8220;gedit&amp;#8221;. 
+</p>
+<ul>
+<li class="level1"><span class="li"> Changer les droits du fichier</span>
+</li>
+</ul>
+<pre class="code">sudo chmod +x /etc/init.d/fah</pre>
+
+</div>
+<!-- SECTION [1611-2501] -->
+<a name="demarrage_automatique_au_lancement_d_ubuntu"></a><h3> Démarrage automatique au lancement d'ubuntu </h3>
+<div class="level3">
+<ul>
+<li class="level1"><span class="li"> Maintenant, nous allons créer le script startfah.sh</span>
+</li>
+</ul>
+<pre class="code">sudo gedit /home/[utilisateur]/fah/startfah.sh</pre>
+<ul>
+<li class="level1"><span class="li"> Copier les informations suivantes a l&rsquo;intérieur </span>
+</li>
+</ul>
+<pre class="code">#!/bin/sh
+cd /home/[utilisateur]/fah
+/home/[utilisateur]/fah/FAH502-Linux.exe -forceasm -advmethods &gt;/dev/null 2&gt;&amp;1 &amp;
+exit 0</pre>
+
+<p>
+  Vous pouvez supprimer les paramètres &amp;#8220;-forceasm&amp;#8221; et &amp;#8220;-advmethods&amp;#8221; ou en rajouter d&rsquo;autres ...
+</p>
+
+<p>
+Plus d&rsquo;infos sur (en anglais) : <a href="http://www.liquidninjas.com/bbs/showthread.php?t=3270" class="urlextern" title="http://www.liquidninjas.com/bbs/showthread.php?t=3270" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.liquidninjas.com/bbs/showthread.php?t=3270</a>
+</p>
+
+<p>
+*Changer les droits du fichier  
+</p>
+<pre class="code">sudo chmod +x /home/[utilisateur]/fah/startfah.sh</pre>
+<ul>
+<li class="level1"><span class="li"> Etape finale, créer un lien dans <em>/etc/rc2.d</em></span>
+</li>
+</ul>
+<pre class="code">sudo ln -s /etc/init.d/fah /etc/rc2.d/S99fah</pre>
+
+<p>
+ Pour tester le script, rebooter ou entrer la commande : 
+</p>
+<pre class="code">sudo /etc/init.d/fah start</pre>
+
+<p>
+ Lancer le moniteur système, l&rsquo;utilisation CPU doit être a 100% !!! 
+</p>
+
+</div>
+<!-- SECTION [2502-] -->

@@ -1,0 +1,115 @@
+{{tag> Precise matériel tutoriel imprimante scanner}}
+----
+======Imprimante multifonctions  Epson WorkForce======
+
+{{  :epson-workforce-pro-wp-4545-dtwf-0.jpg?direct&175|}}
+
+Cette imprimante est utilisable assez facilement à partir d'[[:Precise|Ubuntu 12.04 LTS]] avec les pilotes fournis par Epson et quelques manipulations détaillées ici.
+
+<note>Le site d'Avasys est fermé depuis le 20/01/2013.\\
+Pour télécharger les pilotes, il faut utiliser le lien ci-après : http://download.ebz.epson.net/dsc/search/01/search/ </note>
+
+===== Pré-requis =====
+  * **Ne pas brancher** l'imprimante **__avant__** l'installation des pilotes.
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir récupéré les drivers (imprimante, scanner et fax) correspondant à votre modèle et à votre processeur sur [[http://download.ebz.epson.net/dsc/search/01/search/?OSC=LX|le site d'Epson]]
+
+===== Installation en ligne de commande =====
+Depuis le dossier où vous avez téléchargé les [[:paquet|paquets]] //.deb// des pilotes, installez-les via un [[:terminal]] en saisissant les [[:commande_shell|commandes]] suivantes dans cet ordre:
+<code>
+sudo dpkg -i epson-inkjet-printer-2012w-xxx.deb 
+sudo dpkg -i epson-inkjet-printer-escpr.deb 
+sudo dpkg -i iscan-data-xxx.deb 
+sudo dpkg -i iscan-xxx.deb  
+sudo dpkg -i iscan-network-nt.deb
+sudo dpkg -i epson-pc-fax.deb
+</code>
+
+Redémarrer l'ordinateur une fois le dernier pilote installé
+
+===== Installation en mode graphique =====
+==== Phase 1 - installation des drivers ====
+  - Depuis le site d'Epson http://download.ebz.epson.net/dsc/search/01/search/, saisissez votre modèle d'imprimante (par exemple WF-7620) et le système d'exploitation //Linux// et cliquez sur la loupe, un nouvel onglet s'ouvre :
+  - Apparaît une liste des différents drivers pour les différentes fonctions de votre imprimante. Cliquez sur Download dans l'ordre d'apparition de drivers, un nouvel onglet s'affiche :
+  - Après avoir accepter les conditions d'utilisation en cliquant sur **Accept**, descendez en bas de la fenêtre. Différents boutons **Download** apparaissent :
+    - À savoir : pour Ubuntu, seul les noms de fichier (colonne //file_name// du tableau) finissant par //deb// vous concerne. Il devrait en resté deux en fonction de si vous avez installé Ubuntu en version 32 ou 64 bits (voir https://doc.ubuntu-fr.org/architecture_materielle)
+    - si vous êtes en 32 bits : cliquez sur le bouton **Download** correspondant au nom de fichier se terminant par _i386.deb
+    - si vous êtes en 64 bits : cliquez sur le bouton **Download** correspondant au nom de fichier se terminant par _amd64.deb
+  - La fenêtre de téléchargement de votre navigateur apparaît. Si vous utilisez Firefox, il vous demande //Que doit faire Firefox de ce fichier// : sélectionnez //Ouvrir avec// : et sélectionnez **Installation de l'application** si ce n'est déjà pas fait.
+  - Après téléchargement du fichier, le logiciel de logithèque Ubuntu est lancé, cliquez sur **Installer**, saisissez votre mot de passe administrateur attestant que vous n’êtes pas mal intentionné, attendez, et vérifiez que l'installation soit terminée, Fermez la fenêtre.
+  - Vous recommencez cette procédure pour toutes les fonctions (et driver) jusqu'au dernier //download// qui n'est en fait que la documentation bien souvent qu'en anglais (et qui ne s'installe donc pas, FireFox vous proposera simplement de visualiser les documents ou d'ouvrir le zip pour les visualiser)
+==== Phase 2 - installation de l'imprimante réseau (filaire ou Wifi) via le gestionnaire d'imprimante ====
+  - Une fois les drivers installés, vous devez installer l'imprimante à proprement parler. La méthode via le gestionnaire d'imprimante est la plus simple. Depuis le //Dash// (autrement appelé //bouton de tableau de bord//, en haut à gauche de la barre des applications) saisissez le mot clef imprimante et double cliquez sur l'application imprimantes. Une fenêtre s'ouvre listant vos éventuelles imprimantes déjà définies.
+  - Cliquez sur le bouton **+ Ajouter** pour ajouter votre nouvelle imprimante,
+  - Dans la liste des //Périphériques//, repérez //Imprimante réseau//. Le fait d'avoir cliqué lance une recherche de toutes les imprimantes qu'Ubuntu voit sur votre réseau. Sélectionnez l'imprimante que vous désirez installer (au passage, notez l'adresse IP de l'imprimante, elle vous sera utile si vous souhaitez installer la fonction fax par exemple).
+  - Laissez dans le volet droit de la fenêtre la connexion proposée par défaut et cliquez sur suivant,
+  - Dans ce dernier écran, vous indiquez ce que vous souhaitez pour vous y retrouver dans vos imprimantes. Si vous disposez de plusieurs imprimante, il est conseillé de saisir des informations suffisamment explicites pour vous y retrouver,
+  - Cliquez sur appliquer.
+Une nouvelle imprimante est créée et apparaît dans la liste des imprimantes, imprimez une page de test pour vérifier que l'installation s'est bien produite. \\
+Le rond vert avec la coche blanche indique l'imprimante qui vous sera proposée par défaut. \\
+Un clic droit sur l'imprimante, puis //Propriété// permet de choisir les options de l'imprimante qui vont seront proposés par défaut (recto/verso, couleur ou noir et blanc, etc...). Bien entendu, ces paramètres par défaut peuvent être modifiés au cas par cas en cliquant sur le bouton //préférence// lorsque vous imprimerez un document. \\
+Un clic droit sur l'imprimante, puis //Voir la file d'attente// permet de visualiser les travaux en attente ou effectués (en cliquant sur le bouton coche verte). \\
+
+===== Utilisation via l'USB =====
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>libsane-extras]]** puis brancher l'imprimante.\\
+L'installation et la configuration de l'imprimante et du scanner se fera automatiquement.
+
+===== Utilisation via le Wifi =====
+Paramétrer l'imprimante via son interface afin qu'elle se connecte sur votre réseau personnel ( //Réglage Wifi -> assistant config wifi//) 
+
+<note> Désactiver le [[:pare-feu]] pendant la configuration: en saisissant dans un [[:terminal]] <code>sudo ufw disable</code> </note>
+
+Installer l'imprimante depuis [[:CUPS]] accessible depuis votre [[:navigateur]] à l'adresse [[http://localhost:631]].\\
+Vous suivrez les indications du menu //Administration -> Ajouter l'imprimante//
+
+Pour pouvoir utiliser le scanner en mode wifi, vous devrez également:
+  * [[:tutoriel:comment_modifier_un_fichier|modifier]] avec les [[:sudo|droits d'administration]] le fichier **/etc/sane.d/dll.conf** comme suit <file bash /etc/sane.d/dll.conf>
+epson
+epkowa
+epson2
+</file> Si ce n'est pas déjà le cas, il vous faudra donc enlever les dièses (**#**) au niveau des lignes "epson" et "epson2" et ajouter une ligne "epkowa"
+  * [[:tutoriel:comment_modifier_un_fichier|Ajouter]] avec les [[:sudo|droits d'administration]] dans le fichier **/etc/sane.d/epkowa.conf** <file bash>net  AAA.BBB.C.DDD 1865</file>où **AAA.BBB.C.DDD** correspond à l'adresse IP de l'imprimante disponible dans son interface //Réglage Wi-Fi -> État Wi-Fi / Réseau -> Adresse IP// 
+
+<note> Réactiver le parefeu : <code>sudo ufw enable</code> </note>
+
+Vous pouvez accéder à l'état de votre imprimante (niveau des cartouches, état Wifi, mise à jour du micrologiciel... ) en tapant son adresse IP dans votre [[navigateur]].
+
+|{{:epson-wf.png?direct&300|État de l'imprimante}}|
+
+
+===== Scanner =====
+
+Pour pouvoir numériser recto-verso avec [[:Xsane]] (si votre imprimante propose cette option), il faut utiliser le chargeur automatique de documents puis activer la fonction dans //Fenêtres -> options avancées -> recto-verso// puis indiquer le nombre de pages a scanner.
+
+|{{:epson-wf1.png?direct&300|Option Recto/Verso}}|
+
+=====Fax=====
+Pour pouvoir envoyer les fax depuis votre PC, quelques manipulations sont a effectuer depuis CUPS ou à travers le gestionnaire d'imprimante accessible depuis le dash (en saisissant le mot clef imprimante).
+
+====Installation via CUPS (http://localhost:631/)====
+  - Dans l'onglet "Administration", cliquer sur "ajouter une imprimante", et choisir "Epson-Fax".
+  - Dans l'onglet "Connexion", ajouter l'adresse IP de l'imprimante. Si celle-ci est par exemple //192.168.0.123//, vous indiquerez ceci: <file>epsonfax://192.168.0.123</file>
+  - Dans l'onglet "Description" laisser le choix par défaut "EPSON_FAX" puis dans l'onglet suivant choisir le modèle **EPSON-PC FAX-1.0.0-1lsb3.2** et valider. \\
+
+====Installation via le gestionnaire d'imprimante (plus simple)====
+  - Comme pour l'installation d'une imprimante, depuis le Dash saisissez le mot clef //imprimante//. Une fenêtre s'ouvre avec vos imprimantes déjà définies.
+  - Cliquez sur le bouton + Ajouter pour ajouter le fax (qui sera vue comme une imprimante qui envoie un fax au lieu d'imprimer),
+  - Si votre imprimante a pour adresse IP par exemple //192.168.0.123//, vous indiquerez ceci dans l'url du périphérique : <file>epsonfax://192.168.0.123</file> et cliquez sur suivant,
+  - Laissez par défaut //Sélectionner une imprimante dans la base de données// et sélectionnez le fabricant à savoir //EPSON// dans la base de données,
+  - C'est ici que vous spécifiez réellement qu'il s'agit d'un fax __en choisissant le modèle **PC-FAX**__ et **pas le modèle de votre imprimante**. Notez que si vous avez correctement installé le driver, après avoir choisi PC-FAX, le driver apparaîtra dans le volet de droit sous la forme de : **Epson PC FAX-1.0.0-1lsb3.2 (Seiko Epson Corporation LSB 3.2) [en] (recommandé)**.
+  - Dans ce dernier écran, vous indiquez ce que vous souhaitez pour vous y retrouver dans vos imprimantes. Il est conseillé de saisir pour nom d'imprimante un nom court comme //FAX// car c'est ce nom que vous devrez saisir dans les lignes de commande (après le paramètre -P, cf plus bas) et est suffisamment explicite pour indiquer qu'il s’agit d'un fax et nom d'une imprimante, cliquez sur appliquer.
+Une nouvelle imprimante //FAX// est crée et apparaît dans la liste des fax. \\
+Malheureusement, vous ne pourrez pas l'utiliser directement ce fax à partir de l'impression d'un document (voir § utilisation)
+
+====Utilisation====
+Il n'est possible d'envoyer des fax qu'en ligne de commande.
+Vous saisirez par exemple dans un [[:terminal]] ((astuce : dans l'explorateur de fichier, un clic droit en dessous de la liste des fichiers c'est à dire là où il n'y a plus de fichier, sélectionnez //ouvrir dans un terminal// vous permet d'ouvrir le terminal de commande directement dans le répertoire où se trouve le fichier ce qui vous permet de ne saisir que le nom du chemin sans écrire le répertoire où il se trouve)) :
+<code>epfax -P EPSON_FAX -o fax-number=0123456789 nom_du_fichier.ext</code> 
+Où:
+  * //EPSON_FAX//: correspond à ce qui est indiqué dans l'onglet "Description" paramétré plus avant (méthode CUPS) ou Nom abrégé (méthode gestionnaire d'imprimante)
+  * //fax-number//: sera égal au numéro du fax que vous cherchez à joindre
+  * //nom_du_fichier.ext//: est le chemin complet avec le fichier que vous souhaitez envoyer
+
+Notice d'aide (en anglais) [[http://download.ebz.epson.net/man/linux/pc-fax_e.html]]
+

@@ -1,0 +1,111 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#comment_installer_un_all-in-one_hp" class="toc"> Comment installer un All-in-One HP </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#installation_de_la_partie_imprimante" class="toc"> Installation de la partie imprimante </a></span></li>
+<li class="level2"><span class="li"><a href="#installation_de_la_partie_scanner" class="toc"> Installation de la partie scanner </a></span></li>
+<li class="level2"><span class="li"><a href="#remarque" class="toc"> Remarque </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version hoary
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/ostaquet" class="wikilink1" title="utilisateurs:ostaquet" onclick="return svchk()" onkeypress="return svchk()">ostaquet</a>.
+</p>
+
+<a name="comment_installer_un_all-in-one_hp"></a><h1> Comment installer un All-in-One HP </h1>
+<div class="level1">
+
+</div>
+<!-- SECTION [72-122] -->
+<a name="installation_de_la_partie_imprimante"></a><h2> Installation de la partie imprimante </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> Connectez votre all-in-one à votre machine et allumez le.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Allez dans le menu Système &rArr; Administration =&rArr; Impression.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Double-cliquez sur <strong>Nouvelle imprimante</strong>.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Normalement, vous devriez avoir une ligne indiquant l&rsquo;imprimante détectée. Choisissez l&rsquo;option <em>Utiliser l&rsquo;imprimante détectée</em> et cliquez sur suivant.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Choisissez le modèle correspondant le mieux à votre All-in-One. Si ce modèle ne se trouve pas dans la liste, utilisez le modèle définit par défaut. (par exemple, pour une PSC 1210, le modèle par défaut est PSC 1200).</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Cliquez sur <em>Appliquer</em>.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Votre imprimante est maintenant installée.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [123-826] -->
+<a name="installation_de_la_partie_scanner"></a><h2> Installation de la partie scanner </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> Allez dans le gestionnaire de paquet <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a> et installez le paquet <code>hpoj</code>. Il se peut que vous deviez installer des paquets supplémentaires, mettez les en sélection.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Une fois les paquets installés, toujours en laissant le all-in-one allumé, déconnectez la prise USB de la machine. Attendez 5 secondes et reconnectez la prise USB.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Lancez la commande suivante dans un terminal :</span>
+</li>
+</ul>
+<pre class="code">
+sudo /etc/init.d/hpoj setup
+</pre>
+<ul>
+<li class="level1"><span class="li"> Le programme va vous demander de tester les périphériques parallèles (<em>parallel-connected devices</em>); répondez <code>n</code>. Ensuite, il va vous demander de tester les périphériques USB (<em>USB-connected devices</em>); répondez <code>y</code>.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Votre périphérique doit être reconnu maintenant. Tapez la touche RETURN du clavier pour continuer.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Le programme va vous demander de tester les périphériques JetDirect. Tapez la touche RETURN pour passer cette étape.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Lancez la commande suivante pour initialiser le pilote :</span>
+</li>
+</ul>
+<pre class="code">
+sudo /etc/init.d/hpoj restart
+</pre>
+<ul>
+<li class="level1"><span class="li"> Votre scanner est maintenant installé.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [827-1957] -->
+<a name="remarque"></a><h2> Remarque </h2>
+<div class="level2">
+
+<p>
+ Pour faire fonctionner mon imprimante HP OfficeJet G55 j&rsquo;ai du effectuer un petit changement après avoir suivi ce guide. Il faut aller dans Système&rarr;Administration&rarr;Impression, cliquer avec le bouton droit sur l&rsquo;imprimante concernée puis choisir &ldquo;Propriété&rdquo; ou &ldquo;Connexion&rdquo;. Il faut ensuite spécifier le port à utiliser et choisir dans la liste l&rsquo;élement qui contient le mot &ldquo;PTAL&rdquo;.  
+</p>
+
+</div>
+<!-- SECTION [1958-] -->

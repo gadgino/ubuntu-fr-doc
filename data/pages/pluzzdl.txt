@@ -1,0 +1,146 @@
+{{tag>Television Webtv vétuste }}
+
+----
+
+
+====== Pluzzdl ======
+
+Pluzzdl est une évolution de [[tvdownloader|TVDownloader]], un projet qui a pour but de permettre le téléchargement de podcasts et d'émissions librement disponibles sur Internet. 
+
+Pluzzdl est un outil en ligne de commande qui permet de créer un fichier [[matroska|mkv]] à partir de l'url de l'émission ( tant que celle-ci est disponible pour un visionnage libre en ligne). 
+
+Pluzzdl est situé sur le même dépôt que [[tvdownloader|TVDownloader]].
+
+===== Installation =====
+
+==== Dépendances ====
+
+Pluzzdl suppose les dépendances suivantes : 
+Python 2 PyCrypto Beautiful Soup (python-beautifulsoup) SocksiPy (python-socksipy) FFmpeg
+<code>
+sudo apt-get install python-beautifulsoup python-socksipy libav-tools
+</code>
+<note tip>[[ffmpeg|ffmpeg]] étant remplacé par avconv dans les installations par défaut d'Ubuntu, voir [[pluzzdl#Utiliser_avconv_au_lieu_de_ffmpeg|ci-dessous]] pour personnaliser l'installation et utiliser [[avconv|avconv]] (paquet libav-tools) en lieu et place de ffmpeg</note>
+
+==== Installation par les dépôts PPA ====
+=== PluzzDL sur Ubuntu 12.10 (Quantal) ===
+
+  sudo add-apt-repository ppa:chaoswizard/tvdownloader && sudo apt-get update && sudo apt-get install -y pluzzdl
+
+=== Ubuntu 10.10 (Maverick) et versions ultérieures===
+
+[[:PPA|Ajoutez le PPA]] **ppa:chaoswizard/tvdownloader**((https://launchpad.net/~chaoswizard/+archive/tvdownloader)) dans vos sources de logiciels, [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]], puis [[:tutoriel:comment_installer_un_paquet|Installez les paquets]] **[[apt://tvdownloader|tvdownloader]]**.
+
+  sudo add-apt-repository ppa:chaoswizard/tvdownloader && sudo apt-get update && sudo apt-get install -y tvdownloader
+  
+=== Ubuntu 10.04 (Lucid) ===
+
+La version pour lucid n'est plus générée sur le dépôt par l'équipe, il est toutefois possible de l'installer sur cette LTS (supportée jusqu'en avril 2013 pour les postes de travail).
+
+Téléchargez ((en fonction de votre [[architecture_materielle| architecture materielle]])) et [[:tutoriel:comment_installer_un_paquet|installez les paquets ]] :
+
+  *  **librtmp0_2.3-2** et **rtmpdump_2.3-2** que vous trouverez sur **[[http://security.ubuntu.com/ubuntu/pool/universe/r/rtmpdump/|ce site]]**, 
+  * **msdl** à télécharger sur **[[http://ppa.launchpad.net/chaoswizard/tvdownloader/ubuntu/pool/main/m/msdl/|ce site]]**,
+  * **tvdownloader** à télécharger sur **[[http://ppa.launchpad.net/chaoswizard/tvdownloader/ubuntu/pool/main/t/tvdownloader/|ce site]]**.
+
+==== Compilation par les sources ====
+
+[[:tutoriel:comment_installer_un_paquet|Installez les paquets]] **[[apt://build-essential,make,pyqt4-dev-tools,rtmpdump,python-crypto,python-mechanize,checkinstall|build-essential, make, pyqt4-dev-tools, rtmpdump, python-crypto, python-mechanize, checkinstall]].**
+
+<code>
+sudo apt-get install build-essential make pyqt4-dev-tools python-crypto python-mechanize checkinstall rtmpdump
+</code>
+
+<note> Le paquet **rtmpdump** n'étant pas disponible dans les dépôts de [[lucid|Lucid]], il vous faudra l'installer manuellement comme indiqué ci-dessus.</note> 
+
+Tapez dans un [[terminal]] les lignes suivantes :
+<code>wget http://tvdownloader.googlecode.com/files/tvdownloader-0.7.2.tar.gz
+tar -xvf tvdownloader-0.7.2.tar.gz
+cd tvdownloader-0.7.2
+make
+sudo make install
+sudo checkinstall</code>
+
+==== Compilation depuis le dépôt git ====
+
+Une version fonctionnelle de pluzzdl (juin 2014) se trouve sur github: [[https://github.com/ziirish/pluzzdl]]
+
+Pour l'installer (il faut avoir [[:tutoriel:comment_installer_un_paquet|git-core]] d'installé):
+<code>
+   git clone https://github.com/ziirish/pluzzdl
+ </code>
+Déplacer pluzzdl vers le répertoire d'installation (par exemple /opt/pluzzdl)
+<code>
+  mv pluzzdl /opt/pluzzdl
+</code>
+Se placer dans le répertoire d'installation et lancer la compilation
+<code>
+   cd pluzzdl
+   make build
+   sudo checkinstall</code>
+   
+==== Personnalisation de l'installation ====
+
+=== Utiliser avconv au lieu de ffmpeg ===
+
+L'installation de pluzzdl crée un fichier pluzzdl/src/PluzzDL.py qui contient les instructions de conversion du fichier .ts au format .mkv aux alentours de la ligne 285
+<code>
+		try:
+			if( os.name == "nt" ):
+				commande = "ffmpeg.exe -i %s -vcodec copy -acodec copy %s 1>NUL 2>NUL" % ( self.nomFichier, self.nomFichierFinal )
+			else:
+				commande = "ffmpeg -i %s -vcodec copy -acodec copy %s 1>/dev/null 2>/dev/null" % ( self.nomFichier, self.nomFichierFinal )
+</code>
+
+à remplacer par (vous pouvez supprimer <os.name == "nt"> qui concerne un ancien systéme d'exploitation alternatif à GNU/Linux - évidemment très inférieur)
+<code>
+		try:
+			commande = "avconv -i %s -threads auto -vcodec copy -acodec copy %s 1>/dev/null 2>/dev/null" % ( self.nomFichier, self.nomFichierFinal )
+</code>
+
+voire même pour ceux qui souhaitent une conversion en deux passes par
+<code>
+		try:
+			commande = "avconv -i %s -threads auto -pass 1 -vcodec copy -acodec copy %s 1>/dev/null 2>/dev/null" % ( self.nomFichier, self.nomFichierFinal )
+			commande = "avconv -i %s -threads auto -pass 2 -vcodec copy -acodec copy %s 1>/dev/null 2>/dev/null" % ( self.nomFichier, self.nomFichierFinal )
+</code>
+
+=== Personnaliser le répertoire d'installation ===
+
+Il est possible que le premier lancement de pluzzdl se traduise par un échec, le répertoire /src n'étant pas trouvé
+<code>
+python: can't open file '/opt/pluzzdl/src/main.py': [Errno 2] No such file or directory
+</code>
+
+Dans ce cas, modifier les deux scripts bash /usr/bin/pluzzdl et /opt/pluzzdl/pluzzdl.sh (les deux fichiers sont identiques) en remplaçant la ligne
+<code>
+MAIN="src/main.py"
+</code>
+par
+<code>
+MAIN="/opt/pluzzdl/src/main.py"
+</code>
+/opt/pluzzdl à adapter au répertoire personnalisé d'installation de pluzzdl 
+
+===== Utilisation=====
+
+Il suffit de copier-coller l'url de l'émission dans la ligne de commande, exemple :
+
+<code>pluzzdl -bt http://pluzz.francetv.fr/videos/les_maternelles_,76829466.html</code>
+
+Le paramètre -b permet d'afficher un pourcentage d'avancement.
+
+Le paramètre -t permet d'inclure les sous-titres de l'émission (ou de la fiction) dans le conteneur mkv, si ceux-ci existent.
+
+<note warning>En cas d'absence de sous-titres, il est possible que l'option -t provoque l'échec du téléchargement. Dans ce cas, il suffit simplement de relancer le téléchargement en supprimant l'option</note>
+
+Le paramètre -bt cumule les deux précédents.
+
+===== Voir aussi =====
+  * **(fr)** [[telecharger_streaming|Télécharger streaming]] dans la documentation Ubuntu-fr
+  * **(fr)** [[tutoriel/pluzz.fr|Tutoriel pluzz.fr]] sur Ubuntu-fr
+  * **(fr)** [[http://blog.rom1v.com/2010/07/pluzz-fr-france-televisions-lance-son-service-de-tv-de-rattrapage-non-lisible/|« Pluzz.fr : France Televisions lance son service de TV de rattrapage non lisible »]]
+  * **(fr)** [[http://userscripts.org/scripts/show/81167|script greasemonkey]] écrit par morphing
+  * **(fr)** 3 fils de discussion sur le forum ubuntu-fr : [[http://forum.ubuntu-fr.org/viewtopic.php?id=406447|fil 1]], [[http://forum.ubuntu-fr.org/viewtopic.php?id=406555|fil 2]], [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3939136|fil 3]]
+  * **(fr)** [[tvdownloader|TVdownloader]]
+

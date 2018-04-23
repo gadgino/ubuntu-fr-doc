@@ -1,0 +1,114 @@
+{{tag>Precise navigateur}}
+
+----
+
+====== Navigateur Web Dillo ======
+
+Dillo est un navigateur Web rapide et léger. Il peut être utilisé sur des machines réellement lentes (Pentium II et moins) sans problème.
+
+===== Fonctionnalités =====
+
+  * norme HTML 4.01
+  * CSS 2.1 partiellement pris en charge, voir les [[http://www.dillo.org/css_compat/index.html|détails spécifiques]]
+  * protocoles HTTP 1.1 , SSL , proxy
+  * gestion des cookies
+  * gestion des favoris
+  * gestion multi-onglets
+  * gestion du téléchargement avec wget
+  * gestion des moteurs de recherche
+  * gestion des paramètres régionaux
+  * gestion partielle des langues orientales (chinois, japonais, arabe, etc)
+  * interface personnalisable
+  * Une extension intégrée, le "bug meter" analyse les pages web lors de leur chargement et recense les erreurs HTML en bas à droite de la fenêtre de navigation.
+
+Dillo est un navigateur qui place la sécurité et la vie privée en premier : pas de fichier d'historique, rejet de tous les cookies par défaut, paramètres de furtivité ... 
+
+Par manque de moyens, le positionnement des cadres n'est **temporairement** pas géré non-plus. Dillo offre donc une vision inhabituelle de la plupart des sites web. En échange, il est aisé avec Dillo de trouver de l'information ou d'échapper aux bannières de publicités !
+
+À noter que la distribution [[http://www.damnsmalllinux.org|Damn Small Linux]] (basée, comme Ubuntu, sur la distribution Debian) embarque une version modifiée de Dillo, qui supporte le SSL, les onglets et les cadres.
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+==== Depuis les dépôts ====
+
+Depuis [[:Precise| Ubuntu 12.04]] Dillo est dans les dépôts Ubuntu grâce la librairie FLTK1.3, pour l'installer il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>dillo|dillo]]**.
+
+==== Installation par compilation des sources ====
+
+Téléchargez l'archive des sources sur le [[http://www.dillo.org|site officiel]], normalement un fichier compressé de la forme dillo-version.tar.bz2
+
+[[:archivage#graphiquement|Extraire l'archive]] dans votre Dossier Personnel.
+
+[[:tutoriel:comment_installer_un_paquet|Installez les paquets]] **[[apt>make,gcc,g++,libfltk1.3-dev,libjpeg8-dev,libpng12-dev,libssl-dev,zlib1g-dev|make gcc g++ libfltk1.3-dev libjpeg8-dev libpng12-dev libssl-dev zlib1g-dev]]**. Vous pouvez vérifier les noms de paquets avec le [[:synaptic|gestionnaire de paquets synaptic]].
+
+Ouvrez une session [[:terminal|Terminal]] dans le dossier des sources, normalement un dossier de la forme dillo-version :
+
+  * pré-configurez la compilation avec la commande **./configure**
+  * compilez avec la commande **make**
+  * installez le binaire dillo avec **sudo make install**
+
+Il n'est normalement plus nécessaire de compiler la dernière version de FLTK1.3 avant compilation de Dillo 3 depuis la version Ubuntu Precise.
+
+=== Compilation de FLTK1.3  ===
+
+Téléchargez les sources de FLTK1.3 sur [[http://fltk.org/software.php]].
+
+[[:archivage#graphiquement|Extraire l'archive]] dans votre Dossier Personnel.
+
+[[:tutoriel:comment_installer_un_paquet|Installez les paquets]] **[[apt>libglu1-mesa-dev,libasound2-dev,libxft-dev|libglu1-mesa-dev libasound2-dev libxft-dev]]**.
+
+Ouvrez une session [[:terminal|Terminal]] dans le dossier des sources de FLTK1.3, entrez les commandes et validez-les une-par-une :
+
+  * **./configure**
+  * **make**
+  * **sudo make install**
+
+===== Configuration =====
+
+Pour activer les cookies, reportez-vous à [[http://www.dillo.org/Cookies.txt|cette page du site officiel]], et cette [[http://www.dillo.org/dillorc|page-ci]] pour les autres paramètres.
+
+Si vous voulez modifier les raccourcis clavier dans Dillo, copiez ce [[http://www.dillo.org/keysrc|fichier keysrc]] dans le dossier caché **.dillo** de votre dossier personnel.
+
+===== Utilisation =====
+
+Vous pouvez lancer Dillo avec le Terminal ou avec le menu Exécution (raccourci clavier Alt+F2) → entrez simplement la commande dillo.
+
+Vous pouvez aussi [[:raccourci-lanceur|créez un lanceur]] dans le menu Gnome.
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+Si vous avez compilé l'application, il suffit de [[:tutoriel:comment_supprimer_un_fichier|supprimez les fichiers et les dossiers]] avec les droits d'administration :
+
+  * **/usr/local/bin/dillo**
+  * **/usr/local/bin/dpid**
+  * **/usr/local/bin/dpidc**
+  * **/usr/local/share/man/man1/dillo.1**
+  * **/usr/local/share/doc/dillo/**
+  * **/usr/local/lib/dillo/**
+  * **/usr/local/etc/dillo/**
+  * **/home/user/.dillo/**
+
+Si vous avez aussi compilé FLTK1.3 et que vous voulez le désinstaller, supprimez les fichiers suivants :
+
+  * **/usr/local/include/FL/**
+  * **/usr/local/lib/libfltk**
+  * **/usr/local/bin/fluid**
+  * **/usr/local/bin/fltk-config**
+  * **/usr/local/share/doc/fltk/**
+  * **/usr/local/share/man/man1/fltk-config.1**
+  * **/usr/local/share/man/man1/fluid.1**
+
+===== Voir aussi =====
+
+  * Site officiel : www.dillo.org
+  * Sur Wikipedia : [[http://fr.wikipedia.org/wiki/Dillo|Dillo]]
+
+----
+//Contributeurs : anonyme, [[utilisateurs:j5012|J5012]].//

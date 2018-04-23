@@ -1,0 +1,94 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#mettre_une_image_au_demarrage_d_ubuntu" class="toc"> Mettre une image au démarrage d'Ubuntu </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#splashy" class="toc"> Splashy </a></span></li>
+<li class="level2"><span class="li"><a href="#telechargement_et_installation" class="toc"> Téléchargement et Installation </a></span></li>
+<li class="level2"><span class="li"><a href="#personnalisation" class="toc"> Personnalisation </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<a name="mettre_une_image_au_demarrage_d_ubuntu"></a><h1> Mettre une image au démarrage d'Ubuntu </h1>
+<div class="level1">
+
+<p>
+Le processus de démarrage d&rsquo;Ubuntu peut-être intéressant à étudier, pour l&rsquo;optimiser ou pour savoir ce qui cloche, mais il n&rsquo;est pas très esthétique. Il existe cependant un moyen très simple d&rsquo;y remédier. 
+</p>
+
+</div>
+<!-- SECTION [1-268] -->
+<a name="splashy"></a><h2> Splashy </h2>
+<div class="level2">
+
+<p>
+Splashy est un BootSplash pour Linux (à priori plutot orienté Debian/Ubuntu), qui ne nécessite aucune modification du noyau et rend donc son installation très facile.
+</p>
+
+<p>
+Vous pouvez accéder au site du projet où sont trouvables les sources et les derniers paquetages pour Debian/Ubuntu: <a href="http://wiki.nanofreesoft.org/index.php/Splashy" class="urlextern" title="http://wiki.nanofreesoft.org/index.php/Splashy" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://wiki.nanofreesoft.org/index.php/Splashy</a>.
+</p>
+
+</div>
+<!-- SECTION [269-631] -->
+<a name="telechargement_et_installation"></a><h2> Téléchargement et Installation </h2>
+<div class="level2">
+
+<p>
+Téléchargez la dernière archive .deb en date en naviguant sur ce site: 
+</p>
+
+<p>
+Site down :  <a href="http://splashy.alioth.debian.org/debian/" class="urlextern" title="http://splashy.alioth.debian.org/debian/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://splashy.alioth.debian.org/debian/</a>
+</p>
+
+<p>
+News adresse <a href="http://packages.debian.org/cgi-bin/search_packages.pl?searchon=names&amp;subword=1&amp;version=all&amp;release=all&amp;keywords=splashy&amp;sourceid=mozilla-search" class="urlextern" title="http://packages.debian.org/cgi-bin/search_packages.pl?searchon=names&amp;subword=1&amp;version=all&amp;release=all&amp;keywords=splashy&amp;sourceid=mozilla-search" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://packages.debian.org/cgi-bin/search_packages.pl?searchon=names&amp;subword=1&amp;version=all&amp;release=all&amp;keywords=splashy&amp;sourceid=mozilla-search</a>
+</p>
+
+<p>
+Installez le paquetage avec les droits d&rsquo;administrateur:
+</p>
+
+<p>
+<code>sudo dpkg -i splashy.deb</code>
+</p>
+
+<p>
+C&rsquo;est tout! Au prochain démarrage vous verrez s&rsquo;afficher un magnifique pingouin!
+</p>
+
+<p>
+<code> sudo apt-get -f install</code>
+</p>
+
+<p>
+Pour mettre à jour toutes les dépendences du système. En effet splashy à besoin de certaines librairies non installées par défaut sur ubuntu
+</p>
+
+</div>
+<!-- SECTION [632-1322] -->
+<a name="personnalisation"></a><h2> Personnalisation </h2>
+<div class="level2">
+
+<p>
+Vous pouvez personnalisez l&rsquo;image au démarrage en éditant le fichier /etc/splashy/config.xml
+</p>
+
+<p>
+Modifier les fichiers correspondants à la section background pour utiliser vos propres images.
+</p>
+
+<p>
+Pour installer des thèmes préétablis:
+</p>
+
+<p>
+<a href="http://splashy.alioth.debian.org/themes/" class="urlextern" title="http://splashy.alioth.debian.org/themes/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://splashy.alioth.debian.org/themes/</a> 
+</p>
+
+</div>
+<!-- SECTION [1323-] -->

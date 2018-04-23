@@ -1,0 +1,39 @@
+{{tag>jeu joystick  }}
+------
+
+====== Jscalibrator ======
+Ce programme vous permet de calibrer une manette en mode graphique facilement.
+<note important>Il est conseillé de lire la page [[joystick]] avant, pour plus d'information détaillé quand à l'installation de manette en générale.
+</note>
+
+===== Installation =====
+Installez le paquet **[[apt://jscalibrator|jscalibrator]].**
+
+Il s'installe dans le menu Application/accessoire/joystick calibration.
+
+<note important>[[http://forum.ubuntu-fr.org/viewtopic.php?id=358605|Jscalibrator a disparu avec Karmic]], car la glib-1.2 dont il dépend a également été retiré. Certains le considéraient comme buggé, mais d'autres comme utile et pratique.  Il faut maintenant utiliser la ligne de commande (voir la section [[Joystick]]) ou bien utiliser le paquet jstest-gtk [[http://www.getdeb.net/updates/Ubuntu/9.10/?q=jstest-gtk|disponible sur getdeb]] (nécessite l'ajout du dépôt [[getdeb]])ou compiler [[http://pingus.seul.org/~grumbel/jstest-gtk/|depuis les sources]].
+</note>
+
+===== Configuration =====
+
+{{jscalibrator0.png|}}
+
+Cliquez sur le bouton 'calibrate' pour calibrer la manette et suivez les instructions.
+
+Enregistrez ensuite dans le menu calibrate/save.
+Un fichier /home/user/.joystick sera alors crée.
+
+<note>Le programme jscalibrator peut poser problème avec certaines manettes. La plupart des manettes sont configurées automatiquement par Ubuntu, il n'est donc pas conseillé d'utiliser jscalibrator si votre manette fonctionne bien au risque de corrompre les paramètres de votre manette. </note>
+
+===== Problèmes =====
+
+==== Ma manette est devenue folle ====
+Vos boutons ne fonctionnent plus ? Les axes sont inversés? 
+Alors désinstaller jscalibrator et ses dépendances et supprimez aussi le fichier /home/user/.joystick
+
+==== Le programme me détecte un bouton en trop ====
+Jscalibrator vous détecte un bouton en trop ? Il est enfoncé par défaut ?
+À l'heure actuelle, il n'est pas possible de désactiver des bouton avec jscalibrator, néanmoins vous le pourrez en vous rendant sur cette [[jscal-jstest]] section problèmes.
+
+------
+//Contributeurs : 

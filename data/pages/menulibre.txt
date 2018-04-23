@@ -1,0 +1,71 @@
+{{tag>Precise Trusty Xenial gnome unity lxde xfce}}
+
+----
+{{ :application:menulibre:menulibre.png?80|Icône}}
+======Éditeur de menu: Menulibre======
+**MenuLibre** est un éditeur de menu pour les environnements de bureau tels que  [[:GNOME]], [[:LXDE]] ([[:Lubuntu]]), [[:XFCE]] ([[:Xubuntu]]) ou [[:Unity]]. Il est disponible sous %%GNU/Linux%% en licence libre [[http://www.gnu.org/licenses/gpl.html|GNU GPL v3]]. **Menulibre** peut aussi bien gérer les menus classiques que les catégories du tableau de bord d'[[:Unity]]. Un lanceur créé avec **Menulibre** apparaîtra aussi bien dans les catégories du tableau de bord que dans les menus classiques des autres environnements compatibles et installés.
+
+Avec ses fonctions avancées, il permet aussi :
+  * La création de lanceurs d'application ;
+  * la modification de paramètres des  lanceurs d'application ;
+  * la création et gestion de menus contextuels des lanceurs installés dans la [[:unity_launcher|barre de lanceur]] d'[[:Unity]] (Quicklists).
+{{:application:menulibre:menulibre_01.png?500|Menulibre_2}}
+
+=====Pré-requis=====
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+====Depuis les dépôts officiels====
+[[:tutoriel:comment_installer_un_paquet|Installer le paquet]] **[[apt>menulibre]]**. \\
+//(A noter: **Menulibre** n'est pas disponible dans les dépôts officiels pour [[:precise|Precise 12.04]]. Dans ce cas, utiliser le [[#Depuis un PPA|PPA ci-dessous]])//
+
+====Depuis un PPA====
+<note important>Les [[:PPA|dépôts PPA]] sont des [[:dépôts]] non-officiels. Installer un paquet hors des [[:dépôts]] officiels peut présenter un risque d'instabilité pour votre système. </note>
+Une version plus récente de **Menulibre** peut être installée à partir d'un [[:ppa|dépôt PPA]]. Pour cela il suffit:
+  - [[:PPA|Ajouter le PPA]] **ppa:menulibre-dev/daily**((https://launchpad.net/~menulibre-dev/+archive/ubuntu/daily)) dans vos sources de logiciels; 
+  - [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|recharger la liste des paquets]];
+  - [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>menulibre]]**. 
+Ou dans un [[:terminal]], saisir les [[:commande_shell|commandes]] suivantes : 
+<code>sudo add-apt-repository ppa:menulibre-dev/daily
+sudo apt-get update
+sudo apt-get install menulibre</code>
+
+=====Utilisation=====
+Pour lancer l'application, dans le tableau de bord, saisir "Editeur de menu". \\
+L'application se trouve dans la catégorie "accessoires" ( "filtrer les résultats" de la [[:unity-lens|loupe]] "application").
+
+Ou dans un [[:terminal]], saisir la [[:commande_shell|commande]] suivante : 
+<code>menulibre</code>
+
+====Créer un lanceur====
+{{:application:menulibre:menulibre_02.png?420|Nouveau lanceur}}
+  - Choisir l'entrée du menu dans lequel on désire placer le lanceur. (Un simple clic sur le petit triangle à gauche permet de développer le menu et ainsi d'accéder aux sous-menu).
+  - Cliquer sur le bouton "**+**" {{:application:menulibre:menulibre_plus.png?70|ajout lanceur}} à gauche de la barre d'outils puis choisir "**Ajouter un lanceur**".
+  - Dans la partie droite de la fenêtre de **Menulibre**, cliquer sur **Nouveau lanceur** et saisir le nom de l'application;
+  - Juste en dessous, il y a un champs invisible. En cliquant dans la zone, vous le ferez apparaître, il vous est proposé de saisir une rapide description de l'application.
+  - Remplir le champ "commande" avec la commande de lancement et si nécessaire, remplir aussi le champ "Répertoire de travail" ;
+  - Valider les **options**  nécessaires ;
+  - Pour améliorer la recherche avec filtrage des résultats de la [[:unity-lens|loupe]] "applications" du tableau de bord d'[[:Unity]], il peut être nécessaire d'ajouter des catégories "Unity".En cliquant sur le "**+**", une ligne "**sélectionnez une catégorie**" apparaît. Un Double-clic sur cette ligne et vous pourrez choisir dans les menus déroulants présentés les catégories présentes dans Unity.
+  - Enregistrer en cliquant sur le bouton "**Enregistrer**" {{:application:menulibre:menulibre_sauve.png?40|Enregistrer}}.
+Votre lanceur est maintenant actif. Il est classé dans les menus classiques et dans les catégories d'Unity.
+
+====Ajouter des entrées au menu contextuel (Quicklists)====
+Après avoir sélectionné le lanceur à compléter d'une ou plusieurs entrées dans le menu contextuel: Cliquer sur le bouton **Actions** :
+  - Cliquer sur sur le bouton "**+**" {{:application:menulibre:menulibre_plus2.png?40|Ajouter}} en bas à gauche et compléter les champs nécessaires en cliquant dessus.
+  - Enregistrer en cliquant sur le bouton "**Enregistrer**" {{:application:menulibre:menulibre_sauve.png?40|Enregistrer}}.
+Un exemple avec une entrée //"imprimantes"// du menu contextuel du lanceur des "paramètres système" :
+
+{{:application:menulibre:menulibre_03.png?420|Catégories Unity}}
+
+===== Désinstallation =====
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi =====
+  * **(en)** [[http://www.smdavis.us/projects/menulibre/|Site officiel]]\\
+  * **[[:Alacarte]]**, l'éditeur de menu du [[http://www.gnome.org/|projet Gnome]].
+  * **[[:ubuntu_tweak?&#Editer les quicklists|Ubuntu Tweak]]**, autre manière pour gérer les entrées du menu contextuel des lanceurs //(quicklists)//
+
+----
+
+//Contributeurs:// 

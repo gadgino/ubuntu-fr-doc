@@ -1,0 +1,413 @@
+{{tag>Trusty Xenial extensions tutoriel personnalisation gnome}}
+
+----
+====== Personnalisation de GNOME ======
+<note tip>Le sommaire de l'article a bien du mal à gérer tous ces niveaux de sous-titres ! Pour trouver ce que vous cherchez, n'hésitez pas à faire Ctrl+F dans votre navigateur !</note>
+===== Gnome Shell (session par défaut) =====
+
+| {{ http://image.noelshack.com/fichiers/2017/17/1493481545-capture-du-2017-04-29-17-53-28.png?600|Gnome Shell sans aucune personnalisation }} |
+^ L'interface par défaut de [[:gnome-shell|Gnome Shell]] \\ (minimaliste ! quelques personnalisations seraient les bienvenues) ^
+
+<note>
+Pour des raisons de simplicité, cette description de Gnome Shell est garantie valable pour les versions à partir d'Ubuntu 17.04 seulement. \\ Les versions plus anciennes encore en circulation présentent souvent les différences notables suivantes :
+  * Les notifications sont en bas de l'écran (raccourci : Super+M).
+  * Les contrôles de lecture multimédia ne sont pas dans le menu de l'horloge.
+  * Les extensions disponibles ne sont pas forcément les mêmes.
+</note>
+==== Interface de base : vocabulaire ====
+
+  * La **barre supérieure** (//topbar//) se trouve en haut de l'écran. Par défaut, elle contient :
+    * Le **bouton "Activités"** ;
+    * L'**appmenu** de l'application active ;
+    * Le **menu de l'horloge** ; Dans ce menu se trouvent :
+      * Les horloges ;
+      * Les notifications ;
+      * Les contrôles musicaux (lecture/pause/suivant/précédent), avec affichage du titre et de la pochette du morceau ;
+      * Le calendrier ;
+    * Optionnellement, si plusieurs dispositions de clavier sont installées, le menu "Disposition du clavier" ;
+    * Optionnellement, si des options d'accessibilité sont actives, le menu "Accessibilité" ;
+    * Le **menu Système**, qui contient :
+      * Les contrôles du son (entrées/sorties) ;
+      * Les contrôles de la luminosité (et de la chaleur de la lumière à partir de Gnome 3.24) ;
+      * Les connexions internet (WiFi, filaire) ;
+      * Les connexions Bluetooth ;
+      * La charge de batterie (ordinateurs portables et tablettes) ;
+      * La gestion de la session (Fermer la session ; Paramètres du compte) ;
+      * Des boutons ronds qui permettent : 
+        * Accès aux **paramètres système** ;
+        * Activation de l'hibernation (il me semble, je ne suis pas certain, corrigez moi si je me trompe) ;
+        * Verrouiller la session ;
+        * Éteindre (ou redémarrer l'ordinateur) ;
+  * Le **bureau**, qui par défaut ne contient pas d'icônes.
+  * Dans le coin inférieur gauche, rien n'est visible, mais quelques applications mal intégrées à Gnome ([[:Steam]], [[:Skype]], [[:Discord]], [[:Kazam]], etc.), font parfois apparaître un icône de statut dans un discret "tiroir" dépliable par survol.
+  * En pressant la touche //Super//, ou //Alt+F1//, ou en déplaçant (sans cliquer !) la souris dans le coin supérieur gauche (on parle de **coin actif**), ou en cliquant sur "Activités", on ouvre la **vue Activités** (//overview//) :
+    * En haut, une **entrée de recherche** (active dès que la vue Activités est ouverte) ;
+    * À gauche, les miniatures des **espaces de travail**. Par défaut, ils se créent dynamiquement (de manière à ce qu'il n'y ait toujours qu'un seul espace sans fenêtre) ;
+    * Au centre, les fenêtres ouvertes sont visibles sous forme miniature et peuvent être déplacées vers un autre espace de travail ou fermées ;
+    * À gauche, les applications favorites sont dans le **dash** ;
+    * En bas du dash, un bouton permet d'accéder à la **vue applications**. La vue applications peut être organisée avec des **appfolders**, sortes de dossiers regroupant des applications similaires dont l'accès direct est rare (Utilitaires, Jeux, etc.).
+
+| {{ https://www.gnome.org/wp-content/uploads/2010/09/activities-overview.jpg?400|La vue activités avec 4 fenêtres ouvertes }} | {{ https://gnome.org/wp-content/uploads/2010/09/activities-overview-applications-420x236.png?400|La vue applications }} |
+^ La vue activités ^ La vue applications ^
+
+  * Cette interface par défaut peut être paramétrée avec les outils suivants, ou enrichie avec des **extensions** codées en Javascript ([[#Extensions|paragraphe dédié]]) et disponibles en ligne sur un site officiel.
+  * Le paramétrage des **applications** de GNOME est relativement indépendant de [[:gnome-shell|GNOME Shell]] lui-même. Les applications pensées pour Gnome Shell se reconnaissent généralement car les fonctionnalités essentielles sont réunies avec les **boutons de fenêtre** au sein d'une **headerbar** (c'est la dénomination de la documentation GTK+ 3, ne pas traduire). \\ Les fonctionnalités secondaire sont généralement dans un menu-sandwich sur la droite de l'headerbar, les fonctionnalités génériques (préférences, nouvelle fenêtre, aide, raccourcis claviers, à propos, quitter) sont généralement dans l'appmenu qui se trouve par défaut dans la barre supérieure.
+
+==== Outils pour personnaliser GNOME Shell ====
+
+=== Les paramètres système ===
+
+En passant par les [[:gnome-control-center|paramètres système]], on peut personnaliser plusieurs aspects intéressants :
+  * Le fond d'écran (mais seuls les fonds d'écrans du système et les images du dossier ~/Images sont proposées)
+  * Les **comptes en lignes** permettent par exemple de synchroniser son compte Google ou OwnCloud avec Gnome, pour que vos documents situés dans le cloud apparaissent dans [[:Nautilus]].
+  * Les **notifications** : régler quelles applications ont le droit d'en envoyer.
+  * Pays et langue concerne les sources de saisie (disposition clavier).
+  * "Rechercher" permet de configurer ce que cherche l'entrée de **recherche** de la vue activités, et avec quelle priorité. \\ //en plus des applications, on peut rechercher des fichiers, documents, photos, musiques, notes, logiciels de la logithèque, contacts, caractères Unicode, météo, etc. par exemple on peut aussi taper un calcul, et la calculatrice le résout. \\ Surtout, on peut configurer dans quel ordre de priorité cela s'effectue : Gnome Shell recherche-t-il d'abord les fichiers puis les contacts puis les logiciels dans les dépôts ? Ou bien d'abord les photos puis les musiques ? etc.//
+  * Le son : on peut choisir des thèmes d'événements sonores.
+
+=== Outil de personnalisation GNOME (Tweak tool) ===
+
+== Apparence ==
+Permet de **changer de thème** d'icônes, de thème GTK+, de thème de curseur.
+Pour changer le [[#Thèmes|thème]] de Gnome Shell lui-même (barre supérieure, dash, menus de la barre supérieure, etc.), il faut activer l'extension "User Theme" (voir [[#Extensions|plus loin]]) puis installer un thème Gnome Shell.
+
+Désactiver les animations permet de **fluidifier la navigation et la recherche** si votre ordinateur est peu performant.
+
+== Applications au démarrage ==
+Les applications ajoutées ici se lanceront au démarrage de la session.
+
+== Barre Supérieure ==
+Possibilité de régler ce qui apparaît dans le bouton de l'horloge (date, secondes, etc.).
+Possibilité de choisir si le **menu de l'application** (//appmenu//) doit apparaître dans la barre supérieure ou plutôt dans le coin de la fenêtre concernée.
+
+== Bureau ==
+**Activer les icônes sur le bureau** (et en ajouter quelques unes comme la corbeille).
+
+**Choix et paramétrage du fond d'écran** et de **l'écran de verrouillage.**
+
+== Clavier et souris ==
+Paramètres de clic pour le pavé tactile, d'accélération de la souris, coller avec le clic du milieu, etc.
+
+== Espaces de travail ==
+Régler si les espaces de travail sont dynamiques (création et suppression automatiques) ou statiques (dans ce cas, régler leur nombre).
+
+== Extensions ==
+Activer, désactiver, désinstaller ou paramétrer les extensions (voir [[#Extensions|la partie de l'article à propos aux extensions]] et la [[:extensions-gnome|page dédiée]]).
+
+== Fenêtres ==
+Divers paramètres de gestion des fenêtres (action des clics et des touches spéciales, **activation des boutons de fenêtres "minimiser" et "maximiser"**, etc.).
+Mise à l'échelle de l'interface pour écrans à haute densité de pixels.
+
+== Polices ==
+Nom, taille et optimisation des polices pour les titres, les documents, les interfaces, etc.
+
+== Saisie ==
+Paramètres avancés de saisie au clavier (comportement des touches spéciales et paramètres spécifiques à certains claviers étrangers).
+
+== Énergie ==
+Action de la fermeture de l'écran (ordi portable) et du bouton d'alimentation.
+
+=== Éditeur DConf ===
+
+Certains paramètres avancés doivent être modifiés avec [[:dconf-tools|l'éditeur DConf]].
+Pour rappel, DConf permet de modifier des paramètres en ligne de commande (commande "gsettings"), mais aussi un éditeur graphique est disponible (la manipulation graphique ne sera détaillée que pour la première manipulation).
+
+== Passer les boutons de contrôle des fenêtres de droite à gauche ==
+Aller dans //org -> gnome -> desktop -> wm -> preferences -> button-layout//, et mettre par exemple "close,minimize,maximize:appmenu", où ":" est le corps de la barre de titre (les boutons se placent donc par rapport à lui).
+Ici, "appmenu" désigne le menu qui s'affiche normalement dans la barre supérieure, mais on a vu que l'**Outil de personnalisation GNOME** propose un réglage pour que ce menu s'affiche dans l'//headerbar// de la fenêtre, il est donc préférable qu'une position par défaut soit renseignée pour cet élément.
+
+La commande suivante est équivalente :
+<code>gsettings set org.gnome.desktop.wm.preferences button-layout "close,minimize,maximize:appmenu"</code>
+
+Pour rétablir la valeur par défaut :
+<code>gsettings set org.gnome.desktop.wm.preferences button-layout "appmenu:close"</code>
+
+<note>Si les boutons ne sont pas tous là par défaut, c'est que les fenêtres se maximisent par "drag-and-drop" sur la barre supérieure, et retirer ces boutons permet de réduire davantage la taille des fenêtres ! En effet, les composants des //headerbars// se rétractent généralement très mal, et gênent parfois le //tiling// sur les cotés de l'écran (pour les petits écrans).</note>
+
+== Afficher les chemins de répertoire en mode texte dans Nautilus ==
+<code>gsettings set org.gnome.nautilus.preferences always-use-location-entry true</code>
+
+== Cacher l'affichage des chemins de répertoire en mode texte dans Nautilus ==
+<code>gsettings set org.gnome.nautilus.preferences always-use-location-entry false</code>
+
+== Toujours donner le focus aux applications nouvellement lancées ==
+<code>gsettings set org.gnome.desktop.wm.preferences auto-raise true</code>
+
+=== Autres ===
+
+== Diaporama de fond d'écran ==
+Pour un diaporama de fond d'écran, voir [[:diaporama_fond_d_ecran|ce tutoriel]].
+
+== Gestion de la vue applications ==
+Les éditeurs de menus classiques sont déconseillés car inadaptés.
+
+Pour faire disparaître une application superflue de la vue applications, il faut éditer son [[:lanceur]] (fichier .desktop) qui se trouve dans /usr/share/applications et y ajouter la ligne <code>NoDisplay=true</code>
+
+Pour organiser la vue applications, il existe des **appfolders**, permettant par exemple de réunir ensemble tous les utilitaires, ou tous les jeux, etc. afin d'alléger la quantité d'applications affichée quand on lance la vue applications.
+
+| {{ http://image.noelshack.com/fichiers/2017/13/1490567800-capture-du-2017-03-27-00-26-06.png?400|Exemple avec un appfolder "Navigateurs" }} |
+^ Exemple avec un appfolder "Navigateurs" ^
+
+Des utilitaires ou des scripts permettent de gérer les //appfolders//, mais [[:gnome-software|la logithèque Gnome]] est le moyen recommandé pour en créer ou en modifier. (onglet "installés", il faut se mettre en mode sélection pour que l'option apparaisse)
+
+==== Extensions ====
+
+**Page dédiée : [[:extensions-gnome|Extensions GNOME Shell]].**
+
+GNOME Shell peut être complété avec des [[:extensions-gnome|extensions]] bien utiles écrites en JavaScript. Ces extensions vous permettent d'ajouter/supprimer/modifier des fonctionnalités de l'interface : barre de tâches, dock, gestionnaire de presse-papiers, menus pour les emplacements favoris ou les applications, etc.
+
+Si vous envisagez de faire de GNOME Shell votre environnement principal, alors il est plus que recommandé d'y jeter un coup d’œil.
+
+{{ http://image.noelshack.com/fichiers/2017/17/1493381277-capture-d-ecran-de-2017-04-28-14-07-49.png?300|Le site officiel de Gnome recense l'immense majorité des extensions existantes. }}
+=== Installer des extensions ===
+
+La **SEULE** source d'installation recommandée par les développeurs de Gnome Shell est le site officiel [[https://extensions.gnome.org|extensions.gnome.org]] : un vaste catalogue d'extension y est disponible (ci-contre), vous pouvez également y constater quelles sont les extensions les plus populaires, et y accéder à la liste des extensions présentes sur votre système (onglet "Installed Extensions").
+
+Grâce à de petits interrupteurs, on peut installer, mettre à jour, activer ou désactiver les extensions proposées directement depuis le site (compatible avec les navigateurs [[:Epiphany]] (Gnome Web), [[:Firefox]], et aussi Chromium/Vivaldi/Chrome si ils disposent de [[https://chrome.google.com/webstore/detail/gnome-shell-integration/gphhapmejobijbbhgpjhcjognlahblep?hl=fr |l'extension pour navigateur appropriée]]).
+
+<note important>Pensez à y rechercher des extensions **compatibles avec votre version** de Gnome Shell grâce aux paramètres de recherche du site.</note>
+
+Le but du site officiel extensions.gnome.org est de proposer des extensions dont le code a été lu et compris par des responsables liés à la fondation GNOME : les extensions proposées présentent donc rarement des bugs majeurs, et sont normalement dignes de confiance.
+
+<note tip>Avec la logithèque GNOME ([[:gnome-software|Logiciels]], qui est la logithèque par défaut sur certaines versions d'Ubuntu), il est possible d'installer des extensions en provenance du site officiel extensions.gnome.org sans avoir à utiliser un navigateur.</note>
+
+== Le paquet des extensions par défaut ==
+
+Les développeurs de GNOME proposent une douzaine d'extensions réunies dans un seul paquet depuis Gnome 3.4 (donc depuis Ubuntu 11.04). Ces extensions sont normalement installées par défaut avec GNOME Shell, et visibles dans l'onglet "Extensions" de l'Outil de Personnalisation Gnome.
+<note>On peut installer ces extensions officielles par la commande <code>sudo apt-get install gnome-shell-extensions</code> Le redémarrage de la session est parfois nécessaire pour que ces extensions officielles soient disponibles dans l'utilitaire "Gnome Tweak Tool". </note>
+
+Voici une brève description de ces extensions officielles :
+  * **Alternate tab** propose un fonctionnement différent pour l'ALT+TAB où les fenêtres ne sont pas regroupées par application
+  * **Applications menu** ajoute un menu "classique" (comme sur Cinnamon, Xfce ou Budgie) dans la barre supéreure
+  * **Auto move window** permet de choisir pour chaque application dans quel bureau virtuel ses fenêtres s'ouvriront
+  * **Native window placement** propose un affichage moins monotone des fenêtres dans le mode exposition
+  * **Launch new instance** si une application est déjà lancée, cliquer sur l'icône du dash lance une nouvelle fenêtre au lieu de restaurer celle existante.
+  * **Place status indicator** ajoute à la zone de notification un raccourci vers les signets de Nautilus (Documents, Musique, etc.)
+  * **Removable drive menu** ajoute un raccourci à la zone de notification permettant d'accéder aux médias amovibles, s'il y en a de branchés
+  * **Screenshot window sizer** ctrl+alt+s redimensionne les fenêtres en format 16:9 pour qu'on puisse prendre de jolis screenshots
+  * **System monitor** ajoute dans la barre de notification (en bas) un graphique indiquant la consommation mémoire et processeur
+  * **User theme** permet de charger les thèmes du répertoire ~/.themes 
+  * **Workspace indicator** ajoute dans la zone de notification un indicateur du bureau virtuel en cours et la possibilité d'atteindre un autre bureau
+  * **Window navigator** permet de naviguer au clavier dans le mode exposition entre les différentes fenêtres (ALT) ou les différents bureaux (CTRL)
+
+=== Petite sélection arbitraire d'extensions ===
+
+Il existe près de 220 extensions disponibles pour Gnome Shell en version 3.22 en ce jour (28 avril 2017), et environ 800 toutes versions confondues !
+Il est parfois dur de s'y retrouver. Aussi  je vous propose un petit florilège de celles qui me paraissent les plus intéressantes, que vous pouvez bien sûr compléter.
+Si l'extension est disponible sur le site Gnome, un lien y mène, si l'extension est officielle, vous voudrez bien vous référer au [[#breve_description_des_extensions_officielles|paragraphe en question]] pour sa description.
+
+== Extensions qui me semblent indispensables ==
+  * **[[https://extensions.gnome.org/extension/307/dash-to-dock/|Dash to dock]]** \\ Transforme le //dash// de la vue activités en un dock disponible directement depuis le bureau, et richement paramétrable (taille, transparence, position, comportement, etc.)
+  * **[[https://extensions.gnome.org/extension/358/activities-configurator/|Activities Configurator]]** \\ Permet de personnaliser en détails la barre supérieure (couleur, transparence), le bouton "Activités" (texte, icône, etc.), le "hot corner", etc.
+  * **[[https://extensions.gnome.org/extension/779/clipboard-indicator/|Clipboard Indicator]]** \\ Un gestionnaire de presse-papier assez avancé.
+  * **[[https://extensions.gnome.org/extension/327/axe-menu/|Axe Menu]]** ou **[[https://extensions.gnome.org/extension/6/applications-menu/|Applications Menu (extension officielle)]]** \\ un menu classique pour ceux qui n'aiment pas la vue des applications ni la recherche au clavier.
+  * **[[https://extensions.gnome.org/extension/8/places-status-indicator/|Places Status Indicator]]** ([[#les_extensions_officielles_de_gnome_shell|extension officielle]]) mais diverses alternatives existent.
+  * **[[https://extensions.gnome.org/extension/36/lock-keys/|Lock Keys]]** \\ Affiche des indicateurs dans la barre supérieure pour indiquer si le verrouillage numérique ou le verrouillage majuscule sont activés.
+  * **[[https://extensions.gnome.org/extension/723/pixel-saver/|Pixel Saver]]** \\ Supprime les barres des fenêtres maximisées n'ayant "que" un titre et des boutons. Le titre est mis à la place de l'appmenu dans la barre supérieure, et les boutons de fenêtre sont eux aussi déplacés dans la barre supérieure.
+  * **[[https://extensions.gnome.org/extension/570/todotxt/|Todo.txt]]** \\ Pense-bête et gestion avancée des tâches, hautement paramétrable.
+  * **[[https://extensions.gnome.org/extension/1031/topicons/|Topicon plus]]** \\ Les applications comme Skype, Discord ou Steam qui mettent un icône dans la zone de statut des barres de tâches des environnements habituels sont assez dérangeantes avec Gnome Shell, et dépassent généralement en bas de l'écran. Cette extension les envoie dans la barre supérieure.
+  * **[[https://extensions.gnome.org/extension/800/remove-dropdown-arrows/|Remove Dropdown Arrows]]** \\ Supprime les petites flèches irritantes qui indiquent que les extensions sont des menus.
+  * **[[https://extensions.gnome.org/extension/97/coverflow-alt-tab/|Coverflow AltTab]]** \\ Remplace le banal sélecteur AltTab par défaut par un défilement en 3D des fenêtres.
+
+== Extensions intéressantes ==
+  * **[[https://extensions.gnome.org/extension/1160/dash-to-panel/|Dash to panel]]** \\ Fusionne le dash et la barre supérieure en une unique "barre de tâches" moderne et élégante, avec miniatures de fenêtres au survol, qui vous rappellera peut-être des interfaces comme Windows 7 ou 10.
+  * **[[https://extensions.gnome.org/extension/517/caffeine/|Caffeine]]** \\ Empêche la session de se verrouiller ou l'ordi de se mettre en veille si l'indicateur est activé.
+  * **[[https://extensions.gnome.org/extension/10/windownavigator/|Window Navigator]]** ([[#les_extensions_officielles_de_gnome_shell|extension officielle]])
+  * **[[https://extensions.gnome.org/extension/72/recent-items/|Recent Items]]** \\ Affiche un menu permettant d'accéder aux documents ouverts récemment.
+  * **[[https://extensions.gnome.org/extension/7/removable-drive-menu/|Removable Drive Menu]]**([[#les_extensions_officielles_de_gnome_shell|extension officielle]])\\ Indispensable si vous avez réglé le système pour qu'il ne fasse rien par défaut, et surtout pour qu'il n'ouvre pas à la fois Nautilus ET un pop-up quand un média amovible est inséré.
+  * **[[https://extensions.gnome.org/extension/234/steal-my-focus/|Steal My Focus]]** \\ Supprime les notifications du type “votre application est prête” et donne automatiquement le focus à la nouvelle fenêtre ouverte.
+  * **[[https://extensions.gnome.org/extension/19/user-themes/|User Themes]]** (extension officielle). \\ Permet de changer le thème de Gnome Shell (et **NON** cette extension n'est **pas du tout** nécessaire pour changer le thème des fenêtres !).
+
+== Exemples d'utilisation des extensions ==
+
+<note>Ces exemples ne sont pas tous avec Ubuntu, mais ça n'a aucune importance dans ce contexte. Les thèmes changent peu car le but est juste de montrer les extensions.</note>
+^ Exemples ^^^
+| {{ http://i.imgur.com/McqqrZg.png?250|Exemple 1 }} | {{ http://i.imgur.com/3Vw8Mnj.png?250|Exemple 2 }} | {{ http://i.imgur.com/axS9D29.png?250|Exemple 3 (menu horloge ouvert) }} |
+^ Exemple 1 \\ (interface à la Windows) ^ Exemple 2 \\ (dock vertical) ^ Exemple 3 \\ (dock ; avec menu horloge ouvert) ^
+| **Thème du Shell :** aucun \\ (utilisation d'Activities Configurator) \\ **Thème GTK+ (fenêtres) :** Vertex-Dark \\ **Thème d'icônes :** Faenza \\ **Extensions :** \\ - Dash to Panel \\ - Activities Configurator \\ - Places status indicator \\ - Lock Keys Indicator \\ - Clipboard Indicator  \\ - Caffeine | **Thème du Shell :** aucun \\ (utilisation d'Activities Configurator) \\ **Thème GTK+ (fenêtres) :** Vertex-Dark \\ **Thème d'icônes :** Faenza \\ **Extensions :** \\ - Pixel Saver \\ - Dash to Dock \\ - Activities Configurator \\ - Places status indicator \\ - Clipboard Indicator \\ - Caffeine \\ - etc. | **Thème du Shell :** Vertex \\ **Thème GTK+ (fenêtres) :** Vertex-Dark \\ **Thème d'icônes :** Faenza \\ **Extensions :** \\ - User Theme \\ - Dash to Dock \\ - Places status indicator \\ - Lock Keys Indicator \\ - Clipboard Indicator \\ - Emoji Selector \\ - Caffeine \\ - etc. | 
+
+==== Thèmes ====
+
+Les thèmes se règlent tous dans la partie "Apparence" de Gnome Tweak Tool (l'outil de personnalisation).
+
+L'installation diffère selon le mode de distribution des développeurs des thèmes. Vous pouvez choisir de n'utiliser le thème que pour les applications GTK+, ou bien vous pouvez également l'appliquer au Shell lui-même (barre supérieure, dash, menu horloge, menu système, etc.) en activant l'extension User Theme.
+
+=== Thèmes réputés ===
+  * Vertex et ses variantes Vertex-Light et Vertex-Dark
+  * Numix et ses variantes
+  * Gnome-OS-X-II
+  * Arc et ses variantes Arc-Dark et Arc-Darker
+
+=== Thèmes d'icônes ===
+Il ne faut pas sous-estimer l'impact esthétique d'un thème d'icône.
+
+Exemples :
+  * Faenza
+  * Numix
+  * Breeze
+
+==== Nautilus (Fichiers) ====
+
+=== Préférences générales de Nautilus ===
+Les préférences de Nautilus sont disponibles dans l'//appmenu// de Nautilus.
+On peut notamment :
+  * Trier les dossiers avant les fichiers
+  * Autoriser le dépliage des dossiers dans la vue en liste
+  * Simple ou double clic pour ouvrir les éléments
+  * Afficher dans le menu du clic droit la fonction pour créer des liens symboliques.
+  * Comportement avec les fichiers texte exécutable
+  * Afficher dans le menu du clic droit la fonction pour supprimer sans passer par la corbeille
+  * Extraire ou non les archives à l'ouverture (déconseillé pour raisons de sécurité)
+  * Choisir les colonnes visibles pour la vue en listes
+  * Paramétrer de la recherche de fichiers
+  * Paramétrer des vignettes (aperçu) des fichiers
+
+=== Cacher des fichiers ===
+Pour cacher vos fichiers ou vos dossiers, placez un point devant le nom du fichier (ou du dossier) en le renommant.
+Autre technique ne nécessitant pas de renommer : créez un document vierge et écrivez-y le nom du ou des fichiers à cacher en allant à la ligne à chaque fois, et l'enregistrer en le nommant **.hidden**.
+Pour plus d'informations sur les éléments cachés, consulter [[:dossiers_et_fichiers_caches|la page dédiée]].
+
+=== Ajouter des entrées "Nouveau document" au menu clic droit ===
+Tous les fichiers présents dans ~/Modèles seront présents dans le sous-menu "Nouveau document" du clic-droit dans Nautilus.
+Il est possible de faire des sous-dossiers dans ~/Modèles afin de faire des sous menus imbriqués.
+
+===== Gnome Classique (session alternative de Gnome Shell) =====
+
+Pour ceux qui ne voudraient pas passer trop de temps à personnaliser, Gnome Shell propose une session "Gnome classique".
+
+Il s'agit de l'environnement Gnome Shell avec des extensions pré-activées (et non désactivables), et où des paramètres particuliers sont activés :
+  * Pas de bouton "Activités" (le coin actif et la touche Super permettent toujours d'accéder à la vue activités si besoin) ;
+  * Une barre de tâches en bas ;
+  * Dans la barre supérieure, l'horloge n'est plus au milieu mais à droite ;
+  * Un menu "Applications" et un menu "Emplacements" sont présents dans la barre supérieure ;
+  * Le nombre d'espaces de travail est statique et fixé à 4 ;
+  * Le thème du shell est blanc plutôt que noir !
+
+| {{ https://i2.wp.com/linuxscoop.com/wp-content/uploads/2015/05/Fedora-22-Workstation-GNOME-Classic-Session.jpg?500|Exemple d'interface Gnome Classique (avec Fedora 22)}} |
+^ Interface Gnome Classique non personnalisée (Fedora) ^
+
+Le résultat est une interface assez semblable visuellement à [[:mate|Mate]] ou à [[:gnome-session-fallback|"Gnome flashback"]], mais exploitant les technologies de GNOME, et notamment pour la personnalisation :
+  * Les extensions GNOME Shell y sont pour la plupart fonctionnelles ;
+  * Les outils pour paramétrer et personnaliser restent les mêmes ;
+  * Les logiciels utilisés sont les mêmes ;
+
+===== Session "Gnome Flashback" =====
+
+<note important>Cet article a longtemps été un mélange bâtard entre du Gnome 2, du Flashback, du Mate et du Gnome 3/Gnome Shell. \\ \\ Autant je n'ai pas de mal à rédiger/corriger la partie sur Gnome Shell, autant ce serait cool de **retester la véracité de toute la partie ci-dessous sur Gnome Flashback** au cas où la dernière personne de l'univers qui utilise ce truc rendu à moitié obsolète par Mate passe par ici en quête de documentation.
+
++ j'ai supprimé de cette section les bouts d'articles que je savais être consacrés à Gnome 3, donc **il faut rajouter des explications** claires sur la personnalisation de ce truc, et des liens vers où trouver des applets gnome-flashback de nos jours</note>
+
+Nous verrons ici comment changer l'apparence du bureau de base de [[:gnome-session-fallback|la session "Gnome Flashback]] pour le personnaliser selon vos souhaits.
+
+[[http://gnome-look.org/content/show.php/Raptor+%28Slickness+remix%29?content=86048|{{http://gnome-look.org/CONTENT/content-pre1/86048-1.jpg?250}}]]
+[[http://phollow.fr/2010/09/quelques-themes-linux-gaia10/?utm_source=rss&utm_medium=rss&utm_campaign=quelques-themes-linux-gaia10|{{http://th02.deviantart.net/fs71/PRE/i/2010/270/6/d/gaia10_linux_by_gabriela2400-d2zl15y.png?250}}]]
+[[http://gnome-look.org/content/show.php/gruenstich?content=116380|{{http://gnome-look.org/CONTENT/content-pre1/116380-1.jpg?250}}]]
+[[http://browse.deviantart.com/?qh=&section=&q=elementary#/d1dh7hd|{{http://fc01.deviantart.net/fs71/i/2011/064/2/1/elementary_gtk_theme_by_danrabbit-d1dh7hd.png?250}}]]
+
+Votre bureau "flashback" est composé de différents éléments :
+  * Le **fond d'écran**, une image sur le fond de votre environnement,
+  * Les **tableaux de bords** composés de [[:raccourci-lanceur|lanceurs]] et d'applets,
+  * Le **menu principal** qui n'est qu'un applet pour le tableau de bord et que vous pouvez [[:alacarte|personnaliser]],
+  * Les **fenêtres** qui sont le résultat de plusieurs autres éléments. Pour appliquer des **thèmes** complet il faut donc la bonne combinaison des programmes ci-dessous :
+    * Le [[:gestionnaire de fenêtres]] ([[:metacity]] ou [[:compizconfig-settings-manager|Compiz]], selon la session demandée) chargé de l'affichage de toutes les fenêtres,
+    * Le **décorateur de fenêtre** ([[:metacity]], [[:emerald]], ...) qui se charge des contours et de la barre de titre,
+    * Le **moteur de rendu GTK** (clearlooks, Murrine, ...) qui défini les différents contrôles (boutons, menu,...) et leurs possibilités de personnalisation,
+  * Les **icônes** qui permettent facilement d'identifier un programme, un type de fichier, une fonction,
+  * Les **pointeurs de souris** qui aident également à comprendre les interactions possibles avec notre espace de travail.
+
+Ajoutez à tout ceci la possibilité de changer les polices, ajouter des applets de bureau, ajouter des lanceurs d'applications et des tableaux de bords différents et vous pourrez obtenir exactement le bureau dont vous rêvez.
+
+===Modifier la police===
+
+Vous pouvez télécharger de nouvelles polices sur [[http://www.gnome-look.org/|Gnome-Look]] ainsi que sur [[http://www.dafont.com/fr/|DaFont.com]]. Pour les installer voir : [[:installer_de_nouvelles_polices_de_caractere|installer de nouvelles polices de caractère]].
+
+=== Changer de thème de souris ===
+
+Pour installer un nouveau thème trouvé sur [[http://www.gnome-look.org/index.php?xcontentmode=36&PHPSESSID=f5ded135e53dbb306e7a46149485f4d5|Gnome-look]] : [[:tutoriel/comment_personnaliser_curseur_souris|Tutoriel : Comment personnaliser ses curseurs de souris]] .
+
+====Personnalisation génériques avec des thèmes ====
+
+=== À partir de paquets disponibles dans les dépôts officiels ===
+ 
+Les thèmes de la communauté Ubuntu s'étoffent à chaque version, vous pouvez les essayer en [[:tutoriel:comment_installer_un_paquet|installant les paquets]] :
+  * **[[apt>gnome-themes-extras|Des thèmes gnomes]]**,
+  * **[[apt>community-themes|Des thèmes de la communauté]]**,
+  * **[[apt>breathe-icon-theme]]**,
+Thèmes légers permettant d'**accélérer Ubuntu** (voir [[:optimisation]] ) :
+  * **[[apt>gtk2-engines-xfce,xfwm4-themes|Thèmes de Xubuntu]]**,
+  * **[[apt>gnome-colors]]** ce paquet contient les icônes présentées [[http://www.gnome-look.org/content/show.php/GNOME-colors?content=82562|ici]].
+Pour obtenir la liste de tous les thèmes dans les dépôts vous pouvez rechercher le mot-clé "thèmes" dans votre [[:gestionnaire de paquets]].
+
+
+=== À partir d'archives téléchargées directement sur Internet ===
+
+==Où trouver des thèmes ? ==
+Sur [[http://ubuntu-art.org/|Ubuntu Art]] FIXME Attention erreur 401 détectée... , [[http://www.gnome-look.org|Gnome Look]] et [[http://art.gnome.org| Gnome-Art]], il est possible de télécharger des archives de thèmes pour personnaliser son environnement.
+
+== Thèmes de système d'exploitation ==
+
+Des thèmes plus vrais que les originaux - et avec Ubuntu en plus : **c'est-à-dire plus de fonctionnalités, et la liberté !**
+
+Vous pouvez suivre le tutoriel pour :
+  * [[:tutoriel/theme_osx|avoir un thème Mac OSX (leopard) complet]].
+  * [[:tutoriel/theme_seven|avoir un thème Windows (Seven) complet]].
+
+[[http://www.gnome-look.org/content/show.php/Leopardish?content=65299|{{http://www.gnome-look.org/CONTENT/content-pre1/65299-1.jpg?250}}]]
+[[http://www.gnome-look.org/content/show.php/Aero-clone?content=57352|{{http://www.gnome-look.org/CONTENT/content-pre1/57352-1.jpg?250}}]]
+
+
+====Personnaliser le système====
+
+le son etc.
+
+====Personnaliser le bureau====
+
+=== Changer de fond d'écran ===
+Sur le fichier concerné, faire :
+Clic droit > Définir comme papier peint
+
+Pour un diaporama de fond d'écran, voir [[:diaporama_fond_d_ecran|ce tutoriel]]
+=== Renommer une icône du bureau ===
+Pour renommer une icône présente sur le bureau, il vous suffit de la sélectionner puis d'appuyer sur la touche //**F2**//, ou de faire un clic droit dessus puis de choisir l'option **//Renommer//**.\\
+
+=== Les lanceurs ===
+
+Les lanceurs permettent de lancer rapidement une application (souvent en tapant le début de son nom), mais ils permettent également de trouver des dossiers sur votre disque, etc. Le launcher de référence est [[wpfr>Quicksilver_(logiciel)|Quicksilver]] (pour Mac), qui a inspiré [[wpfr>Katapult_(logiciel)|Katapult]] (qui est installé par défaut sur [[:Kubuntu]]). Sous GNOME il existe actuellement : 
+  * Le lanceur d'application par défaut accessible via **Alt+F2** qui permet seulement de lancer des applications
+  * [[:Gnome-do]] - Launcher plus récent que Gnome Launch Box, apparemment plus simple à utiliser et plus esthétique (à vérifier)
+  * [[:Launchy]] - Launchy est un lanceur simple et rapide fonctionnant aussi bien sous gnome que kde.
+  * [[:easystroke]] - lanceur d'applications via de simples mouvements de la souris (logiciel de mousegesture)
+  * [[http://apwal.free.fr/|apwal]] - installable avec le paquet [[apt>apwal|du même nom]]. Discret, paramétrable.
+
+
+===== Ressources =====
+  
+=== Fonds d'écrans ===
+
+  * [[http://www.socwall.com/|Social Wallpapering]] Site communautaire de fonds d'écran (en)
+  * [[http://www.desktopography.net/|Desktopography]] (en)
+  * [[http://www.interfacelift.com/|Interfacelift]] (en)
+  * **[[http://www.gnome-look.org/index.php?xsortmode=down&page=0&xcontentmode=170x171x172x173x174x175x176x177x178x179|Wallpapers]]**, [[http://browse.deviantart.com/customization/wallpaper/|DeviantArt]]
+  * [[http://www.gnome-look.org/content/show.php/All+Day+Long+%28Animated+Wallpaper%29?content=83443|Fonds d'écran qui changent en fonction de l'heure (XML)]]
+  
+  ===Autres===
+  * **[[http://www.gnome-look.org/index.php?xsortmode=down&xcontentmode=100|GTK 2.x]] ( et [[http://www.gnome-look.org/index.php?xcontentmode=15|1.x]])** , [[http://www.deviantart.com/browse/all/customization/skins/linuxutil/desktopenv/gnome/gtk2/|DeviantArt]] : ceci vous permettra de modifier le style de vos applications : boutons, barres de défilement et de chargement, cases à cocher...
+  * **[[http://www.gnome-look.org/index.php?xsortmode=down&xcontentmode=101|Metacity]]**, [[http://browse.deviantart.com/customization/skins/linuxutil/gnome/gtk2/#catpath=customization/skins/linuxutil/gnome/metacity&order=9|DeviantArt]] : permet de modifier la bordure des fenêtres.
+  * **[[http://www.gnome-look.org/index.php?xsortmode=down&xcontentmode=121|Icon Themes]]**, [[http://browse.deviantart.com/customization/skins/linuxutil/gnome/#catpath=customization/skins/linuxutil/gnome/gnomeicons&order=9|DeviantArt]] : changer les icônes.
+  * **[[http://www.gnome-look.org/index.php?xsortmode=down&xcontentmode=39|Fonts]]**, [[http://www.dafont.com/fr/top.php?nb_ppp_old=10&page=1&top=1&text=&nb_ppp=50&psize=m&classt=alpha|Dafont.com]] : trouver des [[:police|polices]].
+  * **[[http://www.gnome-look.org/index.php?xsortmode=down&xcontentmode=25|SystemSounds]]** : permet de télécharger des sons ou évènements sonores.  
+  * **[[http://www.gnome-look.org/index.php?xsortmode=down&xcontentmode=36|X11 Mouse Theme]]** : Des icônes de souris.
+  * **[[http://www.gnome-look.org/index.php?xsortmode=down&xcontentmode=187|Screensaver]]** : des écrans de veille.
+  * **[[http://www.gnome-look.org/index.php?xsortmode=down&xcontentmode=188|Nautilus script]]** : des [[:nautilus scripts|scripts pour nautilus]]
+
+=== Toutes ressources confondues ===
+
+  * **[[http://www.gnome-look.org/|Gnome-Look.org]]** (en)
+  * **[[http://www.opendesktop.org/?xsection=art|OpenDesktop.org]](en)**
+  * [[http://browse.deviantart.com/customization/skins/linuxutil/gnome/?order=9&alltime=yes|deviantArt]] (en)
+  * [[http://art4linux.org/|Art4linux.org]] (en)
+  * [[http://art.gnome.org/|Gnome Art]] (en)
+  * [[http://www.ubuntu-art.org|Ubuntu-Art.org]] (en)
+
+-------
+Contributeurs : [[:utilisateurs:l_africain|L'Africain]], [[:utilisateurs:Roschan]]

@@ -1,0 +1,73 @@
+{{tag>programmation compilation IDE}}
+
+====== Fortran ======
+
+Fortran est un langage de programmation encore largement répandu pour réaliser des calculs scientifiques. Les versions les plus usitées sont le Fortran 77 et le Fortran 90, à noter qu'il supporte la programmation orientée objet depuis 2003.
+
+===== Compilateurs =====
+
+Parmi les compilateurs existants figurent
+  * Les compilateurs libres [[apt>g77|g77]] (obsolète, non supporté depuis Karmic) ,  GNU-[[apt>gfortran|gfortran]] et [[http://www.g95.org/|g95]]
+  * Le propriétaire Intel Fortran Compiler (disponible sous Linux en version non-commerciale).
+  * Le compilateur commercial [[http://www.pgroup.com/resources/docs.htm| PGI]] édité par [[wp>The_Portland_Group]]
+
+Pour des programmes simples, gfortran est largement suffisant mais pour des projets nécessitant un temps de calcul conséquent, on peut lui préférer la version d'Intel ([[http://www.polyhedron.com/compare.html|voir une comparaison des différents compilateurs ici)]]
+
+
+==== Intel Fortran Compiler ====
+
+=== Installation ===
+
+//Basé sur [[http://ubuntuforums.org/showthread.php?t=89571]].//
+
+
+  - Installer les packages pré-requis [[apt>rpm,build-essential|rpm build-essential]] : <code>sudo apt-get install rpm build-essential</code>
+  - S'enregistrer sur le site d'Intel pour obtenir la version non-commerciale du compilateur. Aller sur [[http://software.intel.com/en-us/articles/non-commercial-software-download/]] et cliquer sur //Intel® Fortran Composer XE for Linux//. Vous recevrez un email avec votre numéro de série
+  - Extraire l'archive <code>tar xvzf l_fcompxe_*.tgz</code>
+  - Lancer le script d'installation<code>cd l_fcompxe_*
+sudo ./install.sh</code>
+  - Choisir l'option 1 pour installer puis de nouveau l'option 1 pour rentrer le numéro de série donné dans l'email, choisir encore l'option 1 pour une installation par défaut.
+  - Presser Entrer pour lire la licence et taper 'accept' pour l'accepter. 
+  - Presser Entrer pour garder le répertoire par défaut puis Entrée pour démarrer l'installation (prendre un café en attendant).
+  - Faire de même pour installer le débogueur puis presser Entrée pour continuer
+  - Si l'installation semble s'être arrêtée depuis un certain temps, faire Ctrl+C pour fermer.
+  - Il reste maintenant à modifier votre fichier .bashrc dans le dossier personnel en rajoutant à la fin les lignes suivantes : <code>
+PATH="/opt/intel/fc/9.0/bin:$PATH"
+export PATH
+LD_LIBRARY_PATH="/opt/intel/fc/9.0/lib:$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH
+</code>Ces lignes sont à adapter en fonction de votre version et architecture ; pour une version 64bits, il fallait rajouter ([[http://ubuntuforums.org/showthread.php?t=1384001|voir ici]]) : <code>
+source /opt/intel/Compiler/11.1/072/bin/ifortvars.sh ia64
+LD_LIBRARY_PATH="/opt/intel/Compiler/11.1/072/lib/intel64:$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH
+</code>
+  - Enfin, faire un lien symbolique :<code>
+sudo ln -s /opt/intel/Compiler/11.1/072/lib/intel64/ifort /bin</code>
+
+=== Utilisation ===
+
+Voir le manuel pour plus d'informations :
+
+<code>man ifort</code>
+
+Exemple de commande :
+
+<code>ifort -O -c test.f90</code>
+
+
+===== Environnement de Développement Intégré =====
+
+Plusieurs IDE sont disponibles avec une configuration plus ou moins aisée en fonction du logiciel. Citons :
+
+  * [[:Geany]] 
+  * [[:Eclipse]] avec le [[http://www.eclipse.org/photran/|plugin Photran]] 
+  * [[:KDevelop]] 
+  * [[:Anjuta]] 
+  * [[:code_blocks|Code::Blocks]] : voir [[http://darmar.vgtu.lt/]] 
+  * [[:netbeans]] (cf [[http://netbeans.org/community/releases/67/cpp-setup-instructions.html]])
+
+
+===== Débogueurs =====
+
+  * [[:gdb]], le débogueur GNU, débogue le fortran, mais de façon incomplète dans sa version actuelle (n'affiche pas les tableaux). 
+  * [[http://en.wikipedia.org/wiki/Intel_Debugger|idb]] pallie ce problème.

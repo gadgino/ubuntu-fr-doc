@@ -1,0 +1,74 @@
+{{tag>matériel freebox wifi}}
+----
+
+<note tip>__Avant toutes modifs__ informez-vous: si votre matériel wifi est compatible 802.11**n** en 300 Mbit/s </note>
+**Qui n’a jamais rêvé d’avoir un réseau WiFI performant ?**
+<note important>Faite des Tests car ces modifs peuvent rendre votre signal WiFi instable et avoir des déconnections régulière</note>
+
+===== Comprendre le fonctionnement =====
+
+La FreeBox V6 Server embarque la technologie N, finalisée il y a un an seulement. Cette nouvelle norme permet d’atteindre des débits de 300 Mbit/s, au lieu du fameux 54 Mbit/s en G, voir 108 Mbit/s en MIMO propriétaire.
+
+Comment est-ce possible ? Nous allons le voir ici.
+
+Définition : WiFi Wireless Fidelity est une technologie de réseau sans fil. Cette technologie est possible grâce à des ondes radios. 3 normes se disputent « le marché ».
+
+  * La norme __A__ qui utilise la bande de fréquence 5GHz. Un seul canal possible pour une portée de 10 mètres pour un débit théorique de 54 Mbit/s. Elle est plus performante que la norme B+G car ses fréquences sont peu utilisées. Ses canaux sont aux nombres de 19, allant de du canal 36 à 140. La particularité du WiFI A c’est que les canaux ne se recoupe pas, donc aucune interférence possible. Selon la RFC IEEE 802.11a, elle est incompatible avec les normes B et G.
+
+  *  La norme __B+G__ qui elles utilisent la bande de fréquence 2,4Ghz. Un seul canal possible pour une portée de 300 mètres pour un débit théorique de 54 Mbit/s. Norme la plus utilisée dans le monde, sa bande de fréquence est de 2,4 GHz et possède 13 canaux selon la RFC IEEE 802.111g. L’inconvénient de cette norme, vu qu’elle est utilisée par beaucoup, __on atteint rarement les débits théoriques.__ Ci joint un aperçu des réseaux disponibles chez moi.
+{{:freeboxv6_wifi_02.png?200|}}
+Et les canaux se recoupent. Ainsi si on décide d’être sur le canal 6, on empiète sur les fréquences du canal 4,5,7 et 8. Ci joint un schéma pour bien comprendre.
+
+{{:2.4_ghz_wi-fi_channels_802.11bg02.png?650|}}
+
+  * La norme N compile les 2 normes précédentes. En fait elle peut très bien être utilisée sur la fréquence 5 GHz et 2,4 GHz, pas en même temps. Les appareils actuellement disponibles, donc la FreeBox Server, saura gérer que le 2,4 GHz, elle fait du simple bande. Néanmoins elle utilisent jusqu’à 8 canaux à la fois. Ce qu’il lui permet d’obtenir ces débits faramineux (théorique).
+<note>Chez moi avec tous les réseaux WiFI disponible dans mon environnement (voisinage et parasite,ect...)  je plafonne à 150 Mbit/s !</note>
+===== Configuration =====
+Reste plus qu’à configurer tout cela.
+Rendez sur votre interface de connexion de la FreeBox Server
+{{:freeboxv6_wifi_01.png?500|}}
+
+Vous verrez un rapide aperçu du statut de votre carte WiFI de la FreeBox Server.
+
+    * Activer ou non la carte WiFi de la FreeBox
+    * Canal, choisissez le canal voulu (__le moins utilisé dans votre environement__)  ex:(channel:6)
+    * __Mode 802.11**n**__, c’est ici que vous passez votre carte de G à N.
+
+Rappelez-vous la FreeBox est simple bande, du coup le N se fait seulement sur la bande de fréquence dédiée au B+G, soit 2,4 GHz. Donc vous avez à disposition 13 canaux.
+
+Exemple :
+Activer le réseau sans fil
+Canal : 6, c’est le canal par défaut. Il va dépendre du choix du 802.11 n
+__Mode 802.11**n** __: Ici vous avez 4 choix (__Désactivé : Pour mettre votre carte en B+G__)
+
+  * 20 MHz : Par défaut = 150 Mb/s
+
+  * 40 MHz (canal supérieur) : Vous permet d’utiliser en plus du canal 6, les 8 canaux supérieurs au canal sélectionné. Ici j’ai choisi le canal 6 donc j’utiliserai les canaux 6,7,8,9,10,11,12 et 13 soit 40 MHz entre ces canaux.
+
+  * 40 MHz (canal inférieur) : Vous permet d’utiliser en plus du canal 8, les 8 canaux inférieurs au canal sélectionné. Ici j’ai choisi le canal 8 donc j’utiliserai les canaux 1,2,3,4,5,6,7 et 8 soit 40 MHz entre ces canaux.
+
+<note>C’est une configuration un peu barbare car sur d’autres point d’accès WiFi notamment les ZyXEL, cela ne se configure pas comme cela.</note>
+
+<note important>=> Réfléchissez si vous optez pour le canal 11, ne choisissez pas l’option 40 MHz (canal supérieur) la FreeBox vous mettra une erreur.</note>
+
+===== Activer la bande "ac" ===== 
+En plus du "n", la box peut diffuser le wifi en dual band. Si vous avez des cartes WiFi compatibles pensez à activer "l'ac" {{ :freebox:freebox01.png?direct&600 |}}
+===== Optimisation Carte Wifi Pc =====
+  *[[Wifi Pc_optimisation]]
+===== Bugs et solutions =====
+  * Toujours vérifier que votre matériel est compatible 802.11**n** 2.4Ghz débit 300Mb/s
+  * Toujours vérifier que votre matériel est compatible 802.11**ac** 5Ghz
+==== Ca ne marche pas ====
+Si vous avez choisi un channel de 1 à 7 : ne pas choisir 40Mhz inférieure.\\
+Si vous avez choisi un channel de 7 à 13 : ne pas choisir 40Mhz supérieur.
+
+==== Déconnections régulières ====
+toujours choisir le channel le moins puissant de votre voisinage. Plus il y a des ondes Wifi et parasites, plus vous aurez des problèmes de stabilité.\\
+  * évitez les canaux par défaut : 11=All, 10=livebox, 8=numéricable, 6=Free.
+==== Source ====
+[[http://www.samn0.fr/index.php/tag/40-mhz-canal-inferieur|http://www.samn0.fr]]
+==== Liens ====
+[[https://lafibre.info/wifi/quel-canal-wi-fi-choisir-pour-optimiser-son-debit/|Article assez technique mais très intéressant pour mieux choisir son canal WiFi.]]
+----
+
+//Contributeurs : [[:utilisateurs:bricef77]] //

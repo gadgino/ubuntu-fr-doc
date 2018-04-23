@@ -1,0 +1,65 @@
+====== MSI CX600 ======
+
+===== En un coup d’œil =====
+
+Le tableau suivant récapitule la prise en charge du matériel de portable par les différentes versions d'Ubuntu.
+Il utilise les notations suivantes :
+  * {{icons:important.png|Fonctionne après config}} : **Fonctionne après quelques manipulations**
+  * {{icons:icon-ubuntu.png|Fonctionne immédiatement}} : **Fonctionne immédiatement**
+  * {{icons:icon-support.png|Pas testé}} : **Pas d'informations disponibles**
+  * {{icons:process-stop.png?36|Ne fonctionne pas}} : **Ne fonctionne pas**
+
+^ Version ^ Installation ^ Carte graphique ^ Son ^ Wifi ^ Ethernet ^ Webcam ^ Touchpad ^ Bluetooth ^ Lecteur de carte mémoire ^
+| [[:maverick|10.10 (Maverick Meerkat)]] | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-support.png|Pas testé}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} |
+| [[:lucid|10.04 (Lucid Lynx)]] | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-support.png|Pas testé}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} |
+| [[:karmic|9.10 (Karmic Koala)]] | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-support.png|Pas testé}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} |
+
+
+**Cet ordinateur portable n'est pas [[:pc_tatoué|tatoué]].**
+
+**Voici les périphériques de cet ordinateur (lspci):**
+  00:00.0 Host bridge: Silicon Integrated Systems [SiS] 671MX
+  00:01.0 PCI bridge: Silicon Integrated Systems [SiS] PCI-to-PCI bridge
+  00:02.0 ISA bridge: Silicon Integrated Systems [SiS] SiS968 [MuTIOL Media IO] (rev 01)
+  00:02.5 IDE interface: Silicon Integrated Systems [SiS] 5513 [IDE] (rev 01)
+  00:03.0 USB Controller: Silicon Integrated Systems [SiS] USB 1.1 Controller (rev 0f)
+  00:03.1 USB Controller: Silicon Integrated Systems [SiS] USB 1.1 Controller (rev 0f)
+  00:03.3 USB Controller: Silicon Integrated Systems [SiS] USB 2.0 Controller
+  00:04.0 Ethernet controller: Silicon Integrated Systems [SiS] 191 Gigabit Ethernet Adapter (rev 02)
+  00:05.0 IDE interface: Silicon Integrated Systems [SiS] SATA Controller / IDE mode (rev 03)
+  00:06.0 PCI bridge: Silicon Integrated Systems [SiS] PCI-to-PCI bridge
+  00:07.0 PCI bridge: Silicon Integrated Systems [SiS] PCI-to-PCI bridge
+  00:0f.0 Audio device: Silicon Integrated Systems [SiS] Azalia Audio Controller
+  01:00.0 VGA compatible controller: ATI Technologies Inc M92 LP [Mobility Radeon HD 4300 Series]
+  02:00.0 Network controller: RaLink RT3090 Wireless 802.11n 1T/1R PCIe
+
+===== Installation et configuration =====
+<note important>Sur Ubuntu comme sur Windows, il vous faut la version **64 bit** pour pouvoir utiliser toute votre mémoire vive!</note>
+Vous pouvez installer Ubuntu avec un CD, avec une clé USB, ou avec toute autre méthode. L'installation s'est déroulée sans problème.
+==== La carte WiFi ====
+Faites les mise à jour avant d'installer les pilotes.
+
+**Pour Ubuntu 10.04 ou plus ancien:**
+Téléchargez le pilote ici: [[https://launchpad.net/~markus-tisoft/+archive/rt3090/+files/rt3090-dkms_2.3.1.3-0ubuntu0~ppa1_all.deb|Pilote]] et installez-le. 
+
+**Pour Ubuntu 10.10**
+Ouvrez un Terminal et executez les commandes suivantes, dans l'ordre:
+  sudo apt-get install build-essential devscripts cdbs
+  wget ftp://file7.mydrivers.com/wireless/Ralink_RT3090_Linux_drv2.4.0.2.zip
+  unzip Ralink_RT3090_Linux_drv2.4.0.2.zip
+  cd 20101125_RT3090_LinuxSTA_V2.4.0.2_WiFiBTCombo_RFKill_DPO
+  sudo make
+  sudo make install
+  cd ..
+  sudo rm Ralink_RT3090_Linux_drv2.4.0.2.zip
+  sudo rm -r 20101125_RT3090_LinuxSTA_V2.4.0.2_WiFiBTCombo_RFKill_DPO
+  echo "blacklist rt2800pci" | sudo tee -a /etc/modprobe.d/blacklist.conf > /dev/null
+  echo "rt3390sta" | sudo tee -a /etc/modules > /dev/null
+C'est tout. Il ne reste qu'à redémarrer.
+
+==== La carte graphique ====
+Allez dans "Système ▸ Administration ▸ Pilotes pour le matériel" et activez le pilote de la carte graphique.
+
+==== La Webcam ====
+Si vous cherchez un logiciel pour prendre des photos ou filmer avec la Webcam, installez [[apt://cheese]].
+Si jamais cheese vous annonce qu'aucune cameras n'as été détecté, fermez cheese, appuyez sur le bouton du clavier qui active la Webcam et relancez cheese.

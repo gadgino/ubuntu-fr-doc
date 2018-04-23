@@ -1,0 +1,495 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="clear"><ul class="toc">
+<li class="level2"><span class="li"><a href="#pourquoi_ce_how_to" class="toc"> Pourquoi ce How To? </a></span></li>
+<li class="level2"><span class="li"><a href="#conventions" class="toc"> Conventions: </a></span></li>
+<li class="level2"><span class="li"><a href="#preambule" class="toc"> Préambule </a></span></li>
+<li class="level2"><span class="li"><a href="#1_le_systeme_de_base" class="toc"> 1 Le système de base </a></span></li>
+<li class="level2"><span class="li"><a href="#2_installation_d_une_interface_graphique" class="toc"> 2 Installation d'une interface graphique </a></span></li>
+<li class="level2"><span class="li"><a href="#3_applications_de_base" class="toc"> 3 Applications de base </a></span></li>
+<li class="level2"><span class="li"><a href="#4_pour_terminer_l_installation_de_base" class="toc"> 4 Pour terminer l'installation de base </a></span></li>
+<li class="level2"><span class="li"><a href="#5_applications_complementaires" class="toc"> 5 Applications complémentaires </a></span></li>
+<li class="level2"><span class="li"><a href="#note" class="toc"> Note: </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Traduction de la page http://www.binonabiso.com/en/Ubuntu-miniRAM-HOWTO.html 
+créé par Ingo LANTSCHNER
+Version Ubuntu Warty et Hoary x86
+</pre>
+
+<p>
+Traduit et testé par <a href="/utilisateurs/manu" class="wikilink1" title="utilisateurs:manu" onclick="return svchk()" onkeypress="return svchk()">manu</a>
+</p>
+
+<p>
+Complété par <a href="http://wiki.ubuntu.com/MaximeGeorgeBourreau" class="urlextern" title="http://wiki.ubuntu.com/MaximeGeorgeBourreau" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">MaximeGeorgeBourreau</a>
+</p>
+
+<a name="pourquoi_ce_how_to"></a><h2> Pourquoi ce How To? </h2>
+<div class="level2">
+
+<p>
+ <strong>Ubuntu</strong> est installé par défaut avec le bureau de Gnome et d&rsquo;autres applications <em>gourmandes</em> en mémoire et en espace disque. Ainsi si vous n&rsquo;avez pas une machine rapide et puissante (Pentium 4 et 512 Mo de RAM) votre système sera lent.
+</p>
+
+<p>
+Le document suivant explique, par étapes, comment installer <strong>Ubuntu</strong> et un bureau convivial sur une machine ayant peu de mémoire, de sorte que vous puissiez l&rsquo;employer comme poste de travail pour votre quotidien. Il vise l&rsquo;utilisateur moyen (Small Office/Home Office). 
+</p>
+
+<p>
+Le choix des applications sera parfois le résultat d&rsquo;un compromis entre des applications plus complètes et/ou plus conviviales et des applications plus légères.
+</p>
+
+</div>
+<!-- SECTION [286-1006] -->
+<a name="conventions"></a><h2> Conventions: </h2>
+<div class="level2">
+
+<p>
+ Commande tapée par <strong>root</strong> (vous pouvez utiliser la fonction &ldquo;<em>sudo -s</em>&quot; pour avoir un prompt <strong>root</strong> ou taper les commandes à chaque fois avec &ldquo;<em>sudo</em>&ldquo;).
+</p>
+<pre class="code">
+   # command
+</pre>
+
+<p>
+Commande tapée par un <strong>utilisateur</strong>.
+</p>
+<pre class="code">
+   $ command
+</pre>
+
+</div>
+<!-- SECTION [1007-1295] -->
+<a name="preambule"></a><h2> Préambule </h2>
+<div class="level2">
+
+<p>
+ Pour installer <strong>Ubuntu</strong> sur votre machine il faut pouvoir <em>booter</em> sur le cédérom. Si votre PC est très ancien cette fonctionnalité n&rsquo;est peut être pas disponible dans le <em>Bios</em>. Une solution est d&rsquo;utiliser une <em>disquette de boot</em> qui renvoie sur le cédérom, à la place du <em>Bios</em>. Il en existe plusieurs, je vous recommande d&rsquo;utiliser la disquette créée pour la distribution liveCD <em>Morphix</em> disponible en téléchargement sur Sourceforge; prenez la <a href="http://sourceforge.net/project/showfiles.php?group_id=71814" class="urlextern" title="http://sourceforge.net/project/showfiles.php?group_id=71814" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow"> Morphix Boot Floppy</a> du moment.
+</p>
+
+</div>
+<!-- SECTION [1296-1889] -->
+<a name="1_le_systeme_de_base"></a><h2> 1 Le système de base </h2>
+<div class="level2">
+
+<p>
+ Faites un cédérom <a href="http://www.ubuntulinux.org/download/" class="urlextern" title="http://www.ubuntulinux.org/download/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">d'Ubuntu</a>  ou <a href="http://shipit.ubuntulinux.org/" class="urlextern" title="http://shipit.ubuntulinux.org/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">commandez</a>  en un
+</p>
+
+<p>
+Après avoir inséré le cédérom dans le lecteur, <em>bootez</em> dessus et au prompt tapez <strong>custom</strong> pour Warty ou <strong>server</strong> pour Hoary puis sur la touche <em>Entrée</em>
+</p>
+
+<p>
+Le système de base sera installé avec moins de 300 Mo sur le disque et en <em>mode texte</em> (pas d&rsquo;interface graphique pour l&rsquo;instant).
+</p>
+
+</div>
+<!-- SECTION [1890-2355] -->
+<a name="2_installation_d_une_interface_graphique"></a><h2> 2 Installation d'une interface graphique </h2>
+<div class="level2">
+
+<p>
+ J&rsquo;ai fait l&rsquo;installation dans l&rsquo;ordre suivant:
+</p>
+<pre class="code">
+   $ sudo -s           
+</pre>
+
+<p>
+Cette commande vous placera dans un shell &ldquo;root&rdquo; (#), pour ne plus avoir besoin de retaper sudo.
+</p>
+<pre class="code">
+   # vi /etc/apt/sources.list
+</pre>
+
+<p>
+Si vous n&rsquo;êtes pas familier avec <strong>vi</strong>, vous pouvez utilisez <a href="/applications/nano" class="wikilink1" title="applications:nano" onclick="return svchk()" onkeypress="return svchk()">nano</a>  ou tout autre éditeur de texte )
+</p>
+
+<p>
+Activez le <strong>universe-repository</strong> en enlevant le dièse #, puis tapez les commandes <strong>apt</strong> pour mettre à jour le fichier source et installer le <em>serveur X</em> et le <em><acronym title="Graphical User Interface">GUI</acronym></em>
+</p>
+<pre class="code">
+  # apt-get update
+
+  # apt-get install icewm
+
+  # apt-get install xserver-xfree86  &lt;=&gt; pour Warty
+  # apt-get install xserver-xorg     &lt;=&gt; pour Hoary
+
+  # apt-get install x-window-system-core
+
+  # apt-get install xdm
+
+  # apt-get install numlockx
+
+  # apt-get install xterm
+</pre>
+
+<p>
+Résultat, vous avez un système avec un <em>serveur X</em> et <strong>iceWM</strong> comme <em>window manager</em> (gestionnaire de fenêtres).  Connectez vous comme <strong>user</strong> et au prompt tapez:
+</p>
+
+<p>
+Démarrage d<strong>&rsquo;iceWM</strong>:
+</p>
+<pre class="code">
+   $ startx
+</pre>
+
+<p>
+(Après le premier reboot, <strong>xdm</strong> (gestionnaire X) démarrera automatiquement et vous aurez accès directement au mode graphique)
+</p>
+
+<p>
+Jusqu&rsquo;ici le système a besoin de <strong>468 Mo</strong> environ sur le  disque.
+</p>
+
+</div>
+<!-- SECTION [2356-3658] -->
+<a name="3_applications_de_base"></a><h2> 3 Applications de base </h2>
+<div class="level2">
+
+<p>
+Cette sélection propose un explorateur de fichiers (<strong>Rox Filer</strong>), un navigateur Web et client de messagerie (<strong>Mozilla Suite</strong>), un lecteur de <acronym title="Portable Document Format">PDF</acronym> (<strong>Acrobat Reader</strong>) et une suite bureautique (<strong>Open-Office.org</strong>). 
+</p>
+<ul>
+<li class="level1"><span class="li"> <strong>Rox Filer</strong></span>
+</li>
+</ul>
+<pre class="code">
+   # apt-get install rox-filer
+</pre>
+<ul>
+<li class="level1"><span class="li"> <strong>Mozilla Suite</strong></span>
+</li>
+</ul>
+
+<p>
+ Installation avec les <em>plugins Flashplayer</em> et <em>Acrobat-Plugin</em> pour être compatible avec les sites Web actuels. Les plugins prennent <strong>2,5 Mo</strong> sur le disque.
+</p>
+<pre class="code">
+   # apt-get install mozilla flashplayer-mozilla acroread-plugin
+</pre>
+
+<p>
+Mozilla Suite occupe une place de <strong>55Mo</strong> (autres choix possibles <em>Firefox</em> et <em>Thunderbird</em>...) 
+</p>
+<ul>
+<li class="level1"><span class="li"> <strong>Acrobat Reader</strong></span>
+</li>
+</ul>
+<pre class="code">
+   # apt-get install acroread  
+</pre>
+
+<p>
+Ceci prend <strong>26 Mo</strong> sur le disque (comparez avec <strong>3,2 Mo</strong> pour <strong>gPDF</strong>, mais gPDF n&rsquo;a pas toutes les options disponibles d&rsquo;acrobat reader.)
+</p>
+
+<p>
+Une autre possibilité est d&rsquo;installer xpdf, moins esthétique, mais beaucoup plus léger (6 Mo).
+</p>
+<pre class="code">
+   # apt-get install xpdf
+</pre>
+<ul>
+<li class="level1"><span class="li"> <strong>OpenOffice.org</strong></span>
+</li>
+</ul>
+
+<p>
+ Il faut installer le programme de base, puis la traduction du programme et l&rsquo;aide en français.
+</p>
+<pre class="code">
+   # apt-get install openoffice.org openoffice.org-help-fr openoffice.org-l10-fr   
+</pre>
+
+<p>
+Attention à la version lors de votre installation qui aura sans doute changé depuis la création de ce How To. Un autre choix possible est d&rsquo;utiliser <strong>AbiWord</strong> comme traitement de texte, et <strong>gnumeric</strong> comme tableur. 
+</p>
+
+</div>
+<!-- SECTION [3659-5155] -->
+<a name="4_pour_terminer_l_installation_de_base"></a><h2> 4 Pour terminer l'installation de base </h2>
+<div class="level2">
+
+<p>
+Finalement vous avez un système de base qui occupe environ <strong>770 Mo</strong> sur votre disque. En prenant une <em>swap</em> de <strong>128 Mo</strong>, vous avez besoin d&rsquo;un disque d&rsquo;une capacité de <strong>1 Go</strong> environ seulement pour avoir un système Linux Ubuntu léger.
+</p>
+
+</div>
+<!-- SECTION [5156-5456] -->
+<a name="5_applications_complementaires"></a><h2> 5 Applications complémentaires </h2>
+<div class="level2">
+
+<p>
+Attention, un certain nombre d&rsquo;applications de cette liste requièrent différentes librairies de Gnome pour fonctionner, et peuvent alourdir l&rsquo;installation. 
+</p>
+<ul>
+<li class="level1"><span class="li"> <strong>openssh-server</strong> (sshd): &rArr; 594 kB</span>
+</li>
+</ul>
+<pre class="code">
+     #apt-get install openssh-server  
+</pre>
+<ul>
+<li class="level1"><span class="li"> <strong>gthumb</strong> : affichage d&rsquo;images, diaporama</span>
+</li>
+</ul>
+
+<p>
+ &rArr; 60,2 <acronym title="Megabyte">MB</acronym>, application Gnome
+</p>
+<pre class="code">
+     #apt-get install gthumb
+</pre>
+<ul>
+<li class="level1"><span class="li"> <strong>gpdf</strong> : affichage de fichiers au format <acronym title="Portable Document Format">PDF</acronym> (adobe acrobat)</span>
+</li>
+</ul>
+
+<p>
+ &rArr; 3,2 <acronym title="Megabyte">MB</acronym>, application Gnome
+</p>
+
+<p>
+(Attention gpdf n&rsquo;a pas toutes les options d&rsquo;acrobat reader comme le copier/coller du contenu du <acronym title="Portable Document Format">PDF</acronym>)
+</p>
+<pre class="code">
+    #apt-get install gpdf 
+</pre>
+<ul>
+<li class="level1"><span class="li"> <strong>CUPS Daemon</strong> : serveur d&rsquo;impression</span>
+</li>
+</ul>
+
+<p>
+ &rArr; 23,6 <acronym title="Megabyte">MB</acronym>
+</p>
+<pre class="code">
+   #apt-get install cupsys
+</pre>
+<ul>
+<li class="level1"><span class="li"> <strong>CUPS-Manager</strong>  &rArr;  1,6 kB</span>
+</li>
+</ul>
+<pre class="code">
+    #apt-get install gnome-cups-manager
+</pre>
+<ul>
+<li class="level1"><span class="li"> <strong>Printerdrivers</strong>  &rArr;  22 <acronym title="Megabyte">MB</acronym></span>
+</li>
+</ul>
+
+<p>
+ (Attention cela prend beaucoup de place)
+</p>
+<pre class="code">
+    #apt-get install cupsomatic-ppd
+</pre>
+<ul>
+<li class="level1"><span class="li"> <strong>The Gimp</strong> : logiciel de création graphique</span>
+</li>
+</ul>
+
+<p>
+ &rArr;  40,5 <acronym title="Megabyte">MB</acronym>
+</p>
+<pre class="code">
+    #apt-get install gimp
+</pre>
+<ul>
+<li class="level1"><span class="li"> <strong>cdrecord</strong> : logiciel de gravure d&rsquo;image ISO9660 sur CD, en mode texte</span>
+</li>
+</ul>
+
+<p>
+ &rArr;  1,2 <acronym title="Megabyte">MB</acronym>
+</p>
+<pre class="code">
+   #apt-get install cdrecord
+</pre>
+<ul>
+<li class="level1"><span class="li"> <strong>mkisofs</strong> : logiciel de création d&rsquo;image ISO99660, en mode texte</span>
+</li>
+</ul>
+
+<p>
+ &rArr;  860 kB
+</p>
+<pre class="code">
+    #apt-get install mkisofs
+</pre>
+
+<p>
+mkisofs et cdrecord s&rsquo;utilisent conjointement pour graver des CDs, éventuellement au travers de logiciels conviviaux comme gtoaster ou k3b 
+</p>
+<ul>
+<li class="level1"><span class="li"> <strong>nedit</strong>, éditeur de texte</span>
+</li>
+</ul>
+
+<p>
+&rArr;  3,3 <acronym title="Megabyte">MB</acronym>
+</p>
+<pre class="code">
+    #apt-get install nedit
+</pre>
+<ul>
+<li class="level1"><span class="li"> <strong>alicq</strong>, logiciel d&rsquo;accès aux messageries instantanées de type <acronym title="I seek you (Instant Messenger)">ICQ</acronym></span>
+</li>
+</ul>
+
+<p>
+&rArr;  7,8 kB
+</p>
+<pre class="code">
+  #apt-get install alicq
+</pre>
+<ul>
+<li class="level1"><span class="li"> <strong>gaim</strong> (<acronym title="I seek you (Instant Messenger)">ICQ</acronym>-Client), logiciel d&rsquo;accès aux messageries instantanées de type <acronym title="I seek you (Instant Messenger)">ICQ</acronym></span>
+</li>
+</ul>
+
+<p>
+&rArr;  18,4 <acronym title="Megabyte">MB</acronym>
+</p>
+<pre class="code">
+   # apt-get install gaim
+</pre>
+<ul>
+<li class="level1"><span class="li"> <strong>guitar</strong>   &rArr;  3,3 <acronym title="Megabyte">MB</acronym></span>
+</li>
+</ul>
+<pre class="code">
+   #apt-get install guitar
+</pre>
+<ul>
+<li class="level1"><span class="li"> <strong>zip et unzip</strong>, logiciels de création et extraction d&rsquo;archives au format Zip, en mode texte</span>
+</li>
+</ul>
+
+<p>
+&rArr;  550 kB   
+</p>
+<pre class="code">
+   #apt-get install zip; apt-get install unzip
+</pre>
+<ul>
+<li class="level1"><span class="li"> <strong>rdesktop</strong>  &rArr;  320 kB</span>
+</li>
+</ul>
+<pre class="code">
+   #apt-get install rdesktop
+</pre>
+<ul>
+<li class="level1"><span class="li"> <strong>tsclient</strong> (&rdquo;Frontend&rdquo; pour rdesktop et VNC) &rArr;   940 kB</span>
+</li>
+</ul>
+<pre class="code">
+   #apt-get install tsclient
+</pre>
+<ul>
+<li class="level1"><span class="li"> <strong>cdrtoaster</strong>  &rArr;  106 kB</span>
+</li>
+</ul>
+
+<p>
+ (Pas testé!) 
+</p>
+<pre class="code">
+   #apt-get install cdrtoaster
+</pre>
+<pre class="code">
+* **Simple cdrx**  =&gt;  5,1 MB</pre>
+
+<p>
+ (Pas testé !)
+</p>
+<pre class="code">
+   #apt-get install simplecdrx
+</pre>
+<ul>
+<li class="level1"><span class="li"> <strong>gtoaster</strong>  &rArr;  6 <acronym title="Megabyte">MB</acronym>, application Gnome</span>
+</li>
+</ul>
+
+<p>
+ (Pas testé!)  <em>note de dawar : gtoaster est excellent, mais présente des problème avec l&rsquo;utf-8 d&rsquo;Ubuntu, en plus il est mal packagé et ne reconnait pas les graveur (cdrecord &ndash;scancd impossible). Dommage.</em>
+</p>
+<pre class="code">
+   #apt-get install gtoaster
+</pre>
+<ul>
+<li class="level1"><span class="li"> <strong>xine-ui</strong>, logiciel de lecture de DVDs vidéos et de fichiers vidéos</span>
+</li>
+</ul>
+
+<p>
+&rArr;  12 <acronym title="Megabyte">MB</acronym>
+</p>
+<pre class="code">
+   #apt-get install xine-ui
+</pre>
+<ul>
+<li class="level1"><span class="li"> <strong>w32codecs</strong>  &rArr;  28,4 <acronym title="Megabyte">MB</acronym></span>
+</li>
+</ul>
+<pre class="code">
+   #apt-get install w32codecs
+</pre>
+<ul>
+<li class="level1"><span class="li"> <strong>MPlayer</strong> &rArr; 18,3 <acronym title="Megabyte">MB</acronym> + 7,3 <acronym title="Megabyte">MB</acronym> + 11 <acronym title="Megabyte">MB</acronym></span>
+</li>
+</ul>
+
+<p>
+ (Pas testé!)
+</p>
+<pre class="code">
+  #apt-get install mozilla-mplayer
+  #apt-get install mplayer-fonts
+  #apt-get install gstreamer0.8-plugins
+</pre>
+<ul>
+<li class="level1"><span class="li"> <strong>mc</strong> (Midnightcommander, Filemanager)  &rArr;  5 <acronym title="Megabyte">MB</acronym></span>
+</li>
+</ul>
+<pre class="code">
+  #apt-get install mc
+</pre>
+<ul>
+<li class="level1"><span class="li"> <strong>emelfm</strong> (Filemanager)  &rArr;  582 kB</span>
+</li>
+</ul>
+<pre class="code">
+  #apt-get install emelfm
+</pre>
+
+</div>
+<!-- SECTION [5457-8813] -->
+<a name="note"></a><h2> Note: </h2>
+<div class="level2">
+
+<p>
+ Je n&rsquo;ai pas traduit l&rsquo;intégralité de la page d&rsquo;Ingo LANTSCHNER car une partie concerne les spécificités pour la distribution Debian. Vous ne trouverez que ce qui concerne Ubuntu. Je l&rsquo;ai testé et cela fonctionne bien pour des configurations matérielles simples (j&rsquo;ai utilisé xfce comme window manager à la place de icewin).(<a href="/utilisateurs/manu" class="wikilink1" title="utilisateurs:manu" onclick="return svchk()" onkeypress="return svchk()">Manu</a>) 
+</p>
+<blockquote>
+ Peut on sans vexer quiconque factoriser les étapes apt-get install quand c&rsquo;est possible, et surtout <strong>tout</strong> prefixer par sudo. (<a href="/utilisateurs/ju" class="wikilink1" title="utilisateurs:ju" onclick="return svchk()" onkeypress="return svchk()">Ju</a>)<blockquote>
+ Mais il n&rsquo;y a pas de vexer dans notre communauté <img src="/smileys/icon_razz.gif" align="middle" alt=":-P" /> , pour la factorisation des etapes &ldquo;apt-get install&rdquo; je suppose que tu préférerais avoir:<br/>
+ apt-get install icewm xserver-xorg x-window-system-core xdm numlockx xterm <br/>
+c&rsquo;est vrai que c&rsquo;est plus &ldquo;pro&rdquo; mais moins lisible pour les autres, cette page n&rsquo;est qu&rsquo;un simple tuto donc surtout destiné au non &ldquo;pro&rdquo;.<br/>
+Pour &ldquo;sudo&rdquo; là mon cher Ju, tu n&rsquo;as pas lu les <strong>conventions</strong>, en plus je viens de les modifier pour bien mettre &ldquo;sudo -s&rdquo; <img src="/smileys/icon_wink.gif" align="middle" alt=";-)" /> donc pour éviter une surcharge je pencherais plus pour conseiller de passer par une console &ldquo;sudo -s &hArr; root&rdquo; que de taper a chaque fois &ldquo;sudo&rdquo;. Mais cela n&rsquo;engage que moi.  (<a href="/utilisateurs/manu" class="wikilink1" title="utilisateurs:manu" onclick="return svchk()" onkeypress="return svchk()">manu</a>)</blockquote>
+</blockquote>
+
+</div>
+<!-- SECTION [8814-] -->

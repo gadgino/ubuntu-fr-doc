@@ -1,0 +1,165 @@
+{{tag>Lucid netbook sony matériel à_recycler}}
+
+----
+
+====== Sony Vaio VPC F11E4E ======
+Le tableau suivant récapitule la prise en charge du matériel de portable par 
+les différentes versions d'Ubuntu.
+Il utilise les notations suivantes :
+  * {{icons:important.png|Fonctionne après config}} : **Fonctionne après quelques manipulations**
+  * {{icons:icon-ubuntu.png|Fonctionne immédiatement}} : **Fonctionne immédiatement**
+  * {{icons:icon-support.png|Pas testé}} : **Pas d'informations disponibles**
+  * {{icons:process-stop.png?36|Ne fonctionne pas}} : **Ne fonctionne pas**
+
+^ Version ^ Installation ^ Carte graphique ^ Son ^ Touches Multimédia^ ExpressCard ^Hibernation^ Wifi ^ Lecteur cartes ^ Touchpad ^  Webcam ^Autres ^ Compiz 3D ^
+|[[:Lucid|"Lucid Lynx" - 10.04 / 32 bits]] | live-USB |  {{icons:important.png|Fonctionne en partie après config}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}}| {{icons:icon-ubuntu.png|Fonctionne immédiatement}}| {{icons:icon-ubuntu.png|Fonctionne immédiatement}}| {{icons:icon-ubuntu.png|Fonctionne immédiatement}}|{{icons:icon-ubuntu.png|Fonctionne immédiatement}}|{{icons:icon-ubuntu.png|Fonctionne immédiatement}}|{{icons:icon-ubuntu.png|Fonctionne immédiatement}}|{{icons:icon-support.png|Pas testé}}|{{icons:icon-ubuntu.png|Fonctionne immédiatement}}|
+
+Ce PC n'est pas tatoué.
+
+===== Problèmes rencontrés =====
+  * mauvaise prise en charge de l'écran (résolu) 
+  * pas de console tty 
+  * pas de son (résolu)
+  * le changement de luminosité de l'écran ne fonctionne pas, [[http://code.google.com/p/vaio-f11-linux/wiki/DisplayBacklight|solution ici]]
+  * mauvaise résolution de plymouth
+  * mauvaise résolution de grub (résolu)
+  * en mode console, l'appui sur MAJ n'allume pas la petite diode!
+  * utilisation d'un deuxième écran sur la sortie VGA (<del>pas résolu pour le moment</del> résolu)
+
+===== Installation et configuration des drivers NVidia =====
+Après l'installation, l'écran reconnu est plus grand que l'écran réel (une partie de votre bureau n'est donc pas visible). L'écran n'est pas reconnu. 
+Je vous propose de télécharger le logiciel [[http://www.tucows.com/preview/329441|Phoenix EDID]] et de redémarrer dans Windows (une fois n'est pas coutume).
+Ce logiciel va vous permettre de récupérer les caractéristiques de votre écran. Exporter ces données dans le fichier EDID.raw par exemple. Vous pouvez à présent redémarrer dans Ubuntu.
+
+Il faut dans un premier temps installer le driver NVIDIA proposé par Ubuntu. Pour cela :** Système->Administration->Pilotes de périphériques**.
+
+Il faut à présent générer le fichier xorg.conf : 
+
+  sudo nvidia-xconfig
+
+
+Nous allons à présent éditer xorg.conf après en avoir fait une copie: 
+
+
+  sudo cp /etc/X11/xorg.conf /etc/X11/xorg.conf_my_backup
+  sudo gedit /etc/X11/xorg.conf
+
+
+
+Cherchez la section Device et modifiez là de façon à avoir : 
+
+
+    Section "Device"
+        Identifier     "Device0"
+        Driver         "nvidia"
+        VendorName     "NVIDIA Corporation"
+        BoardName      "GeForce GT 330M"
+        Option         "ConnectedMonitor" "DFP-0,CRT-0"
+        Option         "CustomEDID" "DFP-0:/etc/X11/EDID.raw"
+    EndSection
+
+Déplacer à présent votre fichier EDID.raw dans /etc/X11.
+
+Vous pouvez à présent redémarrer pour que ces modifications soient prises en compte.
+Normalement vous aurez encore une mauvaise résolution. Pour corriger cela : 
+<code>
+sudo nvidia-settings 
+</code>
+Changez la résolution pour 1920x1200, appliquez et sauvegarder en mergeant avec le fichier existant.
+
+Il faut ensuite forcer cette résolution lors du démarrage en éditant le fichier /home/user/.config/monitors.xml, ou user est votre nom d'utilisateur
+<code>
+gedit /home/user/.config/monitors.xml
+</code>
+A la fin vous devez avoir quelque chose comme ça si vous n'avez que l'écran de votre portable: 
+
+  <monitors version="1">
+    <configuration>
+      <clone>no</clone>
+      <output name="LVDS-1">
+          <vendor>???</vendor>
+          <product>0x0000</product>
+          <serial>0x00000000</serial>
+          <width>1920</width>
+          <height>1080</height>
+          <rate>60</rate>
+          <x>0</x>
+          <y>0</y>
+          <rotation>normal</rotation>
+          <reflect_x>no</reflect_x>
+          <reflect_y>no</reflect_y>
+          <primary>no</primary>
+      </output>
+    </configuration>
+  </monitors>
+
+Vous pouvez à présent redémarrer, la configuration de votre écran sera sauvegardée.
+
+
+==== Changer la luminosité de l'écran =====
+Les hotkeys FN+F6/F7  ne fonctionne malheureusement pas, mais il est tout de même possible de changer la luminosité de l'écran : 
+**Système->Administration->NVIDIA X Server Settings**
+Dans la rubrique X Server Color Correction, vous trouvez le curseur du Brightness, qui permet de changer la luminosité de l'écran.
+
+===== Installation du son =====
+Il faut activer les [[depots#backports]], puis installer la bonne version d'alsa : 
+<code>
+ sudo apt-get install linux-backports-modules-alsa-`uname -r`
+</code>
+ Redémarrez, vous aurez du son!
+
+
+Cette solution ne fait pas encore fonctionner le micro...
+Pour avoir Tout le son qui fonctionne voici la procédure
+
+Ajouter le dépôt ppa ubuntu-audio-dev
+<code>
+ sudo apt-add-repository ppa:ubuntu-audio-dev/ppa 
+</code>
+
+Faite une mise à jour des serveurs sources
+<code>
+ sudo apt-get update
+</code>
+
+Installer le paquet linux-alsa-driver-module
+<code>
+ sudo apt-get install linux-alsa-driver-modules-$(uname -r) 
+</code>
+ Redémarrez, vous aurez tous le son fonctionnel!
+
+===== Changer la résolution de grub =====
+
+
+  sudo gedit /etc/grub.d/00_header
+
+
+Repérer les lignes : 
+
+
+  case x${GRUB_TERMINAL_OUTPUT} in
+   xgfxterm)
+    # Make the font accessible
+    prepare_grub_to_access_device `${grub_probe} --target=device ${GRUB_FONT_PATH}`
+    cat << EOF
+  if loadfont `make_system_path_relative_to_its_root ${GRUB_FONT_PATH}` ; then
+  set gfxmode=800x600
+  set gfxpayload=1280x1024,1024x768,800x600,640x480
+  insmod gfxterm
+  insmod ${GRUB_VIDEO_BACKEND}
+  if terminal_output gfxterm ; then true ; else
+    # For backward compatibility with versions of terminal.mod that don't
+    # understand terminal_output
+    terminal gfxterm
+  fi
+  EOF
+
+le changement porte sur gfxmode et gfxplayload
+
+Regénérez grub :
+ 
+
+  sudo update-grub
+
+
+Vous n'avez plus qu'à redémarrer pour avoir un grub dans une résolution un peu meilleure

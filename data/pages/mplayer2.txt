@@ -1,0 +1,49 @@
+{{tag>Trusty mplayer}}
+
+====== MPlayer2 ======
+
+MPlayer2 est un fork de MPlayer, les différences sont les suivantes (cf. [[http://www.mplayer2.org/comparison.html|Comparaison]]) :
+
+  * Meilleur prise en charge de la pause,
+  * Meilleur support du format Matroska,
+  * Facilitation d'utilisation du support multithreading,
+  * Meilleur support pour les fonctionnalités VDPAU sur les cartes NVIDIA,
+  * Support pour des recherches plus précises,
+
+Divers :
+
+  * Amélioration de la sychronisation audio/video,
+  * Nettoyage et amélioration de divers messages de sortie du terminal,
+  * Support du playback pour les fichiers audio (option -gapless-audio),
+  * Meilleur réponse dans certains cas où Mplayer a des latences entre la lecture,
+  * Garde le plein écran par défaut lors du changement fichiers,
+  * Contrôle du volume OSS4.
+
+<note important>Les options **''-dumpaudio''** et **''-dumpvideo''** de MPlayer classique ne semblent malheureusement pas fonctionner avec MPlayer2, mais on peut toujours utiliser **[[ffmpeg]]** pour faire de l'extraction audio (ou video), exemple :
+  ffmpeg -i "$input" -vn -acodec copy "$output" 
+</note>
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir activé l'accès au [[:depots#medibuntu|dépôt Universe]].
+
+
+===== Installation =====
+
+Pour installer ce logiciel, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>mplayer2]]**.
+  
+==== Version VDPAU  ====
+
+Cette version permet d'utiliser le pilote VDPAU, pour certaines cartes graphiques [[:nVidia]], devant améliorer les performances et le rendus. Ces la versions actuelle des dépôts, mais l'utiliser suivre cette **[[smplayer#utilisation_de_la_sortie_video_vdpau|page]]**.
+
+==== Version MultiThread complète ====
+
+Si votre ordinateur est doté d'un processeur gérant le multi-thread (processeur multi coeur et/ou gérant l'hyperthreading), vous pouvez installer **mplayer-mt** disponible sur le [[:PPA]] [[https://launchpad.net/~rvm/+archive/testing|ppa:rvm/testing]].
+
+Pour l'utiliser, il vous suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>mplayer-mt]]**.
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]].

@@ -1,0 +1,97 @@
+{{tag>bureautique pdf}}
+
+----
+
+{{ http://memo-linux.com/wp-content/uploads/2013/03/xournal_logo1.png?70}}
+
+====== Xournal ======
+
+**Xournal** est un //logiciel de prise de notes// manuscrites, surtout destiné à **prendre des notes sur des documents PDF** et à les annoter.
+Il offre une prise en main rapide et permet l'export en PDF ou en .xoj (ce dernier mode permet de retravailler sur les calques).
+
+{{ xournal_lucid_01.png?250|Xournal sous Ubuntu Lucid Lynx}}
+
+Voici les fonctions principales : 
+
+   * //Le stylo// (Permet d'écrire et de dessiner à l'aide de la souris).
+   * //Le surligneur// (Permet de surligner du texte, possibilité de choisir l'épaisseur et la couleur du surlignement).
+   * // Le mode texte// (Permet l'ajout de texte en plus de celui existant + choix des polices)
+   * //Détection de formes// (Permet de dessiner une forme géométrique à la main, elle sera ensuite corrigée par le logiciel).
+   * //Sélection et déplacement des annotations//.
+
+Il est compatible avec les tablettes graphique Wacom et gère également la pression du crayon.
+
+Ce logiciel est une très bonne alternative libre au logiciel de prise de note Microsoft OneNote.
+
+Il permet la prise de notes sur [[:PDF]].
+
+
+<note>FIXME (à vérifier): l'insertion d'images dans un fichier PDF n'est possible qu'à l'aide de [[ppa:nilarimogard/webupd8|la dernière version stable]] depuis le dépôt partenaire de Alin Andreï. [[http://xournal.sourceforge.net/|Lien vers le site officiel de Xournal]].</note>
+
+===== Installation =====
+
+==== Via la logithèque ====
+=== Méthode graphique ===
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]]  **[[apt>xournal|xournal]]**.
+
+=== Méthode en ligne de commande ===
+Ouvrez un [[:terminal]] et entrez la commande suivante:<code>sudo apt-get install xournal</code>
+
+==== Via un PPA ====
+Vous pouvez installer Xournal à partir d'un dépôt **[[PPA]]** maintenu par  [[http://www.webupd8.org/|WebUd8]] pour disposer d'une version plus récente, s'il y en a.
+
+
+^ Version Ubuntu ^ Version installée ^ Version du PPA ^
+| Ubuntu [[:utopic|14.10]]    | 4.7.1  | 4.8 |
+| Ubuntu [[:trusty|14.04 LTS]]    | 4.7.1  | 4.8 |
+| Ubuntu [[:precise|12.04 LTS]]    | 4.6  | 4.8 |
+
+=== Méthode graphique ===
+  * [[ppa|ajoutez à vos sources de logiciels le PPA]] **ppa:nilarimogard/webupd8** ((https://launchpad.net/~nilarimogard/+archive/ubuntu/webupd8))
+  * [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]]
+  * [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>xournal|xournal]]**. 
+
+=== Méthode en ligne de commande ===
+Ouvrez un [[:terminal]] et entrez les commandes suivantes
+<code>sudo add-apt-repository ppa:nilarimogard/webupd8
+sudo apt-get update
+sudo apt-get install xournal</code>
+
+
+===== Utilisation =====
+==== Principaux outils ====
+Xournal dispose de différents outils comme:
+
+{{http://memo-linux.com/wp-content/uploads/2013/03/pencil.png}} __**Le stylo:**__ est l’outil par défaut sous Xournal, il permet d’écrire ou de dessiner librement sur le document.
+
+
+{{http://memo-linux.com/wp-content/uploads/2013/03/gomme.png}} __**La gomme:**__ permet d’effacer ce qui a été dessiné. Par défaut, les boutons du stylet 2 et 3 (milieu de la souris ou les touches de droite) sont mis en correspondance avec l’outil Gomme.
+
+
+{{http://memo-linux.com/wp-content/uploads/2013/03/highlighter.png}} __**Le sur-ligneur:**__ la couleur par défaut sur sur-ligneur est jaune. La couleur peut être changée tout comme l’épaisseur.
+
+
+{{http://memo-linux.com/wp-content/uploads/2013/03/text-tool.png}} __**L’outil texte:**__ permet d’insérer du text dans le document PDF. Ce texte peut être personnalisé comme la plupart des outils texte.
+
+Il est possible d’utiliser des calques sous Xournal.
+Les boutons de la souris sont configurables à travers le menu « Options ».
+
+Pour exporter un fichier modifié en pdf : //fichier// puis //exporter PDF//.
+==== Bug possible quand on annote un PDF ====
+**Parfois**, en ce qui concerne l'utilisation de Xournal **pour annoter un PDF**, l'export en PDF ne fonctionne pas 
+correctement pour certains documents (impression du seul calque ajouté dans le pdf, sans le document d'origine). Voici une solution qui permet de contourner ce problème&nbsp;:
+
+  * **Ouvrir le .pdf** (dans Evince par exemple, un double-clic sur le fichier .pdf devrait suffire) et **"imprimer" ce dernier en .ps** (via "imprimer dans un fichier")
+
+  * **Ouvrir ce .ps** (idem, par exemple dans Evince) et **"imprimer" ce dernier, en .pdf** cette fois-ci (toujours via "imprimer dans un fichier")
+
+  * **Annoter dans Xournal du fichier PDF créé**, visuellement identique à celui de départ. Cette fois-ci, l'export en PDF fonctionne.
+
+[[https://forum.ubuntu-fr.org/viewtopic.php?id=1607361|Tiré d'une lecture du forum...]]
+
+===== Voir aussi =====
+
+  * [[http://xournal.sourceforge.net/|Site officiel]]
+
+----
+

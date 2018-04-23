@@ -1,0 +1,215 @@
+{{tag>Lucid matériel portable netbook}}
+
+====== eCAFÉ™ EC-800-H20G/S ======
+
+L'eCAFÉ EC-800 est un micro ordinateur conçu par [[http://www.hercules.com/|Hercules]]. La taille de son écran est de 8 pouces. Il est équipé du système d'exploitation Mandriva modifié par Hercules d'origine qui s'avère assez lent ( surtout pour le gestionnaire de paquets ) et manque de fonctionnalités.
+
+C'est un netbook très peu cher même pour une petite configuration telle que la sienne que nous verrons ci-dessous. 
+=====  CARACTÉRISTIQUES TECHNIQUES  =====
+
+   * **CPU** : AMD Geode LX 800 Fanless 0.9watt / Fréquence 500Mhz / Cache L1:128Kio, L2:128Kio
+   * **RAM** : 512MB DDR
+   * **Ecran** : LCD rétro-éclairé LED 8’’ 1024x600 interpolé
+   * **VGA** : Pour moniteur externe
+   * **HDD** : 1.8" P-ATA SAMSUNG HS 20GB + 30GB online
+   * **Connexion** :
+      * **Ethernet** : RJ45 10/100Mbits/sec Realtek Semiconductor RTL-8139/C/C+
+      * **WiFi** : 802.11 b/g
+   * **Ports** :
+      * **USB** : 2 ports USB
+       * **lecteur de cartes multi-format**: (SD/SDHC/MMC/MS)
+   * **Controles** :
+      * **Clavier** : 80 touches 
+      * **Touch Pad** : Intégré avec 2 touches
+   * **Webcam** : Résolution 300 000 pixels intégrée
+   * **Son** : 
+      * **Entrée/sortie** : 1 entré microphone + 1 sortie audio
+      * **Hauts-Parleurs** : Stéréo intégrés
+      * **Microphone** : Intégré
+   * **Batterie** : 4000 mAh (4 cellules)
+   * **Chargeur** : Adaptateur secteur 100-240V, 50/60Hz petite taille
+   * **Poids** : 980grammes
+   * **Capteur** : 1 capteur température. ( En compilation à 100% = 52°C à température ambiante de 27°C )
+==== Prise en charge materiel ====
+
+Le tableau suivant récapitule la prise en charge du matériel du portable par les différentes versions d'Ubuntu.
+Il utilise les notations suivantes :
+  * {{icons:icon-ubuntu.png|Fonctionne immédiatement}} : **Fonctionne immédiatement**
+  * {{icons:important.png|Fonctionne après config}} : **Fonctionne après quelques manipulations**
+  * {{icons:process-stop.png?36|Ne fonctionne pas}} : **Ne fonctionne pas**
+  * {{icons:icon-support.png|Pas testé}} : **Pas d'informations disponibles**
+
+^ Version ^ Installation ^ Carte graphique ^ Affichage ^ Son ^ Wifi ^ Bluetooth ^ Webcam ^ Touchpad ^ Raccourcis multimédia ^ Autres : Bureau 3D ^
+| [[:easypeasy|Easy Peasy 1.0]] | Live-USB | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-support.png|Pas testé}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} |{{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:process-stop.png?36|Ne fonctionne pas}} |
+
+
+**Utilisateurs du Wiki possédant cet ordinateur, fonctionnel :**
+  * **[[:utilisateurs:Clembou]]** : [[:easypeasy|EasyPeasy 1.0]]
+  * **[[:utilisateurs:Clembou]]** : [[:lubuntu|Lubuntu 10.04]]
+
+**Cet ordinateur portable n'est pas [[:pc_tatoué|tatoué]].**
+
+===== EasyPeasy 1.0 =====
+
+==== Installation via une clé USB ====
+
+Il faut télécharger l'[[http://downloads.sourceforge.net/ubuntu-eee/easypeasy-1.0.iso?use_mirror=|iso]] sur le [[http://www.geteasypeasy.com/|site officiel]] et ensuite mettre l'ISO bootable sur clé USB grâce à [[unetbootin|Unetbootin]].
+
+Redemarrez votre ordinateur et n'oubliez pas de changer l'ordre de boot des périphéries grâce aux options BIOS (touches F1 au démarrage du BIOS).
+
+Dès le démarrage d'EasyPeasy, vous remarquerez que l'écran est bloquée à la résolution 800x600 (alors que normalement, l'écran supporte une résolution 800x480). C'est un problème car lors de l'installation d'EasyPeasy sur le disque dur, l'écran d'installation dépasse de l'écran (on ne pourra pas cliquer sur OK). Pour remédier à cela, à chaque fois que vous auriez envie de cliquer sur OK dans Ubiquity (l'installeur Ubuntu), appuyez sur Alt+S (__S__uivant) et au moment de "Prêt à installer", cliquer sur Avancé, enlever la fenetre affichée, et tapez trois fois sur Tab (touche avec deux flèches). Ainsi, l'installation se passera tranquillement.
+
+<note tip>
+Vous pouvez consulter la page [[:tutoriel:installer_ubuntu_avec_le_live_cd|Ubiquity]] pour avoir exactement le contenu des fenêtres. (les screenshots datent d'Ubuntu 7.10)
+</note>
+
+<note>
+Si EasyPeasy démarre en langue anglaise, lors de la première fenetre de l'installeur Ubuntu, choissisez Français et appuyez sur Alt+O (F__o__rward)
+</note>
+
+==== Configuration ====
+
+=== Ecran via Xorg.conf ===
+
+<note warning>
+Avant toute manipulation du fichier **Xorg.conf**, il faut copier le fichier fonctionnel grâce à la commande :
+
+  sudo cp /etc/X11/xorg.conf /etc/X11/xorg.backup
+
+Si au prochain démarrage d'Ubuntu, vous êtes face à un écran noir, appuyez sur Alt+F1, connectez-vous (identifiant+mot de passe) et tapez les deux commandes suivantes
+
+  sudo cp /etc/X11/xorg.backup /etc/X11/xorg.conf
+  sudo shutdownn -r now
+
+</note>
+
+
+
+==== Ubuntu Lucid ====
+
+Il se peut que la configuration du serveur graphique soit légèrement différente sous Lucid.
+Voici donc un fichier de configuration ///etc/X11/xorg.conf// récent et optimisé pour ce netbook:
+
+  Section "Files"
+    FontPath "/usr/share/fonts/X11/misc"
+    FontPath "/usr/share/fonts/X11/misc"
+    FontPath "/usr/X11R6/lib/X11/fonts/misc"
+    FontPath "/usr/share/fonts/X11/cyrillic"
+    FontPath "/usr/X11R6/lib/X11/fonts/cyrillic"
+    FontPath "/usr/share/fonts/X11/100dpi/:unscaled"
+    FontPath "/usr/X11R6/lib/X11/fonts/100dpi/:unscaled"
+    FontPath "/usr/share/fonts/X11/75dpi/:unscaled"
+    FontPath "/usr/X11R6/lib/X11/fonts/75dpi/:unscaled"
+    FontPath "/usr/share/fonts/X11/Type1"
+    FontPath "/usr/X11R6/lib/X11/fonts/Type1"
+    FontPath "/usr/share/fonts/X11/100dpi"
+    FontPath "/usr/X11R6/lib/X11/fonts/100dpi"
+    FontPath "/usr/share/fonts/X11/75dpi"
+    FontPath "/usr/X11R6/lib/X11/fonts/75dpi"
+    FontPath "/var/lib/defoma/x-ttcidfont-conf.d/dirs/TrueType"
+  EndSection
+  Section "Extensions"
+    Option "Composite" "0"
+  EndSection
+  # **********************************************************************
+  # Refer to the xorg.conf man page for details about the format of
+  # this file.
+  # **********************************************************************
+  Section "Module"
+    Load "dbe" # Double-Buffering Extension
+    Load "v4l" # Video for Linux
+    Load "extmod"
+    Load "type1"
+    Load "freetype"
+  EndSection
+  Section "InputDevice"
+    Identifier "Keyboard1"
+    Driver "kbd"
+    Option "XkbModel" "pc104"
+    Option "XkbLayout" "de"
+    Option "XkbVariant" "latin-1"
+    Option "XkbOptions" "compose:rwin"
+  EndSection
+  Section "InputDevice"
+    Identifier "Mouse1"
+    Driver "mouse"
+    Option "Protocol" "ExplorerPS/2"
+    Option "Device" "/dev/input/mice"
+  EndSection
+  Section "Monitor"
+    Identifier "Monitor0"
+    VendorName "Monitor Vendor"
+    ModelName "Generic monitor"
+    HorizSync 25 - 50
+    VertRefresh 50.0 - 75.0
+    # Modeline "800x480"   33.45 800 840 968 1056 480 490 492 525 -hsync -vsync
+    Modeline "1024x600" 48.96  1024 1064 1168 1312  600 601 604 622 -hsync +vsync
+    # measured on the ecafe EC800, dont know if it has any influence:
+    DisplaySize 177 100
+    # DisplaySize 255 150
+    Option "dpms"
+  EndSection
+  Section "Device"
+    Identifier "Videocard0"
+    VendorName "Videocard vendor"
+    BoardName "AMD Geode LX Video"
+    Driver "geode"
+    BusID "PCI:0:1:1"
+    # Specify Panel size for Geode LX, corresponds with ModeLine above:
+    Option "PanelMode" "33450 800 840 968 1056 480 490 492 525"
+    #Option "PanelMode" "48960 1024 1064 1168 1312  600 601 604 622"
+  EndSection
+  Section "Screen"
+    Identifier "screen1"
+    Device "Videocard0"
+    Monitor "Monitor0"
+    DefaultDepth 16
+    Subsection "Display"
+          Depth 16
+          Modes  "800x480"
+          #Modes  "1024x600" "800x480"
+          Viewport 0 0
+    EndSubsection
+  EndSection
+  Section "ServerLayout"
+    Identifier "layout1"
+    InputDevice "Keyboard1" "CoreKeyboard"
+    InputDevice "Mouse1" "CorePointer"
+    Screen "screen1"
+    Option "IsolateDevice" "PCI:0:1:1"
+  EndSection
+  Section "Extensions"
+    Option "Composite" "enable"
+  EndSection
+
+//[[http://www.algepop.net/users/alge/xorg.conf.eCafe-EC-800|Source]]//
+
+=== Supprimer UME-Launcher et Maximus ===
+
+Vous avez sûrement constater que le liveUSB et les premiers démarrages de EasyPeasy étaient longs (temps entre un lancement de session et la session devient opérationelle). Cela est dû au démarrage de UME-Launcher et Maximus.
+
+Pour les déinstaller :
+
+  sudo apt-get remove maximus netbook-launcher
+
+Pour revenir à la configuration classique d'Ubuntu, ajoutez sur le tableau de bord du haut : 
+
+    * Barre de menus (déconseillé car prend un maximum de place sur la barre de tâche)
+    * Les lanceurs (Firefox, terminal)
+    * Bulletin météo
+    * Eteindre
+    * Horloge
+    * Liste des fenêtres
+    * Menu principal (conseillé)
+    * Zone de notification
+
+L'utilisation du tableau de bord en bas est à proscrire car le taille d'écran ne vous permettera pas d'avoir un affichage clair des fenêtres (surtout sur Firefox).
+
+=== Gagner de l'espace sur l'écran ===
+
+<note tip>
+Il est conseillé d'adapter la taille des polices. Pour cela, **Menu principal > Système > Préférences > Apparence > Polices**. On pourra utiliser la police Sans en taille 8 pour les polices normales et Monospace en taille 9 pour la police du terminal.
+</note>
+
+===== On en parle sur le forum =====
+    * [[http://forum.ubuntu-fr.org/viewtopic.php?id=282202]]

@@ -1,0 +1,143 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#installer_une_imprimante_multifonction_usb_epson" class="toc"> Installer une imprimante multifonction USB Epson </a></span><ul class="toc">
+<li class="clear"><ul class="toc">
+<li class="level3"><span class="li"><a href="#installation_de_la_fonction_imprimer" class="toc"> Installation de la fonction &quot;imprimer&quot; </a></span></li>
+<li class="level3"><span class="li"><a href="#installation_de_la_fonction_scanner" class="toc"> Installation de la fonction &quot;scanner&quot; </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#notes" class="toc"> Notes </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+ Rédigé par <a href="/utilisateurs/olivir" class="wikilink1" title="utilisateurs:olivir" onclick="return svchk()" onkeypress="return svchk()">olivir</a>.
+</p>
+
+<a name="installer_une_imprimante_multifonction_usb_epson"></a><h1> Installer une imprimante multifonction USB Epson </h1>
+<div class="level1">
+
+<p>
+ Les imprimantes multifonctions combinent les fonctions d&rsquo;imprimante et de scanner. Il faut donc procéder en deux étapes :
+</p>
+
+</div>
+<!-- SECTION [69-257] -->
+<a name="installation_de_la_fonction_imprimer"></a><h3> Installation de la fonction &quot;imprimer&quot; </h3>
+<div class="level3">
+
+<p>
+ L&rsquo;installation est simple ! Rendez vous dans le tableau de bord : Système &gt; Administration &gt; Impression.
+</p>
+
+<p>
+Double-cliquez sur &ldquo;Nouvelle imprimante&rdquo;. Un assistant d&rsquo;ajout d&rsquo;imprimante se lance alors. Si vous suivez correctement les instructions, si votre imprimante est correctement connectée et allumée, vous ne devriez rencontrer aucune difficulté, Ubuntu va détecter votre périphérique et l&rsquo;installer.
+</p>
+
+<p>
+Le choix du pilote de votre imprimante vous est proposé et un pilote <em>suggéré</em> est préselectionné. Les imprimantes de ce type fonctionne parfaitement bien avec le pilote <em>gimp-print</em>, vérifiez que c&rsquo;est bien celui que vous propose l&rsquo;assistant.
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=materiel%3Acapture-ajouter_une_imprimante.png" class="media" title="materiel:capture-ajouter_une_imprimante.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=materiel%3Acapture-ajouter_une_imprimante.png" class="media" alt="" /></a>
+</p>
+
+<p>
+Si ce n&rsquo;est pas le cas, annulez la procédure et installez-le d&rsquo;abord !
+</p>
+<pre class="code">
+sudo apt-get install cupsys-driver-gimpprint
+</pre>
+
+<p>
+Voilà votre Epson prête à imprimer ! Passons à la fonction &ldquo;scanner&rdquo;.
+</p>
+
+</div>
+<!-- SECTION [258-1231] -->
+<a name="installation_de_la_fonction_scanner"></a><h3> Installation de la fonction &quot;scanner&quot; </h3>
+<div class="level3">
+
+<p>
+ Vérifions d&rsquo;abord ensemble le type de votre imprimante multifonction usb. Consultons donc la liste des périphériques USB détectée :
+</p>
+<pre class="code">lsusb</pre>
+
+<p>
+Quelque part dans la réponse à la ligne de commande précédente doit apparaître  une ligne ressemblant à celle-ci :
+</p>
+<pre class="code">Bus 001 Device 002: ID 04b8:080e Seiko Epson Corp.</pre>
+
+<p>
+Cet exemple est personnel, il montre la présence sur le port USB n°1 de <u>ma</u> machine d&rsquo;un périphérique portant le n°2 de type 04b8:080e du constructeur Epson.
+</p>
+
+<p>
+Ce qui nous intéresse particulièrement c&rsquo;est le type de votre périphérique. Il nous est nécessaire pour modifier le fichier de configuration du scanner <em>/etc/sane.d/epson.conf</em>
+</p>
+
+<p>
+Éditons-le :
+</p>
+<pre class="code">sudo gedit  /etc/sane.d/epson.conf</pre>
+
+<p>
+Notez dans ce fichier la présence d&rsquo;une ligne composée du seul mot <em>usb</em>
+</p>
+
+<p>
+Nous allons signaler ici le type du scanner en complétant cette ligne :
+</p>
+<pre class="code">usb 0x4b8 0x80e</pre>
+
+<p>
+Modifions maintenant <em>hotplug</em> de façon à ce qu&rsquo;il détecte le bon scanner :
+</p>
+<pre class="code">sudo gedit /etc/hotplug/usb/libsane.usermap</pre>
+
+<p>
+en y ajoutant la ligne suivante :
+</p>
+<pre class="code"># Epson Corp.|Stylus CX3600
+libusbscanner 0x0003 0x04b8 0x080e 0x0000 0x0000 0x00 0x00 0x00 0x00 0x00 0x00
+0x00000000</pre>
+
+<p>
+Voilà c&rsquo;est fini, redémarrez votre ordinateur pour relancer <em>hotplug</em> !
+</p>
+
+<p>
+Le logiciel XSane présent de base dans la distribution Ubuntu reconnaitra dorénavant le scanner de votre imprimante multifonction.
+</p>
+
+<p>
+Si cette technique ne fonctionne pas, vous pouvez installer la partie scanner directement avec le pilote d&rsquo;Epson, voir <a href="/materiel/scanner_epson" class="wikilink1" title="materiel:scanner_epson" onclick="return svchk()" onkeypress="return svchk()">scanner_epson</a>.
+</p>
+
+</div>
+<!-- SECTION [1232-2889] -->
+<a name="notes"></a><h2> Notes </h2>
+<div class="level2">
+
+<p>
+ La présente page se base sur mon expérience personnelle de l&rsquo;installation d&rsquo;une imprimante multifonctions Epson Stylus CX 3650. Mais elle semble valable pour d&rsquo;autres modèles.
+</p>
+
+<p>
+Le type de votre périphérique, que l&rsquo;on obtient avec la commande <em>lsusb</em>, est la donnée la plus déterminante puisque c&rsquo;est elle que l&rsquo;on indique dans les fichiers <em>epson.conf</em> et <em>libsane.usermap</em>
+</p>
+
+<p>
+Notez que ces deux fichiers disposent de nombreux exemples que je vous invite à consulter ! 
+</p>
+
+</div>
+<!-- SECTION [2890-] -->

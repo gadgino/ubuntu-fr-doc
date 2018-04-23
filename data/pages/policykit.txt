@@ -1,0 +1,38 @@
+{{tag>karmic système sécurité}}
+----
+====== PolicyKit : Gestion des droits des utilisateurs ======
+
+
+PolicyKit est une couche de gestion d'authentification et de permissions pour gérer finement les différentes opérations permises à un utilisateur ou un groupe d'utilisateurs, avec ou sans mot de passe.
+
+On peut voir l'intégration de PolicyKit dans le bouton "déverrouiller" de nombreuses applications de configuration sous ubuntu, ou dans l'étape "installation" de la logithèque ubuntu.
+
+===== Créer ou modifier des "policy" =====
+
+<note warning>Attention, l'outil "policykit-gnome" n'est pas compatible avec l'implémentation de PolicyKit présente dans karmic (polkit).</note>
+
+Pour gérer les règles il faut donc [[:tutoriel:comment_modifier_un_fichier|éditer les fichiers]] de configuration à la main.
+
+Ceux-ci sont présent dans :
+  /var/lib/polkit-1/
+
+La documentation vous aidant à écrire les jolies règles personnalisées pour donner "juste ce qu'il faut" de droits à vos utilisateurs, tapez dans un [[:terminal]] :
+  man pklocalauthority
+
+Ou consultez la [[http://hal.freedesktop.org/docs/polkit/manpages.html|documentation en ligne]]
+
+===== Exemple =====
+Exemple de fichier de configuration pour autoriser un utilisateur non admin à utiliser la logithèque :
+  /var/lib/polkit-1/localauthority/50-local.d/permission-software-center.pkla
+
+  [Grant for software-center]
+  Identity=unix-user:nom_de_l_utilisateur
+  Action=org.debian.apt.install-packages
+  ResultAny=no
+  ResultInactive=no
+  ResultActive=auth_self_keep
+
+(merci didrocks :)).
+
+----
+contributions: [[utilisateurs:Tshirtman]]

@@ -1,0 +1,156 @@
+{{tag> ltsp serveur edubuntu}}
+
+
+<note important>Attention depuis la version Ubuntu Hardy LTSP version 4 n'est plus disponible seule la [[:ltsp_version_5.x|version 5]] est installable par les dépôts officiels.</note>
+
+
+====== serveur LTSP 4.x ======
+
+C'est l'ancienne version du système ltsp. Depuis 2006, une nouvelle version existe, plus simple à installer (voir ci-après). Ltsp 4 conserve des adeptes car il est plus petit, un peu plus rapide et plus léger.
+
+===== Installation d'Ubuntu =====
+
+Pour commencer il faut bien entendu installer Ubuntu ! Il est conseillé d'utiliser une configuration Desktop ou Poste de travail, plutôt qu'une configuration réduite : même si vous utiliserez la machine comme serveur, vous apprécierez d'y retrouver toutes les applications d'un poste de travail, tout comme le système graphique X.
+
+Veuillez vous reporter également au tutoriel [[:tutoriel:comment_mettre_en_place_une_station_cliente_legere|Stations clientes légères]] pour plus d'information sur l'installation de LTSP avec la dernière version d'Ubuntu.
+
+Il est également vivement recommandé d'installer **''SSH''** : [[:SSH|tutoriel SSH]]
+
+S'agissant d'un serveur, vous avez besoin d'une adresse réseau fixe :
+
+  gksudo gedit /etc/network/interfaces 
+
+Afin de vous familiariser avec ce fichier, consultez la page du manuel en utilisant la commande suivante :
+
+  man 5 interfaces
+
+Voici un exemple de fichier **''interfaces''**, que vous devez adapter à votre propre configuration de réseau :
+
+  # The primary network interface 
+  auto eth0
+  # iface eth0 inet dhcp
+  iface eth0 inet static
+  address 192.168.0.2
+  netmask 255.255.255.0
+  gateway 192.168.0.1
+
+Relancez maintenant le réseau pour que la nouvelle adresse IP soit effective : 
+
+  sudo /etc/init.d/networking restart 
+
+===== Installation de dhcpd, tftpd, et nfs =====
+
+LTSP est en fait la combinaison de plusieurs protocoles existants, utilisés ensemble pour démarrer des stations clientes dépourvues de disque : dhcp, tftp, nfs, xdmcp. Toutes n'ont pas besoin d'être exécutées sur le même serveur; il est tout à fait envisageable de les répartir entre plusieurs serveurs dans le cas d'un réseau important. Je ne saurai trop recommander la lecture de la documentation officielle sur le procédé de démarrage : [WWW] http://ltsp.mirrors.tds.net/pub/ltsp/docs/ltsp-4.1-fr.html
+
+Dans le cas présent, et pour faciliter les choses, nous installerons tout sur un seul et même serveur Ubuntu par la commande suivante :
+
+  sudo apt-get install dhcp3-server tftpd-hpa nfs-kernel-server 
+
+===== Lancement de portmap =====
+
+Pour une question de sécurité du poste de travail, le serveur portmap est configuré par défaut pour n'écouter que la machine locale. Le problème est que cela empêche les clients LTSP de se connecter à notre serveur **''nfs''**. Pour y remédier, tapez la commande suivante en console :
+
+  gksudo gedit /etc/default/portmap 
+
+Commentez la seconde ligne comme suit :
+
+  # By default, listen only on the loopback interface 
+  # ARGS="-i 127.0.0.1"
+
+===== Installation des outils ltsp =====
+
+Les instructions ci-après sont issues du document [WWW] http://www.ltsp.org/ltsp-4.1.html
+
+Commencez par télécharger et installer **''ltsp-utils''** via le tarball: [WWW] http://www.ltsp.org/ltsp-utils-0.10.tgz
+
+  tar xzvf ltsp-utils-0.10.tgz 
+  cd ltsp-utils
+  sudo ./install.sh
+pendances complémentaires.
+
+  sudo apt-get install libwww-perl 
+
+**''ltspadmin''** est maintenant fonctionnel, mais vous pouvez au préalable télécharger les autres paquets.
+
+
+===== Optionnel : téléchargement du paquet ISO LTSP =====
+
+Il ne semble pas exister de paquet Debian à jour pour LTSP (ltsp-4.1). Pourtant cela serait une avancée considérable, qui faciliterait l'installation, la maintenance et la mise-à-jour. 
+
+Il existe deux façons de télécharger les paquets LTSP : 
+
+ *  récupérer [[http://prdownloads.sourceforge.net/ltsp/ltsp-4.1-0.iso|l'image ISO]] de 100Mo, ou
+
+ *  laisser l'utilitaire **''ltspadmin''** récupérer les paquets en ligne. 
+
+La première méthode est la plus recommandée, les serveurs étant particulièrement lents, sans compter qu'avoir une copie des paquets chez soi peut être d'une grande utilité par la suite. 
+
+Vous pouvez ensuite soit graver l'image ISO, soit la monter avec le périphérique ''loopback'' :
+
+  sudo modprobe loop 
+  sudo mkdir /mnt/ltsp
+  cd /mnt/ltsp
+  sudo mount -o loop ltsp-4.1-0.iso .
+
+
+
+===== Installation de LTSP =====
+
+Il est temps de lancer **''ltspadmin''** :
+
+  sudo ltspadmin 
+
+Si vous avez téléchargé les paquets ISO comme indiqué ci-dessus, sélectionner **''Configure the installer options''** //(= configurer les options de l'installeur)//. A l'invite **''Where to retrieve packages from ?''** //(= Où trouver les paquets ?)//, entrez le chemin vers la source de paquet montée, par exemple ''/mnt/ltsp''
+
+Pour l'installation, sélectionnez **''Install/Update LTSP Packages''** //(= installer/mettre à jour les paquets LTSP)//. Un menu s'affiche alors avec la sélection des paquets : cliquez sur A pour tout sélectionner, puis sur Q pour quitter le menu. On vous demandera de confirmer, répondez "y" pour démarrer l'installation.
+
+Il vous suffit maintenant de configurer LTSP en lançant **''Configure LTSP''** !
+
+===== Déplacement du dossier tftpboot =====
+
+Ubuntu s'attend à trouver les fichiers envoyés par tftp dans le dossier /var/lib/tftpboot/, alors que LTSP les enregistre dans /tftpboot/, ce qui pose un problème. Pour y remédier, il suffit de les déplacer et d'effacer le dossier vide /tftboot/ en utilisant les commandes suivantes :
+
+  sudo mv /tftpboot/lts /var/lib/tftpboot/ 
+  sudo rmdir /tftpboot
+
+
+===== Configuration de la station cliente =====
+
+Les clients individuels doivent maintenant être configurés à l'aide des fichiers suivants :
+
+    *      /etc/dhcp3/dhcp.conf
+    *      /etc/hosts
+    *      /opt/ltsp/i386/etc/lts.conf
+
+Veuillez vous reporter à la documentation officielle : [WWW] http://ltsp.mirrors.tds.net/pub/ltsp/docs/ltsp-4.1-fr.html#AEN605
+
+===== Erreur XKB sous WartyWarthog =====
+
+LTSP 4.1 fonctionne sous **''xorg''**, tandis que Ubuntu 4.10 WartyWarthog fonctionne avec **''xfree''**. Ceci provoque une erreur XKB lors de la connexion à distance via XDMCP qui ressemble au message suivant : 
+
+  Error activating XKB configuration. 
+  Probably internal X server problem.
+  
+  X server version data: The X.Org Foundation 60801099
+
+Si vous souhaitez reporter ce bug, faites-le en incluant les éléments suivants :
+
+1- le résultat renvoyé par la commande :
+
+  xprop -root | grep XKB
+
+2- le résultat renvoyé par la commande : 
+
+  gconftool-2 -R /desktop/gnome/peripherals/keyboard/xkb
+
+Ce bogue peut être corrigé à l'aide de deux liens symboliques : 
+
+  sudo ln -s /etc/X11/xkb/rules/xfree86 /etc/X11/xkb/rules/xorg 
+  sudo ln -s /etc/X11/xkb/rules/xfree86.lst /etc/X11/xkb/rules/xorg.lst
+
+===== Test d'une station de travail =====
+
+Et pour terminer, faites un test avec les stations clientes.
+
+----
+ --- //**Auteurs**: [[:contributeurs|les contributeurs]] 2009/05/17 15:43//

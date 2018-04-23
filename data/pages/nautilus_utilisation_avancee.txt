@@ -1,0 +1,104 @@
+{{tag>Xenial nautilus script}}
+----
+
+====== Nautilus, utilisation avancée ======
+
+Ce document est une sous-division du document [[:Nautilus]].
+
+L'utilisation avancée concerne principalement les inter-actions fonctionnelles entre Nautilus et d'autres programmes afin d'obtenir une interface de commande globalisée et cohérente.
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]],
+  * Disposer d'une connexion à Internet configurée et activée,
+  * Savoir [[:tutoriel:comment_installer_un_paquet|comment installer un paquet logiciel]].
+
+===== Installations et utilisations =====
+
+==== Les extensions logicielles de Nautilus ====
+
+Ces extensions logicielles sont disponibles dans les dépôts officiels de la distribution Ubuntu, et se trouvent dans le menu contextuel par clic droit de la souris.
+
+  * [[:nautilus-actions]] : ajout de lanceurs de programmes dans le menu contextuel des fichiers.
+  * **[[apt>nautilus-bzr]]** : intègre dans Nautilus l'interactivité avec la forge de développement [[:bzr|Bazaar]] dans les dépôts jusqu'à [[:Precise]], après il faut le télécharger [[http://security.ubuntu.com/ubuntu/pool/universe/b/bzr-gtk/nautilus-bzr_0.103.0+bzr792-1ubuntu1_all.deb|ici]].
+  * **[[apt>nautilus-compare]]** : permet de comparer 2 fichiers, utilise l'utilitaire [[:meld]].
+  * **[[apt>nautilus-dbg]]** : permet le debogage de versions, utilise l'utilitaire [[:gdb]].
+  * **[[apt>nautilus-dropbox]]** : permet  l'intégration du service Web [[:Dropbox]]. L'installation de ce paquet va télécharger l'exécutable propriétaire Dropbox à partir de [[http://www.dropbox.com|dropbox.com]].
+  * **[[apt>owncloud-client-nautilus ]]** : permet  l'intégration du service Web [[:Owncloud]].
+  * **[[apt>nautilus-emblems]]** : permet la fonctionnalité des emblèmes (attache d'icônes supplémentaires sur l'icône principale du fichier ou dossier). 
+  * **[[apt>nautilus-filename-repairer]]** : vous permet de réparer les fichiers dont le nom est écrit avec des symboles non acceptés par le système (fichiers dits illisibles).
+  * **[[apt>nautilus-gtkhash]]** : permet de créer une somme de contrôle pour le fichier sélectionné.
+  * **nautilus-gksu** : permet de lancer l'action en mode administrateur sur le dossier ou le fichier pointé. L'extension n'étant plus disponible dans le dépôt Precise, vous devrez télécharger un [[:paquet]] .deb sur [[https://launchpad.net/ubuntu/precise/+package/nautilus-gksu|cette page launchpad]], et l'installer manuellement.
+  * **[[apt>nautilus-ideviceinfo]]** : permet d'obtenir des informations supplémentaires sur les périphériques dans la fenêtre de propriétes de "Poste de Travail" dans Nautilus.
+  * **[[apt>nautilus-image-converter]]** : permet le retaillage en série des vos images.
+  * **[[apt>nautilus-image-manipulator]]** : permet de retailler des images avant de les envoyer par messagerie électronique.
+  * **[[apt>nautilus-open-terminal]]** : ouvre une session [[:terminal]] à l'endroit désiré.
+  * **[[apt>nautilus-pastebin]]** : charge sur un service web des fichiers texte dont le lien (url) est ensuite mémorisé. Un outil de configuration est disponible, **nautilus-pastebin-configurator**.
+  * **[[apt>nautilus-qdigidoc]]** : permet de signer numériquement et de chiffrer des documents aux formats BDoc, DDoc, CDoc.
+  * **nautilus-sendto** //Installé par défaut//: menu contextuel qui propose des raccourcis pour l'envoi de fichiers vers une messagerie électronique (mail) ou instantanée (msn) ; la fonction gère aussi la compression des fichiers.
+  * **nautilus-sendto-empathy** //Installé par défaut//: ajoute la gestion multi-protocoles à la messagerie instantanée pour la fonction d'envoi ci-dessus.
+  * **nautilus-share** //Installé par défaut//: permet le partage aisé des fichiers et dossiers en mode utilisateur dans Nautilus.
+  * **[[apt>nautilus-wipe]]** : permet la suppression complète et permanente d'un fichier sans possibilité de restauration, voir l'utilitaire similaire [[:wipe|wipe]].
+
+=== Les scripts Nautilus ===
+
+Lisez d'abord le document sur les [[:nautilus_scripts|scripts Nautilus]].
+
+  * **[[apt>nautilus-script-audio-convert]]** : le script convertit les formats média WAV, Ogg, MP3, MPC, FLAC, APE, AAC, WMA, gère certaines de leurs méta-informations, et module le taux de compression. À ajouter par exemple à [[:Nautilus-actions]].
+  * **[[apt>nautilus-script-collection-svn]]** : lance des commandes subversion.
+  * **[[apt>nautilus-script-debug]]** : permet le suivi des variables utilisées lors du lancement des scripts.
+  * **[[apt>nautilus-script-manager]]** : est un gestionnaire de scripts en mode console (dans une session de terminal).
+  * **[[apt>nautilus-scripts-manager]]** : est un gestionnaire de scripts en mode graphique.
+
+<note warning>La plupart des manipulations avancées demandent des droits d'administrateur, restez vigilants et prudents ...</note>
+
+==== Les greffons d'autres logiciels, pour Nautilus ====
+=== Les vignettes / miniatures ===
+
+<note>On peut régler la place prise par les vignettes / miniatures sur le disque en réglant sur gconf-editor les clés :
+<code>/desktop/gnome/thumbnail_cache/maximum_size (en Mo)</code>
+
+On peut régler la durée de vie des vignettes / miniatures dans le cache :
+<code>/desktop/gnome/thumbnail_cache/maximum_age (en jours)</code>
+
+  *  Mettre les valeurs à **0** vide le cache quand vous vous déconnectez de votre session.
+  *  Mettre les valeurs à **-1** désactive le nettoyage automatique des caches.
+</note>
+
+  * **[[apt>gnome-raw-thumbnailer]]**: vignettes / miniatures des photos au format RAW
+  * **Ataero team** : vignettes / miniatures gif, html, markdown, libreoffice, msoffice, raw, tiff, webp, wpsoffice
+<code>sudo add-apt-repository ppa:atareao/thumbnailers
+sudo apt-get update
+sudo apt install gif-thumbnailer html-thumbnailer lo-thumbnailer md-thumbnailer msoffice-thumbnailer raw-thumbnailer tiff-thumbnailer webp-thumbnailer wps-thumbnailer</code>
+  * **mmolch-thumbnailers** : vignettes / miniatures pour Krita (.kra), Gimp (.xcf), OpenRaster (.ora) and Adobe Photoshop (.psd)
+<code>sudo add-apt-repository ppa:mmolch/ppa
+sudo apt update
+sudo apt install mmolch-thumbnailers</code>
+  * **[[apt>gnome-xcf-thumbnailer]]**: vignettes / miniatures des fichiers GIMP (.xcf), puis rentrez les commandes suivantes:
+<code>sudo mkdir -p /usr/share/thumbnailers/
+echo -e "[Thumbnailer Entry]\nTryExec=gnome-xcf-thumbnailer\nExec=gnome-xcf-thumbnailer %i %o\nMimeType=image/x-xcf;image/x-compressed-xcf;" | sudo tee /usr/share/thumbnailers/gnome-xcf.thumbnailer</code>
+  * **[[apt>seahorse-nautilus]]**: [[:seahorse|chiffrer ou/et signer des fichiers ou dossiers]]
+  * **[[apt>ooo-thumbnailer]]**: vignettes / miniatures des fichiers LibreOffice. Voir [:libreoffice#vignettes_d_apercu_dans_votre_navigateur_de_fichiers|ici]].
+
+== Vétuste ==
+* **[[:cover-thumbnailer|Cover Thumbnailer de FLOZz]]**
+
+=== Autres utilisations ===
+* vignettes / miniatures des fichiers Vidéos sans utiliser Totem: expliqué dans [[http://forum.ubuntu-fr.org/viewtopic.php?id=398847|ce sujet du forum]]
+* **Gnome Mailpictures** : [[http://sourceforge.net/projects/mailpictures/|Mailpictures]] est une extension Nautilus codée en gtk/perl, conçue pour améliorer et **remplacer** l'extension Nautilus-sento installée par défaut.
+==== Nautilus et les variables Gnome (dans Gconf-editor) ====
+
+Lisez la documentation [[:Gconf]] au préalable, notamment sa section sur les [[:gconf#les_cles_nautilus|clés Nautilus]].
+
+==== Modifier l'emplacement par défaut des dossiers personnels ====
+Si vous souhaitez modifier l'emplacement par défaut des dossiers personnels, à savoir **Documents**, **Images**, **Musique**, etc, [[:tutoriel:comment_modifier_un_fichier|ouvrez le fichier]] **user-dirs.dirs** dans le dossier caché **.config** de votre **Dossier Personnel** et modifiez les chemin par défaut par ceux de votre choix.
+Cette astuce est  particulièrement intéressante dans le cas d'un d'une installation avec une partition de données communes à Windows.
+===== Voir aussi =====
+
+  * **(fr)** [[http://gnome-look.org/index.php?xcontentmode=188|"Nautilus Scripts" sur http://gnome-look.org]]
+  * **(fr)** [[http://forum.ubuntu-fr.org/viewtopic.php?id=137609|Mailpictures sur le forum Ubuntu-fr]]
+  * **(en)** [[http://g-scripts.sourceforge.net/|G-Scripts, les scripts pour Nautilus]]
+  * **(en)** [[http://www.grumz.net/index.php?q=configlist|Toutes les actions sur le site officiel]]  (site inaccessible : Access denied : 1 juillet 2015)
+
+----
+//Contributeurs : [[:utilisateurs:j5012|J5012]], [[:utilisateurs:l_africain|L'Africain]] //.

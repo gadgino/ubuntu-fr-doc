@@ -1,0 +1,199 @@
+{{tag>python BROUILLON}}
+====== Python Tkinter, installation et premiers pas ======
+===== Installation =====
+
+Pour installer Tkinter, il suffira de saisir dans un terminal:
+<code>
+sudo apt-get install python-tk
+</code>
+Pour les utilisateurs de python en version 3.x vous devrez taper:
+<code>
+sudo apt-get install python3-tk
+</code>
+Et voila ;) c'est fait.
+
+===== Premiers pas =====
+==== Comprendre la structure du code ====
+Pour commencer, il est nécéssaire de comprendre la structure du code.
+Comme vous savez que tout est objet en python, dans le cas de Tkinter, c'est la même chose.
+Nous allons prendre comme exemple un widget 'Button'.
+<file python>
+#!/usr/bin/env python
+# -*- coding: Utf-8 -*-
+#
+
+from Tkinter import *
+
+class Application(object):
+	def __init__(self):
+		self.fen = Tk()
+		
+		self.bouton = Button(self.fen, text='Je suis un bouton')
+		
+		self.bouton.pack()
+		self.fen.mainloop()
+		
+if __name__ == '__main__':
+	app = Application()
+</file>
+Nous allons nous intéréser à cette ligne:
+<file python>
+self.bouton = Button(self.fen, text='Je suis un bouton')
+</file>
+Dans un premier temps, nous créons une variable:
+<file python>
+self.bouton
+</file>
+Ensuite nous assignons un widget à cette variable:
+<file python>
+Button
+</file>
+Et pour finir nous indiquons le parent de ce widget et nous lui donnons diffèrentes options:
+<file python>
+(self.fen, text='Je suis un bouton')
+</file>
+Vous notterez ici que le parent est
+<file python>
+self.fen
+</file>
+et que l'option est:
+<file python>
+text='Je suis un bouton'
+</file>
+Chaque widgets, à ces propres options, même si beaucoup sont praticable sur tous. (nottament les options de configurations).
+Ceci résume à dire que:
+<file python>
+Widget(Parent, options, ...)
+</file>
+Une question qui revient souvent: """Comment puis-je connaitre les options dédiés au widget que je veux utilisé?"""
+C'est trés simple, il vous suffit de lancer python en interactif, d'importer Tkinter et d'instancier une fenêtre puis:
+<file python>
+from Tkinter import *
+
+fen = Tk() #Notre but ici n'est pas de créer un programme...
+
+fen.keys()
+</file>
+Ce qui va nous donner:
+<code>
+['bd', 'borderwidth', 'class', 'menu', 'relief', 'screen', 'use', 'background', 'bg', 'colormap', 'container', 'cursor', 'height', 'highlightbackground', 'highlightcolor', 'highlightthickness', 'padx', 'pady', 'takefocus', 'visual', 'width']
+</code>
+Explication: J'ai demandé de connaitre toutes les clé pour
+<file python>
+fen
+</file>
+J'aurais tout aussi bien pu demander ceci:
+<file python>
+Button.keys()
+#ou encore
+Slider.keys()
+</file>
+Donc pour reprendre l'exemple avec un code unique:
+<file python>
+widget.keys()
+</file>
+Notez bien que vous récupérer les clé et non pas les valeurs...Il va faloir prendre un peu d'expérience ou zoner un peu sur internet pour les découvrir. Je vous en donne deux que nous allons utiliser trés trés trés souvent:
+<file python>
+#width (largeur)
+var = Widget(parent, width=int) #int=integer ou entier en françcais
+#ou
+bou = Button(fen, width=40 #à noter que la largeur s'exprime caractère dans le cas d'un bouton
+
+#height (hauteur)
+var = Widget(parent, height=int)
+#ou
+bou = Button(fen, height=600)
+
+#Il est tout à fait possible de cumuler plusieurs options (clé):
+var = Widget(parent, option1, option2, ...)
+#ou
+bou = Button(fen, width=40, height=30)
+</file>
+La structure du code est la même pour tous les widgets. Il vous suffit de comprendre cela, et vous pourrez passer à la suite ;)
+
+==== Votre premier programme ====
+Nous allons voir ici une première approche d'un petit programme qui servira hum.. à rien, il faut le dire on est là pour apprendre 8-) .
+<file python>
+#!/usr/bin/env python
+# -*- coding: Utf-8 -*-
+#
+
+from Tkinter import *
+
+class Application(object):
+	def __init__(self):
+		self.fen = Tk()
+		self.fen.title('Mon premier Programme Tkinter')
+		
+		self.titre = Label(self.fen, text='Bienvenu dans Tkinter !')
+		self.titre.pack()
+		
+		self.bou_valider = Button(self.fen, text='Valider')
+		self.bou_valider.pack()
+		
+		self.bou_quitter = Button(self.fen, text='Quitter')
+		self.bou_quitter.pack()
+		
+		self.fen.mainloop()
+		
+if __name__ == '__main__':
+	app = Application()
+</file>
+Et pour imager le code ci-dessus, l'image qui va avec.
+
+{{:utilisateurs:couverture-jonathan-b:tkinter1.png?200|}}
+
+Nous nous retrouvons donc avec:
+  - Une fenêtre
+  - Un texte
+  - Un bouton valider
+  - Un bouton quitter
+
+Un peu d'explications...
+Pour commencer j'importe la librairie Tkinter.
+<file python>
+from Tkinter import *
+</file>
+J'aurais tout aussi pu faire de cette manière
+<file python>
+import Tkinter
+#ou encore
+import Tkinter as tk
+#ou pour pousser plus loin;
+from Tkinter import Tk, Label, Button
+</file>
+Ensuite je créer une instance Tk() donc ma fenêtre principale (aussi appelé 'Frame') à l'aide d'une variable (choisit par mes soins).
+<file python>
+self.fen = Tk()
+</file>
+Je configure ensuite le titre de cette fenêtre avec une méthode.
+<file python>
+self.fen.title('Mon premier programme Tkinter')
+</file>
+Les méthodes sont des termes bien définit par le constructeur de Tkinter. Ce sont des travaux à effectuer selon certaines conditions (les options, les commandes, etc, etc).
+Il existe de multiple méthodes notamment la méthode 'pack()' qui est une méthode de placement trés basique que j'utilise pour commencer un premier programme.
+<file python>
+self.titre.pack()
+self.bou_valider.pack()
+self.bou_quitter.pack()
+</file>
+Cette méthode de placement peut prendre divers arguments/options que nous verrons un peu plus tard.
+
+Les lignes qui suivent créer les widgets en les configures:
+<file python>
+self.titre = Label(self.fen, text='Bienvenue dans Tkinter !')
+self.bou_valider = Button(self.fen, text='Valider')
+self.bou_quitter = Button(self.fen, text='Quitter')
+</file>
+
+Et pour finir:
+<file python>
+self.fen.mainloop()
+</file>
+Ceci lance le gestionnaire d’évènements.
+Le gestionnaire d’évènements est indispensable car c'est lui qui permet de faire tourner le programme.
+Pourquoi?
+Parce que si le gestionnaire d’évènements n'est pas lancé, le code est exécuté et python met fin au programme, normal ;-) .
+C'est ensuite les divers fonctions que vous aurez crées qui traiterons les 'évènements' (clics, frappe au clavier, déplacement, etc, etc)
+
+Vous pensez aimer Tkinter? alors on continue ;)

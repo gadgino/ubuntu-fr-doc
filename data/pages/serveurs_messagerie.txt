@@ -1,0 +1,97 @@
+{{tag>portail serveur courriel messagerie_instantanée}}
+
+----
+
+====== Serveurs de messagerie ======
+
+===== Configurer Ubuntu Server en serveur de messagerie =====
+
+Paramétrer un serveur de messagerie est un processus complexe, mettant en œuvre de nombreux programmes, qui ont chacun besoin d'être correctement configurés. 
+La meilleure approche est d'installer et configurer chaque composant individuellement, et s'assurer que chacun fonctionne, et ainsi, construire son serveur de messagerie progressivement.
+
+==== Principe de fonctionnement ====
+
+L'installation d'un serveur de messagerie nécessite de gérer l'envoi et la réception d'Emails. Ces deux notions sont importantes, car elles mettent en œuvre deux protocoles différents : le protocole SMTP, pour l'envoi, et les protocoles POP (actuellement dans sa version 3) ou IMAP pour la réception.
+
+Lorsqu'un utilisateur envoie un Email, il n'est en effet jamais en contact direct avec le destinataire du message. L'Email passe par au moins deux serveurs qui sont, dans l'ordre, le serveur d'envoi (SMTP) appelé [[#MTA : Mail Transfert Agent|MTA]]((mail transfert agent)), qui l'achemine au serveur de « réception » (POP ou IMAP) appelé [[#MDA : Mail Delivery Agent|MDA]]((mail delivery agent)), en faisant éventuellement transiter L'Email par d'autres serveurs SMTP. L'Email patiente alors sur ce dernier serveur en attendant que le destinataire lance son [[:courriel|client de messagerie]] ([[:Thunderbird]] p. ex.), qui va récupérer le message sur le serveur POP ou IMAP par un de ces deux protocoles. 
+
+<note tip>Il arrive que les serveurs SMTP et POP/IMAP soient confondus sur la même machine.</note>
+
+Un serveur de messagerie doit aussi contenir d'autres fonctions (hélas) essentielles comme un antipourriel ou un antivirus.
+
+Récapitulatif :
+
+  - **Envoi de l'Emaill :** Ordinateur de l'expéditeur → Serveur SMTP (MTA)
+  - **Acheminement du L'Email:** Serveur SMTP (MTA) → (Serveurs SMTP (MTA)) → Serveur POP/IMAP (MDA)
+  - **Récupération d'Email par le destinataire (à l'aide de son courrielleur) :** Serveur POP/IMAP (MDA) ↔ Ordinateur du destinataire
+
+
+==== Agent de transfert de courriel ====
+
+L'agent de transfert de courriel est un programme qui reçoit et envoie les courriels depuis votre serveur, et par conséquent, en est la pierre angulaire. Le MTA (Mail Transfert Agent) par défaut sur Ubuntu est [[:Postfix]], mais [[:Exim4]] est aussi totalement supporté. Exim4 se situe dans le dépôt principal.
+
+  * **[[:postfix|Comment configurer postfix]]**
+  * **[[http://www.xmailserver.org/|XMail]]**
+
+Le port par défaut du protocole SMTP est le port 25.
+
+<note warning>
+Il est important de ne pas négliger la sécurité du serveur SMTP, sous peine d'être rapidement mis sur la liste noire.
+
+En effet, des sites spécialisés listent les serveurs par lesquels transitent les pourriels. 
+À partir du moment ou votre adresse IP est mise sur la liste noire, certains de vos courriels risquent d'être détruits avant d'arriver à destination.
+
+Il ne faut donc pas permettre à votre serveur de relayer n'importe quel courriel provenant de n'importe où.
+</note>
+
+//**Autres MTA :** Qmail, Sendmail, OpenSMTPD, etc.//
+
+
+=== Filtrer les courriels ===
+
+Il est possible d'ajouter un filtre de courriel dans la chaîne de distribution des courriels, notamment pour détecter les spams et les virus.
+
+  * **Amavis-new**
+  * **Postgrey**
+  * **SpamAssassin**
+  * **[[:clamav|ClamAv]]**
+
+==== MDA : Mail Delivery Agent ====
+
+Pour permettre le téléchargement des courriels depuis les [[courriel|postes clients]], il est nécessaire de configurer un serveur IMAP ou POP3. Il en existe de nombreux, avec pour chacun des avantages et des inconvénients. Tous les serveurs ci dessous peuvent être installés depuis le dépôt principal, et donc bénéficier des mises à jours de sécurité lorsque cela est nécessaire.
+  * **[[:Dovecot]]** : Dovecot est un bon serveur de courriels, simple à configurer.
+  * **[[:serveur_mail_avec_postfix_et_courier-imap|Courier]]** : Courier est également simple à utiliser et peut être utilisé conjointement avec des bases de données externes pour administrer des utilisateurs virtuels. Il est largement utilisé.
+  * **[[:Cyrus]]** : Cyrus est le serveur MDA le plus complexe. Néanmoins, il est le plus extensible et est également largement utilisé. Il supporte uniquement les utilisateurs virtuels. Attention : Cyrus a été supprimé du dépôt principal. Il se situe dans le dépôt Universe. Celui-ci ne recevra pas nécessairement les mises à jour de sécurité.
+  * **[[:dbmail]]** : Serveur évolué IMAP/POP en [[sgbd|sgbd]] exclusivement pour du multi-domaines/utilisateurs virtuels. 
+
+Le port par défaut du protocole IMAP est le port 143 (et 993 pour IMAPS((//IMAP over SSL//))), celui du protocole POP3 est le port 110. 
+
+//**Autres MDA :** TeaPOP, XMail, MDaemon, SquirrelMail, etc.//
+
+
+==== Courriel Web ====
+
+Les courrielleur Web permettent aux utilisateurs de consulter leurs courriels depuis leur navigateur web, depuis n'importe où dans le monde. Vous aurez besoin d'avoir configuré un MTA, un MDA et un serveur web (p. ex. [[:Apache2]]) pour que le courrielleur Web fonctionne.
+
+  * **SquirrelMail**
+  * **OpenWebMail**
+  * **[[:Roundcube]]**
+
+==== Listes de diffusion ====
+
+Vous pouvez ajouter sur votre serveur de messagerie un système de listes de diffusion pour transmettre des courriels vers un large public, en laissant quelqu'un d'autre gérer les inscriptions, les utilisateurs qui peuvent envoyer un courriel ou modérer les messages.
+  * **[[:Mailman]]**
+  * **[[http://www.sympa.org/|Sympa]]**
+===== Messagerie instantanée =====
+
+La messagerie instantanée ou //chat// permet l'échange quasi-instantané de messages textuels entre deux ou plusieurs utilisateurs.
+  * **[[jabber|Messagerie instantanée Jabber]]**
+  * **[[jabberd2|Installation et configuration de jabberd2]]**
+  * **[[Openfire]]**, un serveur Jabber écrit en Java
+
+//Basé sur [[https://help.ubuntu.com/community/MailServer|« MailServer - Community Ubuntu Documentation »]].//
+
+
+----
+
+//Contributeur principal : [[:utilisateurs:lmrv]].//

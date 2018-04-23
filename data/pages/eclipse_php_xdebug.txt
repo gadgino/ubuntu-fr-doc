@@ -1,0 +1,131 @@
+{{tag>Hardy Eclipse BROUILLON}}
+
+----
+
+
+
+====== Eclipse et PHP-XDebug ======
+
+<note>Cette documentation est basée sur une installation d'Eclipse PDT (Simplement téléchargée, décompressée et utilisée telle quelle). Cependant je ne vois pas pourquoi cela ne s'appliquerait pas à d'autres.</note>
+
+
+Vous avez installé Eclipse pour faire de développement PHP, mais qu'en est-il du débug ?\\
+Bien entendu, passer par les fonction var_dump(), echo print etc. est une solution, mais il est toujours plus interessant d'avoir plus d'informations et de pouvoir utiliser des points d'arrêts/pause dans l'exécution du script pour surveiller ses variables et voir si le résultat est celui attendu avant la fin du script.\\
+
+Xdebug est une extension PHP très pratique, écrite par l'un des développeurs de PHP, Derick Rethans. \\
+La version actuelle est la 2.0.3, mais pour le moment, pour faire au plus court, je vais simplement parler de l'installation la version fournie par les Dépôts d'Hardy, la 2.0.2.\\
+
+Bien entendu la version Xdebug  peut aussi s'installer en téléchargeant les binaires du site, en compilant les sources ou via PECL. Pour les anglophones qui préfèrent installer la dernière version, je vous invite à consulter les liens en bas de page ;-)
+
+
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]], 
+  * Disposer d'une connexion à Internet configurée et activée ;
+  * Avoir installé un serveur [[LAMP]] et disposer d'[[Eclipse]] fonctionnel.
+
+===== Installation =====
+
+Il vous suffit, pour cela, d'[[:tutoriel:comment_installer_un_paquet|installer les paquets]] **[[apt://php5-xdebug|php5-xdebug]] [[apt://php5|php5]]**.
+
+
+===== Configuration =====
+
+Tout d'abord, [[:tutoriel:comment_editer_un_fichier|éditez le fichier]] **/etc/php5/apache2/conf.d/20-xdebug.ini** vous devez y trouver la ligne suivante : 
+
+  zend_extension=/usr/lib/php5/20060613+lfs/xdebug.so
+
+Ajoutez les lignes <Pourquoi faire? FIXME >: 
+
+  xdebug.remote_enable=On
+  xdebug.remote_host="localhost"
+  xdebug.remote_port=9000
+  xdebug.remote_handler="dbgp"
+
+Relancez le serveur apache 
+
+  sudo /etc/init.d/apache2 restart
+
+Pour vérifiez l'installation, créez une page test.php contenant ces lignes :
+
+  <?php
+  phpinfo();
+  ?>
+
+puis ouvrez cette page (ex. : http://127.0.0.1/test.php), vous devriez obtenir ceci :
+
+{{eclipse_xdebug_phpinfo_1.jpg|}}
+
+et un peu plus bas (extrait) :
+
+{{eclipse_xdebug_phpinfo_2.jpg|}}
+
+
+FIXME Seul le protocole DBGp est demandé par le fichier de config joint!!!
+===== Configurer Eclipse =====
+Par défaut il manque le plugin PHP : PDT
+Aller dans le menu Help/Install new software...
+Collez dans "work with" l'URL suivante :
+[[http://download.eclipse.org/tools/pdt/updates/3.0/milestones/]]
+puis on clique sur Add...
+Cliquez sur OK sur la fenêtre popup "Add Repository" sans indiquer de Name.
+Cochez le module de PDT. Cliquez sur Finish en bas de la fenêtre.
+Le téléchargement et l'installation se déroule pendant quelques minutes.
+Relancez Eclipse pour prendre en compte la modification. ;-)
+==== XDebug ====
+
+Lancez Eclipse, puis dans le menu "Window -> Preferences".
+
+Sélectionnez PHP -> Debug, vous obtenez ceci par défaut.
+
+{{eclipse_xdebug_param1.jpg|}}
+
+Cliquez sur le lien "PHP Executables", dans la nouvelle fenêtre cliquez sur le bouton "Add", et renseignez comme ceci :
+
+{{eclipse_xdebug_param2.jpg|}}
+
+<note tip>Pour valider le chemin vers l'exécutable php (ou tout autre exécutable), utilisez la commande suivante dans un terminal "which php".</note>
+et validez.
+
+Revenez sur la section Debug pour compléter les informations comme ci-dessous :
+
+{{eclipse_xdebug_param3.jpg|}}
+
+==== Firefox ====
+
+Je pense que ce paramétrage n'est pas requis si Firefox est le navigateur par défaut, mais on va tout de même s'y intéresser car cela peut aussi être valable pour utiliser d'autres navigateurs pour le debug.
+
+Allez dans le menu "Window -> Preferences", déployez la section "General" et sélectionnez "Web Browser", vous arrivez ici : 
+
+{{eclipse_xdebug_param4.jpg|}}
+
+Cliquez sur le bouton "New" et ajoutez les informations suivantes :
+
+{{eclipse_xdebug_param5.jpg|}}
+
+Validez et paramétrez ensuite comme ci-dessous :
+
+{{eclipse_xdebug_param6.jpg|}}
+
+
+
+===== Utilisation =====
+
+Allez dans le menu "Run", et vous obtiendrez des sous-menus spécifiques comme ci-dessous
+
+{{eclipse_xdebug_use1.jpg|}}
+
+Si tel n'est pas le cas, il faut revoir les paramètres de votre projet, mais à l'heure actuelle, je ne m'en souviens plus trop :-? ayant fait cette manipulation il y a pas mal de temps... donc si une autre personne avant moi veut bien compléter : FIXME ;-)
+
+
+==== Voir aussi =====
+
+  * **(en)** [[http://www.xdebug.org/|Site Officiel XDebug]]
+
+----
+
+//Contributeur : [[utilisateurs:chtiland|chtiland]], [[utilisateurs:quent57|quent57]]//
+
+
+//Basé sur **(en)** [[http://www.64bitjungle.com/tech/debugging-php-applications-with-xdebug-and-eclipse-pdt/|Debugging PHP Applications with Xdebug and Eclipse PDT]] par Hodge//

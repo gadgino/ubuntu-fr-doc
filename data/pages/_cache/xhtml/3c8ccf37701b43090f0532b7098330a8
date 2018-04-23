@@ -1,0 +1,96 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#installation_d_un_scanner_de_la_marque_acer_ou_benq" class="toc"> Installation d'un scanner de la marque Acer ou Benq </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#chargement_du_firmware" class="toc"> Chargement du firmware </a></span></li>
+<li class="level2"><span class="li"><a href="#configuration_de_sane" class="toc"> Configuration de Sane </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Warty et Hoary
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/galett" class="wikilink1" title="utilisateurs:galett" onclick="return svchk()" onkeypress="return svchk()">Galett</a> - relu par <a href="/utilisateurs/antoine" class="wikilink1" title="utilisateurs:antoine" onclick="return svchk()" onkeypress="return svchk()">Antoine</a>
+</p>
+
+<a name="installation_d_un_scanner_de_la_marque_acer_ou_benq"></a><h1> Installation d'un scanner de la marque Acer ou Benq </h1>
+<div class="level1">
+
+</div>
+<!-- SECTION [114-180] -->
+<a name="chargement_du_firmware"></a><h2> Chargement du firmware </h2>
+<div class="level2">
+
+<p>
+ Tout d&rsquo;abord,  il faut noter le modèle de son scanner et examiner le nom du <em>Firmware File</em> à partir du site  <a href="http://snapscan.sourceforge.net/" class="urlextern" title="http://snapscan.sourceforge.net/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://snapscan.sourceforge.net/</a> .
+</p>
+
+<p>
+Il faut bien noter le <em>Firmware File</em> correspondant au modèle de votre scanner. En effet ces scanners ne disposent pas de &ldquo;firmware&rdquo; (ou micro-logiciel pilote). 
+</p>
+
+<p>
+Sous Windows, ces scanners fonctionnent car Windows envoie le code du firmware directement dans la mémoire du scanner. Il nous faut donc récupérer ce fichier pour l&rsquo;utiliser sous Ubuntu.
+</p>
+
+<p>
+Avec le nom du <em>Firmware File</em> que vous avez noté à l&rsquo;étape précédente, par exemple <code>u96v121.bin</code> dans mon cas, vous pouvez utiliser ce fichier à partir de Windows. Pour ce faire, il est nécessaire de récupérer ce fichier sur un CD de Windows ou mieux, sur la partition Windows directement en effectuant une recherche dans le répertoire <code>C:\WINDOWS</code>.
+</p>
+
+<p>
+Vous pouvez copier ce fichier sur une clef usb, un cd ou une disquette à votre guise. Ensuite, de retour sur Ubuntu, copiez ce fichier dans le répertoire <code>/etc/sane.d/</code>.
+</p>
+
+<p>
+Par exemple en utilisant la commande suivante : 
+</p>
+<pre class="code">
+sudo cp __chemin__/u96v121.bin /etc/sane.d/
+</pre>
+
+<p>
+<em>Remarque :</em> <code>__chemin__</code> étant le chemin où vous avez copié le firmware (clef usb, cdrom, etc..)
+</p>
+
+</div>
+<!-- SECTION [181-1490] -->
+<a name="configuration_de_sane"></a><h2> Configuration de Sane </h2>
+<div class="level2">
+
+<p>
+ Maintenant que le firmware est copié, il est nécessaire de modifier le fichier <code>/etc/sane.d/snapscan.conf</code>. Pour ce faire, vous pouvez utiliser la commande suivante :
+</p>
+<pre class="code">
+sudo gedit /etc/sane.d/snapscan.conf
+</pre>
+
+<p>
+Il suffit alors d&rsquo;ajouter le chemin vers le firmware que l&rsquo;on vient de copier comme ceci (voir la dernière ligne du bloc qui suit) :
+</p>
+<pre class="code">
+    #------------------------------ General -----------------------------------
+    
+    # Change to the fully qualified filename of your firmware file, if
+    # firmware upload is needed by the scanner
+    firmware /etc/sane.d/u96v121.bin
+</pre>
+
+<p>
+Le scanner est désormais bien reconnu sous Xsane (installé par défaut sous Ubuntu).
+</p>
+
+<p>
+Cette méthode a fonctionné sur mon scanner Acer 640U, et il semble que le fichier <code>u96v121.bin</code> soit utilisé par bon nombre de scanners.
+</p>
+
+<p>
+Cette méthode n&rsquo;a pas été testée sous une autre distribution que Ubuntu. 
+</p>
+
+</div>
+<!-- SECTION [1491-] -->

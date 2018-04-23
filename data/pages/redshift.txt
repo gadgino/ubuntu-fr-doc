@@ -1,0 +1,88 @@
+{{tag>Trusty Xenial personnalisation}}
+
+====== Redshift ======
+
+**Redshift** est une application qui ajuste la température de couleur de votre écran. Durant la soirée et la nuit, il est plus confortable pour les yeux, et bénéfique pour le sommeil, que les écrans émettent moins de lumière bleue. Le but de **Redshift** est de provoquer un changement progressif et harmonieux des couleurs de l'écran en fonction de l'heure : il ajuste la température de couleur de votre écran en fonction de votre environnement.
+
+Redshift s'intègre dans les environnements GTK+ et fournit une interface de configuration.
+
+=====Installation=====
+Redshift est dans les [[:depots|dépôts]] Ubuntu, pour l'utiliser il vous suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>redshift-gtk]]** ou si vous êtes sur [[:KDE]] **[[apt>plasma-widget-redshift]]**.
+
+Cette fonctionnalité existe nativement dans les paramètres de [[:gnome-shell|Gnome Shell]] à partir de la version 3.24 (Ubuntu 17.10).
+
+=====Utilisation=====
+
+Redshift-gtk est une interface graphique à Redshift. Pour l'utiliser faites une recherche avec le mot clé **Redshift**. Dans les menus classiques vous le trouverez dans la catégorie accessoires. 
+\\
+Redshift-gtk est employé pour démarrer Redshift, une fois lancé il se trouve dans la zone de notification pour permettre de désactiver et de réactiver Redshift, l'arrêter temporairement, ou quitter. 
+
+=====Configuration=====
+Voici un exemple de configuration fonctionnelle, que vous pouvez adapter à vos besoins. Nommez-le //redshift.conf// et placez-le dans le dossier //.config// de votre **Répertoire Personnel** (//.config// est un dossier caché, faites ctrl+h pour le faire apparaître), adaptez-le à vos besoins, et à votre écran.
+<file>
+; Paramètres globaux pour redshift.
+[redshift]
+; Régler les températures de jour et de nuit de l'écran.
+temp-day=5500
+temp-night=3500
+
+; Activer / Désactiver une transition en douceur entre le jour et la nuit.
+; 0 provoquera un changement direct de jour à la température de l'écran de nuit.
+; 1 va progressivement augmenter ou diminuer la température de l'écran.
+transition=1
+
+; Réglez la luminosité de l'écran. Par défaut 1.0.
+;brightness=1
+; Il est également possible d'utiliser des réglages différents pour le jour et la nuit
+; depuis la version 1.8.
+;brightness-day=0.7
+;brightness-night=0.4
+; Réglez le gamma de l'écran (pour toutes les couleurs, ou chaque canal de couleur
+; individuellement).
+gamma=0.8
+;gamma=0.8:0.7:0.8
+; Cela peut aussi être réglée individuellement pour le jour et la nuit depuis
+; la version 1.10.
+;gamma-day=0.8:0.7:0.8
+;gamma-night=0.6
+
+; Sélectionner le service de localisation : 'geoclue', 'gnome-clock', 'manual'
+; tapez 'redshift -l list' pour voir les valeurs possibles.
+; Les paramètres du service de localisation sont dans une section différente.
+location-provider=manual
+
+; Sélectionner la méthode d'ajustement : 'randr', 'vidmode'
+; tapez 'redshift -m list' pour voir toutes les valeurs possibles.
+; 'randr' est la méthode préférée, 'vidmode' est une ancienne API
+; mais fonctionne dans certains cas où 'randr' fait défaut.
+; Les paramètres de la méthode d'ajustement sont dans une section différente.
+adjustment-method=randr
+
+; Configuration du service de localisation :
+; tapez 'redshift -l PROVIDER:help' pour voir les paramètres
+; exemple : 'redshift -l manual:help'
+[manual]
+lat=48.8
+lon=2.3
+
+; Configuration de la méthode d'ajustement
+; tapez 'redshift -m METHOD:help' pour voir les paramètres
+; exemple : 'redshift -m randr:help'
+; Dans cet exemple, randr est configuré pour ajuster l'écran 1.
+; Notez que la numérotation commence à partir de 0, donc c'est en fait le premier écran.
+[randr]
+screen=0</file>
+
+Vous pouvez jouer avec les valeurs gamma des options //temp-day// et //temp-night//, et vous devrez fournir les valeurs correctes pour //lat// et //lon// selon votre position géographique. 
+
+<note>Par défaut, les fichiers de configuration Geoclue2 ne permettent pas l'accès à Redshift. Afin d'autoriser l'accès, ajouter les lignes suivantes à /etc/geoclue/geoclue.conf</note>
+
+<file>[redshift]
+allowed=true
+system=false
+users=</file>
+
+=====Sources=====
+D'après la [[http://jonls.dk/redshift/|page]] du développeur. 
+-------------------
+Contributeurs : [[:utilisateurs:melodie]], [[:utilisateurs:l_africain|L'Africain]], [[http://steamcommunity.com/id/vikloen|vikloen]]

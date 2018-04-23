@@ -1,0 +1,80 @@
+{{tag>Hardy serveur}}
+-----
+
+====== PLESK  ======
+
+**Plesk** est un gestionnaire d'applications (//__sous licence propriétaire__//) pour serveurs d'hébergement.
+L'accès à la console d'administration se fait via un navigateur web en mode sécurisé (https), ou normal (http), et permet de prendre le serveur en main facilement.
+
+<note important>Plesk ne s'installe pas sur toutes les versions d'Ubuntu. Cette page fait référence à la version [[hardy|8.04 LTS]] Serveur.</note>
+
+===== Pré-requis =====
+
+- Une installation fraîche d'Ubuntu serveur.
+- Éventuellement, l'application ssh peut être installée pour poursuivre l'installation de plesk à distance
+- Faire une une mise à jour du système
+- Passer en utilisateur root
+
+==== Mettre une IP fixe ====
+
+
+- Configurer l'IP en [[:tutoriel:comment_modifier_un_fichier|modifiant le fichier]] ''/etc/network/interfaces''
+
+Le fichier doit ressembler à ceci: 
+(Attention : les données sont des données d'exemple et doivent être adaptées au réseau)
+
+<file>iface eth0 inet static
+        address 192.168.1.3
+        netmask 255.255.255.0
+        network 192.168.1.0
+        broadcast 192.168.1.255
+        gateway 192.168.1.1
+</file>
+
+-Redémarrer le service réseau, en saisissant la [[commande_shell|commande]] suivante :
+
+<code>/etc/init.d/networking restart</code>
+
+
+==== Modifier le fichier hosts ====
+
+Les deux premières lignes du fichier ''/etc/hosts'' devraient être proches de ceci:
+
+<file>127.0.0.1       localhost.localdomain	localhost
+192.168.1.3     serveur.domaine.lan	serveur</file>
+
+===== Installation =====
+
+Créer le répertoire pour télécharger **plesk**, en saisissant les [[commande_shell|commandes]] suivantes :
+
+<code>
+mkdir /root/plesk
+cd /root/plesk
+</code>
+
+Pour télécharger et installer Plesk sur [[hardy|Ubuntu 8.04 LTS]], saisir les [[commande_shell|commandes]] suivantes ligne par ligne :
+
+<code>
+# wget http://download1.parallels.com/Plesk/Plesk8.6/Ubuntu8.04/parallels_installer_v3.3.2_build080710.09_os_Ubuntu_8.04_i386
+# chmod +x parallels_installer_v3.3.2_build080710.09_os_Ubuntu_8.04_i386
+# ./parallels_installer_v3.3.2_build080710.09_os_Ubuntu_8.04_i386
+</code>
+
+=====Configuration=====
+
+FIXME
+
+
+=====Utilisation=====
+
+FIXME
+
+
+=====Voir aussi=====
+
+FIXME
+
+----
+//Contributeurs: ...//
+
+

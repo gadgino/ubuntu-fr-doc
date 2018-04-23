@@ -1,0 +1,178 @@
+{{tag>Lucid matériel portable dell}}
+
+----
+
+====== Dell Inspiron 6400 ======
+
+===== En un coup d'œil =====
+
+Le tableau suivant récapitule la prise en charge du matériel de portable par les différentes versions d'Ubuntu.
+Il utilise les notations suivantes :
+  * {{icons:important.png|Fonctionne après config}} : **Fonctionne après quelques manipulations**
+  * {{icons:icon-ubuntu.png|Fonctionne immédiatement}} : **Fonctionne immédiatement**
+  * {{icons:icon-support.png|Pas testé}} : **Pas d'informations disponibles**
+  * {{icons:process-stop.png?36|Ne fonctionne pas}} : **Ne fonctionne pas**
+
+^ Version ^ Installation ^ Carte graphique ^ Son ^ Wifi ^ Touchpad ^ Raccourcis multimédia ^ Résolution ^
+| [[:Lucid|"Lucid Lynx" - 10.04]] | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} |
+
+
+===== Utilisateurs possédant cet ordinateur =====
+  * **[[:utilisateurs:mohegan]]** : [[:Lucid|Lucid Lynx]]
+  * **[[:utilisateurs:latrape]]** : [[:Lucid|Lucid Lynx]]
+  * **[[:utilisateurs:samuelleb]]** : [[:Oneiric|Oneiric Ocelot]]
+
+===== Installation =====
+==== Régler le touchpad ==== 
+
+Pour régler le touchpad, commencez [[:tutoriel:comment_editer_un_fichier|par éditer le fichier]] /etc/X11/xorg.conf:
+Trouvez les lignes:
+<file>
+Section "InputDevice"
+Identifier      "Synaptics Touchpad"
+Driver          "synaptics"
+Option          "SendCoreEvents"        "true"
+Option          "Device"                "/dev/psaux"
+Option          "Protocol"              "auto-dev"
+Option          "HorizScrollDelta"      "0"
+</file>
+Ajoutez à la suite:
+<file>
+Option          "SHMConfig"             "true"
+</file>
+Puis quitter votre session et tapez simultanément sur Alt--Ctrl--<= pour redémarrer Xorg.
+Maintenant pour les réglages, vous pouvez [[:tutoriel:comment_installer_un_paquet|installer les paquets]] tels que qsynaptic.
+
+
+==== Modem ====
+Téléchargez le fichier à cette adresse, il permettra de faire fonctionner le modem.
+
+[[http://biginoz.free.fr/linux/gutsy/hsfmodem_7.60.00.06oem_i386.deb]]
+
+Installez-le.
+
+Redémarrez et c'est tout.
+
+(//Le fichier provient de chez dell était installé sur le portable 6400 série n//)
+
+
+
+
+==== Multi Ecran ====
+
+Avec une carte intel, le multi-écran est possible par la méthode [[:multi-ecran#xrandr_double_ecrans|xrandr]].
+
+===== Optimisation =====
+
+==== Modifier la résolution de démarrage (Karmic et Lucid) ====
+
+Pour modifier la résolution de démarrage de grub et des consoles (tty), plusieurs modifications sont nécessaires.
+Ces dernières sont expliquées sur le forum : [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3421348#p3421348|Passer son menu grub2 & sa console en haute résolution]].
+
+==== Contrôler la vitesse des ventilateurs ====
+Voici un tutoriel décrivant la marche à suivre pour pouvoir non seulement afficher le statut des ventilateurs mais également les contrôler.
+
+===Désactivation du script fancontrol ===
+
+Pour éviter les démarrages et arrêts intempestifs des ventilateurs, il est nécessaire de désactiver le script **fancontrol**. Pour cela, vous devez exécuter la commande suivante dans un terminal :
+<code>sudo update-rc.d -f fancontrol remove</code>
+Si vous n'exécutez pas cette commande, le script **i8kmon** ne pourra pas fonctionner correctement. En effet, les deux scripts enverront des commandes contradictoires au ventilateur.
+
+=== Installation du paquet i8kutils ===
+
+Il est nécessaire d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt://i8kutils|i8kutils]]**.
+
+=== Lancement du script ===
+Pour que le script se lance, il suffit de [[:tutoriel:comment_modifier_un_fichier|modifier le fichier]] **/etc/default/i8kmon** (ligne ENABLED=0).
+A l'issu, le fichier doit contenir les lignes suivantes :
+<code># /etc/default/i8kmon
+
+# Change to one to enable i8kmon
+ENABLED=1</code>
+
+=== Gestion du ventilateur ===
+Pour gérer le ventilateur, il suffit de [[:tutoriel:comment_modifier_un_fichier|créer le fichier]] **/etc/i8kmon.conf**. Ce dernier gère le déclenchement des ventilateurs en fonction de la température.
+Par exemple, le fichier i8kmon.conf pourra contenir les lignes suivantes :
+<code># Run as daemon, override with --daemon option
+set config(daemon)      1
+
+# Automatic fan control, override with --auto option
+set config(auto)        1
+
+# Status check timeout (seconds), override with --timeout option
+set config(timeout)     2
+
+# Temperature thresholds: {fan_speeds low_ac high_ac low_batt high_batt}
+set config(0) {{- 0} -1 45 -1 45}
+set config(1) {{- 1} 40 60 40 60}
+set config(2) {{- 2} 55 125 55 125}
+set config(3) {{- 2} 70 128 10 128}
+
+# end of file
+</code>
+Pour lancer le script, redémarrer votre PC ou exécuter la commande suivante :
+<code>sudo /etc/init.d/i8kmon start</code>
+Le ventilateur du portable sera dorénavant gérer selon votre configuration.
+
+==== Volume PCM ====
+//Testé sous Jaunty, Karmic et Lucid//
+
+=== Résoudre le problème de volume avec Karmic et Lucid ===
+Sous Karmic et Lucid, la gestion du son a été modifiée. Lorsque le volume général est modifié, les volumes //MASTER// et //PCM// sont modifiés simultanément.
+
+Pour remédier à ce problème :
+  * [[:tutoriel:comment_modifier_un_fichier|Éditez le fichier]] **/etc/pulse/default.pa**.
+  * À la ligne **load-module module-udev-detect**, ajoutez **ignore_dB=1**.
+  * Vous devez obtenir ceci :
+<code>### Automatically load driver modules depending on the hardware available
+.ifexists module-udev-detect.so
+load-module module-udev-detect ignore_dB=1</code>
+  * Pour que les modifications soient prises en compte, redémarrez votre PC.
+
+=== Installation et configuration ===
+Le volume PCM n'est modifiable qu'à partir du contrôleur de volume. Pour modifier le volume PCM via des raccourcis du clavier ou automatiquement à l'insertion ou au retrait d'un casque audio, il suffit d'installer le paquet volume-pcm.
+<note important>**Ce paquet n'est pas un paquet officiel.** Il n'est pas certifié par Canonical, et dans certains cas (rares) peut rendre le système instable. Vous l'installez à vos risques et périls. Pour d'éventuels problèmes ou réclamations, consultez ce [[http://forum.ubuntu-fr.org/viewtopic.php?id=329238|topic]].</note>
+  * Téléchargez le paquet : [[http://vonruppert.free.fr/volume-pcm_0.3_all.deb|volume-pcm_0.3_all.deb]]
+  * [[:tutoriel:comment_installer_un_paquet#installer_un_paquet_hors_depots_non_recommande|Installez le paquet]] **volume-pcm_0.3_all.deb**.
+  * Pour lancer automatiquement le script alsa_pcm de modification du volume pour un caque audio, il suffit de le lancer à l'ouverture de session.
+    - Ouvrez //Sytème > Préférences > Applications au démarrage//.
+    - Ajoutez une entrée ayant pour nom //alsa_pcm//.
+{{:ajout-applications-demarrage.png|}}
+  * Pour affecter des raccourcis du clavier afin de modifier le volume PCM via le script volume_pcm :
+    - Ouvrez l'application gconf-editor (taper <ALT+F2> puis entrer la commande **gconf-editor**).
+    - Modifiez les clés suivantes (à adapter si vous utilisez déjà ces raccourcis) :
+__Mettre comme valeur :__ **volume_pcm up** à la clé ///apps/metacity/keybinding_commands/command_1//
+
+__Mettre comme valeur :__ **volume_pcm down** à la clé ///apps/metacity/keybinding_commands/command_2//
+
+__Mettre comme valeur :__ **<Super>Page_Up** à la clé ///apps/metacity/global_keybindings/run_command_1//
+
+__Mettre comme valeur :__ **<Super>Page_Down** à la clé ///apps/metacity/global_keybindings/run_command_2//
+
+  * Pour modifier le volume PCM, il suffira d'utiliser la touche **Super** (ou windows) avec la touche **page suivante** ou **page précédente**.
+  * La notification suivante apparaîtra :
+{{:notification-pcm.png|}}
+
+
+==== Écran ====
+//Testé sous Lucid et Maverick//
+
+=== Résoudre le problème de l'écran LCD "cassé" ===
+
+Symptôme : 
+Entre la 10.04 et la 10.10, toute installation à partir de cd, dvd ou live usb m'était impossible. 
+Au cours du boot l'écran devient très bizarre, genre écran lcd cassé, impossible de voir quoi que ce soit.
+
+Le traitement (pour mon dell inspiron 6400, carte Nvidia) :
+Ajouter l'option nomodeset au boot du livecd (F6 dans le menu). 
+
+Après installation, au premier boot : dans le menu de grub tapper « e » et ajouter « nomodeset » après « quiet splash » dans les paramètre de démarage.
+
+Pour automatiser la manip, indispensable sous peine d'effet écran cassé : modifier /etc/default/grub avec les droits d'administrateur et ajouter « nomodeset » entre les "" à la ligne « GRUB_CMDLINE_LINUX_DEFAULT="quiet splash" », puis sudo update-grub dans un terminal.
+
+Diagnostic : problème avec dkms, utilisé depuis lucid.
+
+( Source: http://forum.ubuntu-fr.org/viewtopic.php?pid=3864344 )
+----
+
+//Contributeurs : [[:utilisateurs:GottferDamnt]], [[:utilisateurs:Biginoz]], [[:utilisateurs:mohegan]]//

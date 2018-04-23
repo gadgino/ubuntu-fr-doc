@@ -1,0 +1,42 @@
+{{tag>Trusty Precise cartographie éducation}}
+
+--------------
+
+====== World Wind ======
+
+
+Développé par le NASA Ames Research Center dans un but pédagogique, il est diffusé sous une licence libre. Les images sont dans le domaine public. L'interface utilisateur est une simulation en trois dimensions de la Terre.
+Sur certaines zones des États-Unis, il est possible d'identifier jusqu'à la catégorie d'un véhicule, ou — par exemple — de voir distinctement les lettres de l'écriteau HOLLYWOOD.
+
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir activé les [[:depots|dépôts Universe]].
+  * Avoir [[:tutoriel:comment_installer_un_paquet|installé le paquet]] **[[apt>openjdk-7-jdk]]**.
+
+=====Installation=====
+====L'application complète====
+Vous pouvez installer l'application complète, en téléchargeant [[:archivage|l'archive]] [[http://builds.worldwind.arc.nasa.gov/worldwind-releases/1.2/builds/worldwind-1.2.0.zip|ici]]. Puis en créant un dossier worlwind dans votre **Dossier Personnel** et extrayez-y l'archive avec la commande suivante : <code>unzip worldwind-1.2.0.zip</code>
+
+====Les modules séparés====
+Il est également possible d'utiliser les modules indépendants, sans toute l'application. Pour cela [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>icedtea-netx]]**. Vous trouverez une série de mini-applications indépendantes fournissant la majorité des fonctions du logiciel original [[http://worldwind.arc.nasa.gov/java/demos/|ici]]. La liste est non-exhaustive car la NASA met à la disposition du public un [[http://worldwind.arc.nasa.gov/java/index.html|kit de développement]].
+
+=====Utilisation=====
+Pour lancer l'application complète ouvrez un [[:terminal]]:
+  * Déplacez-vous dans le dossier worlwind : <code>cd worlwind</code>
+  * Rendez-le éxécutable : <code>chmod +x run-demo.bash</code>
+  *Lancez l'application avec la commande : <code>./run-demo.bash gov.nasa.worldwindx.examples.ApplicationTemplate</code>
+
+FIXME le raccourci ne semble pas fonctionner.
+
+Si vous avez choisis d'utiliser les modules, il suffit de double-cliquer dessus pour les lancer.
+
+====Créer un lanceur====
+Vous pouvez créer un [[:raccourci-lanceur|lanceurs]] pour faciliter l'accès à WWJ. Dans commande il vous suffira de mettre : <code>
+/chemin-vers_l_application/run-demo.bash gov.nasa.worldwindx.examples.ApplicationTemplate</code>
+
+
+------
+Contributeurs : [[:utilisateurs:l_africain|L'Africain]]

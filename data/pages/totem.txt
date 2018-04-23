@@ -1,0 +1,226 @@
+{{tag>Precise Trusty gnome lecteur_audio vidéo webtv}}
+
+----
+
+====== Vidéos, lecteur multimédia de Gnome======
+
+===== Présentation =====
+**Vidéos** est une application de lecture vidéo du [[https://wiki.gnome.org/Apps/Videos|projet GNOME conçue pour Gnome3]], installé par défaut sur la [[:variantes#variantes_officielles|variante officielle Ubuntu]] ou certaines [[:variantes#variantes_officielles|variantes reconnues]]. Il est basé sur **Totem**, l'ancien lecteur vidéo original du projet Gnome2.\\
+Il supporte un grand nombre de formats par défaut et intègre une installation automatique des codecs manquants.\\
+**Vidéos** est aussi capable de [[:lire_un_dvd|lire les DVD]], le Flash ou les flux DVB provenant de votre carte tuner TNT. Les flux provenant des //Box// internet (Freebox et autres) sont aussi supportés.
+
+==== Fonctionnalités ====
+
+La [[https://wiki.gnome.org/Apps/Videos|page du site officiel]] fournit un détail des fonctionnalités de l'application.
+En voici une traduction :
+  * lit les fichiers pris en charge par le moteur [[GStreamer]] ;
+  * support de [[lirc|LIRC]] (télécommandes, etc.) ;
+  * support de Shoutcast, m3u, asx, SMIL et les listes de lectures ra (utilisable aussi avec une bibliothèque sous licence LGPL fournie) ;
+  * lecture des DVD (avec les menus), VCD, Détection automatique du type de disque ;
+  * configuration de la sortie TV avec changement de résolution optionnel ;
+  * sorties audio 4.0, 4.1, 5.0, 5.1, stéréo et AC3 //Passthrough// ;
+  * mode plein écran (bougez votre souris et vous obtenez de sympathiques contrôles) avec support du [[multi-écran]] Xinerama, //dual-head// et Viewport ;
+  * lancement et contrôle de **Vidéos** distant ;
+  * contrôles de l'avancement de la lecture et du volume ;
+  * changement du rapport d'aspect et de l'échelle basé sur la taille originale de la vidéo ;
+  * contrôle complet au clavier ;
+  * liste de lecture simple avec des modes de répétition et aléatoire avec fonction de sauvegarde et mise en ordre en glisser-déposer ;
+  * intégration à Gnome et Nautilus (Totem déclare les fichiers reconnus, ajoute un élément dans le menu, utilise la configuration de proxy, enregistre les sessions, déclare les méthodes pnm, mms, uvox et rtsp et retire les éléments de la liste de lecture d'un disque éjecté) ;
+  * fenêtre de propriétés (informations à propos de la vidéo sélectionnée) ;
+  * actions par glisser-déposer et avec la roulette de la souris ;
+  * fonction de capture d'écran ;
+  * contrôle de la luminosité, du contraste, de la teinte et de la saturation ;
+  * greffon de visualisation lors de la lecture de fichier audio ;
+  * mode //Telestrator// en utilisant [[http://www.home.unix-ag.org/simon/gromit/|Gromit]] ;
+  * vignette de la vidéo ;
+  * onglet propriétés de [[:Nautilus]] ;
+  * fonctionne sur des écrans distants ;
+  * chargement automatique ou manuel (uniquement en ligne de commande comme ceci : ''totem ficher.avi#subtitle:fichier.srt'') des sous-titres externes ;
+  * support des sous-titres et des langues de DVD, VCD et OGG/OGM ;
+  * fenêtre de dialogue pour un choix plus précis de la position de lecture ;
+  * fenêtre d'authentification quand l'accès au fichier le requiert ;
+  * aide en ligne (en anglais, allemand, espagnol, russe, français et bulgare).
+
+===== Installation =====
+**Vidéos** est installé par défaut dans Ubuntu avec ses extensions. Si vous ne l'avez pas, [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>totem|totem]]** et ses extensions **[[apt>totem-plugins]]**.\\
+Et si vous souhaitez encore plus d'extensions, vous pouvez [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>totem-plugins-extra]]**
+
+===== Utilisation =====
+
+==== Raccourcis clavier ====
+
+Liste des raccourcis clavier de **Vidéos** :
+
+^ Touche      ^ Rôle                      ^
+| →           | avance de 1 minute        |
+| ←           | recule de 20 secondes     |
+| ↑           | augmente le son     |
+| ↓           | baisse le son     |
+| F ou F11    | Basculer mode plein écran |
+| P ou Espace | Pause                     |
+| .           | Avance image par image    |
+
+==== Sous-titres ====
+
+**Vidéos** affiche automatiquement les sous-titres si ceux-ci ont le même nom de fichier que le fichier multimédia (en excluant l'extension). Si ce n'est pas le cas, allez dans //Édition → Préférences// et cochez « Charger automatique les fichiers de sous-titres au chargement d'un film ».
+
+Vous pouvez régler l'affichage des sous-titres à l'aide des deux champs en-dessous en choisissant la police et la taille.
+
+====Télévision====
+=== Freebox ===
+
+La [[:commande_shell|commande]] qui suit permet un accès facile à toutes les chaînes disponibles en multiposte depuis votre ordinateur :
+<code>totem http://mafreebox.freebox.fr/freeboxtv/playlist.m3u</code>
+Vous pouvez facilement [[:unity_launcher#creer_ses_propres_lanceurs|créer un lanceur d'application]] en renseignant la zone de saisie « Commande » avec cette ligne.
+
+===Alicebox===
+La [[:commande_shell|commande]] qui suit permet un accès facile à toutes les chaînes disponibles en multiposte depuis votre ordinateur :
+<code>totem http://212.27.40.238/pub/playlist_alice.m3u</code>
+Vous pouvez facilement [[:unity_launcher#creer_ses_propres_lanceurs|créer un lanceur d'application]] en renseignant la zone de saisie « Commande » avec cette ligne.
+
+
+=== Bbox ===
+
+Pour ceux qui ont une [[:bbox|Bbox]], on peut aussi regarder la télévision à l'aide de la [[:commande_shell|commande]] suivante:
+<code>totem http://lafibre.info/images/bbox/TV_sur_PC_Bbox.m3u</code>
+
+On peut aussi télécharger le fichier TV_sur_PC_Bbox.m3u sur le disque dur et l'ouvrir avec totem. 
+
+===Arte+7===
+
+Il existe une extension permettant de lire les vidéos de [[http://www.arte.tv/guide/fr/plus7/|Arte+7 (service de rattrapage de Arte)]] directement dans **Vidéos** ([[https://gitorious.org/totem-plugin-arte|site du projet]])
+
+== Installation==
+Ce extension est disponible dans les dépôts officiels de Ubuntu et n'est utilisable que depuis l'Allemagne, l'Autriche, la Belgique, la France et la Suisse. Il vous suffit donc d'installer le paquet **[[apt>totem-plugin-arte]]**.\\
+
+(FIXME: Semble résolu depuis la version du [[:depots|dépôt officiel de mise à jour (Trusty-Update)]] au 11.05.2015 par le développeur ) \\
+En cas d'erreur lors de la lecture((problème constaté sur Trusty le 29/09/2014)), on pourra [[:ppa#ajout_d_un_ppa_a_vos_sources_logicielles|utiliser le PPA recommandé par le développeur]] **ppa:malizor/ppa**((https://launchpad.net/~malizor/+archive/ubuntu/ppa)) pour obtenir une version plus récente du greffon :
+  sudo add-apt-repository ppa:malizor/ppa
+  sudo apt-get update
+  sudo apt-get upgrade
+  sudo apt-get install totem-plugin-arte
+
+== Utilisation de l'exrension ==
+  - Dans le menu Édition > Greffons… Cochez **Vidéos de Arte+7**,\\ Dans les préférences, il est possible de choisir la langue (français/allemand) et la qualité des vidéos.
+  - Dans le menu Affichage > Arte+7, afficher le panneau latéral. Vous obtiendrez alors les vidéos disponibles;
+  - Un clic sur la vidéo et la lecture commence.
+{{:media:totem_greffon_arte7.png?300|}}
+
+Pour plus de détails (proposer des améliorations, installation de la dernière version...) se référer à [[http://forum.ubuntu-fr.org/viewtopic.php?id=369659|ce sujet]] du forum.
+====Youtube====
+L'application [[:SMtube]] permet de visionner les vidéos Youtube directement dans **Vidéos** (ou tout autre lecteur vidéo). Une fois installée, pour utiliser **Vidéos** comme lecteur par défaut de Youtube, il suffit de placer celui-ci en tête dans le menu //Vue -> Paramètres// de [[:Smtube]].
+
+
+====Galerie de capture d'écran====
+
+<note important>Il semblerait que la fonction de Créer une galerie de captures d'écran\\
+ne fonctionne qu'avec des vidéos disponibles sur le disque, et non celles sur Youtube :?: Si quelqu'un y arrive modifier cette doc DELETEME</note>
+===== Configuration avancée =====
+
+Totem, dans un souci de simplicité, offre peu de réglages dans son menu de préférences. Si toutefois vous avez besoin de changer des paramètres plus pointus, vous pouvez passer par l'utilitaire de configuration de Gnome.
+
+==== Pour Totem-GStreamer ====
+
+Lancez le programme « gconf-editor » (Alt+F2) et allez dans « /System/gstreamer/0.10 », vous pourrez aller changer les valeurs dont vous avez besoin.
+
+
+==== Greffons ====
+
+Vous pouvez activer des greffons ajoutant de nouvelles fonctionnalités au lecteur **Videos**. La liste des greffons est accessible via le menu //Édition → **Greffons…**//.
+
+Par exemple vous pourrez :
+  * Contrôler Totem avec un téléphone mobile ;
+  * Enregistrer les DVD ;
+  * Télécharger des sous-titres pour le film en cours ;
+  * Utiliser une télécommande infrarouge ;
+  * (liste non exhaustive, voir [[https://wiki.gnome.org/Apps/Videos/Plugins|cette page du site officiel]]) …
+
+C'est également dans cette liste que vous devrez activer les greffons supplémentaires installés par vos soins.
+
+=== Autres greffons officiels ===
+Pour l'annotation de l'écran et la lecture des flux BBC, vous pouvez [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>totem-plugins-extra|totem-plugins-extra]]**.
+
+
+== Totem-plugin-flux ==
+Un greffon permettant d'accéder à des playlists, des radios en live, des podcasts, le flux d'arte+7, celui de canal+ (les guignols, zapping ...) et autres.\\
+ FIXME 10/02/2011 : La plupart des flux proposés ne semblent plus fonctionner !\\
+Cliquez [[http://www.manatlan.com/files/totem-plugin-flux_0.3.1_all.deb|ici]] pour télécharger la dernière version de totem-plugin-flux.
+
+== Echo ==
+Greffon permetant de suivre l'actualité et de profiter d'un grand nombre de médias «libres», tels que ceux mis à disposition par l'APRIL, Framasoft, etc...
+Voir le sujet dédié du forum : [[http://forum.ubuntu-fr.org/viewtopic.php?id=1174331|ici]]
+
+==== TNT ====
+
+ Simple, léger - environnement GNOME. Capable de rechercher les chaînes et plus besoin de Xine  . 
+  * 
+prendre  dvb-daemon en  version >1.19 , sinon problème pour la détection de chaînes
+<file>
+deb http://ppa.launchpad.net/gnome-dvb-daemon/ppa/ubuntu lucid main 
+deb-src http://ppa.launchpad.net/gnome-dvb-daemon/ppa/ubuntu lucid main
+</file>
+
+<file>
+sudo apt-get update
+sudo apt-get upgrade
+</file>
+et installer les  paquets : 
+([[apt://gnome-dvb-client,totem-plugins-dvb-daemon,gnome-dvb-daemon|gnome-dvb-client,totem-plugins-dvb-daemon,gnome-dvb-daemon]])
+
+==== Multiples instances ====
+Vérifié avec Ubuntu 11.04 \\
+Totem est lancé par défaut en mode instance simple : une seule fenêtre de Totem à la fois.
+Pour permettre plusieurs instances, il suffit d'éditer le fichier de raccourcis suivant  :\\
+<file>/usr/share/applications/totem.desktop</file>
+Ajouter l'option --no-existing-session à la commande d’exécution
+<file>Exec=totem --no-existing-session %U</file>
+Au lieu de 
+<file>Exec=totem %U</file>
+
+===== Désinstallation =====
+
+Pour désinstaller Totem de votre GNU/Linux, supprimez les paquets suivants : **totem, totem-gstreamer, totem-mozilla** (le dernier étant le greffon pour Firefox).
+
+<note warning>
+Si vous désinstallez Totem, lors du clic droit => propriétés d'un fichier musical ou vidéo (peut-être même plus…), une erreur apparaîtra :
+
+> Couldn't load the '/usr/share/totem/properties.ui' interface. L'ouverture du fichier « /usr/share/totem/properties.ui » a échoué : Aucun fichier ou répertoire de ce type 
+
+Par contre, une autre boîte de dialogue vous dira qu'il va créer une fenêtre propriétés pour le fichier, il faut juste patienter.
+</note>
+
+===== Problèmes connus =====
+
+==== Totem plante au démarrage ou vidéo saccadée ====
+
+Désactiver les [[:compizconfig-settings-manager#desactiver_compiz|effets de bureau]] peut résoudre ce problème.
+
+
+==== YouTube ====
+FIXME: Il existe l'application [[:SMtube]] pour lire les vidéos de Youtube dans **Totem**.\\
+Le greffon YouTube a un bug avec l'agencement de clavier //France/Autre// qui empêche de mettre des espaces dans les recherches lorsqu'on regarde une vidéo. D'après [[http://forum.ubuntu-fr.org/viewtopic.php?id=230755|cette discussion du forum]], il faut changer le clavier utilisé vers //France/Legacy Alternative// dans le gestionnaire de clavier (//Système → Préférences → Clavier//). Il est aussi possible de remplacer les espaces par des signes « + ».
+
+==== Sortie vidéo de GStreamer ====
+
+Si vos vidéos en plein écran sont saccadées ou que des bandes horizontales apparaissent (vsync), vous pouvez corriger ce problème en forçant GStreamer à utiliser la sortie vidéo « XV ».
+
+Pour cela, lancer le programme « gconf-editor » (Alt+F2), allez dans « System -> gstreamer -> 0.10 -> default et changer la valeur de videosink :  autovideosink par  xvimagesink .
+
+Vous pouvez aussi rajouter un filtre de désentrelacement en utilisant le greffon « deinterlace » en changeant la valeur correspondante à « videosink » par la valeur « deinterlace ! xvimagesink ».
+
+==== Vidéo qui scintille ====
+
+Si vos vidéos scintillent (avec carte ATI), vous pouvez régler ce problème simplement.
+
+Pour cela, lancer le programme « gstreamer-properties » (Alt+F2), la fenêtre « Sélecteur de systèmes multimédia » va s'ouvrir.
+Aller sur l'onglet « Vidéo », puis changer le « greffon » du « Greffon de sortie par défaut» : X Window System (X11/XShm/Xv)  par X Window System (sans Xv).
+Relancer Totem, et normalement, tout est revenu à la normale !
+===== Voir aussi =====
+
+  * **(en** [[https://wiki.gnome.org/Apps/Videos|Site officiel du projet]] **(en)**
+  * **(fr)** [[http://www.tutoriels-video.fr/multimedia-et-les-codecs-proprietaires-sur-ubuntu/|Tutoriel vidéo sur le multimédia dans Ubuntu]]
+ 
+
+----
+
+//Contributeurs principaux : [[utilisateurs:Id2ndR]], [[:utilisateurs:thedamocles|Damocles]], [[utilisateurs:LinuXp0wer]], [[utilisateurs:thib]], [[utilisateurs:kao_chen]], [[utilisateurs:remybig]].//

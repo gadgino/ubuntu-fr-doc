@@ -1,0 +1,94 @@
+{{tag>Trusty entreprise ERP}}
+
+====== SMI : Services Maintenance Interventions ======
+
+<note important>La version actuelle 1.0.4 n'est pas compatible par défaut avec Ubuntu 16.04, ne fonctionnant pas avec PHP 7.x et Mysql 5.7, il est nécessaire de rétrograder à PHP 5.6 par un dépot PPA dérivé et une version de Mysql antérieure.</note>
+
+SMI est plus un GMAO (gestionnaire de maintenance) qu'un PGI ou ERP (progiciel de gestion intégré) écrit en language PHP qui permet la gestion d'un service après vente où un centre de maintenance technique. Il doit être sur un serveur local ou distant pour pouvoir fonctionner dans un explorateur web.
+
+Avec ce logiciel ERP il est possible de : 
+   * Gérer ses agendas.
+   * Générer des bons d'intervention et de réparation.
+   * Gérer le planning des techniciens.
+   * Disposer d'un CRM. 
+   * Régler les droits d'accès pour chaque utilisateur.
+   * Établir des contrats de maintenance.
+   * Gérer un stock de pièces détachées.
+   * Associer des pièces jointes
+
+[[http://smi.no-ip.org|Site officiel]]
+
+=====Installation.=====
+====Pré-requis. ====
+
+Avant de pouvoir installer SMI vous devez disposer soit de :
+
+-Un serveur local Xampp équipé de Apache 2, php 5.4 et base de donnée MySql déjà bien configuré.
+
+-Un espace web sur un serveur distant sur lequel vous avez les droits d'administration. Avec base de données MySql.
+
+====Méthode d'installation sous Xampp====
+Commencer tout d'abord par télécharger l'archive contenant les fichiers de SMI, la version actuelle étant 1.0.0 sur le site officiel de SMI [[http://smi.no-ip.org/down.html|ici]].
+
+Rendez vous dans le répertoire racine www de votre serveur local Xampp et créez y un répertoire 'smi' en minuscule.
+
+Ayant ouvert un terminal dans le dossier racine du serveur :
+<code>mkdir smi</code>
+
+Extraire tout le contenu de l'archive téléchargée avec FileRoller en mode graphique dans le répertoire smi ainsi créé.
+
+Ou en terminal, se placer dans le dossier ou se trouve l'archive, admettons que le dossier racine du serveur soit www et se trouve dans votre répertoire personnel :
+<code>unzip  smi_1.0.0.zip -d  ~/www/smi/</code>
+
+Créer un répertoire de téléchargement  et un répertoire de sauvegarde et un répertoire de logos pour SMI , pour cela, entrer dans le répertoire de smi et faire ceci :
+<code>mkdir telechgt && mkdir telechgt/fictec && mkdir svg && mkdir logos</code>
+
+Il faut maintenant donner des permissions au dossier de smi et tout son contenu pour que tout se passe bien, pour cela sortir du dossier smi et se situer dans son dossier parent :
+<code>cd ..
+sudo chmod -R 777 smi</code>
+ 
+En console ou en utilisant l'interface graphique phpmyadmin, créer une base de donnée 'smi'.
+Créer un utilisateur nommé wwwrun et lui donner les droit suivants: 'SELECT', 'INSERT', 'UPDATE', DELETE', 'FILE', 'CREATE ', 'ALTER', 'INDEX', et 'DROP' sur la base smi que vous venez de mettre en place. (voir doc de MySql)
+
+
+
+Ouvrir en édition le fichier inc/prm.inc.php, éditer les données dans les champs , ne pas oublier que l'utilisateur est wwwrun, il faut y mettre un mot de passe, laisser les répertoires de téléchargement et sauvegarde par défaut puisque nous les avons créés tels quels. Puis sauver.
+
+De la racine du répertoire de SMI :
+<code>sudo nano inc/prm.inc.php</code>
+
+Maintenant que tous les fichiers et répertoires sont en place, que la base de données et l'utilisateur ont été créés, démarrer Xampp comme d'habitude en veillant à ce que apache2 et mysql soit bien actif, Ouvrir votre explorateur internet et taper cette adresse pour avoir accès à la page principale de SMI http://localhost/smi/index.php
+
+Si tout s'est bien passé, vous ne devriez pas obtenir de messages d'erreur, si tel était le cas, se référer au [[http://smi.no-ip.org/phpBB3/|forum officiel sur le site de SMI]].
+
+====Installation sur serveur local.====
+<note important>Assurez vous sous Ubuntu 16.04 et supérieur d'installer PHP 5.6 via un dépot PPA et une version de Mysql  antérieure à 5.7 sans quoi SMI 1.0.4 ne fonctionnera pas normalement, voire pas du tout !  Pour raison d'incompatibilité du code aux versions actuelles </note>
+
+====Installation sur serveur distant.====
+A compléter !
+=====Première configuration====
+
+Au premier lancement de SMI il est nécessaire de le configurer pour pouvoir l'utiliser correctement, vous vous trouvez donc sur une page de login sur laquelle vous aller utiliser comme login 'Administrateur'  et comme mot de passe 'Administrateur'.
+Vous arrivez directement sur la page d'accueil de SMI qui vous dit qu'il n'est pas configuré, cliquez donc sur configurer.
+Entrez les données de votre société, si vous êtes en France tout se passe bien, pour d'autres pays, il faudra procéder à une manipulation pour les villes et provinces, voir au point suivant.
+
+Si vous avez entré tous les paramètres obligatoires correctement , la validation du formulaire devrait se faire.
+Attention: un problème de format des numéros de téléphones Belge se produit dans la version 1.0.0 il devrait toutefois être résolu dans la version 1.0.1.
+
+==== Spécificités par pays. ====
+
+SMI à été prévu à l'origine pour la France, et prend donc en charge par défaut les départements et villes françaises, mais à été adapté pour plusieurs autres pays dont la Belgique et la Suisse.
+Sans cela, impossible de terminer la première configuration.
+Pour  que SMI puisse prendre en charge les villes et provinces d'autres pays, vous trouverez des fichiers CSV dans le répertoire install/csv/ pour chaque pays il faut un fichier 'dep' et un fichier 'villes'.
+
+Exemple pour la Belgique, à adapter pour d'autres pays :
+
+Copier les fichiers csv dans le répertoire d'importation de SMI en admettant que vous ayez créé les dossiers comme prescrits, positionnez vous dans le dossier principal de SMI  et taper ceci :
+<code>cp install/csv/be_villes.csv telechgt/fictec/ && cp install/csv/be_dep.csv telechgt/fictec/</code>
+
+Une fois ces fichiers copiés, ouvrez SMI et se diriger dans le menu jusqu'à Administration/Données/Importations/villes  et aussi Administration/Données/Importations/départements, dans les deux cas utiliser les fichiers copiés pour l'importation.
+
+Après cette opération, revenir à la page de configuration par la page d'accueil que vous devriez maintenant pouvoir mener à bien.
+
+=====Utilisation =====
+SMI est un logiciel en permanente évolution qui devrait bientôt se doter d'une gestion de facturation et de stock, pour la prise en main je vous recommande donc de consulter sa [[http://smi.no-ip.org/doc.html|documentation officielle]].

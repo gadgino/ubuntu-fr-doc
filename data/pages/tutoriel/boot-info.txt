@@ -1,0 +1,65 @@
+{{tag>système tutoriel}}
+----
+
+====== Créer un rapport Boot-Info ======
+
+Sur le forum ubuntu-fr, il peut vous être demandé d’indiquer votre **rapport Boot-Info**. Il s’agit d’un rapport contenant les principales caractéristiques système de votre PC, qui permet de diagnostiquer d’éventuels problèmes, notamment ceux liés au démarrage.
+
+2 méthodes alternatives sont conseillées pour créer et indiquer ce rapport facilement :
+  * depuis une session Ubuntu (c'est la méthode la plus couramment employée, elle nécessite une connexion internet sur le PC à diagnostiquer)
+  * ou depuis Boot-Repair-Disk (c'est la méthode la plus pratique si vous créez souvent des rapports Boot-Info, ou si le PC à diagnostiquer n'a pas de connexion internet)
+
+
+===== Méthode standard: depuis une session Ubuntu =====
+
+  *Démarrez votre ordinateur sur un DVD ou liveUSB Ubuntu, et choisissez //Essayer Ubuntu// lorsque l'utilisation d'un vrai ubuntu n'est pas possible.
+  *Faites au besoin la commande "setxkbmap fr "    qu'il faut frapper  setxkb,q fr si le clavier n'écrit pas en français. 
+
+  *Une fois dans la session Ubuntu, installez l'application [[:Boot-Info]] en vous connectant à internet puis en saisissant dans un [[:terminal]] les commandes suivantes (appuyer sur Entrée après chaque ligne) :
+<note tip>Plutôt que de taper ces commandes au risque de faire des erreurs de frappe, utilisez le copier-coller depuis cette page. Pour coller dans le terminal : clic droit > sélection "coller"</note>
+**Pour ubuntu 14.04 et versions suivantes** : une seule commande à passer dans un terminal pour installer et lancer Boot-Info : 
+<code>sudo add-apt-repository -y ppa:yannubuntu/boot-repair && sudo apt update && sudo apt install -y boot-repair boot-info && sudo sed -i 's#-b http://#-b #' /usr/share/boot-sav/gui-actions.sh && boot-info</code>
+\\
+**Pour Ubuntu 12.04 seulement :** il y a 4 commandes à passer :
+<code>sudo add-apt-repository ppa:yannubuntu/boot-repair</code>
+
+puis ;
+
+<code>sudo apt-get update</code>
+
+puis ;
+<code>sudo apt-get install -y boot-repair boot-info</code>
+
+et enfin pour lancer l'outil ;
+
+<code>boot-info</code>
+ 
+  *Cliquez sur le bouton //Rapport en ligne// :
+
+{{http://pix.toile-libre.org/upload/img/1417609137.png}}
+
+  * Notez sur un papier l’URL (**paste.ubuntu.com/XXXXXXXX/ ou paste2.org/XXXXXXXX**) qui apparaît, et indiquez cette URL aux bénévoles qui vous aident  **dans votre discussion  du forum**. 
+
+{{http://pix.toile-libre.org/upload/img/1417609176.png}}
+
+
+
+===== Méthode alternative: depuis Boot-Repair-Disk =====
+
+  * Démarrez votre ordinateur sur un [[:live_usb|liveUSB]] de la dernière version de [[http://forum.ubuntu-fr.org/viewtopic.php?pid=5745281#p5745281|Boot-Repair-Disk]]. A noter : la version datée du 2014-11-30 de Boot-Repair-Disk est obsolète pour Ubuntu 16.10 (voir [[http://forum.ubuntu-fr.org/viewtopic.php?id=2004424|ICI]]) 
+  *Cliquez sur le bouton //Créer un rapport BootInfo// :
+
+{{http://pix.toile-libre.org/upload/original/1416021348.png}}
+
+{{http://pix.toile-libre.org/upload/img/1402244480.png}} <note important>À moins de savoir **exactement** ce que vous faites, **ne cliquez pas sur "Réparation recommandée" avant d'avoir eu le feu vert des spécialistes du forum !**</note>
+  *Notez sur un papier l’URL (**paste.ubuntu.com/XXXXXX/**) qui apparaît, et indiquez cette URL aux bénévoles qui vous aident par email ou forum. 
+
+{{http://pix.toile-libre.org/upload/img/1417609234.png}}
+
+Remarque: si internet n’est pas connecté, [[:Boot-Repair]] ne va pas indiquer d’URL, mais va afficher le rapport BootInfo dans un visionneur de texte.
+
+===== Remarques =====
+
+
+  * si vous avez oublié de noter l’URL, il faut tout recommencer.
+

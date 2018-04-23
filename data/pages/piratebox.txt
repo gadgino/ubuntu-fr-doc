@@ -1,0 +1,148 @@
+{{tag>Precise tutoriel réseau matériel}}
+
+----
+
+====== PirateBox ======
+
+Une **PirateBox** est un dispositif électronique portable, souvent composé d'un routeur et d'un dispositif de stockage, créant un réseau sans fil qui permet aux utilisateurs qui y sont connectés d'échanger des fichiers anonymement et de manière locale. Par définition, ce dispositif est déconnecté d'internet. ((http://fr.wikipedia.org/wiki/PirateBox)).
+
+Ce tutoriel explique comment installer une PirateBox à l'aide d'un routeur TL-MR3020.
+
+
+===== Pré-requis =====
+
+  * Un routeur TP-Link MR3020
+  * Un cable Ethernet
+  * Une connexion Internet (via Livebox, Freebox, etc.)
+  * Une clé USB formatée en FAT32
+
+===== Installation de OpenWrt =====
+
+<note tip>L'objectif de cette étape est d'installer la distribution GNU/Linux minimaliste **OpenWrt** sur le routeur. Attention : cette procédure écrase l'interface d'administration d'origine.</note>
+
+  - Téléchargez le firmware OpenWrt [[http://piratebox.aod-rpg.de/openwrt-ar71xx-generic-tl-mr3020-v1-squashfs-factory.bin|ici]] pour le TL-MR3020.
+  - Activez le mode **WISP** en coulissant le bouton sur le côté du routeur.
+  - Désactivez le Wifi de votre PC.
+  - Connectez le routeur au PC à l'aide du câble Ethernet.
+  - Ouvrez un navigateur et accédez à [[http://192.168.0.254]].
+  - Entrez **admin** comme nom d'utilisateur et **admin** comme mot de passe.
+  - Une fois sur le panel d'administration, accédez au menu **System Tools > Firmware Upgrade**.
+  - Sélectionnez le firmware OpenWRT téléchargé et cliquez sur **Upgrade**.
+  - Attendez que l'installation se termine et que le routeur redémarre.
+
+===== Configuration du routeur =====
+
+<note tip>À ce moment-ci, le routeur ne devrait plus posséder l'interface d'administration d'origine. Il est cependant accessible en telnet via l'adresse IP 192.168.1.1. Nous allons maintenant créer un mot de passe administrateur et configurer le routage.</note>
+
+  * Ouvrez un terminal.
+  * Connectez-vous au routeur en telnet :
+<code>telnet 192.168.1.1</code>
+  * Une fois connecté, tapez :
+<code>passwd</code>
+  * Enregistrez le mot de passe de votre choix.
+
+<note tip>La création du mot de passe active le mode sécurisé (SSH). Le routeur est désormais accessible avec la commande **ssh root@192.168.x.x** au lieu de **telnet 192.168.x.x**.</note>
+
+<note tip>Pour la suite, vous allez avoir besoin de l'adresse IP de votre Livebox/Freebox/etc. Une manière simple de la récupérer est de se connecter dessus depuis Ubuntu puis de cliquer sur l'icône de réseau en haut à droite, et enfin sur **Informations sur la connexion**. Vous allez y trouver la ligne **Route par défaut**. Vous allez également avoir besoin de choisir une adresse IP pour le routeur. Cette adresse ne doit pas se situer dans le champ DHCP (adressage automatique). Si la plage DHCP est 192.168.1.10 - 192.168.1.50, vous pouvez choisir 192.168.1.51. Connecté avec un câble Ethernet, c'est par cette adresse que le routeur sera accessible.</note>
+
+  * Éditez le fichier **/etc/config/network** :
+<code>nano /etc/config/network</code>
+  * Modifiez le fichier de telle sorte qu'il ressemble à ceci :
+<code>config interface 'loopback'                                                               
+        option ifname 'lo'                                                                
+        option proto 'static'                                                             
+        option ipaddr '127.0.0.1'                                                         
+        option netmask '255.0.0.0'                                                        
+                                                                                          
+config interface 'lan'                                                                    
+        option ifname 'eth0'                                                              
+        option type 'bridge'                                                              
+        option proto 'static'                                                             
+        option ipaddr '___ip_routeur___'                                                       
+        option netmask '255.255.255.0'                                                    
+        option gateway '___ip_livebox___'                                                     
+        list dns '___ip_livebox___'                                                           
+        list dns '8.8.8.8'</code>
+  * Remplacez **___ip_routeur___** par l'adresse du routeur désirée et **___ip_livebox___** par l'adresse de votre box.
+  * Appuyez sur **Ctrl+X** et confirmez l'enregistrement.
+
+===== Configuration du firewall et du wifi =====
+
+  * Faites une sauvegarde du fichier de configuration :
+<code>cp /etc/config/firewall /etc/config/firewall.bak</code>
+  * Éditez le fichier **/etc/config/firewall** :
+<code>nano /etc/config/firewall</code>
+  * Ne modifiez que les 23 premières lignes comme ceci :
+<code>config defaults
+            option syn_flood        '1'
+            option input            'ACCEPT'
+            option output           'ACCEPT'
+            option forward          'ACCEPT'
+    # Uncomment this line to disable ipv6 rules
+    #       option disable_ipv6     1
+
+config zone
+             option name             'lan'
+             option network          'lan'
+             option input            'ACCEPT'
+             option output           'ACCEPT'
+             option forward          'ACCEPT'
+
+config zone
+             option name             'wan'
+             option network          'wan'
+             option input            'ACCEPT'
+             option output           'ACCEPT'
+             option forward          'ACCEPT'
+             option masq             '1'
+             option mtu_fix          '1'</code>
+  * Appuyez sur **Ctrl+X** et confirmez l'enregistrement.
+
+  * Éditez le fichier **/etc/config/wireless** :
+<code>nano /etc/config/wireless</code>
+  * Modifiez la ligne 12 pour activer le wifi :
+<code>option disabled 0</code>
+  * Appuyez sur **Ctrl+X** et confirmez l'enregistrement.
+
+  * Tapez **exit** et débranchez votre routeur.
+  * Vous pouvez réactiver le wifi de votre PC.
+
+===== Installation du support USB =====
+
+  * Connectez le routeur à la box de votre maison à l'aide du câble Ethernet et attendez un moment.
+  * Sur votre PC, connectez-vous en wifi à votre box.
+  * Dans le terminal, connectez-vous au routeur en spécifiant son adresse IP :
+<code>ssh root@192.168.x.x</code>
+
+<note tip>Si la connexion échoue, cela peut venir d'une adresse IP mal choisie précédemment (par exemple présente dans le champ des adresses DHCP).</note>
+
+  * Testez l'accès à Internet en tapant :
+<code>ping google.com</code>
+
+<note tip>Si vous n'avez pas accès à Internet, cela peut venir de réglages trop restrictifs dans le fichier **/etc/config/firewall**.</note>
+
+  * Lorsque vous avez accès à Internet, tapez les commandes suivantes afin d'activer le support USB.
+<code>opkg update
+opkg install kmod-usb-uhci
+insmod usbcore ##may return the message: insmod: can't insert 'usbcore': File exists
+insmod uhci
+opkg install kmod-usb-ohci ##may return the message: installed in root is up to date.
+insmod usb-ohci</code>
+
+===== Installation de PirateBox =====
+
+  * Connectez votre clé USB au routeur.
+  * Installez le paquet **mkPirateBox** (ici 0.5.1) à l'aide des commandes ci-dessous :
+<code>cd /tmp
+wget http://piratebox.aod-rpg.de/piratebox_0.5.1_all.ipk
+opkg update && opkg install piratebox*</code>
+
+  * Lorsque l'installation est terminée, débranchez le routeur.
+
+<note tip>L'installation devrait faire apparaître un nouveau réseau sans fil : **PirateBox : Share Freely**. Le service de partage est désormais opérationnel !</note>
+
+===== Voir aussi =====
+
+  * **(en)** [[http://wiki.daviddarts.com/PirateBox|Wiki officiel]]
+  * **(fr)** [[http://pirateboxfr.com/|Tutoriels et informations en français]]
+  * **(fr)** [[http://mypiratebox.com/|Carte des PirateBox]]

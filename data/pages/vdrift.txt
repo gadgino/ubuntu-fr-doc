@@ -1,0 +1,62 @@
+{{tag>Xenial jeu course}}
+----
+
+====== VDrift ======
+**VDrift** est un jeu vidéo libre en 3D qui permet de se retrouver dans la peau d'un pilote de course.
+Les graphismes sont vraiment très soignés, la simulation quasi-parfaite ( joystick/volant recommandé ), et l'IA assez développée.
+
+La dernière version a comblé le plus gros manque de ce jeu : les collisions ! Dorénavant, sous VDrift, vous pourrez profiter de collisions entre voitures. Bien qu'un peu gourmand, vous pouvez aisément jouer à VDrift avec une configuration modeste. 
+
+Le jeu en réseau est actuellement désactivé pour cause de refonte du module de réseau.
+
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+Le dépôt de jeu Playdeb facilite grandement l'installation de ce jeu :
+  * [[:getdeb#comment_ajouter_le_depot_de_playdeb|ajoutez le dépôt Playdeb]],
+  * puis [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]],
+  * enfin, [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>vdrift]]**.
+
+===== Ajouter des Voitures =====
+
+Lorsque vous téléchargez Vdrift, seules quelques voitures sont incluses.
+
+Pour en avoir d'avantage, rendez vous sur [[http://cars.vdrift.net/]]. Dans le menu, cliquez sur "View cars" et "View all cars" dans la page suivante. La collection est pour l'instant assez réduite.
+
+Pour ma part, je choisirais la Nissan Skyline R32 (celle du screen ci-dessus). Après téléchargement, vous obtenez un .tar.gz, qu'il vous suffira d'extraire dans /usr/share/games/vdrift/data/cars/
+=====Configuration=====
+==== Ajouter des Circuits ====
+
+Choisissez [[http://wiki.vdrift.net/index.php?title=Getting_tracks|ici]] le circuit mythique sur lequel vous révez de conduire ! Pour ma part, ce sera Laguna Seca. Sous la liste de fichiers qui apparaît, trouvez le "Download GNU tarball" bien caché, afin d'obtenir un .tar.gz. Il vous suffira de l'extraire dans **/usr/share/games/vdrift/data/tracks/**
+
+//Toyota Celica dans la fameuse épingle à Laguna Seca//
+
+==== Créer ses propres mods ==== 
+
+Pour créer ses propres voitures et circuits, vous pouvez utiliser [[:blender|Blender3D]], ainsi qu'une bonne dose de courage et d'acharnement...
+
+Le wiki VDrift est là pour vous aider : [[http://wiki.vdrift.net/index.php?title=Creating_cars|créer des voitures]] et [[http://wiki.vdrift.net/index.php?title=Creating_tracks|créer des circuits]].
+N'hésitez pas à partager vos créations !
+
+===== Désinstallation =====
+ 
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+=====  Voir aussi ===== 
+
+  * Article sur VDrift dans le magazine de la communauté Ubuntu [[fullcircle_fr|Fullcircle]] N°6: [[http://dl.fullcirclemagazine.org/issue6_en.pdf|Issue #6]]
+
+  * Détails de l'installation de Vdrift sous Linux, sur le wiki de Vdrift : [[http://wiki.vdrift.net/Installing_on_Linux]]
+
+  * Détails de la compilation de Vdrift sous Linux, sur le wiki de Vdrift : [[http://wiki.vdrift.net/Compiling]]
+
+  *[[http://www.playdeb.net/updates/VDrift|playdeb.net]]
+
+----
+
+//Contributeurs :
+
+[[:utilisateurs/htapuotit|Htapuotit]] (titoupath)

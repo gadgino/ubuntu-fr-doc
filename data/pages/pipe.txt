@@ -1,0 +1,54 @@
+{{tag>console shell BROUILLON}}
+----
+
+====== Pipe : chaîner les commandes ======
+
+Un "pipe" ou "tuyau" permet de passer le résultat d'une commande shell à une autre commande shell .
+
+CONCATÉNATION : Alt Gr + 6 (le 6 dans partie alphabétique du clavier)
+
+===== Pourquoi faire ? =====
+
+
+
+==== Parce qu'on peut pas faire autrement ====
+===C'est le cas notamment lorsqu'on veut trier les données envoyées par une commande :===
+
+  du | sort -nr | less
+
+
+==== Pour aller plus vite : étude de cas avec tar, bzip2, split et mysqldump ====
+
+
+=== Commandes utilisées ===
+
+  mysqldump --host=localhost --user=root --password=MonMotDePasse MaBaseDeDonnee > fichier_intermediaire.sql
+
+  tar --create --file fichier_intermediaire.tar dossier_source
+
+  bzip2 fichier_intermediaire
+
+  split --numeric-suffixes --bytes=3k fichier_intermediaire.tar.bz2 prefixe_du_fichier_destination.tar.bz2.
+
+=== tar + bzip ===
+  tar  --create --file  - dossier_source | bzip2 > fichier_destination.tar.bz2
+
+<note tip>Le tube n'est en fait pas indispensable ici, car la commande tar accepte l'option de compression - -bzip2</note>
+  tar --bzip2  --create --file fichier_destination.tar.bz2 dossier_source/
+
+=== tar + bzip + split ===
+  tar --bzip2 --create dossier_source/ | split --bytes=3k --numeric-suffixes  - prefixe_du_fichier_destination.tar.bz2.
+
+=== mysql + bzip ===
+  mysqldump --host=localhost --user=root --password=MonMotDePasse MaBaseDeDonnee |  bzip2 --stdout --quiet --best > fichier_destination.sql.bz2
+
+=== mysqldump + bzip + split ===
+  mysqldump --host=localhost --user=root --password=MonMotDePasse MaBaseDeDonnee |  bzip2 --stdout --quiet --best | split --bytes=1m --numeric-suffixes  - fichier_destination.sql.bz2.
+
+===== D'autres explications =====
+[[http://www.openclassrooms.com/tutoriel-3-62417-les-flux-de-redirection.html#ss_part_4|le chapitre du "Site du Zero"]]
+
+
+
+----
+//Contributeur : [[utilisateurs:BeAvEr]].//

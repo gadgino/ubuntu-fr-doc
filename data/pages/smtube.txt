@@ -1,0 +1,76 @@
+{{tag>Precise Trusty multimédia}}
+----
+
+======SMTube======
+**SMTube** est une application graphique autonome qui permet de rechercher et de lire les vidéos [[https://www.youtube.com|Youtube]] en utilisant le lecteur vidéo de votre système et non celui du navigateur. **SMtube** est distribuée sous [[wpfr>Licence_publique_générale_GNU|licence publique GNU/GPL]]. Bien qu'elle fasse partie du projet [[:SMPlayer]], **SMtube** peut être utilisée avec n'importe quel lecteur multimédia tel que [[:MPlayer]], [[:MPlayer2]], [[:VLC]], [[:Totem]] ou [[:Gnome-MPlayer]].\\
+Il est possible moyennant quelques adaptations, d'utiliser **SMTube** pour [[:capture_video|capturer les vidéos]].
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+====Via les dépôts officiels====
+
+[[:tutoriel:comment_installer_un_paquet|Installer le paquet]] **[[apt>smtube]]** (Non disponible pour [[:precise|Ubuntu Precise 12.04]]. Utilisez alors le [[#via un dépôt PPA|PPA]]).
+
+__[[:trusty|Ubuntu Trusty 14.04]]__: \\
+En raison de changements dans YouTube, la version de SMTube disponible dans les [[:depots|dépôts officiels]] de [[:Trusty|Trusty 14.04]] ne fonctionne plus. Dans ce cas, vous avez la possibilité d'utiliser la nouvelle version disponible [[#via un depot ppa|depuis un PPA]].
+
+====Via un dépôt PPA====
+<note important>Les [[:PPA|dépôts PPA]] sont des dépôts non-officiels. Installer un paquet hors des [[:dépôts]] officiels peut présenter un risque d'instabilité pour votre système. </note>
+
+Une version plus récente de **SMTube** peut être installée à partir d'un [[:ppa|dépôt PPA]]. Pour cela il suffit:
+  - d'[[:ppa|ajouter le PPA]] **ppa:rvm/smplayer**((https://launchpad.net/~rvm/+archive/ubuntu/smplayer)) à vos sources de logiciels;
+  - [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|recharger la liste de vos paquets]];
+  - puis [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>smtube]]**. 
+  - :!: __Attention__: Ce [[:PPA]] contient aussi une version supérieure de [[:SMPlayer]]. Si vous avez installé [[:SMPlayer]] et que vous ne souhaitez pas sa mise à jour vers cette version lors de la prochaine mise à jour de votre système, [[:ppa#suppression_d_un_ppa|retirer ce PPA]] de vos sources de logiciels.  
+Ou dans un [[:terminal]], saisir les [[:commande_shell|commandes]] suivantes: <code>sudo add-apt-repository ppa:rvm/smplayer
+sudo apt-get update
+sudo apt-get install smtube</code> Puis pour retirer le [[:PPA]] de vos sources de logiciels: <code>sudo add-apt-repository ppa:rvm/smplayer --remove </code>
+
+=====Lancement=====
+Lancez l'application depuis le [[:unity#tableau_de_bord_dash|tableau de bord d'Unity]] ou pour les menus classiques, //Son et vidéo - > SMTube//. \\
+Ou dans un [[:terminal]] pour toutes [[:variantes]] en saisissant la [[ :commande_shell|commande]] suivante: <code>smtube</code>
+
+===== Utilisation=====
+Dans la fenêtre, vous trouverez la page principale de Youtube "Les plus populaires" avec son choix de vidéo. Vous pouvez bien sûr utiliser les outils de recherche de la barre des tâches de l'application. Un clic sur la vidéo, le lecteur par défaut s'ouvrira et lira la vidéo. Un clic droit sur la vidéo déroulera un menu pour choisir un autre lecteur.;-)
+
+Pour changer de lecteur par défaut, il suffit de modifier l'ordre de ceux-ci dans le menu //Vue -> Paramètres// de l'application.
+<note help>
+Si les vidéos **VEVO** refusent de fonctionner, utilisez l'option **//Mettre à jour le code YouTube//** dans le menu d'Aide.</note>
+
+====Capture Vidéo====
+La capture (enregistrement sur un support) des vidéos de Youtube est possible mais Google n'autorisent pas les développeurs à intégrer cette fonction dans leurs applications. 
+
+Par contre, **SMtube** n'est pas limité à des lecteurs multimédias. Vous pouvez tout aussi bien vous-même ajouter au lieu d'un lecteur, une application de capture déjà présente dans votre système à la liste des lecteurs.\\
+Dans ce cas, la vidéo ne sera pas joué, elle sera alors téléchargé.
+
+===4.1.1 Configuration===
+Avant tout, il est nécessaire d'installer une application de capture de vidéo Youtube. Un exemple avec [[:Youtube-dl]]:
+  - Une fois [[:Youtube-dl]] installée dans votre système, lancer **SMtube**;
+  - Se rendre dans le menu //Vue -> Paramètres//, une nouvelle fenêtre s'ouvre;
+  - Sur la partie droite, cliquer sur "**+**";
+  - Dans la boîte de dialogue, remplir les champs avec les lignes suivantes:\\ **Nom:** youtube-dl \\ **Executable:** xterm \\ **Paramètres:** -e youtube-dl %u -f 22 -o "/tmp/%(title)s-%(id)s.%(ext)s"
+  - Cocher la case: **Ce lecteur supporte les sites vidéos.**
+  - Valider et fermer la fenêtre de configuration.
+
+===4.1.2 Utilisation===
+Dans **SMtube**, il suffit d'un clic droit sur la vidéo, de choisir dans le menu l'application de capture **Youtube-dl**. La vidéo se chargera selon les [[:youtube-dl#utilisation|modalités de configuration de Youtube-dl]]
+
+
+[[http://blog.smplayer.info/how-to-download-videos-with-the-new-smtube/|Source: page du blog officiel (en)]].
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]].
+Selon la méthode choisie, le configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi =====
+
+  * **(en)** [[http://www.smtube.org/|Site officiel]]
+  * [[:Minitube]]
+
+----
+
+//Contributeurs://

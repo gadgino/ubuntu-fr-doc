@@ -1,0 +1,241 @@
+{{tag>trusty xenial serveur}}
+
+----
+====== Modules pour PHP ======
+
+
+Cette page vise à présenter certains modules pour PHP qui pourraient vous être utile et l'intérêt qu'ils apportent.
+
+Vous pouvez vérifier qu'il existe pour votre version, en faisant une recherche dans les pages des packages:\\
+Par exemple pour [[xenial]] : [[http://packages.ubuntu.com/xenial/php/]]
+
+<note important>
+Pour les versions récentes, ne spécifiez pas de version, le système installera la dernière version… 7.*. \\
+les modules préfixés par **php5** ont encore cours avec [[trusty]],
+
+Par exemple //php5-curl// sous trusty devient //php7.0-curl//, plus simplement accessible par //php-curl//.
+</note>
+
+===== php-pear =====
+
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>php-pear]]**.
+
+Pour installer une extension:
+  sudo pecl install extname
+<note>
+Pour l'installation d'extensions via pecl (par exemple json) Il peut être parfois nécessaire d'installer le paquet [[apt>php-dev]] pour éviter les erreurs de dépendances tel que:
+  ERROR: `phpize' failed
+</note>
+
+Plus d'information [[http://www.php.net/manual/fr/install.pecl.php|ici]].
+
+===== php-intl =====
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>php-intl]]**.
+
+
+===== php-cli =====
+//cli// pour //Command Line Interface//, permet d'utiliser php en ligne de commande. Vous pourrez alors :
+exécuter un script php sans passer par un navigateur web (très pratique pour lancer des scripts de maintenance en [[cron]] par exemple)
+  php /chemin/vers/fichier.php
+obtenir la liste des modules compilés avec PHP et ZEND et chargés
+  php -m
+exécuter une commande directement en php
+  php -r '$var = "salut"; echo $var;'
+
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>php-cli]]**.
+
+Sachez que php-cli a son propre php.ini, vous en aurez sans doute besoin pour activer mysql (sans quoi vous aurez une erreur à l'exécution de vos scripts utilisant mysql.)
+ Pour éditer le fichier:
+ sudo vim /etc/php5/cli/php.ini
+
+
+Vous trouverez plus d'informations sur php en ligne de commande dans la page de manuel de la commande //php// et [[http://fr2.php.net/features.commandline|ici]].
+
+===== php-imagick =====
+ImageMagick sert, comme GD à générer et manipuler des images.
+
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] [[apt>php-imagick]].
+
+Et ensuite saisissez cette commande dans un terminal pour que les modification soient prise en compte :
+   sudo /etc/init.d/apache2 force-reload
+
+Vous trouverez plus d'informations sur la librairie ImageMagick sur http://fr.php.net/imagick
+
+
+===== php-gd =====
+En général, PHP sert à générer des pages HTML. Avec les librairies GD, vous pouvez créer et manipuler des images avec PHP. vous pouvez l'utiliser par exemple pour générer des graphiques dynamiquement et "à la volée".
+
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>php-gd]]**.
+
+Et ensuite saisissez cette commande dans un terminal pour que les modification soient prise en compte :
+   sudo /etc/init.d/apache2 force-reload
+   
+ou encore
+   sudo service apache2 reload
+Vous trouverez plus d'informations sur les librairies GD sur http://fr.php.net/gd
+
+__**Support GD sous PHP**__
+
+FIXME
+La mise en place du serveur WEB standard sous Ubuntu pose un problème lors de l'utilisation de la librairie GD. Certaines fonctions ne sont pas implémentées.
+
+Pour remédier à ce problème, il est proposé de re-compiler PHP avec le support natif de GD.
+
+Pour ce faire commencez par installer les outils de compilation :
+   sudo apt-get install build-essential
+
+
+**Téléchargement et compilation des codes sources FreeType**
+FIXME
+Placez-vous dans le répertoire que vous souhaitez, dans cet article il a été créé un répertoire  //php// dans le répertoire home :
+   mkdir /home/php
+   cd /home/php
+
+Pour télécharger FreeType, on exécute la commande :
+   wget http://sourceforge.net/projects/freetype/files/freetype2/2.7.1/freetype-2.7.1.tar.gz/download -O freetype-2.7.1.tar.gz
+
+On décompresse les sources :
+   tar -zxvf freetype-2.7.1.tar.gz
+
+On se place dans le répertoire fraîchement décompressé :
+   cd /home/php/freetype-2.7.1
+
+On prépare la compilation :
+   ./configure
+
+On compile :
+   make
+
+On installe la compilation :
+   sudo make install
+
+
+__**Téléchargement et compilation des codes sources PHP**__
+
+On installe les paquets suivants utiles à la compilation de PHP :
+   sudo apt-get install libpng12-dev libjpeg8-dev zlib1g gawk bison flex ^libxml2-* mcrypt libmcrypt-dev apache2-prefork-dev
+   sudo apt-get install perl libicu-dev libxslt1-dev libcurl4-openssl-dev
+
+On se place dans le répertoire précédemment créé :
+   cd /home/php
+
+Pour télécharger PHP, on exécute la commande (cette ligne est valable uniquement pour le 10-05-2012 à 5:30 :D, il faut aller sur http://snaps.php.net pour récupérer le "dernier" bon fichier):
+   wget http://fr2.php.net/get/php-7.1.4.tar.bz2
+
+On décompresse les sources :
+   tar -zxvf php-7.1.4.tar.bz2
+
+On se place dans le répertoire fraîchement décompressé :
+   cd /home/php/php7.1.4*
+
+Avant de lancer la ligne de configuration pour la compilation, nous allons rechercher l'emplacement des fichiers suivants : //php.ini, mysqld.sock// et //mysql.h//
+
+L'objectif est d'essayer de rester conforme à l'installation d'UBUNTU. Les fichiers devraient se trouver dans les répertoires :
+  * pour php.ini : /etc/php/7.0/apache2/
+  * pour mysqld.sock : /var/run/mysqld/
+  * pour mysql.h : /usr/include/mysql/mysql.h
+
+On installe les sources de mysql pour trouver le mysql.h 
+la commande pour trouver le fichier : find / -name mysql.h):
+pour installer les sources : 
+   sudo apt-get install libmysqlclient-dev
+On prépare la compilation par la commande suivante :
+   ./configure --prefix=/usr/ --with-apxs2=/usr/bin/apxs2 --with-config-file-path=/etc/php5/apache2 --disable-ipv6 --enable-inline-optimization --disable-debug --enable-bcmath --enable-calendar --with-curl --enable-ctype --enable-dbase --enable-discard-path --enable-exif --enable-ftp --with-gd --with-freetype-dir --with-jpeg-dir --with-png-dir --enable-gd-native-ttf --enable-magic-quotes --enable-mbstring --with-mcrypt --with-mysql-dir=/usr/ --with-pdo-mysql --enable-soap --with-pear --with-xsl --with-zlib --with-openssl --enable-sockets --with-mysql-sock=/var/run/mysqld/mysqld.sock --with-mysqli --enable-zip --with-tidy=/usr/ --with-bz2
+(Il est vivement conseillé de faire une sortie vers un fichier)
+<note important>10/05/2012 : Si vous obtenez une erreur lors de la configuration, il se peut que ce soit réglé en installant les paquets **[[apt>libmysqlclient16-dev]]** et **[[apt>mysql-source-5.1]]** (vérifier les numéros de versions pour installer les plus récentes)</note>
+<note important>Dans mon cas, erreur apxs2 introuvable, résolu avec : ''sudo apt-get install apache2-prefork-dev''</note>
+
+On compile :
+   make
+On installe la compilation avec :
+   sudo make install --ignore-errors
+Le make install ne fonctionnera pas car sous UBUNTU les fichiers ne sont pas placés dans les répertoires attendus.
+
+Et, on redémarre apache et mysql :
+   sudo /etc/init.d/apache2 restart
+   sudo /etc/init.d/mysql restart
+
+
+(La compilation de PHP avec le support de GD varie fonction de la distribution d'UBUNTU, veuillez vous référer au fil de discussion suivant [[http://forum.ubuntu-fr.org/viewtopic.php?id=263186]] pour tout problème rencontré ou contacté l'utilisateur [[http://forum.ubuntu-fr.org/profile.php?id=134430]])
+
+===== php-sqlite =====
+
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>php-sqlite]]**.
+
+Ce module permet de faire l'interface avec le moteur de base SQLite Embeddable SQL Database Engine. SQLite est une bibliothèque C qui met en place un moteur de bases de données SQL embarqué. Les programmes qui utilisent SQLite peuvent disposer d'un accès à une base de données SQL, sans avoir à faire tourner d'autre processus serveur.
+
+SQLite n'est pas un logiciel client pour se connecter à un grand nom des bases de données. SQLite est le serveur.
+
+Ce module permet donc d'utiliser les fonctions de la bibliothèque SQLite pour pouvoir lire et écrire directement dans les fichiers de bases de données se trouvant sur le disque dur. 
+
+Pour plus d'informations sur SQLite : http://sqlite.org/
+
+===== php-mongodb =====
+
+Le module php-mongodb remplace le module obsolète php-mongo.
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>php-mongodb]]**.
+
+===== php-xsl =====
+
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>php-xml]]**.
+
+XSL (eXtensible Stylesheet Language) est le langage de description de feuilles de style du W3C associé à [[wpfr>XML|XML]].
+
+Une feuille de style XSL est un fichier qui décrit comment doivent être présentés (c'est-à-dire affichés, imprimés, épelés) les documents XML (l'équivalent du CSS pour HTML).
+
+Ce module permet donc à PHP d'utiliser les fonctions permettant la mise en forme d'un document XML.
+De plus, il inclut les librairie du langage [[wpfr>Extended_stylesheet_language_transformations|XSLT]],  permettant ainsi la transformation d'un document XML vers un autre, ou vers un autre dialecte XML (XHTML, XSL-FO, HTML, etc ...).
+
+Plus d'info [[http://fr.php.net/xsl|ici]]
+
+===== php-mcrypt =====
+
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[aptphp-intlphp-mcrypt]]**.
+
+Ce module permet à PHP d'utiliser les fonctions crypt() et crypt(1) de la bibliothèque mcrypt. Utile si vous voulez chiffrer une donnée importante en laissant le soin aux utilisateurs de la déchiffrer.
+
+mcrypt dispose d'une grande variété d'algorithmes de chiffrement, tels DES, TripleDES, Blowfish (par défaut), 3-WAY, SAFER-SK64, SAFER-SK128, TWOFISH, TEA, RC2 et GOST en modes CBC, OFB, CFB et ECB. De plus, elles acceptent aussi RC6 et IDEA qui sont considérés comme "non-libres".
+
+===== php-curl =====
+
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>php-curl]]**.
+
+PHP supporte **libcurl**, une bibliothèque créée par Daniel Stenberg, qui vous permet de vous connecter, de communiquer avec de nombreux serveurs, grâce à de nombreux protocoles. 
+
+libcurl supporte actuellement les protocoles suivants : HTTP, HTTPS, FTP, gopher, telnet, dict, file, et LDAP. libcurl supporte aussi les certificats HTTPS, les POST HTTP, PUT HTTP, le chargement par FTP (ce qui peut être fait par l'extension FTP), les chargements par formulaire HTTP, les proxies, les cookies et l'identification par mot de passe et nom d'utilisateur.
+
+**Exemple :** Utilisation de cURL pour récupérer le contenu d'une page et l'enregistrer dans un fichier texte.
+
+<code php>
+<?php
+
+$ch = curl_init("http://www.example.com/");
+$fp = fopen("example_homepage.txt", "w");
+
+curl_setopt($ch, CURLOPT_FILE, $fp);
+curl_setopt($ch, CURLOPT_HEADER, 0);
+
+curl_exec($ch);
+curl_close($ch);
+fclose($fp);
+?>
+</code>
+
+Plus d'info sur cURL et PHP [[http://www.php.net/manual/fr/ref.curl.php|ici]].
+
+===== php-zip =====
+
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>php-zip]]**.
+
+===== php-imap =====
+"Internet Message Access Protocol (IMAP) est un protocole utilisé par les serveurs de messagerie électronique, fonctionnant pour la réception." - Wikipédia
+
+Ce paquet fournit un module pour les fonctions IMAP dans les scripts PHP. Il est employé dans de nombreux logiciels tel que VTigerCRM pour gérer des fonctions de messagerie.
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>php-imap]]**.
+
+
+===== XCache =====
+
+XCache est un accélérateur PHP : [[xcache]]
+
+Contributeurs: [[:utilisateurs:_Enchained]], [[:utilisateurs:Fengy]], [[:utilisateurs:uderline]], PCB, TounokiNico pour php-zip, [[:utilisateurs:bcag2]] 

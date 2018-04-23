@@ -1,0 +1,99 @@
+{{tag>webcam sécurité vidéosurveillance}}
+
+----
+
+====== Kmotion ======
+===== Présentation =====
+
+**Kmotion** est un logiciel libre (écrit en [[python]]) de [[vidéosurveillance]] permettant de gérer jusqu'à 16 cameras ([[webcam]]) avec le logiciel libre [[motion]]  à travers une interface web, et facilite ainsi l'utilisation de [[motion]].
+
+{{ :kmotion:kmotion_v2.jpg?nolink |}}
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir une [[:Webcam|webcam]] qui fonctionne. (pour vérifier l'installation de votre webcam saisir dans un terminal  : <code>gstreamer-properties</code> dans Video/Test, le test devrait afficher l'image de votre webcam).
+
+=====Installation=====
+<note>
+motion doit être stoppé, et ne doit pas se lancer au démarrage de la machine.
+</note>
+====Version 2====
+=== Prérequis ===
+
+kmotion v2 a les dépendances suivantes :
+
+   * [[apache2]] ...             v2.2.x 
+   * apache2 python module   v3.3.x 
+   * [[motion]] ...              v3.2.x
+   * [[python]] ...              v2.4.x
+
+**[[apt>apache2 libapache2-mod-python motion python]]**
+
+ou
+
+<code bash>
+sudo apt-get install apache2 libapache2-mod-python motion python
+</code>
+=== Installation ===
+
+   * Télécharger la dernière version <del>[[http://kmotion.eu/mediawiki/index.php/Downloads_v2|ici]] ([[http://kmotion-v2-code.googlecode.com/files/kmotion_2.15a_Beta.tar.gz|Lien direct pour la version 2.15a]])</del> Lien mort.
+   * Il est possible de trouver les versions [[https://code.google.com/p/kmotion2/downloads/list|sur code.google.com]]
+   * Décompresser
+ (il faut rendre les scrypt *.py exécutables)
+   * Aller dans le dossier parent de kmotion
+   * Lancer dans un terminal :
+<code>
+sudo chmod -R a+rx kmotion
+</code>
+   * Aller dans le répertoire kmotion.
+<code>
+cd /kmotion
+</code>
+   * Lancer dans un terminal :
+<code>
+sudo ./install.py 
+kmotion start
+</code>
+
+====Version 3 ( en développement) ====
+
+Lancez dans un terminal le téléchargement de la version 3 avec [[subversion|svn]] :
+<code>
+svn checkout http://kmotion3.googlecode.com/svn/trunk/ kmotion3-read-only
+</code>
+
+__Placez vous dans le répertoire puis :__
+
+<code>
+sudo ./install.py 
+kmotion start
+</code>
+=====Configuration=====
+
+Voir également les options de [[motion]], et son fichier de configuration qui est utilisé par kmotion pour le lancement de motion, les threads pour différentes caméra sont rajoutés par la suite.
+
+Vous pouvez ajouter au démarrage de la machine
+   * chromium-browser http://kmotion:kmotion@localhost:8085
+
+Dans la configuration changer de mot de passe pour des raison de sécurité
+=====Désinstallation=====
+    * Aller dans le répertoire kmotion.
+    * Lancer dans un terminal :
+<code>
+sudo ./uninstall.py
+</code>
+
+===== Liens externes =====
+
+   * <del>[[http://kmotion.eu/|Site officiel]]</del> lien mort
+   * https://code.google.com/p/kmotion2/
+   * une page d’intérêt [[http://lyc-curie-bolbec.ac-rouen.fr:82/bulan/?q=node/10|sous Debian, mais c'est pas grave]]
+   * [[http://blog.kmotion.eu/|Blog pour la version 3]]
+   * [[motion]]
+
+
+----
+
+//Contributeurs : [[:utilisateurs:psychederic|Psychederic]],  .amalric. …//

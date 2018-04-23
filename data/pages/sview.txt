@@ -1,0 +1,66 @@
+{{tag>stéréoscopie}}
+
+----
+
+====== sView ======
+
+sView est un logiciel de visualisation d'[[stereoscopie|images stéréoscopiques]] et de [[stereoscopie|vidéos stéréoscopiques]]. Ce logiciel est toujours en développement bien que la dernière bêta date de février 2010. Le logiciel a d'abord été créé pour les systèmes Microsoft® Windows mais l'auteur a voulu faire un portage Linux. Cependant, l'interface graphique ne s'adapte pas très bien avec Gnome.
+
+<note warning>Depuis 11.10 (Oneiric) sView ne fonctionne plus sur Ubuntu. Il manque plusieurs dépendances qui ne sont pas portées sur cette nouvelle version:
+         sView : Dépend: libavcodec52 (>= 3:0.svn20090303-1) mais il n'est pas installable ou
+                  libavcodec-extra-52 (>= 3:0.svn20090303-1) mais il n'est pas installable
+                 Dépend: libavformat52 (>= 3:0.svn20090303-1) mais il n'est pas installable ou
+                  libavformat-extra-52 (>= 3:0.svn20090303-1) mais il n'est pas installable
+                 Dépend: libswscale0 (>= 3:0.svn20090303-1) mais il n'est pas installable ou
+                  libswscale-extra-0 (>= 3:0.svn20090303-1) mais il n'est pas installable
+                 Dépend: libdevil1c2 mais ne sera pas installé
+                 Dépend: libconfig++8 mais ne sera pas installé
+                 Dépend: libftgl2 (>= 2.1.3~rc5) mais ne sera pas installé
+ </note>
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * OpenGL2.0+ (avec support GLSL1.1+) ce qui veut dire qu'un driver propriétaire pour votre GPU est nécessaire (dans la plupart des cas).
+
+===== Installation =====
+
+  * [[:tutoriel:comment_modifier_sources_maj#modifier_les_sources_de_mises_a_jour|Ajoutez le dépôt]] suivant à vos sources de logiciels : 
+<file>
+deb http://sview.ru/repository/deb/ stable non-free
+</file>
+
+  * Ensuite téléchargez la clé d'authentification en saisissant dans un [[terminal]] la commande suivante :
+<code>
+wget -q http://sview.ru/repository/deb/apt.key -O- | sudo apt-key add - 
+</code>
+
+
+  * Finalement, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt://sview|sView]]**.
+ 
+
+===== Utilisation=====
+
+Après l'installation, un raccourci (//Applications>Son et Vidéos>sView//) est créé dans le menu mais il est aussi possible d'utiliser sView en ligne de commande:
+
+<code>sView --in=image</code>
+
+<code>sView --in=video</code>
+
+<code>sView media_file_name</code>
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. La configuration de l'application sera conservée ou supprimée selon la méthode de désinstallation que vous choisirez.
+
+===== Logiciels équivalents =====
+
+  * [[Tux Stereo Viewer]] Logiciel de visualisation d'images stéréoscopiques.
+  * [[Tux Stereo Player]] Logiciel de lecture de vidéos stéréoscopiques.
+
+===== Voir aussi =====
+
+  * **(en)** [[http://www.sview.ru/en/|Site officiel]]
+
+----
+
+//Contributeurs : [[:utilisateurs:Magestik]].//

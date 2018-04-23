@@ -1,0 +1,44 @@
+{{tag>Precise Trusty Xenial montage_video }}
+----
+ 
+====== slowmoVideo ======
+ 
+slowmoVideo est un programme OpenSource pour la création de vidéos en slow-motion videos à partir de vos séquences vidéos en stopmotion.
+
+Son but n'est pas seulement de passer vos vidéos en 0.01 fois leur vitesse originale. Vous pouvez ralentir et accélérer vos séquences, avec en option l'ajout de flou de mouvement.
+
+Comment ça marche ?
+slowmoVideo essaie de trouver les zones de mouvements des pixels dans la vidéo (information appelée Optical Flow), et utilise ces informations pour créer les images additionnelles.
+ 
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+ 
+===== Installation =====
+
+<note important>Le développement semble avoir été arrêté à partir d'Ubuntu Saucy (13.10), dernière version d'Ubuntu supportée par slowmovideo.</note>
+ 
+
+[[ppa|Ajoutez à vos sources de logiciels le PPA]] suivant : **ppa:brousselle/slowmovideo**((https://launchpad.net/~brousselle/+archive/slowmovideo)).
+
+Rechargez la liste des paquets, puis installez le paquet : **[[apt>slowmovideo]]**.\\
+
+À partir d'Ubuntu 14.04 il faut [[:tutoriel:comment_modifier_sources_maj|modifier vos sources de mises à jour]] pour y ajouter le dépôt suivant :
+<file>deb http://ppa.launchpad.net/brousselle/slowmovideo/ubuntu saucy main</file>
+
+===== Utilisation =====
+ 
+Lancez l'application via le [[:unity#tableau_de_bord_dash|tableau de bord]] ou via le [[:terminal]] (toutes versions d'Ubuntu) avec la [[:commande_shell|commande]] suivante : <code>slowmoUI</code>
+ 
+===== Désinstallation =====
+ 
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+ 
+===== Voir aussi =====
+ 
+  * Site du logiciel: **(en)** [[http://slowmovideo.granjow.net/index.html|slomovideo]]
+ 
+----
+//Contributeurs principaux : [[utilisateurs:mimilus|mimilus]], [[utilisateurs:autre_identifiant|nom ou pseudo autre]].//

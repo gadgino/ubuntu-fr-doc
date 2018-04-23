@@ -1,0 +1,112 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#qu_est-ce_que_cron" class="toc"> Qu'est-ce que Cron ? </a></span></li>
+<li class="level1"><span class="li"><a href="#comment_fonctionne_cron" class="toc"> Comment fonctionne Cron ? </a></span></li>
+<li class="level1"><span class="li"><a href="#commande_pour_cron" class="toc"> Commande pour Cron </a></span></li>
+<li class="level1"><span class="li"><a href="#autres_considerations" class="toc"> Autres Considérations </a></span></li>
+</ul>
+</div>
+</div>
+
+<p>
+<em>Traduction libre de <a href="http://wiki.ubuntu.com/CronHowto" class="urlextern" title="http://wiki.ubuntu.com/CronHowto" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">CronHowto</a></em>
+</p>
+
+<p>
+Rédigé par <a href="/utilisateurs/manu" class="wikilink1" title="utilisateurs:manu" onclick="return svchk()" onkeypress="return svchk()">manu</a>.
+</p>
+
+<a name="qu_est-ce_que_cron"></a><h1> Qu'est-ce que Cron ? </h1>
+<div class="level1">
+
+<p>
+ <strong>Cron</strong> est un <em>daemon</em> utilisé pour programmer des tâches devant être exécutées à un moment précis.  Chaque utilisateur a un fichier <strong>crontab</strong>, leur permettant d&rsquo;indiquer les actions et à quelles  périodes, elles devront être exécutées.  Il y a également une <strong>crontab</strong> pour le système, permettant les tâches techniques, pour la mise à jour des différents programmes ou autres besoins périodiques .
+</p>
+
+</div>
+<!-- SECTION [110-570] -->
+<a name="comment_fonctionne_cron"></a><h1> Comment fonctionne Cron ? </h1>
+<div class="level1">
+
+<p>
+ Pour utiliser <strong>cron</strong>, ajoutez simplement les entrées à votre fichier <strong>crontab</strong>. Une entrée dans <strong>crontab</strong> donne, par exemple, l&rsquo;heure,(et la date si non périodique) et la commande à lancer:
+</p>
+<pre class="code">
+        5 3  * *  * /usr/bin/apt-get update
+</pre>
+
+<p>
+La première partie de l&rsquo;entrée de <strong>crontab</strong> décrit quand l&rsquo;action sera effectuée. Il y a cinq champs, séparés par un espace, dont chacun est paramétré soit par, un nombre, une étoile (*), ou le texte approprié.  Les champs sont, dans l&rsquo;ordre, <em>minute</em>, <em>heure</em>, <em>jour du mois</em>, <em>mois</em> et <em>jour de la semaine</em>.  Le mois et le jour de la semaine permettent l&rsquo;utilisation d&rsquo;une abréviation (suivant les jours et mois en anglais), telle que <strong>jan</strong> pour janvier (January) ou <strong>thu</strong> pour jeudi (Thursday).
+</p>
+
+<p>
+L&rsquo;exemple ci-dessus exécutera <em>/usr/bin/apt-get update</em>, chaque jour, de chaque mois à 03:05 (le <strong>cron</strong> fonctionne sur 24 h).  Vous pouvez faire tourner <strong>cron</strong> toutes les 5 minutes tout au long de la journée de travail (9am-5pm) avec un message:
+</p>
+<pre class="code">
+            */5 9-17  * * mon,tue,wed,thur,fri wall &quot;Où en es tu ?&quot;
+</pre>
+
+<p>
+ ou vous rappelez un anniversaire à 9h du matin le 10 janvier chaque année:
+</p>
+<pre class="code">
+        0 9 10 jan  * echo &quot;C'est l'anniversaire de ta Maman aujoud'hui !&quot; &gt; ~/readme
+</pre>
+
+</div>
+<!-- SECTION [571-1921] -->
+<a name="commande_pour_cron"></a><h1> Commande pour Cron </h1>
+<div class="level1">
+
+<p>
+ Pour regarder le contenu de votre <strong>crontab</strong> ,tapez:
+</p>
+<pre class="code">
+         crontab -l
+</pre>
+
+<p>
+Pour éditer le fichier de votre <strong>crontab</strong>, tapez:
+</p>
+<pre class="code">
+       crontab -e
+</pre>
+
+<p>
+Quand vous sortez de l&rsquo;éditeur, le nouveau fichier <strong>crontab</strong> sera installé.  Le fichier est stocké dans <em>/var/spool/cron/crontabs</em> mais doit seulement être édité par l&rsquo;intermédiaire de la commande <strong>crontab</strong>.
+</p>
+
+</div>
+<!-- SECTION [1922-2356] -->
+<a name="autres_considerations"></a><h1> Autres Considérations </h1>
+<div class="level1">
+
+<p>
+ Les commandes ci-dessus sont stockées dans un fichier <strong>crontab</strong> appartenant à votre compte d&rsquo;utilisateur et exécutées avec votre niveau des permissions. Si vous voulez éxécuter, régulièrement, une commande exigeant un plus haut niveau de permission (root), vous devez utiliser le fichier <strong>crontab</strong> root (ou racine):
+</p>
+<pre class="code">
+       sudo crontab -e
+</pre>
+
+<p>
+Selon les commandes à exécuter, vous devrez changer la variable <em>PATH</em> des utilisateurs ayant les droits <em>root</em> en mettant la ligne suivante au dessus de leurs fichiers <strong>crontab</strong>:
+</p>
+<pre class="code">
+       PATH=/usr/sbin:/usr/bin:/sbin:/bin
+</pre>
+
+<p>
+Il est important de vérifier que vos travaux dans <strong>cron</strong> fonctionnent comme prévu. Une méthode pour faire un test est de paramétrer le travail dans la <strong>crontab</strong> pour qu&rsquo;il se fasse quelques minutes plus tard et de vérifier les résultats avant de mettre, la synchronisation de cette tache, à la bonne heure. Vous pouvez également trouver utile de mettre les résultats des commandes dans un fichier texte qui notent les succès ou les échec, par exemple:
+</p>
+<pre class="code">
+       echo &quot;Sauvegarde de nuit: $(date)&quot; &gt;&gt; /tmp/mybackup.log
+</pre>
+
+<p>
+Pour plus d&rsquo;information, regardez les pages du <em>man</em> pour <strong>cron</strong> et <strong>crontab</strong> (le <em>man</em> est détaillé sur <a href="/console/ligne_de_commande" class="wikilink1" title="console:ligne_de_commande" onclick="return svchk()" onkeypress="return svchk()">les commandes basiques</a>). Si votre machine est régulièrement éteinte, vous pouvez également être intéréssé par <strong>at</strong> (fait partie de l&rsquo;installation de base d&rsquo;Ubuntu ) et <strong>anacron</strong> (à trouver dans le dépôt `universe repository`) qui fournissez d&rsquo;autres approches aux tâches programmées. 
+</p>
+
+</div>
+<!-- SECTION [2357-] -->

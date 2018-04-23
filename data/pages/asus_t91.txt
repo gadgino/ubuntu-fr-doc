@@ -1,0 +1,186 @@
+{{tag>Karmic netbook asus poulsbo}}
+
+----
+
+====== Asus T91 ======
+
+{{:eeepc:eeepct91.jpg|Asus Eee PC T91}}
+
+===== En un coup d’œil =====
+
+Légende :
+  * {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} : **Fonctionne immédiatement**
+  * {{wiki:modeles:laptop_work.png|Fonctionne après config}} : **Fonctionne après quelques manipulations**
+  * {{icons:process-stop.png?36|Ne fonctionne pas}} : **Ne fonctionne pas**
+  * {{icons:icon-support.png|Pas testé}} : **Pas d'informations disponibles**
+
+
+^ Version ^ Installation ^ Carte graphique ^ Dalle tactile ^ Son ^ Wifi ^ Bluetooth ^ Webcam ^ Touchpad ^ Raccourcis multimédia ^
+| [[:karmic|9.10 (Karmic Koala)]] | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{icons:icon-support.png|Pas testé}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} |
+
+
+===== Pré-requis =====
+
+Il est possible d'utiliser Ubuntu ou [[Lubuntu|Lubuntu]].
+
+===== Installation =====
+
+L'installation se déroule sans accroche. Une fois l’installation terminée, plusieurs problèmes restent à régler.
+
+===== Résolution des problèmes =====
+
+==== La carte graphique ====
+
+=== Karmic ===
+
+Il faut installer les pilotes poulsbo pour la carte graphique. Dans un [[terminal]] :
+
+<code>
+wget http://poulsbo-karmic.angelfire.com/files/poulsbo1.tar.gz
+tar -zxvf poulsbo1.tar.gz
+cd poulsbo1
+sudo ./install.pl
+</code>
+
+
+===== À venir =====
+
+  * Le réglage des touches non-fonctionnelles.
+==== Carte son ====
+
+Pour activer le son :
+
+  - Clic droit sur la l'icône du son ;
+  - Préférence ;
+  - Choisir l'option PCM.
+
+==== Calibrage de l’écran tactile ====
+
+[[:tutoriel:comment_installer_un_paquet|Installer le paquet]] suivant : **[[apt://xserver-xorg-input-evtouch|xserver-xorg-input-evtouch]]**
+
+Dans un [[terminal]] entrez les commandes suivantes :
+
+<code>
+sudo /etc/init.d/gdm stop
+sudo /usr/lib/xf86-input-evtouch/calibrate.sh
+</code>
+
+Le logiciel lancé, appuyer sur la touche entrée pour commencer la capture des différentes positions. Appuyer sur chaque croix avec le stylet, puis démarrer une session en saisissant dans un [[terminal]]:
+
+<code>sudo /etc/init.d/gdm start</code>
+
+==== Accélération matérielle ====
+
+  - Saisir dans un [[terminal]] <code>
+sudo cp -p /etc/X11/xorg.conf /etc/X11/xorg.conf.OK-2D
+sudo gedit /etc/X11/xorg.conf
+</code>
+  - Ajouter dans la section Device <file>
+  Option AccelMethod "EXA"
+  Option DRI "on"
+  Option MigrationHeuristic "greedy"
+</file>
+  - Redémarrer
+
+L'option DRI est à mettre à off si l'on ne souhaite que la 2D.
+
+==== Compiz ====
+
+Nécessite l'accélération matérielle. Il suffit de saisir dans un [[terminal]]:
+<code>
+sudo cp -p /usr/bin/compiz /usr/bin/compiz.OK
+sudo gedit /usr/bin/compiz
+</code>
+
+Remplacer 
+<file>
+  WHITELIST="nvidia intel ati radeon i810 fglrx"
+</file>
+
+par
+<file>
+  WHITELIST="nvidia intel ati radeon i810 fglrx psb"
+</file>
+
+Les effets de bureaux sont alors accessibles de la manière classique. Pour les gérer, consultez la page [[:compizconfig-settings-manager|Compiz]].
+
+==== Rotation de l'écran ====
+
+Il suffit de saisir dans un [[terminal]]:
+
+<code>
+sudo gedit /etc/acpi/rotatescreen.sh
+</code>
+
+Remplacer
+
+<file>
+  case "$ROTATION" in
+        right)
+        NEW_ROTATION="normal"
+        ;;
+        *)
+        NEW_ROTATION="right"
+        ;;
+  esac
+</file>
+
+par
+
+<file>
+  case "$ROTATION" in
+        right)
+        NEW_ROTATION="inverted"
+        ;;
+        left)
+        NEW_ROTATION="normal"
+        ;;
+        inverted)
+        NEW_ROTATION="left"
+        ;;
+        *)
+        NEW_ROTATION="right"
+        ;;
+  esac
+</file>
+
+Ensuite, dans un [[terminal]]:
+
+<code>sudo gedit /etc/acpi/events/asus-rotate</code>
+
+Remplacer
+
+<file>
+  event=hotkey ATKD 0000009b
+</file>
+
+par
+
+<file>
+  event=hotkey ATKD 0000007b
+</file>
+
+==== Fonction clic droit lors d’un appui prolongé ====
+
+Dans le menu de gauche : Système > Préférences > Souris > Accessibilité > Déclencher le clic secondaire par le maintien enfoncé du bouton principal.
+
+
+===== Extra =====
+
+Plug-in Firefox facilitant le défilement des pages web [[https://addons.mozilla.org/fr/firefox/addon/1250|Grab and Drag]].
+
+Le paquet **[[apt://easystroke|Easystroke]]** offre un éventail considérable de possibilités d'utilisation de l'écran tactile. Par exemple, la possibilité de faire tourner le cube compiz.
+
+
+===== Voir aussi =====
+
+  * [[http://www.gnu-linux.fr/informatiques/?p=405|GNU-Linux.fr]] (fr)
+  * [[http://ubuntuforums.org/showthread.php?s=5623779d8cd4da49b171decb4a893416&t=1237709|UbuntuForums.org]] (en)
+  * [[http://www.blogeee.net/forum/viewtopic.php?f=201&p=156282|BlogEee.net]] (fr)
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=337693|Discussion du sujet sur le forum d'Ubuntu-Fr.org]] (fr)
+  * [[:poulsbo|Doc d'Ubuntu-Fr.org sur Poulsbo]] (fr)
+  * [[:compizconfig-settings-manager|Doc d'Ubuntu-Fr.org sur Compiz]] (fr)
+
+----
+
+Contributeurs : [[utilisateurs:Anthonn]], [[utilisateurs:Hawkmoon]], [[utilisateurs:Saintraph]], [[utilisateurs:Percherie]]

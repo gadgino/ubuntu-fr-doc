@@ -1,0 +1,63 @@
+{{tag>énergie}}
+
+----
+
+
+====== PowerTOP ======
+<note warning>
+**Note mai 2017: Ce logiciel n'est plus mis à jour depuis fin 2015, il provoque parfois quelques bug dans les fichiers de configuration.**
+</note>
+
+===== Introduction =====
+**PowerTOP** est un petit logiciel développé courant 2007 par Intel afin de diminuer la consommation électrique des portables.
+Il affiche le pourcentage du temps passé dans les différents modes de consommation des processeurs ainsi qu'une liste des programmes qui réveillent le plus le processeur. Enfin, il propose des améliorations pour diminuer les demandes inutiles aux processeurs et économiser ainsi de l'énergie. 
+Selon la page officielle, on peut passer de 4 à 7 heures de batterie.
+
+
+===== Pré-requis =====
+
+Pour utiliser PowerTOP, il faut remplir les conditions suivantes :
+  * Un processeur Intel
+  * Un noyau Linux 2.6.21 ou mieux. (Pour connaître son noyau: **uname -r**)
+  * PowerTOP est principalement utile pour un portable puisqu'il ne peut étudier la consommation que sur batterie.
+
+
+===== Installation =====
+
+Le logiciel Powertop se trouve dans les dépôts officiels. 
+
+[[:tutoriel:comment_installer_un_paquet|Installez-le]] via la paquet [[apt://powertop|powertop]].
+
+
+===== Utilisation =====
+
+Pour avoir accès à toutes les mesures, le programme doit être lancé en tant que root.
+
+Lancez Powertop via cette commade dans un [[:terminal]]:
+  sudo powertop
+
+La fenêtre alors obtenue ressemble à cela :
+
+{{powertop_intrepid.png|}}
+
+==== Explications ====5amer
+  * Les premières lignes montrent le temps passé dans les différents états du processeur, en pourcentage. Dans la capture d'écran ci-dessus, l'utilisateur a passé 96,2% de son temps sur son portable avec son processeur tournant à 800 MHz (fréquence la plus basse ici).
+Les dénominations C0 reflétant l'état où le processeur travail actuellement (CPU en activité) et les C1 à C3 ou C4 les états de repos plus ou moins profonds.
+Le mieux étant de passer le plus de temps en C3-C4. Le temps en milliseconde à coté correspond au temps moyen passé dans cet état.
+
+  * La ligne suivante (encadrée ici en rouge) indique le nombre de réveils depuis un état de repos. Plus ce nombre est bas, moins votre processeur consomme.
+
+  * La ligne en-dessous (Consommation électrique) ne s'affiche que si vous êtes sur la batterie de votre portable. Elle indique la puissance consommée par votre PC et le temps de batterie approximatif qu'il lui reste.
+
+  * Le tableau qui suit indique quelles sont les causes les plus importantes de réveils de votre processeur par ordre décroissant. En résumé, dans cet exemple-ci, les périphériques usb sont les causes les plus importantes de réveils intempestifs (38,4% notamment), augmentant considérablement la consommation de votre portable, et réduisant l'autonomie de ce dernier.
+
+  * Finalement le bas de la fenêtre affiche des conseils pour améliorer toutes ces statistiques. Le conseil de l'exemple donnée par la capture d'écran correspond notamment aux causes de réveils les plus importantes (ici les périphériques usb), afin de gagner en autonomie et réduire la consommation globale.
+
+===== Lien =====
+
+[[https://01.org/powertop/|Page Officielle]] **(en)**
+
+
+----
+//Contributeurs : [[utilisateurs:anonyme]], [[utilisateurs:Astohan]], //
+

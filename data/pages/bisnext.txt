@@ -1,0 +1,136 @@
+====== bisnext ======
+
+bisnext est un outil de collecte d'informations sur le matériel et le système le tout présenté sous la forme d'un rapport afin de faciliter l'identification de la source d'un dysfonctionnement.
+
+===== Usage =====
+Typiquement bisnext est destiné aux utilisateurs qui rencontrent un problème et demandent de l'aide sur le forum. La génération d'un rapport bisnext à joindre à la demande d'assistance facilite la compréhension du problème, le diagnostic et sa résolution. L'idée est de gagner en temps et en efficacité dans les échanges.
+
+bisnext est à l'origine basé sur bootinfoscript dont il reprend le code pour l'analyse de l'amorçage du système et depuis est complété par un nouveau code (c'est un script Bash) pour avoir une vue d'ensemble de l'état du matériel et du système.
+
+Fil de discussion sur le forum 
+[[https://forum.ubuntu-fr.org/viewtopic.php?id=2009017|[bisnext] Collecte d'informations matériel et système]]
+
+===== Installation, génération et publication du rapport depuis une session standard =====
+Dans un terminal, télécharger bisnext :
+<code>wget https://github.com/laurent85v/bisnext/raw/master/bisnext --output-document bisnext</code>
+Installer les paquets nécessaires :
+<code>sudo apt install gawk mesa-utils pastebinit smartmontools --no-install-recommends </code>
+Générer et publier le rapport :
+<code>sudo bash bisnext --pastebin</code>
+Le rapport est alors ouvert dans l'éditeur par défaut, en première ligne est indiqué le lien à fournir afin de pouvoir le consulter sur Internet :
+<code>bisnext report id xxxxx also available at https://paste.debian.net/xxxxxx/</code>
+Si le rapport est trop lourd il n'y a pas de lien, il faut alors le copier et le coller dans son prochain message sur le forum entre balises de code. Publier directement le contenu du rapport sur le forum est aussi une bonne idée, le lien n'étant valide qu'un mois il sera ainsi conservé au-delà.
+===== Installation, génération et publication du rapport depuis une session autonome (live) =====
+Dans un terminal, pour passer en clavier fr copier coller dans le terminal :
+<code>setxkbmap fr</code>
+Télécharger bisnext :
+<code>wget https://github.com/laurent85v/bisnext/raw/master/bisnext --output-document bisnext</code>
+Activer des dépôts nécessaires à l'installation des paquets manquants, le programme détecte et active les dépôts manquants :
+<code>sudo bash bisnext</code>
+Mettre à jour de la liste des paquets :
+<code>sudo apt update</code>
+Installer les paquets nécessaires :
+<code>sudo apt install gawk mesa-utils pastebinit smartmontools --no-install-recommends </code>
+Générer et publier le rapport :
+<code>sudo bash bisnext --pastebin</code>
+Le rapport est alors ouvert dans l'éditeur par défaut, en première ligne est indiqué le lien à fournir afin de pouvoir le consulter sur Internet :
+<code>bisnext report id xxxxx also available at https://paste.debian.net/xxxxxx/</code>
+Si le rapport est trop lourd il n'y a pas de lien, il faut alors le copier et le coller dans son prochain message sur le forum entre balises de code. Publier directement le contenu du rapport sur le forum est aussi une bonne idée, le lien n'étant valide qu'un mois il sera ainsi conservé au-delà. 
+
+===== Lecture du rapport =====
+====Partie  Hardware and System Summary====
+**UEFI settings**
+
+La liste des chargeurs de démarrage enregistrés dans la mémoire nvram de l'ordinateur avec leur priorité //BootOrder//.
+
+**Secure Boot**
+
+Statut actif ou non, Secure Boot doit être désactivé pour que certains pilotes puissent être chargés (Nvidia par exemple), il est donc recommandé de désactiver Secure Boot dans les paramètres de l'ordinateur (Bios). 
+
+**OS prober**
+
+La liste des systèmes détectés. 
+
+**md5sum of EFI files**
+
+La liste des chargeurs stockés  dans la partition ESP (EFI System Partition) et leur empreinte md5. L'empreinte permet par exemple d'identifier deux programmes identiques portant des noms différents. 
+====Partie Boot Information Details====
+Cette partie avec les sections qu'elle contient est comparable aux informations données par [[:Boot-Info]].
+
+====Partie Running System Information====
+**Kernel Parameters**
+
+Les paramètres utilisés pour le démarrage de la session en cours.
+
+**Boot-up Statistics**
+
+Donne des informations sur le temps de démarrage et sur les processus concernés, cette section permet d'identifier un service dont la durée d'exécution est anormalement longue.
+
+**RAM usage & Free disk space**
+
+L'utilisation de la mémoire vive et de l'espace disque.
+
+**USB devices**
+
+Liste les périphériques USB et le pilote actif.
+
+**Wireless status** 
+
+Donne le statut des composants sans fil, wifi, bluetooth.
+
+**Modules Loaded**
+
+Les modules chargés par le noyau Linux, cela permet de vérifier que cetains modules spécifiques au matériel sont effectivement chargés.
+
+**Additional Drivers**
+
+Les pilotes additionnels (ou optionnels) disponibles pour le matériel détecté.
+
+**Locales**
+
+La configuration de la langue et de l'agencement clavier.
+
+**Upradable Packages**
+
+La liste des paquets dont une mise à jour est disponible
+
+**Package Configuration Pending**
+
+La liste des paquets dont l'installation a été interrompue et dont la configuration n'est pas achevée. Cela peut expliquer des dysfonctionnements soudains.
+
+Commande à utiliser dans un terminal si cette section n'est pas vide :
+<code>sudo dpkg --configure -a</code>
+
+
+**Package Installation Pending**
+
+La liste des paquets dont l'installation est nécessaire après une installation ou une mise à jour interrompue. Cela peut expliquer des dysfonctionnents soudains. Cette section donne aussi la liste des paquets qui peuvent être supprimés.
+
+Commandes à utiliser dans un terminal si cette section n'est pas vide :
+<code>sudo apt install
+sudo apt autoremove --purge</code>
+
+
+**Configuration files of uninstalled packages **
+
+La liste des paquets qui ont été supprimés et dont les fichiers de configuration système sont encore présents. La commande permettant de les supprimer est fournie.
+
+**Kernel Packages Installed**
+
+La liste des paquets noyaux installés et le contenu du répertoire /boot
+
+**Kernel Candidates for Removal**
+
+Les paquets noyaux qui peuvent être supprimés pour récuper de l'espace disque, la commande a exécuter dans un terminal est fournie.
+
+**System Logs**
+
+Une sélection des enregistrements du journal système selon des mots clés qui peuvent expliquer la cause des problèmes rencontrés. Il y aussi la liste des services dont le démarrage a échoué.
+
+**Xorg**
+
+Les interfaces matérielles gérées par le serveur graphique, la résolution de l'affichage actif et les résolutions disponibles. Une sélection d'enregistrements dans le journal selon des mots clés permettant d'expliquer un problème rencontré avec l'interface graphique. Il y a aussi le contenu du journal du programme gestionnaire de carte graphique.
+
+
+====Partie SMART Attributes====
+L'état des disques et les statistiques internes fournis par le migrologiciel du disque dur.

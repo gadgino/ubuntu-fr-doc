@@ -1,0 +1,103 @@
+{{tag>Precise portable}}
+
+----
+
+======  Asus U36JC ======
+
+===== En un coup d'œil =====
+
+Le tableau suivant récapitule la prise en charge du matériel de portable par les différentes versions d'Ubuntu.
+Il utilise les notations suivantes :
+  * {{icons:important.png|Fonctionne après config}} : **Fonctionne après quelques manipulations**
+  * {{icons:icon-ubuntu.png|Fonctionne immédiatement}} : **Fonctionne immédiatement**
+  * {{icons:icon-support.png|Pas testé}} : **Pas d'informations disponibles**
+  * {{icons:process-stop.png|Ne fonctionne pas}} : **Ne fonctionne pas**
+
+^ Version ^ Installation ^ Carte graphique ^ Son ^ Wifi ^ Bluetooth ^ Webcam ^ Touchpad ^ Raccourcis multimédia ^ Autres ^
+| [[:Precise|12.04 (Precise Pangolin)]]  |{{icons:icon-ubuntu.png|Fonctionne immédiatement}}|intel : {{icons:icon-ubuntu.png|Fonctionne immédiatement}} nvidia :{{icons:important.png|Fonctionne après config}} |{{icons:icon-ubuntu.png|Fonctionne immédiatement}}|{{icons:icon-ubuntu.png|Fonctionne immédiatement}} | - | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | -|Port USB3 :{{icons:important.png|Fonctionne après config}} |
+
+
+**Utilisateurs du Wiki possédant cet ordinateur, fonctionnel :**
+  * **[[:utilisateurs:ltitcon]]** : [[:Maverick|10.10 (Maverick Meerkat)]]
+  * **[[:utilisateurs:metasequoia]]** : [[:Precise|12.04 (Precise Pangolin)]]
+
+**Cet ordinateur portable n'est à priori pas [[:pc_tatoué|tatoué]].**
+
+===== Installation =====
+
+Aucun problème pendant l'installation.
+
+Toutefois la carte graphique Nvidia n'est pas utilisable directement et il ne faut pas essayer d'installer les drivers Nvidia sans autres modifications (laisser bumblebee le faire si vous souhaitez expérimenter ce module). IL NE FAUT PAS INSTALLER LE DRIVER PROPRIETAIRE NVIDIA DIRECTEMENT (du moins avec Natty et avec les versions plus anciennes)
+
+La carte graphique est alimentée en permanence et consomme de l'énergie alors qu'elle ne peut être utilisée par défaut.
+Il y a deux problèmes à régler :
+  * désactiver la carte graphique Nvidia pour pouvoir économiser de l'énergie si l'on ne s'en sert pas (avec bbswitch)
+  * et éventuellement utiliser cette carte à la demande en utilisant une méthode expérimentale (avec Virtual GL)
+La sortie HDMI semble connectée à la carte Nvidia et n'est donc pas utilisable pour l'instant.
+
+Afin de gérer, il faut installer le paquet bumblebee (la version 3.0 est écrite en C et permet de gérer la configuration automatiquement) ainsi que les paquets bbswitch et VirtualGL.
+Pour cela, il suffit d'ajouter les dépôts suivants dans la logithèque en remplaçant YOUR_UBUNTU_VERSION_HERE par le nom de la version de Ubuntu utilisée (precise, oneiric, natty, maverick, lucid)
+
+     deb http://ppa.launchpad.net/bumblebee/stable/ubuntu YOUR_UBUNTU_VERSION_HERE main 
+     deb-src http://ppa.launchpad.net/bumblebee/stable/ubuntu YOUR_UBUNTU_VERSION_HERE main 
+
+Il faut enfin installer :  bumblebee ainsi que bbswitch et VirtualGL. 
+
+Les configurations se font automatiquement. Il est alors possible d'utiliser la carte nvidia pour calculer le rendu d'une application en la lançant avec le suffixe "optirun" dans un terminal.
+Par exemple, on peut lancer les commandes suivantes :
+
+    optirun glxspheres
+    optirun sauerbraten
+    
+On peut par exemple comparer le résultat de ces deux commandes pour se rendre compte de l'impact de l'utilisation de la carte graphique dédié sur les performances graphiques.
+
+   glxspheres
+   optirun glxspheres
+   
+Des développeurs ont mis au point cette solution temporaire. Mais des développements sont en train d'être mis en place dans le noyau et il est possible que la technologie optimus soient prise en charge directement dans les prochaines versions d'Ubuntu.
+===== Optimisation =====
+
+==== Optimisation de la consommation HDD ====
+
+Quand le PC est sous batterie il à tendance à gratter et à être solicité inutilement.
+Pour corriger ça, [[:tutoriel:comment_modifier_un_fichier|éditer le fichier]] **/etc/hdparm.conf** et ajouter ces lignes à la fin du fichier :
+<file>
+/dev/sda {
+    apm = 254
+    apm_battery = 254
+}
+</file>
+Enregistrer et quitter.
+
+==== Splash screen ====
+
+Les derniers pilotes Intel provoquent un bogue peu important, le splash screen démarre trop tard et donc un écran noir le remplace au démarrage.
+Pour corriger ça, entrer ces lignes dans un [[terminal]] :
+
+    sudo echo FRAMEBUFFER=y > /etc/initramfs-tools/conf.d/splash
+    sudo update-initramfs -u
+
+
+==== Webcam ====
+Pour [[precise|Ubuntu 12.04]], la webcam marche correctement sauf pour certaines applications comme Skype. Voir la page [[webcam]] pour résoudre le problème.
+====USB 3.0====
+En raison d'un bug de MSI sous [[precise|Ubuntu 12.04]], le port USB 3.0 n'est pas fonctionnel pour cette version.
+Afin de rendre le port usb 3.0 opérationnel, il est pour l'instant nécessaire de désactiver la fonction MSI du noyau en modifiant la configuration du grub.
+
+Il faut [[:tutoriel:comment_modifier_un_fichier|modifier le fichier]] **/etc/default/grub** puis changer la ligne suivante : 
+<file>GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"</file>
+en rajoutant l'option **pci=nomsi** entre les guillemets et avec une espace entre les options : 
+<file>GRUB_CMDLINE_LINUX_DEFAULT="quiet splash pci=nomsi"</file>
+Il faut ensuite mettre à jour le grub, en saisissant cette commande dans le [[terminal]] :
+   sudo update-grub
+Au prochain démarrage, le port USB 3.0 doit être totalement fonctionnel.
+
+===== Voir aussi =====
+
+  * (en) [[https://help.ubuntu.com/community/Asus_U36JC|Wiki ubuntu.com]] 
+  * (fr) [[http://fr.asus.com/product.aspx?P_ID=XrzH3yU3IVV4nMqL|Fiche produit]]
+  * bumblebee, une solution transitoire pour utiliser la carte graphique Nvidia proposée par Martin Juhl [[https://github.com/MrMEEE/bumblebee|bumblebee]]
+
+----
+
+//Contributeurs principaux : [[:utilisateurs:ltitcon]]//.

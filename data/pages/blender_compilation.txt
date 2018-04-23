@@ -1,0 +1,87 @@
+{{tag>compilation}}
+-----
+
+
+====== Compiler Blender depuis les sources ======
+
+**[[:Blender]]** est une suite de modélisation, d'animation et de rendu 3D. Si vous voulez simplement installer Blender, allez donc voir [[:blender|cette page]] ; celle-ci étant dédiée uniquement à la compilation de la version de développement de Blender...
+
+===== Prérequis =====
+
+Pour récupérer et compiler les sources de Blender, nous utiliserons [[:git]] et [[:make]].
+
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir [[:tutoriel:comment_installer_un_paquet|installé les paquets]]: **[[apt://git|git]], [[apt://cmake|cmake]], [[apt://cmake-curses-gui|cmake-curses-gui]], [[apt://ccmake|ccmake]] et [[apt://build-essential|build-essential]]** fournissant des outils de base.
+
+===== Récupérer les sources de Blender =====
+
+Pour récupérer l'arbre complet des sources de Blender **POUR LA PREMIÈRE FOIS,** utilisez [[:git]] avec les commandes suivantes dans un [[:terminal]]. Les sources récupérées seront dans le dossier courant dans un répertoire **blender-git/blender** .
+
+<code>mkdir ~/blender-git
+cd ~/blender-git
+git clone http://git.blender.org/blender.git
+cd blender
+git submodule update --init --recursive
+git submodule foreach git checkout master
+git submodule foreach git pull --rebase origin master</code>
+
+==== Mettre à jour les sources ====
+
+Pour **METTRE À JOUR LES SOURCES** déjà téléchargées, entrez ces commandes dans un [[:terminal]].
+<code>
+cd MON_DOSSIER/blender-git/blender
+git pull --rebase
+git submodule foreach git pull --rebase origin master</code>
+
+
+===== Installation et Compilation des dépendances =====
+
+Il existe un Script fourni dans les sources de Blender qui permet d'installer ou de compiler le cas échéant toutes les dépendances réclamées pour notre compilation. Dans un [[terminal|terminal]] entrez ces commandes :
+<code>cd MON_DOSSIER/blender-git/blender/build_files/build_environment/
+./install_deps.sh</code>
+
+Il vous demandera de rentrer votre Passe de Root évidemment, et va tout installer dans le chemin **/opt/lib/** pour ne rien casser de votre système.
+===== Configuration avec CMake =====
+
+Pour générer les fichiers de configuration avec CMake, il faut faire :
+
+<code>mkdir MON_DOSSIER/blender-git/build
+cd MON_DOSSIER/blender-git/build
+cmake ../blender</code>
+
+Pour configurer les paramètres de Compilation :
+
+<code>ccmake ../blender</code>
+
+Un panneau de paramètres apparaît, comme l'activation / désactivation de librairies supplémentaires, les chemins d'accès aux libs de votre ordinateur à changer s'il n'en retrouve pas certaines et produit une erreur.
+
+{{ ::ccmakeblender.png?direct |}}
+
+====  Optimisation de la Compilation ====
+
+Toujours dans les options avec **ccmake**, on peut optimiser la Compilation pour son Processeur qui vient de sortir, et pas une compatible avec tous les Processeurs, et donc moins performante.
+
+{{ ::ccmakeblender.png?direct |}}
+
+Dans les **FLAGS**, qu'il faut remplir 4 fois au même endroit que moi, les premières options sont passe-partout quelque soit la machine :
+
+<code>-march=native -mtune=native -Ofast</code>
+
+Et après il faut se renseigner suivant le modèle de Processeur précis, il y a des instructions qui lui permettent d'aller plus vite, comme le SSE, le AVX ou le MMX par exemple. Voici mes options pour mon Intel i7 5820K 6 Cores :
+
+<code>-msse -msse2 -msse3 -msse4 -msse4.1 -msse4.2 -mmmx -mavx -mavx2</code>
+
+===== Compilation =====
+
+Après ces longues heures de labeur, la compilation finale est enfin arrivée :-P. Si vous voulez aller plus rapidement dans la compilation, je vous conseille de mettre le nombre de **Cores** de votre Processeur avec **make -j NOMBRE_DE_CORES**, soit **make -j 12** dans le cas de mon Intel i7 5820K :
+<code>
+cd MON_DOSSIER/blender-git/build
+make -j 12
+make install
+</code>
+
+Si tout s'est bien passé, vous devriez avoir un binaire de Blender dans votre disque. Évidemment on peut automatiser tout cela dans un Script Bash pour de la compilation en un double-clic.
+
+===== Liens =====
+
+  * [[https://wiki.blender.org/index.php/Dev:Doc/Building_Blender/Linux/Ubuntu/CMake|La page du Wiki officiel. Toujours consulter en cas de souci avec cette page d'Ubuntu-FR qui n'est pas forcément à jour !]]

@@ -1,0 +1,41 @@
+{{tag>navigateur courriel rss messagerie_instantanée}}
+----
+
+====== SeaMonkey, IceApe======
+**SeaMonkey** est le successeur  de la suite logicielle Mozilla, reprise par la communauté lorsque la fondation du même nom a décidé d'abandonner son développement au profit de Firefox et Thunderbird. Seamonkey contient entre autres un navigateur Web, un client de messagerie, un module de chat, de nouvelles, etc. Il a pour avantage de permettre l'édition de page //html// directement à partir du navigateur (CTRL+E).\\
+**IceApe** est la version GNU de SeaMonkey, version Debian de Seamonkey sans composant non-libre (logo, etc).
+
+===== Installation =====
+====Via un ppa====
+<note important>Cette méthode semble ne plus fonctionner sous Ubuntu 16.04</note>
+La façon la plus simple est d'installer Seamonkey via un [[:ppa]]. Pour cela entrez successivement ces [[:shell|commandes]] dans un [[:terminal]]:
+  * Pour récupérer la clé:<code>sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com C1289A29</code>
+  * Pour ajouter le dépôt à vos [[:tutoriel:comment_modifier_sources_maj|sources de logiciels]]: <code>echo -e "\ndeb http://downloads.sourceforge.net/project/ubuntuzilla/mozilla/apt all main" \
+| sudo tee -a /etc/apt/sources.list > /dev/null </code>
+
+Il ne vous restera plus qu'à télécharger le pack de langue pour le français [[http://www.seamonkey-project.org/releases/#langpacks|ici]], en cherchant celui correspondant à votre version.\\
+Une fois celui-ci installé via le gestionnaire de modules (add-on si vous êtes en anglais), entrez dans votre barre de navigation : //about:config//, cherchez la ligne : //general.useragent.locale//. Double-cliquez dessus et modifiez //us// par //fr//.
+Redémarrez votre navigateur.
+
+==== Via une archive ====
+<note warning>Cette méthode n'a pas fonctionné sous [[:trusty]]. Vous risquez de rencontre l'erreur "Couldn't load XPCOM". Préferez la première méthode.</note>
+
+Rendez-vous sur [[http://www.seamonkey-project.org/releases/#official |cette page]] pour télécharger la dernière version en français de **Seamonkey**. Prenez dans la rubrique //Linux// le lien : « //Download// ».
+
+
+Une fois [[:archivage|l'archive]] téléchargée, [[:archivage|décompressez-la]] dans le dossier de votre choix. Seamonkey est directement utilisable en double-cliquant sur l'exécutable "seamonkey" qui se trouve dans votre dossier décompressé.
+ 
+Vous pourrez ensuite [[:raccourci-lanceur|créer un raccourci]] pour accéder facilement à votre logiciel (avec [[:alacarte|Alacarte]] pour [[:xubuntu|Xubuntu]] et [[:lubuntu|Lubuntu]], ou [[:menulibre]] pour Unity).
+
+===== Activer les greffons =====
+Pour que les greffons déjà installés pour Firefox fonctionnent avec Seamonkey, en considérant que vous avez décompressé Seamonkey dans votre dossier personnel, il suffit de créer un lien symbolique des dossiers où sont contenus les greffons vers le dossier //seamonkey//:<code>sudo ln -s /usr/lib/mozilla/plugins/* /$HOME/seamonkey/extensions/
+ln -s /$HOME/.mozilla/firefox/profil_par_defaut/extensions/* /$HOME/seamonkey/extensions/</code>
+Pensez à remplacer //profil_par_defaut// par le nom de votre profil.
+===== Désinstallation =====
+Il suffit de  supprimer **seamonkey** via votre [[:gestionnaire_de_paquets|gestionnaire de paquet]] favori, ou  si vous avez utilisé la deuxième méthode supprimer le dossier **seamonkey** précédemment décompressé.
+
+===== Voir aussi =====
+ * (en) [[http://www.seamonkey-project.org|Site officiel]]
+
+-----
+Contributeurs: [[:utilisateurs:l_africain|L'Africain]].

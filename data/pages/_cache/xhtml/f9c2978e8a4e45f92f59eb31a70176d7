@@ -1,0 +1,139 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#totem_xine_lecture_de_video_sous_ubuntu" class="toc"> Totem Xine : lecture de vidéo sous Ubuntu </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#installation_de_totem_xine" class="toc"> Installation de Totem Xine </a></span></li>
+<li class="level2"><span class="li"><a href="#usage" class="toc"> Usage </a></span></li>
+<li class="level2"><span class="li"><a href="#format_supportes" class="toc"> Format supportés </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#remarques" class="toc"> Remarques </a></span></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/ostaquet" class="wikilink1" title="utilisateurs:ostaquet" onclick="return svchk()" onkeypress="return svchk()">ostaquet</a>.
+</p>
+
+<a name="totem_xine_lecture_de_video_sous_ubuntu"></a><h1> Totem Xine : lecture de vidéo sous Ubuntu </h1>
+<div class="level1">
+
+<p>
+ Le but de cet article est de vous présenter comment lire toutes sortes de fichiers vidéo sous Ubuntu. Avec Totem Xine, vous pouvez lire des médias vidéos tel que les <acronym title="Motion Picture Experts Group">MPEG</acronym>, les DIVX, les fichiers Windows Media... mais aussi les DVD et les VCD. De plus, Totem Xine est totalement intégré au système Ubuntu.
+</p>
+
+<p>
+<em>Remarque :</em> Totem Xine permet également de lire les fichiers audio <acronym title="Motion Picture Experts Group Layer 3">MP3</acronym>, OGG,...
+</p>
+
+</div>
+<!-- SECTION [72-527] -->
+<a name="installation_de_totem_xine"></a><h2> Installation de Totem Xine </h2>
+<div class="level2">
+
+<p>
+ Pour installer Totem Xine, vous devez installer le paquet suivant avec le gestionnaire de paquets <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a>. Ce paquet est disponible dans le dépot <em>universe</em> (voir la page des <a href="/installation/depots" class="wikilink1" title="installation:depots" onclick="return svchk()" onkeypress="return svchk()">depots</a>).
+</p>
+<pre class="code">
+totem-xine
+</pre>
+
+<p>
+Ce paquet entre en conflit avec <code>totem-gstreamer</code>. Vous devez accepter de remplacer le paquet <code>totem-gstreamer</code> pour profiter de Totem Xine.
+</p>
+
+<p>
+Pour avoir le support des fichiers média de Microsoft, vous devez également installer le paquet suivant (dépot <em>marillat</em>) :
+</p>
+<pre class="code">
+w32codecs
+</pre>
+
+</div>
+<!-- SECTION [528-1107] -->
+<a name="usage"></a><h2> Usage </h2>
+<div class="level2">
+
+<p>
+ De manière générale, tous les fichiers (vidéo et audio) sont déjà assigné à Totem pour la lecture par défaut. De ce fait, il vous suffit de double-cliquer sur un fichier pour l&rsquo;ouvrir dans Totem.
+</p>
+
+<p>
+Si vous souhaitez le lancer simplement, vous le trouverez dans le menu <strong>Applications &rArr; Son et Vidéo &rArr; Lecteur vidéo Totem</strong>.
+</p>
+
+<p>
+Pour lire un VCD ou un DVD, vous insérez le disque dans le lecteur et Totem sera appelé automatiquement. Dans le cas contraire, vous pouvez toujours le lancer manuellement via le menu Applications. Dans la fenêtre de Totem, vous allez dans le menu <em>Film &rArr; Lire un disque</em>.
+</p>
+
+</div>
+<!-- SECTION [1108-1743] -->
+<a name="format_supportes"></a><h2> Format supportés </h2>
+<div class="level2">
+
+<p>
+Liste des formats supportés (non exhaustive) :
+</p>
+<ul>
+<li class="level1"><span class="li"> ATI VCR-2 video codec.</span>
+</li>
+<li class="level1"><span class="li"> Cinepak video codec</span>
+</li>
+<li class="level1"><span class="li"> DivX <img src="/smileys/icon_wink.gif" align="middle" alt=";-)" /> video codec, ver. 3.11</span>
+</li>
+<li class="level1"><span class="li"> DivX <img src="/smileys/icon_wink.gif" align="middle" alt=";-)" /> video codec, ver. 4.x</span>
+</li>
+<li class="level1"><span class="li"> Indeo Video 3.2/4.1/5.0/4.1 quick/5.0 quick codecs.</span>
+</li>
+<li class="level1"><span class="li"> Intel 263 video codec.</span>
+</li>
+<li class="level1"><span class="li"> Microsoft <acronym title="Motion Picture Experts Group">MPEG</acronym>-4 video codec, beta version 3.0.0.2700</span>
+</li>
+<li class="level1"><span class="li"> Morgan Multimedia Motion <acronym title="Joint Photographics Experts Group">JPEG</acronym> video codec.</span>
+</li>
+<li class="level1"><span class="li"> QuickTime</span>
+</li>
+<li class="level1"><span class="li"> RealAudio</span>
+</li>
+<li class="level1"><span class="li"> RealVideo 8</span>
+</li>
+<li class="level1"><span class="li"> RealVideo 9</span>
+</li>
+<li class="level1"><span class="li"> Windows Media Video 9</span>
+</li>
+<li class="level1"><span class="li"> <acronym title="Motion Picture Experts Group">MPEG</acronym> 1/2</span>
+</li>
+<li class="level1"><span class="li"> some AVI and Quicktime videos</span>
+</li>
+<li class="level1"><span class="li"> DVDs</span>
+</li>
+<li class="level1"><span class="li"> (S)VCDs</span>
+</li>
+<li class="level1"><span class="li"> mp3 </span>
+</li>
+<li class="level1"><span class="li"> ogg</span>
+</li>
+</ul>
+
+<p>
+et bien d&rsquo;autres encore...
+</p>
+
+</div>
+<!-- SECTION [1744-2330] -->
+<a name="remarques"></a><h3> Remarques </h3>
+<div class="level3">
+
+<p>
+ Si vous avez des problèmes de fluidités pour lire des DVD vidéos, cela provient surement du fait que les transferts DMA ne sont pas activés. Pour remédier à ce problème, allez sur <a href="/materiel/optimisation_ide" class="wikilink1" title="materiel:optimisation_ide" onclick="return svchk()" onkeypress="return svchk()">cette page</a>. 
+</p>
+
+</div>
+<!-- SECTION [2331-] -->

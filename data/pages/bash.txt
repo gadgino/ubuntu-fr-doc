@@ -1,0 +1,64 @@
+{{tag>shell BROUILLON}}
+
+----
+
+====== BASH : Bourne Again Shell ======
+
+BASH est un [[shell]].
+
+http://abs.traduc.org/abs-fr/
+
+===== Introduction / Utilisation =====
+
+Commencer par le [[tutoriel:script_shell|tutoriel d'introduction aux scripts shell]]
+
+===== Utilisation avancée =====
+
+==== Séparateur de mot ====
+
+L'IFS est le ou les caractères qui servent de séparateur. Voici un bout de code pour comprendre par l'exemple.
+
+<code>
+phrase="plusieurs mots...
+sur une ligne ?"
+
+function afficher_phrase(){
+        for chaine in `echo "$phrase"`; do
+                echo $chaine
+        done
+}
+
+afficher_phrase
+IFS='
+'
+echo "Séparateur interne à bash changé"
+afficher_phrase
+</code>
+
+Plus d'explication [[http://www.linuxquestions.org/questions/programming-9/bash-command-separatorarguments-separator-602542/#post2971876|en anglais]].
+
+==== Une meilleure gestion de l'historique ====
+
+Par défaut, toutes les commandes tapées dans un terminal sont enregistrées dans votre historique et vous pouvez les retrouver en appuyant sur les touches fléchées « haut » et « bas ». La façon dont vous parcourez l'historique peut être améliorée de façon à ce que si vous tapez un début de commande avant votre recherche, vous puissiez accéder uniquement aux entrées commençant par ce que vous venez de taper. Vous me suivez ?
+
+[[:tutoriel:comment_modifier_un_fichier|ouvrez le fichier]] ** ~/.inputrc ** et 
+ajoutez-y :
+ <code>
+"\e[A": history-search-backward
+"\e[B": history-search-forward</code>
+
+[[:tutoriel:comment_modifier_un_fichier|ouvrez le fichier]] ** ~/.bashrc ** et
+ajoutez-y :
+ <code>
+shopt -s histappend
+PROMPT_COMMAND='history -a'</code>
+
+<note help>
+Apparemment, pas de fichier .inputrc dans le dossier personnel sous 12.04, faut-il le créer ?
+
+Oui, et cela fonctionne très bien. Idem sous 14.04.
+</note>
+
+----
+
+//Contributeur(s) : [[utilisateurs:Id2ndR]]//

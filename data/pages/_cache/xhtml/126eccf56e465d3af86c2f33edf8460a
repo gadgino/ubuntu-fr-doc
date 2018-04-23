@@ -1,0 +1,151 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#resolution_des_problemes_de_resolution_d_ecran" class="toc">  Résolution des problèmes de résolution d’écran </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#introduction" class="toc"> Introduction </a></span></li>
+<li class="level2"><span class="li"><a href="#executer_a_nouveau_le_script_de_detection_automatique" class="toc"> Exécuter à nouveau le script de détection automatique </a></span></li>
+<li class="level2"><span class="li"><a href="#specifications_de_l_ecran_non_detectees" class="toc"> Spécifications de l'écran non détectées </a></span></li>
+<li class="level2"><span class="li"><a href="#profondeur_de_couleur_incorrecte" class="toc"> Profondeur de couleur incorrecte </a></span></li>
+<li class="level2"><span class="li"><a href="#conclusion" class="toc"> Conclusion </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+Traduit par Claude
+</p>
+
+<a name="resolution_des_problemes_de_resolution_d_ecran"></a><h1>  Résolution des problèmes de résolution d’écran </h1>
+<div class="level1">
+
+</div>
+<!-- SECTION [51-119] -->
+<a name="introduction"></a><h2> Introduction </h2>
+<div class="level2">
+
+<p>
+ Cette marche à suivre est destinée à ceux qui ont obtenu une résolution d&rsquo;écran très basse suite à l&rsquo;installation ou à la mise à jour vers Hoary. Une des raisons possible est que votre matériel (carte vidéo/écran) n&rsquo;a pas été détecté correctement. Plusieurs solutions sont proposées dans les forums et les canaux de discussion <acronym title="Internet Relay Chat">IRC</acronym>. En espérant que chacun puisse trouver une solution qui lui convienne.
+</p>
+
+<p>
+<em>Attention:</em> Dans le cas où vous n&rsquo;avez plus accès au système graphique suite à une modification des fichiers de configuration (écran noir, etc.), vous pouvez récupérer la sauvegarde en affichant une console à l&rsquo;aide de &lsquo;CTRL-ALT-F1&rsquo;, puis en vous connectant au système et en exécutant la commande : 
+</p>
+<pre class="code">sudo cp /etc/X11/xorg.conf.backup /etc/X11/xorg.conf</pre>
+
+<p>
+ La commande &lsquo;CTRL-ALT-F7&rsquo; (suivie probablement d&rsquo;un &lsquo;CTRL-ALT-Retour arrière&rsquo;) devrait ensuite vous ramener en mode graphique.
+</p>
+
+</div>
+<!-- SECTION [120-1073] -->
+<a name="executer_a_nouveau_le_script_de_detection_automatique"></a><h2> Exécuter à nouveau le script de détection automatique </h2>
+<div class="level2">
+
+<p>
+ Il n&rsquo;est pas certain que ce soit la solution qui réponde le plus souvent au problème, mais c&rsquo;est certainement la plus facile et la plus rapide, celle à essayer en premier en tout cas ! Il s&rsquo;agit en fait de relancer le script de détection du matériel vidéo, le même script utilisé par le système lors de l&rsquo;installation. Voici les commandes à exécuter (la première ligne sauvegarde votre configuration actuelle, alors que la deuxième est indispensable si le fichier a été manuellement modifié, la troisième se chargeant de relancer le script de détection) :
+</p>
+<pre class="code">sudo cp /etc/X11/xorg.conf /etc/X11/xorg.conf.custom
+sudo sh -c 'md5sum /etc/X11/xorg.conf &gt; /var/lib/xfree86/xorg.conf.md5sum'
+sudo dpkg-reconfigure xserver-xorg</pre>
+
+<p>
+A la fin de l&rsquo;exécution du script, fermez tous les programmes ouverts sur votre bureau et pressez &lsquo;CTRL-ALT-Retour arrière&rsquo; pour redémarrer l&rsquo;environnement graphique (X). Vous devrez alors vous reconnecter dans votre session, en espérant que les problèmes aient disparu. Sinon, à la prochaine solution...
+</p>
+
+</div>
+<!-- SECTION [1074-2207] -->
+<a name="specifications_de_l_ecran_non_detectees"></a><h2> Spécifications de l'écran non détectées </h2>
+<div class="level2">
+
+<p>
+ Ouvrez le fichier /etc/X11/xorg.conf dans votre éditeur de texte favori. L&rsquo;exemple ci-dessous utilise nano car il est relativement simple d&rsquo;utilisation (autre possibilité en mode graphique : gedit).
+</p>
+<pre class="code">sudo nano /etc/X11/xorg.conf</pre>
+
+<p>
+Recherchez dans ce fichier la section nommée &ldquo;Monitor&rdquo;. Entre les lignes <code>Section &ldquo;Monitor&rdquo;</code> et <code>EndSection</code>, vous devriez voir apparaître deux lignes qui débutent par les mots <code>HorizSync</code> et <code>VertRefresh</code>. Si elles ne sont pas présentes, vous avez des chances que ce soit la raison de votre problème!
+</p>
+
+<p>
+Vous avez maintenant besoin de trouver l&rsquo;information nécessaire, soit dans le manuel de votre écran, soit par la ligne de commande, soit sur le Net (par ex. en entrant le modèle de votre écran dans Google). Vous avez besoin de connaître la fréquence de synchronisation horizontale (habituellement mesurée en kHz) et le taux de rafraîchissement vertical (normalement en Hz). Ces informations sont habituellement disponibles sous une forme du type &ldquo;30-98 kHz&rdquo; ou &ldquo;50-160 Hz&rdquo;. Vous pouvez également essayer la commande suivante :
+</p>
+<pre class="code">sudo ddcprobe | grep monitorrange</pre>
+
+<p>
+Si votre écran supporte cette commande (ce qui n&rsquo;est pas toujours le cas), la première paire de chiffres affichée correspond au taux HorizSync, la seconde aux valeurs VertRefresh.
+</p>
+
+<p>
+Il y a deux manières d&rsquo;entrer ces valeurs dans le fichier de configuration. La première est semblable à la solution précédente, excepté le paramètre <code>-plow</code> qui vous posera quelques questions supplémentaires :
+</p>
+<pre class="code">sudo cp /etc/X11/xorg.conf /etc/X11/xorg.conf.custom
+sudo sh -c 'md5sum /etc/X11/xorg.conf &gt; /var/lib/xfree86/xorg.conf.md5sum'
+sudo dpkg-reconfigure -plow xserver-xorg</pre>
+
+<p>
+La deuxième possibilité est d&rsquo;entrer manuellement les valeurs dans le fichier /etc/X11/xorg.conf. Dans ce cas, n&rsquo;oubliez pas d&rsquo;effectuer au préalable une copie de sauvegarde :
+</p>
+<pre class="code">sudo cp /etc/X11/xorg.conf /etc/X11/xorg.conf.backup</pre>
+
+<p>
+Editez le fichier (cf commande nano ci-dessus) en ajoutant les deux lignes HorizSync et VertRefresh selon l&rsquo;exemple ci-dessous (mais avec VOS valeurs bien sûr) : 
+</p>
+<pre class="code">Section &quot;Monitor&quot;
+     Identifier         &quot;FLATRON 995F&quot;
+     Option             &quot;DPMS&quot;
+     HorizSync          30-96
+     VertRefresh        50-160
+EndSection</pre>
+
+<p>
+Enregistrez le fichier, fermez tous les programmes et tapez &lsquo;CTRL-ALT-Retour arrière&rsquo; pour redémarrer l&rsquo;environnement graphique. Si tout va bien, le système vous demandera de vous connecter à nouveau.
+</p>
+
+<p>
+NOTE: - Si vous utilisez XFree86 (au lieu de Xorg), c&rsquo;est le fichier /etc/X11/XF86Config-4 que vous devez éditer. Si vous avez uniquement la résolution 800&times;600 dans le menu déroulant &ldquo;Résolution de l&rsquo;écran&rdquo;, vous devez modifier la ligne <code>Modes</code> dans la ou les sous-section(s) <code>&ldquo;Display&rdquo;</code> et ajouter les résolutions supplémentaires :
+</p>
+<pre class="code">        SubSection &quot;Display&quot;
+                Depth           24
+                Modes           &quot;1024x768&quot; &quot;800x600&quot; &quot;640x480&quot;
+        EndSubSection</pre>
+
+</div>
+<!-- SECTION [2208-5298] -->
+<a name="profondeur_de_couleur_incorrecte"></a><h2> Profondeur de couleur incorrecte </h2>
+<div class="level2">
+
+<p>
+ Il peut arriver que la configuration automatique règle la profondeur de couleur plus élevée que le matériel ne peut le supporter. Pour savoir si c&rsquo;est votre cas, faites tout d&rsquo;abord une copie de sauvegarde de votre fichier de configuration :
+</p>
+<pre class="code">sudo cp /etc/X11/xorg.conf /etc/X11/xorg.conf.backup</pre>
+
+<p>
+Ouvrez ensuite le fichier dans votre éditeur de texte favori :
+</p>
+<pre class="code">sudo nano /etc/X11/xorg.conf</pre>
+
+<p>
+Recherchez le mot <code>DefaultDepth</code>. La profondeur de couleur configurée par Hoary est habituellement 24. Il est possible que cette valeur soit trop élevée; essayez alors de mettre cette valeur à 16. Si cela ne résoud pas votre problème, vous pourrez ensuite la remettre telle qu&rsquo;elle était.
+</p>
+
+<p>
+Enregistrez le fichier, fermez toutes les applications et redémarrez l&rsquo;environnement graphique (CTRL-ALT-Retour arrière). Il ne reste plus qu&rsquo;à espérer que vous puissiez vous reconnecter à la bonne résolution !
+</p>
+
+</div>
+<!-- SECTION [5299-6283] -->
+<a name="conclusion"></a><h2> Conclusion </h2>
+<div class="level2">
+
+<p>
+ Si aucune de ces solutions n&rsquo;a résolu votre problème, il ne vous reste plus qu&rsquo;à vous adresser aux forums de support Ubuntu ou au canal de support <acronym title="Internet Relay Chat">IRC</acronym> #ubuntu-fr sur le réseau irc.freenode.net. 
+</p>
+
+</div>
+<!-- SECTION [6284-] -->

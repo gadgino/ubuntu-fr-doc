@@ -1,0 +1,70 @@
+{{tag>variante environnements}}
+
+----
+
+{{ http://i.imgur.com/8JgWI4g.png|Logo}}
+
+====== UbuntuKylin ======
+
+**UbuntuKylin** est une [[:variantes|variante d'Ubuntu]] adaptée aux utilisateurs chinois. Elle est reconnue comme une variante de la famille Ubuntu. Cette version conçue pour les utilisateurs chinois diffère légèrement de la [[:variantes#variantes_officielles|variante officelle Ubuntu]], même si elle est elle aussi basée sur l'interface graphique [[:Unity]]. Elle comprend entre autres la traduction chinoise, un calendrier lunaire chinois, un widget météo couvrant tout le territoire de la Chine, un moteur de recherche personnalisé pour la musique du pays et une autre façon d'écrire.
+
+==== But ====
+
+"//L'objectif du projet UbuntuKylin est de créer une variante d'Ubuntu qui soit à la base pensée et personnalisée pour les besoins des utilisateurs chinois. Ceci se concrétise, par exemple, en proposant un environnement de bureau immédiatement traduit en chinois et en installant des logiciels que les Chinois utilisent couramment.//" ((Traduit. Source : [[https://wiki.ubuntu.com/UbuntuKylin#Introduction|La page d'UbuntuKylin sur le wiki officiel]].))
+
+===== Différences =====
+
+==== Au niveau des applications ====
+
+**UbuntuKylin** propose naturellement des logiciels adaptés aux besoins des utilisateurs qu'il vise. Ainsi, les Chinois ont la chance de pouvoir profiter de certains logiciels qui ne sont pas offerts directement dans la variante de base d'Ubuntu.
+
+  * [[https://launchpad.net/unity-china-music-scope|Une recherche de musique personnalisée aux hits chinois]](({{https://upload.wikimedia.org/wikipedia/commons/0/07/Ubuntukylin-unity-china-music-scope.jpg}})), qui montre les résultats de sites comme [[http://www.baidu.com/|Baidu]] et qui s'active à travers la loupe //Musique// du tableau de bord. Pour vous faire une idée, c'est comme si notre recherche de musique en ligne via le //dash// nous recherchait en priorité des chansons françaises((L'auteur a préféré censurer le passage qui parlait du désastre que cela provoquerait.)). Elle remplace ici la recherche dans [[https://one.ubuntu.com/|Ubuntu One Music Store]]. (Désinstaller la loupe ''unity-china-music-scope'' permet de désactiver la recherche de musique en ligne.) \\
+  * [[https://launchpad.net/chinese-calendar|Un calendrier lunaire chinois traditionnel]](({{https://upload.wikimedia.org/wikipedia/commons/5/5b/Ubuntukylin-chinese-calendar.jpg}})), qui contient aussi le [[wpfr>calendrier grégorien]]. Ce calendrier récapitule les festivals et les termes solaires. Il est intégré à la distribution pour des raisons d'utilité, afin de permettre aux Chinois de "gérer efficacement leur temps". \\
+  * [[https://launchpad.net/indicator-china-weather|Un indicateur de temps]], que l'on peut aussi appeler widget météo, qui utilise les données de l'[[wpfr>Agence Météorologique Chinoise]]. Vous pouvez vous faire une idée de la bête sur la première capture d'écran, en bas à droite. \\
+  * [[https://fcitx-im.org/wiki/Fcitx|Une "autre façon d'écrire"]](({{https://fcitx-im.org/images/8/80/Fcitx-Keyboard.png?220}})). En effet, pour cette distribution, les chinois ont leurs caractères propres, en utilisant une des nombreuses //Chinese Input Method// (//Façon d'Ecrire Chinoise//) disponibles. La bataille entre fcitx et iBus pour savoir laquelle des deux allait être pré-installée s'est finalement soldée par l'échec de iBus. Fcitx est donc l'Input Method officielle d'UbuntuKylin. [[https://blueprints.launchpad.net/ubuntu/+spec/desktop-r-ubuntukylin-inputmethod-ibus-or-fcitx|Plus d'informations]]. \\
+  * [[http://www.wps.cn/|WPS]](({{http://www.omgubuntu.co.uk/wp-content/uploads/2013/03/wps-office-ribbon.jpg?220}})), le logiciel de bureautique le plus prisé de Chine. Il contient //WPS Writer//, //WPS Presentation// et //WPS Spreadsheets//. Phénomène assez curieux, c'est tout de même [[:LibreOffice]] qui est pré-installé sur UbuntuKylin. Cependant, les développeurs ne manquent pas de nous dire que WPS est tout de même installable depuis la [[:software-center|Logithèque Ubuntu]], ou depuis le site officiel d'UbuntuKylin. [[http://www.ubuntukylin.com/downloads/show.php?lang=en|Télécharger WPS]]. \\
+  * Il y a très sûrement d'autres logiciels différents, mais comme UbuntuKylin est une variante très récente et que peu de personnes sont en possession de cet Ubuntu chinois, peu d'informations remontent : les deux phénomènes sont liés. D'autres news ne devraient pas tarder à sortir, au fur et à mesure qu'UbuntuKylin se popularise.
+
+<note>Vous pouvez installer **UbuntuKylin** pour aider la communauté ! Comme il est encore assez rare, vous pourrez faire remonter des informations cruciales et faire parvenir vos //feedbakcs//. Ne serait-ce que l'utiliser via [[:virtualbox|machine virtuelle]] et poster vos découvertes sur cette page. Merci pour votre soutien !<note tip>Précision: **UbuntuKylin** comporte aussi un pack de traduction en Anglais.</note></note>
+
+==== Au niveau du thème ====
+
+{{https://lh3.ggpht.com/-dJshMTOTqeE/UYkNwyVgqAI/AAAAAAAATuo/rxsZXaxSR8A/s550/ubuntukylin-desktop.jpg|Bureau}}
+{{https://lh3.ggpht.com/-24VN5E3Brc0/UYkRSK92P1I/AAAAAAAATu0/cJ8_L8r5HSw/s550/ubuntukylin-file-window.jpg|Gestionnaire de fichiers}}
+
+Le thème installé sur UbuntuKylin, ''ubuntukylin-theme'', change radicalement les couleurs d'Ubuntu. Privilégiant les couleurs claires et froides, comme le bleu et le gris. L'orange reste présent, mais en plus petites quantités.
+
+=== Installer le thème d'UbuntuKylin ===
+
+Certains le trouveront joli. Par chance, il est disponible dans les dépôts officiels d'Ubuntu. Ainsi, pour l'installer, la manipulation est assez simple :
+
+  - Entrez cette commande <code>sudo apt-get install ubuntukylin-theme</code> dans un terminal ;
+  - Installez [[:ubuntu_tweak#via_le_depot_ppa|Ubuntu Tweak]] ;
+  - Rendez-vous dans l'onglet //Ajustements// ;
+  - Et dans la section //Apparence//...
+  - ... cliquez sur //Thèmes// ;
+  - Pour //Thème Gtk//, choisissez //ubuntukylin-theme// ;
+  - Pour //Thème d'icônes//, choisissez //ubuntukylin-icon-theme// ;
+  - Pour //Thème des fenêtres//, choisissez //ubuntukylin-theme// ;
+  - Fermez Ubuntu Tweak, votre thème est maintenant celui d'UbuntuKylin.
+
+Pour plus d'informations, visiter [[http://www.geekologie.me/2013/05/ubuntu-1304-comment-installer-le-theme.html|ce tutoriel sur Geekologie.me]] et [[http://forum.ubuntu-fr.org/viewtopic.php?pid=14472751|cette discussion (créée par l'auteur) sur le forum d'Ubuntu-FR]].
+
+===== Installation d'UbuntuKylin =====
+
+Pour installer **UbuntuKylin**, la procédure est similaire aux autres variantes.
+  - [[http://cdimages.ubuntu.com/ubuntukylin/releases/|Téléchargez UbuntuKylin]];
+  - Rendez-vous sur [[:tutoriel/amorcer_sur_cd_ubuntu|le tutoriel d'installation d'Ubuntu]] et suivez les étapes.
+
+<note important>UbuntuKylin n'est pas Ubuntu. Les procédures d'installation sont sûrement similaires (elles se ressemblent comme deux gouttes d'eau sur toutes les variantes comme Kubuntu, Xubuntu, Lubuntu, Ubuntu Studio...) mais rien n'est prédit à l'avance. Vous amorcez l'installation à vos risques et périls.</note>
+
+===== Voir aussi =====
+
+  * **(cn, en)** [[http://www.ubuntukylin.com/index.php?lang=en|Site officiel]]
+  * **(en)** [[https://wiki.ubuntu.com/UbuntuKylin|La page d'UbuntuKylin sur le wiki officiel]], d'où les rédacteurs de cet article ont tiré beaucoup d'informations.
+
+----
+
+Créateur : Pika3D (Pfiou, quel boulot démentiel ! Je suis mort x_x En plus c'est la deuxième que je l'écris car la première fois, tout mon texte a été supprimé °-°) \\ \\
+
+----

@@ -1,0 +1,55 @@
+{{tag>Xenial personnalisation}}
+
+----
+{{ :applications:icon.png}}
+====== Cover thumbnailer ======
+**Cover thumbnailer** est un petit script développé en Python qui permet d'afficher les pochettes des albums de musique dans [[:nautilus]], de prévisualiser les images contenues dans un dossier et plus encore.
+
+Le script s'intègre dans nautilus comme n'importe quel autre thumbnailer de la GNOME thumbnail factory, vous n'aurez donc pas à le lancer manuellement pour générer les miniatures.
+
+{{ http://static.flogisoft.com/ubuntu-fr/cover-thumbnailer_demo.jpg }}
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+Pour installer Cover Thumbnailer, [[:PPA|ajoutez le PPA]] **ppa:flozz/flozz**((https://launchpad.net/~flozz/+archive/flozz)) dans vos sources de logiciels, puis [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]].
+
+Enfin, [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>cover-thumbnailer]]**.
+
+===== Configuration =====
+
+Pour configurer Cover Thumbnailer, il suffit d'utiliser l'outil de configuration graphique disponible via le [[:unity#tableau_de_bord_dash|tableau de bord]] (Unity).
+{{ :applications:cover-thumbnailer_xenial.png?350 }}
+===== Utilisation =====
+Lancez l'application via le [[:unity#tableau_de_bord_dash|tableau de bord]] (Unity).
+L'utilisation détaillée est disponible sur la page du projet : [[http://software.flogisoft.com/cover-thumbnailer/fr/#utilisation|Utilisation de Cover-thumbnailer]].
+
+===== Problèmes =====
+
+Si les miniatures ne se font pas malgré avoir relancé nautilus, vérifier que la vue des dossiers soit bien en icônes.
+
+Si cela ne fonctionne toujours pas, lancer cette commande dans un terminal :
+<code>sudo gconf-schemas --register cover-thumbnailer.schemas</code>
+
+===== Désinstallation =====
+
+[[:tutoriel:comment_supprimer_un_paquet|Supprimez le paquet]] **cover-thumbnailer**.
+
+<note>
+Après désinstallation, les miniatures générées restent, pour les supprimer, tapez la commande :
+<code>rm -rf ~/.thumbnails/</code>
+</note>
+
+===== Liens =====
+
+   * **(en)** [[http://projects.flogisoft.com/cover-thumbnailer/|Page officielle de Cover thumbnailer]]
+   * **(fr)** [[http://forum.ubuntu-fr.org/viewtopic.php?id=330803|Discussion sur le forum ubuntu-fr]]
+   * **(en)** [[https://translations.launchpad.net/cover-thumbnailer|Page sur Launchpad]]
+
+----
+
+//Contributeur principal : [[utilisateurs:flozz|FLOZz]]//

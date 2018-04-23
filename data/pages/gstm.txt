@@ -1,0 +1,52 @@
+{{tag>ssh sécurité BROUILLON}}
+----
+====== GSTM ======
+
+
+**GSTM** (//Gnome SSH Tunnel Manager//) est un gestionnaire de tunnels SSH.\\
+
+Lorsqu'on doit souvent refaire des tunnels SSH, plutôt que de les recréer manuellement chaque fois via la commande ad hoc ( //ssh -L port:host_of_the_service:hostport user@host_ssh// ) gSTM permet de stocker tous les tunnels et de les activer d'un seul clic.
+
+
+{{:gstm1.jpg|}}
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+
+===== Installation =====
+
+GSTM est dans les dépôts. Pour l'installer, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt://gstm|gstm]]**.
+
+===== Utilisation =====
+
+FIXME Lancez l'application depuis le menu //Applications -> Accessoires -> gSTM// ou //via// la [[:commande_shell|commande]] suivante :
+
+  gstm
+
+L'utilisation coule de source, c'est vraiment une version "interface graphique" de la création manuelle d'un tunnel. La différence principale étant de les regrouper afin de pouvoir lancer une série de tunnels d'un seul clic (par exemples tous ceux relatifs au travail, ...).\\
+\\
+Sur la capture suivante on aperçoit la création d'un tunnel pour le groupe "SourceForge.net" (il redirige 3306 de mysql-g.sourceforge.net vers le 4406 local).
+
+
+{{:gstm2.jpg|}}
+
+
+Enfin cette capture illustre un greffon du tableau de bord permettant de gérer (démarrer / arrêter) les groupes de tunnels rapidement.
+
+{{:gstm3.jpg|}}
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi =====
+
+  * **(en)** [[http://sourceforge.net/projects/gstm/|Site officiel du logiciel]]
+  * tuto: [[http://www.matao.fr/gstm-le-tunelling-ssh-facile|pour aide facile]]
+  * tuto: [[http://www.kookyoo.net/blog/farwarx/tunnel-ssh-firefox-tutoriel-tuto-socks-internet-crypter-secure-configure-9999-windows-linux-putty-port-localhost-00000982|aide plus détaillée]]
+
+----
+//Contributeurs principaux : ...//

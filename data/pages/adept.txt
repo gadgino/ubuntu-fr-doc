@@ -1,0 +1,130 @@
+{{tag>Precise gestionnaire_de_paquets installation_logiciel}}
+
+----
+====== Le gestionnaire de paquets Adept======
+
+<note warning>Adept n'est plus maintenu, la dernière version stable remonte à juin 2007, la dernière version d'Ubuntu qui propose Adept dans ses dépôts est Ubuntu 12.04. Adept n'a pas été porté sous KDE4, il est aujourd'hui remplacé par [[:Apper]], lui-même remplacé par [[Muon]].</note>
+
+//**Adept** est le logiciel qui permet d'installer, désinstaller et mettre à jour des logiciels sur Kubuntu (en version KDE 3).
+C'est l'équivalent pour Kubuntu de [[:Synaptic]].//
+===== Installation =====
+
+Il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] [[apt>adept]].
+
+
+===== Utilisation =====
+
+
+
+À priori, le système vous demandera de confirmer votre mot de passe. Cette sécurité est prévue pour éviter que n’importe quel utilisateur installe n’importe quoi sur la machine. 
+
+Lorsque vous ouvrez Adept, vous êtes devant l'écran suivant :
+
+{{applications:adept-main1.png?760}}
+
+Dans cette fenêtre principale, vous avez les actions en haut (une barre d'outil), différents outils pour filtrer les logiciels des dépôts, ainsi qu'une liste d'étiquettes(tags) à droite pour le filtrage. Et enfin, en bas, un tableau qui liste les logiciels des dépôts.
+Ce tableau indique pour chaque application : 
+  * son nom ;
+  * si elle provient du dépôt main(logo de Kubuntu ou non) ;
+  * son état (installée ou pas) ;
+  * l'action que va provoquer un clic sur « Appliquer les changements » (//Installer//, //Garder comme tel//, //Désinstaller//, //Mettre à jour//) ;
+  * une courte description que vous pouvez agrandir en cliquant sur la ligne du paquet.
+
+===== Ce qu'Adept est capable de faire =====
+
+Adept est capable :
+  * d'ajouter et retirer des dépôts ;
+  * d'ajouter, réinstaller ou supprimer des programmes ;
+  * de garder votre système à jour.
+
+Dans la suite de ce document, nous allons voir en détail ces trois tâches.
+
+
+
+==== Comment ajouter ou retirer des dépôts ? ====
+
+Dans Adept, vous pouvez appeler la fenêtre de gestion des [[:depots|dépôts]] en allant dans le menu //Adept → Gérer les dépôts//. Une fenêtre comme celle-ci s'ouvre :
+
+{{applications:software-properties-kde.png}}
+
+=== Onglet « Logiciels Kubuntu » ===
+
+Cet onglet vous permet d'activer ou non les dépôts officiels et de choisir le miroir que vous souhaitez utiliser, pour des téléchargements plus rapide, il est conseillé de choisir le miroir de son pays.
+
+===Onglet « Third-Party Software » ===
+
+Cet onglet permet de gérer les dépôts non officiels, vous pouvez en ajouter un en cliquant sur « Ajouter » et choisir de le désactiver ou non grâce à la case à cocher à gauche de l'adresse du dépôt.
+
+=== Onglet « Updates » ===
+
+Cet onglet permet d'activer ou non certaines mises à jours et d'activer ou non la vérification de mises à jours automatique.
+
+=== Onglet « Authentification » ===
+
+Cet onglet permet d'ajouter des clés GPG de dépôt externes avec le bouton « Import Key File... ».
+Si une clé est disponible pour le dépôt que vous ajoutez, c'est ici qu'il faut la mettre.
+
+=== Onglet « Statistics » ===
+
+Cet onglet permet de choisir si vous voulez que des statistiques anonymes sur les paquets installés sur votre ordinateur soient envoyés à Ubuntu, cela permet aussi de voir vos statistiques d'utilisation des applications avec le fichier « /var/log/popularity-contest ».
+
+
+
+
+
+==== Chercher et parcourir les listes de paquets ====
+
+Pour rechercher un paquet dans la liste, vous avez plusieurs possibilités ; soit vous cherchez de manière précise, soit vous utilisez les filtres.
+
+Pour rechercher un paquet précis, il suffit de taper son nom dans le champ « Chercher », la liste des paquets affichés dans la fenêtre principale se limitera à ceux qui contiennent le mot clé indiqué.
+
+Pour explorer les paquets disponibles, à droite vous avez trois onglets contenant différentes étiquettes, pour les utiliser il suffit de les faire glisser dans la colonne « Étiquette désirées » ou « Étiquettes à exclure » en haut.
+
+
+
+====  Ajouter, réinstaller ou supprimer des programmes ====
+
+Pour faire une de ces opérations, il faut que vous soyez dans la fenêtre principale d'Adept.
+
+Dans la partie en bas de la fenêtre, vous avez une liste de programmes ainsi que leur statut et une brève description. 
+
+Pour installer, réinstaller ou supprimer un programme, il vous suffit de cliquer sur la ligne du programme puis sur le bouton qui apparait (« Demander l'installation » pour l'installer, « Demander la suppression » pour le supprimer.) ou de cliquer droit sur la ligne du programme et sélectionner l'action désirée.
+
+Lors de l'ajout d'un paquet, Adept peut sélectionner d'autre paquets à installer si ils sont nécessaire. De même, il peut en supprimer d'autres si nécessaire lors de la suppression d'un paquet.
+
+Une fois vos opérations choisies, vous pouvez cliquez sur le bouton « Appliquer les changements » pour appliquer les changements que vous avez demandés.
+
+En résumé :
+
+  * Entrez dans le champ nommé **Recherche** le nom du paquet désiré. 
+  * Cliquez sur le nom du paquet dans la liste, puis 
+  * cliquez sur **Demander l'installation**. 
+  * Pour finir l'installation cliquez sur « Appliquer les changements » dans le bandeau supérieur.
+
+
+==== Garder votre système à jour ====
+
+Normalement, quand une mise à jour est disponible une icône apparaît dans la boîte à miniatures pour vous le signaler, seulement la vérification automatique des mises à jours n'est normalement lancé qu'une fois par jour, si vous voulez le faire manuellement avec Adept voici la marche à suivre :
+  * cliquez sur le bouton « Recharger » pour télécharger la liste des paquets disponibles;
+  * cliquez sur le bouton « Tout mettre à jour » pour qu'Adept prépare la liste des paquets pouvant être mis à jour;
+  * cliquez sur le bouton « Aperçu des changements » pour savoir quels paquets vont être modifiés (mises à jour, ajouts, suppressions) ;
+  * cliquez sur le bouton « Appliquer les changements » pour télécharger et installer les nouveaux paquets.
+
+
+
+En cas de présence de paquets problématiques sur votre système, avec une installation n'ayant pu se terminer correctement et bloquant toute installation de nouveaux paquets sous Adept, dans un terminal tenter la commande **[[:dpkg]]** suivante:
+  * <code>sudo dpkg --configure -a</code>permettant de repasser en revue ce qui est en attente, et expliquant un éventuel problème.
+
+
+^   Pages relatives à [[:APT]]   ^^
+| [[:apt|Le système APT]] | Qu'est-ce que le système APT?  Que sont les paquets? |
+| [[:apt#interfaces|Les interfaces pour APT]] | Comment utiliser APT? |
+| [[:gestionnaire_de_paquets|Les gestionnaires de paquets]] | Quelles sont les interfaces graphiques à APT? |
+| [[:apt#depots|Les dépôts APT]] | Que sont les dépôts?  À quoi servent-ils? |
+|[[:apt#update|Gestionnaire de mises à jour]] | Comment tenir à jour Ubuntu et ses programmes? |
+| [[:apt_faq|FAQ]] | Questions fréquemment posées à propos de APT |
+| [[http://plfnicolarius.free.fr/tutoriel_logiciel_outils_gestion_paquets_debian.php|Outils de gestion des paquets sous Debian et Ubuntu]] | Un tutoriel faisant le tour de toutes les solutions de gestion des paquets sous Debian et Ubuntu. |
+{{topic>apt&notags&description&header&user}}
+----
+
+//Contributeurs : [[:utilisateurs:Blackpegaz]], [[:utilisateurs:Smarter]], [[:utilisateurs:Ner0lph]].//

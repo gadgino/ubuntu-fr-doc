@@ -1,0 +1,376 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#tutoriel_installation_de_ubuntu_a_partir_de_disquettes" class="toc"> Tutoriel : installation de Ubuntu à partir de disquettes </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#resume" class="toc"> RÉSUMÉ </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#resume_de_la_demarche" class="toc"> Résumé de la démarche </a></span></li>
+<li class="level3"><span class="li"><a href="#etape_n_1preparer_l_installateur_sarge" class="toc"> Étape n°1: Préparer l'installateur Sarge </a></span></li>
+<li class="level3"><span class="li"><a href="#etape_n_2lancer_l_installateur_sarge" class="toc"> Étape n°2: Lancer l'installateur Sarge </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#une_autre_maniere_de_proceder" class="toc"> UNE AUTRE MANIÈRE DE PROCÉDER </a></span></li>
+<li class="level2"><span class="li"><a href="#une_autre_alternative_plus_fiable_et_plus_simple" class="toc"> UNE AUTRE ALTERNATIVE PLUS FIABLE ET PLUS SIMPLE </a></span></li>
+<li class="level2"><span class="li"><a href="#question_reponse" class="toc"> Question / Réponse </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#avant_de_commencer" class="toc"> Avant de commencer... </a></span></li>
+<li class="level3"><span class="li"><a href="#preliminaires" class="toc"> Préliminaires </a></span></li>
+<li class="level3"><span class="li"><a href="#recuperer_debootstrap" class="toc"> Récupérer &quot;debootstrap&quot; </a></span></li>
+<li class="level3"><span class="li"><a href="#configuration_de_base" class="toc"> Configuration de base </a></span></li>
+<li class="level3"><span class="li"><a href="#parametrer_le_systeme_ubuntu" class="toc"> Paramétrer le système ubuntu </a></span></li>
+<li class="level3"><span class="li"><a href="#et_pour_terminer..._important" class="toc"> Et pour terminer... (important) </a></span></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+ <a href="https://wiki.ubuntu.com/InstallWithFloppiesHowto" class="urlextern" title="https://wiki.ubuntu.com/InstallWithFloppiesHowto" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Traduit</a> et adapté par <a href="/utilisateurs/gauthier" class="wikilink1" title="utilisateurs:gauthier" onclick="return svchk()" onkeypress="return svchk()">Gauthier</a>. 
+</p>
+
+<a name="tutoriel_installation_de_ubuntu_a_partir_de_disquettes"></a><h1> Tutoriel : installation de Ubuntu à partir de disquettes </h1>
+<div class="level1">
+
+<p>
+ Avant de commencer, il est utile de rappeler : 
+</p>
+<ul>
+<li class="level1"><span class="li"> qu&rsquo;il existe une autre méthode, plus simple, d&rsquo;installation d&rsquo;Ubuntu à partir de disquettes :  <a href="/installation/smart_boot_manager" class="wikilink1" title="installation:smart_boot_manager" onclick="return svchk()" onkeypress="return svchk()"> Smart Boot Manager</a>.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> et que le présent tutoriel doit être considéré comme <em>un complément</em> à <a href="/installation/depuis_une_knoppix" class="wikilink1" title="installation:depuis_une_knoppix" onclick="return svchk()" onkeypress="return svchk()"> l'installation depuis  une Knoppix</a>.</span>
+</li>
+</ul>
+
+<p>
+ L&rsquo;idée est de pouvoir installer Ubuntu sur un système sans lecteur de cédérom mais qui dispose au moins d&rsquo;un lecteur de disquette.  Une connexion Internet active est indispensable.
+</p>
+
+</div>
+<!-- SECTION [143-785] -->
+<a name="resume"></a><h2> RÉSUMÉ </h2>
+<div class="level2">
+
+</div>
+<!-- SECTION [786-807] -->
+<a name="resume_de_la_demarche"></a><h3> Résumé de la démarche </h3>
+<div class="level3">
+<ol>
+<li class="level1"><span class="li"> Démarrer la machine à partir des disquettes d&rsquo;installation Debian Sarge</span>
+</li>
+<li class="level1"><span class="li"> Parvenir à un stade d&rsquo;installation assez avancé pour avoir une connexion réseau/Internet active</span>
+</li>
+<li class="level1"><span class="li"> Utiliser l&rsquo;installateur Debian Sarge pour partitionner le disque dur</span>
+</li>
+<li class="level1"><span class="li"> Utiliser ensuite debootstrap pour y installer Ubuntu </span>
+</li>
+<li class="level1"><span class="li"> Relancer la machine, en croisant les doigts.</span>
+</li>
+</ol>
+
+</div>
+<!-- SECTION [808-1205] -->
+<a name="etape_n_1preparer_l_installateur_sarge"></a><h3> Étape n°1: Préparer l'installateur Sarge </h3>
+<div class="level3">
+
+<p>
+ Commencer par télécharger les images des disquettes sur <a href="http://ftp.debian.org/debian/dists/" class="urlextern" title="http://ftp.debian.org/debian/dists/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">le site officiel Debian</a> en se rendant dans le répertoire de la version Debian souhaitée. Actuellement, la dernière version stable est Debian <a href="http://ftp.debian.org/debian/dists/sarge/main/installer-i386/rc3/images/floppy/" class="urlextern" title="http://ftp.debian.org/debian/dists/sarge/main/installer-i386/rc3/images/floppy/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Sarge (juin 2005)</a> :
+</p>
+
+<p>
+* boot.img
+</p>
+
+<p>
+* root.img
+</p>
+
+<p>
+* net-drivers.img
+</p>
+
+<p>
+Enregistrer chacune de ces images sur disquettes en utilisant la commande suivante : 
+</p>
+<pre class="code">dd if=/path/to/floppy/images/IMAGE.img of=/dev/fd0</pre>
+
+<p>
+ où <em>IMAGE.img</em> sera remplacé par le nom du fichier image soit, <em>boot.img</em>, puis <em>root.img</em> et enfin <em>net-drivers.img</em>.
+</p>
+
+</div>
+<!-- SECTION [1206-1920] -->
+<a name="etape_n_2lancer_l_installateur_sarge"></a><h3> Étape n°2: Lancer l'installateur Sarge </h3>
+<div class="level3">
+
+</div>
+<!-- SECTION [1921-1972] -->
+<a name="une_autre_maniere_de_proceder"></a><h2> UNE AUTRE MANIÈRE DE PROCÉDER </h2>
+<div class="level2">
+
+<p>
+  ... est de préparer des disquettes de démarrage Knoppix.
+</p>
+
+<p>
+Ce procédé est utile si vous disposez d&rsquo;un lecteur de cédérom mais qu&rsquo;il ne vous est pas possible de démarrer à partir d&rsquo;un cédérom (BIOS trop ancien, adapteur <acronym title="Small Computer System Interface">SCSI</acronym> non adapté, etc.). 
+</p>
+<ul>
+<li class="level1"><span class="li">  Lancer Knoppix sur un autre ordinateur.</span>
+</li>
+<li class="level2"><span class="li">  K Menu &ndash;&gt; KNOPPIX &ndash;&gt; Utilitaires &ndash;&gt; Créer des disquettes de démarrage pour KNOPPIX.</span>
+</li>
+</ul>
+
+<p>
+ Insérez alors la première disquette dans l&rsquo;ordinateur où vous souhaitez installer Ubuntu, insérez le cédérom KNOPPIX dans le lecteur, relancer la machine, et insérer la seconde disquette quand on vous le demandera. Vous serez alors sous l&rsquo;environnement KDE. Suivez ensuite le tutoriel sur <a href="/installation/depuis_une_knoppix" class="wikilink1" title="installation:depuis_une_knoppix" onclick="return svchk()" onkeypress="return svchk()"> l'installation depuis  une Knoppix</a>.
+</p>
+
+</div>
+<!-- SECTION [1973-2786] -->
+<a name="une_autre_alternative_plus_fiable_et_plus_simple"></a><h2> UNE AUTRE ALTERNATIVE PLUS FIABLE ET PLUS SIMPLE </h2>
+<div class="level2">
+
+<p>
+ ... est d&rsquo;utiliser une disquette Smart Boot Manager pour le démarrage de la machine. Pour de plus amples informations, veuillez consulter le tutoriel <a href="/installation/smart_boot_manager" class="wikilink1" title="installation:smart_boot_manager" onclick="return svchk()" onkeypress="return svchk()">Smart Boot Manager</a>
+</p>
+
+</div>
+<!-- SECTION [2787-3056] -->
+<a name="question_reponse"></a><h2> Question / Réponse </h2>
+<div class="level2">
+
+<p>
+ Cela peut paraître un peu impoli de modifier la page wiki d&rsquo;un autre, mais un point a retenu mon attention :
+</p>
+
+<p>
+&ldquo;4. Utiliser ensuite debootstrap pour y installer Ubuntu&rdquo;
+</p>
+
+<p>
+Bon, je viens de créer les disquettes d&rsquo;installation Debian Sarge, j&rsquo;ai redémarré l&rsquo;ordinateur, créé les partitions, etc... Mais comment &ldquo;Utiliser ensuite deboostrap pour y installer Ubuntu&rdquo; dans la pratique ?
+</p>
+
+<p>
+Je n&rsquo;en ai aucune idée. 
+</p>
+
+<p>
+Et d&rsquo;ailleurs si quelqu&rsquo;un en a sur ce sujet, qu&rsquo;il ajoute quelques lignes d&rsquo;explications ici.
+</p>
+
+<p>
+A vrai dire je ne connais moi-même pas trop le sujet, mais voici quelques pistes : consultez le tutoriel sur <a href="/installation/depuis_une_knoppix" class="wikilink1" title="installation:depuis_une_knoppix" onclick="return svchk()" onkeypress="return svchk()"> l'installation depuis  une Knoppix</a> ou mieux encore la page (en anglais) <a href="http://archive.ubuntulinux.org/ubuntu/dists/warty/main/installer-i386/current/doc/manual/en/apcs03.html" class="urlextern" title="http://archive.ubuntulinux.org/ubuntu/dists/warty/main/installer-i386/current/doc/manual/en/apcs03.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">apcs03.html</a>
+</p>
+
+<p>
+De stilus Ven 27 Mai 16:43:08 +0100 2005 De: stilus Date: Ven, 27 Mai 2005 16:43:08 +0100 Sujet: Comment utiliser dbootstrap Message-ID: &lt;20050527164308+0100@[<acronym title="World Wide Web">WWW</acronym>] <a href="https://www.ubuntulinux.org" class="urlextern" title="https://www.ubuntulinux.org" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">https://www.ubuntulinux.org</a>&gt;
+</p>
+
+</div>
+<!-- SECTION [3057-4132] -->
+<a name="avant_de_commencer"></a><h3> Avant de commencer... </h3>
+<div class="level3">
+
+<p>
+ J&rsquo;ai utilisé les disquettes d&rsquo;installation Debian GNU/Linux pour installer le système à partir duquel j&rsquo;écris ce message.  Remarque : travailler avec des disquettes signifie presque toujours qu&rsquo;à un moment ou un autre, une des disquettes sera altérée et illisible. Vous pourriez donc souhaiter conserver une sauvegarde avec rawwrite/ dd. J&rsquo;ai pris des notes de ce que j&rsquo;ai fait, mais j&rsquo;ai pu commettre des erreurs pendant la restanscription. La procédure fonctionne pour <strong>moi</strong> sur un ordinateur portable à base i386 sans lecteur CD-ROM. <em>Vim</em> est mon éditeur préféré, mais vous pouvez aussi utiliser <em>nano</em> ou tout autre éditeur en adaptant les commandes). J&rsquo;ai consulté les guides : 
+</p>
+<ul>
+<li class="level1"><span class="li">  <a href="http://archive.ubuntulinux.org/ubuntu/dists/warty/main/installer-i386/current/doc/manual/en/apcs03.html" class="urlextern" title="http://archive.ubuntulinux.org/ubuntu/dists/warty/main/installer-i386/current/doc/manual/en/apcs03.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">apcs03.html</a></span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li">  et le <a href="http://www.debian.org/releases/stable/i386/ch-preparing.en.html" class="urlextern" title="http://www.debian.org/releases/stable/i386/ch-preparing.en.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">paragraphe 3.7</a>.</span>
+</li>
+</ul>
+
+<p>
+ Attention: je ne suis pas du tout un expert, et il se peut que certaines étapes décrites ici soient complètement inadaptées, entièrement fausses voire inutilement compliquées.
+</p>
+
+</div>
+<!-- SECTION [4133-5281] -->
+<a name="preliminaires"></a><h3> Préliminaires </h3>
+<div class="level3">
+
+<p>
+ J&rsquo;ai utilisé les fichiers images boot.img, root.img et net-drivers.img provenant de Debian GNU/Linux Sarge. Attention : un accès internet est indispensable pour toutes les étapes du processus. Vous trouverez les images des disquettes sur : [<acronym title="World Wide Web">WWW</acronym>] <a href="http://ftp.debian.org/debian/dists/sarge/main/installer-i386/current/images/floppy" class="urlextern" title="http://ftp.debian.org/debian/dists/sarge/main/installer-i386/current/images/floppy" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://ftp.debian.org/debian/dists/sarge/main/installer-i386/current/images/floppy</a>.
+</p>
+
+<p>
+Pour créer les disquettes de démarrage, d&rsquo;administration et celles contenant les pilotes, j&rsquo;ai utilisé <strong>dd</strong> (il est conseillé aux utilisateurs windows d&rsquo;utiliser rawrite, comme c&rsquo;est expliqué en détail sur plusieurs sites web).
+</p>
+
+<p>
+J&rsquo;ai inséré le disque de démarrage, en m&rsquo;assurant que mon câble réseau était bien connecté, et à l&rsquo;invite &ldquo;Enter to boot:&rdquo;, j&rsquo;ai tapé : 
+</p>
+<pre class="code">Enter to  boot:expert &lt;Entrée&gt; </pre>
+
+<p>
+ Le paramètre &ldquo;expert&rdquo; permet d&rsquo;avoir le contrôle sur toutes les étapes du processus d&rsquo;installation. L&rsquo;installateur pose alors des questions sur le disque root, la langue et la location géographique. Choisir les bons paramètres pour langue/location peut réduire considérablement le temps de téléchargement. Ensuite, quand on me l&rsquo;a demandé, j&rsquo;ai chargé les pilotes pour le net à partir de la disquette.
+</p>
+
+<p>
+Vient ensuite la détection du type de clavier et du matériel réseau. Je n&rsquo;ai eu qu&rsquo;à valider les choix proposés. Mon réseau est configuré par DHCP. Si ce n&rsquo;est pas votre cas, vous connaissez sûrement la marche à suivre. (PS : j&rsquo;ai dû lancer la commande &ldquo;autoconfiguration réseau&rdquo; deux fois).
+</p>
+
+<p>
+On vous demande ensuite un nom d&rsquo;hôte. J&rsquo;utilise celui qui est proposé par défaut : debian (mais vous pouvez toujours le modifier ultérieurement). Vient ensuite une question sur le nom du domaine : (à vous de choisir; pour ma part j&rsquo;ai juste appuyé sur &lt;Entrée&gt;)
+</p>
+
+<p>
+J&rsquo;ai alors sélectionné un site mirroir proche de chez moi, juste en validant les choix proposés. Je ne me suis pas soucié des composants supplémentaires de l&rsquo;installateur et j&rsquo;ai choisi de continuer. Puis, j&rsquo;ai laissé Debian procéder à la détection du matériel. J&rsquo;ai de nouveau ignoré les messages concernant les modules et leurs paramètres. Enfin, j&rsquo;ai partitionné le disque, opération très facile so l&rsquo;on choisit le partionnement assisté. J&rsquo;ai choisi d&rsquo;effacer le disque entier et de tout installer sur une seule partition. Voici le résultat final (en utilisant les options par défaut): 
+</p>
+<pre class="code">#1 primary   9.6 GB   ext3     / 
+#5 logical 444.1 MB   swap     swap</pre>
+
+<p>
+ Si je n&rsquo;avais pas choisi l&rsquo;installation en mode expert, l&rsquo;installateur aurait continué tranquillement son travail d&rsquo;installation du système de base. Or c&rsquo;est ici que ça se complique, et qu&rsquo;intervient le tutoriel sur l&rsquo;installation de debian sur un système pré-existant et l&rsquo;installation de ubuntu à partir de disquettes.
+</p>
+
+<p>
+Pour passer sur une console (remarque : l&rsquo;option &ldquo;quitter vers une console&rdquo; du menu de l&rsquo;installateur Debian pose quelques problèmes avec vim), tapez :
+</p>
+
+<p>
+Alt+F2 
+</p>
+
+<p>
+La commande df -h  m&rsquo;a ensuite indiqué que le disque dur se trouvait dans : /dev/ide/host0/bus0/target0/lun0/part1, et qu&rsquo;il était monté en /target. Le nom /target sonne assez bien pour y installer ubuntu.
+</p>
+
+</div>
+<!-- SECTION [5282-8434] -->
+<a name="recuperer_debootstrap"></a><h3> Récupérer &quot;debootstrap&quot; </h3>
+<div class="level3">
+<pre class="code">mkdir work 
+cd work
+wget http://ftp.bit.nl/ubuntu/pool/main/d/debootstrap/debootstrap_0.2.45ubuntu36_i386.deb
+(une liste complète des mirroirs d'ARCHIVE est disponible à l'adresse : http://ubuntulinux.org/wiki/Archive). 
+ar -x debootstrap_0.2.45ubuntu36_i386.deb
+cd /
+tar zxvf /work/data.tar.gz
+/usr/sbin/debootstrap --arch i386 hoary /target http://ftp.bit.nl/ubuntu/</pre>
+
+<p>
+ Ceci permet de récupérer et valider les fichiers dans le dossier /target, pour ensuite commencer leur installation.
+</p>
+
+</div>
+<!-- SECTION [8435-8979] -->
+<a name="configuration_de_base"></a><h3> Configuration de base </h3>
+<div class="level3">
+<pre class="code">chroot /target /bin/bash 
+mount -t proc proc /proc</pre>
+
+<p>
+ (Le montage de /proc est INDISPENSABLE. Croyez-moi, j&rsquo;ai eu les pires problèmes et j&rsquo;ai dûr recommencer (trois fois à vrai dire) parce que je n&rsquo;avais pas monté /proc correctement. D&rsquo;ailleurs le montage de sys ne fonctionne pas, contrairement à ce qui est indiqué dans plusieurs manuels, mais ce n&rsquo;est pas grave. Je n&rsquo;ai pas eu à modifier le fichier /etc/fstab, qui me paraissait par défaut bien adapté à ma configuration. (I edited the /etc/network/interfaces, because it had no local loopback, for starters): 
+</p>
+<pre class="code">vim /etc/network/interfaces </pre>
+<pre class="code">auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet dhcp</pre>
+
+<p>
+ my /etc/resolv.conf looked correct (nameserver: 10.0.0.2).
+</p>
+
+<p>
+En l&rsquo;honneur de l&rsquo;installation par disquettes j&rsquo;ai choisi &ldquo;debian&rdquo; comme non d&rsquo;hôte : 
+</p>
+<pre class="code">echo debian &gt; /etc/hostname </pre>
+
+<p>
+ Nota Bene: j&rsquo;ai oublié de le mentionner, mais il est judicieux d&rsquo;éditer le fichier /etc/hosts à cette étape du processus... (en fait j&rsquo;ai constaté par la suite yet by mistake I proved that it works by doing this afterwards, see the Post Scriptum for more). J&rsquo;ai ajouté la ligne suivante simplement en éditant /etc/hosts pendant l&rsquo;installation de hoary : 
+</p>
+<pre class="code">vim /etc/hosts </pre>
+<pre class="code">127.0.0.1       localhost.localdomain   locahost        debian</pre>
+
+</div>
+<!-- SECTION [8980-10323] -->
+<a name="parametrer_le_systeme_ubuntu"></a><h3> Paramétrer le système ubuntu </h3>
+<div class="level3">
+<pre class="code">base-config new </pre>
+
+<p>
+ Plusieurs questions m&rsquo;ont été posées : j&rsquo;ai ajouté un utilisateur, j&rsquo;ai sélectionné http comme type de mirroir, et choisi les Pays-Bas comme pays, et c&rsquo;était parti enfin pour des suppressions, vérifications, sélections, installations de paquets et différents paramétrages. Powernowd (?) a provoqué quelques erreurs, car j&rsquo;utilisais un noyau incorrect (~gosh~). Mais rien de  bien dramatique. J&rsquo;ai eu également quelques erreurs avec mes polices, mais le problème semble s&rsquo;être résolu tout seul. Le processus d&rsquo;enregistrement a été interminable, ne soyez donc pas surpris.
+</p>
+
+</div>
+<!-- SECTION [10324-10976] -->
+<a name="et_pour_terminer..._important"></a><h3> Et pour terminer... (important) </h3>
+<div class="level3">
+
+<p>
+ Fixer les paramètres de langue peut s&rsquo;avérer utile : 
+</p>
+<pre class="code">dpkg-reconfigure locales  </pre>
+
+<p>
+ L&rsquo;installation par ce biais ne procure pas de noyau, or j&rsquo;en avais besoin d&rsquo;un : 
+</p>
+<pre class="code">apt-cache search linux-image
+apt-get install linux-image-2.6.10-5-686</pre>
+
+<p>
+ Répondez &ldquo;no&rdquo; à l&rsquo;invite &ldquo;Voulez-vous arrêter ?&rdquo; pendant l&rsquo;installation du noyau. Le lien proposé vers initrd.img me paraissait pas mal, et j&rsquo;ai donc répondu : &ldquo;Y&rdquo;.
+</p>
+
+<p>
+Enfin, il me fallait un chargeur de démarrage : 
+</p>
+<pre class="code">apt-get install grub 
+grub-install /dev/hda
+update-grub
+would you like menu.lst generated? &quot;Y&quot;</pre>
+
+<p>
+ Tout semblait correct, il était donc temps de relancer la machine :
+</p>
+
+<p>
+ctrl+d (pour quitter le chroot)  reboot
+</p>
+
+<p>
+Post Scriptum:
+</p>
+
+<p>
+La méthode décrite ici fonctionne, mais comme je l&rsquo;ai indiqué plus haut, il reste une chose à faire. Pour être complet, il faut en effet ajouter une ligne avec le nom d&rsquo;hôte dans /etc/hosts. Je l&rsquo;avais moi-même omise, ce qui entraînait des problèmes de souris USB, de carte réseau, et de connexion sous gdm. Ainsi j&rsquo;ai donc essayé de résoudre le problème et redémarré la machine une nouvelle fois (et je suis parvenu alors à l&rsquo;écran graphique de connexion):
+</p>
+
+<p>
+Ctrl+alt+F1,   username password
+</p>
+<pre class="code">sudo vim /etc/hosts</pre>
+
+<p>
+(J&rsquo;ai eu un message d&rsquo;erreur gethostname() ou quelque-chose comme ça. Non, c&rsquo;est vrai !?)
+</p>
+
+<p>
+ (J&rsquo;ai ajouté la ligne suivante, que j&rsquo;avais trouvée sur une machine opérationnelle sous hoary :) 
+</p>
+<pre class="code">127.0.0.1       localhost.localdomain   locahost        debian</pre>
+
+<p>
+ J&rsquo;ai alors redémarré une nouvelle fois la machine !
+</p>
+
+<p>
+Cette astuce a permis de résoudre mes problèmes. Et je termine d&rsquo;ailleurs ce tutoriel à partir d&rsquo;un bureau Ubuntu ! 
+</p>
+
+</div>
+<!-- SECTION [10977-] -->

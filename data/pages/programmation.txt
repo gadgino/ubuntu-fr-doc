@@ -1,0 +1,322 @@
+{{tag>portail BROUILLON}}
+----
+====== Programmation ======
+
+<note>Cette page n'a pas la vocation de recenser la totalité des langages ni des outils disponibles. Il y en a tellement, et chaque programmeur a sa façon de faire. Une partie "liens extérieurs" vous donnera quelques sites de qualité sur la programmation. </note>
+===== Outils généraux =====
+==== Outils de gestion de version (Versionning) ====
+Les outils de gestion de version permettent la synchronisation facile des équipes de développement, ils sont même quasiment indispensables quand il s'agit de travailler en équipes dispersées à travers le monde.
+ 
+**Système centralisé** : Basé sur le modèle client serveur, le gestionnaire doit posséder une connexion au serveur pour effectuer des modifications sur la branche principale (commit). Il est possible d'avoir une copie locale qui permet de travailler en mode déconnecté, mais qui devra être synchronisée avec le serveur.
+  * [[:CVS]] : Gestionnaire de versions plus ancien (ancêtre de SVN)
+  * [[:CVS_Server]] : Tutoriel sur la création d'un serveur CVS
+  * [[:Subversion]] - Gestionnaire de versions (aussi appelé SVN)
+  * [[:Trac]] - Environnement de suivi de projet technique basé sur [[:Subversion]]
+
+**Système distribué** : Basé sur le modèle d'égal à égal, chaque machine est responsable de sa partie. Tant que l'on travaille sur sa partie, il n'est pas nécessaire d'avoir une connexion. Par contre pour se synchroniser avec une branche extérieure, il est nécessaire d'avoir un accès à cette branche.
+  * [[:git]] - Gestionnaire de versions créé par Linus Torsvald et très répandu.
+  * [[:bzr|Bazaar]] - Gestionnaire de versions distribuées, développé par [[:Canonical]]
+  * [[:hg_mercurial]] - Gestionnaire de versions distribuées
+  
+==== Outils de comparaison de fichiers ====
+  * [[:diff]] - outil de comparaison de fichiers et de création de patchs.
+  * [[:sdiff]] - outil de comparaison de fichiers côte à côte.
+  * [[:meld]] - outil graphique qui compare vos fichiers et dossiers.
+  * [[:diffuse]] - outil graphique de comparaison de fichiers.
+  * [[:tkdiff]] - outil graphique (interface X11) de comparaison de fichiers.
+  * [[:xxdiff]] - outil graphique (interface X11) de comparaison de fichiers et de dossiers.
+  * [[:kompare]] - outil graphique de comparaison de fichiers et dossiers.
+  * [[:vimdiff]] - outil de comparaison de fichiers.
+  * [[:gvimdiff]] - outil graphique de comparaison de fichiers.
+  * [[:kdiff3]] - outil graphique de comparaison et de merge de fichiers et dossiers.
+  * [[diffmerge]] - outil graphique de comparaison et de merge.
+
+==== UML ====
+
+Reportez-vous à la [[:uml|page sur UML]]
+==== XML ====
+  * [[:Xslt]] - Les processeurs XSLT.
+
+===== Environnement de Développement Intégré =====
+Tout d'abord, **qu'est ce qu'un EDI ?** Un EDI ([[wpfr>Environnement_de_développement_intégré]]) est un logiciel 3 en 1 permettant au programmeur d'écrire, de compiler et de déboguer son programme avec un seul logiciel.
+
+Web : HTML, CSS, Javascript
+
+{{icons:icon-ubuntu.png?nolink20}} : dépôt officiel : installation simple.
+
+{{icons:important.png?nolink20}} : installation manuelle : peu être compliquée pour un débutant.
+
+{{icons:process-stop.png?nolink20}} : non disponible.
+
+==== EDI généralistes ====
+^ EDI ^ Langages ^ Dépôt ^ PPA ^ Téléchargement \\ Compilation ^ Notes ^
+| [[:Anjuta]] | C, C++, Java, Python | {{icons:icon-ubuntu.png?nolink20}} | {{icons:important.png?nolink20}} | {{icons:process-stop.png?nolink20}} | S’intègre bien dans les environnements GTK classiques (Mate, Xfce, etc.) |
+| [[:aptana_studio]] | Web, Python, PHP, Ruby | {{icons:process-stop.png?nolink20}} | {{icons:process-stop.png?nolink20}} | {{icons:important.png?nolink20}} | Existe aussi en tant que plugins pour [[:Eclipse]] |
+| [[:gnome-builder|Builder]] | C, C++, Python, Vala, Web, etc. | {{icons:icon-ubuntu.png?nolink20}} | {{icons:process-stop.png?nolink20}} | {{icons:important.png?nolink20}} | IDE simple, moderne et moderne du projet [[:Gnome]], avec gestion avancée de la coloration, de l'autocomplétion, et des formats d'empaquetage modernes comme Flatpak |
+| [[:Code_Blocks]] | C, C++, Fortran, Python | {{icons:icon-ubuntu.png?nolink20}} | {{icons:important.png?nolink20}} | {{icons:important.png?nolink20}} | IDE orienté C, C++ et bibliothèques\\ Extensible par plugins |
+| [[:Eclipse]] | Java, C, C++, Web, PHP, Python, Ruby | {{icons:icon-ubuntu.png?nolink20}} | {{icons:process-stop.png?nolink20}} | {{icons:important.png?nolink20}} | Version obsolète dans les dépôts \\ Par défaut en java, demande l'installation de plugins pour les autres langages |
+| [[:Geany]] | Web, C, C++, JAVA, PHP, Python, Ruby... | {{icons:icon-ubuntu.png?nolink20}} | {{icons:process-stop.png?nolink20}} |{{icons:important.png?nolink20}} | IDE très léger et polyvalent. Il est aussi considéré comme un éditeur de texte |
+| [[:jEdit]] | Web, C, C++, JAVA, PHP, Python... | {{icons:icon-ubuntu.png?nolink20}} | {{icons:process-stop.png?nolink20}} |{{icons:important.png?nolink20}} | éditeur de texte écrit en Java. Des dizaines de plugins permettent d'ajouter des fonctionnalités très variées, de la gestion de projet à l'exécution de commandes.| 
+| [[:Kdevelop]] | C, C++, Java, Python, Ruby, Perl, Fortran, ADA, PHP | {{icons:icon-ubuntu.png?nolink20}} | {{icons:important.png?nolink20}} | {{icons:important.png?nolink20}} | IDE très complet avec débogueur intégré. |
+| [[:NetBeans]] | Web, C, C++, JAVA, PHP, Ruby | {{icons:icon-ubuntu.png?nolink20}} | {{icons:process-stop.png?nolink20}} |{{icons:important.png?nolink20}} | IDE libre, complet et multiplate-formes codé en Java |
+| [[:MonoDevelop]] | C#, .NET, C++, Java | {{icons:icon-ubuntu.png?nolink20}} | {{icons:important.png?nolink20}} | {{icons:process-stop.png?nolink20}} | S'utilise comme Visual Studio.|
+| [[wpfr>Visual_Studio_Code|visual studio code]] | C#, C/C++, Python, Go, PHP,…| {{icons:process-stop.png?nolink20}} | {{icons:process-stop.png?nolink20}} | {{icons:important.png?nolink20}} | Un logiciel Microsoft Open Source qui existe pour Linux… 8-o, ça existe ! basé sur le [[wpfr>Electron_(framework)|framework Electron]] |
+
+  * [[:eiffelstudio]] : IDE complet et libre pour ISE Eiffel.
+
+
+==== Éditeur de texte====
+Une alternative à l'utilisation d'un EDI est le développement à l'aide d'un éditeur de texte suivi d'une compilation manuelle.
+  * [[:Emacs]] - Éditeur de texte très puissant mais long à maîtriser.
+  * [[:Vim]] - Éditeur de texte très puissant mais long à maîtriser.
+  * [[:SciTE]] - Éditeur de texte léger et performant.
+  * [[:Nano]] - Un éditeur en console facile à maîtriser.
+  * [[:gEdit]] - Éditeur de texte léger, assez performant et plutôt configurable.
+  * [[:Kate]] - Éditeur de texte à tout faire, inclus dans KDE, gérant la coloration syntaxique pour l'édition de la plupart des codes sources ;
+  * [[https://atom.io/|Atom]] - Éditeur de texte léger avec de nombreux plugins. Aussi disponible via un [[:PPA]] fourni par [[https://launchpad.net/~webupd8team/+archive/ubuntu/atom|WebUpd8 team]].
+  * [[http://brackets.io/|Brackets]] - Éditeur de texte léger. Aussi disponible via un [[:PPA]] fourni par [[https://launchpad.net/~webupd8team/+archive/ubuntu/brackets|WebUpd8 team]].
+  * [[:sublime-text]] - éditeur de texte à mi-chemin de l'IDE avec une auto-completion des fonctions de base de différents langages supportés
+
+===== Système =====
+
+   * [[:Terminal]]
+   * [[:console]]
+   * [[:liste des applications console]]
+   * [[:tutoriel:script_shell|Script shell]] - Introduction au script shell
+Livre : [[http://www.framabook.org/Pour_aller_plus_loin_avec_la_ligne_de_commande.html|Unix. Pour aller plus loin avec la ligne de commande]]
+
+===== Langages généralistes ====
+====Python====
+
+   * [[:Acire]] : un outil graphique d'aide à l'apprentissage de la programmation en Python.
+   * [[:kiki]] : un outil pour tester et apprendre les expressions rationnelles de Python.
+   * [[:idle]] : un éditeur facile à prendre en main.
+   * [[:RUR-PLE]] : un environnement d'apprentissage de la programmation Python de manière amusante, en programmant un robot.
+   * [[http://inforef.be/swi/python.htm|Livres]] : Livres "Apprendre à programmer avec Python" de Gérard Swinnen sous licence Creative Commons
+   * [[:IPython]] - Shell pour Python amélioré.
+   * [[:Eric]] - [[http://eric-ide.python-projects.org/|Eric Python IDE]] - Comment installer l'éditeur Python Eric.
+   * [[:SPE]] - Comment installer l'[[http://pythonide.stani.be/|éditeur Python SPE]].
+   * [[:wingware|WingIDE]] - Environnement de développement professionnel dédié au développement de projets en Python.
+   *[[:gEcrit]] [[http://gecrit.sourceforge.net/]] - Nouvel IDE pour Python.
+   *[[:spyder|Spyder]] - **__S__cientific __PY__thon __D__evelopment __E__nvi__R__onment**
+
+====Java====
+   * [[:Java]] - Comment installer le support Sun Java //(JRE)// (installation, exécution des « .jar » et plugin de Mozilla Firefox) ?
+   * [[:jbuilder2005|JBuilder 2005]] - Comment installer l'environnement de développement intégré Borland JBuilder 2005 ?
+   * [[:iReport]] 
+   * Tutoriel sur les bases de Java : [[http://openclassrooms.com/courses/apprenez-a-programmer-en-java| Apprenez à programmer en Java]] sur l'ex site du zéro, OpenClassrooms.
+
+==== Ruby ====
+  * [[:http://arcadia.rubyforge.org/|Arcadia IDE]]  - IDE en TCL/TK et dedié à ruby, possède un debogueur. Accessible depuis gem ou sur rubyforge
+  * [[:rubyonrails|Ruby on Rails]] : Rails est un framework open-source d'une grande qualité destiné aux développements d'applications et services web en Ruby. 
+
+==== C++ ====
+Cours: 
+
+[[https://www.youtube.com/channel/UCS2e0hEJMhwd6bNscS60xTg/videos|Formation en vidéo sur le langage C]] (par [[:utilisateurs/naoki|Naoki]])
+
+[[http://fr.openclassrooms.com/informatique/cours/apprenez-a-programmer-en-c|Apprenez à programmer en C]] [[http://fr.openclassrooms.com/informatique/cours/programmez-avec-le-langage-c|Le C++ facile]] (OpenClassrooms, ex Site du Zéro)
+
+Nous vous invitons à consulter le [[:support programmation C]] mis à votre disposition :
+  * [[:Qt-Creator]] - l'IDE par excellence pour développer en Qt : débogueur, auto-complétion, facilité de prise en main...
+  * [[:edyuk|Edyuk]] - IDE C++/Qt4 très complet avec débogueur intégré.
+  * [[:Qdevelop]] - IDE C++/Qt4 plutôt complet avec débogueur intégré ([[http://biord-software.org/fr/qdevelop/|site]])
+
+==== Pascal ====
+
+  * [[:Lazarus]] - IDE basé sur Free Pascal et semblable à Delphi
+  * [[:fpc]] - Compilateur Free Pascal
+  * [[:gpc]] - Compilateur Pascal GNU
+
+
+==== Microsoft .NET / C# / VB .NET ====
+  * [[:Mono]] - Comment installer Mono? (implémentation libre de la plate-forme de développement Microsoft .NET)
+
+
+===== Web =====
+Le développement web, création de pages internet et de script PHP, etc.
+
+Cours : [[https://www.youtube.com/watch?v=864l7IeIvXA&list=PLVwwX16606JUa95xmLYvi1YBgiVPLHvtt|Formation au développement web en vidéo]] (HTML 5, CSS 3 , PHP, SQL, JavaScript et XML) par [[:utilisateurs/naoki|Naoki]] ( 
+This video is unavailable. 2016.04.06 )
+
+Voir aussi la [[:entreprise#creation_de_sites_web|sélection du portail "entreprise"]].
+
+==== Création d'animations pour le web====
+  * [[:SVG]] : création d'animations SVG (alternative libre au Flash)
+  * HTML5 - JavaScript (AJAX-JQuery)
+  * [[:Flash]] : création d'animations Flash - OBSOLÈTE
+
+==== Mise en ligne du site ====
+//Voir le portail [[:FTP]].//
+
+
+==== Vérification du rendu des sites créés====
+//Voir le portail [[:navigateur]].//
+
+
+==== Systèmes de gestion de contenu (CMS) ====
+//Voir le portail [[:CMS]].//
+
+==== Serveurs de développement web====
+  * [[:XAMPP]] : un serveur web de développement facile
+  * [[:RubyOnRails]]: Rails est un framework de développement d'applications web basé sur le concept Modèle-Vue-Controleur (MVC).
+  * voir aussi le portail sur les [[:serveur|applications réseaux et serveurs]].
+
+====Transformation C/C++ (ou autres ) vers javascript / html ====
+
+Description du processus : 
+   - compiler code (c++ par exemple ) vers LLVM. Des compilateurs : llvm-gcc, clang, ...
+   - Compiler le code LLVM vers javascript 
+     - Emscripten ([[http://code.google.com/p/emscripten/|site]])
+     - llvm js backend ([[http://github.com/dmlap/llvm-js-backend|site]]) a vérifier
+
+[[wpfr>Html5]] implémente les websockets, et une plage mémoire pour des applications web.
+
+   * NativeClient ([[http://code.google.com/p/nativeclient/|site]])( de google ) Lancer du code natif dans une application web : nécessite un navigateur compatible : 
+
+
+Le compilateur **js_of_ocaml** ([[http://ocsigen.org/js_of_ocaml/]]) propose une compilation presque complète depuis l'OCaml vers le JavaScript. Tous les navigateurs récents sont compatibles.
+
+==== HTML / XHTML / CSS ====
+
+Le [[wpfr>WYSIWYG]] est le fait de voir directement ce que l'on édite au format final, c'est-à-dire que ce que vous éditez ressemble fortement au résultat final publié.
+
+  * [[:Kompozer]], éditeur HTML (conseillé pour les débutants en création de site web) ;
+  * [[:Seamonkey]], éditeur HTML (Composer) et navigateur web ensemble;
+  * [[:BlueGriffon]], éditeur HTML supportant les plus récentes technologies Web (HTML5, CSS3), avec des add-ons pour des fonctions de base payants ;
+  * [[:Amaya]], édition XHTML conçu par le [[wpfr>World_Wide_Web_Consortium|W3C]] et l'[[wpfr>INRIA]] avec visualisation des animations svg ;
+  * **[[wpfr>Dreamweaver]]**, éditeur HTML payant, s'installe parfaitement avec [[:Wine]].
+  * [[:Firebug]] | Très bonne extension de Firefox qui permet d'éditer, debugger,  monitorer du CSS, HTML, et du JavaScript live.
+  * [[:LibreOffice]] Writer, permet de créer des pages html simples et rapidement ;
+  * [[:Cssed]], éditeur et validateur de feuilles de style CSS ;
+  * [[:w3c-markup-validator]], validateur HTML ;
+  * [[:Komodo Edit]], éditeur (HTML, CSS, RUBY, PYTHON…) simple et performant ;
+  * [[:Sublime-Text]] éditeur léger reconnaissant  44 langages de programmation et permet l'ajout de fonctionnalités avec des plugins
+
+
+==== PHP ====
+===Serveur===
+  * [[:apache]]
+  * [[:lamp]] : installer un serveur LAMP (Linux, Apache, Mysql, Php)
+
+===Éditeur=== 
+  * [[:Bluefish]] : éditeur syntaxique orienté PHP. (interface GTK+) 
+  * [[:gPHPEdit]] : éditeur syntaxique orienté PHP.
+
+===Framework=== 
+  * [[:symfony]] : framework PHP très en vogue
+  * Jelix : framework PHP français assez léger et assez simple d'utilisation
+  * [[:zend-framework|Zend Framework]] : Zend Framework est un framework open-source d'une grande qualité destiné aux développements d'applications web et de services web avec PHP.
+  * [[:CodeIgniter]] : un framework très léger et plus facile à prendre en main que Symphony et ZenFramework. (voir la [[http://social.hecube.net/2009/05/framework-php-quel-framework-choisir-entre-codeigniter-cakephp-symphony-zend/|revue de Hecube]])
+  * [[:FuelPHP]] : un successeur pour CodeIgniter ? (voir [[http://www.novius-labs.com/quel-framework-choisir-nous-votons-fuelphp,29.html|l'article de Novius labs]])
+  * [[:Atomik]] : le petit dernier, super léger ... peut-être trop. Vous pouvez vous faire une idée avec l'[[http://openclassrooms.com/courses/atomik-framework-un-framework-php-simple-et-leger|article du site du zéro]].
+
+===Cache PHP===
+  * [[:php-APC|APC]]
+  * [[:eAccelerator]]
+  * [[:XCache]]
+
+=== Packages ===
+  * [[https://getcomposer.org|Composer]] : Gestionnaire de package.
+  * [[https://packagist.org|Packagist]] : regroupe des packages utilisable avec composer
+
+==== NodeJs ====
+
+Basé sur JavaScript [[:nodejs]] est un langage de script exécuté coté serveur.
+===== Le développement d'applications =====
+Cette partie concerne aussi bien la simple compilation, la programmation de petits programmes que la création de programmes ambitieux !
+
+==== Compiler un programme ====
+  * [[:compilation|Compilation]] - Indique comment installer les compilateurs C, C++, Java, Fortran, Pascal et Ocaml.
+  * [[:tutoriel:compilation|Compilation de logiciels]]
+
+==== Création de paquets .deb ====
+Les paquets .deb sont les "installeurs" de programmes d'Ubuntu, ces pages vous expliquent comment les créer.
+
+  * [[:projets:ecole:paquets|Comment créer un paquet .deb]]
+  * [[:tutoriel:creer_un_paquet]] - Comment créer un paquet à partir de sources compilables ?
+  * [[:tutoriel:creer_un_meta_paquet]] - Comment créer un méta-paquet DEB ?
+
+====Internationaliser un programme====
+
+Voir le tutoriel [[:tutoriel:internationaliser_un_logiciel_libre|Comment internationaliser un logiciel libre]].
+
+====Développement Android====
+  * [[https://github.com/ubuntu/ubuntu-make/|Ubuntu-make]] : Projet pour rendre plus simple la configuration d'un environnement de développement pour Android.
+
+**Android Studio**
+  * [[http://developer.android.com/sdk/index.html#Other | Android Studio (Téléchargement)]]: Atelier logiciel d'applications natives android proposé par Google
+ **Voir aussi **
+  * [[android_sdk|  Développer des applications pour Android]]
+  * [[android | documentation ubuntu android]] 
+  * [[http://developer.android.com/ |documentation officielle Android]] 
+
+===== Développement de jeux vidéo =====
+  * Voir la page [[:developpement de jeux video]]
+
+===== Logiciels et utilitaires (par langages) =====
+==== Les outils de base de données ====
+  * [[:DbVisualizer]] - Outil générique de connexion aux bases de données
+
+==== Cross compilation Linux - Windows ====
+
+  * [[:/tutoriel/comment_utiliser_mingw32_pour_faire_des_executables_windows | MingW32]] - Cross Compilateur permettant le développement sous Linux d'applications **C** à exécuter sous Windows
+
+==== Gambas ====
+  * [[:Gambas]] - Présentation de l'IDE Gambas (IDE proche de Visual Basic).
+
+
+
+==== Calcul formel ====
+   *[[:Maxima]] (dans les dépôts officiels)
+   *[[:GIAC-Xcas]]
+   *[[:Yacas]]
+   *[[:Pari]]
+   *[[:Euler]]
+
+==== Virtualisation ====
+
+Les outils présentés ici sont utilisés pour virtualiser un environnement tel qui peut l'être dans les applications client/serveur.
+
+  * [[:docker]] - utilise le noyau de l’hôte pour virtualiser des services ou des applications dans des conteneurs.
+  * [[:vagrant]] - utilise [[Virtualbox]] ou VMware pour émuler une "box" (l'image d'une machine pré-paramétré) 
+
+==== Autres ====
+  * [[:sdl]] - Comment utiliser la SDL en C ?
+  * [[:fmod]] - Comment utiliser la fmod en C/C++ ?
+  * [[:programmation_sur_livecd|programmation_sur_livecd]] - Comment programmer sur un live CD ?
+
+===== Les outils d'analyse et d'optimisation du code =====
+Aller sur [[:analyseur_de_code_static|la pages des analyseurs de code static]]
+
+===== Reverse engineering =====
+=== Si vous pratiquez le reverse engineering ===
+
+  *[[http://bokken.re|Bokken]],un framework en python basé sur Radare sous licence libre\\
+permet de faire de l'analyse de binaire. Il supporte les fichiers au format PE, Elf et mach0, et les architectures ARM, i386 et x86-64\\
+
+  *[[android_sdk#java_decompileur_project]], Observer du code JAVA par décompilation.
+
+=====Ressources=====
+
+====Liens internes====
+
+====Liens externes====
+
+  * [[wpfr>Liste des algorithmes]] / [[http://en.wikipedia.org/wiki/List_of_algorithms|List of algorithm]]
+  * [[http://www.developpez.com/|www.developpez.com]] : le site propose de nombreux tutoriels de programmation à la fois sur les langages Web et les langages applicatifs.
+  * [[http://devdocs.io|devdocs.io]] : propose les documentations en anglais de nombreux languages tel que HTML, PHP, C, C++...
+
+===== Pages concernant la programmation =====
+{{backlinks>programmation}}
+----
+> NE PAS SUPPRIMER -- YoBoY
+
+{{topic>programmation}}
+----
+===== liens à corriger =====
+FIXME les [[:developpement?do=backlink|pages pointant vers l'ancienne page "developpement"]] doivent être corrigées pour pointer vers la page "programmation".
+
+----
+
+//Contributeurs : [[utilisateurs:Fabien26]].// [[utilisateurs:Phossele]], [[utilisateurs:darkjam]]

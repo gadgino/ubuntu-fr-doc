@@ -1,0 +1,206 @@
+{{tag>Xenial lecteur_audio }}
+
+----
+
+====== gmusicbrowser ======
+
+
+**gmusicbrowser** est un [[lecteur_audio|lecteur de musique]] hautement personnalisable spécialement créé pour gérer des listes de lecture (playlists) importantes, de grandes collections de musique et supportant les formats mp3, ogg, flac et mpc.
+
+Il est notamment  **le lecteur audio par défaut de [[:Xubuntu]] 11.04**(([[http://www.webupd8.org/2011/04/xubuntu-1104-released-with-xfce-48.html]])).
+
+{{http://squentin.free.fr/gmusicbrowser/screenshots/traytip_full.png|Gmusicbrowser en mini player}}
+
+
+===== Présentation =====
+
+gmusicbrowser est un lecteur audio écrit en perl dont voici les principales caractéristiques :
+  * conçu pour la lecture de playlists de plusieurs milliers de titres
+  * interface hautement personnalisable (agencement de la fenêtre, du navigateur, contenu de la notification, ...). C'est un peu le Foobar2000 de Gnu/Linux.
+  * possibilité de lire les chansons correspondantes à la lecture en cours (même album, même artiste, ...)
+  * support des formats ogg, mp3, flac, ape et mpc
+  * gestion des tags en masse et supporte plusieurs artistes et genres par titre
+  * lecture aléatoire personnalisable selon certains critères
+  * support de plusieurs plugins dont LastFM
+  * égaliseur graphique
+  * recherche automatique à la frappe dans sa collection
+  * possibilité de visualiser la fiche Wikipedia de l'artiste
+  * fermeture du lecteur et extinction de l'ordinateur à la fin d'une liste d'attente de chansons, idéal pour s'endormir en musique!
+  * Et beaucoup plus encore...
+
+===== Installation =====
+
+==== Depuis les dépôts officiels====
+
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt://gmusicbrowser|gmusicbrowser]]**.
+
+==== Depuis le dépôt du projet Shimmer ====
+<note important>Cette méthode installe une version modifiée de gmusicbrowser par un dépôt non officiel</note>
+Pour bénéficier d'une version plus à jour de gmusicbrowser, vous pouvez passer par le dépôt du [[http://shimmerproject.org/projects/shimmer-for-gmusicbrowser/|projet Shimmer]] qui fournit une version basée sur le Git de développement de gmusicbrowser. Cette version a une interface modifiée, mais il est toujours possible de mettre l'apparence que l'on souhaite en changeant le layout dans gmusicbrowser.
+
+Il suffit de lancer dans un terminal
+<code>sudo add-apt-repository ppa:shimmerproject/ppa</code>
+Ou installer le ppa suivant [[:tutoriel:comment_modifier_sources_maj#avec_une_interface_graphique|avec une interface graphique]] <code>ppa:shimmerproject/ppa</code>
+
+===== Utilisation=====
+
+Lancez l'application depuis le menu //Applications -> Son & vidéo -> gmusicbrowser// ou via la commande suivante :
+
+  gmusicbrowser
+
+
+===== Configuration =====
+==== Apparence ====
+
+Le choix de l'apparence se fait au moyen du menu **Apparence/Disposition**. celui-ci offre un large panel de choix : 
+  * le shinner desktop, qui est propre à Gmusicbrowser. Il a lui même 4 alternatives (accessibles en cliquant sur les icones en haut à droite), et offre même un "mur" de pochettes d'albums (la barre de gauche est alors redimensionné à la souris, jusqu'à disparaitre).
+  * Itunes
+  * Rhythmbox
+  * Audacious
+  * Qodlibet
+  * ....
+
+Pour les utilisateurs avancés souhaitant configurer eux-même très finement l'apparence de leur lecteur, il existe un fichier de configuration qui se trouve dans **/usr/share/gmusicbrowser/layouts**.
+
+Vous pouvez éditer votre propre fichier en copiant le fichier original dans **~/.config/gmusicbrowser/layouts** (par exemple avec votre explorateur de fichier, ou avec une commande <code>cp /usr/share/gmusicbrowser/layouts ~/.config/gmusicbrowser/layouts</code>
+
+Ensuite les nouvelles configurations créées dans ce fichier apparaitront dans le menu de préférence de gmusicbrowser.
+
+Pour plus de détails sur le fichier de configuration et sa syntaxe : [[http://gmusicbrowser.org/layout_doc.html|Documentation en anglais sur les layouts]]
+
+Vous trouverez des exemples de fichiers de configuration ici :
+[[http://gmusicbrowser.org/contrib.html|Layouts d'utilisateurs sur le site officiel]].
+
+==== Lecture aléatoire / ordonnée ====
+
+L'application ayant pour but de lire de grandes playlists, son mode de lecture, aléatoire ou ordonné, se doit d'être performant. Là encore ce mode est très configurable.
+Ce mode se base sur des données que l'on peut pondérer pour ajuster son influence sur le choix du prochain titre. Parmi ces données, on peut trouver entre autres : 
+  * dernière date de lecture du titre
+  * note du titre
+  * nombre de lectures
+  * date d'ajout du titre
+  * N° de la piste
+  * ...
+
+Selon le type d'affichage, le menu "ordre de lecture" (qui permet de configurer très finement la façon de lire les listes de lecture ou les albums) est ou n'est pas accessible. Ainsi, dans le mode d'affichage "shimmer desktop" il ne l'est pas. Par contre en mode d'affichage "ITUNES" (Apparence > faire ressembler à), ce menu l'est. On peut jouer temporairement sur l'apparence pour faire apparaitre des menus additionnels, puis les masquer après paramétrage en remettant un autre affichage.
+==== Actions de fin de liste d'attente ====
+
+Il est possible, avec gmusicbrowser d'effectuer des actions une fois les chansons de la liste d'attente toutes lues. Cela permet notamment :
+  * d'arrêter gmusicbrowser 
+  * de quitter gmusicbrowser
+  * d'éteindre le PC : idéal pour s'endormir en musique! ;-)
+
+=== Eteindre le PC ===
+
+Dans gmusicbrowser, cliquez sur le bouton de configuration, onglet "divers" et écrivez pour la "commande pour éteindre l'ordinateur":
+
+== Méthode sans les droits root pour Gnome  : ==
+<code>
+dbus-send --print-reply --dest=org.gnome.SessionManager /org/gnome/SessionManager org.gnome.SessionManager.RequestShutdown
+</code>
+Et pas besoin de donner les droits d'éteindre le PC ! :-D
+== Méthode sans les droits root pour KDE 4 : ==
+<code>
+qdbus org.kde.ksmserver /KSMServer logout 0 2 2
+</code>
+    
+== Méthode qui nécessite les droits root ==
+<code>
+sudo shutdown -h now
+</code>
+Puis il faut donner les droits d'éteindre le PC :
+
+  * Pour Ubuntu 15.04 et plus : Ubuntu est passé à systemd 
+<code>
+systemctl poweroff
+</code>
+
+  * Pour Ubuntu 8.04 et plus : avec Policykit 
+Allez dans Système / Admin / Autorisations
+
+/org/freedesktop/hal/power-management 
+
+Choisissez "shutdown the system", cliquez sur "Ajouter" puis sélectionnez l'utilisateur courant
+
+  * Pour Ubuntu <8.04 : par visudo (méthode générale)
+
+Dans un terminal tapez
+<code>
+sudo visudo
+</code>
+et entrez votre mot de passe. Puis rajoutez à la fin du fichier:
+
+<code>
+User_Alias SHUTDOWNERS = user1, user2
+SHUTDOWNERS ALL = NOPASSWD: /sbin/shutdown
+</code>
+
+en remplacant user1 et user2 par les noms d'utilisateurs autorisés à utiliser la commande "sudo shutdown -h now".
+Enregistrez le fichier, c'est bon!
+
+==== Intégration dans le menu audio d'Ubuntu ====
+
+Pour intégrer gmusicbrowser au "sound menu" d'Ubuntu, il faut activer le plugin //mpris v2// disponible dans les préférences du lecteur.
+
+==== Lanceur personnalisé pour Unity ====
+A partir de Ubuntu 11.04, l'interface Unity permet de créer des lanceurs personnalisés dans le dock.
+Pour créer un lanceur spécial gmusicbrowser avec des boutons pour Play/Pause, chanson précédente et chanson suivante,  accessibles au clic droit, il faut procéder comme suit :
+
+  * Créez un lanceur :
+<code>
+gedit ~/.local/share/applications/gmusicbrowser.desktop
+</code>
+  * Dans le fichier ouvert, collez le code suivant :
+<code>
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+Name=gmusicbrowser
+Comment=Jukebox for large collections of mp3/ogg/flac/mpc
+Exec=gmusicbrowser %F
+Type=Application
+Icon=gmusicbrowser
+Categories=Audio;AudioVideo;
+StartupNotify=true
+Comment[fr]=Jukebox pour de grandes collections de mp3/ogg/flac/mpc
+#MimeType=audio/x-musepack;application/x-musepack;audio/musepack;application/musepack;audio/mpc;audio/x-mpc;audio/x-mp3;audio/mpeg;audio/x-mpeg;audio/x-mpeg-3;audio/mpeg3;application/ogg;application/x-ogg;audio/vorbis;audio/x-vorbis;audio/ogg;audio/x-ogg;audio/x-flac;application/x-flac;audio/flac;
+X-Ayatana-Desktop-Shortcuts=Play;Previous;Next
+
+Name[fr_FR]=gmusicbrowser
+
+[Play Shortcut Group]
+Name=Lecture/Pause
+Exec=dbus-send --dest=org.gmusicbrowser /org/gmusicbrowser org.gmusicbrowser.RunCommand string:PlayPause
+TargetEnvironment=Unity
+
+[Previous Shortcut Group]
+Name=Précédent
+Exec=dbus-send --dest=org.gmusicbrowser /org/gmusicbrowser org.gmusicbrowser.RunCommand string:PrevSong
+TargetEnvironment=Unity
+
+[Next Shortcut Group]
+Name=Suivant
+Exec=dbus-send --dest=org.gmusicbrowser /org/gmusicbrowser org.gmusicbrowser.RunCommand string:NextSong
+TargetEnvironment=Unity
+</code>
+
+  * Enregistrez
+  * Ouvrez nautilus et allez dans ~/.local/share/applications :
+<code>
+nautilus ~/.local/share/applications
+</code>
+  * Glissez/déposez le fichier gmusicbrowser.desktop dans le dock
+  * Et Voilà!
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, le configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Liens =====
+
+  * **(en)** [[http://squentin.free.fr/gmusicbrowser/gmusicbrowser.html|Le site de gmusicbrowser]]
+  * **(en)** [[http://squentin.free.fr/gmusicbrowser/screenshots.html|Screenshots de gmusicbrowser]]
+
+----
+
+//Contributeurs principaux : [[utilisateurs:Mopinou|Mopinou]], [[utilisateurs:Hornblende|Hornblende]].//

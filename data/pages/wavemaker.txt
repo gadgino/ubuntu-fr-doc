@@ -1,0 +1,58 @@
+{{tag>Lucid Maverick programmation BROUILLON}}
+----
+ 
+====== WaveMaker ======
+ 
+WaveMaker est un environnement graphique de développement d'application accessible au non développeur. Il permet de construire rapidement une application en ligne. Cette application utilise le langage [[JAVA]], une fois l'application développée, il suffit de la déposer sur un serveur [[Tomcat]].
+{{ :wavemaker_acc.png?300|}}
+ 
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+ 
+===== Installation =====
+
+Il existe 2 versions de WaveMaker : une communautaire sous licence apache et une autre sous licence commerciale qui inclut des fonctions supplémentaires, comme la possibilité de se connecter à des SGBD propriétaire.\\
+Pour installer la version communautaire, il sera nécessaire de télécharger puis d' [[:tutoriel:comment_installer_un_paquet|installer l'un des paquets]] suivants selon votre version:
+  * ** [[http://wavemaker.cachefly.net/wavemaker-community_6.2.5GA_i386.deb|WaveMaker community version 32 bits]]**; 
+  * ** [[http://wavemaker.cachefly.net/wavemaker-community_6.2.5GA_amd64.deb|WaveMaker community version 64 bits]]**.
+
+<note help>Si vous ne savez pas si vous utilisez la version 32 bits ou 64 bits d'Ubuntu, vous pouvez consulter le paragraphe << **[[:architecture_materielle#mon_ubuntu_est-il_en_32_bits_ou_en_64_bits|Mon Ubuntu est-il en 32 bits ou en 64 bits ?]]** >></note>
+
+===== Utilisation=====
+
+Pour utiliser Wavemaker, il faut exécuter le fichier **/opt/wavemaker-community-6.2.5GA/bin/wavemaker.sh**.\\
+Dans un [[:terminal]] saisissez la commande suivante: <code>sh -c /opt/wavemaker-community-6.2.5GA/bin/wavemaker.sh</code>ce qui lancera l'application dans le navigateur web.\\
+
+Pour simplifier son exécution depuis le terminal vous pouvez créer un lien symbolique depuis /usr/bin. FIXME Méthode
+
+WaveMaker s'exécute dans le navigateur web.
+
+==== Exemple d'utilisation: ====
+
+
+=== Se connecter et importer une Base de données MySql: ===
+
+  * Dans la Barre des menus supérieur, ouvrir "services" > "Database service" puis compléter les champs nécessaire.
+  * Une fois les champs complétés et testés (par le bouton "Test connection"), Cliquez sur "Import" afin d'importer la structure et le contenu des tables déjà existantes.
+
+Vous pouvez maintenant modifier la BD en mode Graphique en vous rendant dans l'onglet "Model"...
+
+=== Afficher le contenu d'une table dans une page ainsi qu'un formulaire d'ajout ou de modification: ===
+
+  * Dans l'onglet "Palette", naviguez dans l'arborescence jusqu’à la branche "Data". Cette branche contient le nom des tables existantes dans la base, glissez l'une des tables dans la plage centrale, et voila!
+
+Pour tester l'application, il vous suffit de cliquer sur le bouton test
+===== Désinstallation =====
+ 
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+ 
+===== Voir aussi =====
+ 
+  * **(en)** [[http://www.wavemaker.com/|Site officiel du projet]]
+  * **(en)** [[http://dev.wavemaker.com/|Site de la communauté WaveMaker]]
+ 
+
+----
+//Contributeurs principaux : [[utilisateurs:wouldsmina|wouldsmina]].//

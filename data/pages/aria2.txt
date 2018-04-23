@@ -1,0 +1,47 @@
+{{tag>réseau}}
+
+----
+
+<note warning>Cet article n'est pas fini, mais j'espère que toutefois vous y trouverez ce que vous cherchez...</note>
+
+====== ARIA2 - Utilitaire de téléchargement à haute vitesse ======
+
+Aria2 est un gestionnaire de téléchargement en CLI multi-protocoles évolué permettant un nombre impressionnant de possibilités, comme par exemple télécharger plusieurs fichiers à la fois (ce qui n'est pas vraiment une nouveauté, mais c'était vraiment galère avec wget...), on alors, ce qui est nettement plus impressionnant, de télécharger plusieurs fichiers à la fois en utilisant simultanément le protocole http, ftp et torrent, réparer un fichier cassé par le téléchargement, etc...
+
+===== Pré-requis =====
+
+  * Disposer d'une connexion à Internet configurée et activée 
+
+
+
+
+===== Installation =====
+Vous pouvez l'installer via les dépôts d'ubuntu : [[apt://aria2]]
+ou par la commande
+<code> sudo apt-get install aria2 </code>
+
+Ou bien si vous voulez installer la dernière version (ou si vous voulez l'utiliser sur un ordi où vous n'avez pas les droits root) vous pouvez compiler les sources (chez moi, je n'ai pas eu de problèmes de dépendances, merci de me le faire remonter si quelqu'un en rencontre) :
+<code>cd /tmp</code>
+<code>wget http://freefr.dl.sourceforge.net/project/aria2/stable/latest/aria2-1.8.3.tar.bz2</code>
+<code>tar xvf aria2-1.8.3.tar.bz2</code>
+<code>cd aria2-1.8.3</code>
+Si vous voulez installer les binaires compilés directement dans votre système : 
+<code>./configure</code>
+<code>make && sudo make install</code>
+Si vous voulez installer les binaires compilés dans un dossier, par exemple /home/plop/bin/ (je trouve ça plus propre d'isoler du reste du système les binaires pas compilés par les devs de ubuntu, on peut plus facilement les retrouver sans en oublier. En plus, dans le cas d'un ordi où on n'a pas les droits root, cette méthode vous permet d'utiliser quand-même les logiciels que vous voulez ^^) :
+<code>./configure --prefix=/home/plop/bin</code>
+<code>make && sudo make install</code>
+Voilà ! (pour ceux qui ont utilisé la deuxième méthode, pensez bien à ajouter /home/plop/bin/bin (voire d'autres, c'est vous qui voyez) à votre variable $PATH !).
+
+
+===== Utilisation =====
+
+<code>aria2c [OPTIONS] [URL | MAGNET | FICHIER_TORRENT | FICHIER_METALINK]</code>
+
+
+
+===== Exemples d'utilisation =====
+Voir ici (anglais) : http://sourceforge.net/apps/trac/aria2/wiki/UsageExample
+
+===== Voir aussi =====
+[[http://aria2.sourceforge.net/|Site officiel d'Aria 2]]

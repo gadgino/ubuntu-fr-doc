@@ -1,0 +1,360 @@
+{{tag>Xenial navigateur internet}}
+
+----
+====== Uzbl ======
+
+**Uzbl** est un navigateur web qui utilise le moteur de rendu de page web [[wpfr>Webkit]].
+
+{{:applications:uzbl_xenial.png?350}}
+
+Il est présenté comme le [[:vim]] du navigateur web.
+
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+
+[[:tutoriel:comment_installer_un_paquet#paquet_present_dans_les_depots|Installez le paquet]] **[[apt>uzbl]]**.
+Optionnel : Logiciel à installer [[:xclip]].
+
+
+===== Configuration =====
+Pour pouvoir utiliser uzbl, lancez les commandes suivantes :\\
+On copie la configuration de base dans le répertoire
+<code>cp -r /usr/share/uzbl/examples/config/uzbl ~/.config/
+cp -r /usr/share/uzbl/examples/data/uzbl ~/.local/share/</code>
+
+On ajoute l'icône de l'application (optionnel) :
+<code>echo "set icon = $HOME/.local/share/uzbl/uzbl.png" >> ~/.config/uzbl/config</code>
+
+Votre nouveau navigateur est maintenant prêt à l'usage !!
+
+==== Suppression (et éventuellement ajout...) de favoris, cookies, historique ====
+Tout d'abord, déplacez vous dans le dossier ~/.local/share/uzbl\\
+Dans ce dossier sont présents d'autres dossiers, mais également des fichiers, qui ont un nom anglais mais assez explicite.\\
+Si vous voulez supprimer des cookies, ouvrez le dossier cookies.txt et supprimez les lignes voulues.\\
+Si vous voulez supprimer des sites contenus dans l'historique, ouvrez le dossier history et supprimez les lignes voulues.\\
+Si vous voulez supprimer des marques pages, ouvrez le dossier bookmarks et supprimez les lignes voulues.
+
+===== Utilisation =====
+ 
+Lancez l'application via le [[:unity#tableau_de_bord_dash|tableau de bord]] (Unity) ou via le [[:terminal]] (toutes versions d'Ubuntu) avec la [[:commande_shell|commande]] suivante : <code>uzbl</code>
+
+==== Commandes utiles ====
+<note tip>Pour voir l'ensemble des raccourcis, vous pouvez regarder dans le fichier de config d'uzbl.</note>
+**o <une_adresse_web>**        : ouvrir l'adresse web demandée\\
+**gg <mots_clefs>**            : recherche Google des mots clefs\\
+**b**                          : retourner à la page précédente\\
+**u**                          : ouvre le gestionnaire de favoris\\
+**U**                          : ouvre le gestionnaire d'historique\\
+**B**                          : ajoute la page actuelle aux favoris\\
+**Echap**                      : annuler\\
+**S**                          : stop\\
+**ZZ**                         : sortir du navigateur\\
+**r ou R**                     : actualiser (reload / Reload_ign_cache)\\
+**t**                          : enlève la barre du bas, écrit dans le titre de la fenêtre\\
+\\
+** //Recherche d'occurrences ://**\\
+\\
+**/blabla**                    : recherche l'occurrence "blabla" dans la page\\
+**n**                          : mettre en valeur l'occurrence suivante\\
+**N**                          : mettre en valeur l'occurrence précédente\\
+\\
+** //Déplacements ://**\\
+\\
+**j**                          : descend progressivement\\
+**k**                          : monte progressivement\\
+**h**                          : à gauche progressivement\\
+**l**                          : à droite progressivement (L minuscule)\\
+\\
+** //Déplacements rapides ://**\\
+\\
+**< < (collés)**              : haut de page\\
+**> > (collés)**              : bas de page\\
+**Espace**                    : bas de page\\
+**$**                         : droite de la page\\
+\\
+** //Zooms ://**\\
+\\
+**+**                         : zoom +\\
+**-**                         : zoom -\\
+**T**                         : toogle zoom\\
+\\
+** //Sélectionner un lien et/ou rentrer du texte(procédure dans l'ordre)://**\\
+\\
+**i**                         : passer en mode insertion\\
+**Tab**                       : sélectionner le lien ou la zone de texte suivante\\
+**Maj + Tab**                 : sélectionner le lien ou la zone de texte précédente\\
+\\
+** //Gestion des onglets (uniquement avec uzbl-tabbed) ://**\\
+**gn**                        : nouvel onglet vierge\\
+**go<une_adresse>**                        : ouvre l'adresse dans un nouvel onglet\\
+**gY**                        : ouvre l'adresse du presse-papier dans un nouvel onglet\\
+**ZZ**                       : fermer l'onglet courant\\
+**gt**                        : onglet suivant\\
+**gT**                       : onglet précédent\\ 
+\\
+**Entrée**                    : valider\\
+__ou__\\
+**Espace**                    : valider __pour les cases à cocher__ en mode insertion, en effet Entrée ne marche pas pour ça...\\
+==== Le fichier de configuration ====
+Les commandes de base ainsi que les alias de uzbl sont contenus dans le fichier **~/.config/uzbl/config** de votre dossier personnel.\\
+Voici un exemple de fichier config opérationnel :
+<file config>
+# config uzbl revue par helly
+# la config est optionnelle . vous pouvez utiliser uzbl sans elle (mais uzbl ne ferra pas grand chose)
+
+#les commandes sont inspirées de vim
+
+# Handlers
+set download_handler = spawn $XDG_DATA_HOME/uzbl/scripts/download.sh
+set cookie_handler   = spawn $XDG_DATA_HOME/uzbl/scripts/cookies.py
+#set new_window      = sh 'echo uri "$8" > $4' # open in same window
+set new_window       = sh 'uzbl -u $8' # equivalent to the default behaviour
+set scheme_handler   = spawn $XDG_DATA_HOME/uzbl/scripts/scheme.py
+set load_start_handler = chain 'set keycmd = ' 'set status_message = <span foreground="khaki">wait</span>'
+set load_commit_handler = set status_message = <span foreground="green">recv</span>
+set load_finish_handler = chain 'set status_message = <span foreground="gold">done</span>' 'spawn $XDG_DATA_HOME/uzbl/scripts/history.sh'
+
+## desactiver Javascript
+#set disable_scripts = 1
+
+# Apparences
+set show_status       = 1
+set status_background = #303030
+set status_format     = <span font_family="monospace"><span background="khaki" foreground="black">[\@[\@MODE]\@]</span> [<span weight="bold" foreground="red">\@[\@keycmd]\@</span>] <span foreground="#606060"> \@[\@LOAD_PROGRESSBAR]\@ </span><span foreground="#99FF66">\@[\@uri]\@</span> <span foreground="khaki">\@[\@NAME]\@</span>   <span foreground="orange">\@status_message</span><span foreground="#606060"> \@[\@SELECTED_URI]\@</span></span>
+set status_top        = 0
+set insert_indicator = I
+set command_indicator = C
+set useragent       = Uzbl (Webkit @WEBKIT_MAJOR.@WEBKIT_MINOR.@WEBKIT_MICRO) (@(uname -o)@ @(uname -m)@ [@ARCH_UZBL]) (Commit @COMMIT)
+
+set fifo_dir = /tmp
+set socket_dir = /tmp
+set shell_cmd         = sh -c
+
+# déclaration des commandes
+set modkey = Mod1
+# like this you can enter any command at runtime, interactively. prefixed by ':'
+bind    :_        = chain '%s'
+
+bind    j         = scroll_vert 20
+bind    k         = scroll_vert -20
+bind    h         = scroll_horz -20
+bind    l         = scroll_horz 20
+bind    <<        = scroll_begin
+bind    >>        = scroll_end
+bind    b         = back
+bind    m         = forward
+bind    S         = stop
+bind    r         = reload
+bind    R         = reload_ign_cache
+bind    +         = zoom_in
+bind    -         = zoom_out
+bind    T         = toggle_zoom_type
+bind    1         = sh "echo set zoom_level = 1.0 > $4"
+bind    2         = sh "echo set zoom_level = 2.0 > $4"
+bind    t         = toggle_status
+bind    /*        = search %s
+bind    ?*        = search_reverse %s
+#jump to next
+bind    n         = search
+bind    N         = search_reverse
+bind    gh _      = uri http://ixquick.com/do/metasearch.pl?query=%s&cat=web&pl=chrome&language=francais
+# shortcut to set the uri. TODO: i think we can abandon the uri command in favor of 'set uri = ..'
+bind    o _       = uri %s
+# shortcut to set variables
+bind    s _       = set %s
+bind    \wiki _   = uri http://fr.wikipedia.org/w/index.php?search=%s&go=Lire
+bind    \doc _    = uri http://doc.ubuntu-fr.org/?do=search&id=%s
+bind    \des _    = uri http://desencyclopedie.wikia.com/index.php?search=%s&fulltext=Rechercher
+bind    gg _      = uri http://www.google.com/search?q=%s
+#bin     gg _      = uri http://ixquick.com/do/metasearch.pl?query=%s&cat=web&pl=chrome&language=francais
+bind    i         = toggle_insert_mode
+# disable insert mode (1 to enable).  note that Esc works to disable, regardless of this setting
+bind    I         = toggle_insert_mode 0
+# Enclose the executable in quotes if it has spaces.  Any additional parameters you use will
+# appear AFTER the default parameters
+bind    B         = spawn $XDG_DATA_HOME/uzbl/scripts/insert_bookmark.sh
+bind    U         = spawn $XDG_DATA_HOME/uzbl/scripts/load_url_from_history.sh
+bind    u         = spawn $XDG_DATA_HOME/uzbl/scripts/load_url_from_bookmarks.sh
+# with the sample yank script, you can yank one of the arguments into clipboard/selection
+bind    yurl      = spawn $XDG_DATA_HOME/uzbl/scripts/yank.sh 6 primary
+bind    ytitle    = spawn $XDG_DATA_HOME/uzbl/scripts/yank.sh 7 clipboard
+# does the same as yurl but without needing a script
+bind    y2url     = sh 'echo -n $6 | xclip'
+# go the page from primary selection
+bind    p         = sh 'echo "uri `xclip -selection primary -o`" > $4'
+# go to the page in clipboard
+bind    P         = sh 'echo "uri `xclip -selection clipboard -o`" > $4'
+# start a new uzbl instance from the page in primary selection
+bind    'p        = sh 'exec uzbl --uri $(xclip -o)'
+bind    ZZ        = exit
+bind    Xs         = js alert("hi");
+# example showing how to use sh
+# it sends a command to the fifo, whose path is told via a positional param
+# if fifo_dir is not set, it'll echo to a file named (null) somewhere >:) remember to delete it
+# The body of the shell command should be one parameter, so if it has spaces like here,
+# you must enclose it in quotes.  Remember to escape (and double-escape) quotes and backslashes
+# in the body.  Any additional parameters you use will appear AFTER the default parameters (cfg file
+# path, fifo & socket dirs, etc.)
+bind    XS        = sh 'echo "js alert (\\"This is sent by the shell via a fifo\\")" > "$4"'
+
+bind    !dump     = sh "echo dump_config > $4"
+bind    !reload   = sh 'cat $1 > $4'
+
+# this script allows you to configure (per domain) values to fill in form fields (eg login information) and to fill in these values automatically
+bind za = spawn $XDG_DATA_HOME/uzbl/scripts/formfiller.sh
+bind ze = spawn $XDG_DATA_HOME/uzbl/scripts/formfiller.sh edit
+bind zn = spawn $XDG_DATA_HOME/uzbl/scripts/formfiller.sh new
+bind zl = spawn $XDG_DATA_HOME/uzbl/scripts/formfiller.sh load
+
+# other - more advanced - implementation using perl: (could not get this to run - Dieter )
+bind LL = spawn $XDG_DATA_HOME/uzbl/scripts/formfiller.pl load
+bind LN = spawn $XDG_DATA_HOME/uzbl/scripts/formfiller.pl new
+bind LE = spawn $XDG_DATA_HOME/uzbl/scripts/formfiller.pl edit
+
+# we ship some javascripts to do keyboard based link hinting/following.  (webkit does not have C DOM bindings yet)
+# this is similar to how it works in vimperator (and konqueror)
+# TODO: did we resolve: "no click() event for hyperlinks so no referrer set" ?
+#hit F to toggle the Hints (now in form of link numbering)
+bind    F = script $XDG_DATA_HOME/uzbl/scripts/hint.js
+# the most stable version:
+bind    fl* = script $XDG_DATA_HOME/uzbl/scripts/follow_Numbers.js %s
+# using strings, not polished yet:
+bind    fL* = script $XDG_DATA_HOME/uzbl/scripts/follow_Numbers_Strings.js %s
+</file>
+
+**Note :**\\
+Pour mettre la recherche Google (commande **gg**) en français, vous pouvez modifier la ligne adéquate du  fichier de configuration.\\
+Il vous suffit de remplacer dans l'adresse google.com par google.fr !
+
+==== Raccourcis pratiques ====
+Voici une liste de quelques raccourcis pouvant s'avérer bien pratiques !\\
+Pour lancer par exemple le raccourci Wikipédia, il suffit de taper
+<code>\wiki la requête</code>
+Pour rechercher dans wikipedia
+<code>@cbind  \\wiki<Wikipedia:>_     = uri http://fr.wikipedia.org/w/index.php?title=Special:Search&search=\@<encodeURIComponent(%r)>\@&go=Go
+</code>
+Pour rechercher dans le forum ubuntu-fr.org
+<code>@cbind  \\forum<forum.ubuntu:>_ = uri http://www.google.fr/search?q=%s+site:forum.ubuntu-fr.org</code>
+Pour rechercher dans la doc ubuntu-fr.org
+<code>@cbind  \\doc<doc.ubuntu:>_     = uri http://doc.ubuntu-fr.org/%s</code>
+Pour chercher un package ubuntu
+<code>@cbind  \\package<Package:>_    = uri http://packages.ubuntu.com/search?keywords=%s&searchon=names&suite=lucid&section=all
+</code>
+Pour avoir la conjugaison d'un verbe (:P)
+<code>@cbind  \\conj<Conjugaison:>_   = uri http://www.la-conjugaison.fr/du/verbe/%s.php
+</code>
+Quelques autres exemples de fichiers de configuration sont disponibles sur le [[http://www.uzbl.org/wiki/config|site officiel (en)]].
+===== Les scripts =====
+uzbl dépend à 100% des scripts, en effet comme vous avez pu le voir lors de l'installation, uzbl sans script n'est qu'une fenêtre Webkit.\\
+Les scripts se trouvent sous le dossier **~/.local/share/uzbl/scripts/**.\\
+Ils sont pour la plupart en python et en shell.
+
+==== Marque-pages ====
+Il semble que le script load_url_from_bookmarks.sh soit mal codé, il n'affiche pas les tags des favoris, vous pouvez le remplacer par celui-ci:
+<code bash>#!/bin/bash
+#revu par helly le 9/04/2010
+
+#NOTE: it's the job of the script that inserts bookmarks to make sure there are no dupes.
+
+file=${XDG_DATA_HOME:-$HOME/.local/share}/uzbl/bookmarks
+[ -r "$file" ] || exit
+COLORS=" -nb #303030 -nf khaki -sb #CCFFAA -sf #303030"
+
+if dmenu --help 2>&1 | grep -q '\[-rs\] \[-ni\] \[-nl\] \[-xs\]'
+then
+        DMENU="dmenu -i -xs -rs -l 10" # vertical patch
+        # show tags as well
+        goto=`$DMENU $COLORS < $file | awk '{print $1}'`
+else
+        DMENU="dmenu -i"
+        tag=`awk '{print $2}' $file | $DMENU $COLORS` # $1
+fi
+
+lien=$(grep "$tag" $file | cut -d " " -f1)
+
+#[ -n "$goto" ] && echo "uri $goto" > $4
+[ -n "$lien" ] && echo "uri $lien" | socat - unix-connect:$5</code>
+Par la suite, il faut modifier le fichier .local/share/uzbl/scripts/insert_bookmark. À l'avant dernière ligne, enlèver le « -e », pour avoir :
+<code bash>echo "$entry"  >> $file</code>
+
+==== Téléchargements ====
+Par deffaut, uzbl enregistre tous les fichiers dans le dossier utilisateur, et on ne peut pas suivre la progression du téléchargement. Pour pallier ceci, il suffit de remplacer le script .local/share/uzbl/script/download.sh par :
+<code bash>#!/bin/bash
+#
+# the original dget.sh script:
+# (c) 2007 by Robert Manea
+#
+# bashtardized and heavily modded for uzbl:
+# 2009 by pbrisbin
+#
+# modified for zenity
+# 2009 by iosonofabio
+#
+# requires:
+#   zenity
+#   wget
+#
+###
+# auto open the file post-download based on the file's extension
+open() {
+  case "$1" in
+    *.pdf|*.ps|*.eps)                           evince "$1"    & ;;
+    *.jpg|*.png|*.jpeg|*.png)                   gpicview "$1"    & ;;
+    *.txt|*README*|*.pl|*.sh|*.py|*.hs)         gvim "$1"    & ;;
+    *.mov|*.avi|*.mpeg|*.mpg|*.flv|*.wmv|*.mp4) vlc "$1"    & ;;
+    *.zip|*.zipx)                xarchiver "$1"    & ;;
+  esac
+}
+#
+#
+# these are passed in from uzbl
+PID="$2"
+XID="$3"
+ACTUAL_URL="$6"
+DOWN_URL="$8"
+#
+# get filename from the url and convert some hex codes
+# i hate spaces in filenames so i'm switching them
+# with underscores here, adjust the first s///g if
+# you want to keep the spaces
+FILE="$(basename $DOWN_URL | sed -r \
+'s/[_%]20/\_/g;s/[_%]22/\"/g;s/[_%]23/\#/g;s/[_%]24/\$/g;
+s/[_%]25/\%/g;s/[_%]26/\&/g;s/[_%]28/\(/g;s/[_%]29/\)/g;
+s/[_%]2C/\,/g;s/[_%]2D/\-/g;s/[_%]2E/\./g;s/[_%]2F/\//g;
+s/[_%]3C/\</g;s/[_%]3D/\=/g;s/[_%]3E/\>/g;s/[_%]3F/\?/g;
+s/[_%]40/\@/g;s/[_%]5B/\[/g;s/[_%]5C/\\/g;s/[_%]5D/\]/g;
+s/[_%]5E/\^/g;s/[_%]5F/\_/g;s/[_%]60/\`/g;s/[_%]7B/\{/g;
+s/[_%]7C/\|/g;s/[_%]7D/\}/g;s/[_%]7E/\~/g;s/[_%]2B/\+/g')"
+#
+# show zenity directory selection window to ask the user
+# for the destination folder. Wait until the user answers
+# for beginning download (this could be improved).
+DIRFILE=$(zenity --file-selection --save --filename="$FILE" --confirm-overwrite)
+# This command is used to download:
+GET="wget --user-agent=Firefox --content-disposition --load-cookies=$XDG_DATA_HOME/uzbl/cookies.txt --referer=$ACTUAL_URL --output-document=$DIRFILE"
+ZEN="zenity --progress --percentage=0 --title=Download dialog --text=Starting..."
+# download
+if [ "$DIRFILE" ];
+then
+ ( $GET "$DOWN_URL" 2>&1 | \
+   sed -u 's/^[a-zA-Z\-].*//; s/.* \{1,2\}\([0-9]\{1,3\}\)%.*/\1\n#Downloading... \1%/; s/^20[0-9][0-9].*/#Done./' | \
+   $ZEN; \
+   open "$DIRFILE") &
+fi
+exit 0</code>
+=== Autres scripts ===
+
+Beaucoup d'autres scripts sont disponibles sur [[http://www.uzbl.org/wiki/scripts|le site officiel (en)]].
+
+===== Voir aussi =====
+  * **(en)** [[http://www.uzbl.org/ | Le site officiel]]
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=318448 | Le sujet du forum]]
+
+--------
+
+//Contributeur principal : [[utilisateurs:helly]].

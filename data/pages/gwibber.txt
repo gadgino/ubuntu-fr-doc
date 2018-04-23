@@ -1,0 +1,59 @@
+{{tag>Precise trusty  internet}}
+
+----
+
+====== Gwibber ======
+
+{{http://upload.wikimedia.org/wikipedia/commons/7/7b/Gwibber.192x192.png?100}}
+**Gwibber** est un client libre de micro blogage en GTK, remplacé par Friends sous [[:trusty]]. Il permet aux utilisateurs de mettre à jour un statut public spontanément et de récupérer automatiquement les informations de contacts, mais aussi de voir les réponses (les @vous) et d'aller voir directement des flux en particulier.
+
+Il propose de suivre l'actualité de vos contacts sur plusieurs sites/protocoles :
+  * Twitter
+  * Flickr
+  * Identi.ca
+  * Facebook
+  * Ping.fm
+  * Jaiku
+  * Digg
+  * Google Buzz
+  * FriendFeed
+  * StatusNet
+
+
+===== Installation =====
+
+Gwibber est Installé par défaut sur [[:precise|Ubuntu 12.04 LTS]] sous  [[:trusty|Ubuntu 14.04]] et suivantes, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>gwibber]]** (dépôts Universe), qui installe en fait Friends...
+
+Il est accessible via l’icône en forme de bulle prêt de votre identifiant dans la barre des menus.
+
+=== Problème de connexion ===
+
+Avec le réseau de communication **Facebook**, si vous n'arrivez plus à vous connecter au service il faut de nouveau autoriser la communication entre Gwibber et Facebook :
+
+  - Dans Gwibber, allez dans //Édition → **Comptes**// et supprimez votre compte Facebook ;
+  - Dans Facebook, allez dans //Compte → **Paramètres des applications**// et supprimez tous les autorisations faite pour Gwibber ;
+  - Dans Gwibber, ajoutez un nouveau compte Facebook et acceptez les demandes d'autorisation.
+
+
+==== Identi.ca ====
+
+Avec le réseau de communication **Identi.ca** les utilisateurs possédant une livebox doivent ajouter la résolution DNS de identi.ca à la main directement (problème venant d'orange).
+
+[[:tutoriel:comment_modifier_un_fichier|Modifiez]] /etc/hosts et ajoutez à la fin du fichier :
+
+<file>174.142.114.102 identi.ca</file>
+
+[[http://www.clapico.com/2010/05/24/bug-gwibber/|source]]
+
+====Envoie de photo avec Twitter====
+Il n'est pas possible d'envoyer de photos lors d'un tweet sous Friends. Ce que [[:twitter#Clients GTK|Birdie]] un autre client twitter, fait parfaitement bien. Pour l'installer suivez la procédure de cette [[http://www.sysads.co.uk/2014/04/install-birdie-twitter-client-ubuntu-13-10-14-04/|page]].
+
+=====Voir aussi=====
+
+  * Site officiel : http://gwibber.com/
+  * sur Launchpad : http://launchpad.net/gwibber
+
+----
+
+
+

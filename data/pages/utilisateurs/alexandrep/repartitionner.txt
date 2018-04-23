@@ -1,0 +1,239 @@
+{{tag>installation partitions brouillon}}
+
+----
+
+<note>Cette page sert de brouillon pour retravailler le document traitant du repartitionnement d'un disque dur</note>
+
+====== Repartitionner un ordinateur déjà équipé d'un système d'exploitation ======
+
+Avant d'installer Ubuntu, il est fort avantageux de prendre le temps de travailler le partitionnement de son ou ses disques durs.
+
+Une [[partitions|partition]] est une zone du disque, définie par l'administrateur de l'ordinateur, dans laquelle doivent être contenues des données similaires. Par exemple, l'administrateur définira une partition qui contient toutes les données relatives au système d'exploitation et les logiciels qui l'accompagnent ; il définira aussi une partition dans laquelle seront emmagasinés tous les documents personnels des utilisateurs de l'ordinateur ; il définira aussi une partition où sont stockées des données en cours de traitement ou une zone d'échanges entre plusieurs systèmes d'exploitation ; etc. Le but d'une partition est de rassembler les données informatiques qui ont un lien commun. L'action de modifier les partitions (ordre, taille, nombre...) d'un disque dur est le **partitionnement**.
+
+L'installation d'Ubuntu provoquera inévitablement un repartitionnement de votre ou vos disques durs : il est essentiel de créer une zone de disque destinée à Ubuntu. Si l'installateur d'Ubuntu peut se charger seul de cette tâche, les choix proposés ne sont pas toujours les plus adaptés à vos besoins, //particulièrement dans le cas où vous désirez [[dual-boot|configurer un multi-amorçage avec un système d'exploitation déjà installé dans votre ordinateur]] !// Aussi repartitionner manuellement votre ou vos disques durs avant de commencer l'installation d'Ubuntu est-il un choix pertinent.
+
+Le //Desktop CD// d'Ubuntu contient un outil de partitionnement nommé [[GParted]] qui vous permet de retravailler le partitionnement de votre ou vos disques durs. Exécutez-le par le raccourci **Éditeur de partitions**, dans le menu //Système -> Administration// d'une session live.
+
+
+===== Avant toute chose : identifiez vos partitions et précisez vos attentes ! ======
+
+{{:installation:gparted-initial.png?500  |Écran initial de GParted}}
+
+Voici un exemple typique de ce que vous verrez lors de la première exécution de GParted. D'ordre général, la plupart des ordinateurs personnels achetés dans le commerce sont paramétrés en deux partitions :
+  * une petite partition contenant une copie de récupération de votre système courant, avec des utilitaires, permettant de restaurer votre système tel qu'il était à sa sortie d'usine ;
+  * et une partition occupant le reste de l'espace disponible. Celle-ci contient votre système d'exploitation actuel (généralement, Microsoft(r) Windows(r)) ainsi que toutes vos données personnelles (musique, vidéo, carnet d'adresses, documents, collection de photographies, etc.).
+
+Il est essentiel de créer un espace libre (non partitionné, attribué à aucune partition) pour permettre à Ubuntu de s'installer. Or, dans l'exemple ci-contre, nous remarquons que toutes les partitions occupent tout l'espace disponible. Nous utiliserons donc GParted pour réduire la taille allouée aux partitions existantes dans le but de créer un espace libre non partitionné.
+
+==== Quel résultat souhaitez-vous obtenir suite au partitionnement de vote ou vos disques durs ? ====
+Non seulement créer de l'espace libre pour Ubuntu est-il nécessaire, mais réfléchir au résultat souhaité est fort utile. Désirez-vous simplement laisser de l'espace pour Ubuntu dans le but d'effectuer une installation standard ? ou bien planifiez-vous déjà d'une manière précise l'organisation de vos partitions (partition d'échange, partition de données personnelles, etc.) ? Possédez-vous plusieurs disques durs ? souhaitez-vous dédier un disque dur entier à Ubuntu ? Telles sont des questions qui méritent réflexion avant de continuer. Étudions quelques cas, car tous ne requièrent pas l'utilisation de l'outil GParted.
+
+=== Votre système actuel et Ubuntu sur un même disque dur, sans partition de partage ===
+
+=== Votre système actuel et Ubuntu sur un même disque dur, avec partition de partage ===
+
+=== Votre système actuel sur son disque dur, Ubuntu sur son disque dur, sans partition de partage ===
+
+=== Votre système actuel sur son disque dur, Ubuntu sur son disque dur, avec partition de partage ===
+
+
+
+
+===== Schémas de base =====
+
+Comme un petit schéma vaut mieux qu'un long discours, voici quelques schémas de base à respecter pour une installation avec Windows (il est possible de créer des partitions Linux avant bien sûr, mais le débutant préfèrera ce qui suit).
+
+
+==== Ubuntu et Windows sur le même disque dur ====
+
+=== Un seul disque dur ===
+
+{{ installation:partition.jpg }}
+
+On prépare un espace libre qui va accueillir Ubuntu. Comptez 4/6Go minimum, 8/10Go recommandé. Vous pouvez aller jusqu'à 10/15 Go, mais au-delà (si vous voulez installer des jeux, mettre vos documents...) il vaut mieux lors de l'installation créer une partition annexe. Alors par exemple on va faire :
+
+  * 10-15Go de / (la partition racine - contenant programmes et fichiers de configurations).
+  * 10-300+Go de documents (sur une autre partition qui sera lisible aussi bien par windows que linux)
+
+
+=== Deux disques durs : Système/Partage ===
+
+{{ installation:systeme_shared2.jpg }}
+
+C'est la solution de base si vous possédez 2 disques durs. Ceci est préférable dans la mesure où il ne faudra pas trafiquer Grub.
+
+----
+**Pour les deux méthodes ci-dessus, voir un peu plus bas dans cette page, pour la [[#méthodes|marche à suivre]].** 
+
+
+
+
+==== Ubuntu et Windows sur deux disques dur différents ====
+
+=== Deux disques durs : Windows/Linux ===
+
+== - 1er schéma : GRUB basique ==
+
+{{installation:win_nux2.jpg}}
+
+Solution de base. Le défaut ici, c'est que si vous débranchez le 2ème disque-dur, GRUB ne pourra pas se charger.
+
+\\
+
+Deux solutions s'offrent alors à vous :
+
+  * Mettre GRUB sur une disquette
+  * Charger GRUB avec NTLOADER
+
+
+== - 2ème schéma : avec NTLOADER ==
+
+{{installation:win_nux_ntldr.jpg}}
+
+Solution un peu plus complexe mais très fonctionnelle.
+
+La manipulation est expliqué ici : [[:tutoriel/comment_amorcer_ubuntu_avec_ntldr|Comment amorcer Ubuntu avec NTLDR]].
+
+== - 3ème schéma : GRUB sur le 2ème disque-dur ==
+
+{{installation:win_nux.jpg}}
+
+Troisième solution. Ceci a l'avantage de ne pas modifier le MBR du 1er disque dur (si vous possédez un [[:pc_tatoué|PC tatoué]] par exemple). Le seul problème, c'est qu'il faudra trifouiller Grub pour un résultat pouvant perturber Windows.
+
+Voir [[:tutoriel:comment_faire_multiboot_propre_2_dd|Configurer le MBR pour 2 disques durs]].
+
+
+
+
+
+===== Méthodes =====
+
+
+<note warning>
+Recommandation IMPORTANTE
+
+Quel que soit l'outil de partitionnement utilisé, il vaut mieux créer des partitions Windows avec des outils Windows et des partitions Linux avec des outils Linux.
+</note>
+
+
+
+
+===== Pour Windows Vista =====
+
+
+Windows Vista inaugure un nouveau format de NTFS qui a (ou avait) un peu de mal à être redimensionné par certains programmes. Heureusement, Windows Vista inaugure un partitionneur «Maison».
+
+Nous allons donc plutôt utiliser cet outil mis à disposition par Microsoft.
+
+  - Ouvrir l'outil de partitionnement de Windows Vista : //Ordinateur// => //Gérer// => //Stockage// (double-clic) => //Gestion des disques// \\ L'initialisation dure un certain temps, c'est normal…
+  - Cliquez sur la partition C: (ou autre plus rarement) que vous voulez modifier, puis sélectionnez ''Réduire le volume…''. Choisissez pour le champ ''Quantité d'espace à réduire'' l'espace que vous voulez libérer pour Ubuntu, puis cliquez sur ''Réduire''.
+  - Après avoir attendu que la procédure prenne fin, fermez le programme.
+
+Ce programme ne gère que les partitions de type NTFS (Windows), utilisez-le donc exclusivement pour gérer l'espace disque de Windows Vista. Par contre, utilisez Gparted pour les partitions Linux.
+
+    * Windows Vista empêche toute réduction de plus de 50% de la taille totale du disque dur, pour des raisons plus ou moins connues. Les explications sont peu claires et pointeraient sur le fichier d'échange (pagination) et les clichés instantanés. Cependant, même en désactivant ou réduisant ces deux services, la taille ne peut pas être davantage réduite.
+
+    * Par défaut, Windows ne défragmente pas les fichiers de plus de 64Mio. Lancer "Defrag C: -W" pour forcer une défragmentation. Cela aidera à libérer de l'espace pour Linux. (Remplacer C: par l'identifiant du lecteur souhaité).
+
+    * Ne créez pas d'espace vide à l'intérieur d'une partition mais bien de l'espace libre 'complet' (non alloué) c'est-à-dire non contenu dans une partition (donc souvent à la 'fin' du disque).
+
+    * Ne partitionnez pas l'espace aménagé ici depuis Vista, c'est à dire ne créez pas les partitions pour Ubuntu (/, /home, swap, …) car cela sera bien mieux fait lors de l'installation d'Ubuntu dans l'espace vide que vous venez de créer, quelle que soit la méthode que vous utiliserez.
+
+
+
+===== Pour Windows XP =====
+
+Ces méthodes sont à réserver à Windows XP, car Windows Vista intègre un partitionneur, voir juste au-dessus.
+
+
+
+==== Utiliser GParted avec le Live-CD d'Ubuntu ====
+
+Nous allons ici utiliser le livecd d'Ubuntu (aussi appelé desktop-> Voir ici : [[téléchargement du cd]]), et utiliser l'outil [[gparted]] fourni avec depuis [[edgy|Ubuntu 6.10 "Edgy"]].
+
+  * [[:live_cd|Démarrez avec le Live-CD]].
+  * Installer et lancer GParted : //Système->Administration->Éditeur de partition//.
+  * Agrandir la fenêtre.
+  * En haut à droite, sélectionnez le disque à repartitionner. Pour l'identifier, vous pouvez vous baser sur la taille.
+  * La(es) partition(s) du disque s'affiche(nt).
+  * Choisissez la partition à modifier et faites //Redimensionner//.
+  * Utilisez la réglette avec votre souris pour diminuer l'espace de la partition principale.
+  * Il reste un espace "**non alloué**", c'est tout à fait normal, il sera occupé automatiquement par Ubuntu à son installation.
+  * Pour appliquer les changements : //Édition->__A__ppliquer toutes les opérations//.
+
+<note importante>**Si Windows Vista est installé sur votre système et que malgré nos recommandations, vous avez quand même utilisé cette méthode, il se peut qu'il ne veuille plus démarrer...**
+
+Pas de panique, une solution simple existe : [[ntfsfix]] ou sinon [[:tutoriel:comment_amorcer_ubuntu_avec_bootmgr#Problème connu|remettre en situation d'origine]] et recommencer en suivant nos recommandations…</note>
+
+**Après avoir partitionné son disque dur, il faut maintenant [[:cohabitation_ubuntu_windows#installation_proprement_dite|passer à l'installation !]]**
+
+==== Utiliser « ntfsresize » avec le Live-CD d'Ubuntu (en cas de problème avec gParted) ====
+
+Il arrive que GParted ne soit pas capable d'accéder en écriture au disque contenant la partition NTFS. GParted peut lire les partitions ; il vous permet même de les redimensionner et d'en créer, mais lorsque vous faites //Appliquer//, tout redevient comme si vous n'aviez rien fait.
+
+J'ai pu résoudre ce problème avec //ntfsresize// : http://mlf.linux.rulez.org/mlf/ezaz/ntfsresize-fr.html
+
+
+
+
+==== Utiliser un autre logiciel ====
+
+== GParted Live-CD (hautement recommandé !) ==
+
+GParted existe aussi en Live-CD (et même en Live-USB !) dans une version bien plus récente que celle utilisée dans le Live-CD d'Ubuntu.
+
+Sachant que cette version contient le strict minimum, elle pourra même se lancer sur un Pentium™ II !
+
+Site officiel : http://gparted.sourceforge.net/
+
+== QTParted (Live-CD) ==
+
+QTParted est le pendant de GParted dans la bibliothèque graphique Qt. Moins récent que GParted, son développement est pourtant plus avancé. Qtparted est présent dans le Live-CD de [[http://knoppix-fr.org/site/presentation|Knoppix]] et la [[http://www.sysresccd.org/index.fr.php|SystemRescueCD]].
+
+Son utilisation reste simple (les menus sont en français) et cet outil est performant car il permet de redimensionner une partition  sans perte de données y compris lorsque cette partition est au format NTFS (format propriétaire de Microsoft et géré par Windows XP, NT et 2000). Les précautions à prendre avant usage sont la **vérification**((Commande ''chkdsk'' sous Windows (en console bien sûr).)) des partitions déjà existantes sur le disque et la **défragmentation**.
+
+Si vous débutez et que votre objectif est de faire cohabiter, sans la détruire, votre installation de Windows avec une installation de Linux (Ubuntu ou autre), je vous recommande de vous limiter à la création d'un espace libre par réduction de la taille d'une partition existante.
+
+Ainsi, lors de l'installation du nouveau système vous pourrez choisir lors de l'étape de partitionnement l'option qui correspond à //Utiliser l'espace libre disponible// et l'opération s'effectuera sans perte de données.
+
+L'usage de QTparted avec un Live-CD de Knoppix est décrit dans ce guide accessible aux utilisateurs prudents ayant un bon niveau de pratique sous Windows : [[http://brenta.free.fr/IMG/pdf/partitionsauvegarde.pdf]].
+
+== Partition Magic ==
+
+Bien qu'expérimental à ses tout début, //Partition Magic// redimensionne, formate, déplace, supprime ou crée de nouvelles partitions aux formats FAT32, NTFS et EXT2.
+
+L'utilisateur avancé trouvera sous le clic droit la possibilité de changer le nom du volume, la taille de ses clusters ou même la lettre du volume.
+
+
+**N.B. :** //Partition Magic// est un logiciel propriétaire et n'est pas conseillé pour créer les partitions destinées à l'installation d'un système Linux. On peut à la rigueur en faire usage pour créer un espace libre (non partitionné) avant une installation de Linux. Il faut s'acquitter d'une licence pour pouvoir effectuer les changements.
+
+**Attention :** La dernière version de Partition Magic par Symantec (version 8) n'est pas compatible avec Windows Vista et peut entraîner un dysfonctionnement de votre disque dur.
+
+== Paragon Hard Disk Manager ==
+
+Similaire à Partition Magic, mais plus robuste et plus de fonctionnalités, //Paragon Hard Disk Manager// permet de manipuler les partitions d'un disque ainsi que de créer et restaurer des images de partitions.
+
+Comme Partition Magic, c'est une application Windows commerciale et propriétaire dont il vous faudra, au préalable, vous acquitter d'une licence d'utilisation.
+
+== Acronis Image Director ==
+
+Aussi similaire à Partition Magic, Image Director, a une très grande panoplie d'outils et est très complet. Il prend en compte les formats de partition ext2, ext3, fat16, fat32, ntfs, et bien d'autres. Il permet très aisément de déplacer, redimensionner, créer, supprimer, scinder,... des partitions avec une interface facile et intuitive. Il contient aussi un booter (comme grub) mais graphique.
+
+Image Director, est une application Windows mais peut se lancer comme un live CD, très pratique donc. Malheureusement il est commercial et propriétaire.
+Il semblerai que la version d'essai soit buggé, prudence.
+http://fr.acronis.com/homecomputing/products/diskdirector/
+
+
+
+
+
+
+
+==== Tutoriels ====
+
+[[http://www.breizh-ardente.fr/dotclear/36-les-partitions|Site de référence pour l'installation de Ubuntu, avec une méthode toute en images]]
+
+La façon de procéder change peu dans le cas d'une [[http://www.breizh-ardente.fr/dotclear/37-partitionnement-avance|installation en dual-boot sur un disque dur déjà occupé par windows]]
+
+
+(Merci à breizh ardente)8-)

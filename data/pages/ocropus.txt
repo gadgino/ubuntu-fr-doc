@@ -1,0 +1,64 @@
+{{tag>scanner graphisme ocr BROUILLON}}
+
+----
+
+====== OCRopy : pour une ROC avec prise en compte de la mise en page ======
+
+**OCRopy**, autrefois **OCRopus** est en passe de devenir un outil performant de reconnaissance optique de caractères (ROC/OCR), utilisant notamment le moteur de ROC Tesseract, et capable d'analyser une mise en page complexe (contenant par exemple des colonnes et des encadrés). OCRopus ne reconstitue pas la mise en page dans un traitement de texte, mais effectue la ROC dans un ordre logique après avoir analysé la mise en page. Même si son utilisation en ligne de commande est très simple, OCRopus n'est pas encore disponible sous forme d'interface graphique, ni intégré dans un outil graphique déjà existant (comme [[gscan2pdf]] ou [[XSane]]...)... 
+
+====Pré-requis====
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir [[:tutoriel:comment_installer_un_paquet|installé]] [[:git]].
+
+=====Installation=====
+Pour installer Ocropy entrez successivement ces commandes dans un  [[:terminal]] : <code>mkdir ocropy/
+cd ocropy/
+git init .
+git pull https://github.com/tmbdev/ocropy
+sudo apt-get install $(cat PACKAGES)
+wget -nd http://www.tmbdev.net/en-default.pyrnn.gz
+mv en-default.pyrnn.gz models/
+sudo python setup.py install
+</code>
+====Utilisation====
+Pour tester si cela fontionne, lancez la commande (toujours dans le dossier **ocropy** : <code>./run-test</code>
+Pour utiliser ocropy, lancez la commande suivantes successivement, (ici l'exemple test/ersch.png doit être modifier par le chemin de votre image à reconnaître) : <code>
+# perform binarization
+./ocropus-nlbin tests/ersch.png -o book
+
+# perform page layout analysis
+./ocropus-gpageseg 'book/????.bin.png'</code>
+
+
+Si ça ne fonctionne pas essayer avec :
+<code>
+./ocropus-gpageseg --minscale 8.0 --maxlines 800  'book/????.bin.png'
+</code>
+Continuez avec (en adaptant le modèle à votre langue) :
+<code>
+# perform text line recognition (on four cores, with a fraktur model)
+./ocropus-rpred -Q 4 -m models/fraktur.pyrnn.gz 'book/????/??????.bin.png'
+# generate HTML output
+./ocropus-hocr 'book/????.bin.png' -o ersch.html
+
+# display the output
+firefox ersch.html
+</code>
+
+FIXME où trouver des modèles en français??
+===== Désinstallation =====
+Supprimez le dossier téléchargé avec git (ocropy).
+
+
+===== Références =====
+
+  * [[http://askubuntu.com/questions/686513/ocropus-installing-problem|La source de la partie installation de cette documentation]] (en)
+  * [https://github.com/tmbdev/ocropy| le site officiel sur github]] (en)
+  * [[tesseract-ocr]] (fr)
+  * [[:XSane]] (fr)
+  * http://graal.hypotheses.org/786
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=78804| Le fil de discussion du forum Ubuntu-fr dédié à la Reconnaissance Optique de Caractères.]] (fr)
+------
+//Page réalisée par : [[utilisateurs:Sorbus]] (16 mai 2009) - Mise à jour avec proposition de script d'après les données de Michel Astre et de Bushman02 le 15 février 2010//
+------

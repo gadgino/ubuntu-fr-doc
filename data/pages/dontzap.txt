@@ -1,0 +1,67 @@
+{{tag>Precise Trusty Xenial clavier système vétuste}}
+
+----
+
+====== DontZap : redémarrer facilement le serveur X ======
+
+Jusqu'à la version [[intrepid|8.10 d'Ubuntu]], le raccourci clavier **Ctrl + Alt + ⌫** (la touche //Retour arrière// du clavier) permettait d'arrêter brusquement le serveur graphique X.org si celui-ci ne répondait plus, puis invoquait le gestionnaire de session graphique afin d'en exécuter une nouvelle instance. Cependant, plusieurs remarques ont été rapportées aux développeurs d'Ubuntu indiquant que des utilisateurs non avisés de l'existence de ce raccourci clavier ont malencontreusement tué leur session graphique de cette manière. Par conséquent, **ce raccourci clavier est désactivé par défaut** depuis la version [[jaunty|9.04 d'Ubuntu]].
+
+===== Peut-on tuer et redémarrer une session graphique X.org à partir d’un autre raccourci clavier ? =====
+
+Pour redémarrer en urgence le serveur graphique X.org, il est à noter que [[touches_magiques|le raccourci clavier « Alt + SysRq + K »]] fonctionne toujours. Il tue la session graphique en cours et exécute à nouveau le gestionnaire de session graphique par défaut, exactement comme le faisait « Ctrl + Alt + ⌫ ».
+
+===== Est-il possible de réactiver le raccourci clavier « Ctrl + Alt + ⌫ » ? =====
+
+Oui, c'est possible : il suffit d'activer l’option dans XKB (voir ci-dessous).
+
+Depuis la [[karmic|version 9.10]] d'Ubuntu, l'option //DontZap// ne fait plus partie des paramètres du serveur graphique X.org. Elle fait désormais partie des options de l'extension XKB, qui est directement réglable par les outils inclus dans chaque environnement de bureau. La manière d'activer ce raccourci clavier varie donc selon l'environnement de bureau que vous utilisez.
+
+==== Sous GNOME et UNITY (Ubuntu) ====
+(depuis Ubuntu 12.04)
+  - Rendez-vous dans //Système → Préférences → Clavier//.
+  - Sélectionnez l'onglet //Agencements// et appuyez sur le bouton « Options de l'agencement ».
+  - Déroulez la liste //Séquence de touches pour fermer le serveur X// et cochez la case « Control + Alt + Eff. arrière ».
+  - Fermez l'outil de configuration de l'agencement du clavier.
+
+
+==== Sous KDE (Kubuntu) ====
+
+__**Avant la version 10.04**__ : 
+  * Allez dans //Configuration du système → Région et langue → Disposition du clavier → Avancés//
+  * Cochez la case « Séquence de touches pour fermer le serveur X : Control + Alt + Eff. arrière ».
+__**Depuis la version 10.04**__ :
+  * Allez dans //Configuration du système → Périphériques d'entrées → Clavier  → Avancé//
+  * Cochez la case « Configurer les options du clavier» sinon vous ne pourrez pas faire de modifications
+  * Recherchez « Séquence de touches pour tuer le serveur X »
+  * Cochez la case « Control + Alt + Eff. arrière »
+
+
+==== En ligne de commande (toutes variantes d’Ubuntu) ====
+(ne marche pas dans la version 11.10)
+
+Ouvrez un terminal et exécutez la commande suivante :
+
+  echo "setxkbmap -option terminate:ctrl_alt_bksp" >> ~/.xinitrc
+
+Fermez votre session, puis ouvrez-la à nouveau pour que votre nouvelle configuration soit prise en compte.
+
+==== Pour la version 16.10, en éditant un fichier de configuration ====
+<note>A voir si c'est fonctionnel pour des versions plus anciennes
+</note>
+[[:tutoriel:comment_modifier_un_fichier|Éditer le fichier]] /etc/default/keyboard en tand qu'administateur.
+Dans la section XKBOPTIONS modifier comme suit:
+<file>
+ XKBOPTIONS="terminate:ctrl_alt_bksp"
+</file>
+
+Sources : https://www.debian-fr.org/t/tuer-le-serveur-x-sous-squeeze-et-superieurs/24023/12
+===== Voir aussi =====
+
+  * [[tutoriel:Comment redémarrer le serveur graphique]]
+  * [[https://wiki.ubuntu.com/X/OptionsEditor|X.org Options Editor]]
+  * **(fr)** [[http://forum.ubuntu-fr.org/viewtopic.php?id=278769|Discussion sur le forum]]
+
+----
+
+//Adapté de : [[https://wiki.ubuntu.com/X/Config/DontZap|«X/Config/DontZap» sur wiki.ubuntu.com]] \\
+Contributeurs : equipc, [[utilisateurs:johndescs]], [[utilisateurs:vince06fr]], [[utilisateurs:honeyshell]] //

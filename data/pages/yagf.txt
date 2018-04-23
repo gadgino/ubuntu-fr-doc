@@ -1,0 +1,37 @@
+{{tag>Xenial Trusty ocr}}
+----
+ 
+====== YAGF ======
+**YAGF** est une interface graphique (nécessite la bibliothèque Qt4) pour les outils de reconnaissance [[:ocr#cuneiform|cuneiform]] et [[:ocr#tesseract|tesseract]].
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]],
+  * Disposer d'une connexion à Internet configurée et activée,
+  * Avoir [[:tutoriel:comment_installer_un_paquet|installé]] le dictionnaire aspell  **[[apt>aspell-fr]]**,
+  * Avoir [[:tutoriel:comment_installer_un_paquet|installé les paquets]] **[[apt>xsane, cuneiform, tesseract-ocr, tesseract-ocr-fra]]**,
+
+
+
+===== Installation =====
+Pour installer ce logiciel, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]]  **[[apt>yagf]]**.
+
+<note>Concernant [[:precise|12.04]] **yagf** n'est pas présent dans les dépôts mais fonctionne correctement. Pour l'installer Il faut télécharger le **.deb** pour la 14.04 [[http://pkgs.org/download/yagf|ici]]. Ou activer les dépôts [[:GetDeb]].
+</note>
+
+===== Utilisation=====
+Lancez l'application en faisant une recherche dans votre [[:unity#tableau_de_bord_dash|tableau de bord]] avec le mot clé  "YAGF".
+
+===== Configuration =====
+Aller dans le menu //Édition -> Réglages -> OCR et langues// et choisir le moteur OCR (dans Engine OCR) : **cuneiform** ou **tesseract**.
+
+===== Désinstallation =====
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. 
+
+===== Problème connu =====
+====Yagf plante à l'ouverture d'un fichier====
+Pour éviter que Yagf plante à l'ouverture d'un ficher aller dans  le menu //Édition -> Réglages -> Traitement des images // et décochez la caser **Recadrer les images lors de l'ouverture des fichiers**.\\ Si vous ne voyez pas cette option pensez à déplacer la barre inférieure de la fenêtre. La case **Traitement des images** est après celle sur **OCR et langues**.
+===== Voir aussi =====
+  * **(en)** [[http://symmetrica.net/cuneiform-linux/yagf-en.html|Site officiel du logiciel]]
+
+----
+//Contributeur principal : buvi85, [[:utilisateurs:l_africain|L'Africain]].//

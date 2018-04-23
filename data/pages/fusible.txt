@@ -1,0 +1,158 @@
+{{tag>BROUILLON}}
+----
+
+====== Fusible ======
+<note help>Cette documentation décrit l'installation et l'utilisation de Fusible 2.
+\\
+Fusible est toujours en cours de développement, en particulier les extensions qui lui sont rattachées.</note>
+\\
+Le but de Fusible est de créer une interface utilisateur permettant de lister et d'effectuer des actions sur les systèmes de fichiers de type [[FUSE]].
+\\
+Via des extensions (ou plugins), de nouvelles fonctionnalités peuvent être ajoutées comme le support de nouveaux systèmes de fichiers (via [[SSHFS]], [[CurlFtpFS]], [[EncFS]], [[CvsFS]] ou encore [[FuseISO]].
+\\
+Fusible est programmé en C++ et utilise [[http://www.kde.org/|KDE4]]. L'ensemble du projet est diffusé sous licence GNU/GPL version 3.
+\\
+La licence des extensions non-officielles est libre dans la mesure où elle respecte les termes du logiciel principal.
+
+
+
+===== Avant tout =====
+Vous pouvez utiliser le dépôt de [[utilisateurs:spomky|Spomky ]] qui contient le logiciel, sa bibliothèque, l'interface DBus et les extensions officielles.
+
+Le code source  est disponible sous [[https://edge.launchpad.net/fusible|Launchpad]] et peut être téléchargé avec [[bzr|Bazaar]].
+
+===== Installation =====
+
+==== Via les paquets ====
+
+[[:tutoriel:comment_installer_un_paquet|Installez simplement le paquet]] **[[apt>fusible]]**, les dépendances seront automatiquement ajoutées.
+
+==== Via le code source ====
+Le code source est disponible sur Launchpad.
+Pour le récupérer, utiliser le logiciel [[bzr|Bazaar]]. Dans votre terminal préféré, tapez :
+<code>bzr branch lp:fusible</code>
+
+Avant de compiler le projet, n'oubliez pas d'installer les fichiers nécessaires au développement d'applications KDE4 ainsi que [[CMake]].
+Dans le répertoire racine du code source, exécutez simplement le code suivant :
+<code>mkdir CMake
+cd CMake
+cmake -DCMAKE_INSTALL_PREFIX=`kde4-config --prefix` ../
+make
+sudo make install</code>
+
+===== Dépendances =====
+En plus de [[fuse]] et [[:kde|KDE4]], Fusible utilise [[apt>libFusible]] et [apt>[fuse-dbus-interface]] pour fonctionner.
+
+Ces sous-projets seront installés en même temps que Fusible.
+
+===== Utilisation =====
+Fusible seul ne vous permettra que d'avoir des informations sur les points de montage [[FUSE]] en cours sur votre ordinateur : type, taille, espace disponible, type, propriétaire, ...
+Il vous permettra aussi de les démonter s'ils vous appartiennent et d'ouvrir votre explorateur de fichiers. Vous ne pourrez rien faire de plus.
+
+Fusible utilise des extensions qui permettent de monter, créer, gérer, ... vos différents points de montage.
+
+[[fusible-plugins|Reportez-vous à la liste des extensions disponibles]]
+
+Après l'installation de Fusible, et redémarrage, une icône sera disponible dans l'arborescence de votre menu principal dans la rubrique "Utilitaires"  ("Accessoires" sous Lucid 10.04). L'application est développée de manière à être conforme aux spécifications de FreeDesktop.org ; ce menu apparaîtra donc aussi dans les bureaux respectant ces principes (KDE, Gnome et bien d'autres).
+,
+==== La fenêtre principale ====
+{{:fusible1.10.x.png|Interface principale de Fusible2}}
+
+
+La fenêtre principale se veut épurée. Vous y trouverez un simple menu ainsi que la liste des points de montage FUSE détectés. Par défaut, seuls vos points de montage et ceux auxquels vous avez accès sont affichés. Vous pourrez choisir de tous les lister, même si vous n'y avez pas accès.
+
+Lorsqu'un point de montage est sélectionné, Fusible affichera les informations suivantes :
+  * le type
+  * la taille totale, utilisée et disponible en octets ou octets binaires
+
+Si dans les options vous avez demandé l'affichage des informations détaillées, l'interface affichera en plus :
+  * le propriétaire (en toutes lettres s'il est disponible), son login et ses UID/GID
+  * s'il est en lecture seule
+  * s'il est accessible aux autres utilisateurs et à root
+
+{{:fusible1.10.x_details.png|Interface principale de Fusible2}}
+
+Dans la capture d'écran ci-dessus, le point de montage concerné correspond à un répertoire chiffré via [[encfs]] monté dans un répertoire temporaire et en lecture seule.
+
+Un double-clic sur le point de montage ouvrira votre navigateur de fichiers par défaut à l'endroit du point de montage.
+
+Pour certains points de montage, les tailles ne peuvent pas être déterminées ; cela vous sera indiqué. Ce cas est fréquent pour les points de montage distants tels que ceux via FTP, ceux en lecture seule comme les images ISO, les systèmes virtuels tel que [[gvfs]] ou ceux pour lesquels vous n'avez pas accès (appartenant à un autre utilisateur).
+
+=== Le menu File (Fichier) ===
+Dans ce menu vous trouverez les éléments suivants :
+  * Nouveau : contient les liens permettant de créer un nouveau point de montage
+  * Ouvrir : contient les liens permettant de d'ouvrir un point de montage
+  * Fermer la sélection : tentera de démonter le point de montage sélectionné
+  * Tout fermer : tentera de démonter tous les points de montage.
+  * Mettre à jour la liste : Fusible utilise une interface D-Bus pour retrouver les points de montage disponibles. L'interface peut rechercher de manière régulière les nouveaux points de montage. Vous avez la possibilité de désactiver cette recherche automatique (pour des raisons de gain de performance par exemple), cette fonctionnalité vous sera alors utile.
+  * Quitter
+
+Les menus Nouveau et Ouvrir son vides sauf si vous utilisez une ou plusieurs extensions permettant de telles actions.
+
+Les menus Fermer la sélection et tout fermer n'auront d'effet que sur les points de montage vous appartenant.
+
+=== Le menu Favorites (Favoris) ===
+Les extensions permettent parfois d'enregistrer vos points de montage en tant que favori. Cela permet de les récupérer très facilement en quelques clics de souris.
+
+Tous vos favoris se retrouveront dans ce menu. Un gestionnaire permet de les éditer et de les supprimer.
+
+
+=== Le menu Tools (Outils) ===
+Ce menu n'apparaît que si des extensions proposent des fonctionnalités complémentaires. Il ne sera pas détaillé ici dans la mesure où chaque extension proposera des fonctions différentes.
+
+=== Le menu Settings (Configuration) ===
+Comme toute application KDE, vous pourrez configurer les raccourcis clavier, les barres d'outils, ... via ce menu.
+Les options proposées sont plutôt explicites.
+Certaines sont à utiliser avec beaucoup de précaution, en particulier celle permettant de supprimer le point de montage même s'il n'est pas vide.
+
+{{:fusible1.10.x_config1.png|Configuration de Fusible2}}
+{{:fusible1.10.x_config2.png|Configuration de Fusible2}}
+{{:fusible1.10.x_config3.png|Configuration de Fusible2}}
+{{:fusible1.10.x_config4.png|Configuration de Fusible2}}
+
+=== Le menu Help (Aide) ===
+Comme toute application KDE, vous pourrez accéder à de nombreux services comme le rapport d'erreurs, le changement de la langue et des informations sur Fusible (licence, auteurs, ...).
+
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. La configuration de l'application sera conservée ou supprimée selon la méthode de désinstallation que vous choisirez.
+
+Si vous avez installé le programme via ses sources, il vous faudra supprimer les fichiers un à un.
+
+===== Pour aller plus loin... =====
+Il est possible d'envoyer des commandes à Fusible. Ces commandes sont surtout utilisées pour associer une action à un type de fichier.
+Par exemple, l'extension FuseISO permet, avec un clic droit sur une image disque, de monter l'image très simplement.
+La commande envoyée est : <code>fusible --command "Mode=Plugin;Plugin=FuseISO;Action=open;txtImage=%F;txtMountPoint=%TEMP%;AutoValid=true"</code>
+
+"fusible --command" exécutera Fusible et enverra la commande qui suit.
+  * Mode=Plugin précise à Fusible qu'il faut transmettre la commande à une extension.
+  * Plugin=FuseISO indique à Fusible que l'extension concernée est FuseISO.
+La suite est propre à l'extension.
+  * Action=open : demande à FuseISO d'ouvrir une image.
+  * txtImage=%F indique l'image à ouvrir.
+  * txtMountPoint=%TEMP% demande que le point de montage soit un répertoire temporaire ; il s'agit d'une valeur spécifique. Pour ouvrir votre point de montage dans un répertoire précis, indiquez-le simplement : txtMountPoin=/home/user/mon_dossier/.
+  * AutoValid=true a pour effet d'accepter ces paramètres tels quels.
+
+Reportez-vous à chaque extension pour connaître les commandes utilisables. Celle d'[[encfs]] ne permet pas AutoValid par exemple puisque le montage nécessite un mot de passe.
+
+Pour transmettre une commande à Fusible, vous devez simplement spécifier Mode=Fusible
+
+=== Les commandes pour Fusible ===
+  * Action=OpenFavorite
+    * Name=//le_nom_de_votre_favori//
+  * Action=CloseAll //Ferme tous les points de montage//
+  * Action=Quit //Arrête Fusible//
+
+D'autres commandes seront ajoutées au fur et à mesure. Une interface D-Bus sera ajoutée et reprendra ces fonctions.
+
+===== Voir aussi =====
+  * [[fusible-plugins|Liste des extensions disponibles]]
+  * [[libFusible|libFusible, la bibliothèque principale du projet]]
+  * [[fuse-dbus-interface|L'interface D-Bus utilisée par libFusible]]
+  * [[https://edge.launchpad.net/fusible/|Site officiel de Fusible]] pour tout rapport de bug, information, récupération du code sources, ...
+
+
+//Contributeurs : [[utilisateurs:spomky|Spomky]]//
+
+//Ces articles parlent de [[Fuse]]

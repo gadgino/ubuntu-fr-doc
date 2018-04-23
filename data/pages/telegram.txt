@@ -1,0 +1,55 @@
+{{tag>Trusty Xenial messagerie_instantanee}}
+----
+ 
+====== Telegram ======
+ 
+Telegram est une application de messagerie basée sur le cloud. Elle permet aux utilisateurs de se transmettre des messages, des photos, des vidéos et des documents d'une taille supérieure à 1 Gb. La transmission des messages peut être chiffrée de bout à bout.
+
+Telegram est l'application Open Source concurrente de WhatsApp. L'application est non seulement disponible sur smartphones (Android, Ubuntu Phone, FirefoxOS, iOS, Windows mobile), mais aussi sur ordinateur pour Linux, Windows et OsX.
+ 
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+ 
+===== Installation =====
+
+Installer l'application desktop dans votre distribution.
+
+==== Via un dépôt PPA ====
+
+=== Méthode graphique ===
+
+  * [[:PPA|Ajoutez le PPA]] **ppa:atareao/telegram** dans vos sources de logiciels.
+  * [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste des paquets]].
+  * [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>telegram]]**.
+
+
+=== Méthode en ligne de commande ===
+Ouvrez un [[:terminal]] et et copiez-collez la ligne suivante à l'intérieur de celui-ci (puis entrée → pass → entrée évidemment) :
+<code>sudo add-apt-repository -y ppa:atareao/telegram && sudo apt-get update && sudo apt-get install -y telegram
+</code>
+
+Fermez votre session utilisateur et ouvrez-la de nouveau pour voir Telegram apparaitre dans le Dash.
+
+==== Via la page web ====
+
+Télécharger le fichier sur **[[https://desktop.telegram.org/]]**, le décompresser.
+ 
+===== Utilisation =====
+ 
+Lancer l'application via le [[:unity#tableau_de_bord_dash|tableau de bord]] (Unity) ou en cliquant sur l'application Telegram téléchargée, selon la méthode d'installation choisie.
+ 
+===== Désinstallation =====
+ 
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+ 
+===== Voir aussi =====
+ 
+  * **(en)** [[https://telegram.org/]]
+  * [[http://www.webupd8.org/2015/01/install-official-telegram-desktop-app.html]], guide en anglais pour ajouter le dépôt PPA.
+ 
+----
+//Contributeurs principaux : [[utilisateurs:richardgilbert|Richard Gilbert]], [[utilisateurs:Chacmool]].//
+ 
+//Basé sur [[http://www.webupd8.org/2015/01/install-official-telegram-desktop-app.html|« Install The Official Telegram Desktop App In Ubuntu Or Linux Mint Via PPA »]].//

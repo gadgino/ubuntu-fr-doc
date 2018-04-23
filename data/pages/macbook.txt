@@ -1,0 +1,102 @@
+{{tag>matériel apple mac macbook}}
+
+----
+
+====== Ubuntu et la famille MacBook ======
+=====Identification=====
+Les portable de la famille MacBook possèdent un identifiant de modèle, voici comment le trouver:
+====Sous macOS X====
+Menu pomme → à propos de ce mac → plus d'infos → matériel: Vous le trouverez à la ligne "Identifiant du modèle"
+====Sous Ubuntu====
+Dans un terminal et avec les droita administrateurs tapez:
+<code>sudo dmidecode -s system-product-name</code>
+
+=====Installation d'Ubuntu sur un Macbook=====
+==== Téléchargement de l'ISO d'Ubuntu ====
+[[telechargement|Téléchargez]] la dernière version 
+d'Ubuntu Desktop ou si votre Macbook est plus ancien une [[:variante]] plus légère comme [[:mate|Ubuntu Mate]] ou [[:Xubuntu]].
+
+==== Vérification de l'image ====
+
+Ouvrez le Terminal (/Applications/Utilitaires/Terminal.app) et entrez le code suivant : 
+''md5 (faites glisser votre image iso d'Ubuntu dans la fenêtre du Terminal)''
+et appuyez sur Entrée.
+Attendez quelques instants. Après, le terminal vous affichera un code montrant le résultat de l'opération, copiez-le et comparez-le avec les codes présents [[https://help.ubuntu.com/community/UbuntuHashes|ici]].
+Si le code que vous a affiché le terminal correspond avec celui du fichier présent sur les "md5 hashes" d'Ubuntu, continuez ce tutoriel, cela signifie que votre image disque est saine. Dans le cas contraire téléchargez à nouveau le .iso de votre version, vérifiez-le avec le code md5 et comparez-le avec ceux du site à nouveau.
+
+==== Création du disque ====
+
+  * Téléchargez l'image ISO d'Ubuntu Desktop
+  * Sur votre MacOS 10.5 :
+    * Dans le finder, aller dans Applications puis Utilitaires
+    * Lancer le programme Utilitaire de disque
+    * Insérer un média vierge dans votre graveur
+    * Cliquer sur le bouton Graver
+    * Sélectionner l'image iso à graver
+
+**Avec la dernière iso et l'utilitaire d'Ubuntu pour créer les clefs USB (usb-creator-gtk) le boot usb et l’installation  se font correctement (appuyer sur alt au démarrage pour choisir le périphérique de démarrage)**.
+
+Si vous souhaitez faire un dualboot, voir la page [[:dual_boot_macos_x_ubuntu|consacrée]] à ce type d'installation.
+Pour un simple boot, voir [[:installation_macbook_sans_macosx|celle-ci]].
+
+===== Page détaillée par modèles =====
+<note important>Attention à la distinction entre MacBook "unibody" (2006 à 2011), MacBook **Pro** (2006 à 2013), MacBook **Pro** "Retina" (2012 à aujourd'hui) et finalement MacBook "Retina" (2015 à aujourd'hui). Par exemple: MacBook **Pro** 6.1 (Mi-2010) et MacBook 6.1 (Fin-2009)</note>
+====MacBook unibody====
+2006 à 2011
+  * MacBook 4,1 (Début-2008)
+  * MacBook 6,1 (Fin-2009)
+  * MacBook 7,1 (Mi-2010)
+
+====MacBook Pro====
+2006 à 2013
+  * MacBook Pro 5.5 (Mi-2009) et Apple MacBook Pro 5.5 (mi-2009, modèles 13" et 15")
+  * MacBook Pro 6.2 (Mi-2010) : sous Ubuntu 14.04, le matériel est reconnu directement, mais pour Optimus (GPU Intel + Nvidia), seul le pilote libre nouveau fonctionne (le nvidia plante avec la 3D). Voir sur [[http://forum.ubuntu-fr.org/viewtopic.php?pid=17816901#p17816901|le forum]].
+  * MacBook Pro 9.2 (Mi-2012) Fonctionne directement sous 14.04 et 16.04.
+  [[https://help.ubuntu.com/community/MacBookPro|MacBook Pro sur Wiki anglais]]
+  
+ === Lumière dans la prise jack ===
+La prise jack audio d'un mac est aussi une sortie audio digitale optique qui s'active lorsque [[pulseaudio|PulseAudio]] est actif (lumière rouge éclairant de la prise jack). Il est possible de désactiver complètement la sortie optique à l'aide du logiciel hda-jack-retask qui fait parti du paquet [[:alsa-tools]].
+
+Dans l'interface de hdajackretask, sélectionnez le codec Cirrus Logic CS4206 cochez "Override" pour "White SPDIF out" et assignez la valeur "Not connected". Appuyez sur "Apply now" pour tester la configuration et sur "Install boot override" pour rendre la modification permanente.
+
+====MacBook Air====
+À partir de 2008 jusqu'à aujourd'hui.
+
+[[https://help.ubuntu.com/community/MacBookAir|MacBook Air sur Wiki anglais]]
+====MacBook Pro Retina====
+2012 à aujourd'hui
+  * [[macbook_pro_11.1|MacBook Pro 11.1 (fin 2013)]]
+
+====MacBook Retina====
+2015 à aujourd'hui
+====Plus anciens modèles====
+<note>Certains anciens modèles de MacBook supportent des versions plus anciennes et non supportée d'Ubuntu, voir la page [[liste_portables_apple|Liste des portables Apple]]</note>
+
+===== Configuration du matériel =====
+
+Dans cette deuxième partie, nous allons aborder la configuration de notre toute fraîche Ubuntu. Nous allons entre autre configurer : le trackpad, le wifi, le rétro-éclairage, le clavier "à la mac", et plein d'autres choses.
+
+Toutes les commandes que seront à copier/coller dans un **[[:terminal]]**.
+
+==== Le wifi ====
+Il suffit d'installer le [[:wifi_broadcom_bcm43xx|pilote propriétaire]] pour Broadcom si vous possédez cette carte.
+ 
+
+==== Réduire la consommation d'énergie ====
+Installez le paquet **[[apt>powertop]]**, puis :
+<code>sudo powertop</code>
+Suivez les instructions données pour réduire la consommation électrique de votre MacBook.
+
+==== La Webcam iSight ====
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>isight-firmware-tools]]**, et sélectionner le pilote mac OSX depuis la partition mac. Sinon voir ce [[https://forum.ubuntu-fr.org/viewtopic.php?id=1983711|post]] en cas de simple boot pour récupérer le microcode.
+
+====Clavier====
+Pour modifier une touche du pavé tactile, par exemple pour utiliser la touche **Pomme** comme touche de troisième niveau (ALT GR) ouvrez le paramètres du [[:clavier]], allez dans **Raccourcis -> Saisie -> Touche de composition**, et cliquez sur la touche Pomme.
+Sur Ubuntu Mate c'est plus facile dans les paramètres du clavier, choisissez d'abord le clavier Macbook, puis dans les paramètres de troisième niveau choisissez la bonne touche.
+====Pavé tactile====
+Pour avoir le menu contextuel avec le clic droit adaptez la procédure décrite sur cette [[:powerpc#simuler_le_clic_droit_avec_une_souris_a_un_seul_bouton|page]].
+===== Pages ayant le tag "mac" =====
+
+{{topic>mac}}
+
+//Contributeurs : [[:utilisateurs:sivolc73]], [[https://forum.ubuntu-fr.org/profile.php?id=273001|sivolc73]].//

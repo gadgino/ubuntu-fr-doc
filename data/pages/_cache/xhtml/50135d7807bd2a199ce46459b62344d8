@@ -1,0 +1,69 @@
+<pre class="code">Version: Hoary</pre>
+
+<p>
+VNC (Virtual Network Controller) est un système qui vous permet d&rsquo;administrer une autre machine à distance, et ce en voyant le bureau cette machine. Cela peut être utile si un de vos proches débute en informatique car vous pouvez voir ce que lui voit sur son écran. Par ailleurs, cela peut vous épargner de passer par la ligne de commande.
+</p>
+
+<p>
+Ubuntu intègre à la fois le client VNC, pour se connecter à une machine distante, et le serveur VNC qui déporte l&rsquo;affichage. Vous n&rsquo;avez donc rien à installer, juste à configurer le serveur VNC de la machine que vous voulez contrôler.
+</p>
+
+<p>
+Soyez averti que permettre la prise de contrôle à distance d&rsquo;une machine présente de sérieux risques en terme de sécurité. Vous devriez limiter la connexion au serveur VNC uniquement aux machines de votre réseau local en installant et configurant un pare-feu.
+</p>
+
+<a name="configuration_du_serveur_vnc"></a><h2> Configuration du serveur VNC </h2>
+<div class="level2">
+
+<p>
+ Rendez-vous sur la machine à contrôler à distance, et effectuez les manipulations suivantes. La configuration du serveur VNC s&rsquo;effectue grâce à un petit utilitaire graphique. Allez dans le menu <code>Système</code>, <code>Préférences</code> et cliquez sur <code>Bureau à distance</code>.
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=applications%3Abureau-a-distance-gnome.jpg" class="media" title="applications:bureau-a-distance-gnome.jpg" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=applications%3Abureau-a-distance-gnome.jpg" class="media" alt="" /></a>
+</p>
+
+<p>
+Dans la fenêtre qui apparaît se présentent quatre cases à cocher. La première case, <code>Autoriser d&rsquo;autres utilisateurs à voir votre bureau</code> active ou désactive le serveur VNC de cette machine, et limite le contrôle à distance à la vision du bureau.
+</p>
+
+<p>
+La seconde case, <code>Autoriser d&rsquo;autres utilisateurs à contrôler votre bureau</code>, active quant à elle le contrôle de la machine. Elle doit être cochée si vous souhaitez prendre le contrôle de cette machine.
+</p>
+
+<p>
+La troisième case, <code>Vous demander confirmation</code>, est importante pour le respect de la vie privée des utilisateurs. En effet, lorsque cette case n&rsquo;est pas cochée, vous pouvez prendre le contrôle de la machine distante sans que l&rsquo;utilisateur en soit informé, et donc voir et contrôler son bureau à son insu.
+</p>
+
+<p>
+La dernière case, <code>L&rsquo;utilisateur doit saisir son mot de passe</code>, apporte une sécurité supplémentaire, car il vous impose la saisie d&rsquo;un mot de passe pour prendre le contrôle de la machine distante.
+</p>
+
+</div>
+<!-- SECTION [888-2240] -->
+<a name="connexion_a_une_machine_distante"></a><h2> Connexion à une machine distante </h2>
+<div class="level2">
+
+<p>
+ Lorsque la machine distante est configurée, vous pouvez vous y connecter et prendre son contrôle en lançant le client VNC. Pour ce faire, allez dans le menu <code>Applications</code>, puis <code>Lancer une application</code> et entrez la commande suivante :
+</p>
+<pre class="code">vncviewer</pre>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=applications%3Avncclient_ip_serveur.jpg" class="media" title="applications:vncclient_ip_serveur.jpg" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=applications%3Avncclient_ip_serveur.jpg" class="media" alt="" /></a>
+</p>
+
+<p>
+Dans la petite fenêtre qui apparaît, entrez l&rsquo;adresse IP de la machine à contrôler, puis validez en appuyant sur la touche Entrée.
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=applications%3Avncclient_bureau.jpg" class="media" title="applications:vncclient_bureau.jpg" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=applications%3Avncclient_bureau.jpg" class="media" alt="" /></a>
+</p>
+
+<p>
+En fonction de la configuration du serveur VNC distant, votre session démarrera automatiquement ou après acceptation par l&rsquo;utilisateur distant. 
+</p>
+
+</div>
+<!-- SECTION [2241-] -->

@@ -1,0 +1,92 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#introduction" class="toc"> Introduction </a></span></li>
+<li class="level1"><span class="li"><a href="#smb.conf" class="toc"> smb.conf </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#section_global" class="toc"> section [global] </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+page en cours de création pour Hoary
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/manu" class="wikilink1" title="utilisateurs:manu" onclick="return svchk()" onkeypress="return svchk()">manu</a>.
+</p>
+
+<a name="introduction"></a><h1> Introduction </h1>
+<div class="level1">
+
+<p>
+ Le fichier <strong>smb.conf</strong> permet de configurer tous les paramètres de <strong>Samba</strong> pour les partages des répertoires, des imprimantes et les options liées aux réseaux <em>NetBios</em> (exemple Wins). Ce fichier est composé de sections qui représentent chaque partage ou options spéciales (Global...). Attention a ne pas trop <em>bricoler</em> les paramétres au risque de planter le fonctionnement général.
+</p>
+
+</div>
+<!-- SECTION [93-522] -->
+<a name="smb.conf"></a><h1> smb.conf </h1>
+<div class="level1">
+
+<p>
+ Pour ouvrir le fichier <strong>/etc/samba/smb.conf</strong> utilisez votre éditeur favori, les exemples sont donnés avec  <a href="/applications/nano" class="wikilink1" title="applications:nano" onclick="return svchk()" onkeypress="return svchk()">Nano</a>.
+</p>
+<pre class="code">
+sudo nano -w /etc/samba/smb.conf
+</pre>
+
+<p>
+Dans ce fichier de configuration il y a beaucoup de commentaire dans les différentes sections, pour gagner en lisibilité je ne donne que les champs les plus utiles/importants nettoyer de ces commentaires. Egalement dans un fichier <strong>smb.conf</strong> défaut certains paramétres ne sont pas rentrés mais je donne les plus utilisés. 
+</p>
+
+</div>
+<!-- SECTION [523-1062] -->
+<a name="section_global"></a><h2> section [global] </h2>
+<div class="level2">
+
+<p>
+ C&rsquo;est l&rsquo;une des sections particulières pour la configuration de <strong>samba</strong>. C&rsquo;est ici que les paramétres utilisés par <a href="/applications/samba/demons" class="wikilink1" title="applications:samba:demons" onclick="return svchk()" onkeypress="return svchk()">nmbd</a> sont indiqués. Egalement a savoir, que les paramétrages par defaut des partages sont à mettre dans cette section.
+</p>
+<pre class="code">
+netbios name = MOI
+</pre>
+
+<p>
+ paramétrage du nom <em>NetBios</em> utilisé par votre machine. 
+</p>
+<pre class="code">
+workgroup = MSHOME
+</pre>
+
+<p>
+ ce champ correspond au nom <em>NetBios</em> de votre groupe de travail (workgroup).
+</p>
+<pre class="code">
+wins support = no
+</pre>
+
+<p>
+ Ici l&rsquo;option permet d&rsquo;activer la fonction serveur Wins de samba par nmbd, ici <strong>no</strong> donc désactivé.
+</p>
+<pre class="code">
+wins server = w.x.y.z
+</pre>
+
+<p>
+ Ce champs permet de donner l&rsquo;adresse IP du serveur WINS si vous en avez un d&rsquo;activé sur votre réseau.  <strong>Attention</strong> à ne pas activer la fonction serveur WINS de samba si vous en avez un autre sur votre réseau.
+</p>
+<pre class="code">
+domain master = no
+local master = yes
+preferred master = yes
+os level = 65
+</pre>
+
+<p>
+ Ici on paramétre samba en <em>local master</em> pour qu&rsquo;il soit toujours élu par rapport aux autres machines Windows. Je ne rentre pas dans les details du système d&rsquo;élection sachez seulement que le paramétre <strong>os level = 65</strong> est là pour que votre machine gagne à tous les coups... aucun commentaire <img src="/smileys/icon_wink.gif" align="middle" alt=";-)" /> . 
+</p>
+
+</div>
+<!-- SECTION [1063-] -->

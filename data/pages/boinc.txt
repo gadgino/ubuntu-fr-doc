@@ -1,0 +1,157 @@
+{{tag>Lucid calcul_collaboratif}}
+----
+
+====== Boinc : calculs distribués sur Internet ====== 
+
+{{applications..boinc_logo_july_2007.png |}}
+
+**BOINC**, acronyme de **B**erkeley **O**pen **I**nfrastructure for **N**etwork **C**omputing est un plate-forme de calcul distribué mise au point par l'université de Berkeley. Ce programme permet à n'importe quelle personne volontaire de participer à des projets scientifiques en mettant à disposition la puissance de calcul inutilisée de votre ordinateur au profit de la science. Différents projets de calculs sont en cours d'avancement, vous pouvez rejoindre ceux de votre choix à tous moments.
+Il n'y a pas de configuration minimale, n'importe quelle ordinateur est capable de faire tourner ce logiciel. Les résultats dépendront seulement de la puissance de calcul de votre processeur. Il est tout de même recommandé de disposer d'une connexion internet.
+
+===== Installation =====
+Il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt://boinc|boinc]]** (ou [[apt://boinc-client,boinc-manager|boinc-client et boinc-manager]] si vous utilisez Ubuntu 8.04 ou 9.04). L'installation se fait tout simplement en recherchant BOINC dans la [[:software-center|Logithèque Ubuntu]]. La version datée du 27 février 2014 est la 7.2.42
+
+<note importante> **Il existe aussi un [[PPA]] pour des versions de développement** ("boinc development release") **et valable uniquement pour Trusty** (14.04) **et Utopic** (14.10).
+
+**Méthode graphique**
+
+Ajoutez dans vos sources de logiciels le PPA : deb http://ppa.launchpad.net/costamagnagianfranco/boinc/ubuntu VOTRE_VERSION_D'UBUNTU main
+Puis rechargez la liste des paquets et installez le paquet boinc.
+
+
+
+**Méthode en ligne de commande**
+
+Ouvrez un terminal et entrez les commandes suivantes :
+
+<code>
+sudo add-apt-repository ppa:costamagnagianfranco/boinc
+sudo apt-get update
+sudo apt-get install boinc
+</code>
+</note>
+
+
+Une fois installé, le logiciel **BOINC Manager** permettant de contrôler le client BOINC est accessible via le menu de recherche d'[[Unity]].
+
+Notez bien que le client se lance automatiquement au démarrage d'Ubuntu.
+
+===== Configuration =====
+
+==== Rejoindre un projet ====
+De nombreux projets sont proposés pour Boinc dans les domaines biologique, physique, nanotechnologique, astronomique, climatologique, mathématique, informatique... Voir [[http://fr.wikipedia.org/wiki/Liste_des_projets_BOINC|la liste des projets]].
+
+Pour rejoindre un projet, lancez **Boinc Manager**.
+Une fenêtre devrait vous proposer de rejoindre un projet. Si ce n'est pas le cas, cliquez sur "Outils" -> "Rejoindre un projet".
+Sélectionnez le projet que vous voulez rejoindre dans la liste qui apparaîtra, et cliquez sur "Suivant".
+Ensuite, cliquez sur: "Non, nouvel utilisateur" puis laissez-vous guider afin de vous inscrire au projet.
+Finalement, un message vous confirmant l'attachement au projet devrait apparaître: cliquez sur "Fin".
+
+Boinc va maintenant récupérer des calculs et commencer à les exécuter. Vous n'avez même pas besoin d'être connecté à internet pour que Boinc fonctionne. Il vous faut être connecté afin qu'il envoie les résultats et qu'il reçoive de nouveaux calculs.
+
+===== Utilisation =====
+Le logiciel BOINC Manager permettant de contrôler le client BOINC se trouve dans l'onglet "Outils système" de votre menu "Applications".
+
+==== Mettre Boinc en "pause" ====
+Lorsque vous voulez faire faire une pause à Boinc afin d'exécuter un programme gourmand en ressource, cliquez sur le menu : "Activité" -> "Suspendre".
+Lorsque vous le relancerez, vous sélectionnerez : "Calculer selon les préférences" ou "Toujours calculer" si vous souhaitez participer au maximum.
+
+==== Les menus sous Boinc ====
+La configuration de Boinc est relativement simple. Nous allons voir ici à quoi servent chacun des menus.
+
+  * Fichier: permet de fermer le manager. Attention, cette procédure ne ferme pas les processus de calculs ouvert par Boinc.
+  * Outils: permet de gérer vos comptes ou de rejoindre un nouveau projet.
+  * Activité: permet de démarrer ou suspendre l'activité du processeur ou l'activité internet.
+  * Avancé: permet de configurer les paramètres pour la connexion entre l'ordinateur et le serveur. Permet par ailleurs de faire des tests de puissances de votre ordinateur. (Rassurez-vous, seuls les utilisateurs expérimentés auront besoin de ce menu)
+
+==== Calculs avec le GPU =====
+Si vous avez une carte graphique **Nvidia CUDA** ou **ATI Stream**, vous pouvez l'utiliser pour calculer plus rapidement. Vous devez disposer d'une version de Boinc supérieure à 6.3 (Octobre 2008). Consultez au passage la [[http://boinc.berkeley.edu/wiki/GPU_computing#Attach_to_projects_with_GPU_applications|liste des projets supportant les calculs GPU]].
+
+=== Nvidia CUDA ===
+[[cuda|Installer CUDA]]
+
+=== ATI Stream ===
+FIXME
+
+=== Problèmes ===
+Au démarrage, le programme Boinc se lance avant les pilotes des cartes graphiques. Pour résoudre ce problème, ouvrez un terminal et saisissez:
+<code>sudo service boinc-client restart</code>
+
+Plus d'informations :
+  * [[http://www.boinc-af.org/actus-calcul-partage/1039-vos-cartes-graphiques-nvidia-peuvent-faire-avancer-la-science.html|Descriptif sur la page de l'Alliance Francophone. Page 1]]
+  * [[http://www.boinc-af.org/component/content/article/15-boinc/1076-la-technologie-nvidia-cuda-fait-progresser-la-recherche-scientifique-de-facon-spectaculaire.html|Descriptif sur la page de l'Alliance Francophone. Page 2]]
+  * [[http://boinc.berkeley.edu/wiki/GPU_computing|GPU Computing (EN)]]
+===== Comment quitter BOINC =====
+Boinc est un DAEMON. Si vous avez besoin d'arrêter votre ordinateur, faites-le. Au prochain démarrage, Boinc continuera les calculs qu'il effectuait avant l'arrêt sans problème.
+
+===== Ligne de commande  =====
+
+==== Préalable ====
+Les commandes ci-dessous sont tapées localement. Il faut toutefois noter que même dans ce cas de figure il faut prendre quelques précautions :
+
+  * Il faut se trouver dans le répertoire /etc/boinc-client pour ne pas avoir à taper --host localhost juste après chaque commande boinccmd (ou boinc_cmd) ... même si le binaire en question est bien connu dans les variables d'environnement (de toute facon il ne se trouve pas dans /etc/boinc-client).
+  * S'il y a un mot de passe dans le fichier /var/lib/boinc-client/gui_rpc_auth.cfg (par exemple mypasswd) alors il faudra commencer toutes les commandes par
+
+  boinc_cmd --host localhost --passwd mypasswd
+
+C'est surprenant d'ailleurs car en principe ce mot de passe sert pour les connexions en gui distantes, mais s'il n'y a pas de mot de passe la commande "boinc_cmd" n'a pas besoin de --host ... ca va plus vite à taper :o)
+
+Il suffit de faire un essai avec
+  boinc_cmd -V
+
+Si cela répond //Authorization failed : 155//, alors il faut préfixer toutes les commandes comme cité plus haut (et être dans le bon répertoire).
+
+==== La doc ====
+Les détails de la commande boinc_cmd sont décrits sur [[http://boinc.berkeley.edu/wiki/Boinccmd_tool|cette page]] ou simplement dans le manuel:
+  man boinc_cmd
+
+==== Exemple ====
+Voici toutefois un "quickstart" avec un proxy.
+
+=== Utiliser un proxy === 
+<code>
+--set_proxy_settings http_server_name http_server_port http_user_name http_user_passwd socks_server_name `socks_server_port socks_version socks5_user_name socks5_user_passwd
+</code>
+
+Tous les champs étant obligatoires, il faut utiliser deux guillemets pour indiquer une chaîne vide. Exemple:
+  boinc_cmd --host localhost  --set_proxy_settings url_du_proxy 1234 "" "" "" "" "" "" ""
+
+Mais attention ! il y a clairement quelque chose qui cloche (sur toutes mes machines 8.10 Intrepid en tout cas) :
+  * la commande boinccmd --get_proxy_settings ne retourne jamais rien, même quand un proxy est paramétré et fonctionnel.
+  * pour que les paramètres proxy indiqués par la commande set_proxy_settings soient pris en compte, il faut éditer manuellement un fichier !
+
+Stopper le daemon:
+<code>sudo /etc/init.d/boinc-client stop</code>
+
+éditer le fichier **client_state.xml**:
+<code>sudo vim /var/lib/boinc-client/client_state.xml</code>
+
+Juste après
+  <proxy_info>
+ajouter: 
+  <use_http_proxy/>
+
+Relancer le daemon:
+<code>sudo /etc/init.d/boinc-client start</code>
+
+=== Connaître l'"account key" de votre compte ===
+  boinc_cmd --lookup_account url_du_projet login mot_de_passe
+Cela retourne l'"account key", une chaîne de 32 chiffres.
+
+=== Rejoindre un projet  ===
+  boinc_cmd --host localhost  --project_attach URL_du_projet account_key
+Voilà. Au bout de quelques minutes le travail devrait commencer. On peut avoir des infos via la commande 
+  boinc_cmd --get_state
+Il semble que parfois il faille "forcer" le départ via
+  boinccmd --set_run_mode always
+
+===== Voir aussi =====
+  * Le site de Boinc (EN): [[http://boinc.berkeley.edu/]]
+  * Installation sur Ubuntu (EN): [[http://boinc.berkeley.edu/wiki/Installing_BOINC_on_Ubuntu]]
+  * Liste des projets: [[http://fr.wikipedia.org/wiki/Liste_des_projets_BOINC]]
+  * Le site de l'alliance francophone: [[http://www.boinc-af.org/]]
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=402495|Discussion "Boinc"]] sur le forum ubuntu-fr
+
+----
+
+//Contributeurs :  [[utilisateurs:gregm54]] [[utilisateurs:lo72]]//

@@ -1,0 +1,320 @@
+{{tag>programmation serveur}}
+
+======= XAMPP : un serveur web de développement facile =======
+
+**[[http://www.apachefriends.org/fr/|XAMPP]]** est un produit qui s'installe très rapidement et facilement et qui fournit un ensemble complet de services pour faire tourner un serveur Web. Cette solution est très pratique pour créer un serveur **de développement**, car il permet au néophyte d'avoir un serveur de test en quelques clics, sans avoir à choisir ni à connaître les différents services à installer.
+
+Les utilisateurs souhaitant connaître un peu plus en profondeur le fonctionnement d'un serveur Web et ceux ayant besoin d'un serveur de production, se tourneront vers un serveur [[:LAMP]].
+Contrairement à XAMPP, LAMP permet d'installer uniquement les services dont on a besoin et permet également de régler les problématiques de sécurité.
+De plus, LAMP s'installe facilement via les dépôts (lire https://forum.ubuntu-fr.org/viewtopic.php?pid=19074351#p19074351)
+
+//XAMPP est disponible pour GNU/Linux, mais aussi pour Microsoft Windows et Apple Mac OS.//
+
+=== Liste des applications installées ===
+
+XAMPP inclut par défaut les applications suivantes :
+
+  * [[:apache2|Apache 2]]
+  * [[:MariaDB]]
+  * [[:php|PHP 5]] & [[http://packages.ubuntu.com/gutsy/web/php-pear|PEAR]]
+  * [[:perl|Perl]]
+  * [[:proftpd|ProFTPD]]
+  * [[:phpmyadmin|phpMyAdmin]]
+  * [[:Openssl|OpenSSL]]
+  * [[http://packages.ubuntu.com/gutsy/web/php5-gd|GD]]
+  * [[http://packages.ubuntu.com/gutsy/graphics/libjpeg-progs|libjpeg]]
+  * [[http://packages.ubuntu.com/gutsy/libdevel/libpng12-dev|libpng]]
+  * [[http://packages.ubuntu.com/gutsy/base/libgdbm3|gdbm]]
+  * [[http://packages.ubuntu.com/gutsy/libs/zlib1g|zlib]]
+  * [[http://packages.ubuntu.com/gutsy/text/expat|expat]]
+  * [[http://packages.ubuntu.com/gutsy/text/sablotron|Sablotron]]
+  * [[http://packages.ubuntu.com/gutsy/libdevel/libxml-dev|libxml]]
+  * [[http://packages.ubuntu.com/gutsy/devel/mingw32-binutils|Ming]]
+  * [[http://packages.ubuntu.com/gutsy/web/webalizer|Webalizer]]
+  * [[http://packages.ubuntu.com/gutsy/web/php-fpdf|pdf class ]]
+  * [[http://packages.ubuntu.com/gutsy/base/ncurses-bin|ncurses]]
+  * [[http://packages.ubuntu.com/gutsy/perl/libapache2-mod-perl2|mod_perl]]
+  * [[http://packages.ubuntu.com/gutsy/devel/freetds-dev|FreeTDS]]
+  * [[http://packages.ubuntu.com/gutsy/devel/gettext|gettext]]
+  * [[http://packages.ubuntu.com/gutsy/web/php5-mcrypt|mcrypt]]
+  * [[http://packages.ubuntu.com/gutsy/web/php5-mhash|mhash ]]
+  * [[http://packages.ubuntu.com/gutsy/web/php5-sqlite|SQLite]]
+  * [[http://packages.ubuntu.com/gutsy/libdevel/libc-client2007b-dev|IMAP C-Client]]
+
+L'installation est guidée par un fichier ".run".
+
+Pour ceux qui voudraient installer l'équivalent de XAMPP à partir des paquets, [[:tutoriel:comment_installer_un_paquet|installez les paquets]]
+**apache2 apache2-doc mariadb-server php5 libapache2-mod-php5 php5-mysql perl php-pear proftpd phpmyadmin openssl php5-gd freetype2-demos libfreetype6 libjpeg-progs libjpeg62 libpng12-0 libgdbm3 zlib1g expat sablotron libapache2-mod-php5 php5-cli proftpd-doc libgd-tools libcompress-zlib-perl libxml2-dev mingw32-binutils webalizer php-fpdf ncurses-bin libapache2-mod-perl2 libapache2-mod-perl2-doc freetds-dev gettext php5-mcrypt php5-mhash php5-sqlite libc-client2007b-dev php5-xcache** ou **[[apt>apache2,apache2-doc,mariadb-server,php5,libapache2-mod-php5,php5-mysql,perl,php-pear,proftpd,phpmyadmin,openssl,php5-gd,freetype2-demos,libfreetype6,libjpeg-progs,libjpeg62,libpng12-0,libgdbm3,zlib1g,expat,sablotron,libapache2-mod-php5,php5-cli,proftpd-doc,libgd-tools,libcompress-zlib-perl,libxml-dev,mingw32-binutils,webalizer,php-fpdf,ncurses-bin,libapache2-mod-perl2,libapache2-mod-perl2-doc,freetds-dev,gettext,php5-mcrypt,php5-mhash,php5-sqlite,libc-client-dev,php5-xcache|en 1 clic ]]**(assez long).
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installer et utiliser XAMPP =====
+
+==== Installation ====
+L'installation de XAMPP se veut d'une extrême simplicité.
+  - Récupérez [[http://www.apachefriends.org/fr/download.html|l'archive d'installation de XAMPP]] sur le site d'Apache Friends; Si vous recherchez une version bien précise de XAMPP pour Joomla par exemple, [[http://sourceforge.net/projects/xampp/files/XAMPP%20Linux/|c'est ici]]
+
+
+-Allez dans un terminal (//en mode sudo//), rentrez cette commande : <code>sudo chmod 755 xampp-linux-*-installer.run</code> pour changer les droits du fichier d'installation.
+
+
+-//Toujours en sudo//, lancez l'installeur avec cette commande (__//**Attention** : pas d'espace entre le point et le slash//__) : <code>sudo ./xampp-linux-*-installer.run</code>
+
+
+-Et... C'est tout ! XAMPP est maintenant installé dans le répertoire /opt/lampp (voir plus bas pour l'installation de Wordpress ou celle de votre site).
+==== Sécurisation ====
+XAMPP est prêt à être utilisé, mais n'est pas sécurisé. Un assistant de sécurisation vous permet de choisir les mots de passe et options de base permettant de sécuriser **sommairement** votre serveur de développement: <code>sudo /opt/lampp/lampp security</code>
+
+S'il n'est pas obligatoire de lancer l'assistant de sécurisation, c'est néanmoins fortement recommandé.
+Répondre "no" à cette question :
+<code>XAMPP: MySQL is accessable via network.
+XAMPP: Normaly that's not recommended. Do you want me to turn it off? [yes] **no**</code>
+==== Démarrer XAMPP ====
+
+Pour démarrer XAMPP : 
+
+<code>sudo /opt/lampp/lampp start</code>
+
+Vous verrez alors défiler un texte de ce type :
+<code>
+Starting XAMPP for Linux * ...
+XAMPP: Starting Apache with SSL (and PHP5)...
+XAMPP: Another MySQL daemon is already running.
+XAMPP: Starting ProFTPD...
+XAMPP for Linux started.
+</code>
+
+Vous pouvez désormais accéder à votre serveur local avec l'adresse [[http://localhost/]] dans la barre d'adresse de votre navigateur Internet.  
+
+Le nom utilisateur pour accéder au FTP est "nobody" et le mot de passe dépend de ce que vous avez indiqué à la sécurisation (le mot de passe par défaut est "lampp").
+
+==== Charger Wordpress ou un site en cours ====
+
+Le répertoire web est ///opt/lampp/htdocs//
+Placez vos pages web dans ce répertoire pour y accéder depuis l'adresse [[http://localhost/]]. 
+Il est cependant conseillé de ne pas mettre l'ensemble des fichiers de Wordpress directement sous la racine htdocs mais dans un répertoire à part :
+Exemple ///opt/lampp/htdocs/worpress/// l'adresse pour accéder à vos pages sera alors [[http://localhost/wordpress/]], il sera ensuite possible de configurer wordpress pour modifier vos permaliens.
+
+Attention le dossier  "htdocs" ou votre répertoire d'installation ne sera accessible en lecture et en écriture que si vous accordez les privilèges avec ces commandes : \\
+<code>
+sudo chmod -R 777 /opt/lampp/htdocs
+ou
+sudo chmod -R 777 /opt/lampp/htdocs/repertoire installation
+</code>
+<note warning>Il est déconseillé de mettre tous les droits sur des fichiers (777) ou dossiers particulièrement dans les dossiers systèmes.
+la création, l'utilisation d'un groupe voire le déport des dossiers des sites avec des liens est plus adapté.
+</note>
+
+Pour que Xampp se lance au démarrage, il suffit d’exécuter les commandes suivantes dans un terminal:
+
+<code>
+sudo ln -s /opt/lampp/lampp /etc/rc2.d/S99lampp
+sudo ln -s /opt/lampp/lampp /etc/rc1.d/K02lampp
+</code>
+
+Elles ont pour effet d’inscrire le serveur respectivement dans les procédures de démarrage et d’arrêt du système.
+
+==== Arrêter XAMPP ====
+Pour arrêter XAMPP, vous devrez saisir, dans un terminal, la commande suivante:
+<code>sudo /opt/lampp/lampp stop</code>
+Un texte défile. XAMPP est arrêté.
+
+===== Raccourcir la commande =====
+Vous pouvez créer un [[:glossaire#liens_symboliques_ou_logiques|lien symbolique]] du fichier ///opt/lampp/lampp// dans le dossier ///usr/bin// :
+<code>sudo ln -s /opt/lampp/lampp /usr/bin/lampp</code>
+Dorénavant, vous pourrez utiliser les commandes :
+  *Pour démarrer le serveur : <code>sudo lampp start</code>
+  *Pour redémarrer le serveur : <code>sudo lampp restart</code>
+  *Pour sécuriser le serveur : <code>sudo lampp security</code>
+  *Pour arrêter le serveur : <code>sudo lampp stop</code>
+  *Pour accéder à la liste des options possibles : <code>sudo lampp</code>
+
+Bien sur, vous pourrez toujours utiliser ces commandes avec ///opt/lampp/lampp//.
+
+===== Créer un lanceur dans Unity =====
+Vous pouvez aussi créer un lanceur dans la barre de lancement de Unity.
+ * Dans le répertoire caché ~/.local/share/applications, [[:tutoriel:comment_modifier_un_fichier|créer un fichier]] nommé comme **xampp.desktop**.
+  * Avec gedit, y placer un contenu selon le modèle suivant :
+<file>
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=Terminal
+Categories=GNOME;GTK;
+Exec=xterm -e 'sudo /opt/lampp/lampp start'
+Name=Xampp
+Comment=
+Icon=/opt/lampp/htdocs/favicon.ico
+
+X-Ayatana-Desktop-Shortcuts=Start;Restart;Stop;
+
+[Start Shortcut Group]
+Name=Start
+Exec=xterm -e 'sudo /opt/lampp/lampp start'
+OnlyShowIn=Unity
+
+[Restart Shortcut Group]
+Name=Restart
+Exec=xterm -e 'sudo /opt/lampp/lampp restart'
+OnlyShowIn=Unity
+
+[Stop Shortcut Group]
+Name=Stop
+Exec=xterm -e 'sudo /opt/lampp/lampp stop'
+OnlyShowIn=Unity
+</file>
+
+Glisser le nouveau lanceur dans la barre de lanceurs Unity Launcher
+
+===== Créer un lien symbolique pour accéder à ses sites web =====
+
+Exemple d’arborescence projets Web :
+
+<code>$HOME/www/projects/</code>
+
+$HOME équivaut à /home/votreUserName
+
+<code>echo $HOME #Affiche le chemin de votre home</code>
+
+Créer le dossier //www// et //projects// dans votre home.
+
+Le caractere tilde '~' équivaut à votre home
+<code>mkdir -p ~/www/projects</code>
+
+Création du lien symbolique du dossier projects au niveau de htdocs, utilisez cette commande ln -s (source vers la cible) :
+
+<code>sudo ln -s $HOME/www/projects /opt/lampp/htdocs/projects </code>
+
+Vérification du lien symbolique.
+Placez-vous dans /opt/lampp/htdocs et entrez la commande :
+<code>ll</code>
+Ou
+<code>ls -la</code>
+
+Vous devriez avoir :
+<code>projects -> $HOME/www/projects/ </code>
+
+Et maintenant si vous allez sur http://localhost/projects/ vous aurez accès à vos sites à condition de vérifier les droits que vous avez sur le répertoire projects.
+===== Lancer le Panneau de Contrôle graphique =====
+
+Pour lancer le panneau de contrôle (GUI) de **XAMPP** (comme sous Windows), utilisez cette commande :
+
+<code>gksu /opt/lampp/share/xampp-control-panel/xampp-control-panel</code>
+
+===== Désinstaller XAMPP =====
+Pour désinstaller XAMPP, il faut simplement supprimer le dossier ''/opt/lampp'' :
+<code>sudo rm -rf /opt/lampp</code>
+En effet, XAMPP tient en un seul dossier indépendant.
+
+===== Astuces =====
+
+==== Modifier le dossier racine du serveur Apache ====
+Dans le ///opt/lampp/etc/httpd.conf// ligne 473-474, en sudo gedit modifier le :
+
+
+<code># User home directories
+#Include etc/extra/httpd-userdir.conf</code>
+
+
+en :
+
+
+<code># User home directories
+Include etc/extra/httpd-userdir.conf</code>
+Ensuite, dans ///opt/lampp/etc/extra/httpd-userdir.conf// assurez-vous d'avoir le code suivant:
+<code># Settings for user home directories
+#
+# Required module: mod_userdir
+
+#
+# UserDir: The name of the directory that is appended onto a user's home
+# directory if a ~user request is received.  Note that you must also set
+# the default access control for these directories, as in the example below.
+#
+UserDir public_html
+
+#
+# Control access to UserDir directories.  The following is an example
+# for a site where these directories are restricted to read-only.
+#
+<Directory /home/*/public_html>
+    AllowOverride FileInfo AuthConfig Limit Indexes
+    Options MultiViews Indexes SymLinksIfOwnerMatch IncludesNoExec
+    <Limit GET POST OPTIONS>
+        Order allow,deny
+        Allow from all
+    </Limit>
+    <LimitExcept GET POST OPTIONS>
+        Order deny,allow
+        Deny from all
+    </LimitExcept>
+</Directory>
+</code>
+Celui-ci vous permettra d'accéder à tous les répertoires de publication des utilisateur. Pour qu'on puisse voir votre site web, vous devez le placer créer un répertoire (dossier) appelé //public_html// et situé dans le répertoire ///home/votrenomdutilisateur///.
+Il est possible de changer l'emplacement de ce dossier ou de changer son nom en éditant, dans ///opt/lampp/etc/extra/httpd-userdir.conf// la valeur ///home/*/public_html//.
+Cependant, il est conseillé de laisser ce chemin.
+
+
+Dans Firefox :
+
+<code>http://localhost/~user/votre_fichier</code>
+
+
+bonne route à tous !
+(source: http://forum.ubuntu-fr.org/viewtopic.php?id=181007)
+
+==== Localhost,  accès interdit à phpmyadmin, nouveau concept de sécurité de xampp ====
+
+Pour résoudre ce problème, Va falloir suivre les directive de xampp et donc modifier le fichier httpd-xampp.conf.
+
+
+Faites tout d'abord le backup du fichier:
+ /opt/lampp/etc/extra/httpd-xampp.conf
+
+Tapez :
+sudo gedit /opt/lampp/etc/extra/httpd-xampp.conf
+
+Cherchez maintenant la ligne :
+Directory "/opt/lampp/phpmyadmin"
+
+Ajoutez :
+<code> Require all granted </code>
+
+Vous devriez avoir un truc comme celui là :  
+
+
+<code> AllowOverride AuthConfig Limit 
+Order allow,deny
+Allow from all
+Require all granted </code>
+
+Redémarrez votre serveur :
+<code> sudo /opt/lampp/lampp restart </code>
+
+Fini, normalement, phpmyadmin est désormais accessible.
+ok
+(Source : [[http://www.webzerone.com/2012/07/error-403-new-xampp-security-concept.html]] )
+
+Une autre petite contrainte pouvant arriver est le fait que la sécurité de XAMPP empêche d'accéder au serveur XAMPP depuis l'extérieur (il autorise seulement un accès en local donc).
+Pour remédier à cela, il suffit d'aller chercher le dernier paragraphe :
+<code>
+#New XAMPP security concept
+<LocationMatch "^/(?i:(?:xampp|security|licenses|phpmyadmin|webaliser|server-status|server-info))">
+            Require local
+           ErrorDocument 403 /error/XAMPP_FORBIDDEN.html.var
+</LocationMatch>
+</code>
+Puis de commenter les 4 lignes de <LocationMatch> à </LocationMatch> pour faire en sorte que la sécurité de XAMPP ne prenne pas en compte cette partie du code. Il est toutefois à noter que cette partie doit être conserver dans le cas d'une maintenance, afin de continuer à faire tourner en local le serveur sans pour autant aller tripoter le parefeu de Linux : [[:iptables|iptables]]. 
+
+===== Voir aussi =====
+
+  * **(fr)** [[http://www.apachefriends.org/fr/xampp-linux.html|Site officiel]]
+  * **(en)** [[http://smashingweb.info/install-xampp-1-7-7-ubuntu-12-0411-10-via-ppa/|Install XAMPP 1.7.7 Ubuntu 12.04/11.10 via PPA]]
+  * **(fr)** [[http://tec.ong-tn.org/article24/comment-demarrer-xampp-automatiquement-au-demarrage-d-ubuntu/|Démarrer Xampp automatiquement au démarrage d'Ubuntu]]
+  * **(fr)** [[https://sourceforge.net/projects/gui-multi-xampp/|Utiliser une GUI et plusieurs versions de Xampp en parallèle]]
+------
+
+//Contributeurs : [[:utilisateurs:Ju]], [[:utilisateurs:Darkagonik]], [[:utilisateurs:alain17]], [[:utilisateurs:Flix]], [[:utilisateurs:mydjey]]//

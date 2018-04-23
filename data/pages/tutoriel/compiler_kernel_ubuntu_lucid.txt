@@ -1,0 +1,171 @@
+{{tag>Lucid Maverick tutoriel compiler noyau kernel}}
+
+----
+
+====== Compiler un noyau Ubuntu ======
+
+Ce tutoriel est une méthode se voulant synthétique et éprouvée pour [[:lucid|Ubuntu 10.04 (Lucid Lynx)]] et [[:maverick|Ubuntu 10.10 (Maverick Meerkat)]]. Cette page n'a pas lieu de remplacer les tutoriaux [[:tutoriel:compiler_linux|Compiler Linux]] et [[:tutoriel:comment_compiler_un_kernel_sur_mesure|Comment compiler un kernel sur mesure]], auxquels il est fortement conseillé de se référer pour de plus amples informations sur la compilation d'un noyau Ubuntu et Linux en général. **Néanmoins, les méthodes de compilation du noyau évoluent quelque peu d'une version à l'autre.**
+
+<note tip>**Version courante du kernel (stable) :** 2.6.35</note>
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir [[:tutoriel:comment_installer_un_paquet|installé les paquets]] [[apt://fakeroot|fakeroot]] [[apt://build-essential|build-essential]] [[apt://crash|crash]] [[apt://kexec-tools|kexec-tools]] [[apt://makedumpfile|makedumpfile]] [[apt://kernel-wedge|kernel-wedge]] [[apt://libncurses5|libncurses5]] et [[apt://libncurses5-dev|libncurses5-dev]]. 
+  * Avoir créé les dépendances requises par votre noyau actuel, en tapant dans un terminal
+<code>sudo apt-get build-dep --no-install-recommends linux-image-$(uname -r)</code>
+  * //Si vous souhaitez utiliser les dépots Git// : Avoir [[:tutoriel:comment_installer_un_paquet|installé les paquets]] supplémentaires [[apt://git-core|git-core]].
+
+===== Récupérer les sources du noyau =====
+
+==== 1) Via les archives sources ====
+
+Créer un dossier où télécharger les sources et se déplacer à l'intérieur, exemple pour un dossier nommé ''src'' dans votre dossier personnel :
+  mkdir ~/src
+  cd ~/src
+
+Après avoir pris bien soin de vérifier tous les Pré-Requis présentés plus haut (sauf l'étape concernant [[:git|Git]]), lancer dans un terminal la commande suivante pour récupérer vos sources :
+  apt-get source linux-image-$(uname -r)
+  
+<note tip>Notez que la commande ''uname -r'' sert à afficher la version courante de votre noyau</note>
+
+Ceci va créer un sous répertoire nommé ''linux-<version du noyau téléchargé>'' où seront extraites les sources de votre noyau courant. Déplacez-vous y par la commande :
+  cd linux-<version du noyau>
+
+==== 2) Via les dépôts Git ====
+
+FIXME [[:utilisateurs:tOnI0]] 01/02/2011 - A venir
+
+===== Editer votre configuration =====
+
+Ce tutoriel ne traite pas des milles et unes façons de configurer son noyau, par conséquent nous assumons que vous savez à l'avance quelles options sont nécessaires à la compilation de votre noyau.
+
+Deux méthodes sont proposées
+  * La méthode basique, nécessitant uniquement une modification votre configuration actuelle
+  * La méthode de création d'une nouvelle variante, **à réserver aux personnes qui souhaitent compiler plusieurs versions d'un même noyau**
+  
+Légèrement différentes dans leur approche, ces deux méthodes mènent au __même résultat__.
+
+==== a) En réutilisant la configuration actuelle ====
+
+Commencer par copier la configuration actuelle qui se trouve dans le dossier ''/boot'' vers votre dossier courant sous le nom de fichier ''.config''
+  cp -vi /boot/config-`uname -r` .config
+Vous pouvez également importer n'importe quel autre fichier de configuration en adéquation avec la version de votre noyau.
+ 
+Il vous reste à entrer dans la configuration et à la modifier selon vos préférences. Bien qu'il soit possible d'éditer directement le fichier ''.config'' avec un éditeur de texte, je vous recommande la méthode graphique que l'on utilise en saisissant la commande suivante : 
+  make menuconfig
+  
+<note help>Il est fortement conseillé de désactiver l'option Kernel Debugging sous peine de se retrouver avec un dossier source de plusieurs Gigaoctets à la compilation.</note>
+<code>Kernel Hacking --->
+    [ ] Kernel Debugging        <------------- A DÉSACTIVER</code>
+
+
+----
+
+
+Enregistrez bien vos modifications avant de passer à la suite.
+
+{{wiki:modeles:laptop_ok.png|}} Les sources sont prêtes à être compilées.
+  
+==== b) En créant votre propre variante ====
+// Inspiré par [[http://blog.avirtualhome.com/2010/11/06/how-to-compile-a-ubuntu-10-10-maverick-kernel/|cet article]] de Peter sur le site My Thoughts//
+
+<note>Les sources du noyau ont l'avantage de proposer d'office plusieurs choix de configuration. La configuration installée par défaut sur Ubuntu est la configuration ''generic'', vous avez dû vous apercevoir de cette extension lorsque vous démarrez votre ordinateur et que Grub vous affiche la liste des noyaux installés. Il existe cependant d'autres variantes (ou //flavours// en anglais) pour différences architectures (i386, amd64) et différents usages (generic, server, virtual, pae...)</note>
+
+Nous allons ici exploiter les scripts contenus dans le sous dossier ''debian/rules'' de votre dossier source pour éditer les configurations par défaut proposées par les sources du noyau. A titre d'information, ces fichiers de configuration se trouvent dans le sous-dossier ''debian/configs''.
+
+Dupliquer le fichier de configuration qui vous intéresse (generic, server, virtual, ou autre) et le renommer avec votre propre extension. 
+Dans l'exemple suivant on choisit d'utiliser la configuration ''<conf>'' comme base et de créer le fichier ''config.flavour.<ma config>'', en veillant à remplacer <conf> par la variante de votre choix (''generic'' par défaut) et <ma config> par un mot de votre choix.
+
+On peut pour cela utiliser la commande suivante en remplaçant <architecture> par ''i386'' si vous avez installé un Ubuntu 32bits ou ''amd64'' si vous avez installé un Ubuntu 64bits.
+  cp debian.master/config/<architecture>/config.flavour.<conf> debian.master/config/<architecture>/config.flavour.<ma config>
+  
+Pour plus de commodité dans la suite du tutoriel, les occurences suivantes vont être remplacées, prendre soin de les adapter à la suite des manipulation :
+  * <conf> -> generic
+  * <architecture> -> i386
+  * <ma config> -> mon_noyau
+  
+On fait appel au script suivant pour éditer la/les configurations que nous souhaitons.  
+  debian/rules editconfigs
+  
+Dans le cas présent, nous souhaitons seulement modifier la configuration ''mon_noyau'' qui vient d'être créée. Il faut donc répondre *N* à toutes les questions posées, sauf à la question concernant votre propre configuration où il faudra répondre *Y*.
+  Do you want to edit config: i386/config.flavour.mon_noyau? [Y/n]
+
+Il vous reste à la modifier selon vos préférences.
+  
+<note help>Il est fortement conseillé de désactiver l'option Kernel Debugging sous peine de se retrouver avec un dossier source de plusieurs Gigaoctets à la compilation.</note>
+<code>Kernel Hacking --->
+    [ ] Kernel Debugging        <------------- A DÉSACTIVER</code>
+
+
+----
+
+
+Enregistrer les modifications avant de passer à la suite, et répondre *N* aux dernières questions s'il y a lieu.
+
+On regénère les fichiers de config pour s'assurer qu'ils ne contiennent pas d'erreur.
+  debian/rules updateconfigs
+
+Dupliquer ces deux autres fichiers et les renommer selon le nom de votre nouvelle configuration pour que la variante soit prise en compte lors de la compilation.
+  cp debian.master/abi/2.6.35-23.36/i386/generic debian.master/abi/2.6.35-23.36/i386/mon_noyau
+  cp debian.master/abi/2.6.35-23.36/i386/generic.modules debian.master/abi/2.6.35-23.36/i386/mon_noyau.modules
+  
+[[:tutoriel:comment_modifier_un_fichier|Ouvrir le fichier]] ''debian.master/etc/getabis''
+
+Ajouter ''mon_noyau'' à la fin de la ligne
+  getall i386 generic generic-pae virtual
+  
+[[:tutoriel:comment_modifier_un_fichier|Ouvrir le fichier]] ''debian.master/rules.d/i386.mk''
+
+Ajouter ''mon_noyau'' à la fin de la ligne
+  flavours        = generic generic-pae virtual
+
+Enfin, dupliquer le fichier ''debian.master/control.d/vars.generic'' et le renommer en ''debian.master/control.d/vars.mon_noyau''
+  cp debian.master/control.d/vars.generic debian.master/control.d/vars.mon_noyau
+  
+{{wiki:modeles:laptop_ok.png|}}Les sources sont prêtes à être compilées.
+
+===== Compilation =====
+
+  * Si vous avez suivi la méthode a) précédemment , la compilation se lance ainsi, en remplaçant ''mon_noyau'' par ce que vous souhaitez :
+
+  fakeroot debian/rules clean  #nettoyage de l'arborescence des sources, pour éviter de laisser trainer des résidus d'anciennes compilations
+  CONCURRENCY_LEVEL=3 skipabi=true fakeroot make-kpkg --initrd --append-to-version=-mon_noyau kernel-image kernel-headers
+ 
+  * Si vous avez suivi la méthode b), la compilation se lance ainsi :
+
+  fakeroot debian/rules clean  #nettoyage de l'arborescence des sources, pour éviter de laisser trainer des résidus d'anciennes compilations
+  CONCURRENCY_LEVEL=3 skipabi=true fakeroot debian/rules binary-mon_noyau
+
+Des précisions :
+  * ''skipabi=true'' sert à outrepasser les vérifications ABI (tests de compatibilité binaire) ce qui évite des erreurs très courantes
+  * ''CONCURRENCY_LEVEL=3'' est à adapter selon le nombre de coeurs que vous possédez sur votre machine. On prend une valeur égale au nombre de coeurs + 1 (soit 3 pour un processeur double coeur)
+  
+<note help>La compilation dure en moyenne entre 1 et 3 heures sur la plupart des machines.</note>
+  
+===== Installation =====
+
+Si tout s'est bien déroulé, deux fichier installeurs .deb devraient être créés à la __racine__ de votre dossier courant (''~/src/linux-<version du noyau>'' pour rappel). Leur nom doit ressembler à ceci :
+  linux-headers-2.6.35-23-mon_noyau_2.6.35-23.37_i386.deb
+  linux-image-2.6.35-23-mon_noyau_2.6.35-23.37_i386.deb
+  
+Dans un envrironnement de bureau, l'installation de votre nouveau noyau peut bien souvent se faire par un double clic sur chacun de ces fichiers. 
+Dans un terminal, on peut utiliser la commande suivante :
+  sudo dpkg -i  linux-headers-2.6.35-23-mon_noyau_2.6.35-23.37_i386.deb linux-image-2.6.35-23-mon_noyau_2.6.35-23.37_i386.deb
+En remplaçant bien sûr les noms de fichiers donnés en exemple par les vôtres.
+
+Le nouveau noyau devrait apparaître dans votre menu [[:grub-pc|GRUB]] au prochain redémarrage.
+
+
+===== Voir aussi =====
+
+  * **(en)** [[https://help.ubuntu.com/community/Kernel/Compile|Kernel Compile]] sur Community Ubuntu Documentation
+  * **(en)** [[https://wiki.ubuntu.com/Kernel/Dev/KernelGitGuide?action=show&redirect=KernelTeam%2FKernelGitGuide|Kernel Git Guide]] sur Ubuntu Wiki
+  * **(en)** [[http://blog.avirtualhome.com/2010/11/06/how-to-compile-a-ubuntu-10-10-maverick-kernel/|How to compile a Ubuntu 10.10 Maverick Kernel]]
+  * **(en)** [[http://www.question-defense.com/2010/09/26/how-to-recompile-your-ubuntu-10-10-kernel-for-patching-or-to-add-support-for-a-specific-device|How to re compile your Ubuntu 10.10 Maverick Kernel for patching or to add support for a specific device]]
+  * **(en)** [[http://ubuntuforums.org/showthread.php?t=311158|Master kernel thread]] sur Ubuntu forums
+
+
+----
+//Contributeurs principaux : [[:utilisateurs:tOnI0]].//

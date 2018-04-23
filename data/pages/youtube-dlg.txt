@@ -1,0 +1,88 @@
+{{tag>Precise Trusty Xenial multimédia capture}}
+
+----
+
+{{ :application:youtube_dlg:youtube-dlg_logo.png?100|Logo YouTube DL GUI}}
+======YouTube DL GUI, capture de vidéo internet======
+//(Paquet **youtube-dlg**, à ne pas confondre avec le paquet [[:youtube-dl-gui]])// \\
+\\
+
+L'application **YouTube DL GUI** distribuée sous [[http://unlicense.org/|licence libre Unlicense]], est une interface graphique de l'utilitaire de capture de vidéos en ligne [[:youtube-dl]]. Elle permet le téléchargement de vidéo depuis de nombreux sites internet diffusant de la vidéo (voir [[http://rg3.github.io/youtube-dl/supportedsites.html|la liste]]) dont celui de [[https://www.youtube.com/|Youtube]].\\
+Configurée différemment, **YouTube DL GUI** peut aussi récupérer uniquement la bande son de la vidéo.
+<note important>La copie d’œuvre est réglementée pour chaque pays. Pour la France, voir [[http://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000025003518&cidTexte=LEGITEXT000006069414|l'article L122-5 sur Légifrance]].</note>
+
+{{:application:youtube_dlg:youtube-dlg_14_04_1.png?600|YouTube DL GUI}}
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]] pour l'installation et la mise à jour.
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir installé l'utilitaire [[:youtube-dl]] (Le type d'installation de Youtube-dl importe peu, il sera pris en charge dans tous les cas).
+
+===== Installation =====
+
+<note important>**YouTube DL GUI** n'est pas disponible dans les [[:depots|dépôts officiels]] mais depuis un [[:PPA|dépôt PPA]].\\
+Les [[:PPA|dépôts PPA]] sont des dépôts non-officiels. Installer un paquet hors des [[:dépôts]] officiels peut présenter un risque d'instabilité pour votre système. 
+
+Pour [[:trusty|Ubuntu Trusty 14.04]], il est nécessaire d'utiliser la [[:avconv#via_un_ppa_pour_trusty_1404_uniquement|version 11 de l'encodeur audio/vidéo Avconv]], la version 9 par défaut ne fonctionnant pas avec Youtube-dl.
+</note>
+
+  - [[:ppa|Ajouter le PPA]] **ppa:nilarimogard/webupd8**((https://launchpad.net/~nilarimogard/+archive/ubuntu/webupd8)) à vos sources de logiciels;
+    * Pour [[:trusty|Trusty 14.04]], [[:ppa|ajoutez aussi le PPA]] **ppa:heyarje/libav-11**((https://launchpad.net/~heyarje/+archive/ubuntu/libav-11)) à vos sources de logiciels pour bénéficier de la bonne version de l'encodeur;
+  - [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|recharger la liste de vos paquets]];
+  - puis [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>youtube-dlg]]**
+     * Pour [[:trusty|Trusty 14.04]], [[:tutoriel:comment_installer_un_paquet|installer aussi le paquet]] **[[apt>libav-tools]]** pour utiliser la bonne version de l'encodeur.
+  - :!: __Attention__: Le [[:PPA]] **nilarimogard/webupd8** contient aussi de très nombreux autres paquets de versions supérieures. Si vous ne souhaitez pas de mise à jour vers des versions supérieures de ses paquets lors de la prochaine mise à jour de votre système, [[:ppa#suppression_d_un_ppa|supprimer ce PPA]] de vos sources de logiciels.
+Ou dans un [[:terminal]], saisir les [[:commande_shell|commandes]] suivantes: 
+  - <code>sudo add-apt-repository ppa:nilarimogard/webupd8</code>
+    * Pour [[:trusty|Ubuntu Trusty 14.04]], ajouter cette [[:commande_shell|commande]] pour bénéficier de la bonne version de l'encodeur; <code>sudo add-apt-repository ppa:heyarje/libav-11</code> 
+  - <code>sudo apt-get update</code>
+  - <code>sudo apt-get install youtube-dlg</code> 
+    * Pour [[:trusty|Ubuntu Trusty 14.04]], ajouter cette [[:commande_shell|commande]] pour utiliser la bonne version de l'encodeur:<code>sudo apt-get install libav-tools</code> 
+  - Puis si vous souhaitez retirer le [[:PPA]] **nilarimogard/webupd8** de vos sources de logiciels: <code>sudo add-apt-repository -r ppa:nilarimogard/webupd8</code>
+
+<note help>__Mise à jour__ \\
+Si vous utilisez **YouTube DL GUI** pour d’autres site que Youtube, le maintien à jour n'est pas nécessaire dans la majorité des cas. Par contre, pour capturer les vidéos de Youtube, il est nécessaire de mettre souvent à jour l'utilitaire source [[:Youtube-dl]] car Google®, propriétaire de Youtube, modifie fréquemment ses codes. Dans ce cas vous pouvez soit:
+  * Installer youtube-gl depuis le [[:#youtube-dl#via_un_depot_ppa|PPA **nilarimogard/webupd8**]] et laisser ce PPA actif, le paquet youtube-dl sera alors mis à jour automatiquement à chaque nouvelle version;
+  * Installer la toute dernière version depuis le [[::youtube-dl#via le site officiel|site officiel]] puis cliquer régulièrement sur le bouton "Mise à jour" de l'application **YouTube DL GUI**
+</note>
+=====Lancement=====
+Lancer l'application depuis le [[:unity#tableau_de_bord_dash|tableau de bord d'Unity]] ou pour les menus classiques, **Internet** -> **YouTube DL GUI**. Par défaut, celle-ci sera en anglais. Pour son utilisation en français, voir le chapitre ci-dessous.
+
+=====Configuration====
+Pour accéder à la configuration de **YouTube GL GUI**, il suffit de cliquer sur le bouton "Options". Une très grande variété d'options vous sera proposée aux travers des nombreux onglets.
+
+ {{:application:youtube_dlg:youtube-dlg_14_04_2.png?500|Options}}
+
+<note important>L'utilisation de formats non compatibles avec l'encodeur utilisé peut provoquer des erreurs. Restez prudent dans la configuration. En cas de problèmes, vous pouvez restaurer la configuration par défaut à l'aide du bouton "options" -> "Reset Options".</note>
+Le fichier de configuration est situé dans le [[:fichier_cache|dossier caché]] **~/.config/youtube-dlg/setting.json** de votre espace personnel
+
+====Youtube DL GUI en Français====
+Lors du 1er lancement, l’application sera en langue anglaise. Pour bénéficier de la langue française, il suffit de se rendre dans **Options** -> dernier onglet **Localization** et choisir dans la liste déroulante: **French**. Le français sera applicable au prochain démarrage de l'application. (Merci aux traducteurs ;-) )
+
+
+
+==== Choisir la qualité et le format vidéo ====
+De très nombreux formats de sortie sont disponibles depuis l'onglet "Vidéo". Vous n'avez que l'embarras du choix. 
+
+====Le nom du fichier de sortie====
+Dans l'onglet "Sortie" vous pourrez modifier le type de format du nom de la vidéo.
+
+==== Obtenir uniquement l'audio ====
+Si vous souhaitez n'obtenir que la bande son de la vidéo il suffit de vous rendre dans l'onglet "Audio" et de cocher la case **Convertir la piste Audio**. Vous pourrez ici si vous le désirez, modifier le format de sortie et sa qualité.
+
+
+===== Utilisation =====
+  - Depuis votre [[:navigateur|navigateur internet]], rendez-vous sur la page de la vidéo à télécharger et copier l'adresse de sa page;
+  - Coller l'adresse %%URL%% de la vidéo dans la partie supérieure de **YouTube DL GUI** dénommé "Lien(s)"
+  - Cliquer sur "Télécharger"
+Si aucune modification n'a été apporté à la configuration de **YouTube DL GUI**, la vidéo sera enregistrée en qualité et format par défaut dans votre dossier personnel. 
+
+=====Problèmes connus=====
+Avant tout pour en savoir plus sur le problème rencontré, voir le fichier **log** dans le [[:fichier_cache|dossier caché]] **~/.config/youtube-dlg/** de votre espace personnel.
+
+=====Voir aussi =====
+  * **(en)** [[http://mrs0m30n3.github.io/youtube-dl-gui/|Site officiel]]
+
+----
+
+//Contributeurs://

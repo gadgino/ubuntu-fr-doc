@@ -1,0 +1,72 @@
+{{tag>carte_heuristique}}
+----
+====== Freeplane ======
+
+{{ :freeplane.png?300}}
+**Freeplane** est un logiciel libre et opensource de "mind mapping" (carte heuristique) écrit en Java. 
+
+Freeplane est une version améliorée ('fork') de [[Freemind]].
+
+===== Pré-requis =====
+
+  * Avoir préalablement installé [[Java]]
+  * Disposer des [[:sudo|droits d'administration]]
+  * Disposer d'une connexion à Internet configurée et activée
+
+===== Installation =====
+
+L'installation et l'utilisation de Freeplane sont très simples.
+
+
+==== Méthode 1 : installation par les dépôts (à partir d'Ubuntu 11.04) ====
+
+Depuis Ubuntu 11.04, Freeplane est disponible dans les dépôts, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>freeplane]]**.
+<note tip>A noter que les dépôts ne sont pas souvent mis à jour. Pour installer la dernière version de Freeplane, utilisez la [[freeplane|méthode 2]] ou [[freeplane|méthode 3]].</note>
+<note tip>
+Sur un ubuntu 64bits, pour que cela fonctionne, j'ai du créer un lien de java 64 vers java i386 par la commande 
+''sudo ln -s /usr/lib/jvm/java-1.7.0-openjdk-amd64 /usr/lib/jvm/java-1.7.0-openjdk-i386''</note>
+==== Méthode 2 : installation manuelle (toutes versions Ubuntu) ====
+
+Commencez par télécharger la dernière version sur le [[http://sourceforge.net/projects/freeplane/files|site officiel]] :
+  * Allez dans le dossier "stable" puis téléchargez le fichier nommé **freeplane_bin-x.x.x.zip**, et non pas le fichier **freeplane_src-1.x.x.tar.gz**, qui lui contient les sources devant être compilées
+  * Ensuite décompressez le fichier téléchargé à l'emplacement de votre choix.
+
+Vous pouvez aussi télécharger et installer une version de Freeplane en cours de développement en prenant le fichier freeplane_bin-x.x.x.zip dans un autre dossier que le dossier "Stable".
+ <note>Un paquet .deb est également disponible [[https://sourceforge.net/projects/freeplane/files/debian_ubuntu/]]</note>
+==== Méthode 3 : installation depuis les dépôts GetDeb ====
+
+Le dépôt GetDeb présente des archives plus récentes de freeplane. Par exemple, le paquet .deb de freeplane 1.3.12 est disponible pour Ubuntu 14.04 LTS Trusty Tahr dans les dépôts GetDeb (mais d'[[http://www.getdeb.net/updates/Ubuntu/14.04/?category=Office|autre versions de freeplane sont peut-être également présentes pour des versions plus récentes d'Ubuntu]]). Pour activer ce dépôt et installer cette version de freeplane :
+
+<code>wget -q -O- http://archive.getdeb.net/getdeb-archive.key | sudo apt-key add -
+
+sudo sh -c 'echo "deb http://archive.getdeb.net/ubuntu trusty-getdeb apps" >> /etc/apt/sources.list.d/getdeb.list'
+
+sudo apt-get update
+
+sudo apt-get install freeplane</code>
+===== Lancement =====
+
+==== Après installation par un dépôt ====
+
+Freeplane apparait dans Unity et les fichiers .mm se lancent automatiquement avec freeplane depuis nautilus.
+
+==== Après installation manuelle ====
+
+Allez dans le dossier où vous avez extrait le fichier, pour y trouver le fichier **freeplane.sh**. Lancez-le avec un double-clic, ou encore inscrivez dans un [[terminal]] la commande suivante :
+
+  sh freeplane.sh
+
+Vous pouvez aussi [[raccourci-lanceur#creation_d_un_nouveau_lanceur|créer un lanceur]] pointant vers ce fichier.
+
+===== Désinstallation =====
+
+Il n'y a pas de désinstallation à proprement parler. Il suffit de supprimer le dossier de l'application.
+
+===== Voir aussi =====
+
+  * **(en)** [[http://freeplane.sourceforge.net|Wiki Freeplane officiel (sur SourceForge)]]
+  * **(fr)** [[http://www.freemindparlexemple.fr/|Test et Explications sur Freeplane et Freemind]]
+  * **(fr)** [[http://freeplanecollab.sourceforge.net/fr/|Extension à freeplane pour le versionning des cartes et le travail collaboratif]]
+
+----
+//Contributeurs : [[:utilisateurs:dziga]], [[:utilisateurs:Astohan]], [[:utilisateurs:ldmpub]]//.

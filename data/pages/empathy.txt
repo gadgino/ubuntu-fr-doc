@@ -1,0 +1,190 @@
+{{tag>Trusty Lucid Precise messagerie_instantanée visioconférence vétuste}}
+
+----
+
+{{ thelepathy_logo.png?100|Logo de Telepathy}}
+
+====== Empathy ======
+
+Empathy est le client de [[messagerie instantanée|]] par défaut d'Ubuntu. Vous pouvez l'utiliser pour vous connecter à tous les réseaux de clavardage pris en charge par celui-ci (Jabber, IRC, Yahoo, Facebook, ...).
+
+Empathy permet de passer des appels audio/vidéo :
+  * avec des interlocuteurs Windows, Mac et Linux par le protocole [[:jabber|XMPP]], comme expliqué [[:empathy#faire_de_la_videoconference_avec_des_interlocuteurs_windowsmac|ci-dessous]], et [[SIP]]. Les interlocuteurs peuvent utiliser [[Jitsi]] (multi-OS) ou le [[https://www.google.com/chat/video|plugin Gtalk]] dans leur [[:navigateur]] Web.
+  * avec des interlocuteurs Linux via le protocole [[:jabber|XMPP]].
+Empathy peut aussi servir à partager son bureau à distance (par le Partage de bureau, anciennement appelé [[:Vinagre]]) avec un interlocuteur utilisant le protocole XMPP, voir à prendre la contrôle de ce poste.
+
+Empathy est basé sur la bibliothèque Telepathy, et donc prend en charge la voix sur IP [[wpfr>VoIp]] avec XMPP. Il peut sembler limité sur d'autres points puisqu'il n'a le transfert de fichier que pour les protocoles Bonjour et XMPP.
+
+{{:theora-empathy.png?500|Empathy }} 
+
+Empathy supporte tous protocoles supportés par [[pidgin|Pidgin]] et notamment:
+  * Jabber/XMPP
+  * IRC
+  * Salut
+  * AIM 
+  * Yahoo!
+  * Gadu Gadu
+  * Groupwise
+  * ICQ
+  * QQ
+  * Sametime
+
+===== Installation =====
+
+Empathy est installé par défaut dans Ubuntu. Pour les autres variantes (K*X*Lubuntu), [[:tutoriel:comment_installer_un_paquet|installer les paquets]] **[[apt>empathy]]** et **[[apt>telepathy-gnome]]**.
+
+//Pour Ubuntu 12.04 seulement.//: pour utiliser la dernière version, il suffit d'[[:ppa|ajouter à vos sources de logiciels le dépôt PPA]] **ppa:telepathy/ppa**((https://launchpad.net/~telepathy/+archive/ppa)), puis [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|recharger la liste des paquets]], et [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>empathy|empathy]]**. 
+
+===== Utilisation =====
+
+Empathy se lance via le menu //Applications -> Internet -> **Messagerie instantanée Empathy**//.
+
+Dans les contacts XMPP, en plus de la couleur qui indique la présence vous pouvez avoir l'apparition d'une webcam juste à gauche de l'image de l'avatar. Elle indique que votre correspondant utilise un logiciel permettant la visioconférence ou l'appel audio. Sa présence n'indique pas que votre interlocuteur possède une webcam.
+
+Vous pourrez aussi voir, parfois, la présence d'un téléphone en dessous du nom de vos contacts. Ce symbole signifie qu'il est sur un téléphone (en général sous [[wpfr>Android|Android]], puisqu'il faut un compte gmail pour accéder au [[wpfr>Google_Play|Google Play Store]], et que Google propose toujours l'application Talk dans les téléphones Android). L'application Talk est compatible avec la visioconférence (testé sur le Nexus S).
+
+Il est de plus possible d'ajouter des contacts en favori, c'est a dire de les mettre en haut de la liste (pour ne pas avoir a les chercher), et cela ne tient pas compte des protocoles. Suivant les versions, il faut soit faire un clic droit sur le contact puis "modifier" et enfin cocher "favori", soit ajouter directement en favori avec le clic droit. Encore plus simple, un glisser-deposer fonctionne aussi (il faut juste le lacher dans la categorie "favori").
+Attention : depuis Ubuntu 12.10, la rubrique "favori" n'est plus indiqué en haut meme si les contacts peuvent toujours etre ajouté en tant que tel et vont en haut.
+
+===Lancer automatiquement Empathy au démarrage de votre session===
+Allez dans "Paramètres" -> "Applications au démarrage" -> "ajouter" ; puis remplissez comme ceci :
+
+^                        ^                                                         ^                ^
+| **Nom : **              | Empathy                                                           ||
+| **Commande :**    | empathy -h                                      | **Parcourir** |
+| **Commentaire :** | Lancer Empathy au démarrage de la session ||
+
+==NB : ==
+* la commande "//empathy -h//" ne lancera pas l'affichage du logiciel, mais vos contacts (ainsi que les personnes sur le réseau) vous verront en ligne. Pour lancer l'affichages ne mettez que "//empathy//" 
+
+* Si la commande "//empathy -h//" ne fonctionne pas, vous pouvez mettre à la place 
+<code>empathy --start-hidden</code>
+==== Activer les notifications ====
+
+Le [[:gnome-shell]] n'intégrant pas les applets pour le moment, on ne peut pas utiliser l'indicator-applet. Pour avoir quand même une notification des nouvelles conversations, il faut repasser par l'affichage d'Empathy dans la zone de notification. Pour ce faire,
+  * aller dans les préférences d'empathy (menu édition),
+  * puis, dans l'onglet notifications, décocher la case "utiliser les notifications de messages"
+
+==== Création/connexion  d'un compte (XMPP/Jabber, Facebook, Skype) ====
+Pour ajouter un compte, affichez la liste de contact puis cliquez sur //Éditer -> **Comptes**// ou utilisez la touche F4. Ensuite, cliquez sur le petit plus en bas à gauche.  {{ :empathy:compte_empathy.png?200|}}
+
+
+=== XMPP/jabber  ===
+Créer un compte XMPP au près d'un fournisseur que vous pouvez trouver sur cette [[http://im.apinc.org/inscription/?apinc=1&server=im.apinc.org|page]] de l'association [[https://fr.wikipedia.org/wiki/APINC|APINC]].
+  - Ouvrir Empathy
+  - Éditer vos comptes dans le menu //Édition → **Comptes**// (touche F4) puis cliquez sur le petit plus (+) en bas à gauche. 
+  - Choisissez Jabber dans la liste des compte de discussion. Puis entrez:
+       * L'identifiant de connexion est du type nomducompte@nomdufournisseurXMPP.org (la structure est similaire à celle du courriel nomcompte@fournisseur-de-courriel.com)
+       * le mot de passe  {{ :empathy:compte-nouveau_empathy.png?200|}}
+
+== Cas particulier: un compte gmail ==
+Pour utiliser le réseau de discussions Google Talk, il suffit de :
+
+  - Ouvrir Empathy
+  - Éditer vos comptes dans le menu //Édition → **Comptes**// (touche F4)
+  - Ajouter ou éditer un compte //Google Talk// :
+    * L'identifiant de connexion est votre adresse Gmail
+    * Le mot de passe est celui utilisé pour vous connecter sur Gmail
+  - Si vous utilisez Ubuntu 8.04 LTS ou 9.10, déroulez l'option //Avancée// et configurez :
+    * Serveur : talk.google.com
+    * Port : 5222
+
+FIXME Si vous souhaitez faire de la [[visioconférence]] (audio+webcam), [[:tutoriel:comment_installer_un_paquet|installez les paquets]] [[apt>gstreamer0.10-ffmpeg,gstreamer0.10-plugins-ugly-multiverse|gstreamer0.10-ffmpeg gstreamer0.10-plugins-ugly-multiverse]].\\
+En cas de soucis, rdv sur [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3488757|ce sujet du forum]]. 
+
+=== Facebook  ===
+
+<note important>
+Depuis le 30 avril 2015, Facebook a cessé le support ((**(en)** https://developers.facebook.com/docs/chat)) de XMPP/Jabber en passant à la version 2.0 de l'API Facebook.
+Par conséquent, **on ne peut plus** discuter sur la plateforme sociale via Empathy ((**(en)** http://www.omgubuntu.co.uk/2015/04/facebook-chat-api-empathy-pidgin-stop-working)) . 
+[[http://www.meetfranz.com/|Dans ce cas, peut être que Franz pourra vous dépanner]]. FIXME
+</note>
+
+
+=== Skype ===
+
+Pour utiliser [[:Skype]] sur Empathy, de la même façon que sur Pidgin, installez ce [[:paquet]] deb: [[https://code.google.com/p/skype4pidgin/]]. Ce plugin utilise Skype, mais ne le remplace pas car Skype n'est pas libre, c'est pour cela que Skype doit être lancé pour pour y discuter sur Empathy. Cela a au moins l'avantage de pouvoir avoir toutes ses discussions dans un seul programme. 
+
+ Pour l'utiliser, choisissez simplement le protocole "bigbrownchunx-skype-dbus" lors du choix de votre compte. Ensuite mettez votre identifiant Skype, veuillez à ce que Skype soit bien lancé, et le tour est joué :-)
+
+=== Pour les autres ===
+Je suppose que vous avez remarqué que pour Salut, Google + (ou Gtalk), Yahoo!, AIM, c'était la même manipulation (menu //Édition → **Comptes**// (touche F4) puis cliquez sur le plus en bas à gauche ; choisir le protocole du compte), mais pour IRC, il faut en plus installer le paquet **[[apt>account-plugin-irc]]** **uniquement** disponible pour la version 12.10 , puis faire la même manipulation.
+Après avoir inscrit votre pseudo, il faut vous rendre dans un chat : allez dans l'onglet "salon" > joindre > choisir votre compte IRC du genre //votre pseudo// sur //votre réseau// et écrire le salon de votre choix (#ubuntu-fr pour le salon officiel d'Ubuntu francophone) > un onglet s'ouvre avec le salon de votre choix !
+
+==== Thèmes ====
+
+Empathy supporte certains thèmes d'affichage (Message Styles) utilisés par le client Adium pour Mac OS X. Vous pouvez consulter [[http://live.gnome.org/Empathy/Themes |une liste de thèmes compatibles]] sur la page officielle d'Empathy.
+
+Les thèmes devront être mis dans le [[:fichier_cache|dossier]] **~/.local/share/adium/message-styles/** qu'il vous faudra peut être créer
+[[http://www.adiumxtras.com/index.php?a=xtras&xtra_id=2160|{{ http://www.adiumxtras.com/images/pictures/renkoo_5_3613_2160_thumb_3514.jpg? 200}}]] 
+
+[[http://www.adiumxtras.com/index.php?a=xtras&xtra_id=2160|Thème Renkoo]]
+
+==== Partager son Bureau ====
+Pendant une discussion, allez dans la barre de **Menu** puis **Contact** -> **Partager mon Bureau** {{ :empathy:partage-bureau_emapthy.png?150}}
+\\ Ou bien, allez directement sur le contact et faites un clic droit. Là, choisissez **Partager mon Bureau**.\\
+Notez que si c'est grisé, le partage ne sera pas possible.
+
+Les préférences du partage de bureau sont dans le [[unity#tableau_de_bord_dash|Dash]] à Partage de bureau (ou bien en tapant vino).\\
+Le partage de Bureau n'est pas possible si votre interlocuteur utilise le navigateur web et son plugin Gtalk.
+
+==== Échanger des fichiers ====
+Pendant une discussion, allez dans la barre de **Menu** puis **Contact** -> **Envoyer un fichier**\\
+Ou bien, allez directement sur le contact et faites un clic droit. Là, choisissez **Partager un fichier**.\\
+L'échange de fichier n'est pas possible si votre interlocuteur utilise le navigateur web et son plugin Gtalk.
+
+====Faire de la vidéoconférence avec des interlocuteurs Windows/Mac====
+
+Pour faire de la vidéoconférence (webcam+audio+tchat) avec Empathy avec des interlocuteurs Windows et Mac :
+  * [[:tutoriel:comment_installer_un_paquet|installez les paquets]] [[apt>gstreamer0.10-ffmpeg,gstreamer0.10-plugins-ugly-multiverse|gstreamer0.10-ffmpeg gstreamer0.10-plugins-ugly-multiverse]] 
+  * [[http://gmail.google.com/|créez-vous une adresse Gmail]] ou une [[http://wiki.jabberfr.org/Accueil|adresse Jabber]]
+  * utilisez Empathy (de préférence la dernière version) avec le protocole XMPP (en y indiquant votre pseudo et mot-de-passe)
+  * indiquez à votre interlocuteur Windows/Mac d'utiliser [[http://gmail.com/videochat|Gtalk]].
+
+Remarque : l'application Gtalk sur Windows/Mac n'étant pas libre, vous pourriez être intéressé par une alternative 100% libre : [[Ekiga]] ou [[Jitsi]]. 
+
+En cas de soucis, rdv sur [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3488757|ce sujet du forum]].
+
+====Faire de la vidéoconférence à 3 (ou plus)====
+
+Possible uniquement si vos interlocuteurs utilisent Linux. Voir la page [[Muji]].
+
+==== Journaux des conversations ====
+
+Empathy stocke toutes vos conversations et il n'y a pas de moyen (pour l'instant) de désactiver cela dans le logiciel.\\
+Vous pouvez cependant les supprimer à la main, les fichiers étant stockés dans le dossier **~/.local/share/Empathy/logs/**
+
+Depuis Empathy 2.31.4, les fichiers sont stockés dans le dossier **~/.local/share/TpLogger/logs/**
+
+==== Sauvegarde de la configuration ====
+
+  * Les comptes sont stockés dans **~/.mission-control/accounts/accounts.cfg** (excepté les mots de passe qui le sont dans coffre-fort de gnome).
+  * Les nouveaux journaux (depuis Empathy 2.31.4) sont ici : **~/.local/share/TpLogger/logs**
+  * Les vieux journaux sont dans **~/.local/share/Empathy/logs/**
+  * La configuration d'Empathy est stockée dans [[:dconf-tools|DConf]] et **~/.config/Empathy/**
+  * Les avatars ont un cache dans **~/.cache/telepathy/avatars/**
+  * Les paramètres des méta-contacts (depuis Empathy 2.32) sont dans le fichier **~/.local/share/folks/relationships.ini**
+
+===== Résolution des problèmes =====
+
+==== Visioconférence qui échouent avec le protocole XMPP/Jabber====
+Vérifier la présence des [[formats_non-libres|codecs vidéo propriétaires]] comme H264 (nécessaire avec Jitsi 1.0 et pour certaines anciennes versions).\\
+Essayez d'activer l'[[ipv6|IPv6]] dans la box de votre [[wpfr>FAI]] (SFR, Free, OVH, ...)  pour contournez le problème des NAT. Ou alors ouvrez sur la box les ports adéquats (5800 et 5900) redirigez les si nécessaire.\\ Pensez également à activer l'[[wpfr>UPnP]] sur votre box.
+
+==== Après le passage à la 13.10, Empathy ne se connecte plus à Facebook====
+Ceci est du à un bug désormais corrigé, mais pour l'instant le correctif est dans la version empathy_3.8.4-1ubuntu2, accessible dans le dépôt "proposed" d'Ubuntu.
+Pour pour l'ajouter, il faut suivre les instructions sur [[https://wiki.ubuntu.com/Testing/EnableProposed | cette page]] (en anglais).
+Ensuite, faites (si vous êtes bien sous saucy):
+  sudo apt-get update && sudo apt-get install empathy/saucy-proposed
+
+===== Voir aussi =====
+
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3504884#p3504884|Recherche Testeurs VOIP/Visio libre : SIP - XMPP]] sur le forum ubuntu-fr
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=360820|Discussion Empathy, telepathy et msn en audio/vidéo]] sur le forum ubuntu-fr
+  * [[http://live.gnome.org/Empathy|Site du projet Empathy]] (en)
+  * [[http://telepathy.freedesktop.org/wiki/|Site du projet Telepathy]] (en)
+  * Changer de compte tout en gardant ses contacts avec[[http://jabber.ecchi.ca/import/|Jabber Roster Utility en PHP ]]
+
+
+----
+//Contributeurs : [[utilisateurs:Id2ndR]], remi95230, [[utilisateurs:Percherie]], [[utilisateurs:mirage59]]

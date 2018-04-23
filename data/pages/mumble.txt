@@ -1,0 +1,72 @@
+{{tag> voip}}
+
+----
+
+====== Mumble ======
+
+
+**Mumble** est un logiciel libre de [[voip|communications vocales]] de haute qualité, ce logiciel est particulièrement destiné aux joueurs. Il fait partie de la catégorie des logiciels de VOIP (Voice Over Internet Protocol).
+Là où [[teamspeak]] n'utilise que OSS, Mumble utilise OSS, ALSA ou [[PulseAudio]], ce qui permet d’utiliser d’autres applications sonores simultanément.
+
+Mumble va vous permettre de communiquer avec vos compagnons de jeu. Il vous suffit de parler pour que s’active la transmission qui sera reçue presque instantanément par les autres membres de votre équipe, ou alors vous pouvez sélectionner une action pour activer la transmission.
+
+Il se connecte à un serveur [[mumble-server|Murmur]], qui est développé avec un protocole ouvert et utilise une répartition distribuée (chacun peut créer un serveur).
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir activé l'accès au [[:depots#depots_officiels|dépôt Universe]].
+
+===== Installation =====
+
+=== Dépôts officiels (recommandé) ===
+
+Pour installer ce logiciel, il suffit d' [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt://mumble|mumble]]**.
+Vous aurez alors installé la partie client qui fonctionnera en se connectant sur un serveur Mumble par ailleurs. 
+
+=== Depuis un PPA (Stable) ===
+
+<code>sudo add-apt-repository ppa:mumble/release
+sudo apt update
+sudo apt install mumble</code>
+===== INFO (voir aussi comment monter son serveur) =====
+  *[[:mumble-server|Murmur]] est un serveur permettant de connecter des clients Mumble: voir ici: [[:mumble-server]]
+===== Utilisation ====
+
+==== Démarrer Mumble ====
+
+Lancez l'application depuis le menu //Applications -> Internet -> Mumble// ou //via// la commande suivante :
+  mumble
+
+==== S'enregistrer ====
+
+Vous devrez vous enregistrer sur certains serveurs Mumble, ce qui vous permettra de recevoir des droits d’accès tout en évitant que quelqu'un usurpe votre identité grâce à votre certificat.
+Pour y parvenir il suffit d’être connecté sur le serveur et de cliquer sur ** Soi-> Enregistrer**.
+
+
+==== Configuration  ====
+Sur les dernières versions de Mumble, un tutoriel se lance et vous guide pour paramétrer le logiciel et en particulier vérifier le fonctionnement des vos haut-parleurs ou de votre micro. Le guide est plutôt bien fait et, en suivant les instructions, vous devriez parvenir à faire fonctionner correctement le client Mumble. Si ce n'était pas le cas, un tutoriel est pointé en bas de page et de nombreux autres existent, en particulier sur les pages de communautés de joueurs en ligne.
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. La configuration de l'application sera conservée ou supprimée selon la méthode de désinstallation que vous choisirez.
+
+===== Problèmes connus===== 
+
+Lorsque Mumble est utilisé paralèllement à des jeux de type FPS (comme [[Xonotic]] ou [[Urban Terror]]), il se peut que vous constatiez des phénomènes de latence en cours de partie.
+Souvent, c'est la fonction "Overlay" de Mumble qui produit ces effets indésirables. Pour la désactiver, vous pouvez vous rendre dans le menu "Configurer" --> "Paramètres", puis dans l'onglet "Overlay" afin de désactiver ce dernier.
+
+===== Sauvegarde configuration =====
+La configuration de mumble (certificats, liste serveurs...) se trouve ici:
+  ~/.local/share/data/Mumble/Mumble/.mumble.sqlite
+
+===== Voir aussi =====
+
+  * **(fr)** [[https://www.youtube.com/watch?v=Oh_SCNukD2k|Vidéo tutoriel sur l'installation et la configuration de Mumble]]
+  * **(en)** [[http://mumble.sourceforge.net/|Site officiel]]
+  * **(fr)** [[http://www.jeuxlinux.fr/a142-Mumble.html|Tutoriel sur l'installation de Mumble]]
+  * **(fr)** [[:mumble-server|mumble-server]] où  **(en)**[[http://mumble.sourceforge.net/Running_Murmur|Configuration et utilisation de Murmur]]
+
+----
+//Contributeurs : [[utilisateurs:Johndescs]] (lifting), [[utilisateurs:Télio]] //.

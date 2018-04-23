@@ -1,0 +1,124 @@
+{{tag>openbox}}
+
+----
+
+====== Tint Task Manager ( barre de tâches ) ======
+
+
+**Tint2** est une barre de tâches basée sur le code de //ttm// et créée spécialement pour [[Openbox]] 3, mais utilisable avec d'autres gestionnaires de fenêtres.
+
+Cette barre de tâches combine beauté et légèreté, et est relativement simple à configurer.
+
+{{:openbox:ecran_tint06.jpg|}}
+
+
+=== Fonctionnalités ===
+
+  * Transparence/couleur du texte, des icônes, de la bordure et du fond;
+  * Personnalisation des évènements liés à la souris (cliques);
+  * Glissé-déposé des tâches; 
+  * Horloge avec couleur ou transparence;
+  * Systray
+  * ...
+
+
+===== Installation =====
+
+==== Depuis les dépôts officiels ====
+Un paquet est disponible dans les dépôts. Il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt://tint2|tint2]]**.
+
+===== Utilisation =====
+
+==== Lancement ====
+
+Pour lancer **Tint2** et ainsi l'afficher sur votre bureau, entrez ceci dans la ligne de commande (ou dans un terminal) :
+<code>tint2</code>
+
+==== Au démarrage ====
+
+  * Avec [[Openbox]], ajoutez cette ligne dans votre fichier **~/.config/openbox/autostart.sh** :
+<code>tint2 &</code>
+
+  * Avec Gnome (et donc Unity), créer une nouvelle entrée avec l'outil "applications au démarrage", avec commande = tint2.
+
+A noter : pour ne le lancer que sous Unity, il faut éditer ensuite le fichier de démarrage situé dans ~/.config/autostart
+
+  gedit tint2.desktop
+et ajouter la ligne :
+  OnlyShowIn=Unity;
+==== Configuration Manuelle ====
+
+Pour configurer votre nouveau panel, éditez le fichier **~/.config/tint2/tint2rc** qui se crée au premier lancement.
+
+Si vous souhaitez utiliser un autre fichier de configuration pour des tests par exemple, alors il vous faudra appeler **Tint2** avec la commande suivante :
+<code>tint2 -c $HOME/tint.conf</code>
+
+Pour plus d'informations sur la configuration de votre barre des tâches, veuillez vous reporter directement à la documentation qui est bien détaillée :
+
+- [[http://tint2.googlecode.com/files/tint-0.6.pdf|documentation de **Tint** version 0.6]]
+
+- [[http://tint2.googlecode.com/files/tint2-0.7.pdf|documentation de **Tint2** version 0.7]]
+
+- [[http://code.google.com/p/tint2/wiki/Configure|documentation de **Tint2** version 0.11]]
+
+- [[https://gitlab.com/o9000/tint2/blob/master/doc/tint2.md/|documentation de la dernière version (0.12)]]
+
+
+==== Configuration avec outil graphique ====
+
+=== Ajouter/changer de thème ===
+
+Pour lancer l'outil de gestion des thèmes, utilisez la commande **tint2conf**.
+
+Voir explications sur le [[https://code.google.com/p/tint2/wiki/Tint2conf|wiki de tint2 : tint2conf]].
+
+=== Éditer le thème (la configuration) ===
+Le bouton propriété donne accès à un outil d'édition du thème.
+
+[Ubuntu 14.04] Par défaut cet outil est tintwizard - en anglais. (Il peut être remplacé par un autre. Le plus simple : gedit !)
+
+TintWizard est installé en même temps que tint2, si vous avez installé ce dernier depuis la logithèque.
+
+(Sinon vous trouverez un paquet tar.gz comprenant tout ce qui est nécessaire  sur [[http://code.google.com/p/tintwizard/|la page du projet]] : téléchargez et décompressez l'archive, puis lancez tintwizard.py.)
+
+[Ubuntu 16.04] tint2conf a intégré l'outil d'édition du thème.
+
+<note important>Avec tint2 0.11 tintwizard ne permettait que de visualiser les paramètres, mais pas d'enregistrer les changements. À partir de tint2 0.12 (installable dans Ubuntu 16.04), avec l'outil tint2conf les changements peuvent être appliqués directement.</note>
+
+===== Bugs connus =====
+==== Impossible de restaurer une fenêtre dans certains cas ====
+[Ubuntu 14.04 et 16.04] En utilisant le clic gauche (action par défaut = toggle_iconify), une fenêtre ne s'affiche plus la seconde fois que l'on veut la restaurer si toutes les autres fenêtres sont minimisées.
+
+Contournement : 
+
+1. En utilisant la molette de la souris
+
+régler les raccourcis à (valeurs par défaut) :
+
+   mouse_scroll_up = toggle (PAS toggle_iconify)
+   mouse_scroll_down = iconify
+
+ainsi même lorsque le clic gauche ne restaure pas la fenêtre, molette vers le haut le fera.
+
+2. En utilisant le clic gauche
+
+régler les raccourcis à :
+
+   mouse_left = toggle (à la place de la valeur par défaut: toggle_iconify)
+   mouse_scroll_down = iconify
+dans ce cas un clic gauche restaurera toujours la fenêtre.
+
+Par contre pour réduire la fenêtre il faudra obligatoirement utiliser la molette vers le bas.
+
+  * **(en)** [[https://gitlab.com/o9000/tint2/issues/599|lien vers le bug sur GitLab]].
+
+===== Voir aussi =====
+
+  * **(en)** [[https://gitlab.com/o9000/tint2/|Site officiel de Tint2]].
+  * **(en)** [[http://urukrama.wordpress.com/2008/07/23/tint2/|Autre description de Tint2]].
+  * **(en)** [[http://ubuntuforums.org/showthread.php?p=6351815#post6351815|Problème à l'installation résolu]].
+  * **(fr)** [[https://launchpad.net/~k-belding/+archive|Paquets disponibles sur Launchpad]].
+
+----
+
+//Contributeurs : [[:utilisateurs:Linkid]], [[utilisateurs:morgen_stern]], [[utilisateurs:mohican]]//.

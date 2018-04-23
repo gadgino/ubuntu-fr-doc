@@ -1,0 +1,456 @@
+{{tag>entreprise erp inventaire gestion_de_parc}}
+
+----
+====== OCS Inventory  ======
+
+**Open Computer and Software Inventory Next Generation** est une application conçue pour aider les administrateurs systèmes ou réseau à  suivre les configurations matérielles et les logiciels sur le réseau. **Il peut aussi déployer des paquets sur des postes Windows ou Linux.**
+
+
+Le dialogue entre les postes clients et le serveur de gestion est basé sur des standards actuels, les protocoles  HTTP/HTTPS et le format de donnée XML
+
+ Le client d'inventaire fonctionne sous  Microsoft Windows 95/98/Me/NT4/2000/XP/2003/Vista or Linux. Des contributions existent aussi pour    Sun Solaris, *BSD, IBM AIX 5.X, HP-UX et Mac OS X.
+
+OCS Inventory est un logiciel sous licence **GPL**[[http://www.opensource.org/licenses/gpl-license.php]], Libre à l'utilisation et à la copie . **OCS Inventory** est aussi Open Source! Si vous désirez modifier les sources, vous pouvez! Cependant, si vous voulez mettre à jour le code source pour le distribuer, vous devez fournir vos mises à jour en vertu des conditions de licence  de GPL.
+
+OCS Inventory supporte les langages suivants : 
+  * Anglais
+  * Français
+  * Allemand
+  * Hongrois
+  * Italien
+  * Polonais
+  * Portugais
+  * Espagnol
+  * Russe
+  * Turc
+Utilisé avec le logiciel de gestion de parc tel que **GLPI**[[http://www.glpi-project.org]] , vous aurez un logiciel puissant de gestion d'inventaire et d'information de ressource avec les mises à 
+jour automatiques de la configuration d'ordinateur, de la gestion de licences, du HELPDESK, de la base de connaissance et plus.
+
+===== Installation =====
+
+
+==== Pré-requis ====
+  * Apache version 1.3.33 ou plus / Apache version 2.0.46 ou plus.
+    * Mod_perl version 1.29 ou plus.
+    * Mod_php version 4.3.2 ou plus.
+  * PHP 4.3.2 ou plus, avec ZIP et support GD activé.
+  * PERL 5.6 ou plus.
+    * Perl module XML::Simple version 2.12 ou plus.
+    * Perl module Compress::Zlib version 1.33 ou plus.
+    * Perl module DBI version 1.40 ou plus.
+    * Perl module DBD::Mysql version 2.9004 ou plus.
+    * Perl module Apache::DBI version 0.93 ou plus.
+    * Perl module Net::IP version 1.21 ou plus.
+    * Perl module SOAP::Lite version 0.66 ou plus (pas de proxy)
+  * MySQL version 4.1.0 ou plus avec InnoDB engine active.
+  * Make 
+
+<note>
+OCS-inventory ng serveur et client sont dans les dépôts Universe
+au moins pour [[Lucid]]
+</note>
+
+===== Installation Serveur =====
+
+Télécharger le script fait par sleduc [[http://shannaraserver.free.fr/install_ocs_server.sh |install_ocs_server]]
+
+Celui-ci va installer tous les pré-requis et télécharger la dernière version stable d'OCS Inventory NG Server depuis le site officiel.
+
+  +----------------------------------------------------------+
+  |                                                          |
+  | Welcome to OCS Inventory NG Management server setup !    |
+  |                                                          |
+  +----------------------------------------------------------+
+  
+  CAUTION: If upgrading Communication server from OCS Inventory NG 1.0 RC2 and
+  previous, please remove any Apache configuration for Communication Server!
+  
+  Do you wish to continue ([y]/n)?y
+
+Répondre y(minuscule)
+
+
+==== Général ====
+
+  Assuming Communication server 1.0 RC2 or previous is not installed
+  on this computer.
+  
+  Starting OCS Inventory NG Management server setup from folder/home/jacxof/OCSNG_LINUX_SERVER_1.01
+  Storing log in file /home/jacxof/OCSNG_LINUX_SERVER_1.01/ocs_server_setup.log
+  
+  +----------------------------------------------------------+
+  | Checking for database server properties...               |
+  +----------------------------------------------------------+
+  
+  Your MySQL client seems to be part of MySQL version 5.0.
+  Your computer seems to be running MySQL 4.1 or higher, good ;-)
+  
+  Which host is running database server [localhost] ?
+
+<Enter>
+
+  OK, database server is running on host localhost ;-)
+  
+  On which port is running database server [3306] ?
+
+<Enter>
+
+  OK, database server is running on port 3306 ;-)
+  
+  
+  +----------------------------------------------------------+
+  | Checking for Apache web server daemon...                 |
+  +----------------------------------------------------------+
+  
+  Where is Apache daemon binary [/usr/sbin/apache2] ?
+
+<Enter>
+
+  OK, using Apache daemon /usr/sbin/apache2 ;-)
+  
+  
+  +----------------------------------------------------------+
+  | Checking for Apache main configuration file...           |
+  +----------------------------------------------------------+
+  
+  Where is Apache main configuration file [//etc/apache2/apache2.conf] ?
+
+<Enter>
+
+  OK, using Apache main configuration file //etc/apache2/apache2.conf ;-)
+  
+  +----------------------------------------------------------+
+  | Checking for Apache user account...                      |
+  +----------------------------------------------------------+
+  Which user account is running Apache web server [${APACHE_RUN_USER}] ?
+
+Répondre en minuscule : www-data
+
+<Enter>
+
+  OK, Apache is running under user account www-data ;-)
+  
+  
+  +----------------------------------------------------------+
+  | Checking for Apache group...                             |
+  +----------------------------------------------------------+
+  
+  Which user group is running Apache web server [${APACHE_RUN_GROUP}] ?
+  
+Répondre en minuscule : www-data
+
+<Enter>
+
+  OK, Apache is running under users group www-data ;-)
+
+  +----------------------------------------------------------+
+  | Checking for Apache Include configuration directory...   |
+  +----------------------------------------------------------+
+  
+  Setup found Apache Include configuration directory in
+  //etc/apache2/conf.d/.
+  Setup will put OCS Inventory NG Apache configuration in this directory.
+  Where is Apache Include configuration directory [//etc/apache2/conf.d/] ?
+
+<Enter>
+
+  OK, Apache Include configuration directory //etc/apache2/conf.d/ found ;-)
+
+
+  +----------------------------------------------------------+
+  | Checking for PERL Interpreter...                         |
+  +----------------------------------------------------------+
+  
+  Found PERL Intrepreter at </usr/bin/perl> ;-)
+  Where is PERL Intrepreter binary [/usr/bin/perl] ?
+
+<Enter>
+
+
+==== Serveur de communication ====
+
+  Do you wish to setup Communication server on this computer ([y]/n)?
+
+Répondre y
+
+  +----------------------------------------------------------+
+  | Checking for Make utility...                             |
+  +----------------------------------------------------------+
+  
+  OK, Make utility found at </usr/bin/make> ;-)
+  
+  +----------------------------------------------------------+
+  | Checking for Apache Include configuration directory...   |
+  +----------------------------------------------------------+
+  
+ 
+  etc/apache2/conf.d/.
+  If you are not using Include directive, please enter 'no'.
+  Where is Apache Include configuration directory [//etc/apache2/conf.d/] ?
+
+<Enter>
+
+  OK, Apache Include configuration directory //etc/apache2/conf.d/ found ;-)
+  
+  +----------------------------------------------------------+
+  | Checking for Apache mod_perl version...                  |
+  +----------------------------------------------------------+
+  
+  Checking for Apache mod_perl version 1.99_22 or higher
+  Found that mod_perl version 1.99_22 or higher is available.
+  OK, Apache is using mod_perl version 1.99_22 or higher ;-)
+  
+  +----------------------------------------------------------+
+  | Checking for Communication server log directory...       |
+  +----------------------------------------------------------+
+  
+  Communication server can create detailled logs. This logs can be enabled
+  by setting interger value of LOGLEVEL to 1 in Administration console
+  menu Configuration.
+  Where to put Communication server log directory [/var/log/ocsinventory-NG] ?
+
+<Enter>
+
+  OK, Communication server will put logs into directory /var/log/ocsinventory-NG ;-)
+  
+  +----------------------------------------------------------+
+  | Checking for required Perl Modules...                    |
+  +----------------------------------------------------------+
+  
+  Checking for DBI PERL module...
+  Found that PERL module DBI is available.
+  Checking for Apache::DBI PERL module...
+  Found that PERL module Apache::DBI is available.
+  Checking for DBD::mysql PERL module...
+  Found that PERL module DBD::mysql is available.
+  Checking for Compress::Zlib PERL module...
+  Found that PERL module Compress::Zlib is available.
+  Checking for XML::Simple PERL module...
+  Found that PERL module XML::Simple is available.
+  Checking for Net::IP PERL module...
+  Found that PERL module Net::IP is available.
+  Checking for SOAP::Lite PERL module...
+  Found that PERL module SOAP::Lite is available.
+  
+  +----------------------------------------------------------+
+  | OK, looks good ;-)                                       |
+  |                                                          |
+  | Configuring Communication server Perl modules...         |
+  +----------------------------------------------------------+
+  
+  Checking if your kit is complete...
+  Looks good
+  Writing Makefile for Apache::Ocsinventory
+  
+  +----------------------------------------------------------+
+  | OK, looks good ;-)                                       |
+  |                                                          |
+  | Preparing Communication server Perl modules...           |
+  +----------------------------------------------------------+
+  
+  +----------------------------------------------------------+
+  | OK, prepare finshed ;-)                                  |
+  |                                                          |
+  | Installing Communication server Perl modules...          |
+  +----------------------------------------------------------+
+  
+  +----------------------------------------------------------+
+  | OK, Communication server Perl modules install finished;-)|
+  |                                                          |
+  | Creating Communication server log directory...           |
+  +----------------------------------------------------------+
+  
+  Creating Communication server log directory /var/log/ocsinventory-NG.
+  
+  Fixing Communication server log directory files permissions.
+  Configuring logrotate for Communication server.
+  Writing communication server logrotate to file /etc/logrotate.d/ocsinventory-NG
+  
+  +----------------------------------------------------------+
+  | OK, Communication server log directory created ;-)       |
+  |                                                          |
+  | Now configuring Apache web server...                     |
+  +----------------------------------------------------------+
+  
+  Writing communication server configuration to file //etc/apache2/conf.d//ocsinventory.conf
+  
+  +----------------------------------------------------------+
+  | OK, Communication server setup sucessfully finished ;-)  |
+  |                                                          |
+  | Please, review //etc/apache2/conf.d//ocsinventory.conf
+  | to ensure all is good. Then restart Apache daemon.       |
+  +----------------------------------------------------------+
+
+
+
+==== Console d'administration ====
+  Do you wish to setup Administration server (web administration console)
+on this computer ([y]/n)?
+
+Répondre y
+
+  +----------------------------------------------------------+
+  | Checking for Apache root document directory...           |
+  +----------------------------------------------------------+
+  
+  Where is Apache root document directory [] ?
+
+Répondre /var/www
+
+  OK, Apache root document directory is /var/www ;-)
+  
+  
+  +----------------------------------------------------------+
+  | Checking for required Perl Modules...                    |
+  +----------------------------------------------------------+
+  
+  Checking for DBI PERL module...
+  Found that PERL module DBI is available.
+  Checking for DBD::mysql PERL module...
+  Found that PERL module DBD::mysql is available.
+  Checking for XML::Simple PERL module...
+  Found that PERL module XML::Simple is available.
+  Checking for Net::IP PERL module...
+  Found that PERL module Net::IP is available.
+  
+  +----------------------------------------------------------+
+  | Installing files for Administration server...            |
+  +----------------------------------------------------------+
+  
+  Creating directory /var/www/download.
+  
+  Creating directory /var/www/ocsreports.
+  
+  Copying files to /var/www/ocsreports.
+  
+  Fixing directories and files permissions.
+  
+  Configuring IPDISCOVER-UTIL Perl script.
+  
+  Installing IPDISCOVER-UTIL Perl script.
+  
+  Fixing permissions on IPDISCOVER-UTIL Perl script.
+  
+  +----------------------------------------------------------+
+  | OK, Administration server installation finished ;-)      |
+  |                                                          |
+  | Point your browser to http://server/ocsreports to        |
+  | configure database server and create/update schema.      |
+  +----------------------------------------------------------+
+  
+  Setup has created a log file /home/jacxof/Desktop/OCSNG_LINUX_SERVER_1.01/ocs_server_setup.log. Please, save this file.
+  If you encounter error while running OCS Inventory NG Management server,
+  we can ask you to show us his content !
+ 
+  DON'T FORGET TO RESTART APACHE DAEMON !
+  
+  Enjoy OCS Inventory NG ;-)
+
+==== Finalisation ====
+Redémarrage  d'apache
+  sudo /etc/init.d/apache2 restart
+
+
+
+[[http://localhost/ocsreports/install.php|Configuration]]
+
+
+===== Installation du client Unix Unified Agent version 1.1.2 =====
+
+<note important>La nouvelle version de l'agent (Unix Unified Agent version 1.1.2) nécessite l'installation et l'utilisation de PERL</note>
+
+Télécharger le script fait par sleduc install_ocs_client [[ http://shannaraserver.free.fr/install_ocs_client.sh| install_ocs_client ]]
+
+Celui-ci va installer tous les pré-requis et télécharger la dernière version stable d'OCS Inventory NG Agent depuis le site officiel.
+
+
+  Writing /usr/local/lib/perl/5.10.0/auto/Ocsinventory/Agent/.packlist
+  Appending installation info to /usr/local/lib/perl/5.10.0/perllocal.pod
+  [ ! -f run-postinst ] || /usr/bin/perl postinst.pl
+  Do you want to configure the agent
+  Please enter 'y' or 'n'?> [y]
+
+<enter>
+
+  Where do you want to write the configuration file?
+  0 -> /etc/ocsinventory
+  1 -> /usr/local/etc/ocsinventory
+  2 -> /etc/ocsinventory-agent
+  > 2
+
+<enter>
+
+  Do you want to create the directory /etc/ocsinventory-agent?
+  Please enter 'y' or 'n'?> [y] 
+
+<enter>
+
+  [info] The config file will be written in /etc/ocsinventory/ocsinventory-agent.cfg,
+  What is the address of your ocs server?> [ocsinventory-ng] http://mondomaine.domaine
+
+<note important>  [info] The config file will be written in /etc/ocsinventory/ocsinventory-agent.cfg, cette ligne ne semble pas renvoyer la bonne information elle renvoie toujours le même répertoire cependant le script crée bien le bon répertoire sélectionné à l'écran precedant</note>
+
+<enter>
+
+  Do you need credential for the server? (You probably don't)
+  Please enter 'y' or 'n'?> [n]
+
+A remplir si il y a besoin d'une authentification pour se connecter au serveur
+<enter>
+
+  Do you want to apply an administrative tag on this machine
+  Please enter 'y' or 'n'?> [y] 
+  tag?>TAG 
+
+Renseigner le TAG de la machine (si nécessaire)
+<enter>
+
+  ocsinventory agent presents: /usr/local/bin/ocsinventory-agent
+  Do yo want to install the cron task in /etc/cron.d
+  Please enter 'y' or 'n'?> [y]
+
+<enter>
+
+  Where do you want the agent to store its files? (You probably don't need to change it)?> [/var/lib/ocsinventory-agent] 
+
+Je recommande d'installer pour Ubuntu les fichiers dans /usr/local/ocsinventory-agent
+
+<enter>
+
+  Do you want to create the /usr/local/ocsinventory-agent directory?
+
+  Please enter 'y' or 'n'?> [y] 
+
+<enter>
+
+  New settings written! Thank you for using OCS Inventory
+  Should I remove the old linux_agent
+  Please enter 'y' or 'n'?> [n] 
+
+A vous de voir je conseille de les enlever
+
+<enter>
+
+  /etc/ocsinventory-client
+  /etc/logtotate.d/ocsinventor-client
+  /usr/sbin/ocsinventory-client.pl
+  /etc/cron.d/ocsinventory-client
+  /bin/ocsinv
+  done
+  Do you want to use OCS-Inventory software deployment feature?
+  Please enter 'y' or 'n'?> [y] 
+
+Selon vos besoins
+<enter>
+
+  Do you want to send an inventory of this machine?
+  Please enter 'y' or 'n'?> [y] 
+
+<enter>
+
+  [info] Accountinfo file doesn't exist. I create an empty one.
+  Connecting to uri: qemu:///system
+  -> Success!
+
+L'installation est terminée.
+

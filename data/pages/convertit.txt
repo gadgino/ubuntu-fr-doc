@@ -1,0 +1,85 @@
+{{tag>audio vidéo photo}}
+----
+
+
+====== ConvertIT ======
+
+Convertit est une interface graphique qui permet l'utilisation facile de programmes tels que ffmpeg ou mencoder. Il encode une multitude de fichiers. Son interface permet à l'utilisateur lambda de modifier les commandes d'encodage ou d'en rajouter en quelques clics seulement.
+
+Site officiel : http://www.sciallo.net/ConvertIT
+
+Il existe une nouvelle version : convertit 2 :
+http://www.sciallo.net/ConvertIT2/Wiki/index.php?title=Installation
+<note warning>Les sources autant que les dépots sur le site ne sont plus accessibles, il semble que ce projet soit abandonné ....</note>
+
+===== Pré-requis =====
+
+En premier lieu il faut avoir [[:depots#medibuntu | le dépôt medibuntu activé]]. 
+
+==Version 32 bits==
+[[:tutoriel:comment_installer_un_paquet|Installez les paquets]] [[apt://ffmpeg2theora,mencoder,mplayer,w32codecs,libogg0,libogg-dev,libvorbis0a,libvorbis-dev,vorbis-tools,mp32ogg,ffmpeg,imagemagick,youtube-dl,poppler-utils,gambas2|{{apt.png|Installation automatique}}]][[apt://ffmpeg2theora,mencoder,mplayer,w32codecs,libogg0,libogg-dev,libvorbis0a,libvorbis-dev,vorbis-tools,mp32ogg,ffmpeg,imagemagick,youtube-dl,poppler-utils,gambas2|ffmpeg2theora mencoder mplayer w32codecs libogg0 libogg-dev libvorbis0a libvorbis-dev vorbis-tools mp32ogg ffmpeg imagemagick youtube-dl poppler-utils gambas2]]
+
+==Version 64 bits (AMD64)==
+[[:tutoriel:comment_installer_un_paquet|Installez les paquets]] [[apt://ffmpeg2theora,mencoder,mplayer,w32codecs,libogg0,libogg-dev,libvorbis0a,libvorbis-dev,vorbis-tools,mp32ogg,ffmpeg,imagemagick,youtube-dl,poppler-utils,gambas2|{{apt.png|Installation automatique}}]][[apt://ffmpeg2theora,mencoder,mplayer,w64codecs,libogg0,libogg-dev,libvorbis0a,libvorbis-dev,vorbis-tools,mp32ogg,ffmpeg,imagemagick,youtube-dl,poppler-utils,gambas2|**ffmpeg2theora mencoder mplayer w64codecs libogg0 libogg-dev libvorbis0a libvorbis-dev vorbis-tools mp32ogg ffmpeg imagemagick youtube-dl poppler-utils gambas2**]]
+
+===== Installation =====
+
+==== Les sources ====
+
+Téléchargez les sources : [[http://www.sciallo.net/modules/archivio/archivi/MultimediaConverter/MultimediaConverterDEV.tar.gz|MultimediaConverterDEV.tar.gz]]
+
+FIXME
+
+==== Paquet .deb - en construction ====
+
+téléchargez le paquet : [[http://www.sciallo.net/modules/archivio/archivi/MultimediaConverter/Convertit.deb|Convertit.deb]]
+
+et installez-le, simplement par double-clic. → [[:tutoriel:comment_installer_un_paquet|installez un paquet]]
+
+==== Dépôt - en construction ====
+
+Ensuite [[tutoriel:comment_modifier_sources_maj|ajoutez ce dépôt]] :
+
+<file>deb http://www.sciallo.net/UbuntuRepo/myrepo binary/</file>
+
+[[apt://convertit|{{apt.png|Installation automatique}}]] [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **convertit**
+
+
+
+
+
+
+===== Fonctions supplémentaires =====
+
+Pour égaliser l'histogramme des images :
+
+  * SECTION : photo
+  * FORMAT INPUT : ANY
+  * FORMAT OUTPUT : ANY
+  * TIP : Picture histogram equalization
+  * COMMAND : convert -equalize INPUT 'OUT-NOEXT.{PARAM1 Insert output format example :jpeg}'
+
+
+Pour normaliser les couleurs des images :
+
+  * SECTION : photo
+  * FORMAT INPUT : ANY
+  * FORMAT OUTPUT : ANY
+  * TIP : Picture normalize (transform image to span the full range of color values)
+  * COMMAND : convert -normalize INPUT 'OUT-NOEXT.{PARAM1 Insert output format example :jpeg}'
+
+
+Pour modifier le contraste et/ou le gamma des images :
+
+  * SECTION : photo
+  * FORMAT INPUT : ANY
+  * FORMAT OUTPUT : ANY
+  * TIP : Picture level (adjust the level of image contrast)
+  * convert -level {PARAM2 black-point % (higher increases contrast) - ex : 20}%,{PARAM3 white-point % (=100 - black-point %) - ex : 80}%,{PARAM4 gamma (optional) (must be less than 1) - ex : 0,8} Insert output format example :jpeg} INPUT 'OUT-NOEXT.{PARAM1 Insert output format example :jpeg}'
+
+===== Image =====
+
+{{image:capture-convertit.png?770}}
+
+----
+//Contributeurs: FIXME , The_Doctor ,[[utilisateurs:Fabien26]], winniemiel05.//

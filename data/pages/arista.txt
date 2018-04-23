@@ -1,0 +1,57 @@
+{{tag>multimédia lecture_et_encodage_de_fichiers_videos}}
+----
+====== Arista transcoder ======
+
+**Arista** est un logiciel de conversion vidéo qui supporte de nombreux formats. Il supporte notamment les [[http://fr.wikipedia.org/wiki/Format_conteneur|formats de conteneurs]] suivants : //MP4, WebM, [[Matroska]], AVI, OGG, FLV//, ainsi que les [[http://fr.wikipedia.org/wiki/Codec_vid%C3%A9o|codecs vidéos]]: //H.264, VP8, MPEG4/DivX, MPEG2, Theora, Flash Video//. Il permet aussi d'exporter des vidéos pour les appareils// [[Android]], Nokia, [[iPhone]], [[iPod]], iPad//.
+
+
+{{:arista_transcoder_maverick_00.png}}
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+
+===== Installation =====
+
+Pour installer ce logiciel, il suffit d'[[:tutoriel:comment_installer_un_paquet#installer_un_paquet_present_dans_les_depots_recommande|installer le paquet]] **[[apt>arista]]**. \\
+À partir d'[[:xenial|Ubuntu 16.04]] Arista ne se trouve plus dans les dépôts officiels il faut donc télécharger le deb [[http://security.ubuntu.com/ubuntu/pool/universe/a/arista/arista_0.9.7-6_all.deb|ici ]].
+
+<note important>Si une erreur de ce type se produit  : ''Python (v2.7) requires to install plugins to support the following multimedia feature: GStreamer element ffdeinterlace''. Il convient alors d'après ce [[https://bugs.launchpad.net/ubuntu/+source/arista/+bug/1306592|bug référencé sur launchpad]], pour Ubunu 14.04, de taper dans un [[:terminal]] successivement : 
+<code>sudo add-apt-repository ppa:mc3man/trusty-media
+sudo apt-get update
+sudo apt-get install ffmpeg gstreamer0.10-ffmpeg</code>
+
+À partir d'[[:xenial|Ubuntu 16.04]] : <code>
+sudo add-apt-repository ppa:mc3man/gstffmpeg-keep
+sudo apt-get update
+sudo apt-get install gstreamer0.10-ffmpeg</code>
+ puis de redémarrer Arista.\\
+Sous Kubuntu, il faudra également installer **[[apt>gnome-icon-theme-full]]**.
+</note>FIXME
+(lien mc3man mort)
+===== Configuration =====
+
+Pas de configuration particulière.
+
+<note tip> Si rien ne se produit lorsque l'on clique sur "Create Converstion", il faut décocher la case "détecter les supports optiques et périphériques de capture" </note>
+
+Vous pouvez néanmoins installer le paquet **[[apt://nautilus-arista|nautilus-arista]]** si vous désirez intégrer les fonctionnalités de conversion de Arista dans le menu contextuel de [[nautilus|Nautilus]]. 
+
+
+===== Utilisation=====
+
+Lancez l'application depuis le menu //Applications -> Son et vidéos -> Arista// ou //via// la [[:commande_shell|commande]] suivante :
+
+   arista-gtk
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi =====
+
+  * **(en)** [[http://www.transcoder.org/|Site officiel d'Arista]]
+
+----
+//Contributeurs principaux : [[:utilisateurs:mydjey]].//

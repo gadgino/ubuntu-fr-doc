@@ -1,0 +1,245 @@
+{{tag>internet réseau_social BROUILLON}}
+
+----
+======Lorea - Réseau social libre======
+
+{{ http://lorea.cc/images/help.png}}
+Lorea est un réseau social libre, et de forme "fédérée" : chaque noeud peut participer à l'ensemble des activités du réseau, et le réseau n'est pas limité à des instances de lorea_production, mais comporte également des applications compatibles avec OStatus ou XMPP.
+
+Son objectif est de créer une organisation distribuée et fédérée ; "nodale", des entités sans territoire géophysique,  avec entrelacement de leurs relations multiples au moyen de codes binaires et de langages.
+
+... Le mot Lorea vient de la langue basque et signifie : fleur ...
+
+
+=====Pré-requis=====
+
+Pour semer votre propre graine de Lorea, vous devez disposer d'un serveur Web et d'une base de données MySQL.  La solution standard consiste à utiliser Apache2 dans une installation [[:lamp]], aussi nous n'allons pas répéter cette partie : consultez le lien pour installer les logiciels nécessaires.  En revanche, si vous désirez utiliser Nginx plutôt qu'Apache2, poursuivez la lecture.
+
+====Note pour les utilsateurs de Lucid (10.04)====
+
+La version de PHP qui intègre PHP-FPM est disponible en //backport// sur Lucid.  Ajoutez dans les sources logicielles **ppa:nginx/php5** comme indiqué sur la page https://launchpad.net/~nginx/+archive/php5 (menu Administration > Sources de logiciels, dans l'onglet "Autres logiciels" cliquez sur le bouton "ajouter")
+
+Puis mettez à jour la liste des logiciels avant d'[[:tutoriel:comment_installer_un_paquet|installer]] PHP5-FPM et consorts :
+
+''sudo apt-get install php5 php5-cli php5-cgi php5-fpm php5-gd php5-mysql''
+
+Si vous voulez activer les modules de chiffrement, vous aurez besoin de la version de GNUPG disponible dans PECL:
+
+''sudo apt-get install php5-dev php-pear build-essential; sudo pecl install gnupg''
+
+A présent, vous devriez avoir tous les paquets nécessaires à l'installation de //lorea_production//.
+
+=====Installation=====
+
+Nous sommes parés pour créer un noeud local.  Pour un noeud public en réseau, vous remplacerez bien entendu l'entrée suivante dans /etc/hosts par une entrée dans la configuration du DNS : cela dépasse le sujet de ce tutoriel.
+
+A mettre dans ///etc/hosts//, donc : ''127.0.1.1 lorea.local''
+
+====Créer un utilisateur====
+
+L'ajout d'un utilisateur spécifique pour votre installation permet de rendre les choses plus claires et plus saines.
+
+''sudo adduser lorea''
+
+====Récupérer les sources====
+
+''sudo su - lorea''
+
+Si vous ne disposez pas de mercurial, vous pouvez récupérer un //snapshot// de lorea_production :
+''wget https://bitbucket.org/rhizomatik/lorea_production/get/tip.zip''
+'';unzip /path/to/tip.zip''
+
+Sinon:
+''hg clone https://bitbucket.org/rhizomatik/lorea_production''
+
+====Préparer les chemins====
+
+En tant que lorea : ''mkdir ~/lorea_production/data''
+En tant que root : ''sudo ln -s /home/lorea/lorea_production/elgg/ /var/www/lorea.local''
+
+====Configurer php5-fpm====
+
+Si vous avez choisi l'option Nginx, cela vous concerne.  Sauver la configuration dans ///etc/php5/fpm/pool.d/lorea.conf//
+<file ini /etc/php5/fpm/pool.d/lorea.conf>
+[lorea]
+    listen                 = /home/$pool/lorea_production/data/$pool.socket
+    listen.backlog         = -1
+    listen.allowed_clients = 127.0.0.1
+    listen.owner           = www-data
+    listen.group           = www-data
+    listen.mode            = 0666
+
+    user  = $pool
+    group = $pool
+
+    pm                   = dynamic
+    pm.max_requests      = 0
+    pm.max_children      = 2
+    pm.start_servers     = 1
+    pm.min_spare_servers = 1
+    pm.max_spare_servers = 1
+
+    pm.status_path       = /fpm-status
+    ping.path            = /fpm-ping
+    ping.response        = pong
+ 
+    request_terminate_timeout = 120
+    request_slowlog_timeout   = 5
+    slowlog                   = /home/$pool/lorea_production/data/php5-fpm-slow.log
+    
+    catch_workers_output = yes
+    
+    env[elgg_config] = /home/$pool/lorea_production/data/settings.php
+
+</file>
+
+====Configurer Nginx====
+
+Pareil, si vous avez choisi l'option Nginx:
+
+<file text /etc/nginx/sites-available/lorea.local>
+#
+##
+### lorea.local
+##
+#
+# Copyright 2011 Lorea.org
+#
+# Sample Elgg installation for a local Lorea node, using Nginx.
+# This is the Nginx configuration.
+#
+## Pre-Requisites
+#
+# It assumes you have an entry in your /etc/hosts such as:
+#
+#    127.0.1.1 lorea.local
+#
+# You have PHP, Nginx and Mysql installed and configured.
+#
+# It runs on localhost, and doesn't use SSL (Refer to Nginx docs for that)
+
+server {
+	listen       80 default;
+	server_name  lorea.local;
+	root         /var/www/lorea.local; # symlink to elgg/
+	index        index.php index.html;
+
+#	access_log  /var/log/nginx/lorea.local.access.log;
+	access_log  off;
+	error_log   /var/log/nginx/lorea.local.error.log;
+
+	client_max_body_size    8M;
+	client_body_buffer_size 256K;
+
+	# We treat Cache, CSS and JS files first, as these URLs are always dynamic
+	location ~ ^/cache/ {
+		rewrite ^/cache/(.*)  /engine/handlers/cache_handler.php?request=$1 last;
+	}
+	location ~* ^/pg/(css|js) {
+		rewrite ^/pg/(css|js)/(.*) /engine/handlers/page_handler.php?handler=$1&page=$2 last;
+		rewrite ^/pg/(css|js)      /engine/handlers/page_handler.php?handler=$1 last;
+	}
+	location ~ ^/_css/css.css {
+		rewrite ^(/_css/css)\.css$ $1.php last;
+	}
+	# All other files are treated in order: existing file or dynamic PHP file
+	location / {
+		try_files $uri $uri/ @rewrite;
+	}
+
+	location @rewrite {
+		rewrite ^/actions?/([A-Za-z0-9\_\-\/]+) /engine/handlers/action_handler.php?action=$1;
+ 		rewrite ^/export/([A-Za-z]+)/([0-9]+)/?$ /engine/handlers/export_handler.php?view=$1&guid=$2;
+ 		rewrite ^/export/([A-Za-z]+)/([0-9]+)/([A-Za-z]+)/([A-Za-z0-9\_]+)/$ /engine/handlers/export_handler.php?view=$1&guid=$2&type=$3&idname=$4;
+ 		rewrite ^/pg/([A-Za-z0-9\_\-]+)/(.*) /engine/handlers/pagehandler.php?handler=$1&page=$2;
+ 		rewrite ^/pg/([A-Za-z0-9\_\-]+) /engine/handlers/pagehandler.php?handler=$1;
+ 		rewrite ^/services/api/([A-Za-z0-9\_\-]+)/(.*) /engine/handlers/service_handler.php?handler=$1&request=$2;
+ 		rewrite ^/tag/(.+)/?$ /engine/handlers/pagehandler.php?handler=search&page=$1;
+ 		rewrite ^/xml-rpc.php /engine/handlers/xml-rpc_handler.php;
+ 		rewrite ^/mt-xmlrpc.cgi /engine/handlers/xml-rpc_handler.php;
+	}
+
+	location ~ \.php$ {
+		include fastcgi_params;
+
+		# Assuming php-fastcgi running on localhost port 9000
+		#fastcgi_pass 127.0.0.1:9000;
+		# Assuming php-fpm is running on a local socket
+		fastcgi_pass unix:/home/lorea/lorea_production/data/lorea.socket;
+		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+
+		fastcgi_connect_timeout 60;
+		fastcgi_send_timeout 180;
+		fastcgi_read_timeout 180;
+		fastcgi_buffer_size 128k;
+		fastcgi_buffers 4 256k;
+		fastcgi_busy_buffers_size 256k;
+		fastcgi_temp_file_write_size 256k;
+		fastcgi_intercept_errors on;
+	}
+
+	# Do not put CSS there or it will break simplecache
+	location ~* \.(bmp|js|gif|ico|jpg|jpeg|png)$ {
+		expires max;
+		# log_not_found off;
+	}
+
+	# We don't use .htaccess, but Elgg provides them.
+	location ~ /\.ht {
+		deny  all;
+	}
+}
+
+</file>
+
+Pour activer cette configuration, il vous faut virer la configuration par défaut et la replacer par celle-ci :
+
+''sudo rm /etc/nginx/sites-enabled/default''
+''sudo ln -s /etc/nginx/sites-available/lorea.local /etc/nginx/sites-enabled''
+
+====Créér la base de données====
+
+Entrez dans le console de MySQL avec : ''mysql -u root -p''
+Puis créez la base :
+''create database lorea; grant all privileges on lorea.* to `lorea`@`localhost` identified by 'super-secret'; flush privileges; quit''
+
+====Mettez en place la configuration d'Elgg====
+
+''sudo su - lorea''
+''cp lorea_production/elgg/engine/settings.example.php lorea_production/data/settings.php''
+
+Editez le fichier pour remplacer les //{CONFIG}// avec les valeurs utilisées ci-dessus.
+
+====Redémarrer les serveurs====
+
+''sudo /etc/init.d/nginx restart; sudo /etc/init.d/php5-fpm restart''
+
+====Configuration d'Elgg====
+
+Maintenant vous pouvez pointer votre navigateur vers http://lorea.local/ afin de terminer l'installation.
+Vous allez créer le premier utilisateur, qui est également l'administrateur du site.
+
+Il est recommandé de ne pas utiliser cet administrateur pour autre chose que son rôle : c'est-à-dire, ne lui créez pas d'amis, ni de souscription à des groupes ou des contenus.  Cela n'est pas critique pour l'instant mais cela pourrait le devenir dans le futur.  L'admin, c'est l'admin.
+
+===Gestion des outils===
+
+Vous avez une instance d'Elgg qui tourne, mais elle n'offre aucun //plugin//.  Pour les activer, utilisez l'interface d'administration du site et activez les outils suivants pour commencer avec "activitystreams" (l'ordre est important) : 
+
+  * jsinbox
+  * groups (le mettre au début de la liste)
+  * threaded_forums (le mettre à la fin)
+  * activitystreams (le mettre à la fin)
+  * foreign_objects (le mettre à la fin)
+
+D'autres plugins vous apporteront d'autres fonctionnalités.  Pour la fédération de votre graines de Lorea, vous devrez mettre en place SSL (A écrire.)
+
+
+
+
+=====Voir aussi=====
+  * [[http://lorea.org|Site officiel]]
+  * [[http://vimeo.com/12170797|Video : Présentation de Lorea un réseau social fédéré]] ( "lorea is not a social network"(linux), lorea is a technology to federate/distribute data, and a self managed social system )
+  * [[https://n-1.artelibredigital.net/pg/pages/view/461/|guide d'installation en anglais]]
+
+----
+//Contributeurs : ...//

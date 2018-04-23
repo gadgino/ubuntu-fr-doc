@@ -1,0 +1,366 @@
+{{tag>Jaunty lucid Karmic precise dlna upnp java mplayer ffmpeg serveur réseau ps3 multimédia }}
+
+----
+
+====== PS3 Media Server ======
+
+**PS3 Media Server** est un serveur média UPNP écrit en Java conforme à la norme [[dlna|DLNA]] pour la PlayStation 3 , avec le but de diffuser ou de transcoder n'importe quelle sorte de fichiers médias avec une configuration minimale. Il est soutenu avec les puissants logiciels [[mplayer|MPlayer]] / [[ffmpeg|FFmpeg]].
+
+PMS est reconnu également par d'autre matériels multimédia, comme la LiveRadio d'Orange, ou des téléviseurs DLNA.
+
+Il permet également de monter un serveur multimédia grâce à un paramétrage par un simple fichier texte. (serveur sans environnement graphique, administré à distance.
+
+Le logiciel **PS3 Media Server** est sous licence libre [[wpfr>Licence_publique_générale_GNU|GPL v2]].
+
+PMS permet pas mal de choses en plus que la plupart des serveurs DLNA, voici une liste non exhaustive des fonctionnalités :
+
+- Lecture des fichiers matroska (.mkv)
+
+- Lecture des fichiers ISO DVD (.ISO) (Crypté ou non)
+
+- Gestion des sous-titres
+
+- Lecture des flux vidéo envoyés par le multiposte de la freebox
+
+- Lecture des flux streaming depuis Internet (Youtube)
+
+- Accès vers les albums Flickr et Picasa
+
+- Partage des données multimédia d'un PC vers un décodeur TV NeufBox (SFR MediaCenter)
+
+<note important>Attention, le dépôt "paissad" a changé vers le dépot "neko", les indications décrites ci-dessous ne sont plus à jour pour l'instant, sauf en ce qui concerne l'installation automatique - 16/09/2012.
+pms-linux est devenu ps3mediaserver avec un paquet réécrit qui inclu toutes les dépendances. Sous 12.04 faire une installation automatique, ou suivre les explications sur le forum indiqué ci-dessous pour l'instant.
+</note>
+
+
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une configuration réseau fonctionnelle (le PC voit la PS3 sur le réseau)
+  * Disposer d'une installation fonctionnelle de JAVA (voir [[java|Java]]) sur votre système
+
+===== Installations =====
+==== Installation vraiment automatique ====
+D'après le [[http://www.ps3mediaserver.org/forum/viewtopic.php?f=3&t=13046|forum de PS3 Media Server]], l'installation pour Ubuntu consiste à ... utiliser le paquet préparé. ;-)
+<code>sudo add-apt-repository ppa:happy-neko/ps3mediaserver
+sudo apt-get update
+sudo apt-get install ps3mediaserver
+</code>
+<note>
+Si la commandes //add-apt-repository// est inconnue de bash (Cas de Ubuntu Server), il vous faut
+ [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>python-software-properties]]**.
+</note>
+
+
+En Août 2013, cette méthode fonctionne très bien sur Precise alors que la suivante ne fonctionne pas.
+
+==== Installation quasi automatique ====
+Vous n'avez qu'à lancer cette commande qui fera tout le travail pour vous.
+<code>wget -q --no-check-certificate https://svn.paissad.net/misc/stuffs/install_PMS.sh -O /tmp/install_PMS.sh && bash /tmp/install_PMS.sh</code>
+
+<note important>Ce script va modifier votre fichier sources.list en ajoutant le dépôt non officiel de PMS, puis installer toutes les autres dépendances requises.
+Les paquets 3 libmediainfo0, mencoder-mt et/ou mplayer-mt ne sont que des recommandations et/ou suggestions. En aucun cas, il n'empêcheront PMS de marcher correctement.
+Donc, ne tenez pas trop rigueur des warnings concernant ces paquets là.
+</note>
+
+==== Installation manuelle ====
+
+**Pré-requis:**
+
+Des pré-requis sont nécessaires pour la suite des opérations :
+  * Avoir [[:tutoriel:comment_installer_un_paquet|installé les paquets]] **[[apt://mplayer,mencoder,ffmpeg|mplayer mencoder ffmpeg]]**.
+
+<note important>**Pour Ubuntu 10.4 : ** mencoder est buggé pour la gestion des sous titres ASS/SSA veuillez prendre la version du ppa : https://launchpad.net/~rvm/+archive/mplayer?field.series_filter=lucid voir ici si vous ne savez pas ajouter un ppa http://doc.ubuntu-fr.org/ppa plus d'infos ici http://daisho.fr/?p=36</note>
+
+  * Il est recommandé aussi d'installer **[[apt://vlc,dcraw,tsmuxer|vlc dcraw tsmuxer]]**
+  * Avoir activé l'accès au dépôt suivant : <file>deb http://deb.paissad.net/ unstable main contrib non-free
+deb-src http://deb.paissad.net/ unstable main contrib</file>
+  * ou bien <file>deb http://ppa.launchpad.net/paissad/pms-linux/ubuntu lucid main
+deb-src http://ppa.launchpad.net/paissad/pms-linux/ubuntu lucid main </file>
+  * Il faut télécharger la clé publique : <code>wget -q -O- http://deb.paissad.net/public-key.asc | sudo apt-key add -</code>
+  * ou bien <code>sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 8A72660B</code>
+  * Mise à jour des dépôts. <code>sudo apt-get update</code>
+  * Pensez aussi à la librairie libmediainfo0 à installer via son dépôt non officiel : https://launchpad.net/~shiki/+archive/mediainfo
+  * Ajoutez le dépôt suivant : <file>ppa:shiki/mediainfo</file>
+  * Puis installer **[[apt://libmediainfo0|libmediainfo0]]**
+**Installation:**
+
+Pour installer ce logiciel, il vous suffit d'[[:tutoriel:comment_installer_un_paquet#paquet_present_dans_les_depots|installer le paquet]] **[[apt://pms-linux|pms-linux]]**.
+
+(Vous pouvez aussi vous procurer la dernière version de pms-linux a cette [[https://code.google.com/p/ps3mediaserver/downloads/list|adresse]])
+==== Complément d'installation sur Ubuntu 64 bits ====
+
+Si votre serveur est en 64 bits, vous devez installer en plus la librairie ia32-libs afin de pouvoir lire tous les fichiers en format *.mkv.
+
+En effet, TsMuxer, qui participe au fonctionnement de base de PMS est une application 32 bits. 
+
+Sans cette librairie, TsMuxer ne fonctionne pas et la plupart des *.mkv seront illisibles.
+
+Normalement, si vous avez procédé par une installation automatique, le paquet ia32-libs devrait être installé s'il n'y pas eu de problèmes.
+
+===== Configuration =====
+
+Il est possible d'accéder à une interface graphique permettant de configurer PMS à partir du lanceur suivant : Son & Vidéo -> PS3 Media Server
+
+Cette interface permet, par défaut, de modifier le fichier de configuration suivant :
+''$HOME/.config/ps3mediaserver/PMS.conf''
+
+On peut donc soit configurer PMS via son interface graphique, qui enregistre les réglages dans le fichier en question, soit éditer directement ce fichier.
+
+==== Pour lancer automatiquement PMS au démarrage, sous forme d'un service ====
+1- Configurer PMS en mode graphique à l'aide de l'interface graphique, sauvegarder puis quitter.
+
+2- Editer le fichier /etc/default/ps3mediaserver
+    sudo gedit /etc/default/ps3mediaserver
+
+Mettre la variable PMS_START à "yes", afin d'obtenir la ligne :
+    PMS_START="yes"
+
+Modifier la variable PMS_USER en y inscrivant votre login, afin d'obtenir la ligne :
+    PMS_USER="VOTRE_LOGIN"   # Remplacer VOTRE_LOGIN par votre vrai login pour vous connecter
+
+Modifier les lignes avec PMS_PROFILE afin de désactiver le chemin de configuration du root, et d'activer le chemin de votre propre configuration. Vous devriez obtenir les lignes suivantes :    
+    #PMS_PROFILE="/root/.config/ps3mediaserver"
+    PMS_PROFILE="/home/$PMS_USER/.config/ps3mediaserver"
+<note>
+Si vous utilisez Ubuntu Server ne changez pas la variable PMS_PROFILE et laissez là sur PMS_PROFILE="/root/.config/ps3mediaserver"
+</note>
+
+3- Démarrer le service
+    sudo start ps3mediaserver
+
+Le service PS3 Media Server sera dorénavant lancé au démarrage de votre système. N'oubliez pas de l'arrêter avec
+    sudo stop ps3mediaserver
+si vous souhaitez lancer par la suite l'interface graphique. Cela vous évitera des conflits réseau.
+==== Configuration serveur ====
+Valeurs pour une configuration à la main directement dans le fichier texte.
+Ne sont indiquées que les variables à ajuster à la main.
+Pour éditer ce fichier sur votre serveur, utilisez par exemple [[nano|Nano]].
+
+^ nom de la variable ^ valeur possible ^ commentaire ^
+|maxvideobuffer |0 à 600 | taille max du buffer pour le transcodage en Mo (max 600 MO) |
+|hide_enginenames |= true ou false |cacher le nom des moteurs de transcodage |
+|hide_extensions |= true ou false| cacher les extensions des fichiers |
+|hide_transcode_folder |= true ou false| cacher le dossier de transcodage |
+|folders |= \/home\/REPERTOIRE\/SOUS REPERTOIRE| définie les répertoires scannés par PMS, n'oubliez pas les antislahs|
+|audiochannels |= 2 ou 6 | Nombre de canaux audio (2= stéréo ; 6 = 5.1 multicanal)|
+|audiobitrate | = 384 |régle le débit, 384 le plus bas|	
+|notranscode |= avi par exemple |lister les extensions séparées par une virgule, dit à PMS de ne pas réencoder vers la PS3|	
+|forcetranscode | = mkv par exemple |lister les extensions séparées par une virgule, oblige à réencoder|
+|mencoder_audiolangs | = fre,jpn,ger,eng| liste les langues des pistes audios si pistes multiples|
+|hidevideosettings | = true ou false| cache le menu des réglages vidéo accessible depuis la PS3 |	
+|dvd_isos_thumbnails | = true ou false| affiche une imagette des images iso de DVD|
+|port |= 5001| permet de fixer le port de PMS, 5001 par défaut (à changer par sécurité, au delà de 1024) |	
+|prevents_sleep_mode | = true ou false| si PMS délivre un média vers la PS3 (ou autre, le PC n'est pas mis en veille |
+|usecache | = false| active la médiathèque|
+|hide_media_library_folder | = true ou false | cacher le dossier de la librairie de la médiathèque|
+|mencoder_usepcm | = true ou false| DTS/FLAC → LPCM remux, false par défaut|
+|embed_dts_in_pcm | = true ou false| streamer le flux DTS, false par défaut|
+|mencoder_remux_ac3 | = true ou false| remuxer quand la piste audio est en AC3 (pas de réencodage), true par défaut|
+|mencoder_remux_mpeg2 | = true ou false| remuxer DVD ISO video track (no reencode), true par défaut|
+|mencoder_encode |= keyint=25:vqmax=5:vqmin=2| permet de régler la qualité finale de la lecture en focntion du débit du réseau, voir explications ci-dessous|
+
+La variable mencoder_encode est une des plus importante, elle définie la qualité vidéo en fonction de la bande passante de votre réseau, ses valeurs standards sont les suivantes : 
+
+keyint=1:vqscale=1:vqmin=2 /* Best quality
+
+keyint=1:vqscale=1:vqmin=1  /* Lossless Quality, Crazy Bitrate */
+
+keyint=3:vqscale=2:vqmin=3  /* Good quality */
+
+keyint=25:vqmax=5:vqmin=2  /* Good quality for HD Wifi Transcoding */
+
+keyint=25:vqmax=7:vqmin=2  /* Medium quality for HD Wifi Transcoding */
+
+keyint=25:vqmax=8:vqmin=3  /* Low quality, Low-end CPU or HD Wifi Transcoding */
+
+keyint=50:vrc_maxrate=40000:vbitrate=24000000:vrc_buf_size=1835  /* TEST */
+
+Un fichier exemple de configuration est visible ici : [[http://code.google.com/p/ps3mediaserver/source/browse/trunk/ps3mediaserver/PMS.conf|ps3mediaserver sur Google]]
+=== Imagemagic ===
+pms-linux peut parfois avoir besoin de redimensionner des fichiers jpeg (les vignettes des films par exemple) et pour cela utilise le logiciel imageimagick :
+
+<code bash>
+sudo apt-get install imagemagick
+</code>
+=== Lire des fichiers ISO ===
+== Protection CSS ==
+
+Par défaut pms-linux lit parfaitement les fichiers ISO mais peut rencontrer des problèmes concernant la lecture des informations d'un ISO protégé (CSS)
+
+Pour remédier à ce problème :
+
+<code bash>
+sudo sh /usr/share/doc/libdvdread4/install-css.sh
+</code>
+===== Utilisation=====
+
+Si vous rencontrez un soucis avec java, vérifier quel est votre Java en fonction, selon cette méthode 
+ [[java#changer_la_version_de_java_utilisee_par_defaut|java#changer_la_version_de_java_utilisee_par_defaut]]
+
+Lancez l'application //via// la [[:commande_shell|commande]] suivante :
+  pms-linux
+
+ou //via// la commande suivante (sous version antérieure à la 10.04)
+
+  sudo /etc/init.d/pms-linux start
+  
+ou //via// la commande suivante sous 10.04 et suivante
+
+  sudo service pms-linux start
+  
+Si tout va bien vous aurez cette interface sous les yeux (sauf serveur):
+
+{{:pms:connexion_ok.png|}}  
+
+Si vous modifiez le fichier de configuration, pour prendre en compte les modifications, il faut relancer PMS
+//via// la commande suivante (sous version antérieure à la 10.04)
+
+  sudo /etc/init.d/pms-linux reload
+  
+//via// la commande suivante sous 10.04 et suivante
+
+  sudo service pms-linux reload  
+
+Pour une installation en serveur pur, il est préférable d'utiliser les commandes stop puis start plutôt que reload.
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. La configuration de l'application sera conservée ou supprimée selon la méthode de désinstallation que vous choisirez.
+
+
+===== Règle pour firewall =====
+
+Pour une installation fonctionnelle avec le firewall par défaut d'Ubuntu, (netfilter via ufw), pensez à ouvrir le port par défaut qui est 5001, ou celui que vous aurez attribué à pms-linux.
+
+//via// la commande
+
+  sudo ufw allow <port de pms-linux>
+
+===== Fonctions spéciales =====
+Les fonctions spéciales permettent à PMS d'accéder à des flux rss ou streaming depuis le net.
+dans le répértoire /etc/pms-linux
+
+==== Galerie photo picasa/flickr ====
+Pour configurer un Album web il faut se munir de l'url du flux rss de l'album web ou de l'ensemble des albums.\\
+PicasaWeb permet lorsque l'on est à la page d'accueil de tous les albums de récupérer le lien rss de cette page ce qui permet d'avoir la liste mise à jour en permanence (en bas de la page à droite il y a un lien nommé « rss »).\\
+{{:pms:lienfluxrss.png|}}
+Une fois ce lien récupérer il ne reste plus qu'a le configurer dans le serveur. Pour ce faire il va falloir y aller à la main en ouvrant le fichier WEB.conf se trouvant dans le répertoire de PMS.\\
+
+Il y a plusieurs sections mais seulement la section « #images feeds » va nous intéresser pour le moment.\\
+Le « # » signifie que la ligne ne sera pas pris en compte dans la configuration, il sera donc possible de mettre des commentaires pour permettre une meilleur lisibilité en affublant la ligne d'un # de commencement.\\
+Pour structurer un lien il suffi de suivre la logique suivante :\\
+  TypeDeFlux,répertoire1,répertoire2=lienRSS
+Le type de flux utiliser ici est : « imagefeed.Web »\\
+Ce qui peut donner ceci :
+  imagefeed.Web,Picasa,Fleurs=http://picasaweb.google.com/data/feed/base/user/moheji55/albumid/5353637108300815249?alt=rss&kind=photo&hl=fr 
+  imagefeed.Web,Flickr,AnicMessier,Paris=http://api.flickr.com/services/feeds/photoset.gne?set=72157603603872257&nsid=33561635@N00&lang=fr-fr 
+
+==== Vidéos Youtube ====
+Pour configurer une liste de vidéo, il faut se munir de l'url du flux rss. Youtube permet de récupérer ce lien.\\
+ 
+Une fois le lien récupéré, il ne reste plus qu'a le configurer dans le serveur. Pour ce faire il va falloir y aller à la main en ouvrant le fichier WEB.conf se trouvant dans le répertroire de PMS.\\
+Il y a plusieurs sections mais seulement la section « #video feeds » va nous intéresser pour le moment.\\
+Le « # » signifie que la ligne ne sera pas pris en compte dans la configuration, il sera donc possible de mettre des commentaires pour permettre une meilleur lisibilité en affublant la ligne d'un # de commencement.\\
+Pour structurer un lien il suffi de suivre la logique suivante :\\
+  TypeDeFlux,répertoire1,répertoire2=lienRSS
+Le type de flux utiliser ici est : « videofeed.Web »\\
+Ce qui peut donner ceci :
+  videofeed.Web,Youtube,Humour=http://gdata.youtube.com/feeds/base/standardfeeds/FR/most_viewed?client=ytapi-youtube-browse&alt=rss&time=today
+
+==== Télé Freebox/neufbox ====
+Pour configurer une chaine disponible par l'option multiposte de free, il faut se munir de l'url du flux streaming de la chaine.\\
+Pour avoir la liste exhaustive des flux streaming des chaines de la freebox il suffi d'aller à l'adresse suivante : \\
+[[http://mafreebox.freebox.fr/freeboxtv/playlist.m3u|http://mafreebox.freebox.fr/freeboxtv/playlist.m3u]]\\
+Dans ce fichier il est possible de retrouver le flux pour France 2 par exemple : 
+  rtsp://mafreebox.freebox.fr/fbxtv_pub/stream?namespace=1&service=201&flavour=sd 
+
+Une fois ce lien récupéré il ne reste plus qu'a le configurer dans le serveur. Pour ce faire il va falloir y aller à la main en ouvrant le fichier WEB.conf se trouvant dans le répertoire de PMS.\\
+
+Il y a plusieurs sections mais seulement la section « #internet tvs » va nous intéresser pour le moment.\\
+Le « # » signifie que la ligne ne sera pas pris en compte dans la configuration, il sera donc possible de mettre des commentaires pour permettre une meilleur lisibilité en affublant la ligne d'un # de commencement.\\
+Pour structurer un lien il suffi de suivre la logique suivante :
+  <TypeDeFlux>,<répertoire1> [mplayervideodump],<répertoire2>=<urlStreaming>[,<urlImage>]
+Le type de flux utiliser ici est : « videostream.Web »\\
+<note tip>[mplayervideodump] : n'est pas visible dans le menu le la PS3 mais indique à PMS d'utiliser un encodeur spécifique qui permet d'avoir une meilleur qualité vidéo.\\
+L'url de l'image est facultative mais doit être un lien web.
+</note>
+
+Ce qui donne pour France 2 :\\
+  videostream.Web,FreeboxTV [mplayervideodump]=France 2,rtsp://mafreebox.freebox.fr/fbxtv_pub/stream?namespace=1&service=201&flavour=sd,http://www.free.fr/im/data/tv/2.png 
+
+Il est facilement évident que toutes les adresses sont les mêmes à deux petites différences prêt, le canal et le type de qualité.\\
+  rtsp://mafreebox.freebox.fr/fbxtv_pub/stream?namespace=1&service=201&flavour=sd
+"service" est le numéro de canal de la chaine\\
+"flavour" est la qualité\\
+
+<note tip>Le type de vidéo peut être ld, sd ou hd donc petit, moyen et grand.\\
+Tous les formats ne sont pas disponible pour toutes les chaines.
+
+Certaines chaines ne fonctionnent qu'en ld (AB1, ABMotor, etc...)</note>
+
+<note help>Il semblerait que cette manipulation puisse fonctionner aussi pour les abonnées neuf. Il faut simplement trouver les adresses des flux... -> Les flux Neufbox sont pour la plupart tous encryptés à la source du stream, donc pas trop d'espoir pour l'instant!!!</note>
+
+
+==== Téléviseur Sony Bravia ====
+
+PS3 Media Serveur est un des rares serveurs DLNA reconnu par la fonction Bravia des téléviseurs Sony. PMS fournit 2 fichiers de configuration pour Bravia dans le répertoire "/usr/share/pms-linux/renderers".\\
+Pour de nouveaux modèles de téléviseurs non pris en compte par défaut, il faut adapter un des fichiers conf existant.
+Par exemple pour un Sony Bravia KDL-37EX500 :\\
+Copier le fichier Bravia5500.conf en BraviaEX500.conf\\
+Editer BraviaEX500.conf et adapter les premières lignes avec les valeurs suivantes :
+
+  RendererName=Bravia KDL-37EX500
+  RendererIcon=bravia.png
+  UserAgentSearch=notusedhere
+  UserAgentAdditionalHeader=X-AV-Client-Info
+  UserAgentAdditionalHeaderSearch=BRAVIA KDL-37EX500
+
+Vous trouverez d'autres fichiers de compatibilité sur le [[http://www.ps3mediaserver.org/forum/viewforum.php?f=15|forum officiel de discussion.]]
+
+<note>Pour les options de lecture, cliquez sur le bouton **i+** de la télécommande sony.</note>
+
+<note tip>Ajouter ici vos matériels compatibles (marque, modèle), merci.
+</note>
+
+^ Marque         ^ Modèle           ^ Notes                            ^
+| Sony Bravia | KDL-55HX750 | fonctionne très bien sans aucune modification\\ | 
+| Sony Bravia | KDL-46EX500 | nickel, sans aucune modif effectuée.\\ | 
+| Sony Bravia | KDL-32EX501 | ne marche qu'à partir de la version 1.20.412 de pms (ne marchait pas avec la version 1.20.409)\\ | 
+| Sony Bravia | KDL-46HX800 | fonctionne nickel avec PMS 1.20.412 sans la moindre modification\\ | 
+| Sony Bravia | KDL-52HX900 | c'est OK en mode console sur Ubuntu serveur avec PMS 1.20.412 \\ | 
+| Sony Bravia | KDL-56EX501 | Fonctionne sans parvenir à lire certains format video (xvid par exemple), pas de fonction arret sur image trouvée...\\ | 
+| Sony Bravia | KDL-40EX500 | Fonctionne à condition de désactiver la compatibilité ps3 dans la configuration du streaming vidéo. Certaines vidéos ont tout de même un désynchro de son (ce qui n'est pas le cas avec la freebox), les mp3 fonctionnent à merveille.\\ | 
+| Sony Bravia | KDL-55NX72 | fonctionne bien à priori sans modif.\\ | 
+| Sony Bravia | KDL-40NX700| fonctionne sans modifications avec PMS 1.52.1.\\ | 
+
+==== Téléviseur Panasonic ====
+
+^ Marque         ^ Modèle           ^ Notes  ^                          
+| Panasonic | P42V10E. | | 
+| Panasonic | P46g20| | 
+
+==== Téléviseur Philips ====
+
+^ Marque         ^ Modèle           ^ Notes   ^                         
+| Philips | 40PFL5507H | (et à priori toutes les TV Philips récentes connectés) | 
+| Philips | 46PFL8606H | | 
+
+==== Téléviseur Samsung ====
+
+^ Marque         ^ Modèle           ^ Notes  ^                          
+| Samsung | UE40H6203 | Testé avec fichier MKV 1080p | 
+===== Voir aussi =====
+
+  * **(en)** [[http://code.google.com/p/ps3mediaserver/|Site officiel du logiciel pms-linux]]
+  * [[http://ps3mediaserver.org/forum/|Forum officiel de discussion]]
+  * [[http://ps3mediaserver.org/forum/viewtopic.php?f=3&t=5589&start=0]]
+
+----
+
+//Contributeur principal : [[utilisateurs:paissad|paissad]].//
+\\
+//Contributeur secondaire : [[utilisateurs:G-rom|G-rom]].//
+\\
+//Contributeur secondaire : [[utilisateurs:sx1|sx1]].//

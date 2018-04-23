@@ -1,0 +1,74 @@
+{{tag>Xenial Trusty bureautique synchronisation sauvegarde}}
+----
+
+
+====== NixNote : synchronisez vos notes Evernote ======
+
+Evernote est un service permettant de stocker des notes, des images et toutes sortes d'informations (audio, comme des notes manuscrites ou vidéo) pour les récupérer plus tard. Il prend en charge la recherche et le marquage et le plus important : vous pouvez synchroniser le tout entre les ordinateurs. Evernote prend en charge les périphériques mobiles comme l'iPhone, Windows Mobile, BlackBerry ou Android et vos données restent accessibles depuis le site internet Evernote. **Malheureusement, il n'y a pas de version officielle d'Evernote pour Linux**.
+
+{{:applications:nixnote.png |Aperçu de NixNote}}
+
+NixNote (précédemment appelé **N**evernote) est un clone open source d'Evernote qui fonctionne sur Linux. NixNote supporte la plupart des fonctionnalités d'Evernote, afin que vous puissiez facilement faire glisser et déposer des images ou des fichiers PDF. \\
+NixNote offre quelques fonctionnalités supplémentaires et pas des moindres :
+  * Chiffrement de base de données ;
+  * Chiffrement du texte ;
+  * Bases de données illimitées ;
+
+Une liste très complète des fonctionnalités de NixNote est consultable sur [[http://www.evernote.com/pub/baumgarr/nevernote#v=t&n=b731901b-f466-4af7-82ef-b457dbb184a4&b=0|une des notes de l'auteur]].
+
+===== Installation ======
+
+Aujourd'hui (en septembre 2015), plusieurs versions cohabitent :
+  * la version 1.6 est la dernière version stable publiée (accessible par le PPA) mais celle-ci n'est pas utilisable (sous Trusty / 14.04 et je suppose aussi avec les autres version d'//Ubuntu//) en raison d'un changement à la connexion d'//Evernote//.
+  * il existe une [[http://sourceforge.net/projects/nevernote/files/Unstable%20Patches%20-%201.6/|version patchée dans SourceForge]].
+  * la version 2 en beta 3 fonctionne bien et la 7 également [[http://sourceforge.net/projects/nevernote/files/Current/|télécharger en DEB]]).
+
+==== Avec un PPA uniquement Ubuntu 14.04 ====
+
+  * [[:PPA|Ajoutez le PPA]] **ppa:vincent-c/nevernote((https://launchpad.net/~vincent-c/+archive/nevernote))** dans vos sources de logiciels.
+  * puis [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]].
+  * Enfin, [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>nixnote|nixnote]]**
+Vous pouvez également opter pour une installation automatique en une seule commande à placer dans un [[:terminal|terminal]].
+<code>sudo add-apt-repository ppa:vincent-c/nevernote && sudo apt-get update && sudo apt-get install nixnote</code>
+Cela fonctionne au niveau de l'installation sur Trusty mais après le programme ne synchronise pas; dans ce cas, il est préférable de passer à la solution suivante.
+==== Avec un paquet====
+
+Pour installer NixNote avec un paquet **DEB**, téléchargez le paquet qui correspond à votre distribution depuis le projet [[http://sourceforge.net/projects/nevernote/files/Current/|SourceForge]], puis [[:tutoriel:comment_installer_un_paquet|installez le]] avec votre gestionnaire de paquet.\\
+Version 2.0-beta 7 testée sur Trusty et parfaitement fonctionnelle avec même des fonctions intéressantes (cryptage de texte etc...).
+
+==== Ajouter un dictionnaire de correction orthographique ====
+
+Si vous voulez utiliser la correction orthographique en français, il vous faudra ajouter un dictionnaire français. Par défaut,  seuls les dictionnaires anglais sont installés. Il suffit d'ajouter un fichier fr_FR.dic dans le répertoire ''/usr/share/nixnote/spell/.''
+
+Voir le fichier ''/usr/share/nixnote/spell/readme.txt'' pour plus d'informations.
+===== Résolution de problèmes =====
+
+==== Blocage au démarrage ====
+Si //NixNote// bloque au démarrage, cela peut être dû à un problème de connexion (avec la libssl0.9.8 ou autre).
+Pour arriver à démarrer //NixNote//, il faut changer la configuration pour ne pas se connecter au démarrage.\\
+Ces solutions ne fonctionnent pas avec Ubuntu LTS14.04
+
+Dans la section ''[General]'' du fichier ''/.config/fbn.cx/NixNote.conf'' , il faut remplacer la ligne 
+
+''automaticLogin=true''
+
+par
+
+''automaticLogin=false''
+
+==== Erreur de synchronisation ====
+Si vous avez une erreur de synchronisation, ce n'est pas très visible mais un message d'erreur apparaît sur la barre d'état en bas de l'écran. Pour en savoir plus, le menu Help => Logs, vous affichera une fenêtre avec le message d'erreur mais pas quelle note est en cause.
+Pour le savoir, le plus simple est d'afficher la colonne ''Synchronised'', dans le tableau des notes. Seule la note en erreur sera encore marquée comme devant être synchronisée.
+
+
+==== Forum pour support ====
+
+Vous pouvez trouver de l'aide sur [[https://sourceforge.net/apps/phpbb/nevernote/index.php|le forum de //NixNote//]] (en anglais). L'auteur y est très présent et répond rapidement.
+
+
+
+===== Liens =====
+
+  * [[http://nevernote.sourceforge.net/|Page du projet]],
+  * [[http://www.evernote.com/|Evernote]],
+  * [[http://www.omgubuntu.co.uk/2012/09/use-evernote-in-ubuntu-with-everpad|EverPad pour une utilisation dans Unity]].

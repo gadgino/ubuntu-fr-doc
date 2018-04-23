@@ -1,0 +1,90 @@
+{{tag>finances comptabilité}}
+----
+====== Money Manager Ex ======
+{{ moneyex.png?250|Interface de Money Manager Ex}}
+
+**Money Manager Ex** est destiné aussi bien aux particuliers qu'aux associations qui souhaitent gérer leurs comptes sur un ordinateur.\\
+Il tourne sur tous les [[:environnements]] de bureau tels que [[:GNOME]], [[:KDE]] ou encore [[:Xfce]], mais aussi sur Windows. De plus, il est totalement francisé.
+
+===== Fonctionnalités =====
+
+Ce que Money Manager Ex sait faire (liste non exhaustive) :
+  * gestion multicompte ;
+  * comptes bancaires, de caisse, d'actifs, gestion d'un portefeuille de valeurs mobilières (actions, SICAV, FCP, etc.) ;
+  * gestion multidevise ;
+  * possibilité de virements entre comptes ;
+  * description des opérations avec : date, tiers, montant, devise, catégorie et sous-catégorie, notes, références bancaires, etc. ;
+  * analyse et rapports financiers avec graphiques ;
+  * impression des états ;
+  * import de fichiers au format QIF et CSV ;
+  * export de fichiers au format CSV.
+
+Ce que Money Manager Ex ne sait pas encore faire :
+  * le rapprochement par Internet ;
+  * la gestion des comptes de passif (emprunts, crédits).
+
+===== Prérequis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  
+
+===== Installation =====
+Pour l'installation, il vous faut python-software-properties :
+<code bash>
+sudo apt-get install python-software-properties
+</code>
+Puis ajouter le dépôt dwrj87/mmex-test :
+<code bash>
+sudo apt-add-repository ppa:dwrj87/mmex-test
+</code>
+Mettez à jour la liste des dépôts et installez mmex :
+<code bash>
+sudo apt-get update && sudo apt-get install mmex
+</code>
+
+Il ne vous reste plus qu'à lancer l'application.
+
+===== Tests =====
+
+ petit programme très intuitif, très bien suivi par son équipe, actuellement en version 9.9.0.\\
+Juin 2012 : Version 0.9.8 testée sous Ubuntu [[:oneiric|11.10]] et [[:precise|12.04]] : aucun problème.\\
+Avril 2013 Version 0.9.9.0 Testée sous Ubuntu 12.10 : aucun problème\\
+Avril 2014 Version 0.9.9.0 testée sous Ubuntu 14.04 : bloquage au lancement - impossibilité d'ouverture de bases\\
+
+
+===== Utilisation =====
+
+L'utilisation de Money Manager Ex ne nécessite pas de connaissance particulière ; il est extrêmement simple d'utilisation.\\
+Il convient parfaitement à la gestion familiale ou à une petite association (loi 1901 ou ASBL).\\
+Le lancement de l'application se fait depuis le menu //Applications → Bureautique → Money Manager Ex// 
+Mais lorsque des messages d'erreurs apparaissent aucune solution n'est proposée
+
+===== Upgrade =====
+Si vous avez installé Money Manager Ex via les dépôts, la mise à jour s'effectue automatiquement lorsque l'on fait les commandes :
+<code bash>
+sudo apt-get update
+sudo apt-get upgrade
+</code>
+Ce qui aura pour effet de resynchroniser l'index des paquets et de mettre à jour à la dernière version tout les paquets installés sur votre machine.
+
+Pour les anciennes versions :
+La méthode a été testée pour la mise à niveau de la version 9.8 à la version 9.9 sous Ubuntu [[:precise|12.04]] en version 32 bits :\\
+  * téléchargement de la dernière version du paquet //.deb// sur le site officiel ;\\
+  * double-clic sur l'archive. La mise à jour se fait automatiquement et les données sont reprises sans problèmes.\\
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. La configuration de l'application sera conservée ou supprimée selon la méthode de désinstallation que vous choisirez.
+
+===== Voir aussi =====
+  * **(en)** [[http://www.codelathe.com/mmex/|Site officiel de Money Manager Ex]].
+
+D'autres pages de logiciels similaires : 
+  * [[KMyMoney]] ;
+  * [[GnuCash]] ;
+  * [[homebank]] ;
+  * [[grisbi]].
+
+----
+//Contributeurs : [[:utilisateurs:Vigix]], mise à jour 16/4/13 par [[:utilisateurs:phira]].//

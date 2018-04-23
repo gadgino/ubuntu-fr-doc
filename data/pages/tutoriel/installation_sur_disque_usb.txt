@@ -1,0 +1,198 @@
+{{tag>Lucid Precise usb installation tutoriel}}
+
+====== Installation d'Ubuntu sur un disque USB ======
+
+Ce tutoriel traite de l'**installation** d'Ubuntu sur un disque dur USB.\\ Ce tutoriel **ne traite pas** de la confection d'un [[:live_usb|live-USB]] ni d'une live sur disque dur, dite "frugale".
+
+<note important>Ce type d'installation ne convient pas pour installer Ubuntu sur une clé USB (la clé meurt très rapidement à cause des écritures incessantes). Pour une clé USB, la configuration [[:live_usb|live-USB]] en mode persistant est plus adaptée.\\ Comme le démarrage d'un système **live** passe par la décompression d'une vaste archive .iso, il sera moins rapide. Mais, après démarrage, le système live sera aussi rapide qu'un système installé.</note>
+
+**Je contredis cette remarque pour 7 raisons:**
+  *                  Que la clé soit  dite "live'  ou qu'elle  soit  dite "installation normale", sa durée de vie sera identique.   Si elle tient  100.......00 écritures, que ces écritures  soit faites avec une commande provenant d'un logiciel "live"   ou d'un logiciel "installé"  ne changera strictement rien.
+  *                  La constitution des commandes de mise du fonctionnement 'live'  est de plus en plus souvent  à la charge de l'utilisateur (Seul multisystem le prévoit).
+  *                  Les fichiers produits  ne sont plus disponibles après la fin des essais en live  sauf à installer une partition dédiée qui devra être sur le disque dur si  la live USB a été fabriquée sous windows (cas encore assez répandu).
+  *                  Apprendre à utiliser le logiciel est bien, apprendre à l'installer avec l'option "autre chose" est mieux. Cette installation est alors une excellente répétition de l'installation.   Qui sait installer sur la live USB, sait installer sur les disques internes.
+  *                J'ai vu trop de cas dans le forum ou les tests live indiquaient que le wifi fonctionnait et qu'après l'installation le wifi ne fonctionnait pas.
+  *                 La commande   sudo apt upgrade détruit la clé live.
+  * Je suis absolument convaincu que le mot 'incessant' est inadapté. Lorsque les fichiers  (ou la partition) de swap n'existent pas, les écritures sont certainement provoquées par des créations ou modifications classiques de fichiers. S'ils existent, cela se règle avec la même logique pour les écritures sur un SSD.
+                 
+
+<note tip> **Si** vous désirez un *buntu capable de fonctionner sur 90% des autres PC, même anciens, **en plus** de votre pc habituel, alors\\ 
+- choisissez une variante 32 bits légère (Lubuntu ou Xubuntu) ;\\
+- n'installez surtout pas de pilote graphique spécifique. </note>
+
+<note important>Jusqu'au noyau 3.2 (Xubuntu 12.04.5 inclus ; autres *buntu 12.04.1 inclus) les cartes graphiques anciennes sont supportées. On regrettera que ce support ait été abandonné dans les noyaux ultérieurs. </note>
+
+**Remarque d'un utilisateur standard de XUbuntu sur clé USB**
+
+J'ai installé XUbuntu depuis la version 9.04 jusqu'à la version 16.04 sur plus d'une centaine de clés USB. Je choisis de formater en ext2 pour limiter le nombre d'accès à la clé. J'utilise chaque clé environ 4 heures par semaine, durant deux ou trois années. Plus d'une cinquantaine de mes élèves font de même. Je n'ai pas eu de problème de clé qui se casse dû à un accès trop fréquent. Cette manière de faire fonctionne bien. Elle n'est probablement pas adaptée à une utilisation quotidienne de linux, mais pour une utilisation occasionnelle de quelques heures par semaine, cela fonctionne très bien. La vitesse dépend beaucoup de la clé, avec certaines clés sous USB3, la vitesse est plus rapide que sur un disque dur. Voici une de mes pages avec divers tests : http://www.juggling.ch/gisin/linux/usbkey.html
+
+En général, je laisse entre 1 et 20 Go dans une première partition formatée en FAT32, puis je mets le système dans une deuxième partition formatée en ext2. J'indique de monter cette partition sous /dos. De cette manière, la première partition est lisible depuis n'importe quel système, Linux, Mac, Windows et permet des échanges très simplement.
+
+Attention lors de l'installation d'indiquer de mettre le boot sur la clé usb (/deb/sdb, s'il n'y a qu'un disque dur dans le système  ; /dev/sdc, s'il y a deux disques durs dans le système ; etc.).
+Avec la version 16.04, j'ai eu la mauvaise surprise que le MBR du disque dur était détruite, mais avec la version 14.04, tout s'est très bien passé. J'ai fait des centaines de mises à jours sur diverses clés, cela prend du temps (des heures) mais fonctionne bien. J'ai également installé KUbuntu et toujours la version 32 bits, sauf une fois (la version 64 bits), avec des difficultés.
+
+===== Pré-requis =====
+
+Avant de commencer, il vous faut :
+  * un disque dur USB de capacité suffisante (minimum 20Go pour être à l'aise) ;
+  * un média d'installation ([[:live_cd|live-CD]] ou [[:live_usb|live-USB]] ou Framakey Ubuntu-fr Remix) ;
+  * avoir branché votre disque USB, et avoir repéré son "nom" (sda, ou sdb, ou sdc, etc) dans l'arborescence : dans l'exemple qui suit, "sda" est le disque USB sur lequel on veut installer Ubuntu.
+
+<note important>Préférez un petit disque ! Si vous utilisez un disque de trois pouces et demi, il lui faudra **impérativement** une alimentation distincte de celle du pc. Sinon, vous grillerez tôt ou tard un composant du pc hôte (alimentation ou carte pci-usb ou carte-mère).\\ __Explication__ : un disque dur de trois pouces et demi consomme plus de courant que celui fourni par deux ports usb.  </note>
+
+<note tip>Ce qui suit n'est pas obligatoire mais **très** vivement conseillé :\\ 
+Pour éviter toute catastrophe, débranchez, le temps de l'installation, les disques internes et tous vos supports de stockage sauf le disque USB sur lequel vous voulez installer Ubuntu.</note>
+
+
+
+===== Installation =====
+
+====Démarrer l'installation====
+
+Par exemple, si vous utilisez un [[:live_cd|live-CD]], [[:tutoriel:amorcer_sur_cd_ubuntu|démarrez votre ordinateur sur celui-ci]] et commencez l'installation jusqu'à l'étape de partitionnement (intitulée "Préparation de l'espace disque" dans Ubuntu 10.04).
+
+==== Configuration des partitions ====
+
+Lors de l'installation, choisissez le partitionnement manuel afin de créer vos partitions (au minimum une partition racine et une swap, voir [[:tutoriel:partitionner_manuellement_avec_installateur_ubuntu|ICI]]) sur votre disque USB. ( « /dev/sda » dans cet exemple)
+
+On ne touche pas aux autres disques... ce qui est simple si on a pris la précaution de les débrancher.  :-D 
+
+Une fois correctement configuré, cela donne dans notre exemple :
+
+{{ http://pix.tdct.org/upload/original/1426254623.jpg }}
+
+Il ne vous reste qu'à cocher les cases pour formater les partitions (si vous ne l'aviez pas fait avant). 
+
+
+=== Installation du chargeur de démarrage sur le disque USB ===
+
+Pour que le disque USB soit autonome, il faut installer le chargeur d'amorçage ([[:grub-pc]]) sur le disque USB («/dev/sda » dans cet exemple).
+<note important>À moins de savoir exactement ce que vous faites, **pas de nombre** dans l'expression "/dev/sd..." ! </note>
+
+<note important>Les deux écrans ci-dessous correspondent à Ubuntu 10.04. Pour la version Ubuntu 11.10, la sélection pour le chargeur d'amorçage se fait à l'étape "Allouer de l'espace disque" en même temps que la configuration des partitions : {{:installation_graphique/partitionner_manuellement_avec_installateur_ubuntu_3.png?w=500}} </note>
+Pour cela, lorsque vous voyez l'écran récapitulatif ci-dessous, cliquez sur le bouton «avancé» en bas à droite.
+
+{{ :tutoriel:installation_sur_disque_usb_avance.png?500 }}
+
+
+Puis sélectionnez dans le menu déroulant votre disque USB («/dev/sda » dans cet exemple)
+
+{{ :tutoriel:installation_sur_disque_usb_installer_chargeur_de_demarrage.png }}
+
+
+Voila, le paramétrage est fini. L'installation va s'achever toute seule.\\ 
+Ensuite, éteignez tout, ôtez le média installateur et redémarrez une première fois, pour admirer le résultat, et faire votre première mise à jour :\\ 
+Mais, pour la compatibilité avec des pc variés, rappelez-vous de refuser tout pilote graphique spécifique !\\ 
+<code>sudo apt-get update</code>
+<code>sudo apt-get dist-upgrade</code>
+**Si la mise à jour inclut un nouveau noyau, redémarrez encore une fois**.\\ 
+Éteignez tout de nouveau et rebranchez le ou les disques internes.\\ 
+Pour finir, vous pouvez [[:tutoriel:completer_installation_ubuntu|compléter l'installation d'Ubuntu en suivant ce tutoriel]].
+
+===== Spécificités support USB EFI =====
+ La version ubuntu 14.04.3 a servi à la préparation de cette partie de document.
+==== En Live-USB  Préparer le support avec gparted ====
+La création d'une table de partition au format "gpt"  et non "msdos"   peut être choisie afin de ne plus gérer les partitions logiques.
+
+La création d'une table de partition au format "msdos"  et non "gpt"   peut être choisie afin de rester bootable  avec les ordinateurs LEGACY.
+
+===Création des Partitions===
+  * partition de démarrage
+Ses caractéristiques:    Taille 511 Mo avec un drapeau  boot   => Ce n'est pas un drapeau legacy-boot ni bios-grub.
+Une taille de 4 Mo serait suffisante, mais pas pour cet installateur qui trouve que 255 Mo est trop petit!!!!
+Lui mettre une étiquette 'ESPusb'. Cela sera pratique pour la suite.
+Lui créer un répertoire  dont le nom sera **EFI**.
+
+  * partition ** / **  communément appelée SLASH  avec la taille voulue et une étiquette 'SLASHusb'. 
+  * partition SWAP.
+  * autres partitions si nécessaire. 
+=== Si vous utilisez déjà ubuntu ===
+Cela est très important: Son démarrage va être irrémédiablement écrasé en installant un nouveau ubuntu. Si vous souhaitez y revenir de façon rapide, il est préférable de sauver la configuration. Pour cela vous  montez la partition de boot fat32. Vous vous positionnez dans le répertoire **/media/ubuntu/EFI/ubuntu** et vous copiez le fichier 
+**grub.cfg** dans le fichier **grub.REFERENCE**
+==== Installation ====
+En standard, l'installateur vous propose d'installer UBUNTU à côté des autres logiciels. 
+C'est une solution qu'il est possible d'utiliser. Dans ce cas, il installera la partition **/** sur la totalité de l'espace disque restant.
+
+Il faut donc continuer à prendre le choix 'autre chose'.
+En premier, il faut sélectionner la partition de démarrage. Le point de montage **/boot/efi** lui sera automatiquement alloué.
+Le reste des sélections est sans changement.
+A noter que toutes les partitions 'swap' sont automatiquement sélectionnées.
+ ==== Gestion du chargeur de démarrage ====
+ Le démarrage EFI ne se fait pas par le MBR mais en utilisant des fichiers contenus dans la partition de démarrage.
+ L'installateur ne prévoit toujours pas de mettre le nécessaire dans le disque externe.
+Donc lorsque l'installation sur le disque externe est finie, il faudra faire l'action de **continuer à tester**  afin de prendre en charge cette duplication.
+Il est nécessaire de monter les partitions fat32 des disques externe et interne et de faire la commande de duplication
+__cp -R /media/ubuntu/'identifiant partition FAT32 du disque interne'/EFI/ubuntu         /media/ubuntu/ESPusb/EFI__
+==== Réparation du micro ====
+Il sera bon de terminer cette réparation en revenant dans le bios pour l'informer des changements qui ont été faits car le support de boot qu'il connaissait sur /dev/sdb va devenir radicalement différent au prochain boot. Le grub va planter si cette action n'est pas faite.
+=== Si vous utilisiez déjà ubuntu ===
+L'installation de ubuntu dans la partition de boot interne a fait  quelques dégâts qu'il faut rapidement corriger tant que nous sommes en live-usb
+et que les partitions de boot sont montées. En effet, lors de l'installation, le boot a eu lieu avec une clé USB montée sur /dev/sdb, le disque externe est alors monté sur /dev/sdc. Toute la structure de boot de ubuntu a été enregistrée comme devant booter avec /dev/sdc2. Or bientôt, on va démonter la live USB et le disque de boot deviendra /dev/sdb2. Si le micro doit continuer à booter avec un ubuntu interne, il est nécessaire de modifier le fichier qui pilote le démarrage du grub pour lui faire remettre l'ancienne valeur. C'est le moment d'écraser le fichier grub.cfg par grub.REFERENCE. Si vous avez oublié de sauvegarder, il est assez facile de reconstituer le fichier. La commande **sudo blkid** redonnera les références de la partition qui contient le ubuntu précédant  ainsi que son n° d'ordre. Actuellement bloqué au boot avec un message disant qu'il y a un problème pour monter le répertoire /etc/fstab**:**  :?:
+    http://askubuntu.com/questions/168290/why-cant-mount-read-files-in-etc-fstab-d
+
+=== Si vous utilisiez un autre OS. ===
+Si votre but est d'utiliser ubuntu de cette manière, il est atteint.
+Si votre but est autre, il faut enlever la séquence prioritaire qu'il a mise dans le bios EFI. Cet ordre de démarrage se traite normalement dans le bios EFI mais pour les bios EFI un peu anciens qui n'ont pas cette possibilité, il est bon de réarranger l'ordre de boot pour ne plus avoir ubuntu prioritaire. On peut aussi supprimer son entrée dans le BIOS ainsi que son répertoire  dans la partition de boot. '**efibootmgr**' sera à installer dans la live-usb.
+ ==== Utilisation de ce support par d'autres micros EFI ====
+== Suppression des adhérences. ==
+C'est le moment de supprimer ce qui se rattache encore au disque interne. Il faut corriger le contenu de fichier **/etc/fstab.**   de la nouvelle partition de démarrage: Suppression de la ligne de swap qui référencie le disque interne pour ne conserver que celle qui référencie le disque externe. Rectification de l'UUID du répertoire **/boot/efi** pour le faire pointer sur celui qu'on a construit de toute pièce.
+== Utilisation par un micro EFI ayant déjà un grub. ==
+La méthode simple est de lancer le micro classiquement et de faire une commande '**sudo update-grub**' afin qu'il incorpore cette partition  à sa liste de boot. Ultérieurement, si le choix de cette partition est fait, il faudra que le disque externe soit branché. Sinon il n'a pas besoin de l'être.
+== Utilisation par un micro EFI n'ayant pas de grub ==
+Nous allons dire que ce disque USB va être utilisé comme une clé USB d'installation de ubuntu. Pour cela il faut encore bricoler un peu... En premier on va créer la structure de boot classique d'une clé USB à savoir la création du répertoire **/media/ubuntu/ESPusb/EFI/boot**  puis il faudra copier le fichier de démarrage **grubx64.efi** actuellement présent dans le répertoire **/media/ubuntu/ESPusb/EFI/ubuntu**  puis on renommera ce fichier en **bootx64.efi**. Dans le doute on recommencera la copie pour avoir les deux principaux fichiers de boot présents.
+
+Il faut maintenant s'intéresser de nouveau au fichier de paramétrage **grub.cfg** qu'il faut modifier  pour prendre en compte que la partition de boot sera  le disque 0 et non le disque 2.  Cette modification faite, il faut aussi le transférer. 
+Vous pouvez alors arrêter la live session de ubuntu et  perdre la clé d'installation. Vous avez maintenant  un disque externe opérationnel pour tous les micros EFI y compris le vôtre.
+
+Vous pouvez enfin quitter la session live et vérifier que....Ce chapitre est utile.
+<code>
+usb14-04-3@usb14043:/boot/efi/EFI$ ls -rtl *
+boot:
+-rwxr-xr-x 1 root root 956792 août  16 22:12 bootx64.efi
+-rwxr-xr-x 1 root root 956792 août  16 22:14 grubx64.efi
+-rwxr-xr-x 1 root root    126 août  16 22:21 grub.cfg
+
+ubuntu:
+-rwxr-xr-x 1 root root 1355736 août  16 13:25 shimx64.efi
+-rwxr-xr-x 1 root root 1178240 août  16 13:25 MokManager.efi
+-rwxr-xr-x 1 root root  956792 août  16 13:25 grubx64.efi
+-rwxr-xr-x 1 root root     126 août  16 22:25 grub.cfg
+</code>
+<code>
+usb14-04-3@usb14043:/boot/efi/EFI/boot$ pg grub.cfg
+search.fs_uuid 250efcb3-12d3-4763-97ef-cad84264ca5a root hd0,gpt2 
+set prefix=($root)'/boot/grub'
+configfile $prefix/grub.cfg
+</code>
+ATTENTION.    La connectique USB3 et le GRUB de ubuntu font que le boot  se met en 'arrêt' dans environ 15% de boots. Il faut alors rebooter une seconde fois.
+
+Dans certains cas, si le boot plante dans le grub, les commandes suivantes peuvent aider à démarrer. (**N** étant le Numéro de partition contenant ubuntu).
+ <code>
+set root=(hd0,gptN)  
+set prefix=(hd0,gptN)/boot/grub   
+insmod normal
+normal
+</code>     
+==== Évolution  avec la version 16.04.1====
+Tout ce qui a été dit avec la version 14.04 reste vrai.
+Après l'installation sur le support externe, le fichier grub.cfg du disque interne continue de vouloir lancer l'installation externe.
+La NVRAM du bios continue de vouloir lancer le ubuntu du disque externe au lieu  de celui du disque interne.
+A ces problèmes, il faut en ajouter deux autres.
+
+A) la version 16.04 monte automatiquement les partitions. L'installateur ne sait pas les démonter.
+Si le démontage n'est pas fait, l'installateur boucle.
+Il se contente de nous demander notre avis,  http://hpics.li/8b379c0 en proposant de ne pas les démonter. Il faut obligatoirement  choisir l'option OUI pour les démonter.
+
+B) L'installateur ne sait plus créer les partitions http://hpics.li/942dc18 . Il faut donc obligatoirement faire la création par GPARTED. Si on passe outre l'erreur  signalée, cela reboucle sur le problème.
+
+
+
+===== Voir aussi =====
+
+  * [[http://www.le-libriste.fr/ubuntu/installer-ubuntu-sur-un-disque-usb | installer Ubuntu 12.04 LTS sur un disque dur USB externe (tuto "Le Libriste")]]
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?pid=144494 | Installation pour booter sur un disque externe usb à partir d'un bios ne bootant pas sur l'usb]]
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=276821&p=1 | PLoP Boot Manager]]
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3728726|Discussion "installation sur disque dur externe"]] sur le forum ubuntu-fr
+
+----
+//Contributeurs : [[utilisateurs:traaf|traaf]], moko138.//

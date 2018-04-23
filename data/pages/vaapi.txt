@@ -1,0 +1,96 @@
+{{tag>Trusty matériel carte_graphique nvidia intel_graphics catalyst}}
+
+----
+
+====== VA API : Vidéo Accélération ======
+[[wpfr>Video_Acceleration_API|Video Acceleration API (abrégé en VA API, VA-API ou VAAPI)]] est une bibliothèque open source (libVA) et une interface de programmation qui visent à permettre le rendu vidéo par le processeur graphique sur les systèmes dérivés d'UNIX (comme Linux ou FreeBSD) utilisant X Window System.
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+==== Pilote nvidia propriétaire ====
+
+Pour installer ce logiciel, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer les paquets]] **[[apt>vdpau-va-driver,libvdpau1|vdpau-va-driver et libvdpau1]]** qui permet l'accélération VA API en utilisant l'accélération VDPAU fournie par le pilote nvidia.
+
+  sudo apt-get install libvdpau1 vdpau-va-driver
+==== Pilote Intel ====
+
+Pour installer ce logiciel, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer les paquets]] **[[apt>libva-intel-vaapi-driver|libva-intel-vaapi-driver]]** qui permet l'accélération VA API.
+
+  sudo apt-get install libvdpau-va-gl1
+  sudo sh -c "echo 'export VDPAU_DRIVER=va_gl' >> /etc/profile"
+  
+====Pilote Catalyst propriétaire ====
+Pour utiliser ce logiciel avec le pilote propriétaire [[:Catalyst]] d'AMD-ATI, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer les paquets]] **[[apt>xvba-va-driver]]** qui permet l'accélération VA API.
+
+  sudo apt-get install xvba-va-driver libvdpau-va-gl1
+  sudo sh -c "echo 'export VDPAU_DRIVER=va_gl' >> /etc/profile"
+
+====Pilote libre Radeon (recommandé)====
+Cela concerne toutes les cartes radeon supportant l'UVD 2.2 et supérieur  donc radeon HD 4000 et plus, excepté HD 4200, HD 4800 et quelques mobility HD 4000. (Liste complète [[http://en.wikipedia.org/wiki/Unified_Video_Decoder#UVD-enabled_GPUs|ici]]).\\
+Pour [[:Trusty|Ubuntu Trusty 14.04]] et les [[:versions|versions]] supérieures, [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>mesa-vdpau-drivers]]**
+
+A partir d'Ubuntu 15.04, toutes les cartes Radeon supportant l'UVD sont supportées (radeon HD 2000 et plus).
+===Particularité pour Ubuntu Trusty 14.04.2===
+[[:tutoriel:comment_installer_un_paquet|Installer le paquet]] **[[apt>mesa-vdpau-drivers-lts-utopic]]**
+
+===Ubuntu Trusty 14.04.2 64bits et LTS enablement stack Wily 64bits===
+Remplacer radeonsi_drv_video.so par le nom du driver obtenu via la commande vainfo
+<code>
+sudo apt-get install vdpau-va-driver
+sudo ln -s /usr/lib/x86_64-linux-gnu/dri/vdpau_drv_video.so /usr/lib/x86_64-linux-gnu/dri/radeonsi_drv_video.so
+</code>
+==== Activation des vidéos Flash ====
+
+  sudo mkdir /etc/adobe
+  sudo echo -e "EnableLinuxHWVideoDecode = 1\nOverrideGPUValidation = 1" | sudo tee /etc/adobe/mms.cfg
+  
+===== Vérification  =====
+
+[[:tutoriel:comment_installer_un_paquet|Installer les paquets]] **[[apt>vainfo|vainfo]]** qui permet de vérifier l'accélération VA API.
+
+Lancez le [[:terminal]] (toutes versions d'Ubuntu) avec la [[:commande_shell|commande]] suivante :
+<code>vainfo</code>
+Vous devez alors observer une ligne "libva: va_getDriverName() returns 0" et différentes lignes indiquant les profiles de décodage supportés, c'est à dire les codecs vidéos supportés.
+
+Exemple :
+
+  libva info: VA-API version 0.37.0
+  libva info: va_getDriverName() returns 0
+  libva info: Trying to open /usr/lib/x86_64-linux-gnu/dri/r600_drv_video.so
+  libva info: Found init function __vaDriverInit_0_35
+  libva info: va_openDriver() returns 0
+  vainfo: VA-API version: 0.37 (libva 1.5.0)
+  vainfo: Driver version: Splitted-Desktop Systems VDPAU backend for VA-API - 0.7.4
+  vainfo: Supported profile and entrypoints
+      VAProfileMPEG2Simple            :	VAEntrypointVLD
+      VAProfileMPEG2Main              :	VAEntrypointVLD
+      VAProfileMPEG4Simple            :	VAEntrypointVLD
+      VAProfileMPEG4AdvancedSimple    :	VAEntrypointVLD
+      VAProfileH264Baseline           :	VAEntrypointVLD
+      VAProfileH264Main               :	VAEntrypointVLD
+      VAProfileH264High               :	VAEntrypointVLD
+      VAProfileVC1Advanced            :	VAEntrypointVLD
+
+
+===== Utilisation =====
+
+Différentes applications peuvent tirer parti de VAAPI :
+  * [[vlc#acceleration_gpu_vaapi|VLC]]
+  * mplayer-vaapi via le ppa https://launchpad.net/~sander-vangrieken/+archive/vaapi
+  * chromium patché : https://launchpad.net/~saiarcot895/+archive/ubuntu/chromium-beta
+  * KODI (XBMC)
+  * Totem ( Via gstreamer1.0-Vaapi ) a partir de 16.04 
+  * //liste à compléter//
+===== Voir aussi =====
+
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=410315|Le forum au sujet de l'accélération avec une carte nVidia]]
+  * [[http://www.reddit.com/r/Ubuntu/comments/1wpavp/how_to_enable_vdpau_acceleration_for_accelerated/|Documentation en anglais]]
+
+----
+
+//Contributeurs principaux : [[utilisateurs:Id2ndR]], [[utilisateurs:autre_identifiant|nom ou pseudo autre]].//

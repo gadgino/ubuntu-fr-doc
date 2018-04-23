@@ -1,0 +1,113 @@
+{{tag>capture}}
+----
+
+{{ http://www.kohaupt-online.de/hp/images/VokoCola.png?200}}
+====== VokoScreen ======
+
+**VokoScreen** est une application de type simpimpatoche qui est super bien de [[:capture|capture vidéo d'écran (screencast)]]. Elle permet d'enregistrer l'image et le son. 
+
+===== Introduction (présentation et description) =====
+
+Une application assez complète par rapport aux autres. Elle permet d'enregistrer en **[[wpfr>Audio_Video_Interleave|AVI]]** ou **[[wpfr>MKV]]**, codecs **[[wpfr>MPEG4]]** ou **[[wpfr>H.264]]**, détecte automatiquement **[[PulseAudio]]**. 
+
+==== Fonctionnalités ====
+
+  * Le résultat est fluide
+  * Vous pouvez choisir la sélection à capturer, soit tout l'écran ou soit une seule fenêtre ou une zone sélectionnée. 
+  * Vous pouvez mettre une loupe qui s'affiche en dessous de votre souris. 
+  * L'application vous permet aussi d'enregistrer l'image de votre webcam. 
+  * Vous pouvez mettre un compte à rebours avant l'enregistrement. 
+  * Dans les options vidéo, vous pouvez choisir le nombre d'images par secondes. 
+  * Vous avez aussi le choix d'afficher ou non le curseur de la souris. 
+
+===== Pré-requis =====
+
+Vous pouvez utiliser **[[pulseaudio|PulseAudio]]**
+  * **[[apt>pavucontrol]]**
+
+Pour une utilisation complète (recommandée) ajouter :
+  * **[[apt>ffmpeg]]** (choix d'encodage)
+
+===== Installation =====
+
+==== Méthode 1 : à partir des dépôts Ubuntu ====
+
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>vokoscreen]]**.
+
+Ou bien, en ligne de commande :
+  sudo apt-get install vokoscreen
+
+==== Méthode 2 : à partir du site officiel ====
+
+  - Télécharger le fichier .zip sur le site de vokoscreen : [[http://www.kohaupt-online.de/hp/]] (Download Vokoscreen)
+  - Extraire le fichier vokoscreen.zip
+  - Se déplacer vers le dossier vokoscreen extrait
+  - Ouvrir le dossier ubuntu
+  - Ensuite ouvrir le dossier correspondant à votre version ubuntu
+  - Ouvrir le fichier correspondant à votre architecture, soit i386 si votre système est en 32 bits ou soit amd64 si votre système est en 64 bits
+  - Installer le paquet
+
+===== Configuration =====
+
+Pour utiliser [[pulseaudio|Pulse Audio]] dans vokoscreen, il suffit juste d'aller dans la section micro, cocher audio et ensuite choisir pulse.
+
+{{:tutoriel:vokoscreen-pulse.png|}}
+
+===== Utilisation=====
+
+Pour une utilisation simple, l'absence d'un manuel d'utilisation n'est pas un vrai handicap. Jouer un peu avec les quelques boutons proposés par l'interface vous fera vite découvrir comment fonctionne cette application. On veut simplement définir la zone à capturer, démarrer, arrêter ;-)
+
+==== Onglet Ecran ====
+{{ tutoriel:onglet-ecran.png }}
+
+Vous pouvez ici paramétrer la sélection à capturer, afficher une loupe et la webcam.
+
+Fullscreen = Tout l'écran
+Window = Fenêtre
+Area = zone
+
+Magnification sert à afficher une loupe qui se placera en dessous du curseur de la souris.
+
+Et ensuite la webcam.
+
+==== Onglet Vidéo ====
+{{ tutoriel:onglet-vidéo.png }}
+
+Dans cette partie, vous pourrez configurer la partie capture vidéo.
+
+Dans frames, vous réglez le nombre d'images par seconde.
+
+Dans codec, il suffit de choisir soit **[[wpfr>MPEG4]]** ou **[[wpfr>H.264]]**.
+
+Et dans format, le format enregistré soit en **[[wpfr>Audio_Video_Interleave|AVI]]** ou **[[wpfr>MKV]]**.
+
+Et enfin, la dernière option, si vous la cochez le curseur de la souris ne sera pas affiché.
+
+==== Onglet Paramètres ====
+{{ tutoriel:onglet-param.png }}
+
+Dans videopath, vous choisissez le répertoire où le fichier sera enregistré.
+
+Dans player, vous choisissez le lecteur vidéo par défaut qui se lancera lorsque vous cliquerez sur "play".
+
+Et enfin, si vous cochez la dernière casse, vokoscreen se placera dans la barre en haut à droite.
+
+===== Problèmes connus ====
+====Avec vokoscreen 1.7.0====
+
+J'ai installé Vokoscren 1.7.0 sur Ubuntu 13.10 .\\
+1 - Après avoir lancé Ubuntu et sélectionné un administrateur, je lance vokoscreen . Tout fonctionne normalement\\
+2 - Si je change d'administrateur sans redémarrer et que je lance vokoscreen, l'action sur le bouton "démarrer" est inopérante (pas d'enregistrement possible !)\\
+
+====Avec vokoscreen 2.0.0 ====
+
+Cette version est inutilisable car un curseur est enregistré en permanence au centre de l'image (ce n'est pas le curseur de la souris)\\
+
+Il y a aussi un problème qui en fait, enregistre votre fenêtre sans Métacity. Le problème est qu'à la fin, quand vous souhaiterez visualiser votre vidéo, vous aurez une bande en bas qui affichera votre bureau\\
+
+===== Voir aussi =====
+
+  * **(en)** [[http://www.kohaupt-online.de/hp/|Site officiel]]
+
+----
+//Contributeur principal : [[:utilisateurs:mimidevos]].//

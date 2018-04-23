@@ -1,0 +1,66 @@
+{{tag>jeu wine tbs rpg}}
+
+
+
+----
+
+
+====== Heroes IV ======
+<note important>fonctionne avec la version du 1.0.1 du dépot intrepide , les version plus récente ne marche pas toujours a tester.</note>
+Installer Heroes IV sous Linux est bien plus simple qu'il n'y paraît.
+
+Commencez par insérer votre cd-rom d'installation (CD1), attendez qu'il se charge puis, dans un terminal, faites :
+<code>$ cd /media/cdrom
+wine setup.exe</code>
+afin de se diriger dans le dossier de votre cd-rom et de lancer l'installateur.
+
+{{http://www.dualwebnet.info/Bogoris/images/Heroes%20IV/Capture-Installer%20DirectX.png}}
+
+Lorsqu'au tout début, l'installateur vous demande si oui ou non vous souhaitez installer DirectX alors que celui-ci est déjà installé, répondez oui. Si vous ne le faites pas, vous aurez des problèmes d'affichage (pour faire simple, vous verrez presque rien).
+
+Suivez ensuite patiemment les étapes de l'installation. 
+
+{{http://www.dualwebnet.info/Bogoris/images/Heroes%20IV/Capture-Ins%C3%A9rez%20la%20disquette%20suivante.png}}
+
+Au moment d'insérer ce qu'ils appellent la « disquette suivante » (à environ 80% de l'installation, 2 minutes après le début chez moi), il vous est impossible d'enlever le CD-Rom du lecteur. Si vous n'avez pas de deuxième lecteur, vous devez alors enlever le CD1. Pour ce faire, il faut minimiser la fenêtre actuelle (Alt + F9, sous Gnome en tous cas) et fermer tous les applications utilisant le CD-Rom présent dans le lecteur. Ici, et ça peut sembler bizarre), le terminal avec lequel vous avez lancé l'installation utilise le CD-Rom (ne me demandez pas pourquoi :-°). Vous n'avez donc qu'à simplement fermer ce terminal ;-) 
+
+Enlevez le CD1 du lecteur, mettez le CD2, attendez qu'il se charge et revenez à l'installation.
+
+Cliquez sur OK.
+
+Continuez à suivre les étapes jusqu'au bout et amusez vous bien  :-) .
+
+===== Problèmes rencontrés =====
+
+==== Son non géré ====
+
+Dans un terminal, faire :
+<code>$ winecfg</code>
+Dans audio, sélectionner le périphérique ALSA au lieu de OSS.
+
+==== Son qui bogue (notamment après le menu) ====
+
+Dans un terminal, faire :
+<code>$ winecfg</code>
+Dans audio, baissez l'échantillonnage à 8000 et réglez le nombre de « Bits par échantillon » à 16 au lieu 8.
+
+
+
+==== Barres de tâche qui ne disparaissent pas ====
+
+Sous Gnome comme sous KDE (je n'ai pas testé avec d'autres environnements mais j'imagine que ce doit être pareil), les barres de tâche ne disparaissent pas.
+
+Aucune solution trouvée pour l'instant.
+
+Sur certaines interfaces graphiques, Gnome et KDE notamment, la possibilité de masquer la barre des tâches en cliquant sur un bouton situé à une de ses extrémités (il y a besoin de la configurer au préalable). Ce n'est pas la solution idéale mais c'est déjà beaucoup moins gênant.
+
+:!: J'ai déjà eu ce genre de problème avec d'autres jeux, il m'a suffit de désactiver les effets de bureau (Compiz Fusion, beryl...). //Toumeno//
+
+=====Liens=====
+Voir également :
+  * [[heroes_iii|la page Heroes III]]
+  * [[heroes_v|la page Heroes V]]
+----
+Testé avec succès sur Feisty Fawn avec Wine 9.40
+
+//Rédigé par [[utilisateurs:bogoris|Bogoris]] et... vous ?//

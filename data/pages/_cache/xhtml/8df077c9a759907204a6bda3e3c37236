@@ -1,0 +1,219 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#installation_par_netboot" class="toc"> Installation par Netboot </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#description_du_materiel" class="toc"> Description du matériel </a></span></li>
+<li class="level2"><span class="li"><a href="#installer_et_lancer_le_serveur_sur_roo_the_dhcp_server" class="toc"> Installer et lancer le serveur sur roo (the DHCP server) </a></span></li>
+<li class="level2"><span class="li"><a href="#creez_la_disquette_de_boot_pour_le_pc_kanga" class="toc"> Créez la disquette de Boot pour le pc //kanga//: </a></span></li>
+<li class="level2"><span class="li"><a href="#demarrez_l_installation" class="toc"> Démarrez l'installation </a></span></li>
+<li class="level2"><span class="li"><a href="#questions" class="toc"> Questions </a></span></li>
+<li class="level2"><span class="li"><a href="#liens_pour_documentation_en_francais" class="toc"> Liens pour documentation en français </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<p>
+Traduction libre de <a href="http://wiki.ubuntu.com/NetbootInstallHowto" class="urlextern" title="http://wiki.ubuntu.com/NetbootInstallHowto" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">NetbootInstallHowto</a> (sans l&rsquo;avoir testé)
+</p>
+
+<p>
+Rédigé par <a href="/utilisateurs/manu" class="wikilink1" title="utilisateurs:manu" onclick="return svchk()" onkeypress="return svchk()">manu</a>.
+</p>
+
+<a name="installation_par_netboot"></a><h1> Installation par Netboot </h1>
+<div class="level1">
+
+<p>
+Ce HOWTO décrit une installation d&rsquo;Ubuntu sur une vieille machine avec un CDROM non-amorçable (bootable) . Vous devez modifier les noms d&rsquo;hôte et des adresses d&rsquo;IP de ce HOWTO pour votre propre installation. Les principes décrits ici sont applicables à d&rsquo;autres serveurs de DHCP et de TFTP que ceux décrits ci-dessous.
+</p>
+
+</div>
+<!-- SECTION [148-515] -->
+<a name="description_du_materiel"></a><h2> Description du matériel </h2>
+<div class="level2">
+
+<p>
+Un vieux Celeron 400Mhz avec CDROM non-amorçable. La cible pour l&rsquo;installation (kanga, 172.31.0.242).  Elle peut amorcer sur une disquette.
+</p>
+
+<p>
+Le serveur DHCP (roo, 172.31.0.252) est basé sur Linux avec <strong>dnsmasq</strong>. J&rsquo;ai ajouté tftp-hpa dessus à partir des sources.
+</p>
+
+<p>
+<strong>dnsmasq</strong> fait office de serveur DHCP et <acronym title="Domain Name Server">DNS</acronym> (cache) pour les machines se connectant sur le serveur.
+</p>
+
+<p>
+<u>Attention</u>: Vous devez être protégé et ne pas vous exposer pour cet exercice, si vous possédez une connection ADSL ouverte sur l&rsquo;internet.
+</p>
+
+</div>
+<!-- SECTION [516-1074] -->
+<a name="installer_et_lancer_le_serveur_sur_roo_the_dhcp_server"></a><h2> Installer et lancer le serveur sur roo (the DHCP server) </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> Installation de <strong>dnsmasq</strong> sur le serveur roo :</span>
+</li>
+</ul>
+<pre class="code">
+   sudo apt-get install dnsmasq
+</pre>
+<ul>
+<li class="level1"><span class="li"> Dans /etc/dnsmasq.conf, ajoutez la ligne:</span>
+</li>
+</ul>
+<pre class="code">
+  dhcp-boot=pxelinux.0,roo,172.31.0.252
+</pre>
+
+<p>
+Cette machine sert une adresse IP à <em>kanga</em> par DHCP. 
+</p>
+<ul>
+<li class="level1"><span class="li"> Redémarrez <strong>dnsmasq</strong>:</span>
+</li>
+</ul>
+<pre class="code">
+   /etc/init.d/dnsmasq restart
+</pre>
+<ul>
+<li class="level1"><span class="li"> Téléchargez le  <a href="http://archive.ubuntu.com/ubuntu/dists/warty/main/installer-i386/current/images/netboot/pxeboot.tar.gz" class="urlextern" title="http://archive.ubuntu.com/ubuntu/dists/warty/main/installer-i386/current/images/netboot/pxeboot.tar.gz" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow"> Ubuntu netboot</a>  (fichier tar) </span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Décompressez l&rsquo;archive dans un répertoire, exemple: /var/lib/tftpboot</span>
+</li>
+</ul>
+<pre class="code">
+  tar -xzf pxeboot.tar.gz -C /var/lib/tftpboot/
+  chown -R nobody:nobody /var/lib/tftpboot
+</pre>
+<ul>
+<li class="level1"><span class="li"> Activez le serveur <strong>tftpd</strong> . L&rsquo;ajouter dans /etc/xinet.d/tftp.</span>
+</li>
+</ul>
+<pre class="code">
+  service tftp
+
+        disable                 = no
+        socket_type             = dgram
+        wait                    = yes
+        user                    = root
+        server                  = /usr/sbin/in.tftpd
+        server_args             = -v -s /var/lib/tftpboot
+        only_from   = 172.31.0.240/28
+        interface   = 172.31.0.252
+
+</pre>
+<ul>
+<li class="level1"><span class="li"> Redémarrez <strong>xinetd</strong> </span>
+</li>
+</ul>
+<pre class="code">
+ killall -HUP xinetd
+</pre>
+
+</div>
+<!-- SECTION [1075-2342] -->
+<a name="creez_la_disquette_de_boot_pour_le_pc_kanga"></a><h2> Créez la disquette de Boot pour le pc //kanga//: </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> Construisez une disquette de boot <strong>Etherboot</strong> (Ethernet). <em>kanga</em> (la cible) a une carte réseau 3Com: 3c905 NIC</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Téléchargez et décompréssez Etherboot (etherboot-5.3.9.tar.bz2 depuis SourceForge dans mon cas).</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> <a href="http://etherboot.sourceforge.net/doc/html/documentation.html" class="urlextern" title="http://etherboot.sourceforge.net/doc/html/documentation.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow"> Documentation **Etherboot** </a> </span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Créez une disquette bootable (inserez une disquette dans le lecteur).</span>
+</li>
+</ul>
+<pre class="code">
+  make bin/3c90x.zfd0
+</pre>
+
+<p>
+(Remplacez 3c90x par le type de votre carte)
+</p>
+
+</div>
+<!-- SECTION [2343-2897] -->
+<a name="demarrez_l_installation"></a><h2> Démarrez l'installation </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> Bootez sur la cible (kanga) à partir de la disquette Etherboot</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Installation d&rsquo;Ubuntu par le net.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [2898-3044] -->
+<a name="questions"></a><h2> Questions </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> J&rsquo;ai noté que vous n&rsquo;avez pas ajouté la MAC ADDRESS de l&rsquo;interface. J&rsquo;ai remarqué que beaucoup de tutoriaux soulignés l&rsquo;importance de la MAC ADDRESS pour permettre à la machine d&rsquo;avoir le droit de booter sur le serveur de netboot, est-ce qu&rsquo;est ce detail peut être tout à fait ignoré ? &ndash;SivanGreen</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Hmm, je vais essayer de trouver une réponse? J&rsquo;ai utilisé etherboot-5.3.12 par defaults (cd src ; make bin/via-rhine.zfd0 - the defaults include -DPXE_IMAGE and -DPXE_EXPORT ), le processus de boot semble s&rsquo;arrêter après le chargement du fichier via TFTP:</span>
+</li>
+</ul>
+<pre class="code">
+  Loading 192.168.0.2:pxelinux.0 ..(PXE)done
+</pre>
+
+<p>
+Aussi, il peut être intéressant de mentionner que les images de <a href="http://rom-o-matic.net/" class="urlextern" title="http://rom-o-matic.net/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://rom-o-matic.net/</a> (référence au manuel d&rsquo;Etherboot a un lien à cet emplacement) ne supporte pas toutes les images  PXE . &ndash;PeterParkkali
+</p>
+
+</div>
+<!-- SECTION [3045-3921] -->
+<a name="liens_pour_documentation_en_francais"></a><h2> Liens pour documentation en français </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> Documentation sur dnsmasq</span>
+</li>
+</ul>
+
+<p>
+ <a href="http://www.drazzib.com/docs-dnsmasq.html" class="urlextern" title="http://www.drazzib.com/docs-dnsmasq.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.drazzib.com/docs-dnsmasq.html</a>
+</p>
+
+<p>
+<a href="http://perso.wanadoo.fr/aymeric.sabine/serveur/services/dnsmasq.html" class="urlextern" title="http://perso.wanadoo.fr/aymeric.sabine/serveur/services/dnsmasq.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://perso.wanadoo.fr/aymeric.sabine/serveur/services/dnsmasq.html</a>
+</p>
+
+<p>
+<a href="http://rueff.homelinux.org/article.php3?id_article=25" class="urlextern" title="http://rueff.homelinux.org/article.php3?id_article=25" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://rueff.homelinux.org/article.php3?id_article=25</a> 
+</p>
+<ul>
+<li class="level1"><span class="li"> Documentation sur Etherboot</span>
+</li>
+</ul>
+
+<p>
+ <a href="http://nlsn.free.fr/lin-docs/xterminal/diskless-xterminal/node5.html" class="urlextern" title="http://nlsn.free.fr/lin-docs/xterminal/diskless-xterminal/node5.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://nlsn.free.fr/lin-docs/xterminal/diskless-xterminal/node5.html</a>
+</p>
+
+<p>
+<a href="http://ldp.rtin.bz/linuxfocus/Francais/September1998/article63.html" class="urlextern" title="http://ldp.rtin.bz/linuxfocus/Francais/September1998/article63.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://ldp.rtin.bz/linuxfocus/Francais/September1998/article63.html</a>
+</p>
+
+<p>
+<a href="http://www.skolelinux.org/fr/documentation/howtos/Demarrage_reseau" class="urlextern" title="http://www.skolelinux.org/fr/documentation/howtos/Demarrage_reseau" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.skolelinux.org/fr/documentation/howtos/Demarrage_reseau</a> 
+</p>
+
+</div>
+<!-- SECTION [3922-] -->

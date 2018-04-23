@@ -1,0 +1,134 @@
+{{tag>Precise Trusty lecteur_audio}}
+
+----
+
+{{ http://upload.wikimedia.org/wikipedia/commons/e/e4/Clementine-Logo.png?80}}
+====== Clementine ======
+
+
+**Clementine** est un [[lecteur_audio|lecteur de musique]] et un gestionnaire de bibliothèque musicale moderne, libre et multiplate-forme (%%GNU/Linux%%®, Windows®, %%Mac OS%%®) distribuée sous [[wpfr>Licence_publique_générale_GNU|licence publique générale V3]].\\
+C'est un portage simplifié de [[:Amarok]] 1.4 sous QT4 (mais sans dépendre des bibliothèque de KDE4 de sorte qu'il puisse s'intégrer dans [[:Gnome]]).
+Il possède notamment les fonctionnalités suivantes: \\
+(**(fr)**[[http://www.clementine-player.org/fr/|Source]])
+  * Recherche et joue votre bibliothèque musicale locale.
+  * Écoutez de la musique sur Internet depuis Spotify, Grooveshark, Last.fm, SomaFM, Magnatune, Jamendo, SKY.fm, Digitally Imported, JAZZRADIO.com, Soundcloud, et Icecast.
+  * Rechercher et écouter les morceaux que vous avez envoyé sur Google Drive.
+  * Créer des listes de lecture intelligentes et dynamiques.
+  * Listes de lecture avec onglets, import et export au formats M3U, XSPF, PLS et ASX.
+  * Support des CUE sheet.
+  * Écoutez vos CD audios.
+  * Visualisations avec projectM.
+  * Paroles des chansons, et biographies et photos des artistes.
+  * Transcodez votre musique en MP3, Ogg Vorbis, Ogg Speex, FLAC ou AAC.
+  * Éditez les tags sur vos fichiers MP3 ou OGG, organisez votre musique.
+  * Complétez les tags automatiquement avec MusicBrainz.
+  * Chercher et télécharger des Podcasts.
+  * Téléchargez les jaquettes d'albums manquantes depuis Last.fm et Amazon
+  * Multiplate-forme (%%GNU/Linux%%®, Windows®, Apple®).
+  * Notifications de bureaux natives sous GNU/Linux (libnotify) et Mac OS X (Growl).
+  * Contrôle à distance en utilisant une Wiimote, MPRIS, la ligne de commande ou avec son téléphone android
+  * Copiez votre musique sur votre iPod, iPhone, périphérique USB ou MTP.
+  * Liste d'attente.
+
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+
+===== Installation =====
+
+====Depuis les dépôts officiels====
+
+Pour installer **Clementine**, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>clementine|clementine]]**.
+
+====Depuis un PPA====
+
+<note important>Rappel : en installant les paquets fournis sur un [[:ppa|dépôt PPA]], vous faites confiance à la personne qui les a mis à disposition. En aucun cas ces paquets ne sont pris en charge par Canonical.</note> 
+Vous souhaitez une version plus récente notamment pour [[#Utilisation d'un terminal Android® comme télécommande|utiliser l'application Android®]] avec les [[;versions|versions d'Ubuntu]] antérieures à [[vivid|Vivid 15.04]], elle est disponible depuis un [[:PPA]]:
+  - [[:PPA|Ajouter à vos sources de logiciels le PPA]] suivant: **ppa:me-davidsansome/clementine**((https://launchpad.net/~me-davidsansome/+archive/clementine)); 
+  - [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|recharger la liste des paquets]];
+  - [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>clementine|clementine]]**. 
+Ou dans un [[:terminal]], saisir les [[:commande_shell|commandes]] suivantes: 
+
+ <code>sudo add-apt-repository ppa:me-davidsansome/clementine
+sudo apt-get update
+sudo apt-get install clementine</code>
+
+
+
+===== Utilisation =====
+Lancez l'application depuis le [[:Unity#dash|tableau de bord d'Unity]] ou pour les menus classiques menu //Applications -> Medias -> Clementine// ou encore (pour toutes [[:variantes]]) depuis un [[:terminal]] avec la [[:commande_shell|commande]] suivante:
+<code>clementine</code>
+
+===== Utilisation d'un terminal Android® comme télécommande =====
+
+<note important>La version de l'application Android® proposée ne fonctionne qu'à partir de la version 1.2.1 de Clementine. Pas de problème avec les [[:versions|versions d'Ubuntu]] à partir de [[Vivid|Utopic 15.04]]. Pour [[:Trusty|Trusty 14.04]] et [[:precise|Precise 12.04]], la version utilisable pour l'application Androïd est disponible [[#depuis un PPA]].</note>
+Après avoir activé l'option dans les préférences de Clementine, il suffit d'installer [[https://play.google.com/store/apps/details?id=de.qspool.clementineremote&hl=fr|Clementine Remote]] sur votre smartphone, puis de renseigner l'adresse IP du serveur à contrôler.
+
+===== Problèmes connus =====
+==== se bloque (Ubuntu 11.10, 12.04 et 14.04) ====
+
+Au cours d'opérations diverses, la fenêtre de Clementine devient grisée et ne revient plus.
+
+Solution : désinstaller le paquet qt-at-spi (accès universel)
+
+  sudo apt-get remove qt-at-spi
+
+Probablement lié à ces bugs :
+[[https://bugs.launchpad.net/ubuntu/+source/qt-at-spi/+bug/998012]]
+[[https://bugs.launchpad.net/ubuntu/+source/qt-at-spi/+bug/875661]]
+
+==== ne lit pas le format wma (Ubuntu 14.04) ====
+**Concerne la version 1.2 de Clementine** (la version 1.3 utilise gstreamer1.0)
+Nécessite l'installation d'un paquet gstreamer0.10-ffmpeg non dispo dans la logithèque : 
+
+  sudo apt-add-repository ppa:mc3man/trusty-media
+  sudo apt-get update
+  sudo apt-get install gstreamer0.10-ffmpeg
+
+Après l'installation, désactiver le ppa car il pose des problèmes lors les mises à jour automatiques (Ubuntu 14.04)
+
+Voir discussion ici :
+[[https://askubuntu.com/questions/456072/clementine-wont-play-wma-with-your-gstreamer-installation-is-missing-a-plugi]]
+
+==== ne lit pas les caractères spéciaux dans les playlists au format texte ISO ====
+Si une playlist importée est dans un format ISO (notamment créé par un logiciel sous Windows) et contient un chemin ou nom de fichier contenant un caractère non ascii la piste ne sera pas trouvée.
+
+Solution : convertir vos playlists au format UTF-8.
+
+Manuellement : pour chaque playlist, l'ouvrir avec gedit et l'enregistrer sous... en sélectionnant le format UTF-8.
+
+Automatiquement : FIXME
+==== notes et statistiques non accessibles dans certains cas d'usage de liens symboliques ====
+**Concerne les versions 1.3 et antérieures de Clementine** (mise à jour 20 avril 2016)
+
+Lorsque, depuis l'arborescence des fichiers, on ajoute des fichiers à la liste de lecture (ou à une nouvelle liste), dans certaines circonstances **la colonne "Note" est vide et non accessible**.
+
+Cela se produit si vous ajoutez la piste par clic-glisser (glisser-déposer) dans le cas ou vous avez accédé à la piste via un chemin qui utilise des liens symboliques.
+
+Cela se produit d'autre part, quelque soit la méthode d'ajout de la piste (clic-glisser ou menu contextuel) si, de plus, le fichier est situé sur une autre partition que la partition définie dans la configuration de la bibliothèque.
+
+En effet dans ces cas Clementine n'identifie pas la piste dans sa bibliothèque car le chemin est différent de celui enregistré dans la configuration (chemin direct).
+
+Voir détails dans bug saisi : [[https://github.com/clementine-player/Clementine/issues/5351|sur GitHub]]
+
+==== lecture de piste tronquée si fondu enchainé (Ubuntu 14.04 version du ppa)====
+**Concerne la version 1.3 de Clementine (la version 1.2 n'a pas ce problème)**
+
+Si l'option "fondu lors du changement de piste automatique" est activé, la lecture s'arrête avant la fin de la piste (environ à 80%) et passe à la piste suivante.
+
+Voir bug saisi : [[https://github.com/clementine-player/Clementine/issues/5340|sur GitHub]]
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leur dossier personnel sont toujours conservés.
+
+
+===== Voir aussi =====
+  * **(en)** [[http://www.clementine-player.org/|Le site officiel]]
+  * **(en)** [[https://github.com/clementine-player/Clementine|Le site de développement]]
+
+----
+
+//Contributeurs: //

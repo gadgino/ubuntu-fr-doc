@@ -1,0 +1,238 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#le_montage_des_systemes_de_fichiers_etcfstab" class="toc"> Le montage des systèmes de fichiers : /etc/fstab </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#presentation" class="toc"> Présentation </a></span></li>
+<li class="level2"><span class="li"><a href="#la_commande_mount" class="toc"> La commande mount </a></span></li>
+<li class="level2"><span class="li"><a href="#le_fichier_fstab" class="toc"> Le fichier fstab </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Warty et Hoary
+</pre>
+
+<a name="le_montage_des_systemes_de_fichiers_etcfstab"></a><h1> Le montage des systèmes de fichiers : /etc/fstab </h1>
+<div class="level1">
+
+<p>
+Ce court article a pour but de vous présenter le montage des systèmes de fichier dans un système GNU/Linux, et plus particulièrement dans Ubuntu. Nous étudierons les cas normaux et problématiques, ainsi que quelques commandes utiles.
+</p>
+
+</div>
+<!-- SECTION [40-346] -->
+<a name="presentation"></a><h2> Présentation </h2>
+<div class="level2">
+
+<p>
+Une unité de stockage (que ce soit un disque dur interne ou externe, une clé USB, un CDROM ou DVDROM, une disquette, etc.), pour être utilisée par un ordinateur, doit être formatée.  Cela signifie qu&rsquo;on doit lui assigner un <strong>système de fichiers</strong>, indiquant la structure et le nom des répertoires et fichiers <a href="#fn2" name="fnt2" class="fn_top">2)</a>, éventuellement les droits correspondant à chacun, et d&rsquo;autres options.  Pour de plus amples informations à propos de ce qu&rsquo;est un système de fichiers : <a href="/installation/systeme_de_fichiers" class="wikilink1" title="installation:systeme_de_fichiers" onclick="return svchk()" onkeypress="return svchk()">systeme_de_fichiers</a>.
+</p>
+
+<p>
+Il existe plusieurs types de systèmes de fichiers <em>(entre crochets, la façon de saisir le nom du système de fichiers dans un fichier fstab)</em> : 
+</p>
+<ul>
+<li class="level1"><span class="li"> Le Ext2FS (pour <code>second extented filesystem</code>) [<code>ext2</code>], qui est le standard de facto sous GNU/Linux, très faible fragmentation, bonne tenue à la charge, très fiable. Gestion des droits en lecture, écriture, exécution par utilisateur et par groupe d&rsquo;utilisateurs.</span>
+</li>
+<li class="level2"><span class="li"> Le Ext3FS [<code>ext3</code>], qui est une reprise de l&rsquo;ext2fs avec un historique de journalisation. Très fiable également.</span>
+</li>
+<li class="level2"><span class="li"> Le FAT 16 (pour <code>File Allocation Table</code>)[<code>fat</code>], le système de fichiers standard de Microsoft&trade; utilisé dans ses systèmes d&rsquo;exploitation <acronym title="Microsoft">MS</acronym>-DOS et Windows&reg; jusqu&rsquo;à Windows 95. Pas de gestion des droits, pas de fichier supérieur à 2 Go, fragmentation importante. Reconnu presque partout, souvent présent sur les clefs usb.</span>
+</li>
+<li class="level2"><span class="li"> Le FAT 32 [<code>vfat</code>], système de fichiers développé par Microsoft&trade; pour ses systèmes d&rsquo;exploitation Windows&reg; en milieu familial.  Il a été introduit dans Windows 95b et a été le standard jusqu&rsquo;à Windows XP. Limitation de la taille des fichiers à 4 Go, toujours pas de gestion des droits, fragmentation importante. Très courant également.</span>
+</li>
+<li class="level2"><span class="li"> Le NTFS (pour New Technology FileSystem) [<code>ntfs</code>] est le système de fichiers standard dans les <acronym title="Operating System">OS</acronym> de Microsoft&trade; introduit avec Windows&reg; NT pour les milieux d&rsquo;entreprises ; il est aussi utilisé en milieu familial depuis Windows XP, dans lequel il est le standard. Gestion des droits, fragmentation moins importante que pour les systèmes FAT 16 et 32, journalisation partielle et rudimentaire. Problème : l&rsquo;écriture sur ces types de systèmes de fichiers reste expérimentale avec GNU/Linux.</span>
+</li>
+<li class="level2"><span class="li"> Le XFS [<code>xfs</code>] et le ReiserFS [<code>reiserfs</code>] sont des systèmes de fichiers journalisés, comme l&rsquo;Ext3FS. Aujourd&rsquo;hui réputés robustes (i.e. utilisables sur des systèmes en production), autorisent la gestion des droits. Très faible fragmentation.  ReiserFS a des meilleures performances que les autres systèmes de fichiers lorsqu&rsquo;il gère une multitude de fichiers de faible taille.</span>
+</li>
+<li class="level2"><span class="li"> Le format des CDROM est en général l&rsquo;<acronym title="International Organization for Standardization">ISO</acronym> 9660, mais d&rsquo;autres sytèmes utilisent des formats particuliers : HFS pour le Mac, par exemple.</span>
+</li>
+</ul>
+
+<p>
+ Malgré le fait que le système vfat ne permet malheureusent pas de gérer les droits d&rsquo;accès aux fichiers, il a l&rsquo;avantage d&rsquo;être lisible (presque) partout. C&rsquo;est donc un bon choix si l&rsquo;on souhaite rendre des données accessibles sous plusieurs systèmes (partition de partage entre systèmes).
+</p>
+
+<p>
+Dans une installation propre d&rsquo;Ubuntu, un démon (gnome-volume-manager) doit assurer le montage automatique des systèmes de fichier. Dès qu&rsquo;un disque dur externe en USB (par exemple) est détecté, Nautilus, le gestionnaire de fichier d&rsquo;Ubuntu, ouvre une fenêtre affichant le contenu de cette nouvelle unité de stockage. Une icône permettant l&rsquo;ouverture de cette fenêtre devrait également apparaître sur votre bureau. Si ce n&rsquo;est pas le cas, nous allons utiliser un autre moyen : la commande mount.
+</p>
+
+<p>
+Avant d&rsquo;étudier le fonctionnement de cette commande magique, nous devons faire un petit rappel sur la désignation des partitions sous GNU/Linux. Le système voit les périphériques au travers d&rsquo;une arborescence située dans le répertoire /dev/*.
+</p>
+
+<p>
+ Généralement lorsque votre système possède deux disques, le disque principal (le maître) est désigné par /dev/hda, et un second disque (l&rsquo;esclave), si vous en possédez un, est désigné par /dev/hdb. Les périphériques USB sont nommés /dev/sda, /dev/sdb, etc. pour resp. les 1er et 2ème connecteurs USB.
+</p>
+
+<p>
+Les partitions sont désignées par leur numéro dans le disque. Ainsi /dev/hda2 est la deuxième partition du disque maître de la première nappe, /dev/hda3 la troisième partition, etc. Les partitions au-delà de la quatrième (/dev/hda5, /dev/hda6, etc.) sont des partitions étendues. Pour avoir la liste des partitions d&rsquo;un disque dur, vous pouvez utiliser le programme fdisk. 
+</p>
+<pre class="code">login@ubuntu:login$ sudo /sbin/fdisk -l /dev/hda
+Disk /dev/hda: 60.0 GB, 60011642880 bytes
+255 heads, 63 sectors/track, 7296 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Device Boot      Start         End      Blocks   Id  System
+/dev/hda1   *           1        1275    10241406    c  W95 FAT32 (LBA)
+/dev/hda2            1276        1913     5124735   83  Linux
+/dev/hda3            1914        2551     5124735   83  Linux
+/dev/hda4            2552        5191    21205800    5  Extended
+/dev/hda5            2552        2653      819283+  82  Linux swap
+/dev/hda6            2654        3291     5124703+  83  Linux
+/dev/hda7            3292        4553    10136983+   c  W95 FAT32 (LBA)
+/dev/hda8            4554        5191     5124703+  83  Linux</pre>
+
+</div>
+<!-- SECTION [347-5915] -->
+<a name="la_commande_mount"></a><h2> La commande mount </h2>
+<div class="level2">
+
+<p>
+La commande mount permet de manipuler tous les montages de systèmes de fichiers de manière très précise. Elle est invoquée de la manière suivante : 
+</p>
+<pre class="code">$ sudo mount /dev/hda3 /mnt/stock</pre>
+
+<p>
+ La précédente commande a pour effet de monter l&rsquo;unité de stockage /dev/hda3 (3ème partition du disque maître de la première nappe) sur la branche /mnt/stock. Le système de fichier utilisé est détecté automatiquement en lisant le superblock de la partition.
+</p>
+
+<p>
+Le point de montage (/mnt/stock) est un répertoire quelconque de l&rsquo;arborescence. &ldquo;Quelconque&rdquo; signifie qu&rsquo;un volume de stockage peut être monté dans un répertoire dédié aux montages (/media pour Ubuntu) ou dans un répertoire dédié à la fonction (il est courant de mettre les répertoires utilisateurs sur une partition différente du système, et de monter cette partition sur le point /home).
+</p>
+
+<p>
+Il est possible de passer des options à mount. Pour spécifier un système de fichier s&rsquo;il ne le trouve pas ou pour imposer des droits particuliers sur le volume monté par exemple. Nous allons voir ici les principales d&rsquo;entre elles.
+</p>
+
+<p>
+Le type de fichier peut être détecté automatiquement, comme sus-dit, par mount par une analyse des premiers bits de la partition demandée. Néanmoins dans certains cas il peut être nécessaire de lui imposer un format. GNU/Linux reconnaît un nombre impressionnant de formats, qui dépend des options de compilation de votre noyau. La page de manuel de mount (`man mount`) indique les types de système de fichiers suivants :
+</p>
+<pre class="code">     L'argument à la suite de -t est utilise pour préciser le type de
+     système de fichier.  Les  types  actuellement  supportés  sont :
+     adfs,  affs,  autofs,  coda, coherent, cramfs, devpts, efs, ext,
+     ext2, ext3, hfs, hpfs, iso9660, jfs, minix, msdos,  ncpfs,  nfs,
+     ntfs,  proc,  qnx4,  ramfs, reiserfs, romfs, smbfs, sysv, tmpfs,
+     udf, ufs, umsdos, vfat, xenix, xfs, xiafs.  Notez que  coherent,
+     sysv  et  xenix  sont  équivalents et que xenix et coherent dis-
+     paraîtront dans l'avenir -- utilisez sysv à leur  place.  Depuis
+     Linux 2.1.21, les types ext et xiafs n'existent plus.</pre>
+
+<p>
+ ex : 
+</p>
+<pre class="code">mount -t ext3 /dev/hda3 /mnt/stock
+mount -t vfat /dev/hda3 /mnt/partage
+mount -t iso9660 /mnt/hdd /mnt/cdrom</pre>
+
+<p>
+ Il est possible sous GNU/Linux (et cette option bien pratique est largement utilisée) d&rsquo;encapsuler aisément des systèmes de fichiers dans des fichiers. Cela permet par exemple de manipuler des images de cdrom (cdrom.iso) que l&rsquo;on peut graver par la suite, ou de recopier en quelques secondes l&rsquo;image d&rsquo;une disquette (`dd if=/dev/fd0 of=ma_disquette.iso`). Il faut utiliser pour monter un fichier iso l&rsquo;option &ldquo;-o loop&rdquo; : 
+</p>
+<pre class="code">login@ubuntu:login$ mount -o loop sauvegardes.iso /mnt/loop
+login@ubuntu:login$ ls /mnt/loop
+sauvegardes_pro
+sauvegardes_perso
+sauvegardes_systeme</pre>
+
+<p>
+ Une autre option intéressante est de pouvoir choisir les droits par défaut sur le volume. Cas concret : vous avez une partition en vfat sur votre disque dur, venue on ne sait d&rsquo;où. Vous voudriez, en tant qu&rsquo;utilisateur lambda, pouvoir lire et écrire dessus. Le système de fichier vfat ne spécifiant aucun droit, nous devons les lui spécifier lors du montage. Il faut alors indiquer à mount la valeur de umask adéquate (google umask) grâce à l&rsquo;option homonyme. 
+</p>
+<pre class="code">login@ubuntu:login$ sudo mount -o umask=0 /dev/hda7 /mnt/win_d
+Password: 
+login@ubuntu:login$ ls /mnt/win_d
+cygwin                  pagefile.sys   Recycled                   
+Documents and Settings  Perl           System Volume Information  
+musique                 Program Files  windows</pre>
+
+<p>
+ Cette méthode a un inconvénient : les autorisations en exécution sont nécessaires pour les répertoires mais pénibles pour les fichiers. On peut alors préciser un umask pour chacun d&rsquo;eux : 
+</p>
+<pre class="code">login@ubuntu:login$ sudo mount -o fmask=111 -o dmask=0 /dev/hda7 /mnt/win_d</pre>
+
+<p>
+ Vous pouvez également restreindre les droits en montant le système de fichier en lecture seule (c&rsquo;est-à-dire avec aucun droit en écriture). L&rsquo;option &ldquo;-o umask=0222&rdquo; est alors toute indiquée. 
+</p>
+<pre class="code">login@ubuntu:login$ sudo mount -o umask=0222 /dev/hda7 /mnt/win_d
+login@ubuntu:login$ ls -l /mnt/win_d
+total 786480
+dr-xr-xr-x  10 root root      4096 2004-08-05 20:33 cygwin
+dr-xr-xr-x   9 root root      4096 2004-08-05 19:59 Documents and Settings
+-r-xr-xr-x   1 root root 805306368 2005-01-27 06:04 pagefile.sys
+dr-xr-xr-x   7 root root      4096 2004-08-05 20:40 Perl
+dr-xr-xr-x  66 root root      8192 2004-08-06 00:08 Program Files
+dr-xr-xr-x   2 root root      4096 2004-08-05 20:30 Recycled
+dr-xr-xr-x   2 root root      4096 2004-08-05 20:21 System Volume Information
+dr-xr-xr-x  46 root root      8192 2004-08-05 19:53 windows
+login@ubuntu:login$ cd /mnt/win_d/
+login@ubuntu:win_d$ mv windows/ toto/
+mv: ne peut déplacer `windows/' vers `toto/': Permission non accordée</pre>
+
+</div>
+<!-- SECTION [5916-10888] -->
+<a name="le_fichier_fstab"></a><h2> Le fichier fstab </h2>
+<div class="level2">
+
+<p>
+Le fichier /etc/fstab contient les points de montage pour chacun des systèmes de fichiers utilisés couramment sur le système. Un fstab est composé de plusieurs lignes décrivant chacune les conditions de montage de chaque système de fichier.
+</p>
+
+<p>
+On retrouve dans ce fichier toutes les informations que nous avons déjà mentionnées. Certains systèmes de fichiers tels que /proc ou la swap sont un peu particuliers, et il est fortement recommandé de ne pas y toucher sans savoir ce que l&rsquo;on fait. Les options de dump et de pass sont utilisées pour les sauvegardes (dump) et l&rsquo;ordre de vérification au démarrage. Laissez-y également les valeurs par défaut.
+</p>
+
+<p>
+Le fichier /etc/fstab suivant résume une configuration classique : 
+</p>
+<pre class="code"># /etc/fstab: static file system information.
+#
+# file system   mount point     type    options      dump      pass
+proc            /proc           proc    defaults     0         0
+/dev/hda2       /               ext3    defaults,errors=remount-ro 0       1
+/dev/hda3       /home           ext3    defaults     0         2
+/dev/hda6       /mnt/stock      ext3	defaults     0         2
+/dev/hda1       /mnt/win_c      vfat    defaults,umask=0      0       0
+/dev/hda7       /mnt/win_d      vfat    defaults,umask=0      0       0
+/dev/hda8       /mnt/debian     reiserfs defaults    0         2
+/dev/hda5       none            swap    sw           0         0
+/dev/hdc        /media/cdrom0   udf,iso9660 ro,user,noauto  0       0</pre>
+
+<p>
+ Lorsqu&rsquo;un système de fichier est présent dans le fichier /etc/fstab, tous les utilisateurs peuvent le monter en tapant &ldquo;mount /mnt/stock&rdquo; par exemple. En outre, il est monté automatiquement au démarrage de la machine. Problèmes
+</p>
+
+<p>
+Il arrive que le répertoire /media/cdrom0 soit effacé. Dans ce cas, un mount renvoie une erreur explicite. Il est possible de le recréer tout simplement. 
+</p>
+<pre class="code">login@ubuntu:login$ mount /media/cdrom0
+mount: mount point /media/cdrom0 does not exist
+login@ubuntu:login$ sudo mkdir /media/cdrom0
+login@ubuntu:login$ mount /media/cdrom0</pre>
+
+<p>
+ Un système de fichier ne peut être démonté tant que certains de ses fichiers sont utilisés. C&rsquo;est le cas par exemple lorsque vous avez un navigateur de fichiers qui affiche encore le volume en question, ou si vous êtes vous-même dans le répertoire. Dans ce cas, il faut s&rsquo;assurer que le répertoire courant n&rsquo;appartient pas au volume que l&rsquo;on souhaite démonter. 
+</p>
+<pre class="code">login@ubuntu:win_d$ sudo umount /mnt/win_d
+umount: /mnt/win_d: device is busy
+umount: /mnt/win_d: device is busy
+login@ubuntu:win_d$ cd
+login@ubuntu:login$ sudo umount /mnt/win_d
+login@ubuntu:login$</pre>
+
+<p>
+ Il arrive aussi que ce soit un peu plus compliqué, et que l&rsquo;on ne sache pas quelle est la ressource qui utilise le volume en question. Dans ces cas-là, il faut trouver la ressource qui gêne, grâce par exemple à la commande lsof (en tant que super-utilisateur, cette commande permet de connaître tous les descripteurs de fichiers ouverts), filtrée pour n&rsquo;afficher que les descripteurs sur le volume. En tuant le processus qui utilise le volume, le démontage devient possible. 
+</p>
+<pre class="code">login@ubuntu:login$ sudo umount /mnt/stock/
+umount: /mnt/stock: device is busy
+umount: /mnt/stock: device is busy
+login@ubuntu:login$ sudo lsof | grep stock
+xmms      4848    login    9r   REG        3,6 3430341     545188 /mnt/stock/divers/My Own Summer-Deftones.mp3
+login@ubuntu:login$ kill -KILL 4848
+login@ubuntu:login$ sudo umount /mnt/stock/
+login@ubuntu:login$</pre>
+
+</div>
+<!-- SECTION [10889-] --><div class="footnotes">
+<div class="fn"><a href="#fnt2" name="fn2" class="fn_bot">2)</a> 
+Il faut noter que dans la philosophie Unix, un répertoire est un fichier, mais ce n&rsquo;est pas là notre propos. Consultez google pour plus d&rsquo;information à ce sujet.</div>
+</div>

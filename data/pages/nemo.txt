@@ -1,0 +1,185 @@
+{{tag>Xenial trusty gestionnaire_de_fichiers}}
+----
+ 
+====== Nemo ======
+ 
+**Nemo** est le [[:gestionnaire de fichiers]] par défaut de l'environnement de bureau [[:Cinnamon]]. [[http://www.developpez.com/actu/47326/Nautilus-3-6-est-une-catastrophe-pour-le-createur-de-Linux-Mint-qui-presente-Nemo-le-fork-du-gestionnaire-de-fichiers/|Ici, quelques explications sur les raisons de la création de Nemo.]]
+
+{{http://img.netupd8.com/nemo-file-manager-git-ambiance.png?400}}
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+ 
+===== Installation =====
+
+==== Via le dépôt officiel ====
+
+**Nemo** est maintenant présent dans les dépôts, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>nemo|nemo]]**.
+
+==== Via les PPA ====
+
+=== Version par WebUpd8 Team ===
+<note>Cette version par WebUpd8 Team inclut des extensions pour nemo qui ne sont pas incluses dans les dépôts et permet de ne pas avoir les dépendances du bureau [[cinnamon]], comme avec la version du dépôt de Gwendal Lebihan. Les extensions incluses dans ce [[PPA]] sont, entre autres, [[rabbitvcs]] ([[subversion|svn]] et [[git]]), et [[dropbox]].</note>
+Pour bénéficier de la version de Nemo par WebUpd8 Team :
+  - [[:ppa#ajout_d_un_ppa_a_vos_sources_logicielles|Ajoutez à vos sources de logiciels le PPA]] suivant : **ppa:webupd8team/nemo3**((https://launchpad.net/~webupd8team/+archive/ubuntu/nemo3)),
+  - [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste des paquets]]
+  - [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>nemo|nemo]]**. \\
+Ou dans un [[terminal]], saisir les [[:commande_shell|commandes]] suivantes :
+Ctrl+Alt+T
+ <code>echo -e "\r"|sudo add-apt-repository ppa:webupd8team/nemo3
+sudo apt-get update
+sudo apt-get install nemo</code>
+
+===== Configuration =====
+ 
+Passer Nemo en gestionnaire de fichier par défaut sur Ubuntu 13.04 : Ctrl+Alt+T
+<code>xdg-mime default nemo.desktop inode/directory application/x-gnome-saved-search</code>
+et pour verifier :
+<code>xdg-mime query default inode/directory</code>
+cela devrait retourner
+<code>nemo.desktop</code>
+Désactiver nautilus pour les icônes du Bureau:
+<code>gsettings set org.gnome.desktop.background show-desktop-icons false</code>
+Mettre une icône sympa et créer des raccourcis clic-droit pour l'icône du lanceur d'Unity:
+dans ~/.local/share/applications/nemo.desktop Ctrl+Alt+T ,
+<code>gedit ~/.local/share/applications/nemo.desktop</code>
+remplacer
+<code>Icon=folder</code>
+par 
+<code>Icon=folder_home</code>
+puis compléter le fichier:
+<code>
+[Desktop Entry]
+...
+Actions=Action0;Action1;Action2;Action3
+...
+[Desktop Action Action2]
+Exec=nemo Images
+Name=Images
+Name[fr_FR]=Images
+[Desktop Action Action0]
+Exec=nemo Musique
+Name=Musique
+Name[fr_FR]=Musique
+[Desktop Action Action1]
+Exec=nemo Documents
+Name=Documents
+Name[fr_FR]=Documents
+[Desktop Action Action3]
+Exec=nemo Vidéos
+Name=Vidéos
+Name[fr_FR]=Vidéos
+</code>
+On peut choisir les icônes à afficher (ou pas) sur le Bureau avec dconf-editor, branche org/nemo/desktop/**objet**-icon-visible
+
+Pour configurer et personnaliser Nemo, le plus simple est de se rendre dans ses Préférences : lancez Nemo, activez son menu, Édition → Préférences.\\
+^Affichage ^ Barre d'outil ^
+| {{http://img.netupd8.com/nemo-preferences-display.png?400}} | {{http://img.netupd8.com/nemo-toolbar-preferences.png?400}} |
+===== Utilisation =====
+Lancer l'application depuis le [[:unity#tableau_de_bord_dash|tableau de bord]] d'Unity. Vous avez aussi la possibilité de lancer Nemo depuis les **paramètres système** de [[:unity_launcher|la barre de lanceurs]] ou dans le menu de //l'indicateur système// (en haut à droite). \\
+Ou depuis un [[terminal]], saisir la [[:commande_shell|commande]] suivante :
+  nemo
+
+==== Intégrer des nuages ====
+
+Il est possible d'ajouter l'extension de logiciel pour nemo afin d'interagir avec le logiciel [[nextcloud|Nextcloud]], [[owncloud|ownCloud]] ou DropBox. Installer les paquets :
+  * **[[apt>nextcloud-client-nemo]]**
+  * **[[apt>nemo-dropbox]]**
+==== Astuces ====
+F3 : ce raccourci vous permet de dédoubler l'écran du navigateur et de réaliser ainsi, très facilement, copie d'un répertoire à l'autre, comparaison de fichiers... 
+<note>Cette fonctionnalité a disparu de Nautilus à partir de la version 3.6... cela peut-être une bonne raison de passer à nemo !</note>
+Double-clic molette : Double-cliquer avec la molette de la souris sur un répertoire permet de l'ouvrir dans un nouvel onglet (un peu comme dans un navigateur web).
+
+==== Cacher des fichiers ====
+On va juste ajouter une petite fonctionnalité qui vous permettra de cacher les fichiers en utilisant le ".hidden". Ceci vous permettra de rendre les fichiers invisibles, mais de pouvoir les visualiser grâce à CTRL+H.
+
+Tout d'abord, rendez vous au chemin suivant : "~/.local/share/nemo/actions"
+
+Créez y trois fichier : un fichier Cacher, un fichier nemo-cacher-file.nemo_action et un fichier nemo-cacher-dir.nemo_action
+
+Pour le fichier nemo-cacher-file.nemo_action, il faut mettre ceci :
+
+<file nemo-cacher-file.nemo_action>[Nemo Action]
+Active=true
+Name=Cacher %N
+Comment=Ajoute le dossier/fichier dans .hidden.
+Exec=<Cacher '%F'>
+Icon-Name=document-send
+Selection=s
+Extensions=nodirs;</file>
+
+Pour le fichier nemo-cacher-dir.nemo_action, il faut simplement changer le "nodirs" par "dir".
+
+Notez que l'icône n'est pas la bonne. J'ai pris celle qui était la plus jolie avec mon pack d'icones mais elle peut être complètement déplacée avec un autre pack. si vous supprimez cette ligne, cela ne mettra simplement pas d'icône associée à l'action.
+
+Ensuite, pour le Cacher :
+
+<code bash>#!/bin/bash
+
+Creator: Inameiname
+
+IFS=$'\n'
+if [ -z $NEMO_SCRIPT_SELECTED_FILE_PATHS ]; then
+    # If it's blank, set it equal to $1
+    NEMO_SCRIPT_SELECTED_FILE_PATHS=$1
+fi
+for ARCHIVE_FULLPATH in $NEMO_SCRIPT_SELECTED_FILE_PATHS; do
+    NEWDIRNAME=${ARCHIVE_FULLPATH%.*}
+    FILENAME=${ARCHIVE_FULLPATH##*/}
+    NAME=${ARCHIVE_FULLPATH##*/.*}
+
+    # Hide/Unhide file(s)/folder(s) using ".hidden" file within the current folder
+      # Copies all selected files/folders filenames to ".hidden"
+        echo $FILENAME >> .hidden
+      # Sorts and Checks ".hidden" for any duplicates
+        sort .hidden | uniq -u > .hidden_temp
+        rm .hidden
+        mv .hidden_temp .hidden
+      # Checks ".hidden" to see if there is anything there; if not, it removes it
+        for file in .hidden
+        do
+          if [ `wc -l < $file` -eq 0 ]; then
+             # file is empty
+             rm $file
+          fi
+        done
+done</code>
+
+Notez que si vous sélectionnez un fichier caché, et que vous refaites "Cacher", il ne le sera plus. 
+Ensuite, donnez le droit à "Cacher" de se lancer.
+
+===== Résolution de problèmes =====
+==== Afficher les miniatures (thumbnails) ====
+Si les miniatures de vos fichiers (images, vidéos) ne s'affichent pas dans Nemo, il suffit pour corriger cela de fermer Nemo, supprimer le dossier .cache/thumbnails de votre HOME, supprimer éventuellement le dossier .thumbnails de votre HOME. Ensuite, ouvrir Nemo (le dossier .cache/thumbnails sera ainsi correctement recréé) puis créer un lien symbolique vers ce dossier, nommé .thumbnails, dans votre HOME.
+
+Tout ceci peut être fait en quelques lignes de commande :
+<code>
+killall nemo
+cd
+rm -rf .cache/thumbnails
+rm -rf .thumbnails
+nemo &
+sleep 3 && killall nemo
+ln -s .cache/thumbnails .thumbnails
+
+
+</code>==== Vignettes d'aperçu des fichiers Libreoffice  ====
+Reportez-vous à la partie consacrée à cela sur la page [[:libreoffice#vignettes_d_apercu_dans_votre_navigateur_de_fichiers|Libreoffice]].
+
+===== Désinstallation =====
+ 
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+ 
+[[ppa#suppression_d_un_ppa_et_des_paquets_de_ce_ppa|Le PPA peut lui aussi être retiré.]]
+
+Réactiver nautilus pour les icônes du Bureau: Ctrl+Alt+T
+<code>gsettings set org.gnome.desktop.background show-desktop-icons true</code>
+===== Voir aussi =====
+
+  * **(en)** [[https://github.com/linuxmint/nemo|Le code source de nemo est disponible sur le GIT]]
+  * **(en)** [[https://bugs.launchpad.net/ubuntu/+source/gedit/+bug/792227|Bug du curseur qui tourne pendant 15s]]
+----
+//Contributeurs principaux : [[utilisateurs:full_interest|Zatsune No Mokou]], [[utilisateurs:claudiux]].//
+ 
+//Basé sur [[http://www.webupd8.org/2012/12/how-to-install-nemo-file-manager-in.html|« How To Install Nemo File Manager In Ubuntu »]] par  Andrew.//

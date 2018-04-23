@@ -1,0 +1,59 @@
+{{tag>Precise tutoriel BROUILLON}}
+----
+====== Moin Moin ======
+
+MoinMoin est un moteur de Wiki réalisé en Python, basé sur le moteur PikiPiki Wiki, et basé sur une licence GNU GPL.
+
+===== Installation =====
+
+Pour installer **MoinMoin**, exécuter la commande suivante dans un terminal:  
+
+<code>
+sudo apt-get install python-moinmoin
+</code>
+Vous devriez aussi installer le serveur web **apache2**. Pour l'installer ...
+===== Configuration =====
+
+Pour configurer votre Wiki, exécuter les commandes suivantes (je suppose que vous créez un Wiki appelé //mywiki//
+
+<code>
+cd /usr/share/moin
+sudo mkdir mywiki
+sudo cp -R data mywiki
+sudo cp -R underlay mywiki
+sudo cp server/moin.cgi mywiki
+sudo chown -R www-data.www-data mywiki
+sudo chmod -R ug+rwX mywiki
+sudo chmod -R o-rwx mywiki
+</code>
+
+Il faut maintenant configurer MoinMoin afin qu'il trouve votre nouveau wiki mywiki. Pour cela, éditer le fichier /etc/moin/mywiki.py et modifier la ligne:
+
+<code>
+data_dir = '/org/mywiki/data'
+</code>
+par:
+<code>
+data_dir = '/usr/share/moin/mywiki/data'
+</code>
+
+...
+===== Autres étapes =====
+
+Puis...
+
+===== Conclusion =====
+
+Voila, vous savez maintenant faire le café avec Ubuntu !
+
+===== Problèmes connus=====
+
+Si votre café est trop fort, saisissez la commande suivante dans un [[:terminal]]: ...
+
+===== Voir aussi =====
+
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=64840|Discussion "Tutoriel pour faire le café"]] sur le forum ubuntu-fr
+
+
+----
+//Contributeurs principaux : [[:utilisateurs:IDENTIFIANT]]./

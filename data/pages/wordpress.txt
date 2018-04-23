@@ -1,0 +1,401 @@
+{{tag>CMS brouillon}}
+
+----
+====== WordPress - Créer un site internet en 2 clics ======
+
+{{  http://upload.wikimedia.org/wikipedia/commons/c/ca/Wordpress-logo.png?150}}
+**Wordpress est un logiciel qui vous permet de faire des sites internet.**
+
+WordPress est un système de gestion de contenu libre ([[CMS]]). Aujourd'hui l'éventail des possibilités de WordPress lui permet de faire toutes sortes de sites internet ( autre qu'un simple blog((domaine de base de wordpress)) ) et avec beaucoup plus de facilité que les autres [[CMS]].
+
+  * Voir en image des exemples de thèmes ([[wordpress#comment_installer_des_themes|directement accessibles dans votre Wordpress en plus sous licence GPL]]) :
+[[http://wordpress.org/extend/themes/intrepidity|{{http://wp-themes.com/wp-content/themes/intrepidity/screenshot.png?250}}]]
+[[http://wordpress.org/extend/themes/arras-theme|{{http://wp-themes.com/wp-content/themes/arras-theme/screenshot.png?250}}]]
+[[http://wordpress.org/extend/themes/vina|{{http://wp-themes.com/wp-content/themes/vina/screenshot.png?250}}]]
+[[http://wordpress.org/extend/themes/idream|{{http://wp-themes.com/wp-content/themes/idream/screenshot.png?250}}]]
+[[http://wordpress.org/extend/themes/mystique|{{http://wp-themes.com/wp-content/themes/mystique/screenshot.png?250}}]]
+[[http://themes-wordpress.eu/book-review/theme-wordpress-ifonction|{{http://themes-wordpress.eu/wp-content/uploads/2012/01/Theme-Wordpress-ifeature.jpg?250}}]]
+
+  * Et des extensions :
+[[http://wordpress.org/extend/plugins/wp-e-commerce/|{{http://www.tipbox.net/blog/wp-content/uploads/2009/12/e-commerce-large.png?250}}]]
+[[http://simple-press.com/|{{http://www.pocketup.com/wp-content/uploads/2010/02/message-board-300x269.png?250}}]]
+[[http://wordpress.org/extend/plugins/wp-cumulus/|{{http://www.roytanck.com/wp-content/uploads/2008/03/wp-cumulus.gif?250}}]]
+[[http://wordpress.org/extend/plugins/riffly/|{{http://riffly.com/static/images/screenshot1.jpg?250}}]]
+[[http://wordpress.org/extend/plugins/vipers-video-quicktags/|{{http://blogcraving.com/wp-content/uploads/2010/03/video_quick_tags-480x457.png?250}}]]
+
+<note>
+Il est possible de faire un site/blog hébergé par le [[http://wordpress.com/|service wordpress.com]] facilement et gratuitement pour les utilisateurs ; pour avoir plus de fonctionnalités le service est payant.
+
+Vous pouvez également trouver des [[hebergeur|hébergeurs ici]].
+</note>
+
+Site officiel : http://wordpress.org/
+   * (fr) **[[http://codex.wordpress.org/fr:Accueil|Documentation Wordpress officielle]]**
+   * (fr) [[http://www.wordpress-fr.net/|WordPress Francophone]]
+   * [[http://seekwp.com/|SeekWP - Un moteur de recherche de plugin, thème, ou d'aide pour wordpress]]
+=====Analyse=====
+
+==== Avantages ====
+
+<note help>WORDPRESS ? -> Ou comment Faire un site web professionnel en "10 minutes" top chrono, en y connaissant rien à la programmation et le tout en logiciel libre...
+</note>
+
+<note help>WordPress 4.1, la dernière version disponible, s'affirme plus que jamais en tant que CMS (Content Management System, ou Système de Gestion du Contenu) puissant.</note>
+
+Avantages : simplicité d'utilisation, ergonomie, facilité de bonne indexation dans les moteurs de recherche, simplicité d'administration. Nombre d'utilisateurs, plugins disponibles gratuitement, interfaçable avec d'autres outils...
+
+WordPress est populaire principalement auprès des utilisateurs anglophones, proches du logiciel libre et ayant des connaissances en programmation logicielle. Son interface publique est personnalisable grâce à des fichiers squelettes, et des plugins peuvent être développés. La communauté WordPress est très active, et propose un nombre croissant de ressources telles que des thèmes prêts à l'emploi, une documentation et des traductions du logiciel, et des milliers de plugins.
+
+
+WordPress peut fonctionner en mode hors ligne avec Google Gears (pour la partie administration et rédaction), il vous faudra acheter ou développer un thème compatible Google Gears pour rendre la partie accessible également hors ligne.
+
+WordPress est connu et reconnu comme étant une bonne solution, voir les récompenses :
+  * 2009 [[http://www.packtpub.com/award|Meilleur CMS OPEN SOURCE]].
+  * Dans le concours du [[http://www.packtpub.com/award|meilleur CMS 2007]], WordPress est arrivé 1er dans la catégorie Best Open Source Social Networking Content Management System.
+  * 2007 : Kakt Open Source CMS Award.
+
+====Inconvénients====
+
+WordPress ne serait pas un véritable CMS (car il((les tables de sa base de donnée)) est par défaut fait pour du "contenu" CMS blog ). Le choix d'une forme d'arrangement des données peut ou non être limitatif :
+   * On remarque que WordPress répond bien au besoin d'un blog (?ce n'est pas un inconvénient?).
+   * On remarque que WordPress avec des extensions permet de répondre à d'autres besoins. Il reste flexible. (?ce n'est pas un inconvénient?).
+
+Pourtant il est possible d'augmenter les fonctionnalités CMS par des extensions ((tout comme Joomla par exemple répond à des besoins fonctionnels par des extensions)) :
+  *[[http://wordpress.org/extend/plugins/sitepress-multilingual-cms/|WPML Multilingual CMS]]
+  *[[http://wordpress.org/extend/plugins/pods/|Pods CMS]]
+  * [[http://wordpress.org/extend/plugins/search.php?q=cms&sort=popular|Recherche CMS sur le site officiel]]
+
+WordPress serait lourd ? Avec une bonne mise en cache ((WP cache)), et la maîtrise de WordPress ((utilisation mémoire, extensions etc)) la question de lourdeur ne rentre pas en ligne de compte...
+
+===== Installation =====
+<note>[[http://codex.wordpress.org/fr:Installer_WordPress|Installer WordPress sur le site officiel]]
+
+[[Wordpress]] est également présent dans le logiciel propriétaire [[cPanel]], utilisé par de nombreux [[hébergeur|hébergeurs]].
+</note>
+==== Par les dépôts Ubuntu ====
+  - installez le paquet [[apt://wordpress|wordpress]]   
+  - installez les dépendances [[apt://mysql-server|mysql-server]]   
+  - puis copier-coller dans un  [[terminal]](sans oublier de taper votre mot de passe quand cela sera demandé) : 
+<code>sudo ln -s /usr/share/wordpress /var/www/html/wordpress 
+sudo gzip -d /usr/share/doc/wordpress/examples/setup-mysql.gz</code>  
+Remarque : si vous avez un message d'erreur comme quoi le fichier "/usr/share/doc/wordpress/examples/setup-mysql.gz" n'existe pas, allez directement à la ligne de code suivante.
+<code>sudo bash /usr/share/doc/wordpress/examples/setup-mysql -n wordpress localhost
+gksudo gedit /usr/share/wordpress/wp-config.php</code>
+  - Ajouter dans l'éditeur de texte : <code>define ('WPLANG', 'fr_FR');</code>
+
+<note> Il peut être utile à ce point de relancer Ubuntu </note>
+  - Allez sur la page [[http://localhost/wordpress/]]
+
+
+Vous pouvez mettre à jour votre WordPress depuis l'interface d'administration http://localhost/wordpress/wp-admin ( que nous vous conseillons de retenir ) ou à partir [[http://www.wordpress-fr.net/telechargements|du site français]]. 
+
+====Par étape====
+
+  - Installer [[apt://apache2,libapache2-mod-php5,php5,php5-mysql,libphp-phpmailer,php5-gd,libjs-prototype,libjs-scriptaculous,tinymce,libphp-snoopy,libjs-jquery,php-gettext,libjs-cropper,mysql-server,mysql-client,mysql-admin|ce dont vous aurez besoin en cliquant ici]] ([[apache]] + [[mysql]]  ou [[LAMP]], ou autre ).
+  - Lancer <code>gksudo nautilus</code>
+  - [[http://www.wordpress-fr.net/telechargements|Télécharger et décompresser Wordpress dans votre dossier personnel.]] ( ou [[http://wordpress.org/download/|version anglaise]]) 
+  - Déplacer le contenu de Wordpress dans /var/www **(attention, sur la 16.04, il faut le déplacer dans /var/www/html)**
+  - Suivez l'installation en naviguant sur votre site en http local. (http://localhost/wordpress/)
+
+====Avec un serveur léger de type Xampp====
+  - Installez rapidement un serveur de type Lampp en utilisant [[:xampp|Xampp]].
+  - [[http://www.wordpress-fr.net/telechargements|Téléchargez Wordpress]] dans votre dossier personnel. ( ou [[http://wordpress.org/download/|version anglaise]]).
+  - Créez un répertoire d'accueil pour votre site WordPress dans votre répertoire personnel. Attention,  le nom du répertoire de décompression sera celui que vous taperez dans la barre d'adresse de votre navigateur pour accéder à votre site en local.
+  - Décompressez-y l'archive wordpress téléchargée. Pour la suite de cet article, nous conviendront que le contenu de l'archive wordpress a été décompressé dans "///home/VotreUserName/wp_monsiteinternet//"
+  - Le sites accessibles via votre serveur local sont ceux que vous copierez dans /opt/lampp/htdocs. Il faut d'abord rendre ce dossier accessible en lecture et en écriture avec ces commandes: <code>sudo chmod -R 775 /opt/lampp/htdocs</code>
+  - Assurez-vous que votre serveur démarre automatiquement via les commandes suivantes:
+<code>
+sudo ln -s /opt/lampp/lampp /etc/rc2.d/S99lampp
+sudo ln -s /opt/lampp/lampp /etc/rc1.d/K02lampp
+</code>
+  - Lancez les étapes de sécurisation du serveur lampp et retenez les identifiants et mots de passe des différents services: <code>sudo /opt/lampp/lampp security</code>
+  - Créez la base de données MySQL qui hébergera votre site wordpress avec [[http://localhost/phpmyadmin/|phpmyadmin]]. Attention, le nom de la base sera à renseigner lors de l'initialisation de Wordpress. Si vous n'arrivez pas à ouvrir l'interface de [[http://localhost/phpmyadmin/|phpmyadmin]], redémarrez votre ordinateur pour que l'ensemble des services de votre serveur démarrent et relancez l'interface de [[http://localhost/phpmyadmin/|phpmyadmin]].
+  - Créez un compte utilisateur différent de "root" pour la base de données du site définie dans [[http://localhost/phpmyadmin/|MySQL]].
+  - Donnez l'ensemble des droits d'accès à cet utilisateur.
+  - Créez un lien symbolique pour accéder à votre site web tout en le conservant dans votre répertoire home: <code>sudo ln -s /home/VotreUserName/wp_monsiteinternet /opt/lampp/htdocs</code>
+  - Ouvrez votre navigateur et tapez l'adresse: [[http://localhost/wp_monsiteinternet|http://localhost/wp_monsiteinternet]].
+  - Suivez les instructions pour configurer wordpress.
+====Par script====
+Exécuter le script suivant :
+<code>
+
+wordpress=latest-fr_FR.zip
+echo "les identifiant pour la base associée à wordpress qui sera crée : veuillez les changer"
+nom_admin=admin
+pass_admin=monpass
+
+sudo apt-get install  apache2 libapache2-mod-php5 php5 php5-gd php5-mysql libphp-phpmailer php5-gd libjs-prototype libjs-scriptaculous tinymce libphp-snoopy libjs-jquery php-gettext libjs-cropper mysql-server mysql-client mysql-admin
+
+cd ~/Téléchargements
+
+echo "création du script sql"
+echo "CREATE DATABASE wordpress; CREATE USER $nom_admin; SET PASSWORD FOR $nom_admin = PASSWORD('$pass_admin'); GRANT ALL PRIVILEGES ON wordpress.* TO $nom_admin@localhost IDENTIFIED BY '$pass_admin'; exit; " > wordpress.sql
+
+echo "creation de la base"
+mysql -h localhost -u root -p <  ~/Téléchargements/wordpress.sql
+
+wget http://fr.wordpress.org/$wordpress
+
+sudo mkdir /var/www/wordpress
+
+unzip -o $wordpress
+
+cd wordpress
+sudo cp -r * /var/www/wordpress
+
+
+sudo chown -R www-data /var/www/wordpress
+
+firefox http://localhost/wordpress
+</code>
+
+
+
+
+===== Post-Installation =====
+==== Si vous ne voulez pas utiliser les révisions ====
+
+Les révisions peuvent alourdir énormément votre base de données - cela reste utile pour l'utilisateur qui aime cette fonctionnalité - par défaut il peut y avoir 10 révisions par poste/page , vous n'avez qu'à faire le compte.
+
+Vous pouvez soit nettoyer régulièrement votre base, en exécutant cette requête SQL((par exemple dans [[phpmyadmin]], ou [[mysql]])).
+
+<code>
+DELETE a,b,c
+FROM wp_posts a
+LEFT JOIN wp_term_relationships b ON (a.ID = b.object_id)
+LEFT JOIN wp_postmeta c ON (a.ID = c.post_id)
+WHERE a.post_type = 'revision'
+</code>
+
+Soit désactiver les révisions : ouvrir wp-config.php  et ajouter 
+          define('WP_POST_REVISIONS','0');
+
+====Outils de test ====
+
+
+Vous pouvez [[http://ismyblogworking.com/|tester votre site WordPress]] - et [[http://www.site-perf.com/|tester vos performances]]    ( la taille du html, des pages et du contenu ) pour vérifier que vous ne surchargez pas de plugins.
+
+Autres services de test :
+   * http://gtmetrix.com/ 
+   * http://code.google.com/intl/fr/speed/page-speed/  ⇐lien mort
+   * http://developer.yahoo.com/yslow/
+
+Des idées de mots :
+   * [[https://adwords.google.com/o/Targeting/Explorer?__u=1000000000&__c=1000000000&stylePrefOverride=2#search.none!ideaType=KEYWORD&requestType=IDEAS| - généré par Google Adwords (pointu)]]
+   * [[http://www.google.com/sktool/#| - généré par google]]
+
+===== Les thèmes =====
+
+====Comment installer des thèmes ====
+Dans l'administration de votre WordPress :
+  * Aller sur Apparence -> Ajouter de nouveaux thèmes : Et vous aurez accès à tous les thèmes de la [[http://wordpress.org/extend/themes/|base de données officielle de WordPpress]].
+
+====Ajouter des pages====
+
+   * Selon le design de votre thème, les pages que vous créerez ( et organiserez hiérarchiquement et facilement dans wordpress) seront affichés de différentes manières : par exemple en menu -> sous menu
+
+====Ajouter des widgets ====
+
+   * Selon le design de votre thème, vous aurez plusieurs zones où vous pourrez ajouter des "widgets", des composants/extensions visuels vous permettant d'afficher des choses sympathiques :
+       * Par exemple, après installation de l'[[http://wordpress.org/extend/plugins/wp-cumulus/|extension wp-cumulus]], vous obtiendrez le widget wp cumulus que vous placerez et configurerez où vous le désirez.
+
+IMPORTANT NOTICE This plug is no longer actively being developed. I do not recommend you install and use it. If you are currently using this plugin, please consider disabling it. Running unmaintained plugins in WordPress can cause security- and other issues. More info at roytanck.com.
+==== Éditer / Créer son propre thème ====
+
+Vous pouvez éditer les thèmes :
+   * en éditant leur source PHP, avec un éditeur de texte simple , ou dans l'**éditeur de source de WordPress**.
+   * en utilisant un [[programmation#php1|IDE pour le php]]
+
+Ou, désormais il existe des plugins wordpress vous permettant d'éditer votre thème directement:
+   * [[http://wordpress.org/extend/plugins/elastic-theme-editor/|Elastic Theme Editor]] (attention encore en bêta)
+   * [[http://wordpress.org/extend/plugins/advanced-wordpress-theme-editor/|Advanced Wordpress Theme Editor]]
+
+====Installer Manuellement ====
+Vous pouvez télécharger des thèmes et les installer (décompresser) dans le répertoire
+  * REPERTOIRE_DE_BASE_DE_wordpress/wp-content/themes
+
+Voici la procédure décrite plus clairement :
+  - Télécharger le thème souhaité (normalement au format .zip)
+  - Extraire ce thème (clic droit - extraire ici) 
+  - Copier le dossier vers /opt/lampp/htdocs/wordpress/wp-content/themes et non vers /var/www/wordpress/wp-content/themes !!! il faut bien sûr faire attention au fait que le nom du dossier corresponde au nom du thème.
+
+====Où trouver des thèmes WordPress ====
+Il y a également des thèmes gratuits ( et libres, que vous pouvez utiliser dans un contexte commercial ).
+  * (en) [[http://wordpress.org/extend/themes/|Sur le site officiel]]. 
+  * (en) [[http://www.wpthemesfree.com/index.php?order=downloaded&specific=last7days|WordPress Themes Free]]
+  * (fr) [[http://wordpressthemes.free.fr/|WordPress Thèmes]]
+  * (fr) [[http://www.wordpress-template.com/|Free WordPress Theme]] 
+  * (fr) [[http://themeswordpress.fr/|Thèmes WordPress.fr]]
+  * (fr) http://themeswp.aurelienpaulus.net/
+  * (fr) http://www.herewithme.fr/themes-wordpress-francais
+  * (fr) http://www.wpthemes.ch/
+  * (en) http://topwpthemes.com/
+  * (fr) [[http://themes-wordpress.eu/|Thèmes WordPress ]]
+  * (fr) [[http://wptheme.fr| WP Thèmes WordPress ]]
+===== Les extensions =====
+====Comment installer des extensions ====
+Dans l'administration de votre WordPress :
+  * Aller sur Extension -> Ajouter : Et vous aurez accès à toutes les extensions de la [[http://wordpress.org/extend/plugins/browse/popular/|base de données officielle de WordPress]].
+
+
+====Installer Manuellement ====
+Vous pouvez télécharger des extensions et les installer (décompresser) dans le répertoire
+
+  * REPERTOIRE_DE_BASE_DE_wordpress/wp-content/plugins
+
+
+====Où trouver des extensions ====
+
+  * [[http://wordpress.org/extend/plugins/browse/popular/|Les extensions les plus populaires]].
+
+====Connections utilisateurs====
+
+   * [[http://fr.wikipedia.org/wiki/OpenID|OpenID]] : les utilisateurs pourront se connecter simplement avec leur courriel, [[http://openid.net/get-an-openid|Gmail , Yahoo et d'autres comptes sont compatibles]] (c'est un protocole libre , contrairement au facebook login) : [[http://wordpress.org/extend/plugins/openid/|OpenID]] : la gestion des droits est intégrée.
+
+==== Antispam ====
+
+  * [[http://wordpress.org/extend/plugins/wp-spamfree/|Spamfree]] léger, efficace, sans maintenance (contient également une page de contact personnalisable pour votre site)
+  * [[http://wordpress.org/extend/plugins/bad-behavior/|Bad Bahavior]] 
+
+==== Sécurité ====
+  * [[http://www.seoegghead.com/software/wordpress-firewall.seo|Wordpress Firewall plugin]]
+  * [[http://wordpress.org/extend/plugins/wp-security-scan/|WP Security Scan]]
+  * [[http://wordpress.org/extend/plugins/exploit-scanner/|WordPress Exploit Scanner]]
+
+
+====Maintenance - sauvegarde ====
+  * [[http://wordpress.org/extend/plugins/wp-dbmanager/|WP-DBManager]]
+  * [[http://wordpress.org/extend/plugins/wp-db-backup/|WP-DB-Backup]]
+  * [[http://wordpress.org/extend/plugins/maintenance-mode/|Maintenance Mode]]
+
+
+====Commerce électronique ====
+
+  * [[http://wordpress.org/extend/plugins/wp-e-commerce/|WP e-Commerce]]
+  * [[http://wordpress.org/extend/plugins/eshop/|eShop]]
+  * [[http://wordpress.org/extend/plugins/wp-oscommerce/|WP-osCommerce]]
+  * [[http://wordpress.org/extend/plugins/yak-for-wordpress/|YAK for WordPress]]
+  * [[http://wordpress.org/extend/plugins/bestsmallshoplite/|BestSmallShopLite]]
+
+
+
+==== Tag ====
+  * [[http://wordpress.org/extend/plugins/wp-cumulus/|WP-Cumulus]] : Tag en 3D sur une sphère (flash)
+
+
+==== Ajax ====
+  * [[http://wordpress.org/extend/plugins/ajaxd-wordpress/|AJAXed WordPress]]
+
+
+==== Les commentaires ====
+  * [[http://wordpress.org/extend/plugins/wordpress-thread-comment/|Wordpress Thread Comment]] : les commentaires en thread , et Ajax, avec une interface pour modifier le graphisme.
+  * [[http://wordpress.org/extend/plugins/riffly/|Riffly Webcam Video Comments]] : possibilité d'ajouter des commentaires audio , et vidéo.
+  * [[http://c.hadcoleman.com/wordpress-plugins/wmd-editor-wordpress-plugin/|Wmd Editor]] : Zone de texte en [[http://fr.wikipedia.org/wiki/Markdown|markdown]] pour les commentaires, en 'ajax', avec live preview du coté client.
+
+
+==== Système de cache ====
+
+  * [[http://wordpress.org/extend/plugins/wp-super-cache/|WP SuperCache]]
+  * [[http://wordpress.org/extend/plugins/db-cache-reloaded/|Db cache reloaded]] ( [[http://wordpress.org/extend/plugins/db-cache/|db cache]] fonctionnera sur certain host tel que Free)
+  * [[http://wordpress.org/extend/plugins/really-static/|Really static]] : génère l'HTML des pages a la volée : plus de PHP, plus de Mysql : possibilité de charger ces fichiers par FTP.
+
+====Optimisation ====
+  * [[http://wordpress.org/extend/plugins/use-google-libraries/|Google Libraries]]
+====Multilangue ====
+  * [[http://wordpress.org/extend/plugins/sitepress-multilingual-cms/|WPML Multilingual CMS]]
+  * [[http://wordpress.org/extend/plugins/global-translator/|Global Translator]] : traduction automatique des pages par google (dans 42 langues) et mise en cache + intégration de ses pages dans le sitemap.xml. (voir le fork [[http://benosullivan.co.uk/bens-translator/|Bens Translator]])
+
+
+==== Indexation ( SEO ) ====
+
+  * [[http://wordpress.org/extend/plugins/google-sitemap-generator/|Google XML Sitemaps]]
+  * [[http://wordpress.org/extend/plugins/all-in-one-seo-pack/|All in One SEO Pack]] (facile d'utilisation) mais il peut être préférable de faire toutes les optimisations seo manuellement sur votre thème. Voir rubrique ci-après.
+====Monitoring, visiteurs ====
+  * [[http://wordpress.org/extend/plugins/easy-adsenser/|Easy AdSense]]
+
+==== Autres ====
+  * [[http://wordpress.org/extend/plugins/page-links-to/|Page Links To]] : définir des pages correspondant à des liens pour rediriger.
+==== Video ====
+
+  * [[http://wordpress.org/extend/plugins/vipers-video-quicktags/|Viper's Video Quicktags]]
+
+
+====Images ====
+  * [[http://wordpress.org/extend/plugins/scissors/|Scissors]] : donne des possibilités avancées sur les images.
+
+==== CDN ====
+
+  * [[http://wordpress.org/extend/plugins/cdn-tools/|CDN Tools]]
+  * [[http://wordpress.org/extend/plugins/my-cdn/|My CDN]]
+  * [[http://wordpress.org/extend/plugins/w3-total-cache/|W3 Total Cache]]
+  * [[http://wordpress.org/extend/plugins/wordpresscom-video-server/|WordPress Video Solution Framework]]
+  * [[http://wordpress.org/extend/plugins/free-cdn/|Free CDN]]
+
+==== Forum ====
+
+
+  * [[http://wordpress.org/extend/plugins)]]
+  * [[http://wordpress.org/extend/plugins/bbpress-integration/|bbPress Integration]]
+
+====Wiki ====
+  * [[http://wordpress.org/extend/plugins/wpmediawiki/|MediaWiki]]
+  * [[http://wordpress.org/extend/plugins/wp-dokuwiki/|Wp dokuwiki]]
+  * [[http://wordpress.org/extend/plugins/dw2wp/|Dw2wp (dokuwiki)]]
+
+====Slideshow====
+  * [[http://wordpress.org/extend/plugins/frontpage-slideshow/|Frontpage-Slideshow]]
+
+====Réseaux sociaux====
+  * [[http://wordpress.org/extend/plugins/wordbook/|Wordbook]], alimenter votre Facebook quand vous postez sur Wordpress. 
+  * [[http://wordpress.org/extend/plugins/twitter-tools/|Twitter Tools]]
+
+===== Fonctionnalités =====
+
+WordPress est un logiciel de blog qui présente toutes les fonctionnalités habituelles de ce type de logiciels. Il permet à plusieurs auteurs de publier des billets, lesquels seront classés par date et par catégories. De multiples catégories, elles-mêmes imbricables, peuvent être affectées à un billet donné.
+
+De plus, WordPress inclut la gestion des liens externes, des rétroliens (trackbacks), et un système de gestion fine des commentaires. À ceci s'ajoutent des fonctionnalités moins importantes, telles que des filtres typographiques, une interface polyglotte, et un système de liens permanents.
+
+WordPress permet l'importation de contenus depuis plusieurs autres systèmes de gestion de contenus, tels que Blogger, Movable Type et Textpattern, et l'exportation de flux de syndication au format RSS. En outre, WordPress respecte les standards du Web XHTML et CSS.
+
+
+===== Technologie =====
+
+écrit en PHP et reposant sur une base de données MySQL. 
+
+Supporte Google Gears.
+
+=====Débugguage=====
+
+====Changer le mot de passe administrateur====
+
+<code>
+UPDATE wp_users SET user_pass=MD5('MOTDEPASSE') WHERE user_login = 'admin';
+
+</code>
+
+===== Liens =====
+====Tutoriels====
+  * [[http://videonoob.fr/wordpress/tutoriel|Comment créer un blog avec WordPress ? De A à Z]]. 
+  * [[http://www.netprof.fr/Voir-le-cours-en-video-flash/Informatique/Internet/Creation-d-un-blog-sous-wordpress,6,12,914,1.aspx|Création d'un blog sous wordpress]]
+  * [[http://www.it-connect.fr/tutoriels/developpement-web/wordpress/|Tutoriels dédiés à WordPress]] sur IT-Connect
+==== Ressources ====
+
+  * [[http://www.smashingmagazine.com/2008/01/08/100-excellent-free-high-quality-wordpress-themes/|100 Excellent Free WordPress Themes]]
+  * [[http://sixrevisions.com/resources/50-beautiful-free-wordpress-themes/|50 Beautiful Free WordPress Themes]]
+  * [[http://www.smashingmagazine.com/2009/04/15/10-exceptional-wordpress-hacks/|10 Exceptional WordPress Hacks]]
+  * [[http://www.designyourway.net/blog/resources/top-45-wordpress-plugins-tools-for-the-administration-area/|Top 45 WordPress Plugins & Tools For The Administration Area]]
+
+==== Documentation ====
+
+  * (en) [[http://wordpress.org/|Site officiel]]
+  * (en) [[http://wordpress.org/blog/|Blog de développement]]
+  * [[http://www.playingwithwire.com/2009/03/open-source-and-usability-joomla-vs-wordpress/|Comparaison entre Joomla et wordpress]]
+  * (fr) [[http://www.wordpress-fr.net/|WordPress Francophone]]
+  * (fr) [[http://www.geekeries.fr/|Découvrir WordPress]]
+  * (fr) [[http://www.logiste.be/blog/bible-optimisation-wordpress/|Bible de l'optimisation Wordpress]]
+  * (en) [[http://codex.wordpress.org/Theme_Development|Theme Development]] (site officiel)
+  * (fr) [[http://www.foilen.com/category/wordpress3|Tutoriels vidéos sur l'installation et l'utilisation de WordPress]]
+
+---- 
+
+//Contributeur principal :  [[:utilisateurs:psychederic|Psychederic]].//

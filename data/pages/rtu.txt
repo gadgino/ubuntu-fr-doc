@@ -1,0 +1,134 @@
+{{tag>Precise paquet installation}}
+
+----
+
+====== Pack RTU : complément d'installation hors-ligne d'Ubuntu ======
+
+RTU (Road To Ubuntu) est un pack qui permet de rendre ubuntu plus opérationnel en quelques clics. Il contient de quoi installer la prise en charge multimédia (codecs, players, jukebox), décompression (ace et rar), des logiciels de base, et des paramètres utilisateur qui facilitent les manipulations. 
+
+Un de ses avantages est le fait qu'il contient toutes les dépendances des programmes concernés, et ne nécessite donc pas de connexion internet lors de son installation. Un autre avantage est qu'il inclus une sélection de paquets, dont certains venant de dépôts ppa, ce qui permet d'avoir des logiciels à jour et proposant plus de fonctionnalités (tels que les librairies ffmpeg de medibuntu). Associés à des scripts nautilus, cela donne un confort immédiat dans l'utilisation, le tout étant soigneusement testé et sans surprises !
+
+Bien que développé en français par [[http://imaginux.com/roadtolinux/dotclear/index.php|RenZO]], les menus sont aussi proposés en anglais et en espagnol.
+
+Les programmes installés proviennent essentiellement des dépôts officiels, l'installation est sans risque pour votre système du moment que vous choisissez la bonne version.
+
+
+===== Téléchargement =====
+
+Road To Ubuntu est téléchargeable pour sur le [[http://imaginux.com/rtu/|site officiel RTU]].
+
+===== Installation =====
+
+Il suffit de décompresser le fichier téléchargé (clic droit extraire ici), puis
+entrer dans le dossier créé, double cliquer sur **Install_RTU** et choisir Lancer.
+
+La langue FR est sélectionnée par défaut, un message affiche votre version d'ubuntu: vérifier que vous avez la version de RTU qui correspond à votre système!
+On peut ensuite choisir dans quel domaine on souhaite installer ces logiciels :
+
+  * **Shell** : Gnome 3 (uniquement pour la version Precise 12.04). Choix possible dans une étape ultérieure.
+  * **Multimedia** : propose de nombreux codecs et lecteurs multimedia. Choix possible dans une étape ultérieure.
+  * **Applications** : propose de nombreuses applications. Choix possible dans une étape ultérieure.
+  * **Monitoring** : propose des outils pour surveiller l'activité de votre système. Choix possible dans une étape ultérieure.
+  * **Skel** : installe des paramètres qui seront présents pour chaque nouvel utilisateur créé. Choix possible dans une étape ultérieure.
+  * **Settings** : paramètre votre système pour faciliter son utilisation. Choix possible dans une étape ultérieure.
+
+{{http://imaginux.com/share/fichiers/download/RTU1004.png}}
+
+<note important>Vous pouvez tout cocher à cette étape : vous aurez ensuite la possibilité de choisir logiciel par logiciel ce que vous voulez installer.
+
+En revanche, pour les étapes ultérieures, il est inutile de tout cocher si vous n'en avez pas l'utilité, mais cela ne comporte aucun risque de tout laisser.</note>
+
+==== Support-fr ====
+
+Si vous avez également téléchargé RTU_10.04_Lang, ce sont les paquets de traduction d'openoffice qui sont installés, ainsi que la traduction du bureau. Ceci est nécessaire pour traduire un système qui n'est pas connecté à internet.
+
+==== Multimedia ====
+
+Vous avez la possibilité d'installer : 
+  * gstreamer : codecs (divx, mp3...) + soundconverter
+  * gst-bad : lire les dvds et plus de formats
+  * shoutcast : écouter les flux radio
+  * avi-ogminfo : analyse de fichiers vidéos (i386)
+  * jukebox : gérer sa collection + ipod
+  * imaging : geeqie, gthumb + paint like
+  * archiving : ouvrir les formats rar, ace, p7zip
+  * cheese : utiliser sa webcam
+
+==== Applications ====
+
+Vous avez la possibilité d'installer : 
+  * switcher : boutons de fenêtre à droite ou à gauche
+  * liferea : suivre l'actu web
+  * grsync : synchro pour sauvegarde
+  * data-tools : vérifier vos données
+  * drapes : gérer ses fonds d'écran
+  * nautilus : extensions indispensables
+  * gnome-addon : utilitaires (parcellite, xpad...)
+  * language : traducteur, grammaire
+  * gnome-ppp : se connecter en bas débit
+
+==== Monitoring ====
+
+Vous avez la possibilité d'installer : 
+  * gkrellm : monitoring très complet
+  * htop : top interactif (gestion processus)
+  * sensors-applet : affiche les températeurs sur un tableau de bord
+  * hddtemp : températures des disques durs
+  * smartmontools : obtenir les informations smart des disques durs
+  * mesa-utils : obtenir des informations sur la carte graphique
+  * conky : monitoring intégré au bureau (voir capture ci-dessous)
+  * cpuburn : test de charge processeur
+  * infos : utile sur les portables notamment
+
+{{http://imaginux.com/share/fichiers/download/rtu_conky.png}}
+
+==== Skel ====
+
+Même chose que Settings mais appliqués au squelette, ne sera donc utilisé qu'à la création d'un utilisateur.
+
+==== Settings ====
+
+Voici des réglages propres à chaque utilisateur :
+  * Scripts : ajoute de puissantes fonctions au clic droit dans nautilus, telles le retaillage d'images par lot, ouverture de logiciels dans le répertoire courant, montage d'isos.
+  * Prefs : réglage Conky de toute beauté !
+  * Radio : ajoute des radios à Rhythmbox
+  * Bonus : offre des wallpapers
+  * Modèles : ajoute des modèles de documents au clic droit dans nautilus (créer un document), rangés dans Calc et Text, originaux et très pratiques !
+  * Home : affiche l'icône Dossier Personnel sur le bureau, avec gconf, de façon à pouvoir glisser des fichiers dedans sans erreur.
+  * NoHome : retire l'option ci-dessus.
+  * Session : permet d'ajouter des programmes au démarrage, suggérés par une liste.
+  * Refresh : relance nautilus pour afficher les modifications.
+
+
+
+
+
+
+===== Désinstallation =====
+
+Il faut utiliser votre gestionnaire de paquets pour supprimer chaque logiciel dont vous ne voulez plus.
+
+
+
+===== Liens =====
+  *[[http://imaginux.com/rtu/|Site officiel]]
+
+Retours et infos sur le Blog de RenZo:
+  *[[http://imaginux.com/roadtolinux/dotclear/index.php?2008/04/26/243-rtu-804-hardy|RTU 8.04 Hardy]]
+  *[[http://imaginux.com/roadtolinux/dotclear/index.php?2008/12/02/261-rtu-810-intrepid|RTU 8.10 Intrepid]]
+  *[[http://imaginux.com/roadtolinux/dotclear/index.php?2009/06/21/273-rtu-904-jaunty|RTU 9.04 Jaunty]]
+  *[[http://imaginux.com/roadtolinux/dotclear/index.php?2009/12/31/283-rtu-910-karmic|RTU 9.10 Karmic]]
+  *[[http://imaginux.com/roadtolinux/dotclear/index.php?2010/05/22/296-rtu-1004-lucid|RTU 10.04 Lucid]]
+  *[[http://imaginux.com/roadtolinux/dotclear/index.php?2010/12/24/306-rtu-1010-maverick|RTU 10.10 Maverick]]
+  *[[http://imaginux.com/roadtolinux/dotclear/index.php?2011/06/10/311-rtu-1104-natty|RTU 11.04 Natty]]
+  *[[http://imaginux.com/roadtolinux/dotclear/index.php?2012/06/05/313-rtu-1204-precise|RTU 12.04 Precise]]
+
+Retours sur le Forum ubuntu-fr :
+  *[[http://forum.ubuntu-fr.org/viewtopic.php?id=213020|RTU 8.04 Hardy]]
+  *[[http://forum.ubuntu-fr.org/viewtopic.php?id=265059|RTU 8.10]]
+  *[[http://forum.ubuntu-fr.org/viewtopic.php?id=310722&p=2|RTU 9.04]]
+  *[[http://forum.ubuntu-fr.org/viewtopic.php?id=355237|RTU 9.10]]
+  *[[http://forum.ubuntu-fr.org/viewtopic.php?pid=3422926|RTU 10.04 - RTU 10.10 - RTU 11.04]]
+
+-----
+ //Contributeurs : [[:utilisateurs:Omnisilver]], [[:utilisateurs:RenZO]]//

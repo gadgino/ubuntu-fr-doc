@@ -1,0 +1,188 @@
+{{tag>audio}}
+
+----
+
+====== Spotify ======
+
+**Spotify** est un logiciel permettant d'accéder gratuitement et légalement à de la musique en ligne. Spotify n'est pas un logiciel libre, mais il utilise néanmoins le codec libre Ogg Vorbis pour compresser les données. A la différence de ses concurrents, Spotify a le mérite d'utiliser le codec libre -pas par idéologie, mais bien par efficacité- au lieu du mp3, qui reste un format propriétaire, même s'il est très accessible. Au lieu d'écouter du mp3 propriétaire dans votre navigateur libre, vous écouterez du Ogg Vorbis libre dans un logiciel propriétaire.
+
+===== Spotify Web Player =====
+Le plus simple : vous connecter et écouter Spotify via votre navigateur sans installer d'application : https://play.spotify.com/
+
+Pour installer un client Spotify via le WebPlayer basé sur [[http://www.clubic.com/application-web/actualite-814684-chrome-apps-place-electron-apps.html|Electron]] : ouvrir la logithèque et chercher **spotifywebplayer**. Attention, il s'agit de la technologie des paquets snaps déployée par Ubuntu en 2016, et un compte Ubuntu One est requis. Testé sur Ubuntu 16.10.
+
+=====Installation depuis les dépôts =====
+__
+Pré-requis__ :
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+Spotify propose à ses utilisateurs linuxiens une version de leur logiciel dédiée à leur OS favori. Celle-ci est cependant limitée aux utilisateurs de Debian et d'Ubuntu. [[http://www.spotify.com/fr/blog/archives/2010/07/12/spotify-pour-linux/|La nouvelle sur le site officiel]]
+
+<note important>À noter que cette version est décrite par son développeur comme une **pré-version**, donc non finalisée. Celle-ci est conçue pour Ubuntu 10.04 Lucid Lynx, mais fonctionne sur les versions suivantes d'Ubuntu (//Il reste à vérifier si elle fonctionne sur versions antérieures//).
+Depuis octobre 2011, la version Linux est également ouverte aux comptes Free/Open</note>
+==== Ajout du dépôt ====
+  * [[:tutoriel/comment_modifier_sources_maj#modifier_les_sources_de_mises_a_jour|Ajoutez le dépôt]] Spotify  :
+
+  sudo sh -c 'echo "deb http://repository.spotify.com stable non-free" >> /etc/apt/sources.list.d/spotify.list'
+
+  * [[:tutoriel/comment_modifier_sources_maj#gerer_les_cles_d_authentification|Récupérez la clef d'authentification]] (optionnel: pour vérifier les packages téléchargés) par le [[:terminal]] :
+
+  sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys D2C19886
+
+<note>
+Si ça ne fonctionne pas vous pouvez essayer avec l'ancienne clé :
+  
+  sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 94558F59
+</note>
+
+  * Puis [[:tutoriel/comment_modifier_sources_maj#recharger_la_liste_des_paquets|mettez à jour vos dépôts]] :
+
+  sudo apt-get update
+
+<note tip>Si lors de l'update de vos dépôts, vous avez une erreur de ce genre : 
+"W: Impossible de récupérer http://repository.spotify.com/dists/stable/InRelease  Impossible de trouver l'entrée « non-free/source/Sources » attendue dans le fichier « Release » :  ligne non valable dans sources.list ou fichier corrompu", éditez le fichier /etc/apt/sources.list et supprimer la ligne suivante : "deb-src http://repository.spotify.com stable non-free"</note>
+
+<note important>Spotify Linux demande une version récente du paquet **gconf2**. Or, Ubuntu 10.04 ne dispose que d'une version ancienne (mais stable) de ce paquet. Allez donc télécharger un gconf2 plus récent [[http://packages.debian.org/squeeze/gconf2|sur le site de la distribution Debian]] et laissez faire [[:Gdebi]] !</note>
+==== Installation ====
+
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt://spotify-client|spotify-client]]**, et **[[apt://spotify-client-gnome-support|spotify-client-gnome-support]]** (anciennement**[[apt://spotify-client-qt|spotify-client-qt]]**) pour utiliser Spotify.
+
+<note>Ubuntu 15.04 : La bibliothèque **libgcrypt11** nécessaire à Spotify (mais qui n'est pas mise comme dépendance) n'est pas installée et non disponible (c'est la version 20 qui est en dépôts). Il faut alors télécharger le paquet directement ici http://packages.ubuntu.com/trusty/libgcrypt11 (choisir votre version 32 ou 64 bits) ou bien utiliser le dépot launchpad suivant: https://launchpad.net/ubuntu/+source/libgcrypt11 et l'installer pour pouvoir lancer Spotify</note>
+==== Pour faire des commentaires sur cette version linux ====
+Ça se passe [[http://community.spotify.com/t5/Desktop-Linux/bd-p/spotifylinux|ici]]
+
+Plus on sera nombreux à réagir sur cette plate-forme, plus ils consacreront du temps sur la version linux de spotify :)
+
+===== Utilisation =====
+L’intégration dans gnome est faite par le paquet : [[apt://spotify-client-gnome-support]]. Vous trouverez alors le [[:raccourci-lanceur]] de Spotify dans le menu Applications > Son et Vidéo > Spotify ou depuis votre menu unity.
+
+=====Commander Spotify depuis votre smartphone=====
+La fonction est directement intégrée dans l'application mobile Spotify. Appuyez simplement sur le titre de la chanson en cours dans la barre du dessous puis sur "appareils disponibles" puis sur l'appareil que vous souhaitez commander.
+=====Utiliser les touches multimédia avec Spotify=====
+<note>Fonctionne nativement sous saucy</note>
+<note>Cette astuce fonctionne avec les versions natives de Spotify (celles prévues pour linux). Cette astuce peut ne pas fonctionner avec les versions Wine (non testé)</note>
+<note important>Il peut arriver que les touches multimédia ne soient pas reconnues malgré le fait qu'elles l'aient été juste avant, durant la même session, sans modifications des paramètres audio (problème non résolu. Ubuntu 13.10 x64)</note>
+====Installation du service====
+Pour utiliser les touches multimédia de votre clavier, vous aurez besoin du service "xbindkeys"
+<code>sudo apt-get install xbindkeys</code>
+
+====Configuration====
+Il vous faut maintenant configurer le service pour qu'il prenne en compte Spotify
+<code>gedit ~/.xbindkeysrc</code>
+(Il est normal que la page soit blanche)
+
+Copier/coller le code suivant
+<code>"dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
+XF86AudioPlay
+"dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop"
+XF86AudioStop
+"dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
+XF86AudioPrev
+"dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
+XF86AudioNext</code>
+
+Il ne vous reste plus qu'à lancer ce service. 
+<code>xbindkeys</code>
+
+Pour que vos touches soit utilisables à n'importe quel moment, je vous conseille de [[application_demarrage|rajouter ce service au démarrage]].
+
+===== Problèmes connus =====
+==== La taille de la police est minuscule ====
+La police de spotify est minuscule (vous avez un écran full HD). Jouez avec le numéro jusqu'à que la taille vous convienne
+Pour la console rajouter dans /home/"vous"/.bashrc
+<code>alias spotify="/usr/bin/spotify --force-device-scale-factor=2.5"</code>
+puis éditez le fichier /usr/share/applications/spotify.desktop pour les raccourcis, changez la ligneExec en fonction de cet exemple.
+<code>Exec=spotify --force-device-scale-factor=2.5</code>
+
+
+
+==== Spotify crash ====
+La fermeture abrupte de spotify est un problème récurent. Si cela vous arrive, commencez par supprimer le cache de spotify et relancez le programme :
+<code>rm -rf ~/.cache/spotify</code>
+Si cela ne règle pas le problème, supprimez le cache et la config de spotify et relancez celui-ci (cette étape n'aura aucune incidence sur votre compte spotify) : 
+<code>rm -rf ~/.config/spotify/ ~/.cache/spotify/</code>
+
+Quoi qu'il en soit, n'hésitez à signaler votre bug sur le forum (très actif) de [[http://community.spotify.com/t5/Desktop-Linux/bd-p/spotifylinux|spotify linux]].
+
+==== Le son ne peut pas etre regle ===
+
+Sous Ubuntu 11.04  (32bit ou 64bits). Il suffit de créer un symlink appelé libpulse.so en tapant les commandes suivantes dans le terminal :
+<note tip>cd /usr/lib
+
+sudo ln libpulse.so.0 libpulse.so</note>
+
+
+Solution trouvée ici : http://getsatisfaction.com/spotify/topics/_linux_volume_control_doesnt_work_ubuntu_11_04#reply_5794213
+
+==== Si spotify hache, craque, coupe ? ===
+
+Vous devez ajouter la dernière version de Wine avec les dépôts de wine HQ. Cf. la doc [[:Wine]].
+
+Ensuite, vous configurez la partie audio de Wine. Décochez tous les pilotes, en n'en laissant qu'un : Esound ou Oss. Réglez l'accélération matérielle sur complète, laissez l'échantillonnage a 44100 (défaut), à 16 bits, pour conserver la qualité du codec.
+
+Dans Spotify, vous pouvez aussi essayer d'activer/désactiver l'accélération matérielle qui semble avoir une influence avec certaines configurations. Si le son coupe toujours, c'est peut-être qu'une application monopolise le serveur de son, même si elle est fermée. Dans le terminal, tapez ''sudo alsa force-reload'' pour recharger le serveur.
+
+Avec PlayOnLinux, qui peut représenter une solution graphique simple, vous devrez quand même configurer la partie audio de Wine. Cette méthode peut résoudre de nombreux problèmes sous Karmic.
+
+==== Problèmes de connexion ====
+Dans les préférences, vous trouverez "proxy". De là, vous choisissez aucun proxy. Pensez a sauvegarder !
+
+==== Le format du fichier n'est pas supporté ====
+
+Si la lecture des fichiers (mp3) locaux (de votre disque dur) n'est pas possible, un bandeau apparaît en haut de l'écran mentionnant que « le format du fichier n'est pas supporté ».
+
+Le problème vient du fait que des bibliothèques de gestion des mp3 de Wine sont déficientes. La solution consiste à récupérer cette bibliothèque soit sur une partition Windows, soit en installant Windows Media Player via Wine.
+
+=== Solution 1 - Si aucune partition windows ne vous est accessible ===
+  - Installez Windows Media Player par Wine disponible <del>[[http://www.microsoft.com/windows/windowsmedia/download/AllDownloads.aspx |à cette adresse]]</del> 
+  - Copiez ensuite le fichier ''~/.wine/drive_c/windows/system32/l3codecp.acm''  vers le dossier ''~/.wine/drive_c/windows/system32''
+  - Renommez-le en ''winemp3.acm''
+
+=== Solution 2 - Si une partition Windows vous est accessible ===
+  - Rendez-vous sur votre partition Windows dans le dossier ''.../windows/system32/''
+  - Copiez le fichier ''l3codecp.acm''
+  - Collez-le dans ''~/.wine/drive_c/windows/system32/'' et renommez-le en ''winemp3.acm''
+
+**Enfin il faut ajouter cette librairie à Wine:**
+Ouvrez la configuration de Wine, dans l'onglet "Bibliothèques", dans le champ "Nouveau surclassage pour :", entez winemp3.acm puis cliquez sur "Ajouter".
+
+Redémarrez le tout et ça devrait rouler.
+
+Source: [[http://getsatisfaction.com/spotify/topics/spotify_under_wine_unable_to_playback_local_files]]
+
+
+==== Lecture des fichiers locaux OGG et FLAC ====
+
+Seul les formats propriétaires MP3 et AAC seront recherchés sur le PC, les formats libres OGG et FLAC ne sont actuellement pas supportés.
+
+==== [Version Wine] L'affichage de l'interface de Spotify bug (cadres noirs) ====
+
+Si certaines parties de l'interface de Spotify sont couvertes pas des cadres noirs, assurez vous que Wine est bien paramétré pour émuler un environnement Windows XP ou supérieur (Dans winecfg, onglet Application).
+
+==== Instruction non permise (Core Dumped)  ====
+
+Les dernières versions de Spotify nécessitent le support sse2 par le processeur ce qui rend le logiciel non fonctionnel avec certains processeurs AMD Athlon et Sempron. La seule solution consiste à passer par le [[https://play.spotify.com/|Web player]].
+
+==== Utiliser les liens Spotify avec la version Native de Spotify ====
+
+Pour pouvoir utiliser les liens "spotify" :
+ 
+Il vous faudra rentrer les trois commandes suivantes dans un terminal :
+
+    gconftool-2 -t string -s /desktop/gnome/url-handlers/spotify/command "/usr/bin/spotify -uri %s"
+    gconftool-2 -t bool -s /desktop/gnome/url-handlers/spotify/needs_terminal false
+    gconftool-2 -t bool -s /desktop/gnome/url-handlers/spotify/enabled true
+
+==== Couper le son pendant les pubs ====
+Cf [[https://github.com/SecUpwN/Spotify-AdKiller|spotify-adkiller]]
+
+===== Voir aussi =====
+
+  * [[http://www.spotify.com/fr/|Le site officiel]]
+  * Procédure d'installation via le dépôt décrite sur le site officiel de Spotify : [[https://www.spotify.com/fr/download/previews/]]
+
+
+
+----
+//Contributeurs principaux : Steph138, Trombone, Tubuntu, Adliii, Gwilh, pol123456, Riadh.K., [[utilisateurs:sylvainvh]]//

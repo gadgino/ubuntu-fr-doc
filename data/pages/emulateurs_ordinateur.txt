@@ -1,0 +1,139 @@
+{{tag>jeu émulation}}
+====== Émulateurs d'anciens ordinateurs ======
+
+Ce wiki est destiné aux nostalgiques qui veulent faire revivre la magie des jeux vidéos des années 1980 qui tournaient sur ce que l'on appelait souvent alors les premiers //micros ordinateurs personnels//. 
+
+<note>Bien que les plateformes soient abandonnées, pour pouvoir utiliser en toute légalité une //rom// (Copie du jeu sous forme de fichier), vous devez en posséder l'originale. </note>
+===== Acorn =====
+==== BBC Micro ====
+  * [[http://beebem-unix.bbcmicro.com/|BeebEm for UNIX]]
+  * Une [[http://www.mkw.me.uk/beebem/index.html|version pour Windows]], plus récente, fonctionne très bien avec [[Wine]].
+  * [[https://github.com/mattgodbolt/jsbeeb|jsbeeb]]
+  * model-b (avec Wine) : http://modelb.bbcmicro.com/
+==== Electron ====
+  * [[https://github.com/dmcoles/elkjs|ElkJS]]
+==== Risc PC, A7000 ====
+  * RPCEmu
+===== Amstrad =====
+==== CPC 464/6128 et + ====
+> //Voir la page d'aide complète// : [[Amstrad]].
+==== PCW ====
+  * [[http://www.seasip.info/Unix/Joyce/index.html|JOYCE]]
+  * [[http://www.habisoft.com/pcw/|CP/M Box]], avec [[WINE]]
+===== Apple =====
+  * Apple 2 :
+    * [[http://octalyzer.com/|Octalyzer]]
+    * [[http://linapple.sourceforge.net/|LinApple]]
+===== Atari =====
+==== Atari  8-bit : 400, 800, 800XL, 130XE, 600XL, 1200XL ====
+{{ https://upload.wikimedia.org/wikipedia/commons/9/9f/Atari_800XL_Plain_White.jpg?200}}
+  * Atari800 : [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt://atari800|atari800]]**
+==== Atari ST ====
+> //Voir la page d'aide // : [[Atari ST]].
+===== Camputers Lynx =====
+  * [[https://github.com/jonathan-markland/Jynx|Jynx]] sur GitHub
+===== Commodore =====
+==== PET, C64, C64DTV, C128, VIC20 ====
+
+Toutes les machines Commodore antérieures à la sortie des versions Amiga peuvent être émulées par [[VICE]].
+
+==== Amiga ====
+> //Voir la page d'aide// : [[:Amiga]]
+
+===== DOS =====
+  * [[:DOSBox]], un émulateur MSDOS
+  * [[:dosemulator]] (plus développé)
+
+===== Jupiter Ace =====
+
+  * jupiler, émulateur en ligne : http://jupiler.retrolandia.net/
+  * ZEsarUX : https://sourceforge.net/projects/zesarux/
+
+===== MSX =====
+
+Sources : [[http://fr.wikipedia.org/wiki/MSX|Page MSX sur Wikipédia]]
+
+MSX est un standard de micro-ordinateurs à vocation grand public, d’origine principalement japonaise et datant des années 1980. \\
+Contrairement à la plupart des ordinateurs de l’époque, les MSX étaient produits par divers fabricants et compatibles entre eux, aussi bien pour le matériel que pour les logiciels. \\
+Quatre versions du standard se sont succédé : Les MSX, les MSX2, les MSX2+ et les MSX turbo R. 
+
+==== OpenMsx ====
+
+[[:tutoriel:comment_installer_un_paquet|Installez les paquets]] suivants : \\
+\\
+apt://cbios
+apt://openmsx
+apt://openmsx-catapult
+
+Créer un raccourci dans le menu en utilisant l'éditeur de menu de votre environnement de bureau afin d'y ajouter une entrée ayant pour cible la commande ''openmsx-catapult'' et comme icône ''/usr/share/openmsx/skins/ConsoleBackground2.png''
+
+L'émulateur peut aussi se lancer via une commande dans un [[terminal|terminal]] : 
+
+<code>openmsx-catapult</code>
+
+=== Utilisation ===
+{{ http://www.vgmuseum.com/images/msx01/PengAdventure3.gif?200}}
+Par défaut, OpenMSX est un émulateur qui peut tourner avec son propre bios : c-bios msx1, c-bios msx2 ou c-bios msx2+. Ce Bios permet de faire tourner des cartouches de jeux (Roms). 
+
+L'émulateur permet de faire tourner d'autres configurations : Si vous possédez dans votre grenier un MSX de marque quelconque, il est fort possible de pouvoir trouver ses //system roms// [[http://www.msxarchive.nl/pub/msx/|ici]]. 
+
+Les binaires au format //zip// seront à copier coller puis à décompresser dans ''/usr/share/openmsx/systemroms/'' \\
+Puis il faudra configurer OpenMSX sur le type d'ordinateur MSX correspondant. \\
+Si vous rencontrez des problèmes de droits d'écritures, il faudra enlever la protection en écriture du répertoire : 
+
+<code>$ sudo chmod 777 /usr/share/openmsx/systemroms/</code>
+
+Pour charger un fichier ROM, il faut utiliser les supports originaux : Lecteurs de disquette, de cassette, de cartouches, qui sont ici émulés. 
+
+Exemple : Vous possédez l'original du jeu //Penguin Adventure//, si vous pouvez récupérer sur internet un fichier rom au format ''zip'' choisissez le port cartouche 1 pour charger le fichier. \\
+
+==== WebMSX====
+[[http://webmsx.org/]]
+===== Oric 1/Atmos et Telestrat =====
+
+Sources : [[http://fr.wikipedia.org/wiki/Oric|Page Oric sur Wikipédia]]
+
+Oric est une marque des années 1980 de micro-ordinateurs britannique, qui fut rachetée par une société française. 
+
+==== Oricutron ====
+
+  * https://github.com/pete-gordon/oricutron
+
+==== Xeuphoric ====
+
+L'émulateur Xeuphoric peut être compilé de la manière suivante : 
+
+<code>
+$ wget http://www.teaser.fr/~amajorel/xeuphoric/xeuphoric-0.19.0.tar.gz
+$ tar -xvf xeuphoric-0.19.0.tar.gz
+$ cd xeuphoric-0.19.0
+$ ./configure
+$ make
+# make install
+</code>
+
+L'émulateur peut ensuite se lancer via cette commande dans un terminal : 
+
+<code>xeuphoric</code>
+
+<note>Pour information, l'émulateur [[http://oric.free.fr/emulator.html|Euphoric]] dont Xeuphoric est un portage, est en mesure de fonctionner via [[:dosbox]] </note>
+
+===== Thomson MO5, TO7 =====
+
+  * DCMO5 : http://dcmo5.free.fr/
+  * DCMOTO : http://dcmoto.free.fr/ (fonctionne sous Wine)
+
+===== ScummVM, ResidualVM (multi-plateformes) =====
+{{ http://scummvm.org/images/scummvm_logo.jpg?150}}
+  * Documentation sur [[:ScummVM]], la machine virtuelle pour les jeux Point'n Click sur Amiga, Atari, Pc, et en particulier les jeux de LucasArts.
+  * ResidualVM, machine virtuelle pour le moteur GrimE
+
+===== ZX 81 =====
+  * ZEsarUX : https://sourceforge.net/projects/zesarux/
+
+===== ZX Spectrum =====
+{{ https://upload.wikimedia.org/wikipedia/commons/3/33/ZXSpectrum48k.jpg?150}}
+  * [[http://fuse-emulator.sourceforge.net/|Fuse]]
+  * ZEsarUX : https://sourceforge.net/projects/zesarux/
+
+

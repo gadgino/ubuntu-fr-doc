@@ -1,0 +1,91 @@
+{{tag>internet reseau}}
+{{tag>internet réseau hébergeur}}
+====== RaidGHost.com, un hébergeur web sans publicité ======
+
+RaidGHost est un hébergeur web sans publicité imposée au membre. Son offre gratuite satisfait à l'heure actuelle plus de 300 sites ! Une offre VIP est en cours de réalisation et s'adresse aux professionnels ainsi qu'aux sites à grand traffic. Les serveurs tournent sous Debian et sont situés dans le datacenter [[http://www.iliad-datacenter.fr/|Iliad]] en France.
+
+===== Pourquoi avoir créé RaidGHost ? =====
+Êtes-vous vraiment différents des autres hébergeurs ? Et d'abord qui êtes-vous ? C'est que je ne veux pas confier mon site web à n'importe qui !
+
+Toutes ces questions sont légitimes et méritent une réponse !
+
+
+  * Nous sommes une association d'étudiants spécialisés dans l'informatique (lire la page [[https://www.raidghost.com/philosophie_politique.php|qui sommes-nous]] ?) qui avons entrepris de créer notre propre hébergeur.
+  * Nous ne sommes pas des professionnels de l'informatique (ce qui signifie que nous ne gagnons pas notre vie avec pour le moment, pas que nous sommes imcompétents, au contraire...) aussi, nous avons voulu créer une nouvelle offre d'hébergement telle que nous aurions voulu pouvoir en trouver lorsque nous avons débuté dans la création de sites web. C'est pour cette raison que notre approche diffère en certains points des hébergeurs classiques.
+
+==== Des exemples ? ====
+
+  * Il est possible sur RaidGHost de travailler à plusieurs sur un site (plusieurs administrateurs), d'avoir plusieurs bases de données avec là encore plusieurs administrateurs. Ceci qui permet une gestion plus fine (et intéressante) que si vous aviez une seule base de données avec un seul administrateur. Nous cherchons à tout prix à encourager le travail de groupe et donc à vous fournir tous les outils nécessaires pour cela.
+  * Les Tâches [[/cron|Cron]] sont entièrement paramétrables. Pas de fichier à nommer cron.hourly.php pour faire une opération qui s'exécute toutes les heures. Vous faîtes ce que vous voulez, à l'heure que vous voulez. Par exemple, si vous souhaitez lancer le script bob.php tous les premiers du mois aux heures paires (on se demande bien pourquoi, c'est un exemple étrange !), vous pouvez !
+
+==== Les créateurs ====
+
+  * Rémi Pellerin, né en 1994, étudie les maths et la physique à Bordeaux. Il est passionné par l'informatique depuis l'âge de 13 ans où il apprend à programmer (en C), comme beaucoup grâce au Célèbre site du Zéro (récemment devenu OpenClassroom). Musicien et scout, il découvre Linux grâce à son cousin. Il s'occupe principalement de l'administration des serveurs.
+  * Titouan Petitpied, lui aussi né en 1994, étudie les télécommunications à L'Enseirb-Matmeca à Talence (près de Bordeaux). Très tôt passionné par l'informatique, il monte son premier PC à 13 ans. Également membre du Site du Zéro, il y apprend le PHP et d'autres languages du web. Lui aussi est musicien, il est aussi féru de spéléologie. Il s'occupe principalement du développement du site et du design.
+
+
+===== Liste détaillée des services =====
+
+==== Serveur web (apache2) ====
+
+  * La bande passante est illimitée. Nous ne voulons pas mettre de barrière à votre succès ! Sachez néanmoins qu'un site qui deviendrait trop populaire (au delà de 1000 visiteurs par jour) ne serait plus adapté au service gratuit proposé par RaidGHost. Mais pas de panique, nous travaillons sur une offre pour les sites à grand trafic (lire le point sur [[https://www.raidghost.com/philosophie_politique.php|la politique de RaidGHost]]) !
+  * .htaccess : AllowOverride All. Celà signifie que vous pouvez configurer des restrictions sur votre site. Il est par exemple possible d'interdire l'accès à un répertoire ou d'en limiter l'accès grâce à un mot de passe. Vous pouvez aussi faire de la réécriture d'URL.
+  * Possibilité de lier des noms de domaine ou d'en avoir un gratuit en .raidghost.com.
+  * Possibilité de créer autant de sous-domaines que vous voulez avec un nom de domaine qui vous appartient ou avec celui offert par RaiGHost.
+  * PHP (FastCGI) 7.0 et 5.6 : la dernière version stable de PHP ainsi que l'ancienne pour ceux qui ne sont pas encore prêts à faire le grand saut ! (pour plus d'informations, voir le [[http://phpinfo.raidghost.com|PHPInfo]]). FastCGI permet une sécurité accrue en séparant les différents sites hébergés et une gestion au cas par cas des fonctionnalités php.
+  * La fonction mail() de PHP est activée sans restriction (vous pouvez envoyer autant de mails par jour que vous voulez : attention, les mailbombers sont interdits !).
+  * Possibilité d'afficher ou non les erreurs PHP.
+  * Possibilité d'uploader des fichiers via des formulaires jusqu'à 32 Mo !
+
+=== Les fonctionnalités PHP suivantes sont disponibles (pour plus d'informations, voir le [[http://phpinfo.raidghost.com|PHPInfo]]) ===
+
+  * GD : librairie de création dynamique d'images : utile pour un système de captcha par exemple.
+  * imagick : une autre librairie de création dynamique d'images.
+  * PDO (driver MySQL) : permet un système évolutif de connexion aux SGBD.
+  * MySQLi : si vous utilisez l'ancien système de connexion à MySQL, celui-ci est toujours disponible dans sa version sécusisée !
+  * MySQL : et dans sa version non sécurisée (c'est donc à vous d'être prudents quant aux injections SQL ! Si vous ne savez pas ce que c'est et que vous utilisez MySQL, allez lire d'urgence : la [[http://php.net/manual/en/function.mysql-connect.php|page du manuel consacrée]]).
+  * bz2 : un système efficace de compression des données.
+  * zip : un autre système de compression.
+  * curl : [[http://php.net/manual/en/book.curl.php|accéder au manuel]].
+  * intl : permet de développer un site international ! Outils de manipulation de caractère spéciaux et même des dates (il n'est pas la même heure pour vos visiteurs de Londres ou de Hong Kong !).
+  * ctype : [[http://php.net/manual/en/book.ctype.php|accéder au manuel]].
+  * ftp : permet de se connecter à un serveur FTP depuis vos pages PHP.
+  * regex : gestion des expression rationnelle.
+  * posix : gestion des expression rationnelle au format posix.
+  * fileinfo : aide à la gestion des fichiers.
+
+La configuration que nous avons faite de PHP devrait répondre à vos besoin, néanmoins, celle-ci peut toujours être modifiée pour vos sites, et ceci à la demande. Citons à ce titre quelques points pouvant être facilement modifiés sur simple demande :        
+   * max_execution_time : 60 secondes (permet l'installation des CMS comme Drupal ou phpBB).
+   * session.cache_expire : 180 secondes (durée par défaut des sessions PHP).
+   * upload_max_filesize : 100 Mio.
+   * max_file_uploads : 20 Mio.
+   * memory_limit : 128 Mio.
+   * max_input_time : 60 secondes.
+   * max_input_vars : 1000 secondes.
+
+==== Bases de données ====
+
+MySQL (mariaDB) 10.1 : MariaDB a été créée par Michael Widenius, le créateur de MySQL après le rachat de son SGBD (par Sun microsystems qui devrait lui-même être racheté par Oracle). Plus d'information sur Wikipédia. Son fonctionnement est semblable à MySQL, aussi, un site développé pour MySQL fonctionnera sans problème avec MariaDB. Wikipédia, Google, et les distributions comme Fedora et OpenSuse devraient à l'avenir utiliser MariaDB. Bref, tout ce blabla pour dire que RaidGHost a MySQL mais dans une version qui a davantage d'avenir. Pour vous ça ne change rien au niveau du code !
+PHPMyAdmin 4.6.1 est aussi accessible en HTTPS (lire : [[https://www.raidghost.com/philosophie_securite.php|un point sur la sécurité]]),
+
+L'ajout de PostgreSQL, MongoDB et éventuellement SQLite est au programme.
+
+==== Serveur FTP ====
+
+Pure-FTPd 1.0.36 : réputé pour sa sécurité et utilisé par de grandes entreprises comme RedHat. L'accès est disponible en FTPES, ce qui empêche le vol de mot de passe à la connexion (lire : [[https://www.raidghost.com/philosophie_securite.php|un point sur la sécurité]]).
+
+Le serveur est accessible en FTPES. Ce protocole permet de chiffrer vos identifiants lors de la connexion ainsi que les transferts de données (lire : [[https://www.raidghost.com/philosophie_securite.php|un point sur la sécurité]]).
+
+Un service de [[https://www.raidghost.com/web2ftp.php|WebFTP]] est disponible. Ceci vous permet de télécharger et d'envoyer vos fichiers depuis le site de RaidGHost sans utiliser de client FTP. C'est particulièrement utile lorsque vous avez une modification à faire depuis un ordinateur qui n'est pas le votre (vous n'avez rien à installer) ou depuis votre téléphone.
+
+La [[https://www.raidghost.com/web2ftp.php|WebFTP]] de RaidGHost est également accessible en HTTPS, ce qui permet une fois encore de chiffrer vos données pour empêcher toute tentative de piratage.
+
+==== Extras ====
+
+Les Tâches [[/cron|Cron]] sont disponibles. Cela vous permet d'appeler des pages de votre site de manière automatique, à l'heure que vous voulez, les jours que vous voulez. C'est très utile pour faire par exemple une newsletter qui nécessite d'envoyer des informations à vos membres de manière régulière, effectuer des opérations de maintenance ou encore envoyer un mail aux membres inscrits qui ne sont pas venu sur votre site ce mois-ci...
+
+Des statistiques détaillées générées toutes les 4 heures ! RaidGHost utilise [[/awstats|AWStats]] qui analyse les logs de vos sites et génère des statistiques, celà vous donne une idée de sa notoriété. On y voit en effet le nombre de visites, de visiteurs uniques, depuis quels sites ils accèdent au votre, la bande passante utilisée, leur pays/villes d'origine (utile pour savoir s'il serait nécessaire de traduire votre site pour toucher un public encore plus large !). Exemple de statistiques ici. Il vous est même possible de rajouter des fonctionnalités avancées qui vous permettront entre autre de savoir si les navigateurs de vos visiteurs supportent [[/flashplayer|Flash Player]], le PDF, de connaître leur résolution d'écran, et même d'avoir une carte du monde avec la répartition de vos visiteurs par pays (on a un petit faible pour ce genre de gadget sympatique !).
+
+Des sauvegardes quotidiennes sont effectuées (la sagesse veut qu'on ne soit jamais trop prudent). Cependant, celles-ci ne vous sont pas accessibles. Elles sont disponibles seulement en cas de panne de nos services (donc autant vous dire qu'on espère ne jamais s'en servir !). Nous prévoyons toutefois de mettre à votre disposition un service de sauvegardes qui vous permettrait d'avoir accès à votre site tel qu'il était hier, avant hier etc... ceci pour vous permettre de remédier à une erreur de votre part. Le coût de ce genre de dispositifs étant élevé, cette offre n'est pas encore disponible. Aussi, n'oubliez pas de sauvegarder régulièrement votre site lorsque vous travaillez dessus (ainsi que les bases de données, une erreur de votre part est vite arrivée donc soyez prudents ! Comme pour la qualité de vos mots de passe, nous ne pouvons rien faire pour vous à part vous mettre en garde !).
+
+Les adresses mails du type vous@votresite.com ne sont pour l'heure, pas disponibles. La WebMail non plus. En effet, celà ne nous apparaît pas comme des fonctionnalités prioritaires, d'autant que Google propose déjà gratuitement ce type de services dans sa suite d'outils Google Apps. Mais ça reste tout de même au programme des futurs services (lire le point sur la [[https://www.raidghost.com/philosophie_politique.php|politique de RaidGHost]]) !

@@ -1,0 +1,223 @@
+{{tag>Lucid tutoriel audio vidéo encodage montage_vidéo capture_vidéo}}
+----
+
+======Comment compiler FFmpeg ======
+
+
+Ce tutoriel décrit la procédure pour compiler, sous Ubuntu Lucid 10.04, la version de [[:ffmpeg|FFmpeg]] la plus récente .{{ http://upload.wikimedia.org/wikipedia/en/thumb/f/f8/Ffmpeg_logo.svg/200px-Ffmpeg_logo.svg.png| Logo de ffmpeg}}
+La version de [[:ffmpeg|FFmpeg]] utilisée dans ce tuto est 0.6-x et les options les plus utiles sont sélectionnées pour la compilation. 
+
+<note important>Ubuntu et Debian ont choisi la branche "avconv", dérivée (plus ou moins conflictuelle) de ffmpeg, mais qui n'assure ni la compatibilité des librairies partagées ni la compatibilité des arguments de la ligne de commande (!). Il est donc dangereux de remplacer brutalement les librairies système par la version officielle ffmpeg. Une solution intéressante (que j'utilise sous precise 12.04, avec ffmpeg version 2.1) est de compiler une version statique de ffmpeg qui n'interfère en rien avec les librairies installées au niveau système. Cette version est alors installée dans un répertoire utilisateur (~/bin, par exemple et par défaut). Cela permet d'utiliser les dernières fonctionnalités de ffmpeg (par exemple la concaténation de fichiers vidéo ); cela est parfaitement utilisable par l'interface graphique winff, par exemple. Pour ce faire suivre la procédure décrite en [[https://trac.ffmpeg.org/wiki/UbuntuCompilationGuide]] qui fournit un exécutable sans rien modifier au niveau des librairies partagées.
+
+La méthode est applicable quelle que soit la version d'Ubuntu. L'ensemble des binaires créés (ffmpeg, ffprobe, yasm, x264, etc.) représente un volume de moins de 75 Moctets. Pour le confort d'utilisation, vérifier que le répertoire où sont stockés ces exécutables (par défaut ~/bin) est bien rajouté au PATH.</note>
+===== Pré-requis =====
+
+  * Ubuntu 10.04 installé.
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Dépôts [[:depots|universe, multiverse et Medibuntu]] activés.
+  * **Pour chacun des chapitres ci-dessous la première commande est lancée depuis votre home ~/**
+  * Vous décidez de compiler [[:ffmpeg|FFmpeg]] dans /usr/local
+
+===== Récupération d'une partie des dépendances =====
+
+Tout d'abord, installez [[apt://ffmpeg]], depuis les dépôts officiels afin de récupérer automatiquement une partie des dépendances.
+
+
+===== Suppression de la version des dépôts =====
+
+A présent, supprimez cette installation de ''FFmpeg'', ainsi que le codec [[:x264|x264]] et ''Lame'' que nous allons remplacer par des versions plus récentes.
+ 
+
+<note important>[[:ffmpeg|FFmpeg]] et **''Lame''** sont des dépendences pour de nombreux programmes comme [[:dvdrip|DVD::Rip]], [[:ogmrip|OGMRip]], [[:kino|kino]] etc... 
+La commande ci-dessous entraînera égallement la désinstallation de ces programmes s'il sont installés.
+Il suffira de les réinstaller à l'aide de [[:synaptic|Synaptic]]</note>
+
+<note tip>Vous pouvez choisir de conserver la version de [[:x264|x264]] des dépôts Ubuntu. Par contre la version de ''Lame'' installée ci-dessous est requise. Sinon [[:ffmpeg|FFmpeg]] ne pourra être compilé.</note>
+
+    sudo apt-get remove ffmpeg x264 libx264-dev lame libmp3lame-dev
+
+===== Installation des outils =====
+
+Installer les outils nécessaires à la compilation de ''FFmpeg'': [[apt://yasm]] , [[apt://git]] - et [[apt://checkinstall]]
+
+===== Installation de ''Lame'' =====
+
+Pour être sûr de commencer dans ~/HOME
+
+  cd
+
+Télécharger et décompresser :
+
+  wget http://sourceforge.net/projects/lame/files/lame/3.99/lame-3.99.5.tar.gz &&  tar -zxvf lame-3.99.5.tar.gz && rm lame-3.99.5.tar.gz
+
+Déplacez le dossier téléchargé dans /usr/local/src.
+
+  sudo mv ~/lame-3.99.5/ /usr/local/src/
+  
+Puis compiler :
+
+  cd /usr/local/src/lame-3.99.5
+
+  ./configure
+
+  make
+
+  sudo checkinstall  
+  
+<note important>Lors de la création du paquet, ''checkinstall'' vous proposera de modifier les informations du paquet. Veillez à ce que la ligne 3 (N° de version) soit renseignée (un chiffre quelconque est requis). Si ce n'est pas le cas, faites-le manuellement; sans quoi la création du paquet échouera. Ceci est valable pour toutes les compilations suivantes.</note>
+  
+<note important>Lors de la création du paquet, ''checkinstall'' peut retourner des erreurs d'inexistence de dossiers ce qui aura pour conséquence d'annulation la création du paquet. Pour les créer manuellement taper :
+
+<code>sudo mkdir -p /usr/local/share/doc/lame/html /usr/local/share/man/man1 /usr/local/include</code>
+
+</note>
+  
+
+===== Installation de ''x264'' =====
+
+Revenir dans ~/HOME
+
+  cd
+  
+Téléchargez la dernière version du codec [[:x264|x264]]
+
+  git clone git://git.videolan.org/x264.git 
+
+Déplacez le dossier téléchargé dans /usr/local/src.
+
+  sudo mv ~/x264/ /usr/local/src/
+
+Puis compiler :
+
+  cd /usr/local/src/x264
+
+  ./configure --enable-shared
+
+  make
+
+  sudo checkinstall
+  
+<note important>Lors de la création du paquet, checkinstall peut retourner des erreurs d'inexistence de dossiers ce qui aura pour conséquence d'annulation la création du paquet. Pour les créer manuellement taper :
+
+<code>sudo mkdir -p /usr/local/lib/pkgconfig</code></note>
+
+<note important>
+Si vous obtenez le message suivant : Minimum version is yasm-1.2.0 procédez à l'installation de yasm 1.2.0
+<code>
+cd
+wget http://www.tortall.net/projects/yasm/releases/yasm-1.2.0.tar.gz
+tar xzvf yasm-1.2.0.tar.gz
+sudo mv ~/yasm-1.2.0/ /usr/local/src/
+cd /usr/local/src/yasm-1.2.0
+./configure
+make
+sudo checkinstall
+</code>
+</note>
+===== Installation de ''libvpx'' =====
+
+''libvpx'' n'est pas disponible dans les dépôts, il faut l'installer manuellement
+Revenir dans ~/HOME
+
+  cd
+  
+Téléchargez la dernière version du codec
+  
+  git clone https://chromium.googlesource.com/webm/libvpx
+
+Déplacez le dossier téléchargé dans /usr/local/src.
+  sudo mv ~/libvpx/ /usr/local/src/
+
+Puis compiler :
+
+  cd /usr/local/src/libvpx
+
+  ./configure
+
+  make
+
+  sudo checkinstall
+
+===== Installation des dépendances =====
+
+On installe le reste des dépendances nécessaires :
+
+  sudo apt-get install build-essential libvorbis-dev libxvidcore-dev libfaac-dev  libfaad2  libtheora-dev libdirac-dev libvdpau-dev libopenjpeg-dev libopencore-amrwb-dev libopencore-amrnb-dev libgsm1-dev libschroedinger-dev libspeex-dev libdc1394-22-dev libsdl1.2-dev libx11-dev libxfixes-dev 
+
+
+===== Installation de ''FFmpeg''=====
+
+Revenir dans ~/HOME
+
+  cd
+  
+Téléchargez la dernière version de ''FFmpeg'' avec Git ( ou sur le site ffmpeg.org. )
+
+  git clone git://git.videolan.org/ffmpeg.git
+
+Déplacez le dossier téléchargé dans /usr/local/src.
+
+  sudo mv ~/ffmpeg/ /usr/local/src/
+
+Puis configurer :
+
+  cd /usr/local/src/ffmpeg
+
+  ./configure --enable-libmp3lame --enable-libxvid --enable-libvorbis --enable-gpl --enable-libfaac --enable-libtheora --enable-zlib --disable-shared --enable-libx264 --enable-libdirac --enable-nonfree --enable-version3 --enable-libschroedinger --enable-avfilter --enable-libspeex --enable-libopenjpeg --enable-libgsm --enable-postproc --enable-pthreads --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-ffplay --enable-pthreads --prefix=/usr/local --enable-x11grab --enable-runtime-cpudetect --enable-bzlib --enable-libdc1394 --enable-libvpx
+
+Effacer les résidus d'éventuelles anciennes installations :
+
+  sudo make clean
+
+Compiler:
+
+  make
+
+  sudo checkinstall
+  
+<note important>Lors de la création du paquet, ''checkinstall'' vous proposera de modifier les informations du paquet. Veillez à ce que la ligne 3 (N° de version) soit renseignée (un chiffre quelconque est requis) à ce jour la version git est 0.6-1-1. Si ce n'est pas le cas, faites-le manuellement; sans quoi la création du paquet échouera.</note>
+
+===== Lancement de ''FFmpeg''=====
+
+  ffmpeg
+
+Si l'installation s'est correctement déroulée, la commande vous renverra :
+
+  ~$ ffmpeg
+  FFmpeg version UNKNOWN, Copyright (c) 2000-2010 the FFmpeg developers
+  built on Sep  3 2010 15:21:36 with gcc 4.4.3
+  configuration: --enable-libmp3lame --enable-libxvid --enable-libvorbis --enable-gpl --enable-libfaac --enable-libtheora --enable-zlib --enable-shared --enable-libx264 --enable-libdirac --enable-nonfree --enable-version3 --enable-libschroedinger --enable-avfilter --enable-libspeex --enable-libopenjpeg --enable-libgsm --enable-postproc --enable-pthreads --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-ffplay --enable-pthreads --prefix=/usr/local --enable-x11grab --enable-runtime-cpudetect --enable-bzlib --enable-libdc1394 --enable-libvpx
+  libavutil     50.24. 0 / 50.24. 0
+  libavcore      0. 6. 0 /  0. 6. 0
+  libavcodec    52.87. 0 / 52.87. 0
+  libavformat   52.78. 3 / 52.78. 3
+  libavdevice   52. 2. 1 / 52. 2. 1
+  libavfilter    1.38. 1 /  1.38. 1
+  libswscale     0.11. 0 /  0.11. 0
+  libpostproc   51. 2. 0 / 51. 2. 0
+  Hyper fast Audio and Video encoder
+  usage: ffmpeg [options] [[infile options] -i infile]... {[outfile options] outfile}...
+  
+  Use -h to get full help or, even better, run 'man ffmpeg'
+
+===== Bloquer les versions =====
+
+Dans [[:synaptic|synaptic]], recherchez [[:ffmpeg|FFmpeg]] , [[:lame|lame]] , [[:x264|x264]], [[:libvpx|libvpx]] sélectionnez-les, puis, dans le menu **//''Paquet''//**, sélectionnez **//''Bloquer la version''//**.
+
+===== Désinstallation =====
+
+Chacun des paquets installés ci-dessus peut être supprimé à l'aide de [[:synaptic|synaptic]]
+
+===== Conclusion =====
+
+Votre compilation de [[:ffmpeg|FFmpeg]] est prête à être utilisée. 8-)
+
+===== Voir aussi =====
+
+  * **(en)** [[http://www.ffmpeg.org/index.html|Site officiel de ''ffmpeg'']]
+  * **(fr)** [[http://technique.arscenic.org/compilation-de-logiciel/article/compiler-ffmpeg|Une des sources d'inspiration de ce tuto]]
+  * **(fr)** [[:ffmpeg|Le wiki Ubuntu de FFmpeg]]
+  * **(fr)** [[http://www.webupd8.org/2010/04/script-to-automatically-download-and.html|Un script d'installation qui paraît sérieux, mais que j'ai parcouru mais pas testé]]
+
+----
+//Contributeurs principaux : [[:utilisateurs:foxprobe]].//

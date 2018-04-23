@@ -1,0 +1,47 @@
+{{tag>Trusty live_usb installation}}
+----
+
+{{ :applications:mkusb.png}}
+====== Mkusb interface graphique pour dd ======
+ 
+**Mkusb** est une interface graphique pour [[:dd]]. Il permet de créer rapidement et simplement des supports d'installation d'Ubuntu.
+La création de médias de démarrage n'est pas limité à l'USB, mais s'étend aux disques internes, aux disques eSATA, etc.
+ 
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir activé l'accès au [[:depots|dépôt Universe]].
+ 
+ 
+===== Installation =====
+ 
+Pour installer ce logiciel :
+  * [[:ppa#ajout_d_un_ppa_a_vos_sources_logicielles|Ajoutez le PPA]] **ppa:mkusb/pe4pa**((https://launchpad.net/~mkusb/+archive/ubuntu/ppa)) dans vos sources de logiciels, 
+  * Puis [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|recharger la liste des paquets]],
+  * Enfin [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>mkusb]]**.
+
+ 
+===== Utilisation =====
+ 
+Lancez l'application via le [[unity#tableau_de_bord_dash|le tableau de bord Unity]] avec le mot clé **Mkusb**, ou via le [[:terminal]] (toutes versions d'Ubuntu) avec la [[:commande_shell|commande]] suivante : <code>mkusb</code>
+
+{{ :applications:mkusb2_trusty.png?500 }}
+
+Pour créer une clé de démarrage, dans la fenêtre qui s'ouvre :
+  * Séléctionnez //Select source -iso, img...// pour choisir l'image ISO à installer sur la clé,
+  * Puis choisissez // Install ==> find target drive...// pour séléctionner le disque cible qui servira de clé de démarrage.
+ 
+===== Désinstallation =====
+ 
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+ 
+===== Voir aussi =====
+
+  * Pour plus de détails, sur toutes les options voir [[
+https://help.ubuntu.com/community/mkusb|l'aide en anglais]].
+
+--------------
+
+Contributeurs :
+[[:utilisateurs:l_africain|L'Africain]]

@@ -1,0 +1,252 @@
+{{tag>Portail materiel reseau wifi}}
+
+====== Wi-Fi ======
+
+Le Wi-Fi est la technologie sans fil utilisée pour se connecter à un réseau informatique (internet - intranet - local). L'avantage de ce type de connexion est de s'affranchir du câble souvent contraignant. Le Wi-Fi permet donc un meilleur confort de l'utilisation du réseau. 
+
+La prise en charge du matériel Wi-Fi par le système d'exploitation Ubuntu est relativement bonne et elle s'améliore à chaque nouvelle version (tous les 6 mois). En règle générale, vous n'aurez rien de spécial à faire, pour vous connecter à un réseau Wi-Fi, votre ordinateur devrait vous signaler automatiquement les réseaux disponibles au démarrage de la machine. Si c'est le cas vous pouvez passer directement au [[#Utilisation du Wi-Fi|paragraphe qui traite de la connexion au Wi-Fi]]. Si par contre vous rencontrez des problèmes pour vous connecter, passez au paragraphe qui suit.
+
+===== Identifier sa carte réseau Wi-Fi  =====
+Si votre ordinateur n'affiche aucun réseau Wi-Fi alors que ces derniers sont disponibles, il est possible que le pilote de votre carte ne soit pas installé. Pour savoir quel pilote est nécessaire, il faut d'abord connaître son matériel:
+  * Si votre carte Wi-Fi est reliée par %%USB%% à l'ordinateur, dans un [[:terminal]], saisissez la [[:commande_shell|commande]] suivante: <code>lsusb</code> Regardez le nom exact de votre carte Wi-Fi, et notez aussi le chipset qu'elle utilise.
+  * Sinon, dans un [[:terminal]], saisissez la [[:commande_shell|commande]] suivante:<code>lspci | grep -i net</code>Regardez le nom exact de votre carte Wi-Fi, et notez aussi le chipset qu'elle utilise. Normalement la ligne contient le mot wireless ou wlan (par exemple cela peut être Broadcom Corporation BCM4306 rev 03).
+
+Consultez la [[:wifi_liste_carte|page listant les cartes Wi-Fi]] pour savoir ce qui est recommandé au sujet de votre matériel.
+**Souvent 3 possibilités existent pour faire fonctionner les cartes Wi-Fi**. Soit :
+  * Il vous manque un micro-logiciel propriétaire que vous pouvez installer par le [[:gestionnaire_de_pilotes_proprietaires|gestionnaire de pilotes propriétaires]],
+  * Votre [[:versions|version]] d'Ubuntu est actuellement trop ancienne et son [[:kernel|noyau]] ne prend pas encore en charge votre matériel, dans ce cas migrer vers une [[:versions|version]] plus récente ou bien [[:ltsenablementstack|installez un noyau plus récent]],
+  * La dernière possibilité consiste à utiliser les pilotes existants pour Windows grâce à l'application [[:Ndiswrapper]].
+
+<note help>Le logiciel se trouve sur le CD d'installation d'Ubuntu, qu'il suffit [[:tutoriel:comment_modifier_sources_maj|d'activer dans les sources de logiciels]].</note>
+
+<note>Pour demander de l'aide sur le forum il existe un script qui devrait vous simplifier la tâche : [[:Wificheck]].</note>
+
+=====Utilisation graphique du Wi-Fi=====
+Il existe plusieurs possibilités pour qu'Ubuntu puisse se connecter au Wi-Fi. La plus simple est l'utilisation de l'application par défaut, [[:Network-Manager]]. Vous pouvez y accéder en cliquant sur le logo en forme de Wi-Fi en haut à droite de votre écran.\\
+En dehors de [[:Network-Manager]] il existe encore d'autres utilitaires de configuration, en voici quelques-uns :
+  * [[:Network-admin]],
+  * [[:WiFi-radar]] : possible après l'ajout du paquet correspondant,
+  * [[:Wicd]] : Une alternative à NetworkManager
+
+[[http://example.com|Lien externe]]
+===== Utilisation du  Wi-Fi en ligne de commande=====
+Si vous souhaitez paramétrer et gérer votre connexion Wi-Fi en ligne de commande reportez-vous à cette [[:wifi_ligne_de_commande|page]].
+
+
+=====Utilisation avancée=====
+
+====Activer un Wi-Fi désactivé====
+Sur certains modèles de portable il peut arriver que la carte Wi-Fi ne s'active pas sous Ubuntu, **lorsque celui-ci est utilisé conjointement à Windows** (en dual-boot). De façon plus large si le wifi ne s'active pas utilisez la procédure qui suit.\\
+Pour que le Wi-Fi soit activé sous Ubuntu, si vous êtes en dual-boot, il faut l'avoir préalablement activé sous Windows (au moyen du bouton dédié), lors de la dernière session.\\
+Une autre possibilité est l'usage de la commande ''rfkill''.
+Ouvrez un [[:terminal]] et saisissez les commandes suivantes :
+  * Vérifiez que la carte Wi-Fi n'est pas désactivée: <code>rfkill list</code>
+Si après ''Soft blocked'' vous avez un ''yes'', alors le Wi-Fi est bloqué de façon logicielle, par contre si vous avez un ''yes'' après ''Hard blocked'' c'est que votre Wi-Fi est bloqué matériellement par un bouton dédié.
+  * Pour activer les cartes Wi-Fi: <code>sudo rfkill unblock all</code>
+
+(astuce trouvée sur [[http://linux.leunen.com/?p=1028|ce blog]], voir aussi [[http://www.mumblyworld.info/?p=134|ici]].
+
+==== Pour obtenir la liste des réseaux en mode console ====
+
+Pour détecter/afficher vos réseaux sans fils disponibles ( et celui de votre voisin :) ), utilisez **[[apt>iw]]**: 
+  * Pour lister les périphériques réseau supportant le Wifi : <code>iw dev</code>
+  * Pour lister les réseaux visibles sur l'interface wlan0 : <code>sudo iw dev wlan0 scan</code>
+  * Pour afficher l'état d'une connexion réseau sans fil : <code>sudo iw dev wlan0 link</code>
+  * Pour informations (statistiques) sur le point d'accès sur lequel vous êtes connecté : <code>iw dev wlan0 station dump</code>
+
+==== Filtrage MAC ====
+
+Si votre point d'accès ou votre routeur dispose d'un filtrage sur les adresses MAC, n'oubliez pas de le configurer correctement et d'autoriser votre carte Wi-Fi à se connecter à votre réseau.
+
+Pour obtenir l'adresse MAC de la carte réseau, tapez la commande ''ifconfig'' dans un terminal lorsque l'interface est **activée**.
+
+**Pour la suite, remplacez <wlan0> par le nom de votre interface sans fil.**
+
+Puis pour changer l'adresse mac :
+<code>
+ifconfig wlan0 hw ether xx :xx :xx :xx :xx :xx 
+</code>
+remplacer xx :xx :xx :xx :xx :xx. par l'adresse mac de la station [[http://www.tuto-fr.com/tutoriaux/tutorial-crack-wep-aircrack.php#changer-addresse-mac|wifi sur tuto-fr.com]]
+
+Pour ceux qui utilisent souvent les Hotspots, **Network Manager** permet désormais de faire du "MAC spoofing". Cela signifie que pour chacune des connexions réseau, il est possible de spécifier l'adresse MAC avec laquelle on souhaite se connecter. Tout ceci se fait par l’intermédiaire de l'interface graphique de Network Manager (dans les propriétés de chaque connexion). Contrairement à la méthode qui utilise la commande "ifconfig", ces modifications sont permanentes, par contre il n'est pas encore possible de spécifier une adresse MAC réinitialisée aléatoirement à chaque fois que l'on se connecte.
+
+==== Autorisation du canal ====
+Il peut arriver qu'Ubuntu choisisse la zone US pour le Wi-Fi. Or cette zone ne contient pas plusieurs canaux régulièrement utilisés en France (comme les canaux 12, 13).[[wpen>List_of_WLAN_channels|Liste des canaux]].
+Si la commande : <code>iw reg get</code> vous répond : <code>country US</code> alors vous êtes dans ce cas de figure.
+Pour choisir la France, lancez la commande : <code>sudo iw reg set FR</code>
+Et pour le rendre permanent [[:tutoriel:comment_editer_un_fichier|éditez le fichier]] **/etc/default/crda** et ajoutez en bas du fichier :
+<file>REGDOMAIN=FR</file>
+Voir [[http://askubuntu.com/questions/503416/wifi-country-changed-to-us-how-do-i-change-it-back|ici]] pour plus de détails.
+
+==== Utilisation conjointe d'une carte réseau sans-fil et d'une carte filaire (Ethernet) ====
+
+Pour utiliser conjointement la carte Wi-Fi et la carte filaire sur le même réseau : il suffit d'avoir des adresses IP distinctes...
+
+Pour cela, passer en manuel l'affectation de l'adresse IP, imposer manuellement une adresse IP et le tour est joué. Pour plus de détails voir ce [[:Network-Manager#gerer_les_adresses_ip|paragraphe]] de la page Network-Manager.
+
+
+===== Optimisation du Wifi =====
+Voir la page [[:wifi_optimisation|sur l'optimisation du Wi-Fi]].
+
+===== Problèmes et cas particuliers =====
+<note>Exemple: pour faire fonctionner le wifi avec une Livebox2, il n'y a en fait rien a changer sur le PC: il faut juste mettre la Live box en mode association en appuyant sur le bouton N° 1 sur le coté de la box. Puis rentrer la clé WEP ou WPA quand Ubuntu vous le demande.
+</note>
+==== UEFI Secure Boot ====
+<note important><note tip>Certaine carte Wifi sont bloquée via le [[desactiver_secure_boot|Secure Boot]]\\
+exemple: [[wifi_broadcom_bcm43xx#uefisecureboot|Broadcom]]</note></note>
+
+
+====Clé WPA redemandée à chaque démarrage====
+
+Si votre clé d'accès à la borne est redemandée sans cesse et que vous ne voulez pas avoir de trousseau de clé à débloquer toujours :
+  - Supprimez tous les fichiers du [[:fichier_cache|dossier caché]] **~/.local/share/keyrings/** de votre **Dossier Personnel**,
+  - Avec [[:Seahorse]], créez un nouveau trousseau appelé ''login'' auquel vous ne donnez pas de mot de passe (laissez vide)
+  - Reconnectez-vous à votre box.
+
+Désormais la connexion est automatique à chaque démarrage sans avoir à saisir de mot de passe. Pour plus d'informations, veuillez consulter la section « [[:desactiver_mots_de_passe#Solution avec perte de sécurité]] » de la page « [[:desactiver_mots_de_passe|Désactiver les mots de passe]] ».
+
+====Réseau sans fil détecté mais impossible d'obtenir l'adresse IP====
+Le logiciel de configuration du réseau (**Network-Manager, Wicd, etc**) arrive à détecter les réseaux sans fil disponibles, mais quand vous cliquez pour vous connecter, la connexion n'aboutit pas.\\
+Dans le cas de [[:Network-manager]], dès que vous cliquez sur le SSID, le logiciel tente de se connecter, puis s'arrête au bout de quelques secondes. Pour ce qui est de [[:Wicd]], le logiciel gèle sur l'étape de **Obtention de l'adresse IP...** avec la barre de progression qui oscille de gauche à droite continuellement.\\
+Pour régler cela, suivez ces instructions :
+  * Changez de service de gestion réseau en "arrêtant" Network-Manager pour ré-activer networking : <code>sudo service network-manager stop && sudo service networking start
+sudo update-rc.d network-manager remove
+sudo update-rc.d networking defaults</code>
+  * Puis dans un terminal rechercher le nom de votre carte réseau sans fil en tapant ce qui suit : <code>iwconfig</code> et ça devrait afficher quelque chose comme cela: <code>lo        no wireless extensions.
+
+eth0      no wireless extensions.
+
+wlan0     IEEE 802.11bg  ESSID:off/any  
+          Mode:Managed  Frequency:2.422 GHz  Access Point: Not-Associated   
+          Tx-Power=20 dBm   
+          Retry  long limit:7   RTS thr:off   Fragment thr:off
+          Power Management:off</code> En l'occurrence, **__wlan0__** est le nom de la carte réseau __sans fil__ de votre ordinateur. Notez-le car on en aura besoin plus tard!
+  * [[:tutoriel:comment_editer_un_fichier|Modifiez]] avec les [[:sudo|droits d'administration]]  le fichier **/etc/network/interfaces** : <file>
+auto lo
+iface lo inet loopback</file> Ajouter dans ce fichier texte le paragraphe suivant, où **__wlan0__** est le nom de votre carte réseau __sans fil__. <file>auto wlan0
+iface wlan0 inet dhcp</file>
+  * Redémarrez le réseau avec cette commande: <code>sudo /etc/init.d/networking restart</code>
+
+
+Enfin, réessayez de vous connecter ça devrait fonctionner.
+
+==== Connexion lente====
+
+Si vous remarquez que votre connexion Wi-Fi est anormalement lente et que cela ne vient pas de votre matériel (carte ou AP) et avant de réinstaller, recompiler...d'autres pilotes : 
+  * Vérifiez le Bit Rate de la carte :<code>iwconfig wlan0 | iw dev wlan0 link</code> 
+  * Si vous voyez Bit Rate=1Mb/s alors tapez : <code>sudo ifdown wlan0
+sudo iwconfig wlan0 rate 54M
+sudo ifup wlan0</code>
+Enfin, faites "iwconfig" pour vérifier qu'il vous met bien Bit Rate=54Mb/s .
+Voilà qui devrait aller mieux !
+
+pour que ça reste permanent : 
+[[:tutoriel:comment_modifier_un_fichier|Ajoutez dans]] **/etc/rc.local** (avant la ligne exit 0)
+
+<file>
+ ifconfig wlan0 up
+ iwconfig wlan0 rate 54M
+</file>
+on redémarre et le tour est joué!
+==== Problèmes sous Lubuntu====
+Bien que Lubuntu soit en principe équivalent a Ubuntu, certaines installations ont un Wi-Fi fonctionnel directement sous Ubuntu, et pas sous Lubuntu. La solution se trouve sur la page consacrée à [[:lubuntu#icone_reseau_invisible|Lubuntu]].
+
+Ce lien renvoie sur la page Lubuntu dont le paragraphe "6.3 Carte Wi-Fi qui ne fonctionne pas" renvoie vers la page Wi-Fi. En clair, c'est une boucle et on n'en sait pas plus.
+
+
+==== Problèmes de résolution DNS et configuration en ip Fixe ====
+
+Il peut arriver qu'une configuration en ip fixe, via **/etc/network/interfaces**, ne vous permette plus d'effectuer des "résolution DNS".
+En clair cela signifie que votre ordinateur ne sera plus en mesure de traduire un nom de domaine (eg: www.google.com) en adresse IP.
+
+Plusieurs solutions traînent sur la toile, avec plus où moins d'efficacité et plus où moins de « bonne pratique ».
+
+Dans ce cas et uniquement si vous utilisez une configuration fixe définie dans **/etc/network/interfaces**, il est recommandé [[#Réseau sans fil détecté mais impossible d'obtenir l'adresse IP|de désactiver le service]] [[:Network-Manager]], de réactiver le service networking et de configurer votre/vos interfaces en renseignant DNS et Domaine de recherche.
+
+Comme vous pouvez le voir [[http://sorrodje.alter-it.org/index.php?article21/ubuntu-12-04-server-configuration-dns-et-ip-fixe|ici]], ajoutez ceci à la configuration de votre/vos interfaces :
+<file>auto eth1
+iface eth1 inet static
+[...]
+dns-nameservers 8.8.8.8 # ip de votre router ou du dns à utiliser
+dns-search localdomain # nom de domaine local de recherche si exploité</file>
+
+Relancez vos interfaces ou redémarrez votre ordinateur.
+
+==== La connexion réseau ne se réactive pas en sortie de veille ou d'hibernation :====
+
+
+<note tip><note help>**Merci de vérifier le bon fonctionnement de l'astuce suivante
+et de signaler vos réussites et échecs à [[http://forum.ubuntu-fr.org/profile.php?id=198416|f.x0]]**</note>
+
+Une solution est de lister en terminal le module utilisé par le wifi :
+ <code>lshw -class network</code>
+**1)** - noter le nom du **driver** wifi utilisé spécifié par la commande lshw -class network.
+
+**2)** - vérifier que la commande
+ <code>lsmod</code>
+affiche le même nom du driver.
+
+par exemple :
+<code>lshw -class network
+ATTENTION: ce programme devrait être lancé en tant que super-utilisateur
+*-network
+       description: Interface réseau sans fil
+       driver=r8712u</code>
+
+<code>lsmod
+r8712u                142855  0</code>
+
+En tout état de cause c'est bien le nom du module listé par la commande lsmod
+qu'il faudra insérer dans le fichier /etc/pm/config.d/load
+
+**3)** - Taper cette commande pour créer (ou modifier) le fichier /etc/pm/config.d/load
+ <code>echo "SUSPEND_MODULES=r8712u" | sudo tee -a /etc/pm/config.d/load</code>
+
+**4)** - Rendre le fichier exécutable:
+ <code>sudo chmod +x /etc/pm/config.d/load</code>
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+**Cela fonctionne également sur Ubuntu 14.04 sans rendre le fichier exécutable (sans l'étape 4) **
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+**Il semble qu'à partir de la version 16.04 et du noyau 4.4.0-66
+il faut en plus relancer NetworkManager**
+<code>sudo service network-manager restart</code>
+Si cette commande fonctionne, il est possible d'automatiser l'opération
+pour éviter de le faire après chaque mise en veille :
+
+**1)** - Créer un script dans le répertoire /etc/pm/sleep.d :
+<code>echo -e '#!/bin/sh\n/etc/init.d/network-manager restart\nexit 0' | sudo tee /etc/pm/sleep.d/NWM.sh</code>
+**2)** - Rendre le script exécutable:
+ <code>sudo chmod +x /etc/pm/sleep.d/NWM.sh</code>
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+</note>
+
+=====Portail wifi=====
+====Portail captif====
+
+''''Voir la page dédiée aux [[:portail_captif|portails captifs]]
+====Technologies sans fil alternatives=====
+Reseau mesh (([[wpfr>Topologie_mesh]])) ( [[wp>Wireless_mesh_network#Routing_protocols|liste des protocoles]] )
+     * [[wp>Optimized_link_state_routing_protocol|Optimized link state routing protocol]] 
+     * [[http://www.openmesh.org/|Openmesh]]
+     * Netsukuku
+     * Propriétaire :
+     * [[wpfr>ZigBee]] : à la base à visée [[:domotique]] ([[http://www.korben.info/smavnet-un-reseau-dans-le-ciel.html|video smavnet]])
+     *  [[http://www.wifilorraine.com/|amplificateur wifi]]
+   
+=====Voir aussi=====
+
+   * La page sur [[:fournisseurs_d_acces_a_internet_locaux|les fournisseurs d'accès à internet locaux]]
+   * [[wpfr>Réseaux sans fil communautaires]]
+   * [[wp>Wireless_community_network|Wireless community network]] / [[wp>List_of_wireless_community_networks_by_region]]
+   * [[:tutoriel:wifi_ad-hoc|Utilisation du Wifi en mode décentralisé dit Ad-hoc]].
+   * [[http://forum.ubuntu-fr.org/viewtopic.php?id=271640|Discussion]] du forum sur l'optimisation de la portée et/ou du débit et/ou de la consommation du wifi.
+
+===== Pages concernant le Wi-Fi sous Ubuntu =====
+
+{{topic>wifi}}
+
+
+----
+
+//Contributeurs: Rédigé par ostaquet, termitor, yurek//

@@ -1,0 +1,71 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="clear"><ul class="toc">
+<li class="level2"><span class="li"><a href="#introduction" class="toc"> Introduction </a></span></li>
+<li class="level2"><span class="li"><a href="#smbd" class="toc"> smbd </a></span></li>
+<li class="level2"><span class="li"><a href="#nmbd" class="toc"> nmbd </a></span></li>
+<li class="level2"><span class="li"><a href="#winbindd" class="toc"> winbindd </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+page en cours de création pour Hoary
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/manu" class="wikilink1" title="utilisateurs:manu" onclick="return svchk()" onkeypress="return svchk()">manu</a>.
+</p>
+
+<a name="introduction"></a><h2> Introduction </h2>
+<div class="level2">
+
+<p>
+ Le fonctionnement de <strong>Samba</strong> repose principalement sur ses deux démons: <strong>smbd , nmbd</strong>.
+</p>
+
+<p>
+Il existe un troisième depuis la version 3 de <strong>Samba</strong> c&rsquo;est <strong>winbindd</strong>.
+</p>
+
+<p>
+Théoriquement lors de l&rsquo;installation du paquet <strong>samba</strong> et de ses dépendances, le système a configuré votre Ubuntu pour que ces démons soient lancés automatiquement au démarrage. Si ce n&rsquo;était pas le cas modifier vos fichiers de boot /etc/rc.x  et /etc/services.
+</p>
+
+</div>
+<!-- SECTION [92-561] -->
+<a name="smbd"></a><h2> smbd </h2>
+<div class="level2">
+
+<p>
+ C&rsquo;est le principal démon de <strong>Samba</strong> car c&rsquo;est lui qui permet le partage des fichiers et des imprimantes. Son paramètrage se fait par l&rsquo;intermediaire du fichier de configuration <strong>smb.conf</strong>. <strong>smbd</strong> verifie toutes les minutes ce fichier pour prendre en compte les modifications. Vous pouvez accélérer cette prise en compte en relancant le démon manuellement.
+</p>
+
+</div>
+<!-- SECTION [562-947] -->
+<a name="nmbd"></a><h2> nmbd </h2>
+<div class="level2">
+
+<p>
+ <strong>nmbd</strong> est le démon de <em>samba</em> qui permet le nommage <em>NetBios</em> et l&rsquo;exploration des réseaux <em>Windows</em>. Il est egalement utilisé pour la résolution de nom et la fonction <em>Wins</em> en cas où vous utilisez <em>samba</em> comme serveur pour votre réseau <em>NetBios</em>.<br/>
+  Il prend ses parametres dans le fichier <strong>smb.conf</strong> comme smbd.
+</p>
+
+</div>
+<!-- SECTION [948-1305] -->
+<a name="winbindd"></a><h2> winbindd </h2>
+<div class="level2">
+
+<p>
+Ce dernier démon ne sert que si vous intégrez votre serveur <em>samba</em> dans un domaine NT ou que vous avez besoin de relation d&rsquo;approbation entre domaine <em>Windows</em>.
+</p>
+
+<p>
+ Retour à la page <a href="/applications/samba/avancee" class="wikilink1" title="applications:samba:avancee" onclick="return svchk()" onkeypress="return svchk()">avancee</a> 
+</p>
+
+</div>
+<!-- SECTION [1306-] -->

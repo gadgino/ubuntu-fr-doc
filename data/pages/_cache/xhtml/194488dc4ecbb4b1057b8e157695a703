@@ -1,0 +1,203 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#le_besoin" class="toc"> Le besoin </a></span></li>
+<li class="level1"><span class="li"><a href="#faire_la_sauvegarde" class="toc"> Faire la sauvegarde </a></span></li>
+<li class="level1"><span class="li"><a href="#supprimer_des_sauvegardes" class="toc"> Supprimer des sauvegardes </a></span></li>
+<li class="level1"><span class="li"><a href="#tester_un_backup" class="toc"> Tester un backup </a></span></li>
+<li class="level1"><span class="li"><a href="#automatiser_l_ensemble" class="toc"> Automatiser l'ensemble </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#journaliser_les_taches" class="toc"> Journaliser les tâches </a></span></li>
+<li class="level2"><span class="li"><a href="#le_script" class="toc"> Le script </a></span></li>
+<li class="level2"><span class="li"><a href="#trucs_astuces" class="toc"> Trucs &amp; astuces </a></span></li>
+</ul>
+</li>
+<li class="level1"><span class="li"><a href="#references" class="toc"> Références </a></span></li>
+</ul>
+</div>
+</div>
+<pre class="code"> Version Hoary</pre>
+ Rédigé par <a href="/utilisateurs/herbie" class="wikilink1" title="utilisateurs:herbie" onclick="return svchk()" onkeypress="return svchk()">Herbie</a> <br/>
+ Article provenant de <a href="http://debuntu.tuxfamily.org" class="urlextern" title="http://debuntu.tuxfamily.org" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://debuntu.tuxfamily.org</a> <br/>
+  
+<a name="le_besoin"></a><h1> Le besoin </h1>
+<div class="level1">
+
+<p>
+ Faire des sauvegardes différentielles journalières de son  /home et supprimer les sauvegardes vieilles d&rsquo;une semaine par exemple. Ceci est réalisé via le logiciel rdiff-backup. J&rsquo;explique également comment tout automatiser.
+</p>
+
+</div>
+<!-- SECTION [117-371] -->
+<a name="faire_la_sauvegarde"></a><h1> Faire la sauvegarde </h1>
+<div class="level1">
+
+<p>
+Voici la commande qui permet de faire une sauvegarde :
+</p>
+<pre class="code">rdiff-backup --exclude /home/mon_login/.aMule /home/mon_login /rep_save&lt;/blockquote&gt;</pre>
+
+<p>
+ Ici on sauvegarde tout le /home/mon_login sauf le repertoire ./aMule dans le dossier de destination /rep_save
+</p>
+
+</div>
+<!-- SECTION [372-659] -->
+<a name="supprimer_des_sauvegardes"></a><h1> Supprimer des sauvegardes </h1>
+<div class="level1">
+
+<p>
+Pour supprimer les différences accumulées au fur et à mesure que l&rsquo;on a ajouté des sauvegardes :
+</p>
+<pre class="code">rdiff-backup --remove-older-than 1W --force /le_repertoire_de_sauvegarde</pre>
+
+<p>
+ ici on enlève toutes les modifications enregistrées vieilles de plus d&rsquo;une semaine. On peut mettre D(ay),W(eek), M(onth) et Y(ear).
+</p>
+
+<p>
+S&rsquo;il il y a plusieurs sauvegardes à supprimer, la commande échoue. C&rsquo;est pourquoi il faut rajouter le paramètre &ndash;force pour ne pas prendre cette erreur en compte et que rdiff-backup effectue bien ce qu&rsquo;on lui demande.
+</p>
+
+</div>
+<!-- SECTION [660-1234] -->
+<a name="tester_un_backup"></a><h1> Tester un backup </h1>
+<div class="level1">
+
+<p>
+Pour vérifier que nos sauvegardes fonctionnent bien, on peut restaurer une sauvegarde :
+</p>
+<pre class="code">rdiff-backup -r now /repertoire_de_sauvegarde /repertoire_de_restauration</pre>
+
+<p>
+ L&rsquo;option -r now permet de remettre la version de la sauvegarde la plus récente. On peut remonter dans les sauvegardes, par exemple remettre le repertoire d&rsquo;il y a 3 jours avec l&rsquo;option -r 3D.
+</p>
+
+</div>
+<!-- SECTION [1235-1625] -->
+<a name="automatiser_l_ensemble"></a><h1> Automatiser l'ensemble </h1>
+<div class="level1">
+
+<p>
+Voici la partie vraiment intéressante : comment faire pour que nos commandes précédentes se fasse de façon automatique, de façon à ce que l&rsquo;on ait pas à les taper chaque jour ?
+</p>
+
+</div>
+<!-- SECTION [1626-1847] -->
+<a name="journaliser_les_taches"></a><h2> Journaliser les tâches </h2>
+<div class="level2">
+
+<p>
+ Tout d&rsquo;abord quelques mots sur les logiciels journalisation de tâches : Actuellement on dispose de trois outils sous linux pour cela :
+</p>
+<ul>
+<li class="level1"><span class="li"> <strong>at</strong> qui permet de definir des taches a realiser a un instant precis et si la machine est eteinte a ce moment la, la tache sera realisee au prochain demarrage. utilise par tout le monde</span>
+</li>
+<li class="level1"><span class="li"> <strong>cron</strong> peut definir des taches periodiques mais c est un demon donc si la machine est eteinte, la commande ne se lancera pas du tout. utilisable par tout le monde.</span>
+</li>
+<li class="level1"><span class="li"> <strong>anacron</strong> lance des taches de facon periodique et si l ordinateur n etait pas allume au moment voulu, la tache s executera au prochain demarrage. utilisable uniquement par root.</span>
+</li>
+</ul>
+
+<p>
+ Dans notre cas, nous allons utiliser cron :
+</p>
+
+<p>
+Les commandes suivantes sont à exécuter en root.
+</p>
+
+<p>
+Pour installer cron :
+</p>
+<pre class="code">apt-get install cron</pre>
+
+<p>
+ cron utilise la crontab qui permet d&rsquo;indiquer les taches que l&rsquo;on veut realiser et à quelle fréquence.
+</p>
+
+<p>
+Pour éditer la crontab, il suffit de faire :
+</p>
+<pre class="code">crontabe -e</pre>
+
+<p>
+ Par defaut c &lsquo;est vi qui est utilisé par crontab, j &lsquo;indique plus bas comment utiliser nano à la place.
+</p>
+
+<p>
+Pour journaliser notre tâche, on indique à cron d&rsquo;exécuter le script /root/sauve_mon_dossier.sh chaque jour à 20h00.  On met donc la ligne suivante dans notre crontab :
+</p>
+<pre class="code">00    20    *    *     *    /root/sauve_mon_dossier.sh</pre>
+
+<p>
+ Celle-ci signifie &ldquo;tous les jours à 20h00 lance le script /root/sauve_mon_dossier.sh&rdquo;. C est bien les minutes d &lsquo;abord et les heures ensuite, il n&rsquo;y a pas d&rsquo;erreur.
+</p>
+
+</div>
+<!-- SECTION [1848-3382] -->
+<a name="le_script"></a><h2> Le script </h2>
+<div class="level2">
+
+<p>
+ Ensuite il reste à faire le script pour lancer les sauvegardes. On edite donc le fichier /root/sauv_mon_dossier.sh avec son editeur favori et on y insère les lignes suivantes :
+</p>
+<pre class="code">#!/bin/sh
+nice -n 19 rdiff-backup --exclude /home/login/.aMule /home/login /mnt/save &amp;&amp; nice -n 19 rdiff-backup --remove-older-than 1D --force /mnt/save&lt;/blockquote&gt;</pre>
+
+<p>
+ Le nice -n 19 signifie que lorsqu&rsquo;on lance les commandes, elles s&rsquo;éxecutent avec la priorité la plus petite par rapport aux autres processus, ceci afin d&rsquo;éviter que l&rsquo;ordinateur se mette à ramer tous les jours à 20h00.
+</p>
+
+<p>
+On sauvegarde le script et on oublie pas de mettre les droits d&rsquo;éxecution sur le fichier :
+</p>
+<pre class="code">chmod +x /root/sauv_mon_dossier.sh</pre>
+
+<p>
+ Voilà c &lsquo;est fini, on peut simplement vérifier que le script fonctionne bien en le lançant :
+</p>
+<pre class="code">/root/sauve_mon_dossier.sh</pre>
+
+<p>
+ Normalement rdiff-backup se lance, fait sa sauvegarde et vous informe ensuite qu&rsquo;il a ou non supprime les sauvegardes plus vieilles d&rsquo;un jour.
+</p>
+
+</div>
+<!-- SECTION [3383-4380] -->
+<a name="trucs_astuces"></a><h2> Trucs &amp; astuces </h2>
+<div class="level2">
+
+<p>
+ Pour vérifier que la tâche est bien lancée vous pouvez vérifier dans votre repertoire de sauvegarde/rdiff-backup si vous avez bien une ligne du genre :
+</p>
+<pre class="code">session_statistics.2005-03-02T19:54:58+05:30.data</pre>
+
+<p>
+ Vous voyez alors l&rsquo;heure et la date de la derniere sauvegarde.
+</p>
+
+<p>
+That&rsquo;s it, dernière chose pour virer Vi et le remplacer par nano pour la crontab :
+</p>
+<pre class="code">export EDITOR=nano</pre>
+
+<p>
+dans le /root/.bashrc, c &lsquo;est radical :)
+</p>
+
+<p>
+Voilà, bonnes sauvegardes et n&rsquo;hésitez pas à remonter vos retours d&rsquo;experiences/améliorations à debuntu at gmail dot com
+</p>
+
+</div>
+<!-- SECTION [4381-4956] -->
+<a name="references"></a><h1> Références </h1>
+<div class="level1">
+
+<p>
+Un bon site qui m&rsquo;a permis de construire ce tutoriel : <a href="http://www.nongnu.org/rdiff-backup/examples.html" class="urlextern" title="http://www.nongnu.org/rdiff-backup/examples.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Rdiff-backup (en)</a> 
+</p>
+
+</div>
+<!-- SECTION [4957-] -->

@@ -1,0 +1,60 @@
+====== GKrellM ======
+
+**GKrellm** (GNU Krell Monitor) est un moniteur système simple d'accès.
+
+{{http://members.dslextreme.com/users/billw/gkrellm/gkrellm.png|gkrellm}}
+
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+
+===== Installation =====
+
+Pour installer ce logiciel, il suffit d'[[:tutoriel:comment_installer_un_paquet#paquet_present_dans_les_depots|installer le paquet]] **[[apt://gkrellm|gkrellm]]**.
+
+
+
+===== Utilisation =====
+
+Lancez GKrellm depuis le menu //Applications → Outils système → GKrellM// ou //via// la [[:commande_shell|commande]] suivante :
+
+  gkrellm
+
+
+===== Greffons =====
+
+De nombreux greffons pour Gkrellm sont disponibles sur Internet afin d'étendre les fonctionnalités du programme. Les greffons peuvent s'installer à partir de paquets. La majorité des distributions GNU/Linux propose des paquets comportant un ou plusieurs greffons de Gkrellm.  
+
+La liste des paquets contenant les plugins de Gkrellm est accessible via la commande:
+
+<code># apt-cache search gkrellm</code>
+
+L'installation s'effectuant classiquement via la commande: 
+
+<code># apt-get install nom_du_package</code>
+
+Il est évidemment possible de passer par une interface graphique comme [[:Synaptic]].
+
+===== Thèmes =====
+
+Gkrellm peut être personnalisé via l'installation de thèmes graphiques. Le site http://www.muhri.net comporte une sélection de plus de 190 thèmes pour Gkrellm. Téléchargez un thème au format .tar.gz et installez-le de la manière suivante: 
+
+<code> # tar xvzf nom_du_thème.tar.gz -C ~/.gkrellm/themes </code>
+
+ou à partir de la version 2.0 :
+
+<code> # tar xvzf nom_du_thème.tar.gz -C ~/.gkrellm2/themes </code>
+
+Ensuite, faites un clic droit sur la partie supérieure de Gkrellm et faites défiler les diverses variétés de thèmes disponibles via les boutons précédent et suivant du menu Thème.
+
+===== Voir aussi =====
+
+  * **(en)** [[http://www.gkrellm.net/|Site officiel de GKrellm]]
+  * **(en)** [[http://www.muhri.net|Thèmes pour GKrellm]] . Le site n'a pas plus été mis à jour depuis 2004 mais contient près de 200 thèmes.
+
+
+----
+//Contributeurs : ...//

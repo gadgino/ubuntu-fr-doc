@@ -1,0 +1,112 @@
+{{tag>éducation}}
+
+----
+
+====== Le Terrier ======
+
+{{ :education:logoleterrier.png|}}
+
+Les logiciels d'AbulÉdu (anciennement du **Terrier d'[[AbulÉdu]]**) sont réalisés par des enseignants français et sont destinés aux enfants depuis la maternelle (motricité fine et langage avec «mulot», construction de la notion de nombre avec «À nous les nombres») à l'élémentaire (lecture avec «aller», «associations»...) ou au-delà.
+
+Plus d'infos sur le [[http://www.abuledu.org|Site Officiel d'AbulÉdu]].
+
+**//Il est recommandé de prendre le temps de [[http://www.abuledu.org/logiciels-pedagogiques-cycle1-cycle2-cycle3-abuledu/|lire les documentations]] car ces logiciels d'usage pédagogique sont conçus par des enseignants pour s'intégrer dans une démarche plus large que le seul usage d'un logiciel, suivre les progrès de l'enfant, appréhender ses difficultés.
+//**
+
+===== Installation =====
+
+Il existe deux méthodes d'installations des logiciels du terrier:
+  * En utilisant des dépôts de paquets (à la manière debian/ubuntu)
+  * En téléchargeant les fichiers directement sur le site web (ce que les utilisateurs de windows / mac sont habitués à faire et raison pour laquelle nous proposons cette alternative)
+
+De ce fait les deux sources d'installations ne sont pas toujours très synchro (ça demande du temps). En cas de problème, exprimez vous sur le forum de discussion: http://abuledu-fr.org/?s=entraide
+
+==== Ajouts des dépôts ====
+
+Il existe deux dépôts pour le Terrier : officiel et bêta.
+
+[[:tutoriel:comment_modifier_sources_maj#modifier_les_sources_de_mises_a_jour|Ajoutez les dépôts suivants à vos sources de mises à jour]] :
+
+<note important>Ces dépôts ne sont pas maintenus par Ubuntu.</note>
+
+<note important>L'installation semble impossible sous Oneiric. L'installation de la dépendance perl-suid est impossible voir sur le forum http://forum.ubuntu-fr.org/post.php?fid=40 (modification Éric Seigne -> nous n'étions pas au courant, d'ou l'importance de se manifester sur le forum d'abuledu et le dépôt "lucid" mis à jour ce soir devrait marcher, merci d'avance pour vos tests) </note>
+
+On peut télécharger perl-suid ici :
+http://packages.ubuntu.com/natty/i386/perl-suid/download
+
+mais il y a d'autres dépendances en cascades -> merci de nous les communiquer, sans retours d'informations nous ne pouvons pas faire grand chose ...
+
+==== Dépôt officiel (recommandé) ====
+
+^ Logiciels | %%deb http://apt.ryxeo.com/leterrier/ lucid main restricted%% |
+^ Sources | %%deb-src http://apt.ryxeo.com/leterrier/ lucid main restricted%% |
+
+==== Dépôt bêta (pour les testeurs) ====
+
+<note tip>
+Certain des logiciels sont encore dans le dépôt BETA d'AbulÉdu, aidez-nous à les faire passer sur le dépôt stable en contribuant aux tests et vérifications. Pour celà abonnez vous à la liste dev@abuledu.org.
+</note>
+
+^ Logiciels | %%deb http://apt.ryxeo.com/abebeta/ dapper main restricted%% |
+^ Sources | %%deb-src http://apt.ryxeo.com/abebeta/ dapper main restricted%% |
+
+==== Clé d'authentification ====
+
+Ajoutez ensuite la clé GPG à l'aide de la commande suivante (à lancer dans un terminal)
+
+<code>
+wget -q http://apt.ryxeo.com/key.asc -O- | sudo apt-key add -
+</code>
+
+Enfin, rechargez la liste des paquets.
+
+==== Installation des logiciels ====
+
+Pour lister tous les logiciels du Terrier, lancez une recherche sur **abuledu**.
+
+<note important>Attention, le meta-paquet ''abuledu-leterrier-all'' n'est pas installable : il faudra donc installer les logiciels un par un. S'il y a des volontaires pour adapter les paquets pour Ubuntu, vous pouvez nous envoyer des patchs, nous les intégrerons avec plaisir. Les discussions sur le sujet ont lieu sur [[http://lists.abuledu.org/wws/|dev@abuledu.org]].</note>
+
+<note>Sous Lucid & Maverick, le paquet [[apt://abuledu-leterrier-all|abuledu-leterrier-all]] est opérationnel pour la version stable</note>
+
+^ Nom du logiciel ^ Domaine ^ Statut ^ Paquet à installer ^ Niveau ^ 
+|[[abuledu-anouslesnombres|À nous les nombres]] | Mathématiques | Stable |[[apt://abuledu-anouslesnommbres|abuledu-anouslesnommbres]]  | Cycles 1, 2 et 3 | 
+|[[abuledu-aller|Aller]] | Lecture, production d'écrits, orthographe, grammaire, langues étrangères | Stable |[[apt://abuledu-aller|abuledu-aller]] | Élémentaire, Collège | 
+|[[abuledu-associations|Associations]] | Lecture, langues étrangères | Stable |[[apt://abuledu-associations|abuledu-associations]] | Cycles 1 et 2, Cycle 3, collège | 
+|[[abuledu-calculreflechi|Calcul réfléchi]] | Mathématiques | Stable |[[apt://abuledu-calculreflechi|abuledu-calculreflechi]]| Cycles 2 et 3 | 
+|[[abuledu-calculs|Calculs]] | Mathématiques | Stable |[[apt://abuledu-calculs|abuledu-calculs]]| Cycles 2 et 3, collège | 
+|[[abuledu-chemins|Chemins]] | Mathématiques-espace | Stable |[[apt://abuledu-chemins|abuledu-chemins]]| Cycles 1 et 2 | 
+|[[abuledu-cible|Cible]] | Mathématiques | Bêta |[[apt://abuledu-cible|abuledu-cible]]| Cycles 2 et 3 | 
+|[[abuledu-complement|Complément]] | Mathématiques-calcul | Bêta |[[apt://abuledu-complement|abuledu-complement]]| Cycles 2 et 3 | 
+|[[abuledu-contour|Contour]] | Mathématiques-nombre | Bêta |[[apt://abuledu-contour|abuledu-contour]]| Cycles 1 et 2 | 
+|[[abuledu-devine|Devine]] | Lecture d'images | Bêta |[[apt://abuledu-devine|abuledu-devine]]| Cycles 1, 2 et 3, collège | 
+|[[abuledu-espace|Espace]] | Mathématiques-espace | Bêta |[[apt://abuledu-espace|abuledu-espace]]| Cycle 2 | 
+|[[abuledu-kidistb|Kidistb]] | Tous | Bêta |[[apt://abuledu-kdistrib|abuledu-kidistb]]| Maternelle au Collège | 
+|[[abuledu-labyrinthe|Labyrinthe]] | Mathématiques-espace | Stable |[[apt://abuledu-labyrinthe|abuledu-labyrinthe]]| Cycles 1 et 2 | 
+|[[abuledu-lexique|Lexique]] | Langue | Bêta |[[apt://abuledu-lexique|abuledu-lexique]]| Cycle 1 | 
+|[[abuledu-microscope|Microscope]] | Sciences de la vie | Bêta |[[apt://abuledu-microscrope|abuledu-microscope]]| Élémentaire, secondaire | 
+|[[abuledu-mulot|Mulot]] | Maîtrise de l'outil informatique, Langage | Stable |[[apt://abuledu-mulot|abuledu-mulot]]| Cycles 1 et 2 | 
+|[[abuledu-operations|Opérations]] | Mathématiques-calcul | Stable |[[apt://abuledu-operations|abuledu-operations]]| Cycles 1 à 3 | 
+|[[abuledu-problemes|Problèmes]] | Mathématiques | Stable|[[apt://abuledu-problemes|abuledu-problemes]]| Cycles 2 et 3 | 
+|[[abuledu-shutthebox|Shut The Box]] | Mathématiques-calcul | Bêta |[[apt://abuledu-shutthebox|abuledu-shutthebox]]| Cycles 2 et 3| 
+|[[abuledu-suites|Suites]] | Mathématiques | Stable |[[apt://abuledu-suites|abuledu-suites]] | Cycles 2 et 3, Collège | 
+|[[abuledu-syllaphon|Syllaphon]] | Lecture, Écriture, phonologie | Bêta |[[apt://abuledu-syllaphon|abuledu-syllaphon]]| Cycle 2 | 
+|[[abuledu-symcolor|Symcolor]] | Mathématiques-Symétrie | Stable |[[apt://abuledu-symcolor|abuledu-symcolor]]| Cycles 1 et 2 | 
+|[[abuledu-tableaux|Tableaux]] | Mathématiques | Stable |[[apt://abuledu-tableaux|abuledu-tableaux]]| Cycles 1 et 2 | 
+|[[abuledu-tkegc|Tkwhiteboard]] | Langue, Graphisme | Bêta |[[apt://abuledu-tkegc|abuledu-tkegc]]| Cycles 2 et 3 | 
+|[[abuledu-volubil|Volubil]] | Lecture, Écriture, Orthographe | Bêta |[[apt://abuledu-volubil|abuledu-volubil]]| Cycles 2 et 3 | 
+
+===== Liens =====
+
+  * Le forum de discussion: http://abuledu-fr.org/?s=entraide
+  * La forge des développeurs: https://redmine.ryxeo.com/projects/leterrier
+  * Le site de présentation du projet: http://www.abuledu.org/logiciels-pedagogiques-cycle1-cycle2-cycle3-abuledu/
+  * Le flux d'informations sur identi.ca: http://identi.ca/group/abuledu
+
+==== Compléments d'informations sur Internet ====
+
+Site officiel [[http://www.abuledu.org|http://www.abuledu.org]]
+
+Section ajoutée par : [[olive@deep-ocean.net]] modif [[jean.peyratout@abul.org]]
+modif par m@noo le 17/10/2008, modif par erics le 10/12/2008
+modif par [[http://forum.ubuntu-fr.org/profile.php?id=60203|Arnaud Champollion]] le 16/08/2009
+modif par [[http://identi.ca/rycks/all|Éric Seigne]] le 17/11/2011

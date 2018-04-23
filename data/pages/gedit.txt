@@ -1,0 +1,192 @@
+{{tag>Trusty Utopic Vivid Wily Xenial Yakkety Zesty Artful bureautique éditeur_de_texte texte}}
+
+----
+
+====== Gedit ======
+{{ http://i.imgur.com/n32uACs.png?400|L'interface de Gedit}}
+
+**Gedit** est l'[[éditeur de texte]] officiel de l'environnement graphique [[gnome-shell|Gnome Shell]], [[Unity]] et [[Budgie]] (pour les utilisateurs de [[KDE]], allez voir [[Kate]], pour [[Xfce]], allez voir [[Mousepad]]). Ce logiciel, sous licence GPL, propose une interface simple et facile d'utilisation, développée avec l'aide de la bibliothèque GTK.
+
+Gedit permet l'édition simple et l'enregistrement d'un fichier texte simple mais dispose aussi du support intégral de l'encodage de caractères Unicode, de modes de surbrillance configurables pour de nombreux langages de programmation, de la vérification orthographique, d'un outil de recherche et de remplacements, de la numérotation des lignes, de l'indentation automatique pratique pour la programmation et de bien d'autres choses.
+
+Il crée automatiquement à l'enregistrement un fichier caché (''fichier.txt~'') de sauvegarde au cas où il vous faudrait récupérer une version antérieure. Cette fonction peut être désactivée.
+
+Il possède des greffons donnant accès à des fonctionnalités allant du sympathique (changement de la casse, indentation de lignes, etc.) au très pratique (terminal intégré, liste des balises, sélection de couleur, etc).
+
+===== Installation =====
+
+Gedit est l'éditeur de texte d'Ubuntu installé par défaut. Si vous ne l'avez pas, [[tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>gedit|gedit]]**.
+
+===== Utilisation =====
+
+=== Interface de base ===
+
+L'interface est minimaliste, avec uniquement (de gauche à droite) un bouton pour ouvrir, un pour un nouveau document, le titre, un bouton pour enregistrer, et un "menu sandwich".
+
+=== Principaux raccourcis clavier ===
+
+| | Ctrl+ | T | Créer un nouveau document dans un nouvel onglet |
+| | Ctrl+ | O | Ouvrir un fichier |
+| | Ctrl+ | S | Enregistrer le fichier |
+| Maj+ | Ctrl+ | S | Enregistrer sous |
+| Maj+ | Ctrl+ | L | Enregistrer tous les fichiers |
+| | Ctrl+ | W | Fermer le fichier |
+| Maj+ | Ctrl+ | W | Fermer tous les documents |
+| Maj+ | Ctrl+ | T | Réouvrir le dernier document fermé |
+| Ctrl+ | Alt+ | Page bas | Passer au document suivant |
+| Ctrl+ | Alt+ | Page haut | Passer au document précédent |
+| | Alt+ | 1 à 9 | Passer au document 1 à 9 |
+| | Ctrl+ | N | Nouvelle fenêtre |
+| Maj+ | Ctrl+ | N | Nouveau groupe d'onglets |
+| | Ctrl+ | Q | Quitter l'application |
+| | Ctrl+ | A | Sélectionner tout |
+| | Ctrl+ | C | Copier |
+| | Ctrl+ | X | Couper |
+| | Ctrl+ | V | Coller |
+| | Ctrl+ | Z | Annuler |
+| Maj+ | Ctrl+ | Z | Rétablir l'action annulée |
+| | Ctrl+ | I | Aller à la ligne |
+| | Ctrl+ | F | Rechercher |
+| | Ctrl+ | G | Aller au résultat de recherche suivant |
+| | Ctrl+ | H | Rechercher et remplacer |
+| | Ctrl+ | D | Supprimer la ligne |
+| | Alt+ | haut | Remonter la ligne actuelle |
+| | Alt+ | bas | Descendre la ligne actuelle |
+| | Ctrl+ | P | Imprimer |
+| | Maj+ | F7 | Vérifier l'orthographe |
+
+Dans Gnome Shell, tous les raccourcis sont décrits dans l'appmenu -> Raccourcis Claviers
+
+=== Préférences ===
+Avec [[Unity]], vous trouverez les options dans //Édition → Préférences//.
+
+Avec [[gnome-shell|Gnome Shell]], vous trouverez les options dans l'[[appmenu]] → Préférences.
+
+Avec [[Budgie]] (ou même avec Windows car Gedit existe sur Windows !), les préférences sont dans le "menu sandwich".
+
+Par exemple :
+  * Pour empêcher la création de fichier de sauvegarde de la forme //<monfichier>~// décochez la case //Créer une copie de sauvegarde des fichiers avant l'enregistrement// dans //Éditeur → Enregistrement du fichier//.
+  * Vous pouvez mettre en évidence la parenthèse / l'accolade / autre correspondant à celle où se trouve votre curseur
+  * Un système d'indentation automatique est intégré, et peut être complété par des greffons (voir plus bas)
+
+==== Greffons ====
+Vous pouvez utiliser les greffons déjà fournis avec Gedit mais aussi en rajouter [[https://wiki.gnome.org/Apps/Gedit/ThirdPartyPlugins_v3.14|d'autres]] (en). Pour activer un greffon, allez dans Préférences -> onglet Greffons. Tous les greffons disponibles sont affichés, vous n'avez qu'à cocher pour faire le choix. 
+
+Le paquet **[[apt>gedit-plugins|gedit-plugins]]** ajoute de nombreuses possibilités notamment l'intégration d'une console dans le panneau inférieur.
+
+==== Installation du dictionnaire français ====
+**mise à jour 09/2015, et pour gedit 3.14.0-3 sous Debian Jessie**
+Pour installer le dictionnaire français [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>hunspell-fr|hunspell-fr]]**. sudo apt-get install hunspell-fr
+Le dictionnaire est alors accessible et sélectionnable dans les menus de Gedit.
+
+Ou alors alternativement, [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>aspell-fr|aspell-fr]]**.
+
+=== GMate ===
+[[:GMate]] est un pack contenant de nombreux designs pour la coloration du texte ainsi que plusieurs greffons (en anglais) non présents dans gedit-plugins, pour l'installer reportez-vous à [[:gmate|la page qui lui est dédiée]].
+
+=== Récupérer et importer ses extraits de code ===
+Vous avez besoin de récupérer vos extraits de code patiemment écrits sur une autre machine ? :
+  * Sur l'ancien disque dur, ouvrez le [[:fichier_cache|dossier caché]] **.gnome_2/snippets**
+  * Copiez les différents fichiers .xml dans un dossier de votre nouveau disque dur.
+  * Après installation des greffons, lancez //Manage Snippets//, en bas un bouton "Import des extraits de code", pointez sur chacun de ces 3 fichiers et l'affaire est jouée.
+
+==== Jeux de couleurs ====
+Gedit peut appliquer des jeux de couleurs à un code source donné, pour le rendre plus agréable à lire.\\
+Il existe cinq thèmes de base, mais vous pouvez en importer d'autres. Pour ça, allez dans //Préférences -> Police et Couleurs//. Choisissez "Ajouter" pour ajouter un nouveau jeu de couleurs (un fichier .xml).\\
+De nombreux jeux de couleurs sont disponibles avec [[#GMate]] également.\\
+Vous pouvez créer votre propre jeu de couleurs ou modifier un jeu de couleurs existant, en vous aidant des indications de [[:creer_un_jeu_de_couleurs_pour_gedit|cette page]].
+
+==== Activation et changement de couleurs du terminal intégré ====
+Le greffon terminal intégré est fort pratique, il permet comme son nom l'indique d'intégrer un Terminal sur la partie inférieur de Gedit.
+Si le terminal intégré à Gedit n'apparaître pas au-dessous de la fenêtre principe de Gedit, nous devons alors l'activer.
+
+<code>sudo apt-get update
+sudo apt-get install gedit gedit-plugins</code>
+
+**__Activer le greffon Terminal intégré__**
+
+  * Ouvrir Gedit
+
+  * Menu --> Préférences --> Greffons --> Cocher la case Terminal intégré
+
+  * Fermer la fenêtre des Préférences.
+
+  * Menu --> Affichage --> Cochons la case Panneau inférieur 
+
+Si tout c'est bien passé le terminal intégré doit apparaître au-dessous de la fenêtre principe de Gedit.
+
+**__Changer les couleurs du Terminal-intégré__**
+
+<note important>**IMPORTANT !** Si le paquet ''gnome-termnial'' est installé cette méthode **risque de ne pas fonctionner**, car le fichier de configuration /usr/lib/x86_64-linux-gnu/gedit/plugins/terminal.py favorise **par défaut** la configuration de Gnome Terminal, dans ce cas là les pour changer les couleurs du Terminal intégré il faudra directement changer les couleur dans Gnome Terminal.</note>
+
+  * Lancer l'outil dconf-editor dans un Terminal
+
+<code user>dconf-editor</code>
+
+  * Suivre ce chemin
+
+  * org --> gnome --> gedit --> plugins --> terminal
+
+Voici les divers options que nous pouvons configurer:
+
+  * **background-color:** couleur par défaut de l'arrière-plan du terminal.
+  * **foreground-color:** couleur par défaut du texte dans le terminal.
+  * **palette:** palette pour les applications du terminal.
+  * **use-system-font:** indique s'il faut utiliser la police système.
+  * **use-theme-colors:** indique s'il faut utiliser les couleurs du thème pour les éléments graphiques du terminal.
+
+Une astuce pour trouver la bonne valeur couleur... 
+
+  * Lancer zenity
+
+<code user>zenity --color-selection</code>
+
+  * Faire un copier/coller de "Nom de la couleur".
+  * Coller cette valeur soit dans la case correspondante. (background-color ou foreground-color)
+
+{{::zenity_color.png?500|}}
+
+<note tip>Nous pouvons aussi remplacer le code hexadécimal directement par le nom de couleur en anglais par exemple red pour le rouge.</note>
+
+Voici un exemple avec les paramètres par défaut mais avec un changement de couleurs de l'arrière-plan en noir et de l'écriture en blanc. Attention de bien décocher "use-theme-colors".
+
+{{::gedit_terminal_exemple.png?500|}}
+
+  * Lancer maintenant Gedit et si tout c'est bien passé le tour est joué.
+
+//source: [[https://debian-facile.org/doc:environnements:gnome:gedit:tp-greffon-terminal?&#greffon-terminal-integre|Debian facile / Gedit configurations avancées et personnalisation]]//
+
+=== Coloration syntaxique pour Mediawiki ===
+L'éditeur de texte de Mediawiki((le logiciel de l'encyclopédie [[wpfr>Wikipedia]])), ne propose pas de coloration syntaxique. Vous pouvez installer un greffon pour gedit qui permet de reconnaître la syntaxe de Mediawiki. Pour cela, il faut télécharger le fichier **gedit-mediawiki-master** disponible [[https://gitorious.org/projets-divers/gedit-mediawiki|ici]] et, après [[:archivage#graphiquement|extraction]], copier le fichier mediawiki.lang dans le dossier **~/.local/share/gtksourceview-3.0/language-specs/**. Ensuite, il suffit de sélectionner dans le menu de gedit //Coloration syntaxique -> Autres -> MediaWiki//.\\
+Plus de détails sur la page [[http://www.jpfleury.net/logiciels/gedit-mediawiki.php|de Jean-Philippe Fleury]] auteur du greffon.
+
+En ligne de commande, vous pouvez faire : 
+<code>
+cd ~/Bureau
+unzip gedit-mediawiki-master.zip
+cd gedit-mediawiki-master
+cp mediawiki.lang ~/.local/share/gtksourceview-3.0/language-specs/
+cd ~/Bureau
+rm -r gedit-mediawiki-master
+rm gedit-mediawiki-master.zip
+</code>
+
+=====Autres Plugins=====
+  * [[https://wiki.gnome.org/action/show/Apps/Gedit?action=show&redirect=Gedit#Plugins|site officiel listant des plugins]]
+  * [[http://www.webupd8.org/2010/12/clientside-gedit-plugin-to-format.html|Clientside minify and format/beautify Javascript and CSS.]]
+  * [[https://code.google.com/p/gedit-autotab/|Auto Tab]] pour détecter le style d'indentation (nombre d'espace, tabulation) du fichier courant et s'y adapter. Pour l'installer, il faut récupérer l'archive, et copier les fichiers autotab.py et autotab.plugin dans ~/.local/share/gedit/plugins/ (arborescence à créer), puis activer le greffon dans les préférences (après redémarrage de gedit).
+
+===== Problèmes déjà rencontrés avec Gedit =====
+==== "Read Only" sur FTP ====
+
+Lorsque vous ouvrez un fichier distant stocké sur un serveur FTP, il est possible que vous ne puissiez pas enregistrer vos modifications (mode « [Read Only] »).\\ 
+Pour activer cette fonctionnalité, ouvrez [[:gconf|gconf-editor]] et allez dans **apps -> gedit-2 -> preferences -> editor -> save**. Puis, modifiez la clé « writable_vfs_schemes » en rajoutant « ftp » à la liste. Vous remarquerez que « secure ftp » était déjà présent mais pas « ftp ». Validez, redémarrez Gedit, le tour est joué !
+
+===== Voir aussi =====
+
+  * **(en)** [[http://www.gnome.org/projects/gedit|Site officiel]]
+  * [[wpfr>Gedit|Gedit sur Wikipédia]]
+  * **(en)** [[http://grigio.org/pimp_my_gedit_was_textmate_linux|Pimp my Gedit]], des améliorations pour Gedit.
+----
+
+//Contributeurs : [[utilisateurs:SphAx3D]], [[utilisateurs:Id2ndR]], [[utilisateurs:Zarmakuizz]], [[utilisateurs:le hollandais volant]], [[utilisateurs:Slyfox]]//

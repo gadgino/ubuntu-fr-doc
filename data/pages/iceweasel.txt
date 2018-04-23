@@ -1,0 +1,27 @@
+{{tag>navigateur}}
+----
+
+====== Iceweasel ======
+
+**Iceweasel** est un navigateur du projet [[wpfr>Debian]]. Il s'agit d'un [[wpfr>Fork_(développement_logiciel)|dérivé]] de [[Firefox]].
+
+<note important>Iceweasel n'est plus au profit du retour de Firefox pour Debian, [[https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=815006|un rapport à été publié Le 17 Février, 2016]], source : [[https://linuxfr.org/users/gnumdk/journaux/iceweasel-is-dead|Linuxfr.org]], pour les puristes il y a toujours [[https://www.gnu.org/software/gnuzilla/|Icecat]] qui est toujours maintenu. </note>
+
+Les développeurs de la Fondation Mozilla refusent que l'on applique un correctif à leur navigateur sans demander leur avis au préalable, tandis que les développeurs du projet Debian veulent pouvoir corriger les logiciels qu'ils intègrent sans avoir besoin d'attendre l'aval de quelqu'un d'autre (ce qui est censé être normal pour du logiciel Libre).
+
+Les développeurs de Debian ont donc repris exactement le code de Firefox, et en ont fait un second navigateur, mais en changeant de nombreuses choses tout en se conformant aux licences de la Fondation Mozilla (pour plus de renseignements, voir [[wpfr>Renommage_des_applications_de_Mozilla_par_Debian|Wikipédia]])
+
+Les différents changements par rapport à Firefox : de nombreux correctifs ne passent pas par Mozilla, les icônes et le nom sont différents, les modules par défaut sont différents, aucune extension n'est bloqué arbitrairement, les mouchards ont été purement supprimés alors qu'ils ne peuvent qu'être désactivés dans Firefox, le DRM installable n'est plus disponible, les moteurs de recherche disponibles ne sont pas les mêmes.
+
+<note important>Le projet Iceweasel est donc spécifique à Debian mais est disponible pour de nombreuses distributions. Cependant, il n'est pas prévu pour Ubuntu et dérivés.</note>
+
+<note important>Iceweasel utilise la configuration courante de Firefox, ce qui implique qu'on ne peut pas le lancer en même temps qui Firefox, ou alors sur un profile Firefox différent.</note>
+
+===== Installation =====
+
+Iceweasel n'est pas dans les dépôts d'Ubuntu, mais on peut l'installer en ajoutant un dépôt de H.-Dirk Schmitt ((https://launchpad.net/~dirk-computer42/+archive/ubuntu/c42-backport)) via la commande suivante :
+
+  sudo add-apt-repository -y ppa:dirk-computer42/c42-backport && sudo apt-get update -q
+
+Puis cliquer sur le lien **[[apt>iceweasel|Installer Iceweasel]]**
+

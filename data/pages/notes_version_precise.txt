@@ -1,0 +1,201 @@
+{{tag>Precise}}
+
+----
+
+====== Notes de version de Ubuntu 12.04 LTS Precise Pangolin ======
+
+<note tip>Le contenu de cette page reprend la publication anglophone, que vous pouvez consulter en suivant les liens suivants :
+  * [[https://wiki.ubuntu.com/PrecisePangolin/ReleaseNotes/UbuntuServer|(en) Ubuntu Serveur 12.04 LTS]]
+  * [[https://wiki.ubuntu.com/PrecisePangolin/ReleaseNotes|(en) Ubuntu Desktop 12.04 LTS]]
+  * [[https://wiki.ubuntu.com/PrecisePangolin/ReleaseNotes/Kubuntu|(en) Kubuntu Desktop 12.04 LTS]]
+  * [[https://wiki.ubuntu.com/PrecisePangolin/ReleaseNotes/Xubuntu|(en) Xubuntu Desktop 12.04 LTS]]
+  * [[https://wiki.ubuntu.com/PrecisePangolin/ReleaseNotes/Lubuntu|(en) Lubuntu Desktop 12.04]]
+Pour les autres variantes, les notes de versions sont référencées [[https://wiki.ubuntu.com/PrecisePangolin/ReleaseNotes|ici]] (documentation anglophone).
+</note>
+
+===== Matériel requis =====
+
+==== Ubuntu serveur ====
+
+Ubuntu serveur 12.04 LTS requiert 128 Mo de mémoire minimum.
+\\ La version i386 a un maximum de RAM de 16 Gio recommandé, et un maximum de 8 coeurs CPU sont prévus.
+
+==== Ubuntu / Kubuntu Desktop ====
+
+Bien que le minimum de mémoire RAM nécessaire en 32 bits soit de 384 Mio, un minimum de 512 Mio est nécessaire pour une installation 64 bits. Notez qu'une partie de la mémoire système peut être indisponible car utilisée par la carte graphique.
+Sur les systèmes avec seulement la quantité minimale de RAM, il est également fortement recommandé d'utiliser l'option «Installer Ubuntu», car ce mode utilise moins de mémoire que la session live complète (option «Essayer Ubuntu»).
+
+Les images disques d'installation des variantes //K/Ubuntu Desktop// n'incluent pas le support des vieux ordinateurs qui ne supportent pas le mode PAE.
+Si votre ordinateur est concerné, vous pouvez d'abord installer [[:lucid|Ubuntu 10.04 LTS Lucid Lynx]] ou [[:oneiric|Ubuntu 11.10 Oneiric Ocelot]] et faire un mise à niveau vers la version 12.04 LTS ou vous pouvez utiliser les images CD des variantes [[:Lubuntu]] ou [[:Xubuntu]].
+
+La version non-PAE du [[:kernel|noyau linux]] ne sera plus disponible dans les prochaines versions.
+
+==== Xubuntu Desktop ====
+
+La configuration minimale requise pour Xubuntu est grosso modo comprise entre Ubuntu Server et Desktop :
+  * 512 Mio de mémoire système (RAM)
+  * 5 Gio d'espace disque
+  * Carte graphique et écran capable d'afficher une résolution de 800x600 pixels. 
+
+==== Lubuntu Desktop ====
+
+Un ordinateur Pentium II ou Celeron avec 128 Mio de RAM est probablement la configuration la plus faible pour un système lent, mais utilisable, pour l'environnement de bureau standard Lubuntu.
+
+L'image disque par défaut (version i686 - 32 bits) supporte plus de matériel que l'équivalent Ubuntu Desktop, puisqu'elle utilise un noyau non-PAE, mais est en revanche limité à 4 Gio de mémoire RAM.
+Si vous disposez de plus de 4 Gio de mémoire sur un système 32 bits, consulter la page [[https://help.ubuntu.com/community/Lubuntu/GetLubuntu|Get Lubuntu (en)]] pour plus d'informations.
+
+Pour les PowerPC, Lubuntu est connu pour fonctionner sur les modèles G4 avec processeur à 867 MHz et 640 Mio de RAM.
+
+Pour les Macs à processeur Intel, Lubuntu fonctionne sur tout les modèles.
+
+===== Démarrage, installation et post-installation =====
+
+  * Dell Studio XPS 1340, Alienware m17x : Kernel Panic((blocage irrécupérable du noyau)) et blocage au démarrage à cause du pilote ITE-CIR. Un correctif a été fourni en amont((upstream)) et un noyau pour test a été proposé dans le rapport de bug.\\ Le correctif sera disponible rapidement avec le lot de mise à jour du noyau depuis le dépôt ''precise-updates''. ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/984387|Bug #984387]]).
+
+  * Lors du rabat de l'écran sur un Macbook Unibody, il interagit avec le pavé tactile((touchpad)). Cela peut entraîner des mouvements et des clics de souris indésirables, et potentiellement laisser le pilote de saisie dans un état corrompu si le portable se met en veille.\\ Pour contourner le problème, retirer et rechargez le module noyau après la sortie de veille avec les commandes suivantes :<code>sudo rmmod bcm5974
+sudo modprobe bcm5974</code>Notez que cela peut désactiver certaines fonctionnalités du pavé tactile, par exemple le défilement horizontal. Ces fonctionnalités peuvent être réactivées en allant dans le panneau de configuration des "Souris et pavé tactiles". Un correctif est envisagé lors d'une mise à jour ultérieur ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/968845|Bug #968845]]).
+
+  * L'importation de compte Windows existant échoue dans quelques cas. ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/987902 |Bug #987902]])
+
+  * Wubi, l'installeur Ubuntu pour Windows, n'est plus disponible comme option sur le DVD Ubuntu Desktop. Au lieu de cela, il est maintenant disponible sous forme de téléchargement séparé [[http://releases.ubuntu.com/precise/wubi.exe |wubi.exe]]
+
+  * //**Uniquement pour Lubuntu**// : Un mauvais icône indique anormalement que réduire la taille d'une partition n'est pas possible. ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/986607|Bug #986607]])
+
+===== Mise à niveau =====
+
+  * [[:Aptitude]] ne fonctionne pas sur les systèmes 64 bits sans [[:tutoriel:comment_modifier_un_fichier|désactiver la fonctionnalité multiarch]] dans ''/etc/dpkg/dpkg.cfg.d/multiarch'' . ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/831768|Bug #831768]]).\\ Si vous avez des paquets i386 installés sur système 64 bits Ubuntu 11.10, il est fortement recommandé d'installer les versions ''apt''((http://packages.ubuntu.com/oneiric-updates/apt)) et ''dpkg''((http://packages.ubuntu.com/oneiric-updates/dpkg)) depuis le dépôt ''oneiric-updates'' avant la mise à niveau.\\ De nombreux problèmes de mise à niveau affectant multiarch ont été résolus dans cette version. ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/850264|Bug #850264]] & [[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/902603|#902603]])
+
+  * Dans certaines circonstances, le gestionnaire de mise à jour((''update-manager'')) semble complètement bloqué. Dans ce cas, déployez le menu en bas de la fenêtre et vérifiez s'il y a une question debconf qui nécessiterait une réponse. ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/979661|Bug #979661]])
+
+  * Les mises à niveau depuis Ubuntu 10.04 LTS vers 12.04 LTS ne fonctionnent pas en utilisant le CD Alternate ou Server comme source de paquets. Quelques conseils pour ceux qui font la mise à niveau "en ligne" (c'est à dire depuis le gestionnaire de mises à jour) de Ubuntu 10.04 LTS vers 12.04 LTS  dans ce [[http://forum.ubuntu-fr.org/viewtopic.php?pid=11577361#p11577361|post]]
+===== Noyau / Kernel =====
+
+  * Sur les images d'installation ARM omap, le support réseau pour les cartes Beagle XM est cassé. ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/838200|Bug #838200]])
+
+  * Absence de support pour le pavé tactile Sentelic des notebook ASUS K53U. Un correctif a été importé((backport)) et sera disponible rapidement avec le lot de mise à jour du noyau depuis le dépôt ''precise-updates''. ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/969334|Bug #969334]])
+
+  * Absence de support pour les périphérique bluetooth Broadcom BCM20702A0 [0489:e042]. Un correctif a été fourni en amont((upstream)) et sera disponible rapidement avec le lot de mise à jour du noyau depuis le dépôt ''precise-updates''. ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/980965|Bug #980965]])
+
+  * Dépassements de tampon((Buffer overflows)) dans le pilote comedi. Un correctif a été importé((backport)) et un noyau pour test a été proposé dans le rapport de bug. Il sera disponible rapidement avec le lot de mise à jour du noyau depuis le dépôt ''precise-updates''. ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/981234|Bug #981234]])
+
+  * Les moniteurs externes Intel GMA 4500mhd présente une image tremblante. Un correctif a été importé((backport)) et un noyau pour test a été proposé dans le rapport de bug. Il sera disponible rapidement avec le lot de mise à jour du noyau depuis le dépôt ''precise-updates''. ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/796030|Bug #796030]])
+
+  * Kernel Oops - BUG: unable to handle kernel paging request; RIP: nfs_have_delegation+0x9/0x40 [nfs]((Kernel Oops - BUG : incapacité à satisfaire les requêtes de page mémoire du noyau[...])). Quelques utilisateurs essayant de lancer des clients NFS sur la version 12.04 semblent affectés. Un noyau pour test a été proposé dans le rapport de bug. Les correctifs ont été importés((backport)). Ils seront disponibles rapidement avec le lot de mise à jour du noyau depuis le dépôt ''precise-updates''. ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/974664|Bug #974664]])
+
+  * Les correctifs importés des version stable 3.2.15 et 3.2.16 devront passer par en phase d'intégration via le dépôt ''precise-proposed'' au cours du premier cycle SRU. Ils seront ensuite disponibles avec le lot de mise à jour du noyau environ 3 semaines après la sortie d'Ubuntu 12.04 LTS. ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/981162|Bug #981162]] & [[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/987337|#987337]])
+
+  * Pilote hid-logitech-dj absent dans l'installeur. Il a été ajouté au module udeb d-i input et sera inclut dans la version 12.04.1 ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/975198|Bug #975198]])
+
+  * Pilote rtl8187 absent dans l'installeur. Il a été ajouté au module udeb d-i nic-usb-modules et sera inclut dans la version 12.04.1 ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/971719|Bug #971719]])
+
+  * Le pilote pour écran tactile eGalaxis ne fonctionne pas. Un correctif a été fourni en amont((upstream)) et sera disponible rapidement avec le lot de mise à jour du noyau depuis le dépôt ''precise-updates''. ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/913164|Bug #913164]])
+
+  * framebuffer ATI/radeon sur PowerPC disponible uniquement comme module et pas directement intégré au noyau. Cela entraîne des problèmes tel qu'un démarrage aboutissant à une invite de commande, la perte des consoles TTY, et impossibilité de mise en veille. Un correctif pour la compilation intégrée au noyau a été appliqué et sera disponible rapidement avec le lot de mise à jour du noyau depuis le dépôt ''precise-updates''. ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/949288|Bug #949288]])
+
+  * Les systèmes avec carte graphique ATI Radeon 9200 terminent le démarrage sur un écran noir. Comme solution de contournement, éditez la ligne de commande du chargeur de démarrage((voir [[:grub-pc]])) et ajoutez l'option ''nomodeset''. ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/725580|Bug #725580]])
+
+  * La manipulation du bouton d'activation/désactivation du wifi sur les Fujistu-Siemens Amilo M 7400 et Maxdata 7000DX, déclenche un kernel panic((blocage irrécupérable du noyau)) empêchant le réseau sans-fil de fonctionner. Cela peut être contourné en modifiant la ligne de commande du noyau et en ajoutant ''noexec=off''. ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/979253|Bug #979253]])
+
+  * Les équipements Beagle XM pouvant fonctionner à 1 GHz seront initialisé à 800 MHz induisant des performance inférieure à la normale. ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/771537|Bug #771537]])
+
+  * Certains système EFI ne peuvent démarrer en mode EFI. Le mode BIOS est conseillé dans cette situation. ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/721576|Bug #721576]])
+
+===== Problèmes spécifiques à une variante =====
+
+==== Ubuntu serveur ====
+
+  * OpenStack: l'API Nova n'est pas à l'écoute sur IPv6 ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/850443|Bug #850443]])
+
+  * Squid: squid (v2) est déconseillé au profit de squid3. La paquet squid actuel fourni un paquet de transition qui entraînera une mise à niveau vers squid3. Certaines options de configuration pourraient ne plus être supportées et une migration manuelle de la configuration est nécessaire. L'ancien fichier de configuration ''squid.conf'' est conservé à l'emplacement ''/etc/squid/squid.conf'' après la mise à niveau. Voir les notes de version pour squid 3.1.19 pour plus d'informations sur les options supportées et leurs syntaxe : http://squidcache.cybermirror.org/squid/squid-3.1.19-RELEASENOTES.html#ss6.1  (en)
+
+  * Les utilisateurs qui ont des interfaces réseaux pontés pourraient rencontrer une situation de concurrence lors de la mise à niveau qui pourrait arrêter l'interface pontée lors du démarrage. Cela peut être problématique pour ceux réalisant une mise à niveau à distance. ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/974218|Bug #974218]])
+
+==== Ubuntu Desktop / Unity ====
+
+=== Interface de bureau ===
+
+  * Lors de l'utilisation du Live CD dans certaines langue, telle que le français, et en sélectionnant "Essayer Ubuntu" à l'écran de démarrage, le clavier sera configuré en disposition US((QWERTY)) au lieu de celle approprié à la langue choisie((AZERTY pour le français)). Pour éviter ce bug, les utilisateurs peuvent presser n'importe quelle touche au tout premier écran et y sélectionner leur propre langue. ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/985065|Bug #985065]])
+
+<note important>Veuillez installer les mises à jours disponible pour assurer que les problèmes ci-dessous seront corrigées sur votre système.</note>
+
+  * Le tableau de bord / Dash Unity (déployé par le bouton "Ubuntu" en haut de la barre de lanceurs, ou utilisant la touche <Super>) peut sembler paresseux ou peu réactif. Ceci est causé par un rafraîchissement excessif de contenu de l'écran dans certaines circonstances. ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/980924|Bug #985065]])
+
+  * Barre de lanceur Unity((Launcher)). Si une application est épinglée puis dés-épinglées à répétition depuis le lanceur Unity en utilisant le clic droit -> dé/verrouiller du lanceur((Un/Lock to Launcher)), l'application peut disparaître du lanceur.Il est nécessaire de fermer la session, pour l'ouvrir à nouveau. Cela concerne le canevas de surveillance applicatif nommé "Bamf". ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/978401|Bug #978401]])
+
+  * Les barres de titres des fenêtres ne sont pas mis à jour avec le pilote "fglrx" des cartes graphiques ATI. Une solution au problème sera fourni lors d'une mise à jour. ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/770283|Bug #770283]])
+
+  * Sur certaines cartes nVidia, lorsque vous utilisez le pilote propriétaire, déplacer des fenêtres et autres modifications sur grand écran provoque quelques déchirements. ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/600178|Bug #600178]])
+
+=== Applications ===
+
+Le client mail [[:Evolution]] peut supprimer certains dossiers et leurs contenus lorsqu'ils sont renommés ou déplacés dans des comptes IMAP (et IMAP+). Il est recommandé de copier les dossiers et leurs contenus avant d'essayer de les déplacer ou de les renommer. ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/957341|Bug #957341]])
+
+==== Kubuntu Desktop / KDE ====
+
+=== Écran de sélection de session KDM ===
+
+Après la création d'un nouvel utilisateur via Kubuntu SystemSettings, il lui sera demandé de changer de mot de passe lorsqu'il ouvrira une session pour la première fois. Un problème empêche la saisie du nouveau mot de passe. Pour l'éviter, le serveur graphique X doit être relancé avant que le nouvel utilisateur n'ouvre de session. Pour cela, après avoir fermé la session courante, cliquez sur le bouton rouge de déconnexion de l'écran KDM puis cliquez sur "Redémarrer le serveur X"(("Restart X Server")). Dès que l'écran de connexion KDM revient, le nouvel utilisateur peut alors ouvrir une session normalement. ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/641712|Bug #641712]])
+
+=== Applications KDE ===
+
+  * Kmix cesse de fonctionner après plusieurs modification de volume. ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/963895|Bug #963895]])
+  * KactivityManagerd plante à l'ouverture de session. ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/966247|Bug #966247]])
+  * FIXME((Akonadi contact resource wrong defaults)) La gestionnaire de contact d'Akonadi est mauvais par défaut. ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/966913|Bug #966913]])
+  * Le filtre de mails Akonadi échoue après que la configuration soit corrompue. ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/988866|Bug #988866]])
+  * Kubuntu pour amd64+mac plante lors d'un partitionnement manuel. ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/989249|Bug #989249]])
+  * Les utilisateurs de KMail faisant une mise à niveau depuis la version 10.04 LTS doivent lire [[https://wiki.kubuntu.org/PrecisePangolin/Final/Kubuntu/Kmail2|les instructions de migration Akonadi KMail2 (en)]].
+
+==== Xubuntu Desktop / Xfce ====
+
+=== Nouvelle gestion des raccourcis clavier ===
+
+  * Il y a eu de modification sur la gestion des raccourcis claviers, ce qui rendra tout les raccourcis avec la touche Contrôle inutilisable pendant la migration. Pour le corriger, vous devez mettre à jour vos raccourcis actuel dans la panneau //Gestionnaire de paramètres -> Clavier -> Onglet "Raccourcis des applications//. Double-cliquez sur la colonne raccourcis là où est indiqué ''<Control>'' et pressez la (même) combinaison de touche. Cela va modifier la partie ''<Control>'' en ''<Primary>'' et le raccourics clavier fonctionnera à nouveau. L'autre possibilité est de revenir aux paramètres de raccourcis clavier par défaut, puis de ré-ajouter vos combinaisons personnalisées.
+
+  * Certains utilisateurs pourraient aussi rencontrer des problèmes avec d'autres raccourcis claviers. De ce cas, vous devez restaurer les paramètres par défaut, puis ré-ajouter vos combinaisons personnalisées.
+
+=== Nouveaux raccourcis clavier par défaut ===
+
+Les nouveaux raccourcis clavier pour le gestionnaire de fenêtre Xfwm sont :
+
+  * Alt F5, agrandir la fenêtre horizontalement
+  * Alt F6, agrandir la fenêtre verticalement
+  * Alt F7, agrandir la fenêtre horizontalement et verticalement
+  * Alt F8, épingler la fenêtre (la faire apparaître sur tous les bureau) 
+
+Les raccourcis clavier pour le déplacement et le redimensionnement des fenêtres ont été supprimés au profit de mouvement de souris plus efficaces. Bien entendu, si vous avez besoin de ces raccourcis clavier, vous pouvez les activer depuis //Gestionnaire de paramètres -> Gestionnaire de fenêtres -> onglet Clavier//
+
+Les nouveaux raccourcis clavier pour les applications sont :
+
+  * Super W pour [[:Firefox]] (comme **W**eb)
+  * Super M pour [[:Thunderbird]] (comme **M**ail)
+  * Super F pour [[:Thunar]] (comme **F**ichiers)
+  * Super T pour [[:Terminal]]
+
+Les combinaisons susmentionnées sont liées aux lanceurs exo-open. Ce qui implique qu'ils ouvriront toujours le [[:navigateur|navigateur web]], [[:courriel|lecteur de courriel]], [[:gestionnaire de fichiers]] ou [[:terminal|émulateur de terminal]] que vous aurez choisi par défaut.
+
+Les autres nouveaux raccourcis clavier applicatifs sont :
+
+  * Super R pour le lanceur d'application xfce4-appfinder (R comme //**R**un// : démarrer/lancer en anglais))
+  * Super E pour [[:Leafpad]] (comme **E**diteur de texte)
+  * Super 1 [[:Gmusicbrowser]]
+  * Super 2 [[:Pidgin]]
+  * Super 3 [[:Abiword]]
+  * Super 4 [[:Gnumeric]]
+
+==== Lubuntu Desktop / LXDE ====
+
+  * [[:gnome-mplayer]] peut planter sur certains matériels spécifiques (Pentium 3 ou 4). Installer le paquet ''mplayer'' devrait solutionner le problème. ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/974125|Bug #974125]])
+
+  * [[:lxkeymap]] peut planter avec certaines configuration clavier. ([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/945603|Bug #945603]])
+
+===== Support =====
+
+  * //Ubuntu Desktop 12.04 LTS// :  5 ans (support à long terme : LTS).
+  * //Ubuntu serveur 12.04 LTS// : 5 ans (support à long terme : LTS).
+  * //Kubuntu 12.04 LTS// : 5 ans (support à long terme : LTS).
+  * //Xubuntu 12.04 LTS// : version LTS (support à long terme), sera supportée pour 3 ans. 
+  * //Lubuntu 12.04// : 18 mois (Lubuntu 12.04 n'est pas une version LTS).
+
+-----
+
+Contributeurs : [[:utilisateurs:draco31.fr|draco31.fr]]

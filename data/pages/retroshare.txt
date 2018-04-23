@@ -1,0 +1,139 @@
+{{tag>p2p partage sécurité}}
+
+----
+
+====== RetroShare ======
+
+
+
+{{:RetroShare.png }}\\ RetroShare est un logiciel de F2F privé, décentralisé, basé sur l'authentification par clef publique/privée PGP. Tous les échanges s'effectuent sous cryptographie SSL (RSA 2048 bits), et uniquement entre des personnes ayant explicitement échangé leurs clefs. Il s'agit donc d'une méthode extrêmement sûre pour partager des fichiers, puisqu'il est impossible aux personnes qui ne sont pas déclarées comme étant de confiance de savoir ce qui circule ou est mis à disposition sur le réseau.
+
+Les caractéristiques et services offerts par ce logiciels sont:
+\\
+  * Transferts multiples, multi-sources et simultanés en F2F multi-hop
+  * Chat, messagerie, forums internes et channels.
+  * Recherche/tri de fichiers en F2F multi-hop avec une profondeur de 6.
+  * Gestion par répertoire de la visibilité des fichiers
+  * Propagation optionnelle des IP des amis.
+  * Utilise le DHT bittorrent pour synchroniser les connexions et trouver les IPs de vos amis.
+  * Interface graphique en Qt4
+  * UPnP / NAT-PMP pour traverser les routeurs
+  * Intégration dans la barre des taches
+  * Fonctionne sous MacOSX, Windows et Ubuntu (Jaunty/Karmic/Lucid/Maverick).
+
+**Version actuelle:** 0.6 (2015)
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]] ;
+  * Disposer d'une connexion à Internet configurée et activée ;
+===== Installation =====
+
+Il existe deux dépôts //ppa// pour RetroShare. L'un contient la version stable courante, l'autre contient les snapshot de développement. 
+
+Ajout des dépôts de la version stable :
+
+      sudo add-apt-repository ppa:retroshare/stable
+
+Ajout des dépôts de la version en cours de développement :
+
+    sudo add-apt-repository ppa:retroshare/unstable
+
+Installation :
+
+      sudo apt-get update
+      sudo apt-get install retroshare06
+Les réseaux de la version 0.6 et de la 0.5 ne fonctionnant pas ensemble, il est toujours possible d'installer la version 0.5 via cette commande :
+
+      sudo apt-get install retroshare
+==== Depuis la source ====
+
+Nous décrivons ici comment compiler Retroshare depuis la source. Ces instructions proviennent du site [[http://retroshare.sourceforge.net/wiki/index.php/UnixCompile|SourceForge Retroshare]]. N'utilisez cette méthode que si l'installation du package debian par le ppa (ou à la main) ne convient pas a votre distribution. 
+La compilation n'est pas difficile, mais ne vous apportera rien de plus qu'une bonne installation propre.
+
+Pré-requis :
+
+<code>
+$ sudo apt-get install libqt4-dev g++
+$ sudo apt-get install libgpgme11-dev libgpg-error-dev libupnp-dev libssl-dev libgnome-keyring-dev
+$ sudo apt-get install libxss-dev
+$ sudo apt-get install subversion
+</code>
+
+Téléchargement de la dernière version : 
+<code>
+$ svn co https://retroshare.svn.sourceforge.net/svnroot/retroshare/trunk retroshare
+</code>
+
+Compilation 
+<code>
+$ cd ~/retroshare/libbitdht/src
+$ qmake
+$ make
+$ cd ~/retroshare/libretroshare/src
+$ qmake
+$ make
+$ cd ~/retroshare/retroshare-gui/src
+$ qmake
+$ make
+</code>
+
+Usage 
+<code>
+$ ~/retroshare/retroshare-gui/src/RetroShare
+</code> 
+===== Premiere utilisation =====
+
+RetroShare base son système d'authentification sur PGP. Au premier lancement, RetroShare vous propose de choisir une clef PGP dans votre trousseau (ou d'en créer une) pour représenter votre identité. La même clef peut être utilisée pour chacun de vos nœuds RetroShare (par exemple si vous avez plusieurs PC). C'est pourquoi, "Location/lieu" vous demande sur quel ordinateur vous opérez.
+{{ internet:rs_certcreation.png?350 }}
+Les clefs PGP sont utilisées pour signer les certificats SSL qui servent a crypter les communications entre deux nœuds RetroShare.
+Tout couple de personnes ayant mutuellement accepté la connexion des clefs PGP correspondantes sont alors capables de se connecter entre elles. Sur le plan pratique, les certificats SSL sont générés à la volée. Seules les clef PGP sont montrées à l'utilisateur.
+
+Une fois votre identité créée, le logiciel se lance et vous voilà à la tête d'un réseau de... une personne: vous. Il vous faut donc recruter des amis.
+
+**Attention**: si vous utilisez une clef PGP qui n'a pas été créée par RetroShare, vérifiez que le paramètre //Owner Trust// est sur //Ultimate//, en utilisant le logiciel //Seahorse//. Dans le cas contraire, elle ne sera pas acceptée par RetroShare.
+
+
+===== Les services =====
+RetroShare propose plusieurs services en plus du partage de fichiers: 
+
+    * Le //chat// permet de discuter avec vos contacts. Il supporte le //drag-and-drop// de fichiers. Le //group chat// permet une discussion plus commune: tous les gens connectes recoivent vos messages. Attention, cela ne signifie pas qu'ils puissent s'echanger des messages entre eux, a moins qu'ils soient amis.
+    * Les //forums// internes permettent des discussions suivies avec vos amis, mais aussi avec les amis de vos amis. Chaque personne qui souscrit a un forum propage automatiquement son contenu a ses propres amis. La popularité des forums indique le nombre de personnes abonnées parmi vos amis: 
+ 0     = icône 0 |
+ 1-7   = icône 1 |
+ 8-15  = icône 2 |
+ 16-24 = icône 3 |
+ 25-34 = icône 4 |
+ >34   = icône 5 | \\
+ Il existe des forums "anonymes", qui sont vraiment anonymes, et des forums "autentifies" ou les messages sont signes par la clef PGP de la personne qui y ecrit. Cela permet d'eviter le spamming. 
+    * Les //channels// sont un type de forum particulier: quand on s'abonne a un channel, on recois automatiquement les fichiers qui sont postes dessus. Pour augmenter la securite de ce service, poster sur un channel necessite une clef. Le createur du channel a la clef, et peut eventuellement la partager avec ses amis pour leur permettre de poster dessus. Il existe egalement des channels prives, ou une seconde clef est necessaire pour lire le contenu du channel.
+    * un systeme de //messagerie privée//, fonctionne un peu comme une boite au lettres de mails. Il permet également de recommander un fichier ou un ami, à un de vos amis.
+
+===== Conseils ======
+
+   * Soyez patient lorsque vous connectez quelqu'un pour la premiere fois. A cause des routeurs et autres firewalls, ca peut prendre quelques minutes pour se connecter. En general, des que les clefs sont signees, la connexion est instantanee.
+   * Il est assez facile de recruter des //peers//. Proposez le a vos amis. En revanche il y a peu de chance qu'une personne que vous avez rencontrée sur le Net accepte de signer votre clef. C'est la base de la sécurité.
+   * Si l'on partage ses fichiers de maniere anonyme (le flag //browsable by friends// est desactive), meme vos amis ne peuvent savoir ce que vous partagez. 
+   * RetroShare effectue un hash SHA1 des fichiers que vous partagez. Il faut compter 30 min de hash pour 250Go environ.
+   * RetroShare utilise une technologie (upnp) qui permet de traverser les routeurs et certains //firewalls//. Votre connectivité sera cependant meilleure si vous routez le port d'ecoute de RetroShare en UDP+TCP sur votre PC. Pour eviter le tracking des ports par les FAI, le port par defaut change d'une location a l'autre. Le port utilise est indique dans config->server. Vous pouvez vous meme lui donner la valeur que vous voulez entre 1024 et 65535. 
+
+===== Sauvegarde et importation =====
+
+En cas de changement de système, vous n'aurez besoin que de sauvegarder votre clef PGP (votre identité),  ainsi que les clefs de vos amis. Toutes ces clefs sont dans votre keyring PGP, qui est géré par votre distribution ubuntu préférée. Il se trouve dans le répertoire //~/.gnupg//.
+
+Pour exporter une seule clef publique+privée, on peut également utiliser la commande suivante dans un terminal:
+<code>gpg --homedir ./.retroshare/pgp --keyring ./.retroshare/pgp/retroshare_public_keyring.gpg --secret-keyring ./.retroshare/pgp/retroshare_secret_keyring.gpg -a --export KeyID > key.asc ; gpg --homedir ./.retroshare/pgp --keyring ./.retroshare/pgp/retroshare_public_keyring.gpg --secret-keyring ./.retroshare/pgp/retroshare_secret_keyring.gpg -a --export-secret-keys KeyID >> key.asc</code>
+
+... en remplaçant "KeyID" par l'ID ou le nom de votre clef. 
+On peut ensuite importer cette clef sur une autre machine en faisant:
+
+<code>gpg --homedir ./.retroshare/pgp --keyring ./.retroshare/pgp/retroshare_public_keyring.gpg --secret-keyring ./.retroshare/pgp/retroshare_secret_keyring.gpg --import key.asc</code>
+
+Vous pourrez créer une nouvelle location sur la nouvelle machine sans perdre vos amis. Il suffira de faire ami dans le tab Network avec les clefs de vos amis qui doivent s'y trouver, et qui sont déjà signées par votre clef.
+
+
+
+
+===== Voir aussi =====
+  * **(fr)**  [[wpfr>RetroShare|"RetroShare" sur Wikipedia]]
+  * **(fr)** Le site officiel: [[http://retroshare.sourceforge.net]]
+  * **(en)** Le blog des developpeurs: [[http://retroshareteam.wordpress.com]]

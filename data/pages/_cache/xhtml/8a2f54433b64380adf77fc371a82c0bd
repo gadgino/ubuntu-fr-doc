@@ -1,0 +1,582 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#introduction_aux_wiki" class="toc"> Introduction aux Wiki </a></span></li>
+<li class="level1"><span class="li"><a href="#introduction_a_dokuwiki" class="toc"> Introduction à DokuWiki </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#formatage_basique_du_texte" class="toc"> Formatage basique du texte </a></span></li>
+<li class="level2"><span class="li"><a href="#liens" class="toc"> Liens </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#externes" class="toc"> Externes </a></span></li>
+<li class="level3"><span class="li"><a href="#internes" class="toc"> Internes </a></span></li>
+<li class="level3"><span class="li"><a href="#interwiki" class="toc"> Interwiki </a></span></li>
+<li class="level3"><span class="li"><a href="#lien_en_image" class="toc"> Lien en image </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#note_de_bas_de_page" class="toc"> Note de bas de page </a></span></li>
+<li class="level2"><span class="li"><a href="#decoupage_en_section" class="toc"> Découpage en section </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#en-tete_3" class="toc"> En-tête 3 </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#images_et_autres_fichiers" class="toc"> Images et autres fichiers </a></span></li>
+<li class="level2"><span class="li"><a href="#listes" class="toc"> Listes </a></span></li>
+<li class="level2"><span class="li"><a href="#smileys" class="toc"> Smileys </a></span></li>
+<li class="level2"><span class="li"><a href="#typographie" class="toc"> Typographie </a></span></li>
+<li class="level2"><span class="li"><a href="#tableaux" class="toc"> Tableaux </a></span></li>
+<li class="level2"><span class="li"><a href="#blocs_non_parcourus_par_le_moteur_dokuwiki" class="toc"> Blocs non parcourus par le moteur DokuWiki </a></span></li>
+<li class="level2"><span class="li"><a href="#coloration_syntaxique" class="toc"> Coloration syntaxique </a></span></li>
+<li class="level2"><span class="li"><a href="#incorporation_html_et_php" class="toc"> Incorporation HTML et PHP </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<a name="introduction_aux_wiki"></a><h1> Introduction aux Wiki </h1>
+<div class="level1">
+
+<p>
+ Les wiki sont des sites web où chacun peut participer, ils sont plus ou moins restrictifs quant à l&rsquo;autorisation nécessaire pour avoir les droits de créer ou de modifier une page. Sur Ubuntu-fr il a été décidé de laisser chacun libre de faire des modifications. Ce qui veut dire : 
+</p>
+<ul>
+<li class="level1"><span class="li"> Toutes les pages sont attentivement suivies par une dizaine de collaborateurs</span>
+</li>
+<li class="level1"><span class="li"> Une modification de page ne se justifie que par une amélioration du contenu <a href="#fn1" name="fnt1" class="fn_top">1)</a></span>
+</li>
+<li class="level1"><span class="li"> Tout est loggué et le retour à l&rsquo;état précédent se fait en quelques clics</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [1-671] -->
+<a name="introduction_a_dokuwiki"></a><h1> Introduction à DokuWiki </h1>
+<div class="level1">
+
+<p>
+ <a href="/wiki/dokuwiki" class="wikilink1" title="wiki:dokuwiki" onclick="return svchk()" onkeypress="return svchk()">DokuWiki</a> supporte un langage de balisage simple, qui essaye de faire des pages aussi lisibles que possible. Cette page contient toute la syntaxe possible que vous pouvez employer pour éditer/créer les pages. Allez simplement voir la source de cette page en cliquant sur <em>Editer cette page</em> au dessus ou au bas de cette page. Si vous voulez simplement essayer quelque chose, utilisez <a href="/wiki/playground" class="wikilink1" title="wiki:playground" onclick="return svchk()" onkeypress="return svchk()">le bac à sable</a>. Ce type de marqueur est aussi accessible via les <a href="/wiki/quickbuttons" class="wikilink1" title="wiki:quickbuttons" onclick="return svchk()" onkeypress="return svchk()">boutons rapides</a>.
+</p>
+
+</div>
+<!-- SECTION [672-1228] -->
+<a name="formatage_basique_du_texte"></a><h2> Formatage basique du texte </h2>
+<div class="level2">
+
+<p>
+ DokuWiki supporte les mises en forme suivantes : texte <strong>gras</strong>, <em>italique</em>, <u>souligné</u> et <code>à espace constant</code> . Bien sûr vous pouvez les <strong><u><em><code>combiner</code></em></u></strong> . 
+</p>
+<pre class="code">DokuWiki supporte les mises en forme suivantes : texte **gras**, //italique//, __souligné__ et 
+''à espace constant''. Bien sur vous pouvez les **__//''combiner''//__** .</pre>
+
+<p>
+ Vous pouvez avoir : <sub>indice</sub> et <sup>exposant</sup>. 
+</p>
+<pre class="code"> Vous pouvez avoir : &lt;sub&gt;indice&lt;/sub&gt; et &lt;sup&gt;exposant&lt;/sup&gt;.</pre>
+
+<p>
+ Vous pouvez marquer vos <del>corrections</del> aussi. 
+</p>
+<pre class="code"> Vous pouvez marquer vos &lt;del&gt;corrections&lt;/del&gt; aussi.</pre>
+
+<p>
+ Les <strong>paragraphes</strong> sont créés après une ligne vide. Si vous avez besoin d&rsquo;avoir une ligne vide sans créer un nouveau paragraphe, vous pouvez utiliser <strong>deux antislashs</strong> à l&rsquo;endroit de l&rsquo;espace ou en fin de ligne.
+</p>
+
+<p>
+Ce texte pour l&rsquo;exemple créait un saut <br/>
+ de ligne. Notez que les deux antislashs sont reconnus en fin de ligne<br/>
+ ou s&rsquo;ils sont suivis<br/>
+ d&rsquo;un espace \\sinon ils sont inopérants. 
+</p>
+<pre class="code"> Ce texte pour l'exemple créait un saut \\ de ligne. Notez que les
+ deux antislashs sont reconnus en fin de ligne\\
+ ou s'ils sont suivis\\ d'un espace \\sinon ils sont inopérants.</pre>
+
+<p>
+ Vous ne devriez employer des caractères <strong>deux antislashs</strong> que si c&rsquo;est vraiment nécessaire.
+</p>
+
+</div>
+<!-- SECTION [1229-2552] -->
+<a name="liens"></a><h2> Liens </h2>
+<div class="level2">
+
+<p>
+ DokuWiki supporte différentes méthodes pour créer des liens.
+</p>
+
+</div>
+<!-- SECTION [2553-2636] -->
+<a name="externes"></a><h3> Externes </h3>
+<div class="level3">
+
+<p>
+ <strong>Les liens Externes</strong> sont reconnus automatiquement: <a href="http://www.google.fr" class="urlextern" title="http://www.google.fr" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.google.fr</a> ou simplement <a href="http://www.google.fr" class="urlextern" title="http://www.google.fr" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">www.google.fr</a> - Vous pouvez faire des liens avec un nom: <a href="http://www.google.fr" class="urlextern" title="http://www.google.fr" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Lien vers Google</a>. <strong>Les adresses Emails</strong> sont aussi reconnues comme ceci: <a href="mailto:&#x75;&#x62;&#x75;&#x6e;&#x74;&#x75;&#x40;&#x65;&#x78;&#x65;&#x6d;&#x70;&#x6c;&#x65;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x75;&#x62;&#x75;&#x6e;&#x74;&#x75;&#x40;&#x65;&#x78;&#x65;&#x6d;&#x70;&#x6c;&#x65;&#x2e;&#x63;&#x6f;&#x6d;">&#x75;&#x62;&#x75;&#x6e;&#x74;&#x75;&#x40;&#x65;&#x78;&#x65;&#x6d;&#x70;&#x6c;&#x65;&#x2e;&#x63;&#x6f;&#x6d;</a> 
+</p>
+<pre class="code">Les liens Externes sont reconnus automatiquement: http://www.google.fr ou simplement www.google.fr 
+Vous pouvez faire des liens avec un nom: [[http://www.google.fr|Lien vers Google]]. 
+Les adresses Emails sont aussi reconnues comme ceci: &lt;ubuntu@exemple.com&gt;</pre>
+
+</div>
+<!-- SECTION [2637-3190] -->
+<a name="internes"></a><h3> Internes </h3>
+<div class="level3">
+
+<p>
+ <strong>Les liens Internes</strong> sont créés en utilisant les crochets. Vous pouvez juste donner un <a href="/wiki/nom_de_page" class="wikilink1" title="wiki:nom_de_page" onclick="return svchk()" onkeypress="return svchk()">nom_de_page</a> ou utiliser un <a href="/wiki/nom_de_page" class="wikilink1" title="wiki:nom_de_page" onclick="return svchk()" onkeypress="return svchk()">Titre de page</a> additionnel. Les noms de page wiki sont automatiquement convertis en minuscules, les caractères spéciaux ne sont pas autorisés. 
+</p>
+<pre class="code">Les liens Internes sont créés en utilisant les crochets. Vous pouvez juste donner 
+un [[wiki:nom_de_page]] ou utiliser un [[wiki:nom_de_page|Titre de page]] additionnel. 
+Les noms de page wiki sont automatiquement convertis en minuscules, les caractères 
+spéciaux ne sont pas autorisés.</pre>
+
+<p>
+ Vous pouvez aussi faire un lien en ne mettant que le nom précédé de <strong>:</strong> , exemple: <a href="/accueil" class="wikilink1" title="accueil" onclick="return svchk()" onkeypress="return svchk()">accueil</a> 
+</p>
+<pre class="code"> Vous pouvez aussi faire un lien en ne mettant que le nom précédé de : , exemple: [[:accueil]]</pre>
+
+<p>
+ Pour plus de détail sur les noms des liens internes allez sur :<a href="http://wiki.splitbrain.org/wiki%3Anamespaces" class="interwiki" title="http://wiki.splitbrain.org/wiki%3Anamespaces" style="background-image: url(/interwiki/doku.gif)" onclick="return svchk()" onkeypress="return svchk()">wiki:namespaces</a>.
+</p>
+
+<p>
+Créer un lien spécifique à un paragraphe est possible. Ajoutez simplement le caractére <strong>hash &hArr;# </strong> et le nom du paragraphe recherché (comme en html). Pour exemple ce <a href="/wiki/syntax%23internes" class="wikilink1" title="wiki:syntax#internes" onclick="return svchk()" onkeypress="return svchk()">chapitre</a> de cette page. 
+</p>
+<pre class="code">Pour exemple ce [[syntax#internes|chapitre]] de cette page.</pre>
+
+<p>
+ <u>Notes:</u> 
+</p>
+<ul>
+<li class="level1"><span class="li"> Les liens des pages <span class="curid"><a href="/wiki/syntax" class="wikilink1" title="wiki:syntax" onclick="return svchk()" onkeypress="return svchk()">existantes</a></span> sont visuellement différents des pages <a href="/wiki/non_creees" class="wikilink2" title="wiki:non_creees" onclick="return svchk()" onkeypress="return svchk()">non créées</a> (ou inconnues).</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [3191-4523] -->
+<a name="interwiki"></a><h3> Interwiki </h3>
+<div class="level3">
+
+<p>
+ <strong>DokuWiki</strong> supporte les liens <a href="/wiki/interwiki" class="wikilink1" title="wiki:interwiki" onclick="return svchk()" onkeypress="return svchk()">InterWiki</a>. Ce sont des liens directs vers d&rsquo;autres Wiki. Par exemple pour faire un lien vers une page de <em>Wikipedia</em> sur les Wiki: <a href="http://en.wikipedia.org/wiki/Wiki" class="interwiki" title="http://en.wikipedia.org/wiki/Wiki" style="background-image: url(/interwiki/wp.gif)" onclick="return svchk()" onkeypress="return svchk()">Wiki</a>. 
+</p>
+<pre class="code">DokuWiki supporte les liens [[wiki:interwiki|InterWiki]]. Ce sont des liens rapides vers d'autres Wiki. 
+Par exemple pour faire un lien vers une page de Wikipedia sur les Wiki: [[wp&gt;Wiki]].</pre>
+
+</div>
+<!-- SECTION [4524-4939] -->
+<a name="lien_en_image"></a><h3> Lien en image </h3>
+<div class="level3">
+
+<p>
+ Vous pouvez aussi utiliser une image pour faire un lien vers une page interne ou externe en combinant la syntaxe des liens et des images (voir plus bas), exemple: 
+</p>
+<pre class="code">[[http://www.php.net|{{wiki:php-powered.png}}]]</pre>
+
+<p>
+ <a href="http://www.php.net" class="media" title="http://www.php.net" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=wiki%3Aphp-powered.png" class="media" alt="" /></a>
+</p>
+
+<p>
+Note: Le formatage d&rsquo;image est la seule syntaxe de formatage admise dans des noms de lien.
+</p>
+
+</div>
+<!-- SECTION [4940-5320] -->
+<a name="note_de_bas_de_page"></a><h2> Note de bas de page </h2>
+<div class="level2">
+
+<p>
+ Vous pouvez ajouter des notes de bas de page <a href="#fn2" name="fnt2" class="fn_top">2)</a> en utilisant une double parenthèse. 
+</p>
+<pre class="code">Vous pouvez ajouter des notes de bas de page ((ceci est une note)) en utilisant une double parenthèse.</pre>
+
+</div>
+<!-- SECTION [5321-5565] -->
+<a name="decoupage_en_section"></a><h2> Découpage en section </h2>
+<div class="level2">
+
+<p>
+ Vous pouvez employer jusqu&rsquo;à cinq niveaux différents de titres pour structurer votre page. Si vous avez plus de trois titres, une table des matières est produite automatiquement &ndash; ceci peut être neutralisé en incluant dans le document <code>~~NOTOC~~</code>.
+</p>
+
+</div>
+<!-- SECTION [5566-5874] -->
+<a name="en-tete_3"></a><h3> En-tête 3 </h3>
+<div class="level3">
+
+</div>
+
+<a name="en-tete_4"></a><h4> En-tête 4 </h4>
+<div class="level4">
+
+</div>
+
+<a name="en-tete_5"></a><h5> En-tête 5 </h5>
+<div class="level5">
+<pre class="code">==== En-tête 3 ====
+=== En-tête 4 ===
+== En-tête 5 ==</pre>
+
+<p>
+En employant quatre tirets ou plus, vous pouvez faire un trait horizontal:(&mdash;-) 
+</p>
+<hr noshade="noshade" size="1" />
+
+</div>
+<!-- SECTION [5875-6087] -->
+<a name="images_et_autres_fichiers"></a><h2> Images et autres fichiers </h2>
+<div class="level2">
+
+<p>
+ Vous pouvez inclure des images externes ou internes au wiki avec les <del>parenthèses bouclées</del> accolades {}. En option, vous pouvez spécifier leurs tailles.
+</p>
+
+<p>
+Taille réelle:                        <a href="/fetch.php?cache=cache&amp;media=wiki%3Aphp-powered.png" class="media" title="wiki:php-powered.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=wiki%3Aphp-powered.png" class="media" alt="" /></a>
+</p>
+
+<p>
+modification de la longueur:            <a href="/fetch.php?cache=cache&amp;media=wiki%3Aphp-powered.png" class="media" title="wiki:php-powered.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=100&amp;h=&amp;cache=cache&amp;media=wiki%3Aphp-powered.png" class="media" alt="" width="100" /></a>
+</p>
+
+<p>
+modification de la longueur et de la largeur: <a href="/fetch.php?cache=cache&amp;media=wiki%3Aphp-powered.png" class="media" title="wiki:php-powered.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=100&amp;h=100&amp;cache=cache&amp;media=wiki%3Aphp-powered.png" class="media" alt="" width="100" height="100" /></a>
+</p>
+
+<p>
+modification image externe:           <a href="/fetch.php?cache=cache&amp;media=http%3A%2F%2Fde3.php.net%2Fimages%2Fphp.gif" class="media" title="http://de3.php.net/images/php.gif" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=100&amp;h=100&amp;cache=cache&amp;media=http%3A%2F%2Fde3.php.net%2Fimages%2Fphp.gif" class="media" alt="" width="100" height="100" /></a> 
+</p>
+<pre class="code">Taille réelle:                        {{wiki:php-powered.png}}
+modification de la longueur:            {{wiki:php-powered.png?100}}
+modification de la longueur et de la largeur: {{wiki:php-powered.png?100x100}}
+modification image externe:           {{http://de3.php.net/images/php.gif?100x100}}</pre>
+
+<p>
+ En employant un espace sur la gauche ou la droite, vous pouvez choisir l&rsquo;alignement de l&rsquo;image
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=wiki%3Aphp-powered.png" class="media" title="wiki:php-powered.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=wiki%3Aphp-powered.png" class="mediaright" alt="" /></a>
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=wiki%3Aphp-powered.png" class="media" title="wiki:php-powered.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=wiki%3Aphp-powered.png" class="medialeft" alt="" /></a>
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=wiki%3Aphp-powered.png" class="media" title="wiki:php-powered.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=wiki%3Aphp-powered.png" class="mediacenter" alt="" /></a> 
+</p>
+<pre class="code">{{ wiki:php-powered.png}}
+{{wiki:php-powered.png }}
+{{ wiki:php-powered.png }}</pre>
+
+<p>
+ Naturellement, vous pouvez ajouter à l&rsquo;image, une info bulle qui apparaitra si vous positionnez votre souris dessus.
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=wiki%3Aphp-powered.png" class="media" title="wiki:php-powered.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=wiki%3Aphp-powered.png" class="mediacenter" title="Info bulle liée" alt="Info bulle liée" /></a> 
+</p>
+<pre class="code">{{ wiki:php-powered.png |Info bulle liée}}</pre>
+
+<p>
+ Si vous indiquez un nom de fichier (externe ou interne) qui n&rsquo;est pas une image (<code><acronym title="Graphics Interchange Format">GIF</acronym>, <acronym title="Joint Photographics Experts Group">JPEG</acronym>, <acronym title="Portable Network Graphics">PNG</acronym> </code>), alors seul l&rsquo;adresse du fichier sera affiché.
+</p>
+
+</div>
+<!-- SECTION [6088-7524] -->
+<a name="listes"></a><h2> Listes </h2>
+<div class="level2">
+
+<p>
+ Dokuwiki permet les listes ordonnées ou non. Pour créer une liste, décalez votre texte de deux espaces et utilisez un <code>*</code> pour une liste à puces ou un <code>-</code> pour une liste ordonnée. 
+</p>
+<ul>
+<li class="level1"><span class="li"> premier élément</span>
+</li>
+<li class="level1"><span class="li"> second élément</span>
+<ul>
+<li class="level2"><span class="li"> vous pouvez encore créer un sous niveau</span>
+</li>
+</ul>
+</li>
+<li class="level1"><span class="li"> puis repartir au niveau supérieur</span>
+</li>
+</ul>
+<ol>
+<li class="level1"><span class="li"> premier élément numéroté</span>
+</li>
+<li class="level1"><span class="li"> le second</span>
+<ol>
+<li class="level2"><span class="li"> on peut décaler en section inférieure</span>
+</li>
+</ol>
+</li>
+<li class="level1"><span class="li"> puis repartir dans la numérotation supérieure</span>
+</li>
+</ol>
+<pre class="code">
+  * premier élément
+  * second élément
+    * vous pouvez encore créer un sous niveau
+  * puis repartir au niveau supérieur
+
+  - premier élément numéroté
+  - le second
+    - on peut décaler en section inférieure
+  - puis repartir dans la numérotation supérieure
+</pre>
+
+</div>
+<!-- SECTION [7525-8301] -->
+<a name="smileys"></a><h2> Smileys </h2>
+<div class="level2">
+
+<p>
+ DokuWiki convertis les <a href="http://en.wikipedia.org/wiki/emoticon" class="interwiki" title="http://en.wikipedia.org/wiki/emoticon" style="background-image: url(/interwiki/wp.gif)" onclick="return svchk()" onkeypress="return svchk()">emoticon</a>s classiques sous leurs formes graphiques. Vous pouvez augmenter le nombre de Smileys dans le repertoire <em>smiley</em> et en configurant le fichier <em>conf/smileys.conf</em>. Voici une vue d&rsquo;ensemble des smiley inclus dans DokuWiki. 
+</p>
+<ul>
+<li class="level1"><span class="li"> <img src="/smileys/icon_cool.gif" align="middle" alt="8-)" />   8-)  </span>
+</li>
+<li class="level1"><span class="li"> <img src="/smileys/icon_eek.gif" align="middle" alt="8-O" />   8-O  </span>
+</li>
+<li class="level1"><span class="li"> <img src="/smileys/icon_sad.gif" align="middle" alt=":-(" />   :-(  </span>
+</li>
+<li class="level1"><span class="li"> <img src="/smileys/icon_smile.gif" align="middle" alt=":-)" />   :-)  </span>
+</li>
+<li class="level1"><span class="li"> <img src="/smileys/icon_smile2.gif" align="middle" alt="=)" />    =)   </span>
+</li>
+<li class="level1"><span class="li"> <img src="/smileys/icon_doubt.gif" align="middle" alt=":-/" />   :-/  </span>
+</li>
+<li class="level1"><span class="li"> <img src="/smileys/icon_doubt2.gif" align="middle" alt=":-\" />   :-\  </span>
+</li>
+<li class="level1"><span class="li"> <img src="/smileys/icon_confused.gif" align="middle" alt=":-?" />   :-?  </span>
+</li>
+<li class="level1"><span class="li"> <img src="/smileys/icon_biggrin.gif" align="middle" alt=":-D" />   :-D  </span>
+</li>
+<li class="level1"><span class="li"> <img src="/smileys/icon_razz.gif" align="middle" alt=":-P" />   :-P  </span>
+</li>
+<li class="level1"><span class="li"> <img src="/smileys/icon_surprised.gif" align="middle" alt=":-O" />   :-O  </span>
+</li>
+<li class="level1"><span class="li"> <img src="/smileys/icon_silenced.gif" align="middle" alt=":-X" />   :-X  </span>
+</li>
+<li class="level1"><span class="li"> <img src="/smileys/icon_neutral.gif" align="middle" alt=":-|" />   :-|  </span>
+</li>
+<li class="level1"><span class="li"> <img src="/smileys/icon_wink.gif" align="middle" alt=";-)" />   ;-)  </span>
+</li>
+<li class="level1"><span class="li"> <img src="/smileys/icon_fun.gif" align="middle" alt="^_^" />   ^_^  </span>
+</li>
+<li class="level1"><span class="li"> <img src="/smileys/icon_question.gif" align="middle" alt=":?:" />   :?:  </span>
+</li>
+<li class="level1"><span class="li"> <img src="/smileys/icon_exclaim.gif" align="middle" alt=":!:" />   :!:  </span>
+</li>
+<li class="level1"><span class="li"> <img src="/smileys/icon_lol.gif" align="middle" alt="LOL" />   LOL  </span>
+</li>
+<li class="level1"><span class="li"> <img src="/smileys/fixme.gif" align="middle" alt="FIXME" />   FIXME </span>
+</li>
+<li class="level1"><span class="li"> <img src="/smileys/delete.gif" align="middle" alt="DELETEME" />  DELETEME </span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [8302-8999] -->
+<a name="typographie"></a><h2> Typographie </h2>
+<div class="level2">
+
+<p>
+ <a href="/wiki/dokuwiki" class="wikilink1" title="wiki:dokuwiki" onclick="return svchk()" onkeypress="return svchk()">DokuWiki</a> peut convertir, les caractères simples des textes, en leurs entités typographiques correctes. Voici un exemple des caractères reconnus.
+</p>
+
+<p>
+&rarr; &larr; &harr; &rArr; &lArr; &hArr; &raquo; &laquo; &ndash; &mdash; 640&times;480 &copy; &trade; &reg; &ldquo;Il pense que &lsquo;c&rsquo;est un monde d&rsquo;homme...&rdquo;
+</p>
+<pre class="code">
+-&gt; &lt;- &lt;-&gt; =&gt; &lt;= &lt;=&gt; &gt;&gt; &lt;&lt; -- --- 640x480 (c) (tm) (r)
+&quot;Il pense que 'c'est un monde d'homme...&quot;
+</pre>
+
+<p>
+<u>Note:</u> Ces conversions peuvent être arrêtées dans le fichier de config.
+</p>
+
+</div>
+<!-- SECTION [9000-9465] -->
+<a name="tableaux"></a><h2> Tableaux </h2>
+<div class="level2">
+
+<p>
+ DokuWiki utilise une syntaxe simple pour créer des tableaux.  
+</p>
+<table class="inline">
+	<tr>
+		<th class="leftalign"> en tête 1      </th><th class="leftalign"> en tête 2       </th><th class="leftalign"> en tête 3          </th>
+	</tr>
+	<tr>
+		<td class="leftalign"> Lig 1 Col 1    </td><td class="leftalign"> Lig 1 Col 2     </td><td class="leftalign"> Lig 1 Col 3        </td>
+	</tr>
+	<tr>
+		<td class="leftalign"> Lig 2 Col 1    </td><td colspan="2"> somme 2xCol (notez le double pipe&rArr;)</td>
+	</tr>
+	<tr>
+		<td class="leftalign"> Lig 3 Col 1    </td><td class="leftalign"> Lig 3 Col 2     </td><td class="leftalign"> Lig 3 Col 3        </td>
+	</tr>
+</table>
+<br />
+
+<p>
+ Les lignes normales du Tableau doivent commencer et finir par un <code>|</code> ,et pour les en-têtes c&rsquo;est un <code>^</code>. 
+</p>
+<pre class="code">^ en tête 1      ^ en tête 2       ^ en tête 3          ^
+| Lig 1 Col 1    | Lig 1 Col 2     | Lig 1 Col 3        |
+| Lig 2 Col 1    | somme 2xCol (notez le double pipe=&gt;)||
+| Lig 3 Col 1    | Lig 3 Col 2     | Lig 3 Col 3        |</pre>
+
+<p>
+ Pour relier des cellules horizontalement, décalez les <code>|</code> comme montré ci-dessus. Soyez sûr d&rsquo;avoir toujours la même quantité de séparateurs de cellules!
+</p>
+
+<p>
+Les en-têtes verticaux sont possibles, aussi. 
+</p>
+<table class="inline">
+	<tr>
+		<td class="rightalign">              </td><th class="leftalign"> en tête 1            </th><th class="leftalign"> en tête 2          </th>
+	</tr>
+	<tr>
+		<th class="leftalign"> en tête 3    </th><td class="leftalign"> Lig 1 Col 2          </td><td class="leftalign"> Lig 1 Col 3        </td>
+	</tr>
+	<tr>
+		<th class="leftalign"> en tête 4    </th><td class="leftalign"> pas de somme         </td><td class="centeralign">  cette fois        </td>
+	</tr>
+	<tr>
+		<th class="leftalign"> en tête 5    </th><td class="leftalign"> Lig 3 Col 2          </td><td class="leftalign"> Lig 3 Col 3        </td>
+	</tr>
+</table>
+<br />
+
+<p>
+ Comme vous pouvez voir, c&rsquo;est le séparateur de cellules avant une cellule qui décide du style de format:  
+</p>
+<pre class="code">|              ^ en tête 1            ^ en tête 2          ^
+^ en tête 3    | Lig 1 Col 2          | Lig 1 Col 3        |
+^ en tête 4    | pas de somme         |  cette fois        |
+^ en tête 5    | Lig 3 Col 2          | Lig 3 Col 3        |</pre>
+
+<p>
+ <u>Note:</u> Etendre verticalement n&rsquo;est pas possible (rowspan).
+</p>
+
+<p>
+Vous pouvez aligner le contenu du tableau. Ajoutez simplement deux espaces sur le coté opposé de votre texte: Ajoutez deux espaces sur la gauche pour aligner à droite, deux sur la droite pour aligner à gauche et deux espaces de chaque coté pour centrer le texte. 
+</p>
+<table class="inline">
+	<tr>
+		<th class="centeralign" colspan="3">  Tableau avec alignement  </th>
+	</tr>
+	<tr>
+		<td class="rightalign">         droit</td><td class="centeralign">    centré    </td><td class="leftalign">gauche        </td>
+	</tr>
+	<tr>
+		<td class="leftalign">gauche        </td><td class="rightalign">         droit</td><td class="centeralign">    centré    </td>
+	</tr>
+	<tr>
+		<td> xxxxxxxxxxxx </td><td> xxxxxxxxxxxx </td><td> xxxxxxxxxxxx </td>
+	</tr>
+</table>
+<br />
+
+<p>
+ voici la source de cet exemple: 
+</p>
+<pre class="code">^         Tableau avec alignement          ^^^
+|         droit|    centré    |gauche        |
+|gauche        |         droit|    centré    |
+| xxxxxxxxxxxx | xxxxxxxxxxxx | xxxxxxxxxxxx |</pre>
+
+</div>
+<!-- SECTION [9466-11710] -->
+<a name="blocs_non_parcourus_par_le_moteur_dokuwiki"></a><h2> Blocs non parcourus par le moteur DokuWiki </h2>
+<div class="level2">
+
+<p>
+ Vous pouvez inclure des blocs non parcourus (c&rsquo;est-à-dire que l&rsquo;affichage sera préservé même si il y a des caractères spéciaux utilisés par DokuWiki) dans vos documents en plaçant au minimum deux espaces devant la ligne (comme utilisé dans les exemples précédents) ou en utilisant les tags <code>code</code> ou <code>file</code>.
+</p>
+<pre class="code">
+(avec code) Ceci est du code préformaté et tous les espaces sont préservés comme              &lt;- ceci.
+</pre>
+<pre class="file">
+(avec file) C'est pratiquement la même chose, mais vous pouvez voir que c'est un fichier (fichier de config ou autre) qui est entre les tags.
+</pre>
+
+<p>
+Pour faire ignorer une zone complète au moteur DokuWiki (c&rsquo;est-à-dire qu&rsquo;il n&rsquo;y aura aucun formatage), entourez le texte avec des tags <code>nowiki</code> ou plus simplement, avec deux signes pourcents <code>%%</code>.
+</p>
+
+<p>
+
+Voici un peu de texte qui contient des adresses comme ceci : http://www.splitbrain.org et du **formatage**, mais rien n'est affiché dans la page générée (que vous êtes en train de lire).
+
+</p>
+
+<p>
+Voyez la source de cette page pour voir comment ces blocs sont utilisés.
+</p>
+
+</div>
+<!-- SECTION [11711-12880] -->
+<a name="coloration_syntaxique"></a><h2> Coloration syntaxique </h2>
+<div class="level2">
+
+<p>
+ <a href="/wiki/dokuwiki" class="wikilink1" title="wiki:dokuwiki" onclick="return svchk()" onkeypress="return svchk()">DokuWiki</a> peut colorer syntaxiquement le code source, ce qui le rend plus facile à lire. Il utilise <a href="http://qbnz.com/highlighter/" class="urlextern" title="http://qbnz.com/highlighter/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">GeSHi</a> Generic Syntax Highlighter &ndash; et donc, tous les langages supportés par GeSHi sont supportés. La syntaque est la même que pour les blocs de code de la section précédente, mais cette fois, le nom du langage utilisé doit être inséré dans la tag. Par exemple : <code>&lt;code java&gt;</code>.
+</p>
+<pre class="code"><span class="coMULTI">/** 
+ * La classe HelloWorldApp impl&eacute;mente une application qui 
+ * affiche simplement &quot;Hello world!&quot; sur la sortie standard.
+ */</span>
+<span class="kw2">class</span> HelloWorldApp <span class="br0">&#123;</span>
+    <span class="kw2">public</span> <span class="kw4">static</span> <span class="kw4">void</span> main<span class="br0">&#40;</span><a href="http://www.google.com/search?q=allinurl%3AString+java.sun.com&amp;bntl=1"><span class="kw3">String</span></a><span class="br0">&#91;</span><span class="br0">&#93;</span> args<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <a href="http://www.google.com/search?q=allinurl%3ASystem+java.sun.com&amp;bntl=1"><span class="kw3">System</span></a>.<span class="me1">out</span>.<span class="me1">println</span><span class="br0">&#40;</span><span class="st0">"Hello World!"</span><span class="br0">&#41;</span>; <span class="co1">//Affiche la cha&icirc;ne de caract&egrave;res.</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+<p>
+Les langages suivants sont actuellement reconnus : <em>actionscript, ada, apache, asm, asp, bash, caddcl, cadlisp, c, c_mac, cpp, csharp, css, delphi, html4strict, java, javascript, lisp, lua, nsis, objc, oobas, pascal, perl, php-brief, php, python, qbasic, smarty, sql, vb, vbnet, visualfoxpro, xml</em>
+</p>
+
+</div>
+<!-- SECTION [12881-13967] -->
+<a name="incorporation_html_et_php"></a><h2> Incorporation HTML et PHP </h2>
+<div class="level2">
+
+<p>
+ Vous pouvez insérer du code <acronym title="HyperText Markup Language">HTML</acronym> ou <acronym title="Hypertext Preprocessor">PHP</acronym> brut dans vos documents en utilisant les tags <code>html</code> ou <code>php</code> ainsi : 
+</p>
+<pre class="code">
+&lt;html&gt;
+Voici du &lt;font color=&quot;red&quot; size=&quot;+1&quot;&gt;HTML&lt;/font&gt;
+&lt;/html&gt;
+</pre>
+<pre class="file">
+Voici du &lt;font color=&quot;red&quot; size=&quot;+1&quot;&gt;HTML&lt;/font&gt;
+</pre>
+<pre class="code">
+&lt;php&gt;
+echo 'Un logo généré par PHP:';
+echo '&lt;img src=&quot;' . $_SERVER['PHP_SELF'] . '?=' . php_logo_guid() . '&quot; alt=&quot;PHP Logo !&quot; /&gt;';
+&lt;/php&gt;
+</pre>
+<pre class="file">
+echo 'Un logo généré par PHP:';
+echo '&lt;img src=&quot;' . $_SERVER['PHP_SELF'] . '?=' . php_logo_guid() . '&quot; alt=&quot;PHP Logo !&quot; /&gt;';
+</pre>
+
+<p>
+<strong>Remarque</strong>: L&rsquo;insertion de <acronym title="HyperText Markup Language">HTML</acronym> et de <acronym title="Hypertext Preprocessor">PHP</acronym> est désactivée par défaut dans la configuration. Si elle est désactivée, le code est affiché et non exécuté. 
+</p>
+
+</div>
+<!-- SECTION [13968-] --><div class="footnotes">
+<div class="fn"><a href="#fnt1" name="fn1" class="fn_bot">1)</a> 
+pas la peine de faire un <em>hall of shame</em> mais on a eu des visites pas trés courtoises</div>
+<div class="fn"><a href="#fnt2" name="fn2" class="fn_bot">2)</a> 
+ceci est une note</div>
+</div>

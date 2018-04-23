@@ -1,0 +1,192 @@
+{{tag>scanner vetuste}}
+----
+<note warning>La dernière version de scanbuttond dont il est question ici date du 17/02/2006. Si vous l'avez testé avec succès sur une version récente d' Ubuntu merci de mettre à jour la page ou au moins l'indiquer en prenant contact avec la [[:wiki:liste_discussion#coordination_de_la_documentation|liste de discussion]] du wiki.</note>
+====== Problèmes de scanner ======
+
+Dans la version 7.04 de Ubuntu, un certain nombre d'utilisateurs ont constaté que leur scanner USB ne fonctionnait plus, alors qu'il fonctionnait parfaitement avec la version 6.10.
+
+Des outils comme [[Xsane]] ou [[Kooka]] peuvent subir un plantage complet. Un redémarrage de //udev// (**impératif !**), voire un réamorçace de l'ordinateur sont nécessaires pour retrouver un système totalement stable en USB.
+
+Ceci est dû à la version du noyau de la 7.04 et aux options de compilation qui ont été fixées pour cette version de la distribution.\\
+Plus précisément, la cause en est l'option de compilation : //CONFIG_USB_SUSPEND// du noyau, qui a été sélectionnée dans le noyau de la 7.04, mais qui, malheureusement, présente encore quelques défauts de jeunesse. \\
+Pour information, cette option permet de réduire la consommation sur les ordinateurs portables, en passant les ports USB en veille. Toutefois, la faiblesse réside dans le délai d'attente avant passage en veille des ports USB --- de l'ordre de 2 sec --- ce qui est beaucoup trop court pour certains périphériques USB comme les scanners, qui ont besoin d'un port USB actif même lorsqu'aucun transfert de données n'a lieu, ne serait ce que pour activer le moteur du chariot.
+
+Gageons que cette faiblesse sera bientôt corrigée dans une prochaine mise à jour ; toutefois, dans l'immédiat, il s'agit d'utiliser un palliatif afin de pouvoir faire fonctionner son scanner. C'est ce qui est décrit ci-après.
+
+
+===== Pré-requis =====
+
+La méthode de contournement donnée ci-après s'appuie sur un petit utilitaire, disponible dans les dépôts Universe. Il s'agit de //scanbuttond//.
+
+Cet utilitaire est normalement destiné à lancer une application lors de l'appui sur un bouton du scanner. Pour cela, [[http://scanbuttond.sourceforge.net|scanbuttond]] s'installe comme un processus dæmon (en tâche de fond) et scrute en permanence le port USB pour détecter un éventuel événement provoqué par un bouton du scanner.
+
+C'est donc grâce à cette communication permanente qui va s'installer entre //scanbuttond// et le scanner, que l'on va pouvoir maintenir artificiellement le port USB du scanner actif, et l'empêcher de passer en veille.
+
+<note>//scanbuttond// est censé fonctionner sur une liste de scanners donnée (ci après, d'après les informations fournies dans le fichier « README » de //scanbuttond//). 
+
+Dans le cas d'un scanner nécessitant un chargement de firmware, //scanbuttond// peut également s'en charger. Voir également le fichier « README » de //scanbuttond// pour configurer le chargement du firmware du scanner.
+</note>
+
+
+
+
+===== Installation =====
+
+L'installation de //scanbuttond// est très simple : [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt://scanbuttond]]**.
+
+
+===== Utilisation de « scanbuttond » =====
+
+==== Lancement ====
+
+Quelques paramètres sont disponibles pour configurer //scanbuttond// lors de son lancement. Les 2 plus intéressants sont des timings de scrutation, ajustables. Les valeurs sont en microsecondes :
+
+<code>
+-p, --pollingdelay=DELAY    The polling delay (µs), default: 333000
+-r, --retrydelay=DELAY      The retry delay (µs), default: 2000000
+</code>
+
+Le paramètre « ''-p'' » par défaut à 333 millisecondes est convenable.
+Le paramètre « ''-r'' » par défaut de 2 secondes, doit être réduit à 1 seconde, voire 0,5 seconde pour plus de sûreté.
+
+Ainsi, avant de lancer Xsane ou Kooka, il faut donc lancer au préalable //scanbuttond//, avec ce paramétrage :
+
+  scanbuttond -r 500000
+
+Ensuite, lancer comme d'habitude, Xsane ou Kooka.
+Lorsque terminé, il vaut mieux tuer le processus //scanbuttond// pour l'arrêter (facultatif) :
+
+  killall scanbuttond
+
+
+==== Automatisation par un script ====
+
+Pour éviter d'avoir à effectuer ces opérations à chaque lancement du programme de scanner, il suffit de créer un petit script, dans « /usr/local/bin » et de l'appeler Xsane (remplacer Xsane par Kooka pour utiliser ce dernier)  :
+
+[[:tutoriel:comment_editer_un_fichier|Éditez le fichier]] **/usr/local/bin/xsane ** et placer les 4 lignes suivantes :
+
+<file>
+#!/bin/sh
+scanbuttond -r 500000
+/usr/bin/xsane
+killall scanbuttond
+</file>
+
+Enregistrer et fermer. Attention : Il faut faire un : <code>sudo chmod +x /usr/local/bin/xsane </code> pour rendre le script fonctionnel, c'est tout. 
+
+Chaque appel de Xsane (menu //Applications → Images// ou ligne de commande) va lancer ce petit script, au lieu du programme Xsane lui-même. Le répertoire « /usr/local/bin » est en effet consulté **avant** « /usr/bin » lors du lancement d'un programme.
+
+À adapter bien sûr en fonction de ses besoins.
+
+
+===== Scanners gérés par « scanbuttond » =====
+
+==== Liste des scanners ====
+
+Cette liste est donnée dans le fichier « /usr/share/doc/scanbuttond/README.gz » installé avec //scanbuttond//.
+
+Liste non exhaustive, même si votre scanner n'y figure pas, faites un essai tout de même :
+
+<code>
+less /usr/share/doc/scanbuttond/README.gz
+
+Supported scanners
+------------------
+
+Supported by the epson backend (via libusb):
+* Epson Expression 1600 (expected to work)
+* Epson Expression 1680 (expected to work)
+* Epson Perfection 610 (expected to work)
+* Epson Perfection 636U (expected to work)
+* Epson Perfection 640 (expected to work)
+* Epson Perfection 1200U (expected to work)
+* Epson Perfection 1240 (expected to work)
+* Epson Perfection 1640 (expected to work)
+* Epson Perfection 1650 (working, tested)
+* Epson Perfection 1660 (working, tested)
+* Epson Perfection 2400 (working, tested)
+* Epson Perfection 2450 (expected to work)
+* Epson Perfection 3200 (expected to work)
+* Epson CX3200 (working, tested)
+
+Supported by the mustek backend (via libusb):
+* Mustek BearPaw 2448TA (experimental)
+
+Supported by the niash backend (via libusb):
+* Agfa Snapscan Touch (expected to work)
+* HP Scanjet 3300c (expected to work)
+* HP Scanjet 3400c (expected to work)
+* HP Scanjet 4300c (expected to work)
+
+Supported by the plustek backend (via libusb):
+* Canon CanoScan N1220U (expected to work)
+* Canon CanoScan D660U (expected to work)
+* Canon CanoScan N650U (expected to work)
+* Canon CanoScan LiDE 20 (experimental)
+* Canon CanoScan LiDE 25 (experimental)
+* Canon CanoScan LiDE 30 (experimental)
+* Epson Perfection 1260 (experimental)
+* Hewlett-Packard ScanJet 2200c (experimental)
+
+Supported by the plustek_umax backend (via libusb):
+* UMAX Astra 3400/3450 (experimental)
+
+Supported by the snapscan backend (via libusb):
+* Epson Perfection 2480 (expected to work)
+* Epson Perfection 2580 (expected to work)
+* Epson Perfection 1670 (working, tested)
+
+Note: the mustek, niash, plustek, plustek_umax and snapscan backends were
+implemented using information gathered by "sniffing" the communication between
+the Windows driver and the scanner, because there is no technical documentation
+available for these devices! This means that there may be some weird issues
+(e.g. button press events reported twice).
+
+</code>
+
+
+
+==== Particularité pour les scanners nécessitant un chargement de firmware ====
+
+Toujours dans ce même fichier, on y trouve ce qu'il faut faire dans le cas d'un pré-chargement de firmware nécessaire pour faire fonctionner le scanner : agir au niveau du fichier « /usr/local/etc/scanbuttond/initscanner.sh ».
+
+<code>
+Scanner initialization
+----------------------
+
+Note: this only applies to some scanners supported by the non-epson backends.
+All scanners supported by the epson backend do not need special initialization.
+
+Some scanners require a special initialization procedure (firmware uploading,
+for example) before they can be used by scanbuttond. Since the scanbuttond
+backend modules cannot yet handle such operations, the initialization has to be
+performed by external programs, for example by "scanimage" which is part of
+SANE. You can customize the initialization procedure by editing the scanner
+initialization script, which is by default installed at
+"/usr/local/etc/scanbuttond/initscanner.sh". This script will be executed
+whenever a new device has to be initialized. In most cases, it should be
+sufficient to put something like "scanimage -n" into this script.
+</code>
+
+À lire donc avec intérêt si on se trouve dans ce cas.
+
+
+
+
+===== Vérifier la communication entre scanbuttond et le scanner =====
+
+Un petit truc pour vérifier si le polling du scanner s'effectue correctement par scanbuttond : l'utilitaire //udevmonitor//.
+
+Brancher le scanner, lancer //scanbuttond// (comme ci-dessus), et, dans un terminal, lancer :
+
+  sudo udevmonitor -e
+
+Défilent alors à intervalle régulier, les sollicitations de //scanbuttond// sur le scanner.
+
+===== Liens externes =====
+
+  * [[http://scanbuttond.sourceforge.net|Page du projet scanbuttond sur SourceForge.net]]
+
+----
+
+//Contributeurs : FIXME.//

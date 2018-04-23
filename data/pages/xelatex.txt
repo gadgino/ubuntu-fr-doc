@@ -1,0 +1,51 @@
+{{tag>bureautique mathématiques}}
+
+----
+====== XeLaTeX, langage de description de document ====== 
+
+**XeLaTeX** est une variante de [[latex|LaTeX]], la structure générale du document reste identique et l'immense majorité des commandes et packages continuent de fonctionner comme d'habitude.\\
+Cependant: 
+  * Il ne faut pas charger les packages ''inputenc'', ''fontenc'', ni ''textcomp''. 
+  * Le fichier source **doit** être codé en UTF-8. 
+**XeLaTeX** gère nativement Unicode ; les packages qui servaient auparavant à contourner les limitations de [[latex|LaTeX]] en matière de codages deviennent donc inutiles et inadaptés. À la place vous chargerez les packages "fontspec" et "xunicode".\\
+**XeLaTeX** produit directement un fichier au format PDF (même avec du code PSTricks !).
+
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+  * Pour l'installation minimale, [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>texlive-xetex|texlive-xetex]]**.
+  * Pour l'installation complète sans se poser de questions au sujet des paquets supplémentaires, [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>texlive-full|texlive-full]]**.
+
+===== Code minimal =====
+Pour un article en français :
+<code latex>
+\documentclass[french]{article}
+\usepackage{amssymb, amsmath, mathtools} %pour les mathématiques
+\usepackage{fontspec}
+\usepackage{xunicode}
+\usepackage[a4paper]{geometry}
+\usepackage{babel}
+\begin{document}
+
+\end{document}
+</code>
+
+===== Compilation =====
+==== En ligne de commande ====
+<code>xelatex mon_document.tex </code>
+
+\chapter*{Conclusion}
+\markboth{Conclusion}{}
+\addstarredchapter{Conclusion}
+
+Ici il faut surtout attirer l'attention sur les progrès à faire, sur l'évolution du travail et les perspectives d'avenir.
+
+===== Voir aussi =====
+  * [[http://www.tuteurs.ens.fr/logiciels/latex/xetex.html|Page du projet]]
+
+----
+
+//Contributeurs : [[utilisateurs:grigouille]]//

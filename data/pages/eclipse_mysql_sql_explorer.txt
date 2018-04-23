@@ -1,0 +1,96 @@
+{{tag>Hardy programmation mysql BROUILLON}}
+
+----
+
+====== Eclipse et MySQL - SQL Explorer Plugin ======
+
+Il peut s'avérer très pratique d'avoir un accès à une base de données via [[:Eclipse]]. Nous allons voir ici comme installer le plugin **SQL Explorer Plugin** à Eclipse.
+
+===== Prérequis =====
+
+  * Disposer des [[:sudo|droits d'administration]]
+  * Disposer d'une connexion à Internet configurée et activée
+  * Avoir installé un serveur [[:LAMP]], et disposer d'[[:Eclipse]]
+  * Avoir [[:MySQL]] correctement configuré et fonctionnel
+  * Connaître l'emplacement racine de l'application Eclipse
+
+
+===== Installation =====
+
+==== SQL Explorer Plugin ====
+
+Téléchargez la dernière version **[[http://sourceforge.net/projects/eclipsesql/files/|ici]]**. 
+
+<note>Téléchargez le fichier **SQL Explorer Plugin**, pas les RCP.</note>
+
+Décompressez le fichier, vous obtenez deux dossiers : **features** et **plugins**.
+Vous trouverez deux dossiers identiques dans le dossier de l'application Eclipse, et comme vous l'avez certainement déjà deviné, il suffit de copier les nouveaux fichiers extraits dans ceux d'Eclipse.
+
+
+==== MySQL Connector/J ====
+
+Téléchargez la dernière version de **MySQL Connector/J** que vous trouverez **[[http://dev.mysql.com/downloads/connector/j/5.1.html|ici]]** sous la forme d'une archive //tar.gz//.
+
+Décompressez le fichier que vous avez téléchargé. Dans les éléments décompressés, un seul fichier nous intéresse : **mysql-connector-java-5.1.6-bin.jar**.((La version disponible en juin 2012 est la 5.1.20))
+
+Pour plus de commodités, nous allons copier ce fichier dans **/usr/share/mysql** :
+
+  sudo cp mysql-connector-java-5.1.6-bin.jar /usr/share/mysql
+
+
+===== Configuration =====
+
+La configuration se fait uniquement dans Eclipse, lancez donc celui-ci.
+
+Allez dans le menu "Window -> Preferences". Une nouvelle section "SQL Explorer" a fait son apparition. Déployez la et sélectionnez "JDBC DRIVERS".
+
+Dans la partie de droite, double-cliquez sur "MySQL Driver".
+
+{{applications:eclipse:eclipse_mysql_explorer_1.jpg|}}
+
+Sélectionnez l'onglet "Extra Class Path", et cliquez sur "Add", et allez rechercher le fichier **/usr/share/mysql/mysql-connector-java-5.1.6-bin.jar**.
+
+{{applications:eclipse:eclipse_mysql_explorer_2.jpg|}}
+
+Une fois fait, cliquez sur "List Drivers", dans le menu déroulant "Driver Class Name", le premier de la liste "com.mysql.jdbc.Driver" est sélectionné par défaut, cela tombe bien car c'est celui qu'il nous faut.
+
+Cliquez sur OK.
+
+Eclipse et SQL Explorer sont maintenant prêts pour se connecter à des bases [[:MySQL]].
+
+===== Connexion =====
+
+Il est possible que la "vue" pour les connexions ne soit pas visible, pour cela allez dans le menu "Window -> Show View -> Other". Sélectionnez Connections et OK.
+
+{{applications:eclipse:eclipse_mysql_explorer_4.jpg|}}
+
+{{applications:eclipse:eclipse_mysql_explorer_3.jpg|}}
+
+Ajoutez maintenant une nouvelle connexion à votre base MySQL.
+
+Corrigez l'URL qui était :
+
+  jdbc:mysql://<hostname>[<:3306:>]/<dbname>
+
+et devient (par exemple) :
+
+  jdbc:mysql://localhost:3306/mydb
+
+{{applications:eclipse:eclipse_mysql_explorer_5.jpg|}}
+
+Ensuite il ne vous reste plus qu'à utiliser les outils proposés par SQL Explorer.
+
+{{applications:eclipse:eclipse_mysql_explorer_6.jpg|}}
+
+{{applications:eclipse:eclipse_mysql_explorer_7.jpg|}}
+
+===== Voir aussi =====
+
+  * **(en)** [[http://eclipsesql.sourceforge.net/|Site officiel de SQL Explorer]]
+  * **(en)** [[http://www.mysql.com/products/connector/j/|Site officiel de MySQL Connector/J]]
+
+----
+
+//Contributeur : [[utilisateurs:chtiland]]//
+
+// Basé sur [[http://www.64bitjungle.com/tech/eclipse-pdt-and-mysql-sql-explorer-plugin/|«  Eclipse PDT and MySQL - SQL Explorer Plugin »]] par Hodge.//

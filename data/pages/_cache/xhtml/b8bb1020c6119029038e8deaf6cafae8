@@ -1,0 +1,107 @@
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/dukiclock" class="wikilink1" title="utilisateurs:dukiclock" onclick="return svchk()" onkeypress="return svchk()">dukiclock</a>
+</p>
+
+<a name="installer_une_imprimante_canon_de_la_serie_ixxx_i550_i560_i850_i860_i950_i990"></a><h2> Installer une imprimante canon de la serie iXXX (i550 / i560 / i850 / i860 / i950 / i990) </h2>
+<div class="level2">
+
+</div>
+
+<a name="telecharger_les_pilotes_corrects_ici"></a><h4> Telecharger les pilotes corrects ici : </h4>
+<div class="level4">
+
+<p>
+ <a href="ftp://ftp://download.canon.jp/pub/driver/bj/linux/" class="urlextern" title="ftp://ftp://download.canon.jp/pub/driver/bj/linux/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">ftp://download.canon.jp/pub/driver/bj/linux/</a> (copier-coller)
+</p>
+
+<p>
+(canon i550, i560, i850, i860, i950, i990)
+</p>
+
+<p>
+Vous avez besoin des fichiers suivant (les X correspondent a la serie d&rsquo;imprimante et a la version du pilote correspondant): 
+</p>
+<ul>
+<li class="level1"><span class="li"> <em>bjfilterpixusXXXi-X.X-X.i386.rpm</em></span>
+</li>
+</ul>
+
+<p>
+ ET le pilotes CUPS correspondant: 
+</p>
+<ul>
+<li class="level1"><span class="li"> <em>bjfiltercups-X.X-X.i386.rpm</em></span>
+</li>
+</ul>
+
+</div>
+
+<a name="utiliser_alien_pour_convertir_les_.rpm_en_.deb"></a><h4> Utiliser ALIEN pour convertir les .RPM en .DEB </h4>
+<div class="level4">
+
+<p>
+ (“sudo apt-get install alien” si vous ne l&rsquo;avez pas)
+</p>
+
+<p>
+Dans le repertoire ou se situe les fichiers rmp, executer :
+</p>
+<pre class="code">sudo alien -c bjfilterpixusXXXi_X.X-X.i386.rpm
+sudo alien -c bjfiltercups-X.X-X.i386.rpm</pre>
+
+</div>
+
+<a name="decompacter_et_installer_les_pilotes"></a><h4> Decompacter et installer les pilotes : </h4>
+<div class="level4">
+<pre class="code">sudo dpkg -i bjfilterpixusXXXi_X.X-X.i386.deb
+sudo dpkg -i bjfiltercups-X.X-X.i386.deb</pre>
+
+</div>
+
+<a name="telecharger_et_installer_les_librairies_complementaires"></a><h4> Telecharger et installer les librairies complementaires : </h4>
+<div class="level4">
+<pre class="code">sudo apt-get install libtiff3g
+sudo apt-get install libpng2</pre>
+
+<p>
+ <em>Repondre &ldquo;oui&rdquo; aux questions</em>
+</p>
+
+</div>
+
+<a name="redemarrer_le_controleur_d_imprimante"></a><h4> Redemarrer le controleur d'imprimante : </h4>
+<div class="level4">
+<pre class="code">sudo /etc/init.d/cupsys restart</pre>
+
+</div>
+
+<a name="enlevez_les_anciens_pilotes_generiques_pour_la_i560"></a><h4> Enlevez les anciens pilotes génériques pour la i560 : </h4>
+<div class="level4">
+<ul>
+<li class="level1"><span class="li"> Système &gt; Administration &gt; Impression</span>
+</li>
+</ul>
+
+<p>
+Puis clic droit sur l&rsquo;imprimante et selectionner “enlever”.
+</p>
+
+</div>
+
+<a name="utilisez_alors_l_interface_gnome_pour_ajouter_une_nouvelle_imprimante"></a><h4> Utilisez alors l'interface Gnome pour ajouter une nouvelle imprimante : </h4>
+<div class="level4">
+<ul>
+<li class="level1"><span class="li"> Système &gt; Administration &gt; Impression</span>
+</li>
+</ul>
+
+<p>
+Et vous verrez maintenant votre nouveau pilotes dans la liste comme PIXUS XXXi verX.X 
+</p>
+
+</div>
+<!-- SECTION [72-] -->

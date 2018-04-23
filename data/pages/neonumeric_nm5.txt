@@ -1,0 +1,52 @@
+{{tag>Hardy matériel baladeur}}
+
+----
+
+
+====== Baladeur Neonumeric NM5 ======
+
+===== Compatibilité =====
+
+Le baladeur audio/vidéo **Neonumeric NM5** est reconnu comme une simple clé USB sous Linux, l'utiliser est alors très simple. Toutefois il est fourni avec un logiciel pour convertir les vidéos dans un format lisible par le baladeur et qui n'est pas compatible Linux. La suite de cet article présente une solution pour encoder soi-même des vidéos lisibles par le baladeur.
+
+===== Pré-requis =====
+
+  * Disposer d'une connexion à Internet configurée et activée ;
+  * Avoir [[:tutoriel:comment_installer_un_paquet|installé le paquet]] **[[mencoder]]**.
+
+===== Installation =====
+
+Créez un fichier //convertir.sh//, placez dedans le code suivant:
+  #!/bin/sh
+  for file in "$@"
+  do
+  mencoder "$file" -idx -noodml -ofps 20 -vf scale=320:-2,expand=:240:::1,crop=320:240 -ovc lavc -ffourcc XVID -lavcopts vcodec=libxvid:vbitrate=300:vmax_b_frames=0:vhq:acodec=mp2:abitrate=128 -srate 44100 -oac lavc -o "$file[nm5].avi"
+  done
+
+<note>Ce script permet d'encoder une vidéo en 320x240 avec les codecs XVID/MP2.</note>
+
+<note tip>Vous pouvez améliorer/diminuer la qualité vidéo en changeant la valeur 'vbitrate' : plus la valeur est grande, plus la qualité est bonne.</note>
+
+Donnez les droits d'exécutions au script en exécutant :
+  chmod +x convertir.sh
+
+===== Utilisation =====
+
+Pour encoder une vidéo, faites tout simplement dans le dossier où vous avez créé le script :
+  ./convertir.sh /chemin_video/video
+
+Il ne vous reste plus qu'à transférer la vidéo fraîchement encodée dans le NM5.
+
+<note tip>Vous pouvez copier convertir.sh dans le dossier ~/.gnome2/nautilus-scripts/ et ainsi vous pourrez convertir une ou plusieurs vidéos depuis [[Nautilus]] en les sélectionnant puis en faisant Scripts > convertir.sh</note>
+
+===== Voir aussi =====
+
+  * [[MEncoder]]
+  * [[http://www.neonumeric.com/|Site officiel de Neonumeric]] (fr)
+  * [[http://www.mplayerhq.hu/DOCS/HTML/fr/index.html|Documentation de MPlayer/MEncoder]] (fr)
+
+----
+
+Contributeurs : [[utilisateurs:yolsgens|yolsgens]], [[utilisateurs:Ban]]
+
+Basé sur « [[:meizu_m6|Baladeur MEIZU by Dane-Elec]] » par RemyBig

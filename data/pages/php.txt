@@ -1,0 +1,87 @@
+{{tag>php serveur BROUILLON}}
+
+====== PHP ======
+PHP (acronyme récursif pour "**P**HP: **H**ypertext **P**reprocessor", PHP étant au départ l'acronyme de **P**ersonal **H**ome **P**age) est un langage de script principalement utilisé pour produire des pages web de manière dynamique. Il est donc, dans la très grande majorité des cas, couplé à un serveur HTTP (comme [[:apache2|Apache]]) pour la communication avec le client web.
+
+La production de pages web dynamiques pouvant nécessiter une interaction avec une base de données, PHP est souvent utilisé en association avec un système de gestion de base de données (SGBD) comme [[:mysql|MySQL]].
+
+
+===== Installation =====
+==== Installation minimale ====
+Via les dépendances, l'installation de ce paquet entraînera l'installation du serveur HTTP [[:apache2|Apache 2]].\\
+
+Pour installer la dernière version, PHP7: **[[apt>php]]**
+
+À partir d'Ubuntu 16.04, PHP 5 n'est plus disponible dans les dépots.\\ 
+Pour l'installer vous pouvez suivre ces [[https://askubuntu.com/questions/756181/installing-php-5-6-on-xenial-16-04|instructions]] ou [[http://drup.org/install-php-56-ubuntu-1604|celles-ci]].\\ 
+Une autre méthode, plus propre et plus sûre consiste à installer PHP 5 dans un container au moyen de [[:Docker]]. Voici [[https://doc.ubuntu-fr.org/docker_lamp|un tutoriel]] à ce sujet.
+
+
+<note>
+[[:apache2|Apache 2]] est fourni par défaut avec PHP.
+Vous pouvez également, si vous le souhaitez, utiliser un autre serveur HTTP (ex.  [[:nginx]], [[:lighttpd]], etc...).\\
+</note>
+Le chemin d'accès au fichier **php.ini** est généralement (vérifié sous Ubuntu 14.04 Server) : **/etc/php5/apache2/php.ini**\\
+Le chemin d'accès au fichier **php.ini** est depuis PHP7 (vérifié sous Ubuntu 16.04 Server) : **/etc/php/7.0/apache2/php.ini**\\
+
+
+==== Association avec un serveur de base de données ====
+PHP permet de se connecter à différents types de serveurs de base de données. Il est cependant nécessaire d'installer des modules complémentaires.
+<note important>Il est important de souligner que l'installation d'un de ces modules PHP est indépendant de l'installation du serveur de base de données correspondant.</note>
+
+
+=== Support de MySQL et MariaDB ===
+Le support de [[:mysql|MySQL]] ou [[mariadb|MariaDB]] par PHP se fait via [[:tutoriel:comment_installer_un_paquet|l'installation du paquet]]:\\
+pour PHP5 [[apt://php5-mysql|php5-mysql]]\\
+pour PHP7 [[apt://php-mysql|php-mysql]]
+
+<note tip>Un serveur associant **L**inux, **A**pache, **M**ySQL et **P**HP est généralement appelé [[:lamp|serveur "LAMP"]].</note>
+
+
+=== Support de PostgreSQL ===
+Le support de [[:postgresql|PostgreSQL]] par PHP se fait via [[:tutoriel:comment_installer_un_paquet|l'installation du paquet]]:\\
+pour PHP5 [[apt://php5-pgsql|php5-pgsql]]\\
+pour PHP7 [[apt://php-pgsql|php-pgsql]]
+
+<note tip>Un serveur associant **L**inux, **A**pache, **P**ostgreSQL et **P**HP est généralement appelé serveur "LAPP".</note>
+
+=== Support de SQLite ===
+Le support de [[:sqlite|SQLite]] par PHP se fait via [[:tutoriel:comment_installer_un_paquet|l'installation du paquet]]:\\
+pour PHP5 [[apt://php5-sqlite|php5-sqlite]]\\
+pour PHP7 [[apt://php-sqlite|php-sqlite]]
+
+=== Support de Sybase / MS SQL server ===
+Le support de Sybase / MS SQL server par PHP se fait via [[:tutoriel:comment_installer_un_paquet|l'installation du paquet]]:\\
+pour PHP5 [[apt://php5-sybase|php5-sybase]]\\
+pour PHP7 [[apt://php-sybase|php-sybase]]
+
+==== Installation des modules complémentaires ====
+Voir la page dédiée aux [[:modules_php|modules PHP]]. FIXME
+
+===== Configuration =====
+Si vous développez une application en local, il est souvent utile de visualiser les messages d'erreurs
+dans le navigateur. Pour cela, modifier :\\
+avec PHP5: **/etc/apache2/mods-available/php5.conf**\\
+ou avec PHP7:
+<file - /etc/apache2/mods-available/php7.0.conf>
+...
+</FilesMatch>
+  php_value display_errors on
+<FilesMatch ...>
+  SetHandler...</file>
+  
+puis dans :\\
+avec PHP5: **/etc/php5/apache2/php.ini**\\
+ou avec PHP7:
+<file - /etc/php/7.0/apache2/php.ini>
+...
+display_errors = On
+...
+error_reporting = E_ALL</file>
+n'oubliez pas le 
+<code> sudo service apache2 reload </code> pour prendre en compte les changements
+
+
+===== Voir aussi =====
+
+  * **(en)** [[http://www.php.net/|Site officiel]]

@@ -1,0 +1,117 @@
+{{tag>matériel netbook asus vétuste}}
+
+----
+
+====== Asus Eee TOP ET1602 ======
+
+===== Présentation =====
+
+Le **Eee TOP ET1602** est un ordinateur tout-en-un. C'est un écran tactile qui intègre une webcam et un ordinateur léger à base de processeur Atom 1.6 GHz.
+Il est livré avec Windows XP.
+
+===== Installation =====
+
+L'Eee TOP n'a pas de lecteur de CD. Pour faire une installation, le plus simple est d'utiliser un lecteur de CD USB externe.
+
+L'installation a pu être réalisée avec une Intrepid Ibex (8.10) ou une Jaunty Jackalope (9.04). Par contre, le pilote vidéo Intel de l'Intrepid Ibex ou de la Jaunty Jackalope ne supporte pas correctement l'écran.
+
+Il faut donc faire l'installation en mode graphique sans échec (touche F4 sur l'écran d'attente du CDROM).
+
+À part cela, l'installation ne devrait pas poser de problème.
+
+===== Résolution des problèmes =====
+
+==== La vidéo ====
+
+Comme l'installation a été faite en mode graphique sans échec, on fonctionne avec le pilote **vesa**. La résolution n'est pas bonne et les performances graphiques ne sont pas bonnes non plus.
+
+La version du pilote **xserver-xorg-video-intel** de l'Intrepid ne supporte pas le chipset entre l'écran et le LCD. Il faut donc mettre à jour le pilote. Des paquets sont disponibles sur ce site (http://ubuntu.erasme.org/). Les paquets en question sont **libdrm2_2.4.4-1build1_i386.deb** et **xserver-xorg-video-intel_2.6.1_i386.deb** à installer dans cet ordre.
+
+Le pilote vidéo de la Jaunty Jackalope supporte cette machine. Il n'est donc pas la peine de le changer avec une Jaunty.
+
+Mais dans les 2 cas, cela ne suffit pas, il faut éditer le fichier **/etc/X11/xorg.conf** pour y copier le contenu suivant:
+
+<code>
+Section "ServerLayout"
+	Identifier "Default Serverlayout"
+	Screen 0 "Default Screen" 0 0
+	InputDevice "Touch0"
+EndSection
+
+
+Section "Device"
+	Identifier	"Configured Video Device"
+	Driver		"intel"
+	Option		"monitor-LVDS" "LVDS"
+	Option		"monitor-LVDS-1" "LVDS-1"
+	Option		"NoDCC"
+	Option		"FramebufferCompression" "off"
+EndSection
+
+
+Section "InputDevice"
+	Identifier "Touch0"
+	Driver "evtouch"
+	Option "device" "/dev/input/evtouch"
+	Option "MinX" "1"
+	Option "MinY" "1"
+	Option "MaxX" "4096"
+	Option "MaxY" "4096"
+	Option "ReportingMode" "Raw"
+	Option "Emulate3Buttons" "false"
+	Option "Emulate3Timeout" "50"
+	Option "SendCoreEvents" "on"
+	Option "MoveLimit" "0"
+EndSection
+
+Section "Monitor"
+	Identifier	"LVDS"
+	Option		"Ignore" "True"
+EndSection
+
+Section "Monitor"
+	Identifier	"LVDS-1"
+	ModeLine	"1366x768" 76.00 1366 1386 1396 1560 768 770 773 793
+EndSection
+
+Section "Monitor"
+	Identifier	"Configured Monitor"
+EndSection
+
+Section "Screen"
+	Identifier	"Default Screen"
+	Monitor		"Configured Monitor"
+	Device		"Configured Video Device"
+	DefaultDepth	24
+ Subsection	"Display"
+	Modes		"1366x768"
+ EndSubsection
+EndSection
+</code>
+
+Ce fichier xorg.conf pour ASUS EeeTop ET1602C permet de résoudre les problèmes d'écrans noirs et offre un bon calibrage de l'écran tactile.
+Attention, ne pas modifier le paramétrage de l'affichage ensuite!!! La résolution 1152x864 est appliquée par défaut, mais c'est la seule qui fonctionne correctement. Si quelqu'un trouve pourquoi, merci de compléter ce tutoriel :)
+
+Comme vous pouvez le noter, il y a aussi la configuration nécessaire pour la gestion de l'écran tactile. Cela ne suffit pas, il faut aussi créer le fichier **/etc/udev/rules.d/69-touchscreen.rules** avec le contenu suivant:
+
+<code>
+KERNEL=="event*", SUBSYSTEM=="input", ATTRS{idVendor}=="1bfd", ATTRS{idProduct}=="1688", SYMLINK+="input/evtouch"
+</code>
+
+et installer le paquet suivant :
+
+<code>
+apt-get install xserver-xorg-input-evtouch
+</code>
+
+
+Un petit redémarrage de l'ordinateur et la vidéo devrait fonctionner avec l'accélération matériel et le tactile.
+
+==== Le son ====
+
+<del>Le micro ne semble pas fonctionner. Si quelqu'un trouve la solution, merci de compléter cet article.</del>
+
+Le micro en façade est fonctionnel, mais il n'est pas activé par défaut.
+Pour l'activer, ouvrir "Système > Préférence > Son", onglet "Périphérique", catégorie "Conférence audio".
+Dans la liste "Capture du son", choisir "HDA Intel ALC888 Analog (Alsa)".
+Il y en a deux, testez pour trouver celui qui fonctionne.

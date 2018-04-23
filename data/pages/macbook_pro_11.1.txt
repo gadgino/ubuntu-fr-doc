@@ -1,0 +1,159 @@
+{{tag>Trusty macbook mac apple portable}}
+
+======  MacBook Pro 11.1 ======
+
+Cette page documente l'installation et l'utilisation d'Ubuntu sur un Apple MacBook Pro 11.1 (retina, fin 2013).
+Pour connaître la version de son macbook{{ :materiel:liste_portables:macbookpro11.1.jpeg?direct|}}
+Si vous êtes déjà sur ubuntu ou un live CD, lancez la commande dans un terminal:
+<code>sudo dmidecode -s system-product-name</code>
+qui retourne alors "MacBookPro11,1"
+
+Le hardware est le suivant (lspci):
+  * Processeur: Intel Corporation Haswell-ULT Intel(R) Core(TM) 2 coeur physiques/4 logiques
+  * GPU: Intel Iris Graphics (HD4000)
+  * Wifi: Broadcom Corporation BCM4360 802.11ac Wireless Network Adapter
+  * Affichage: 2560x1600
+
+
+===== En un coup d'œil =====
+
+Le tableau suivant récapitule la prise en charge du matériel de portable par les différentes versions d'Ubuntu.
+Il utilise les notations suivantes :
+  * {{icons:important.png|Fonctionne après config}} : **Fonctionne après quelques manipulations**
+  * {{icons:icon-ubuntu.png|Fonctionne immédiatement}} : **Fonctionne immédiatement**
+  * {{icons:icon-support.png|Pas testé}} : **Pas d'informations disponibles**
+  * {{icons:process-stop.png|Ne fonctionne pas}} : **Ne fonctionne pas**
+
+\\
+
+^ Version ^ Installation ^ Carte graphique ^ Son ^ Wifi ^ Bluetooth ^ Webcam ^ Touchpad ^ Raccourcis multimédia ^ Autres ^
+| [[:trusty|Ubuntu 14.04]]  | {{icons:important.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:process-stop.png|Ne fonctionne pas}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | Carte SD, USB3 OK |
+| [[:xenial|Ubuntu 16.04]]  | {{icons:important.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | Carte SD, USB3 OK |
+
+===== Installer Ubuntu =====
+
+<note important>Il n'est pas nécessaire d'installer rEFIt ou rEFInd. Utilisez la touche 'Alt' au démarrage.</note>
+  - Sous MacOSX, lancez //Disk Utility// et diminuez la taille de la partition MacOSX (HFS Extended Journalised) pour laisser 30 Gb libre (non formaté).
+  - Créez une clef USB bootable de Ubuntu Saucy 13.10, en version amd64 (pas la version MAC !). Branchez la clef.
+  - Maintenez la touche 'Alt' enfoncée, redémarrez et choisissez l'icône 'EFI'.
+  - Entrez dans le mode 'Try Ubuntu' (pas l'installation directe).
+  - Selectionnez l'icône 'Install Ubuntu' sur le bureau. Suivez les instructions. Lors du choix du disque, prenez l'option 'A coté de MacOSX'. L'installation se fera dans l'espace libre.
+  - Ne pas rebooter tout de suite. Connectez-vous a un reseau Wifi ou Ethernet et entrez les commandes: <code>sudo apt-get install efibootmgr
+sudo efibootmgr</code>. Si vous n'avez pas de dongle wifi ou d'adaptateur Thunderbolt-Ethernet, récupérez le paquet sous Mac OSX sur [[http://packages.ubuntu.com/saucy/efibootmgr]] (amd64).
+  - Configurez le disque de démarrage par défaut (vers Ubuntu) avec <code>sudo efibootmgr -o 0,80</code>
+  - Redémarrez. Ubuntu et Unity apparaissent :-D
+  - Configurez Grub pour eviter des arrets du SSD: depuis un terminal <code>sudo nano /etc/default/grub</code> et modifiez la ligne <code>GRUB_CMDLINE_LINUX="libata.force=noncq"</code> sauvez (Ctrl-O, puis Ctrl-X), puis dans le terminal <code>sudo update-grub</code>
+  - Réactivez le systeme MacOSX avec <code>sudo nano /etc/grub.d/40_custom</code> et ajoutez a la fin <code>menuentry "MacOS" {
+  exit
+}</code> sauvez (Ctrl-O, Ctrl-X), puis lancez <code>sudo update-grub</code>. Il apparaîtra alors comme la **dernière** entrée "MacOS". Les entrées automatiquement ajoutée avant (MacOSX sur /dev/sda2)  ne sont pas fonctionnelles.
+
+Les raccourcis multimédia fonctionnent (luminosité, son, clavier). Le lecteur de carte SD aussi.
+
+<note>Si vous supprimez Ubuntu en gardant Mac OSX plus tard, il y aura un problème de boot. Maintenez la touche 'Alt' enfoncée et sélectionnez Mac OSX. Ensuite montez la partition EFI (cachée) en suivant le tuto [[http://themacadmin.com/?p=603]] allez dans le dossier EFI et supprimez le dossier UBUNTU.</note>
+
+===== Configurer Ubuntu =====
+
+Vous aurez besoin d'une connexion Ethernet (celui de Apple par le port Thunderbolt a condition de le brancher au démarrage) ou par dongle wifi USB, car la carte wifi native n'est pas reconnue apres l'installation (14.04). Elle est reconnue sous [[xenial|Ubuntu 16.04 LTS (« The Xenial Xerus »)]].
+
+==== Son et Wifi ====
+
+<note>Le son et le wifi sont immediatement fonctionnels sous [[xenial|Ubuntu 16.04 LTS (« The Xenial Xerus »)]]. Ce qui suit concerne les versions antérieures.</note>
+
+Dans un terminal, entrez <code>sudo apt-get install alsa-tools
+sudo nano /etc/rc.local</code> et entrez dans ce fichier,juste avant "exit 0", <code>
+hda-verb /dev/snd/hwC1D0 0x1 set_gpio_data 1</code>
+sauvez (Ctrl-O, puis Ctrl-X)
+
+Le wifi n'est pas actif tout de suite (Broadcom BCM4360). Dans un terminal, entrez <code>sudo apt-get install bcmwl-kernel-source
+sudo nano /etc/pm/sleep.d/99_myfix</code>
+puis entrez dans ce fichier vide <code>
+#!/bin/sh
+case "$1" in
+        resume|thaw)
+                service network-manager stop
+                rm /var/lib/NetworkManager/NetworkManager.state
+                service network-manager start
+                hda-verb /dev/snd/hwC1D0 0x1 set_gpio_mask 1
+                sleep 1
+                hda-verb /dev/snd/hwC1D0 0x1 set_gpio_direction 1
+                sleep 1
+                hda-verb /dev/snd/hwC1D0 0x1 set_gpio_data 1
+                ;;
+esac
+</code> sauvez (Ctrl-O, Ctrl-X) et enfin rendez le exécutable:
+<code>sudo chmod 755 /etc/pm/sleep.d/99_myfix</code>
+ C'est tout bon !
+
+==== Affichage ====
+
+<note>Avec [[xenial|Ubuntu 16.04 LTS (« The Xenial Xerus »)]], il est possible de regler directement la taille des fontes sur le Bureau dans le Panneau de Controle/Affichage. Choisissez une valeur de 1,5-1,75. Ce qui suit concerne donc les versions antérieures.</note>
+
+L'écran du MacBookPro a une résolution élevée qui rend la lecture difficile (petite). 
+
+Pour les icônes, modifiez les fontes du thème standard. Pour cela installez le package **[[apt>gnome-tweak-tool]]**, et lancez le. Dans la catégorie 'Fontes' appliquez un 'scaling' de 1.5, et changez la taille des fontes a du 12 ou 13, ou même 15 pour les titres de fenêtre.
+
+Pour agrandir les poignées de redimensionnement de fenêtre du thème par défaut, éditez le fichier:
+<code>sudo nano /usr/share/themes/Ambiance/metacity-1/metacity-theme-1.xml</code>
+et juste en dessous (1ere section <frame_geometry name="frame_geometry_normal" ...> changez les valeurs "1" pour "4" ou plus <code>
+  <distance name="left_width" value="4"/>
+  <distance name="right_width" value="4"/>
+  <distance name="bottom_height" value="4"/> </code>
+sauvez (Ctrl-X, Ctrl-O).
+
+Pour grossir les fontes des pseudo terminaux :
+<code>sudo dpkg-reconfigure console-setup</code> et choississiez la configuration Terminus en 32x16.
+
+==== Ethernet et iSight  ====
+L'adaptateur Thunderbolt-Ethernet fonctionne directement s'il est branché au démarrage du Mac.
+FIXME La camera iSight n'est pas fonctionnelle sous [[trusty|Ubuntu 14.04 LTS (« The Trusty Tahr »)]] (Dec 2013).
+
+A partir de [[xenial|Ubuntu 16.04 LTS (« The Xenial Xerus »)]], il est possible d'installer un pilote expérimental depuis le dépot [[https://github.com/patjak/bcwc_pcie|Apple Facetime PCIe Webcam]].
+
+Récuperez d'abord le code source pour compiler le module du noyau:
+<code>
+sudo apt-get install git
+git clone https://github.com/patjak/bcwc_pcie.git
+cd bcwc_pcie/firmware
+make
+sudo make install
+cd ..
+make
+sudo make install
+sudo depmod
+sudo modprobe -r bdc_pci
+sudo modprobe facetimehd
+</code>
+La camera doit alors être opérationnelle. Testez-la avec Cheese.
+
+Pour que le pilote soit chargé au démarrage du système:
+<code>
+sudo gedit /etc/modules
+</code>
+et ajoutez 'facetimehd' a la fin du fichier.
+==== Batterie ====
+La batterie pleine peut tenir environ 9:00 avec **[[apt>laptop-mode-tools]]** (clavier non illuminé, écran au mini, wifi, pas de bluetooth). La consommation minimale est de 7W, et la capacité pleine est de 63 Wh. Par contre des que vous lancez des calculs, ca pompe pas mal et la durée de vie de la batterie s'écroule (normal).
+
+Il peut arriver que la souris USB soit désactivée après 5 secondes d’inactivité (pour économiser l'énergie). Pour changer ça, éditer: <code>sudo gedit /etc/laptop-mode/conf.d/usb-autosuspend.conf</code> et modifier la ligne <code>AUTOSUSPEND_USBTYPE_BLACKLIST="usbhid usb-storage"</code>
+
+:?: L'utilisation de [[tlp|tlp]] ne semble pas améliorer les choses.
+
+L'écran est réglé au maximum de luminosité, tout comme le clavier, ce qui réduit l'autonomie si on ne les baisse pas. Pour les mettre au minimum au démarrage, éditez le fichier ''/etc/rc.local'' et ajoutez a la fin (avant le "exit 0") :
+<code># set minimum brightness
+echo 60 > /sys/class/backlight/intel_backlight/brightness
+echo 5  > /sys/class/backlight/acpi_video0/brightness
+echo 15 > '/sys/class/leds/smc::kbd_backlight/brightness'
+</code>
+Les valeurs peuvent dépendre du modèle, et sont bonnes pour la MBP 13 pouces retina fin 2013.
+
+
+===== Utilisation =====
+
+Cette machine développe 4.3 Gflops en Ubuntu natif (mesure avec un calcul MPI et les 4 processeurs logiques, version 2.8 GHz). Le meme calcul sous Mac OSX développe 5.3 Gflops. Toujours sous Mac OSX, et avec Ubuntu dans une machine VirtualBox avec les 4 coeurs, ce calcul donne 4.1 Gflops.
+
+La conclusion est que vous pouvez envisager d'utiliser Ubuntu depuis VirtualBox sans perte notable de vitesse, et de plus vous aurez alors une gestion de l'énergie optimale (en gros +50% par rapport a celle proposée par Ubuntu), et la camera iSight. A vous de voir... 8-).
+
+===== Liens =====
+
+Cette page est une traduction de [[https://help.ubuntu.com/community/MacBookPro11-1/Saucy]].
+
+//Contributeurs principaux : [[utilisateurs:farhi|FARHILL]]//

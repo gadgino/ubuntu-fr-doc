@@ -1,0 +1,45 @@
+{{tag>rss}}
+
+====== RSSOwl ======
+
+===== Présentation =====
+{{rssowl.png}}
+
+RSSOwl est un lecteur de flux RSS, atom etc. en java. Ses particularités sont:
+  * Il est écrit en java, ce qui lui permet d'être multiplate-forme.
+  * Basé sur Eclipse, son interface est largement modulable.
+  * Gestion l'importation de flux [[http://www.opml.org/|opml]].
+  * Gestion des flux sécurisés par mot de passe Digest et NTLM
+  * Gestion de multiples labels pour marquer vos nouvelles.
+  * [[http://www.rssowl.org/download|La version francisée]] est disponible sous Linux pour les architectures 32 et 64 bits sur le site officiel.
+
+Les point(s) négatif(s):
+  * Plugin flash dysfonctionnel lors de la lecture en interne des vidéos
+===== Installation =====
+Vous devez d'abord installer java pour ce faire suivez la procédure suivante :
+[[:java#a_partir_d_ubuntu_1204|installer java à partir d'Ubuntu 12.04]]
+
+Ensuite téléchargez le paquetage correspondant à votre architecture sur [[http://www.rssowl.org/download]] et installez-le.
+
+
+
+==== Création d'un raccourci ====
+Il peut être intéressant de créer un raccourci dans votre menu pour lancer RSSOwl. 
+Pour ce faire créez dans le dossier de RssOwl un fichier nommé lanceur.sh qui contient le code suivant :
+<code>cd ~/rssowl
+./RSSOwl</code>
+<note important>Cet exemple suppose que le dossier contenant RSSOwl se situe dans un dossier nommé "rssowl" situé à la racine de votre dossier personnel (home). Si ce n'est pas le cas, adaptez la première ligne.</note>
+
+Vous pouvez ensuite éditer votre menu principal (système/préférence/menu principal) et ajouter où vous le souhaitez un lanceur. Celui ci pointera vers le fichier que nous venons de créer.
+
+===== Utilisation =====
+
+==== Minimisation dans la barre de tache ====
+Cette fonction vous permet de faire fonctionner votre lecteur RSS en arrière plan. Lorsque l'on ferme RSSOwl il reste dans la barre de notification. Celui ci manifeste de manière explicite dans la barre que certains flux ont été mis à jour.
+
+Pour effectuer cette manipulation:
+Tools/Preferences/Miscellaneous. Cochez "When closing RSSOwl" ou "When minimising RSSOwl" dans la section "**Move to the system tray**".
+
+
+===== Liens =====
+[[http://www.rssowl.org/|Site officiel du projet]]

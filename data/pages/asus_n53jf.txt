@@ -1,0 +1,74 @@
+{{tag> matériel portable asus}}
+----
+======Asus n53jf ======
+
+===== En un coup d'œil =====
+
+^ Version ^ Installation ^ Carte graphique ^ Son ^ Wifi ^ Webcam ^ Touchpad ^ Raccourcis multimédia ^ Autres ^
+| [[:maverick |10.10 (Maverick Meerkat)]]  | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:process-stop.png|Ne fonctionne pas}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-support.png|Pas testé}} |
+
+  * {{icons:important.png|Fonctionne après config}} : **Fonctionne après quelques manipulations**
+  * {{icons:icon-ubuntu.png|Fonctionne immédiatement}} : **Fonctionne immédiatement**
+  * {{icons:icon-support.png|Pas testé}} : **Pas d'informations disponibles**
+  * {{icons:process-stop.png|Ne fonctionne pas}} : **Ne fonctionne pas**
+
+===== Présentation =====
+
+Caractéristiques techniques :
+
+    *  **Processeur** : Intel Core i5-480M 2,66/2,93GHz - 3MB 2 Cores / 4 Threads
+    *  **Mémoire** : 4096 Mo DDR3 1066 MHz (2 x 2 Go)
+    *  **Chipset** : Chipset Mobile HM55 Express
+    *  **Chipset graphique** : Intel® HD Graphics / NVIDIA GeForce GT425M 1024 Mo DDR3 Optimus
+    *  **Audio** : Audio haute définition avec SonicMaster développée en collaboration avec Bang & Olufsen ICEpower, 2 haut-parleurs Altec Lancing, Système SRS Premium, Microphone intégré 
+    *  **Disque dur** : 750 Go (5400 tr/min)
+    *  **Écran** : 15,6" Full HD 16/9, résolution 1920x1080, à rétroéclairage LED avec Color Shine 
+    *  **Réseau** : 10/100/1000 Base T - Bluetooth V2.0+EDR intégré - Wifi 802.11 b/g/n 
+    *  **Webcam** : 2,0M
+    *  **Interface** : 1 x entrée jack audio, 1 x sortie jack audio/casque/SPDIF, 1 x port VGA/Mini D-sub 15 broches, 2 x ports USB 2.0, 1 x port USB 3.0/2.0, 1 x e-SATA/USB 2.0, 1 x RJ45 LAN, 1 x port HDMI (1.4), 1 x switch WLAN
+    *  **Batterie** : 6 cellules: 4400 mAh
+
+
+===== Audio =====
+
+==== Aucun son ====
+
+La Série N53 et N73 des ordinateurs multimédia d'Asus embarque un tout nouveau système audio signé Bang & Olufsen. Toutefois, il est possible que le son ne soit pas actif après l'installation, pour remédier à ce problème en une seule commande : (la modification aura lieu après un redémarrage de l'ordinateur)
+
+<code>
+sudo bash -c "echo 'options snd-hda-intel model=auto position_fix=0' >> /etc/modprobe.d/alsa-base.conf"
+</code>
+
+==== Égaliseur ====
+
+Par défaut, le son des enceintes est très aigu, pour tirer profit de l'audio B&O ICEpower, il suffit d'installer un égaliseur pour Pulse : [[pulseaudio-equalizer|pulseaudio-equalizer]].
+Cocher la case "EQ Enable". Le basses sont maintenant présentent :)
+
+===== Cartes Graphiques =====
+
+Le N53JF est équipé de la toute dernière technologie [[nvidia_optimus|nVidia Optimus]].
+
+==== IGP ====
+
+L'IGP d'Intel est reconnu par défaut sous Ubuntu 10.10 et ne nécessite aucune installation supplémentaire.
+Il prend en charge Compiz à 100%
+
+=== Test 3D ===
+
+  * [[warsow|Warsow]] : Très fluide (Full HD - Textures par défaut)
+  * [[prey|Prey]] (Commercial) : Moyennement fluide (Full HD - Activation des ombres et Textures basse qualité)
+
+==== GPU ====
+
+Actuellement, l'activation des pilotes nVidia empêche le lancement du serveur X.org (en conflit avec l'IGP), il est donc fortement recommandé de ne pas les installer tant que la communauté n'aura pas intégrée la technologie Optimus au Kernel et X.org. L'équipe de développement du pilote Libre Nouveau est actuellement sur le projet pour un changement à "chaud" de Carte Graphique.
+
+Bien que le GPU ne soit pas fonctionnel, il reste quand même en état de marche, ce qui augmente considérablement la consommation du PC.
+Pour désactiver la carte nVidia, suivre la documentation : [[nvidia_optimus|nVidia Optimus]]
+
+=====Voir aussi=====
+
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=428181&p=1|Problème Son - Forum Ubuntu-fr]]
+  * [[http://linux-hybrid-graphics.blogspot.com/|Linux Hybrid Graphics]]
+
+----
+//Contributeurs : [[utilisateurs:rikles66|Rikles66]]

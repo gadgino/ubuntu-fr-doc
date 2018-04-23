@@ -1,0 +1,292 @@
+{{tag>Precise fujitsu-siemens matériel portable}}
+
+----
+
+======  Fujitsu-Siemens LifeBook T1010 ======
+
+===== En un coup d’œil =====
+
+Le tableau suivant récapitule la prise en charge du matériel de portable par les différentes versions d'Ubuntu.
+
+Il utilise les notations suivantes :
+  * {{icons:important.png|Fonctionne après config}} : **Fonctionne après quelques manipulations**
+  * {{icons:icon-ubuntu.png|Fonctionne immédiatement}} : **Fonctionne immédiatement**
+  * {{icons:icon-support.png|Pas testé}} : **Pas d'informations disponibles**
+  * {{icons:process-stop.png?36|Ne fonctionne pas}} : **Ne fonctionne pas**
+
+^ Version      ^ Installation ^ Carte graphique ^ Son ^ Wifi ^ Bluetooth ^ Webcam ^ Touchpad ^ Raccourcis multimédia ^ Ecran tactile ^
+| [[:Precise|12.04 LTS (Precise Pangolin)]] | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-support.png|Pas testé}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} |
+
+
+**Utilisateurs du Wiki possédant cet ordinateur, fonctionnel :**
+  * **[[:utilisateurs:draco31.fr]]** : [[Xubuntu]] [[:ubuntu_64bits|x86_64]] : [[:Precise]].
+
+**Cet ordinateur portable n'est à priori pas [[:pc_tatoué|tatoué]].**
+
+===== Particularité =====
+
+Ce portable dispose des éléments suivants :
+  * un écran tactile (touchscreen) et d'un stylet avec rangement intégré
+  * de touches "multimédia" sur le bord de l'écran permettant la rotation de l'affichage
+  * d'une barre de défilement en plus du touchpad classique
+  * d'une barre de défilement sur le bord de l'écran
+  * du matériel compatible avec la plateforme Centrino 2 d'Intel, et est conforme à la norme GreenIT
+  * d'un dock (selon les fournisseurs)
+
+Le modèle est proposé avec plusieurs tailles de disque dur, et des processeurs de différentes puissances.
+Il est livré avec Microsoft© Windows™ Vista Business OEM, et est vendu avec des DVD de restauration pour Windows™ Vista et Windows™ XP Edition Tablet PC.
+
+Pour plus d'informations, consulter le descriptif détaillé sur le site de [[http://fr.ts.fujitsu.com/products/mobile/tablet_pcs/lifebook_t1010.html|fujitsu-siemens]].
+
+===== Installation =====
+
+Aucun problème durant l'installation.
+Possibilité de boot depuis une clé USB ou le lecteur de carte mémoire ;-)
+Il est recommandé d'installer Grub sur la partition contenant /boot et déplacer le drapeau d'amorce sur cette partition((via gparted après l'installation depuis le LiveCD)) pour laisser le MBR intact.
+
+===== Problèmes et Solutions =====
+
+==== Pavé tactile (touchpad) ====
+
+Vous pouvez consulter la page consacrée au [[:touchpad|pavé tactile]] //(touchpad)// pour savoir comment utiliser toutes ses possibilités (ascenceur vertical, ascenceur horizontal, ...).
+**Le Touchpad présente souvent le défaut suivant : lorsqu'on tape au clavier, on clique sans le vouloir avec la paume. Consultez [[:touchpad#problemes_de_contact_de_paume|ce paragraphe]] pour corriger ce défaut.**
+
+==== Écran tactile (touchscreen)====
+
+L'écran tactile est fonctionnel dès l'installation. Cependant, il n'est pas correctement étalonné !
+
+=== Calibrer l'écran tactile ===
+
+Sous Xubuntu, il n'y a pas d'outil de calibration préinstallé (FIXME et pour Ubuntu ?).
+
+Depuis Ubuntu 11.04 Natty Narwhale, l'outil //xinput_calibrator// est disponible dans les dépôts. [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>xinput-calibrator]]** puis lancez le logiciel //Calibrate Touchscreen//((menu **''Application ⇒ Système ⇒ Calibrate Touchscreen''** sous Xubuntu)). Il suffit ensuite de toucher les quatre cibles avec le stylet puis de suivre les instructions pour que les paramètres soient pris en compte dès le démarrage((via modification de /etc/X11/Xorg.conf ou script au lancement de la session)).
+
+<note tip>xinput_calibrator choisit automatiquement la meilleure méthode pour la configuration.
+
+Il est possible de forcer les instructions en sortie avec le paramètre %%--output-type%%. 3 choix possibles :
+  * <code>xinput_calibrator --output-type xorg.conf.d</code>
+  * <code>xinput_calibrator --output-type hal</code>
+  * <code>xinput_calibrator --output-type xinput</code>
+</note>
+
+Par exemple en mode auto ou xorg.conf.d :
+<file>Calibrating EVDEV driver for "Fujitsu Component USB Touch Panel" id=13
+	current calibration values (from XInput): min_x=78, max_x=3875 and min_y=256, max_y=4005
+
+Doing dynamic recalibration:
+	Setting new calibration data: 73, 3882, 245, 4006
+
+
+--> Making the calibration permanent <--
+  copy the snippet below into '/etc/X11/xorg.conf.d/99-calibration.conf'
+Section "InputClass"
+	Identifier	"calibration"
+	MatchProduct	"Fujitsu Component USB Touch Panel"
+	Option	"Calibration"	"73 3882 245 4006"
+EndSection</file>
+
+Il faut suivre les instructions pour rendre l'étalonnage permanent et ne pas avoir à relancer xinput_calibrator après chaque redémarrage.
+
+Dans l'exemple ci-dessus, créer le dossier ''xorg.conf.d'' et un fichier vide ''99-calibration.conf'' :
+<code>sudo mkdir -p /etc/X11/xorg.conf.d/
+sudo touch /etc/X11/xorg.conf.d/99-calibration.conf</code>
+\\ Ensuite, [[:tutoriel:comment_modifier_un_fichier|modifier le fichier]] **''/etc/X11/xorg.conf.d/99-calibration.conf''** avec **les droits d'administrateur** et copier-coller les cinq dernières lignes en sortie de xinput_calibrator (de ''Section'' à ''EndSection'' inclus).
+Sauvegarder le fichier.
+
+Au prochain redémarrage, l'écran tactile doit avoir conservé l'étalonnage précédant.
+
+=== Émulation du clic droit ===
+
+Le pilote **evdev** permet d'émuler un clic droit lors d'un appui prolongé du stylet sur l'écran.
+
+Avec les droits d'administrateur, [[:tutoriel:comment_modifier_un_fichier|Modifier le fichier]] **''/etc/X11/xorg.conf.d/99-calibration.conf''** créé précédemment.
+\\ Ajouter les 3 lignes ''EmulateThirdButton'', ''EmulateThirdButtonTimeout'' et ''EmulateThirdButtonThreshold'' comme suit :
+<file>
+Section "InputClass"
+	Identifier	"calibration"
+	MatchProduct	"Fujitsu Component USB Touch Panel"
+	Option	"Calibration"	"78 3875 256 4005"
+	Option "EmulateThirdButton" "1"
+	Option "EmulateThirdButtonTimeout" "750"
+	Option "EmulateThirdButtonThreshold" "30"
+EndSection
+</file>
+
+<note important>Ne pas remplacer le fichier par l'exemple ci-dessus ! Les valeurs pour la ligne "Calibration" est spécifique à chaque exemplaire de dalle d'écran.</note>
+
+=== Rotation de l'écran tactile ===
+
+Les cinq boutons en bas à droite de l'écran sont pris en charge par le pilote **fjbtndrv** (voir section [[#Touches multimédia]]). Chaque appui sur le troisième bouton permet de faire tourner l'affichage de 90° vers la gauche... mais pas le pointage au stylet ne suit pas !!
+
+Le problème est que fjbtndrv est prévu initialement pour les modèles basés sur tablet wacom. Mais tout n'est pas perdu, car fjbtndrv lance les scripts présents dans **''/usr/local/lib/fjbtndrv''** ou dans **''$HOME/.fjbtndrv/scripts''**.\\ La variable **ACTION** indique si l'écran est en cours de rotation (''rotating'') ou en fin de rotation (''rotated''), la variable **ORIENTATION** indique le sens de l'affichage : valeurs ''normal'', ''left'' (rotation gauche), ''inverted'' (inversée) et ''right'' (rotation droite).
+
+Grâce à **''xinput''** il est possible de modifier les propriétés de l'écran tactile.
+
+<note help>Vous trouverez [[#annexe|en annexe de cette page]] un script fonctionnel prêt à l'emploi.\\ --- draco31.fr</note>
+
+
+==== Clavier Virtuel ====
+
+Pour disposer d'un clavier virtuel à l'écran, consulter les pages [[:accessibilite#logiciels_de_saisie|Portail accessibilité - logiciels de saisie]] ou [[:clavier#claviers virtuels]].
+\\ 
+Pour les prises de notes manuscrites, consulter le portail accessibilité, section [[:accessibilite#logiciels de saisie par reconnaissance de l'écriture manuscrite]]
+
+==== Touches multimédia ====
+
+Les touches multimédia (pour la rotation de l'écran notamment), seront reconnues après l'installation du pilote **//fjbtndrv//**.
+Ce pilote n'est pas dans les dépots officiels, mais vous pourrez le télécharger depuis le [[http://fjbtndrv.sourceforge.net/|site officiel sur SourceForge]] ou le PPA.
+
+<note help>Le PPA n'a pas été mis à jour pour Ubuntu 12.04 LTS Precise Pangolin. Utiliser le dépôt pour Ubuntu 11.10 Oneiric Ocelot ou compiler les sources téléchargées sur SourceForge.</note>
+
+[[:PPA|Ajoutez le PPA]] **ppa:khnz/ppa**((https://launchpad.net/~khnz/+archive/ppa)) dans vos sources de logiciels, puis [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]]. Enfin installer le paquet [[apt://fjbtndrv|fjbtndrv]] via Synaptic ou le terminal.
+
+<note important>Ne pas oublier d'installer le paquet **[[apt://fsc-btns-kernel-source|fsc-btns-kernel-source]]** pour ne pas
+avoir de problème lors des mises à jour du kernel.</note>
+
+<note>Le pilote **//fjbtndrv//** permet aussi que le dock soit reconnu (fonction de charge et reconnaissance des périphériques usb branchés à la station).</note>
+
+==== Barre de défilement ====
+
+La barre de défilement incluse dans le pavé tactile (touchpad) fonctionne parfaitement, en revanche la barre de défilement "scroll sensor" sur le bord de l'écran ne semble pas fonctionner.
+FIXME Il n'y a pas encore de solution connue à ce problème.
+
+==== WiFi ====
+
+
+Sous Ubuntu 11.04, le wifi N est activé, mais beaucoup de lignes d'erreur dans la log dmesg et le chipset chauffe beaucoup. Possibles dégradation de la connexion demandant de désactiver puis réactiver le wifi. Intel doit fournir une nouvelle version du firmware pour corriger ce bug majeur.
+
+===== Liens annexes =====
+
+  * Problème d'arrêt incomplet :
+    * Bug Launchpad : [[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/355054|Bug LP #355054]]
+    * Post sur ubuntuforums pour correctif : [[http://ubuntuforums.org/showthread.php?p=7149271#post7149271]]
+
+  * Prise en charge des options d'accessibilités :
+    * Page principale de Mousetweaks : [[http://live.gnome.org/Mousetweaks/Home]]
+    * Tutoriel pour lancer Mousetweaks et OnBoard à l'écran de connection GDM : [[https://help.ubuntu.com/community/Accessibility/OnboardAndMousetweaksAtGDM|OnboardAndMousetweaksAtGDM]]
+
+  * Dégradation du Wifi : 
+      * Bug Ubuntu sur Launchpad : [[https://bugs.launchpad.net/ubuntu/maverick/+source/linux-firmware/+bug/630748|Bug LP #630748]]
+      * Bug du kernel linux sur Bugzilla : [[https://bugzilla.kernel.org/show_bug.cgi?id=16691|bugzilla kernel #16691]]
+      * Autres infos sur [[http://linuxwireless.org/|linuxwireless.org]] et sur [[http://intellinuxwireless.org/|intellinuxwireless.org]]
+
+===== Annexe =====
+
+==== Script fjbtndrv ====
+
+Voici un script pour faire tourner le pointage au stylet en même temps que l'affichage grâce à fjbtndrv (voir [[#Touches multimédia]]).
+
+Pour l'installer, suivez les étapes suivantes :
+  * [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>xinput]]**
+  * créer pour chaque utilisateur le dossier qui contiendra la script :<code>mkdir ~/.fjbtndrv/scripts</code>
+  * enregistrer le script dans le dossier créé ci-dossier (NB : .fjbtndrv est un dossier caché !)
+  * rendre le script exécutable :<code>chmod +x ~/.fjbtndrv/scripts/*</code>
+
+<file bash touchscreen.sh>
+#!/bin/bash
+#
+# The script is designed to be launched by fjbtndrv backend and should be placed in ~/.fjbtndrv/scripts or <LIBDIR>/fjbtndrv
+# It changes the evdev properties of touchscreen depending on ACTION and ORIENTATION using xinput.
+#
+# Author :  draco31.fr
+# Contact : see http://doc.ubuntu-fr.org/utilisateurs/draco31.fr
+# Licence : GNU GPLv3 (see http://www.gnu.org/copyleft/gpl.html )
+#
+script="$(basename $0)"
+logfile="/var/log/${script}.log"
+DEBUG=${DEBUG:=no}
+
+do_log()
+{
+	if [ "$1" == yes ]
+	then
+	{
+		echo "$2" | tee -a $logfile 1>&2
+	}
+	fi
+}
+
+find_touchscreen()
+{
+	IFS=$'\n'
+
+	do_log "$DEBUG" "Searching device ..."
+	local device_name
+	for device in $(xinput list --name-only)
+	do
+		do_log "$DEBUG" "... Testing device $device"
+		output="$(xinput list-props "$device" 2>/dev/null | grep 'Evdev Axis Calibration' --label="$device" -H)"
+		if [ $? -eq 0 ]
+		then
+			do_log "$DEBUG" "Device found : $output"
+			device_name="$device"
+			break
+		fi
+	done
+
+	do_log "yes" "Touchscreen device : $device_name"
+	if [ -n "$device_name" ]
+	then
+	{
+		echo $device_name
+		return 0
+	}
+	else
+		return 1
+	fi
+}
+
+do_log "$DEBUG" "$(date) > ${script} : ACTION='$ACTION' ORIENTATION='$ORIENTATION' TOUCHSCREEN='$TOUCHSCREEN_DEVICE'"
+
+if [ "$ACTION" == "rotated" ]
+then
+{
+	if [ -z "$TOUCHSCREEN_DEVICE" ]
+	then
+		declare -x TOUCHSCREEN_DEVICE="$(find_touchscreen)"
+		export TOUCHSCREEN_DEVICE
+	fi
+
+	declare -i AxisX=0
+	declare -i AxisY=0
+	declare -i SwapAxes=0
+
+	case "$ORIENTATION" in
+	    "normal")
+		# Keep initial values
+		;;
+	    "inverted")
+		# Invert Axis
+		AxisX=1
+		AxisY=1
+		# Keep X/Y orientation
+		;;
+	    "left")
+		# inverse AxisX
+		AxisX=1
+		# Rotate Axes
+		SwapAxes=1
+		;;
+	    "right")
+		# inverse axes
+		#AxisX=0
+		AxisY=1
+		# Rotate Axes
+		SwapAxes=1
+		;;
+	    *)
+		do_log "yes" "Unknown ORIENTATION='$ORIENTATION'"
+		exit 1
+		;;
+	esac
+	do_log "yes" "Changing properties of device '$TOUCHSCREEN_DEVICE' : AxisX=$AxisX AxisY=$AxisY SwapAxes=$SwapAxes"
+	xinput set-prop "$TOUCHSCREEN_DEVICE" 262 $AxisX $AxisY
+	xinput set-prop "$TOUCHSCREEN_DEVICE" 264 $SwapAxes
+}
+fi
+exit 0
+</file>
+
+----
+
+//Contributeurs : [[:utilisateurs:draco31.fr]] 2009/07/12 18:05//

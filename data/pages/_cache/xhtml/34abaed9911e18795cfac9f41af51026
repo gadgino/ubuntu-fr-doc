@@ -1,0 +1,267 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#presentation_de_xampp" class="toc"> Présentation de XAMPP </a></span></li>
+<li class="level1"><span class="li"><a href="#plus_en_details" class="toc"> Plus en détails... </a></span></li>
+<li class="level1"><span class="li"><a href="#installer_et_utiliser_xampp" class="toc"> Installer et utiliser XAMPP </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#installation" class="toc"> Installation </a></span></li>
+<li class="level2"><span class="li"><a href="#demarrer_xampp" class="toc"> Démarrer XAMPP </a></span></li>
+<li class="level2"><span class="li"><a href="#arreter_xampp" class="toc"> Arrêter XAMPP </a></span></li>
+</ul>
+</li>
+<li class="level1"><span class="li"><a href="#choisir_xampp_ou_installer_chaque_application_separement" class="toc"> Choisir XAMPP ou installer chaque application séparément ? </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#securite" class="toc"> Sécurité </a></span></li>
+<li class="level2"><span class="li"><a href="#support" class="toc"> Support </a></span></li>
+<li class="level2"><span class="li"><a href="#pourquoi_xampp_existe-t-il" class="toc"> Pourquoi XAMPP existe-t-il ? </a></span></li>
+</ul>
+</li>
+<li class="level1"><span class="li"><a href="#avoir_son_serveur_de_developpement_sans_xampp" class="toc"> Avoir son serveur de développement sans XAMPP </a></span></li>
+</ul>
+</div>
+</div>
+<pre class="code">Version Ubuntu : Aucune</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/ju" class="wikilink1" title="utilisateurs:ju" onclick="return svchk()" onkeypress="return svchk()">Ju</a>
+</p>
+
+<a name="presentation_de_xampp"></a><h1> Présentation de XAMPP </h1>
+<div class="level1">
+
+<p>
+ XAMPP (<a href="http://www.apachefriends.org/en/" class="urlextern" title="http://www.apachefriends.org/en/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.apachefriends.org</a>) est un produit qui installe très rapidement et facilement un ensemble complet de services pour faire tourner un serveur web.  Cette solution est très pratique pour créer un serveur <strong>de développement</strong>, car il permet au néophyte d&rsquo;avoir son propre serveur de test en quelques clics, sans avoir à choisir ni connaître les différents services à installer.
+</p>
+
+<p>
+Toutefois, XAMPP n&rsquo;est pas destiné à un environnement de production ; cette solution est peu sécurisée du côté des applications.  Pour un serveur de production, il est grandement recommandé de préférer l&rsquo;installation de chaque service individuellement, à l&rsquo;aide des paquets précompilés fournis pas Ubuntu ou en les compilant soi-même <em>(solution certainement la plus sécurisée)</em>.
+</p>
+
+<p>
+XAMPP est disponible pour GNU/Linux, mais aussi pour <acronym title="Microsoft">MS</acronym> Windows et Apple MacOS.
+</p>
+
+</div>
+<!-- SECTION [63-1016] -->
+<a name="plus_en_details"></a><h1> Plus en détails... </h1>
+<div class="level1">
+
+<p>
+ XAMPP inclut par défaut les applications suivantes : 
+</p>
+<ul>
+<li class="level1"><span class="li"> <a href="http://packages.ubuntu.com/hoary/web/apache" class="urlextern" title="http://packages.ubuntu.com/hoary/web/apache" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Apache</a></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://packages.ubuntu.com/hoary/misc/mysql-server" class="urlextern" title="http://packages.ubuntu.com/hoary/misc/mysql-server" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">MySQL</a></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://packages.ubuntu.com/hoary/web/php4" class="urlextern" title="http://packages.ubuntu.com/hoary/web/php4" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">PHP</a> &amp; <a href="http://packages.ubuntu.com/hoary/web/php4-pear" class="urlextern" title="http://packages.ubuntu.com/hoary/web/php4-pear" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">PEAR</a></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://packages.ubuntu.com/hoary/perl/perl" class="urlextern" title="http://packages.ubuntu.com/hoary/perl/perl" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Perl</a></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://packages.ubuntu.com/hoary/net/proftpd" class="urlextern" title="http://packages.ubuntu.com/hoary/net/proftpd" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">ProFTPD</a></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://packages.ubuntu.com/hoary/web/phpmyadmin" class="urlextern" title="http://packages.ubuntu.com/hoary/web/phpmyadmin" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">phpMyAdmin</a></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://packages.ubuntu.com/hoary/utils/openssl" class="urlextern" title="http://packages.ubuntu.com/hoary/utils/openssl" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">OpenSSL</a></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://packages.ubuntu.com/hoary/web/php4-gd" class="urlextern" title="http://packages.ubuntu.com/hoary/web/php4-gd" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">GD</a></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://packages.ubuntu.com/hoary/oldlibs/freetype2" class="urlextern" title="http://packages.ubuntu.com/hoary/oldlibs/freetype2" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Freetype2</a></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://packages.ubuntu.com/hoary/graphics/libjpeg-progs" class="urlextern" title="http://packages.ubuntu.com/hoary/graphics/libjpeg-progs" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">libjpeg</a></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://packages.ubuntu.com/hoary/libdevel/libpng12-dev" class="urlextern" title="http://packages.ubuntu.com/hoary/libdevel/libpng12-dev" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">libpng</a></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://packages.ubuntu.com/hoary/base/libgdbm3" class="urlextern" title="http://packages.ubuntu.com/hoary/base/libgdbm3" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">gdbm</a></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://packages.ubuntu.com/hoary/libs/zlib1g" class="urlextern" title="http://packages.ubuntu.com/hoary/libs/zlib1g" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">zlib</a></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://packages.ubuntu.com/hoary/text/expat" class="urlextern" title="http://packages.ubuntu.com/hoary/text/expat" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">expat</a></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://packages.ubuntu.com/hoary/text/sablotron" class="urlextern" title="http://packages.ubuntu.com/hoary/text/sablotron" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Sablotron</a></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://packages.ubuntu.com/hoary/libdevel/libxml-dev" class="urlextern" title="http://packages.ubuntu.com/hoary/libdevel/libxml-dev" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">libxml</a></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://packages.ubuntu.com/hoary/devel/mingw32-binutils" class="urlextern" title="http://packages.ubuntu.com/hoary/devel/mingw32-binutils" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Ming</a></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://packages.ubuntu.com/hoary/web/webalizer" class="urlextern" title="http://packages.ubuntu.com/hoary/web/webalizer" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Webalizer</a></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://packages.ubuntu.com/hoary/web/php-fpdf" class="urlextern" title="http://packages.ubuntu.com/hoary/web/php-fpdf" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">pdf class </a></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://packages.ubuntu.com/hoary/base/ncurses-bin" class="urlextern" title="http://packages.ubuntu.com/hoary/base/ncurses-bin" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">ncurses</a></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://packages.ubuntu.com/hoary/web/libapache-mod-perl" class="urlextern" title="http://packages.ubuntu.com/hoary/web/libapache-mod-perl" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">mod_perl</a></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://packages.ubuntu.com/hoary/devel/freetds-dev" class="urlextern" title="http://packages.ubuntu.com/hoary/devel/freetds-dev" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">FreeTDS</a></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://packages.ubuntu.com/hoary/devel/gettext" class="urlextern" title="http://packages.ubuntu.com/hoary/devel/gettext" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">gettext</a></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://packages.ubuntu.com/hoary/web/php4-mcrypt" class="urlextern" title="http://packages.ubuntu.com/hoary/web/php4-mcrypt" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">mcrypt</a></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://packages.ubuntu.com/hoary/web/php4-mhash" class="urlextern" title="http://packages.ubuntu.com/hoary/web/php4-mhash" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">mhash </a></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://packages.ubuntu.com/hoary/web/turck-mmcache" class="urlextern" title="http://packages.ubuntu.com/hoary/web/turck-mmcache" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Turck MMCache</a></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://packages.ubuntu.com/hoary/web/php4-sqlite" class="urlextern" title="http://packages.ubuntu.com/hoary/web/php4-sqlite" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">SQLite</a></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://packages.ubuntu.com/hoary/libdevel/libc-client-dev" class="urlextern" title="http://packages.ubuntu.com/hoary/libdevel/libc-client-dev" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">IMAP C-Client</a></span>
+</li>
+</ul>
+
+<p>
+ L&rsquo;installation se fait simplement en décompressant un fichier <code>.tar.gz</code> ; cette installation est très bien détaillée ici dans un <a href="http://www.framasoft.net/article3769.html" class="urlextern" title="http://www.framasoft.net/article3769.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">article de Framasoft</a>. 
+</p>
+
+</div>
+<!-- SECTION [1017-3184] -->
+<a name="installer_et_utiliser_xampp"></a><h1> Installer et utiliser XAMPP </h1>
+<div class="level1">
+
+</div>
+<!-- SECTION [3185-3227] -->
+<a name="installation"></a><h2> Installation </h2>
+<div class="level2">
+
+<p>
+L&rsquo;installation de XAMPP se veut d&rsquo;une extrême simplicité (logique <img src="/smileys/icon_wink.gif" align="middle" alt=";-)" />).
+</p>
+<ol>
+<li class="level1"><span class="li"> Récupérez l&rsquo;archive d&rsquo;installation de XAMPP sur le site d&rsquo;<a href="http://www.apachefriends.org/en/xampp-linux.html#374" class="urlextern" title="http://www.apachefriends.org/en/xampp-linux.html#374" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Apache Friends</a></span>
+</li>
+<li class="level1"><span class="li"> Ouvrez un terminal (<em>Applications &gt; Outils système &gt; Terminal</em>) et entrez la commande suivante:</span>
+</li>
+</ol>
+<pre class="code">$ sudo tar xvfz xampp-linux-1.4.14.tar.gz -C /opt</pre>
+
+<p>
+Ça y est, XAMPP est installé et configuré pour être immédiatement utilisé !  Pour information, XAMPP est installé dans le répertoire <code>/opt</code>.
+</p>
+
+</div>
+<!-- SECTION [3228-3783] -->
+<a name="demarrer_xampp"></a><h2> Démarrer XAMPP </h2>
+<div class="level2">
+
+<p>
+Pour démarrer XAMPP, vous devrez ouvrir un terminal et entrer la commande suivante :
+</p>
+<pre class="code">$ sudo /opt/lampp/lampp start</pre>
+
+<p>
+ Vous verrez alors défiler le texte suivant : 
+</p>
+<pre class="code">
+Starting XAMPP for Linux 1.4.11...
+XAMPP: Starting Apache with SSL (and PHP5)...
+XAMPP: Starting MySQL...
+XAMPP: Starting ProFTPD...
+XAMPP for Linux started.
+</pre>
+
+<p>
+Vous pouvez désormais accéder à votre serveur local avec l&rsquo;adresse <a href="http://localhost/" class="urlextern" title="http://localhost/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://localhost/</a> dans la barre d&rsquo;adresse de votre navigateur Internet.  Pour votre information, le répertoire web est <code>/opt/lampp/htdocs</code>.  Placez vos pages web dans ce répertoire pour y accéder depuis l&rsquo;adresse <a href="http://localhost/" class="urlextern" title="http://localhost/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://localhost/</a>.
+</p>
+
+</div>
+<!-- SECTION [3784-4466] -->
+<a name="arreter_xampp"></a><h2> Arrêter XAMPP </h2>
+<div class="level2">
+
+<p>
+Pour arrêter XAMPP, vous devrez saisir, dans un terminal, la commande suivante: 
+</p>
+<pre class="code">$ sudo /opt/lampp/lampp stop</pre>
+
+<p>
+ Vous verrez alors défiler le texte suivant: 
+</p>
+<pre class="code">Stopping XAMPP for Linux 1.4.11...
+XAMPP: Stopping Apache with SSL...
+XAMPP: Stopping MySQL...
+XAMPP: Stopping ProFTPD...
+XAMPP stopped.</pre>
+
+<p>
+  XAMPP est alors arrêté.
+</p>
+
+</div>
+<!-- SECTION [4467-4839] -->
+<a name="choisir_xampp_ou_installer_chaque_application_separement"></a><h1> Choisir XAMPP ou installer chaque application séparément ? </h1>
+<div class="level1">
+
+<p>
+ Si XAMPP installe rapidement et simplement tous les services listés ci-haut, il est également possible d&rsquo;utiliser le logiciel <code><a href="/applications/apt-get" class="wikilink1" title="applications:apt-get" onclick="return svchk()" onkeypress="return svchk()">apt-get</a></code> (en ligne de commande dans un terminal, ou avec ses interfaces graphiques <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a> ou <a href="/applications/kynaptic" class="wikilink1" title="applications:kynaptic" onclick="return svchk()" onkeypress="return svchk()">Kynaptic</a>) pour télécharger et paramétrer automatiquement chacune de ces applications <em>(référez-vous au chapitre </em><a href="#avoir_son_serveur_de_developpement_sans_xampp" title="applications:xampp &crarr;" class="wikilink1">Avoir son serveur de développement sans XAMPP</a><em> de ce document)</em>.
+</p>
+
+<p>
+Quelle solution est à privilégier pour vous ?
+</p>
+
+</div>
+<!-- SECTION [4840-5442] -->
+<a name="securite"></a><h2> Sécurité </h2>
+<div class="level2">
+
+<p>
+D&rsquo;un point de vue sécurité, il est sans doute préférable d&rsquo;opter pour installer les services par les paquets Ubuntu plutôt que par l&rsquo;archive <code>.tar.gz</code> de XAMPP.  Les paquets proposés via <code>apt-get</code> ont été testés par l&rsquo;équipe de développement de Ubuntu et, au moment où ils sont publiés, ne contiennent aucune vulnérabilité. De plus, si un problème de sécurité est découvert, le gestionnaire de mise à jour télécharge de lui-même les paquets Ubuntu plus récents, corrigeant ainsi les problèmes de sécurité
+</p>
+
+<p>
+De son côté, une installation par archive (<code>.tar.gz</code>) de XAMPP ne propose pas de mises à jour automatiques.  Elle correspond plutôt à une solution clé-en-main, comme les WampServer et EasyPHP pour Windows.  Elle n&rsquo;est pas non plus sécurisée du côté de l&rsquo;administration.  C&rsquo;est d&rsquo;ailleurs pour cette raison que XAMPP est destiné à un environnement de développement, <strong>pas à un environnement de production</strong> !
+</p>
+
+</div>
+<!-- SECTION [5443-6427] -->
+<a name="support"></a><h2> Support </h2>
+<div class="level2">
+
+<p>
+ En cas de problème avec l&rsquo;une ou l&rsquo;autre des applications installées par XAMPP, vous désirerez sans doute recevoir un peu d&rsquo;aide.  Si vous demandez de l&rsquo;aide sur Apache, par exemple (<em>mais ça reste valable pour n&rsquo;importe quelle autre applications du lot</em>) à des utilisateurs Debian/Ubuntu, vous serez aiguillé vers le fichier de configuration d&rsquo;Apache : <code>/etc/apache/httpd.conf</code>. Or, ce fichier n&rsquo;existe pas avec l&rsquo;installation par XAMPP (tout est dans <code>/opt/lampp/</code>). Donc, en cas de difficulté avec les applications installées par XAMPP, seuls les utilisateurs de cette solution clé-en-main pourront vous aider.  Autrement, ce sera à vous d&rsquo;adapter les réponses données pour résoudre vos problèmes.
+</p>
+
+</div>
+<!-- SECTION [6428-7170] -->
+<a name="pourquoi_xampp_existe-t-il"></a><h2> Pourquoi XAMPP existe-t-il ? </h2>
+<div class="level2">
+
+<p>
+ XAMPP sous Linux peut paraître inutile ; je le déconseillerais même fortement pour une utilisation en production. Cependant, sa qualité première est de permettre la mise en place d&rsquo;une plateforme de tests en un temps record.
+</p>
+
+<p>
+En effet l&rsquo;installation d&rsquo;un serveur web nécessite de se plonger dans les fichiers de configuration de chacun des service nommés plus haut.  De son côté, XAMPP marche dès son dépaquetage, tout est déjà paramétré pour vous.  Mais les réglages par défaut ne sont pas d&rsquo;une sécurité à toute épreuve ; aussi XAMPP est-il destiné à un environnement de développement.
+</p>
+
+<p>
+XAMPP peut aussi être utile pour les distributions Linux ne disposant pas de la gestion de paquets précompilés.  Ubuntu gère des paquets au format <code>.deb</code> via le logiciel <code>apt-get</code>, XAMPP est donc sans doute moins utile pour cette distribution.
+</p>
+
+<p>
+Les avis sur l&rsquo;utilité de XAMPP sont partagés : <a href="/applications/xampp_discussion" class="wikilink1" title="applications:xampp_discussion" onclick="return svchk()" onkeypress="return svchk()">xampp discussion</a> pour en discuter.
+</p>
+
+</div>
+<!-- SECTION [7171-8171] -->
+<a name="avoir_son_serveur_de_developpement_sans_xampp"></a><h1> Avoir son serveur de développement sans XAMPP </h1>
+<div class="level1">
+
+<p>
+Puisque nous connaissons la liste des services installés par XAMPP et que notre distribution favorite gère l&rsquo;installation des paquets précompilés, il est tout à fait possible d&rsquo;avoir son propre serveur de développement, probablement plus sécurisé, sans passer par la solution XAMPP.
+</p>
+
+<p>
+En ligne de commande, utilisez <code>apt-get</code> en super-utilisateur pour les installer:
+</p>
+<pre class="code">$ sudo apt-get install apache mysql-server php4-mysql php4-gd vsftpd phpmyadmin php4-gd</pre>
+
+<p>
+ Si vous préférez passer par une interface graphique (<a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a> pour Ubuntu ou <a href="/applications/kynaptic" class="wikilink1" title="applications:kynaptic" onclick="return svchk()" onkeypress="return svchk()">Kynaptic</a> pour Kubuntu), sélectionnez les paquets suivants: <code>apache</code>, <code>mysql-server</code>, <code>php4-mysql</code>, <code>php4-gd</code>, <code><a href="/applications/vsftpd" class="wikilink1" title="applications:vsftpd" onclick="return svchk()" onkeypress="return svchk()">vsftpd</a></code>, <code>phpmyadmin</code> et <code>php4-gd</code>
+</p>
+
+<p>
+Le plus gros du travail est effectué.  Si vous avez besoin de bibliothèques particulières, supplémentaires, le site <a href="http://packages.ubuntu.com/" class="urlextern" title="http://packages.ubuntu.com/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://packages.ubuntu.com/</a> vous sera toujours d&rsquo;un grand secours. 
+</p>
+
+</div>
+<!-- SECTION [8172-] -->

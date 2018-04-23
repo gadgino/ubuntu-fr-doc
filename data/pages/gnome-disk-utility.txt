@@ -1,0 +1,149 @@
+{{tag>Precise Trusty partitions}}
+----
+
+====== Disques : l'utilitaire de disques ======
+
+**Disques** est un utilitaire graphique simple mais performant permettant de gérer et diagnostiquer les disques (statiques et amovibles) de son ordinateur.
+|{{:gnome-disks.png?500|Disques (aka gnome-disks)}}|
+Parmi ses fonctions, notons :
+  * l'affichage des informations de base d'une partition, telles son système de fichiers, sa taille et son point de montage actuel ;
+  * le montage et le démontage de systèmes de fichiers, et l'éjection de médias amovibles (disquettes, CD-ROM, DVD-ROM, disques Jaz...)
+  * le changement de label d'un volume ;
+  * la suppression de partitions non utilisées ;
+  * l'audit de température d'un disque ;
+  * l'état de santé d'un disque dur (données SMART) ;
+  * etc.
+
+
+===== Installation =====
+
+**Disques** est installé par défaut depuis Ubuntu 9.10.
+
+Pour installer ce logiciel, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>gnome-disk-utility|gnome-disk-utility]]**.
+
+
+===== Utilisation =====
+
+Lancez l'application via le [[:unity#tableau_de_bord_dash|dash]] (Ubuntu 11.04 et ultérieures) ou via le [[:terminal]] (à partir de Ubuntu 12.10) avec la [[:commande_shell|commande]] suivante :
+<code>gnome-disks</code>
+ou via la commande suivante jusqu'à Ubuntu 12.04 :
+<code>palimpsest</code>
+<note>
+Sur Ubuntu 12.04.2LTS, l'installation du paquet gnome-disk-utility ne génère pas systématiquement le lien pour lancer la [[:commande_shell|commande]]  précédente. Cependant, lorsque le paquet est installé avec le [[:terminal]] il met à disposition la [[:commande_shell|commande]]  suivante :
+<code>palimpsest</code>
+</note>
+
+==== Formater un disque ====
+Sélectionner le disque à formater dans le panneau gauche. Puis dans le panneau droit, cliquer sur les engrenages en haut à droite et sélectionner « formater ».
+
+==== Formater une partition ====
+Sélectionner le disque contenant la partition à formater, dans le panneau gauche. Puis dans le panneau droit, cliquer sur la partition à formater. Si nécessaire démonter la partition en appuyant sur le bouton arrêt en dessous. Puis cliquer sur les engrenages en dessous de la partition et sélectionner « formater ».
+==== Afficher les données SMART ====
+  * La "SMART technologie" est un protocole qui permet de **suivre et contrôler l'état des disques durs**.\\
+  * **Vidéo**: [[https://www.youtube.com/watch?v=VtFQ0AXSAFc|Comprendre les attributs SMART - Diagnostique HDD]]
+Pour afficher les données SMART d'un disque dur :
+  - Cliquer sur le disque dur
+  - Cliquer sur l'engrenage dans le panneau droit
+  - Cliquer sur « Données SMART et tests... »
+  
+<note tip>Pour connaître le nombre d'heures de fonctionnement du disque dur, il suffira de multiplier le nombre de jours par 24 ou le nombre d'années par 365 et par 24. Aussi, on peut multiplier le nombre de mois par 30 et par 24.\\
+ 
+  * Premier exemple, le disque dur a fonctionné **1 an et 6 mois** (3 mois = 0,25) selon les données SMART, il suffira de multiplier **1,5** par 365 et par 24 (1,5 x 365 x 24) et on obtient 13140 heures.\\
+  * Second exemple, le disque dur a fonctionné **250 jours**, il suffira de multiplier **250 jours** par 24 heures ( 250 x 24 ) et on obtient 6000 heures.\\
+  * 3e exemple, le disque dur a fonctionné **2 ans et 4 mois**, il suffira de multiplier **28 mois** par 30 jours et par 24 heures (28 x 30 x 24) et on obtient 20160 heures\\
+
+A vos calculettes !</note>
+
+=== Problème SMART ===
+  * utilisez l'outil [[smartmontools]]
+==== Création de raid logiciel====
+Choisir Fichier->Créer-> Ensemble raid...
+<note warning>Attention de bien laisser finir la resynchronisation avant de redémarrer !!!</note>
+  * Si votre Raid est non fonctionnel et reconnu comme /dev/md127
+  * Si votre RAID n'est pas reconnu au démarrage du système
+
+Cette erreur semble principalement apparaître lors d'une création de volume RAID avec l’outil graphique  [[:gnome-disk-utility|palimpsest]] (inclus dans gnome-disk-utility).
+
+->Suivez les instructions ci-dessous :
+
+Déclarer votre volume RAID dans /etc/mdadm/mdadm.conf
+
+<code>ARRAY /dev/mdx level=raid1 metadata=1.2 num-devices=2 UUID=UUID de votre volume RAID</code>
+
+Exemple extrait d'un des [[http://forum.ubuntu-fr.org/viewtopic.php?id=372346|threads]] qui traite du sujet :
+
+<code>ARRAY /dev/md0 level=raid1 metadata=1.2 num-devices=2 UUID=ed684f7c:0756fe74:cd2238a8:62f7ed56</code>
+
+Éventuellement ajouter votre volume dans  /etc/fstab (pour le montage au démarrage du système) après avoir créé votre point de montage (ici ->/media/VolumeRAID)
+
+<code>/dev/mdx	/media/VolumeRAID	ext4	defaults	0	0</code>
+
+Mettre à jour [[https://wiki.ubuntu.com/Initramfs|initramfs]] afin de prendre en compte votre fichier mdaadm.conf au démarrage.
+
+<code>sudo update-initramfs -u</code>
+
+De nombreux threads traitent de ce sujet (étonnamment toujours pas résolu dans Palimpsest):
+  * http://forum.ubuntu-fr.org/viewtopic.php?id=372346
+  * http://ubuntuforums.org/showthread.php?t=1764861
+  * http://ubuntuforums.org/showthread.php?t=1468064
+  * http://ubuntuforums.org/archive/index.php/t-1883173.html
+
+==== Gestion d'énergie ====
+
+//Disques// paramètre [[udisks]] (outil bas niveau) qui contrôle la gestion d'énergie comme [[hdparm]] peut le faire en ligne de commande.
+
+Pour que cela fonctionne, il faut évidement que le disque le supporte, ce que n'indique pas //Disques// malheureusement.
+  * Pour le vérifier, il faut utiliser [[hdparm?&#gestion_d_energie|hdparm]] en ligne de commande.
+  * Vous pouvez aussi continuer en partant du postulat qu'il le supporte, et en suivant la procédure ci-dessous. Si le disque ne le supporte pas, il ne se mettra simplement pas en veille automatiquement sans activité, et seul la mise en veille immédiate fonctionnera.
+
+Usage :
+  * Choisir le disque dur à gauche
+  * Cliquer sur le bouton avec la roue crantée en haut à droite (bouton //Autres actions//), puis //Paramètres du disque//
+  * Dans l'onglet //Mise en veille//, activer la fonctionnalité, et choisir le réglage. 6 minutes est une valeur suffisamment longue pour éviter des arrêts/redémarrages incessants (qui endommage le disque sur le durée) et suffisamment court pour s'activer sur de longue période sans utilisation, ce qui est particulièrement utile sur un disque secondaire.
+  * Fermer la fenêtre des réglages.
+
+Test :
+  * Choisir le disque dur à gauche
+  * Cliquer sur le bouton avec la roue crantée en haut à droite (bouton //Autres actions//), puis //Mettre en veille maintenant//
+Le disque va s'arrêter de tourner, et l'icône ZZz va s'afficher à côté du disque dans le panneau de gauche
+  * Observer combien de temps le disque reste en veille :
+    * __s'il se relance très rapidement__, quelque chose l'a sollicité, et la fonctionnalité sera probablement inutile pour vous.
+    * __s'il se relance au bout de quelques minutes__ et que vous êtes sûr qu'il n'y a aucun programme qui l'a sollicité, alors c'est l'interrogation du SMART qui l'a sollicité (visible dans le journal système syslog). Vous pourrez utiliser la fonctionnalité si vous êtes prêts à vous passer de SMART (bouton //Autres actions// puis //Données SMART et auto-tests//, désactiver la fonctionnalité à droite.)
+    * __s'il ne se relance pas__, alors vous pourrez profiter de cette gestion d'énergie. Le disque redémarrera uniquement à l'arrêt de l'ordinateur, pour démonter les partitions qui sont dessus. Le disque se mettra en veille après le démarrage de l'ordinateur s'il n'est pas sollicité, au bout du délai fixé.
+
+<note tip>Si le disque ne s'arrête pas automatiquement au bout du délai choisi après le redémarrage de l'ordinateur :
+  * essayer de désactiver le SMART (il se peut que l'interrogation régulière du SMART ne fasse pas redémarrer le disque s'il a été mis en veille manuellement, mais que ça empêche son arrêt automatique en étant considéré comme une activité du disque quand le disque tourne)
+  * diminuer le délai de mise en veille à 10 secondes pour voir si une autre cause créé de l'activité sur un délai plus long. Si le disque s'arrête et redémarre, déterminer le temps passé entre chaque cycle. S'il est régulier, essayer de fermer tous les programmes, puis essayer de démonter toutes les partitions. Si le démontage des partitions fonctionne, il faut paramétrer une option sur le système de fichier de chaque partition pour maximiser le délai avant écriture du journal du disque : option commit=7200 (en seconde, soit ici 2 heures) à passer en [[mount_fstab#autres_options|option de montage]]
+</note>
+
+ 
+==== Monter une partition automatiquement au démarrage ====
+
+  - Choisir le disque puis la partition désirée
+  - Cliquer sur le bouton avec les deux roues crantées (en dessous des partitions) puis choisissez Modifier les options de montage...
+  - Désactiver Options de montage automatique
+  - Dans les options de point de montage, effacer et mettre simplement //defaults,x-gvfs-show//
+  - Vérifier que les options Monter au démarrage et Afficher dans l'interface utilisateur soit cochées
+  - Dans S'identifier comme, préférer l'option UUID
+
+__Exemples__ :
+
+  - Options de point de montage : defaults
+  - Point de montage : /media/Data-RAID1
+  - S'identifier comme : Choisir UUID=
+  - Type de système de fichier : ext4
+
+|{{:disk1.png?400 |}}{{:disk2.png?400 |}}|
+
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi =====
+
+  * **(en)** [[https://live.gnome.org/Design/Apps/Disks|Site officiel du logiciel]]
+  * **(en)** [[http://git.gnome.org/browse/gnome-disk-utility/|Dépôt Git]]
+
+----
+//Contributeurs principaux : [[:utilisateurs:kao_chen]], [[utilisateurs:binnette]], [[:utilisateurs:Id2ndR]], [[utilisateurs:stylou]].//

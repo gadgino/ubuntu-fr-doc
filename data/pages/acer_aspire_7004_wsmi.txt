@@ -1,0 +1,45 @@
+{{tag>matériel portable acer}}
+
+----
+
+====== Acer Aspire 7004 WSMi ======
+
+<note>Cette page est une ébauche, n'hésitez pas à vérifier, modifier ou rajouter des infos...</note>
+
+<note>Ce portable comprend un processeur AMD Sempron 3000+ compatible 64 Bits et une carte graphique Nvidia 6100 Go prenant 120Mo de mémoire partagée, 2 barrettes de 512 Mo DDR2 sur 2 slots (accepte 2Go x2)</note>
+
+<note important>WIFI : La carte WIFI est une Broadcom Corporation BCM94311MCG wlan mini-PCI (rev 01), elle est reconnue d'office mais a besoin d'un micro-code propriétaire pour fonctionner : [[:wifi_broadcom_bcm43xx|Tutoriel d'installation du micro-code]]
+  * Sous Gutsy, il faut utiliser ndiswrapper et le pilote windows pour faire fonctionner le WIFI.
+  * Sous Hardy, le nouveau firmware b43-fwcutter fonctionne mais le taux reste bloqué à 1 Mbits/s. La solution ndiswrapper fonctionne très bien.  
+  * Sous Intrepid, plus de soucis, b43-fwcutter fonctionne parfaitement en WEP et WPA (TKIP), le taux oscille entre 1 Mbits/s et 54 Mbits/s.
+  * Sous Precise 12.04 LTS et Raring 13.04, la carte WIFI empêche un arrêt normal. La commande **sudo rfkill unblock all** dévréouille l'ACPI de la carte WIFI et permet l'extinction normale du PC.
+</note>
+
+===== En un coup d'œil =====
+
+Le tableau suivant récapitule la prise en charge du matériel du portable par les différentes versions d'Ubuntu.
+Il utilise les notations suivantes :
+  * {{icons:important.png|Fonctionne après config}} : **Fonctionne après quelques manipulations**
+  * {{icons:icon-ubuntu.png|Fonctionne immédiatement}} : **Fonctionne immédiatement**
+  * {{icons:icon-support.png|Pas testé}} : **Pas d'informations disponibles**
+  * {{icons:process-stop.png?36|Ne fonctionne pas}} : **Ne fonctionne pas**
+
+^ Version ^ Installation ^ Carte graphique ^ Son ^ Wifi ^ Bluetooth ^ Webcam ^ Touchpad ^ Raccourcis multimédia ^ Lecteur de cartes ^ Autres : Bureau 3D ^
+| [[:gutsy|"Gutsy Gibbon" - 7.10]] | Desktop | {{icons:important.png|Fonctionne après config}} | {{icons:important.png|Fonctionne après config}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-support.png|Pas testé}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} |
+| [[:hardy|"Hardy Heron" - 8.04]] | Desktop | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-support.png|Pas testé}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} |
+| [[:intrepid|"Intrepid Ibex" - 8.10]] | Desktop | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-support.png|Pas testé}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} |
+| [[:jaunty|"jaunty jackalope" - 9.04]] |Desktop | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-support.png|Pas testé}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-support.png|Pas testé}} | {{icons:icon-support.png|Pas testé}} |  
+| [[:jaunty|"Karmic Koala" - 9.10]] |Desktop | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-support.png|Pas testé}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-support.png|Pas testé}} | {{icons:icon-support.png|Pas testé}} | 
+| [[:precise|"Precise Pangolin" - 12.04 LTS]] |Desktop | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-support.png|Pas testé}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | 
+| [[:raring|"Raring" - 13.04]] |Desktop | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-support.png|Pas testé}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | 
+**Utilisateurs du Wiki possédant cet ordinateur, fonctionnel :**
+  * **[[:utilisateurs:EclairUbuntu]]** : [[:Intrepid|Intrepid Ibex]]
+
+  * **[[:utilisateurs:twistbaloo]]** : [[:jaunty|jaunty jackalope]]
+
+**Utilisateurs du Wiki ayant installé cet ordinateur, fonctionnel pour un tiers :**
+
+  * **[[:utilisateurs:laurentb]]** : [[:raring|raring 13.04]]
+
+
+**Cet ordinateur portable n'est a priori pas [[:pc_tatoué|tatoué]].**

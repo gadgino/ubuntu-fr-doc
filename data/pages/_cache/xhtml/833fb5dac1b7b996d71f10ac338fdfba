@@ -1,0 +1,104 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="clear"><ul class="toc">
+<li class="level2"><span class="li"><a href="#a_propos" class="toc"> À propos </a></span></li>
+<li class="level2"><span class="li"><a href="#installation" class="toc"> Installation </a></span></li>
+<li class="level2"><span class="li"><a href="#epilogue" class="toc"> Epilogue </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">Version Hoary</pre>
+ Rédigé par <a href="/utilisateurs/portix" class="wikilink1" title="utilisateurs:portix" onclick="return svchk()" onkeypress="return svchk()">Portix</a>, relecture <a href="/utilisateurs/ju" class="wikilink1" title="utilisateurs:ju" onclick="return svchk()" onkeypress="return svchk()">Ju</a>
+<a name="a_propos"></a><h2> À propos </h2>
+<div class="level2">
+
+<p>
+Lexmark vend l&rsquo;imprimante Z615 aux alentour de 40€ en Belgique. À ce prix, il fallait s&rsquo;attendre a avoir un support minimal pour Linux. Un pilote a bien été developpé, mais pour RedHat uniquement.
+</p>
+
+</div>
+<!-- SECTION [87-314] -->
+<a name="installation"></a><h2> Installation </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> Téléchargez le fichier <a href="http://www.downloaddelivery.com/srfilecache/CJLZ600LE-CUPS-1.0-1.TAR.gz" class="urlextern" title="http://www.downloaddelivery.com/srfilecache/CJLZ600LE-CUPS-1.0-1.TAR.gz" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow"> CJLZ600LE-CUPS-1.0-1.TAR.gz</a> chez lexmark</span>
+</li>
+<li class="level1"><span class="li"> Créez un répertoire <em>lexmark</em> </span>
+</li>
+</ul>
+<pre class="code">mkdir lexmark</pre>
+<ul>
+<li class="level1"><span class="li"> Copiez le fichier téléchargé</span>
+</li>
+</ul>
+<pre class="code"> cp CJLZ600LE-CUPS-1.0-1.TAR.gz ./lexmark</pre>
+<ul>
+<li class="level1"><span class="li"> Décompressez-le </span>
+</li>
+</ul>
+<pre class="code"> tar -xvzf CJLZ600LE-CUPS-1.0-1.TAR.gz</pre>
+<ul>
+<li class="level1"><span class="li"> On va maintenant extraire les archives incluses dans le shell script obtenu </span>
+</li>
+</ul>
+<pre class="code">tail -n +143 z600cups-1.0-1.gz.sh &gt; install.tar.gz</pre>
+<blockquote>
+ La commande <code>tail</code> permet de récupérer la &ldquo;queue&rdquo; d&rsquo;un fichier. le fichier z600cups-1.0-1.gz.sh est en fait constitué dans sa premier partie d&rsquo;un script bash et d&rsquo;un archive gz. La première partie va donc décompresser l&rsquo;archive (l&rsquo;equivalent d&rsquo;un archive auto-extractible). Dans notre cas, seule les fichiers compris dans l&rsquo;archive nous intéressent, et nous les placerons dont dans un fichier install.tar.gz.</blockquote>
+<ul>
+<li class="level1"><span class="li"> Puis les décompresser</span>
+</li>
+</ul>
+<pre class="code">tar -xvzf install.tar.gz</pre>
+<ul>
+<li class="level1"><span class="li"> Transformons le rpm obtenu en paquet Debian (le paquetage alien doit être installé)</span>
+</li>
+</ul>
+<pre class="code">sudo alien z600*.rpm</pre>
+<ul>
+<li class="level1"><span class="li"> puis installons-le</span>
+</li>
+</ul>
+<pre class="code">dpkg -i z600*.deb</pre>
+<ul>
+<li class="level1"><span class="li"> Pour finir, démarrez cups </span>
+</li>
+</ul>
+<pre class="code">sudo /etc/init.d/cupsys start {{Attention: &quot;cupsys&quot; et non &quot;cups&quot;)}}</pre>
+<ul>
+<li class="level1"><span class="li"> Pour la suite rendez vous dans l&rsquo;interface d&rsquo;administration de Cups à l&rsquo;aide de votre navigateur à l&rsquo;adresse <code><a href="http://localhost:631" class="urlextern" title="http://localhost:631" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://localhost:631</a></code></span>
+</li>
+</ul>
+
+<p>
+ Ce qu&rsquo;il faut savoir dans cette interface : 
+</p>
+<ul>
+<li class="level1"><span class="li"> Login : root, et mot de passe: votre mot de passe habituel</span>
+</li>
+</ul>
+<blockquote>
+  Sûr ? cf <a href="/applications/sudo" class="wikilink1" title="applications:sudo" onclick="return svchk()" onkeypress="return svchk()">sudo</a></blockquote>
+
+<p>
+  * L&rsquo;emplacement de l&rsquo;imprimante est <code>/dev/lp1</code> chez moi (j&rsquo;ai ramé pour trouver)
+</p>
+<ul>
+<li class="level1"><span class="li"> Laisser vous emmener par l&rsquo;interface qui reste assez conviviale.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [315-2014] -->
+<a name="epilogue"></a><h2> Epilogue </h2>
+<div class="level2">
+
+<p>
+ Pour terminer : Les caractères accentués sont systématiquement suivi d&rsquo;un espace à l&rsquo;impression. Je n&rsquo;ai toujours pas trouvé pourquoi :( .   
+</p>
+
+</div>
+<!-- SECTION [2015-] -->

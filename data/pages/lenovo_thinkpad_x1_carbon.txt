@@ -1,0 +1,67 @@
+{{tag>Precise matériel portable}}
+
+----
+======  Lenovo  Thinkpad X1 édition Carbon======
+Portable récent (en fin 2012) de la renommée série Thinkpad, il est considéré comme haut de gamme, et est une merveille à utiliser. Sans bidouiller on a une relativement bonne longévité de la batterie, le matériel est bien pris en charge, relativement léger (1.5kg), très robuste (caractéristique commune des thinkpad) et le clavier est d'excellente facture. Après installation, le PC peut démarrer en 5secondes.
+L'aspect "mat" de la coque est bien aussi.
+
+{{ :lenovo:x1_carbon.png?nolink&400|}}
+
+ [[http://www.lenovo.com/fr/fr/|Le site du constructeur]]
+
+===== En un coup d'œil =====
+
+Le tableau suivant récapitule la prise en charge du matériel de portable par les différentes versions d'Ubuntu.
+Il utilise les notations suivantes :
+  * {{icons:important.png|Fonctionne après config}} : **Fonctionne après quelques manipulations**
+  * {{icons:icon-ubuntu.png|Fonctionne immédiatement}} : **Fonctionne immédiatement**
+  * {{icons:icon-support.png|Pas testé}} : **Pas d'informations disponibles**
+  * {{icons:process-stop.png?36|Ne fonctionne pas}} : **Ne fonctionne pas**
+
+^ Version ^ Installation ^ Carte graphique ^ Son ^ Wifi ^ Bluetooth ^ Webcam ^ Touchpad ^ Raccourcis multimédia ^ Lecteur d'empreinte ^
+| [[:precise|12.04]] | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement (le micro necessite une petite retouche)}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} (testé par hadware) |
+<note tip>Testé avec Unity et Gnome-shell, dans les deux cas, aucun problème.</note>
+
+
+**Utilisateurs du Wiki possédant cet ordinateur, fonctionnel :**
+  * **[[:utilisateurs:hadware]]** 
+
+**Cet ordinateur portable n'est à priori pas [[:pc_tatoué|tatoué]].**
+
+
+===== Installation =====
+
+Rien de spécifique, utilisez un LiveUSB (pas de lecteur CD). Pour booter sur la clé, un bouton spécial vous est donné au démarrage du BIOS qui permet de booter directement (et temporairement) sur un support externe sans avoir à changer l'ordre des périphériques de démarrage dans le BIOS.
+
+<note>Le PC est très véloce (étant équipé par défaut d'un SSD). Travailler avec ce PC est un plaisir, et Ubuntu est très agréable à utiliser dessus: fluide, rapide, et l'écran de très bonne facture donne un bon rendu de l'apparence graphique d'Ubuntu (Gnome-shell ou Unity) </note>
+
+===== Après l'installation =====
+
+==== Faire fonctionner le lecteur d'empreinte ====
+(Nécessite un accès [[:sudo|admin]], bien évidemment)
+Tuto extrait de ce [[http://askubuntu.com/a/234244/99751|petit post]] et de [[http://volker.de/tag/upek-147e2020/|ce post de blog]], testé sous Ubuntu 12.04
+
+Il faut d'abord installer le PPA de fingerprint-gui:
+<code>sudo add-apt-repository ppa:fingerprint/fingerprint-gui
+sudo apt-get update</code>
+Puis installez les paquets suivants: **[[apt> libbsapi policykit-1-fingerprint-gui fingerprint-gui]]** ou en console:
+<code>sudo apt-get install libbsapi policykit-1-fingerprint-gui fingerprint-gui</code>
+
+L'étape suivante consiste à faire 2 petites modification à la bibliothèque "libbsapi" (qui gère la reconnaissance biométrique), et au fichier qui indexe les périphériques reconnus. En effet, pour l'instant le lecteur d'empreinte du X1 est trop récent, et le driver lui correspondant vient tout juste d'être intégré à la "libbsapi".
+<note important>Ce tuto, écrit en début janvier, n'est peut-être plus à jour au moment où vous lisez ces lignes: les choses avancent vite et il ne serait pas étonnant que le pilote manquant soit intégré à la version  du PPA </note>
+  - Téléchargez cette archive: http://volker.de/wp-content/uploads/2012/12/BSAPI_4.3.291Lite_SDK_for_Linux.tar.gz
+  - Extrayez le fichier "libbsapi.so" contenu dans le fichier **__lib__ si votre installation est en 32bit, __lib64__ si votre installation est en 64bit** ( pour connaître ce détail: [[:architecture_materielle#mon_ubuntu_est-il_32_ou_64_bits | ici]]) et placez-le, par exemple, sur votre bureau (/home/Bureau). Vous pourrez le supprimer à la fin de ce tuto.
+  - il faut maintenant le copier dans le fichier " /usr/lib", en utilisant la commande ''sudo cp /home/Bureau/libbsapi.so /usr/lib'' (si, par exemple, libbsapi.so est sauvé sur votre bureau)
+  - Maintenant, il faut ajouter ce texte au fichier /lib/udev/rules.d/40-libbsapi.rules (faites-le en utilisant la commande  ''sudo nano /lib/udev/rules.d/40-libbsapi.rules''): <code>
+#Added for Upek 2020 support
+ATTRS{idVendor}==”147e”, ATTRS{idProduct}==”2020″,   SYMLINK+=”input/touchchip-%k”, MODE=”0664″, GROUP=”plugdev”
+ATTRS{idVendor}==”147e”, ATTRS{idProduct}==”2020″,   ATTR{power/control}==”*”, ATTR{power/control}=”auto”</code>
+
+En toute fin, il faut donner les droits, au programme fingerprint-gui, de lire le bus USB du lecteur biométrique, pour cela, suivez [[:fingerprintgui#problemes|cette section]] (5-Problème, puis 5.1-Périphérique pas détecté). **Ici, le périphérique USB à repérer s'appelle "Bus 001 Device 003: ID 147e:2020 Upek " .**
+
+C'est bon! Il ne reste plus qu'à lancer fingerprint-gui et à le paramétrer comme suggéré sur la page [[fingerprintgui|Interface de gestion FingerprintGUI]]
+
+//NB de [[:utilisateurs:hadware]]: je ferai peut-être un script qui fera ces étapes d'installation automatiquement, à l'avenir.//
+----
+
+//**Contributeurs :** [[:utilisateurs:hadware]].//

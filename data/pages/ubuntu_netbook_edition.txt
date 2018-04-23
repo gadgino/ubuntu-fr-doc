@@ -1,0 +1,98 @@
+{{tag>variante netbook VÉTUSTE}}
+
+----
+
+====== Ubuntu Netbook Édition ======
+
+**Ubuntu Netbook Edition** (UNE) est une variante officielle d'[[lucid|Ubuntu 10.04]] et [[maverick|10.10]] optimisée pour les netbooks et autres appareils dotés de petits écrans ou avec le processeur Intel Atom.
+
+<note important>**Ubuntu Netbook Edition** n'existe plus depuis [[natty|Ubuntu 11.04]]. Il existe cependant un fork : [[http://www.geteasypeasy.com/|Easy Peasy]]. Essayez également [[:Lubuntu]], une variante officielle d'Ubuntu très légère, qui prend parfaitement en charge des ordinateurs anciens ou avec une configuration obsolète, comme des netbooks.</note>
+
+Canonical collabore avec [[http://moblin.org/|Moblin]] (Mobile Linux Internet Project) pour optimiser la distribution aux particularités techniques des netbooks, qui sont équipés de matériels moins puissants et de batteries de longue durée.
+
+Note :
+  * Ubuntu Netbook Edition 10.04 n'est pas une version LTS, le support est assuré seulement pour un an et demi. (jusqu’à octobre 2011)
+  * Ubuntu Netbook Edition 10.10 est supportée jusqu’à avril 2012. 
+
+{{ubuntu_netbook_edition.png|UNE avec l'interface standard}} {{:eeepc:unity.jpg?400|UNE avec l'interface Unity}}
+===== Installation =====
+
+Ubuntu Netbook Edition peut être installée : 
+  * via la création d'un support [[live usb]] ;
+  * ou via le [[http://www.ubuntu.com/getubuntu/download-wubi|programme d'installation Wubi]].
+
+Si votre PC est déjà fonctionnel avec la version "Desktop"((pour ordinateur de bureau)) d'Ubuntu 10.04 LTS ou 10.10, vous pouvez installer le paquet **[[apt://ubuntu-netbook|ubuntu-netbook]]**. Ce paquet met en place l'interface graphique dédiée aux netbooks sans les optimisations spécifiques à ces ordinateurs.
+
+
+===== Liste des composants =====
+
+Les paquets qui composent la Ubuntu Netbook Edition comprennent :
+
+**[[apt>go-home-applet]]** \\ 
+Un applet qui, en plus de montrer le bureau, permet aux utilisateurs de faire glisser/déposer les fichiers, dossiers et URL sur lui permettant de créer de nouveaux raccourcis favoris dans le lanceur.
+
+**[[apt>window-picker-applet]]** \\ 
+Un applet qui affiche les fenêtres ouvertes sous forme d'icônes sur le tableau de bord.
+
+**[[apt>maximus]]** \\
+Un démon de gestion de fenêtre (permet de s'assurer de maximiser les fenêtres, etc).
+
+**[[apt>human-netbook-theme]]** \\ 
+Une variante du thème de « human ».
+
+**[[apt>netbook-launcher]]** \\ 
+Remplace la gestion du bureau gérée par Nautilus. C'est lui qui met en place l'interface graphique propre à cette version.
+
+**Desktop Switcher** \\ 
+Permet de commuter le bureau entre l'affichage standard et netbook, cette fonction n'était pas disponible dans Ubuntu 9.10 en raison d'un problème de stabilité.
+
+
+===== Configuration minimale =====
+
+  * Processeur : Intel Atom
+  * Mémoire vive : 384 Mo RAM
+  * Stockage : 4 Go en mémoire flash (SSD) ou sur disque dur
+
+===== Optimisations =====
+
+==== Icônes se chevauchant ====
+
+Les icônes peuvent se chevaucher sur les écrans de petite résolution comme le Eee Pc 701.
+
+Il faut réduire la taille des polices : 
+  - Allez dans //Système -> Apparence -> **Polices**// ;
+  - Réduisez la taille de la "police des applications" d'un point (de 10 à 9) ;
+
+Si cela ne fonctionne toujours pas il est possible de réduire l'ensemble des polices dans //Système -> Apparence -> Polices -> **Détails**// puis réduire la résolution à 86 par exemple.
+
+==== Déverrouiller Gnome Panel ====
+
+Ubuntu Netbook Edition de base ne permet pas de configurer Gnome Panel mais à l'écran de connexion GDM vous pouvez opter pour une session Gnome basique où ces restrictions sont levées sans modifications supplémentaire.
+
+Si vous souhaitez conserver l'interface Netbook Edition, il y a possibilité d'outrepasser cette "limitation". Dans une fenêtre de [[:terminal]] (//Applications → Accessoire → **Terminal**//), exécutez les commandes suivante :
+
+<code>
+sudo ln -s /etc/xdg/xdg-une/autostart/maximus-autostart.desktop /etc/xdg/autostart/
+sudo ln -s /etc/xdg/xdg-une/autostart/netbook-launcher.desktop /etc/xdg/autostart/
+sudo ln -s /usr/share/gconf/une/default/20_une-gconf-default /usr/share/gconf/defaults/
+sudo ln -s /usr/share/gconf/une/mandatory/20_une-gconf-mandatory /usr/share/gconf/defaults/
+sudo update-gconf-defaults
+</code>
+  
+Ces commandes vont permettre de lancer au démarrage de Gnome les applications nécessaires pour avoir l'aspect UNE (Ubuntu Netbook Edition) dans une session Gnome basique.
+Ensuite, à l'écran de connexion GDM, lancez une session GNOME en lieu et place de Ubuntu Netbook Edition.
+[[http://maketecheasier.com/unlock-gnome-panel-in-ubuntu-netbook-edition-une/2010/04/25|Source]]
+
+==== Activer la session d'invité ====
+
+Ubuntu Netbook Edition de base ne propose pas la session d'invité permettant de prêter temporairement son ordinateur à un tiers. Cette session est limitée en droits et la totalité des modifications sera supprimé à la fermeture de session. Elle est activable par un utilisateur déjà identifié sur l'ordinateur.
+
+Il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>gdm-guest-session]]** et de fermer les sessions en cours pour activer cette option.
+
+===== Voir également =====
+
+  * [[Netbook]]
+
+----
+
+//Contributeurs : [[utilisateurs/Percherie]]//

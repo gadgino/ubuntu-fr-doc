@@ -1,0 +1,83 @@
+{{tag>Lucid portable asus}}
+
+----
+
+======  Asus U35JC ======
+
+===== En un coup d'œil =====
+
+Le tableau suivant récapitule la prise en charge du matériel de portable par les différentes versions d'Ubuntu.
+Il utilise les notations suivantes :
+  * {{icons:important.png|Fonctionne après config}} : **Fonctionne après quelques manipulations**
+  * {{icons:icon-ubuntu.png|Fonctionne immédiatement}} : **Fonctionne immédiatement**
+  * {{icons:icon-support.png|Pas testé}} : **Pas d'informations disponibles**
+  * {{icons:process-stop.png|Ne fonctionne pas}} : **Ne fonctionne pas**
+
+^ Version ^ Installation ^ Carte graphique ^ Son ^ Wifi ^ Bluetooth ^ Webcam ^ Touchpad ^ Raccourcis multimédia ^ Autres ^ Mise en veille / Hibernation ^
+| [[:hardy |8.04 LTS (Hardy Heron)]]  |{{icons:icon-support.png|Pas testé}}|{{icons:icon-support.png|Pas testé}}|{{icons:icon-support.png|Pas testé}}|{{icons:icon-support.png|Pas testé}}|{{icons:icon-support.png|Pas testé}}|{{icons:icon-support.png|Pas testé}}|{{icons:icon-support.png|Pas testé}}|{{icons:icon-support.png|Pas testé}}|{{icons:icon-support.png|Pas testé}}|{{icons:icon-support.png|Pas testé}}|
+| [[:karmic|9.10 (Karmic Koala)]]     |{{icons:icon-support.png|Pas testé}}|{{icons:icon-support.png|Pas testé}}|{{icons:icon-support.png|Pas testé}}|{{icons:icon-support.png|Pas testé}}|{{icons:icon-support.png|Pas testé}}|{{icons:icon-support.png|Pas testé}}|{{icons:icon-support.png|Pas testé}}|{{icons:icon-support.png|Pas testé}}|{{icons:icon-support.png|Pas testé}}|{{icons:icon-support.png|Pas testé}}|
+| [[:lucid |10.04 LTS (Lucid Lynx)]]  | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | Intel : {{icons:icon-ubuntu.png|Fonctionne immédiatement}} Nvidia : {{icons:process-stop.png|Ne fonctionne pas}}  | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}}- | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | HDMI : {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-support.png|Pas testé}}|
+| [[:maverick |10.10 LTS (Maverick Meerkat)]]  | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | Intel : {{icons:icon-ubuntu.png|Fonctionne immédiatement}} Nvidia : {{icons:process-stop.png|Ne fonctionne pas}}  | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}}- | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | HDMI : {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} |
+
+
+**Utilisateurs du Wiki possédant cet ordinateur, fonctionnel :**
+  * **[[:utilisateurs:metasequoia]]** : [[:maverick|10.10 (Maverick meerkat)]]
+
+**Cet ordinateur portable n'est à priori pas [[:pc_tatoué|tatoué]].**
+
+**Solution pour faire fonctionner la Mise en Veille / Hibernation (testé seulement pour la version 10.10 Maverick Meerkat) :**
+  * http://thecodecentral.com/2011/01/18/fix-ubuntu-10-10-suspendhibernate-not-working-bug
+===== Configuration Matérielle =====
+
+Ses caractéristiques techniques sont les suivantes (Pour le modèle RX005V): 
+
+    *  **Processeur** : Intel Core i3 370M (2.4ghz) ;
+    *  **Mémoire** : 4096mo, DDR3 1066mhz ;
+    *  **Chipset graphique** : Intel GMA + Geforce 310M avec 1024Mo ;
+    *  **Disque dur** : 320 Go (5400 tr/min) ;
+    *  **Écran** : 13,3" @ 1366x768 ;
+    *  **Sans fil** : Wifi b/g/n ;
+    *  **Webcam** : 0,3M ;
+    *  **Batterie** : 8 cellules.
+
+===== Installation =====
+
+Aucun problème lors de l'installation. Tous les périphériques sont reconnus.
+Toutefois il existe un certain nombre de petits problèmes qui peuvent être gênants par la suite. Un super [[http://georgia.ubuntuforums.org/showthread.php?t=1569380|tutoriel]] en anglais explique comment résoudre la quasi totalité de ceux-ci (sauf deux problèmes relativement importants : l'absence de support de la Nvidia !!! et une certaine charge du processeur dès le démarrage (le load balancing tick)).
+
+
+===== Optimisations =====
+
+==== Cartes Graphiques ====
+
+<note important>
+Il est possible de désactiver la carte graphique Nvidia avec la méthode ci dessous (testée sous Lucid). Cette méthode semble toutefois expérimentale.(Avis aux connaisseurs)</note>
+
+Il semblerait que la carte graphique utilisée soit la carte Intel par défaut. 
+
+Pour désactiver la carte Nvidia afin économiser de la batterie, on peut utiliser le module acpi_call (avec le paramètre \_SB.PCI0.PEG1.GFX0._OFF ) qui est un module expérimental en cours de développement (Cf [[https://launchpad.net/~hybrid-graphics-linux]]). 
+
+On peut ensuite rajouter ces lignes à /etc/rc.local (en précisant l'adresse du dossier acpi_call) pour désactiver la carte au démarrage :
+<code>
+insmod [localisation du répertoire contenant le module]/acpi_call/acpi_call.ko
+echo '\_SB.PCI0.PEG1.GFX0._OFF' > /proc/acpi/call
+</code>
+Ces deux lignes de code permettent de charger le module puis de l'utiliser pour désactiver la carte.
+
+==== Touchpad ====
+
+Multitouch fonctionnel (deux et trois doigts).
+
+Pas de possibilité du réglage du touchpad (pas d'onglet "Pavé tactile" dans Préférence>Souris).
+
+Le touchpad est un Elantech (une solution fonctionnelle est disponible en installant un noyau plus récent (au dessus de 2.6.34)  [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3683689]]). 
+
+Une autre solution indépendante peut être utiliser pour désactiver le touchpad avec un raccourci clavier en attendant la mise à jour vers le kernel 2.6.34 [[http://ubuntuforums.org/showpost.php?p=9598522&postcount=125]].
+
+<note>=> Cela en remplacant la premiere ligne effective du script :
+
+devicename="ImPS/2 Logitech Wheel Mouse"
+
+Par :
+
+devicename="ETPS/2 Elantech Touchpad"</note>

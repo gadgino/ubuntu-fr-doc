@@ -1,0 +1,334 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#comment_configurer_un_clavier_multimedia" class="toc"> Comment configurer un clavier multimédia ? </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#probleme_lorsque_j_appuie_sur_la_touche_rien_ne_se_passe" class="toc"> Problème : lorsque j'appuie sur la touche, rien ne se passe... </a></span></li>
+</ul>
+</li>
+<li class="level1"><span class="li"><a href="#instructions_detaillees" class="toc"> Instructions détaillées </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#utliser_gnome-keybinding-properties" class="toc"> Utliser gnome-keybinding-properties: </a></span></li>
+<li class="level2"><span class="li"><a href="#declarer_les_keycodes_du_kernel" class="toc"> Déclarer les keycodes du kernel </a></span></li>
+<li class="level2"><span class="li"><a href="#a_declarer_des_keysyms_du_x" class="toc"> À déclarer des keysyms du X </a></span></li>
+<li class="level2"><span class="li"><a href="#prendre_en_compte_le_xmodmap.conf_corrige_sous_kde" class="toc"> Prendre en compte le xmodmap.conf corrigé sous KDE </a></span></li>
+<li class="level2"><span class="li"><a href="#a_engager_keybindings_de_gnome_ou_metacity_a_binder_des_commandes_au_cles" class="toc"> À engager keybindings de gnome ou metacity à binder des commandes au clés </a></span></li>
+</ul>
+</li>
+<li class="level1"><span class="li"><a href="#c_est_tout" class="toc"> C'est tout. </a></span></li>
+</ul>
+</div>
+</div>
+<pre class="code">
+A restructurer
+</pre>
+
+<a name="comment_configurer_un_clavier_multimedia"></a><h1> Comment configurer un clavier multimédia ? </h1>
+<div class="level1">
+
+<p>
+ Bon nombre de machine sont maintenant vendues avec un clavier dit multimédia. C&rsquo;est-à-dire qu&rsquo;il y a quelques touches supplémentaires permettant d&rsquo;augmenter ou diminuer le volume, ouvrir votre boite email, etc...
+</p>
+
+<p>
+La plupart des claviers se configurent de manière relativement simple en utilisant l&rsquo;application système <em>Raccourcis clavier</em>. Vous trouverez cette application dans le menu <strong>Système &rArr; Préférences &rArr; Raccourcis clavier</strong>.
+</p>
+
+<p>
+Dans cette application, il vous suffit de cliquer sur la ligne qui vous intéresse (exemple : <em>Dossier personnel</em>) et d&rsquo;ensuite appuyer sur la touche du clavier qui va effectuer cette fonction (sur mon clavier Logitech, c&rsquo;est la touche <em>My Home</em>).
+</p>
+
+<p>
+Pour effacer un raccourci clavier assigné précédemment, vous devez cliquer sur la ligne qui vous intéresse et appuyer sur la touche BACKSPACE (retour en arrière).
+</p>
+
+<p>
+<em>retour 1 :</em> Sur certains ordinateurs portables, les touches multimédias peuvent poser problème. C&rsquo;est le cas de mon Acer. Si vous vous retrouvez bloqué, tuez la session X pour obtenir à nouveau le contrôle du clavier (pour rappel : touches CTRL + ALT + RETOUR EN ARRIERE en même temps pour tuer X). 
+</p>
+
+<p>
+<em>retour 2 :</em> J&rsquo;ai aussi un ordinateur portable ACER sur lequel par contre ça marche très bien.
+</p>
+
+</div>
+<!-- SECTION [32-1370] -->
+<a name="probleme_lorsque_j_appuie_sur_la_touche_rien_ne_se_passe"></a><h2> Problème : lorsque j'appuie sur la touche, rien ne se passe... </h2>
+<div class="level2">
+
+<p>
+ Si c&rsquo;est le cas et que la touche n&rsquo;est pas prise en charge par le serveur X, vous devez assigner un code de touche à la touche du clavier. Pour se faire, appuyez sur la touche qui vous intéresse et ouvrez le <em>Visionneur de journaux système</em> (vous le trouverez dans <strong>Applications &rArr; Outils système &rArr; Visionneur de journaux système</strong>).
+</p>
+
+<p>
+A partir de là, ouvrez le journal nommé <strong>messages</strong>.
+</p>
+
+<p>
+Dans le bas du journal, vous devriez trouver deux lignes ressemblant quelque peu à celles-ci :
+</p>
+<pre class="code">
+07:41:52 localhost   kernel   atkbd.c : Unknown key released (translated set 2, code 0xa5 on isa0060/serio0).
+07:41:52 localhost   kernel   atkbd.c : Use 'setkeycodes e025 ' to make it known.
+</pre>
+
+<p>
+Ce qui nous intéresse, c&rsquo;est le code de la touche (ici, c&rsquo;est <strong>0xa5</strong>).
+</p>
+
+<p>
+Maintenant, vous allez modifier le fichier <code>/etc/init.d/bootmisc.sh</code> pour assigner une code touche pour cette touche. Pour ce faire, tapez la commande suivante dans un terminal :
+</p>
+<pre class="code">
+sudo gedit /etc/init.d/bootmisc.sh
+</pre>
+
+<p>
+Et à la fin du fichier, avant la ligne <code>: exit 0</code>, vous ajoutez une ligne de cette sorte :
+</p>
+<pre class="code">
+setkeycodes 0xa5 129
+</pre>
+
+<p>
+Le <strong>0xa5</strong> doit être remplacé par le code de votre clavier. Le <strong>129</strong> est le code attribué. Si vous avez plusieurs touches à configurer, commencez la numérotation à 129 et incrémentez ce nombre à chaque touche supplémentaire (130, 131,...).
+</p>
+
+<p>
+Lorsque vous aurez redémarrer la machine, vous pourrez utiliser les touches fraichement configurée avec le procédure décrite ci-dessus.
+</p>
+
+<p>
+ Vous avez un clavier avec de belles touches multimedias, mais qui ne marchent pas avec la distribution Ubuntu ? Ceci devrait vous aider.
+</p>
+
+</div>
+<!-- SECTION [1371-3126] -->
+<a name="instructions_detaillees"></a><h1> Instructions détaillées </h1>
+<div class="level1">
+
+<p>
+Lorsque vous appuyez sur une touche du clavier, le noyau Linux reçoit un &laquo;scancode&raquo; et met à disposition des applications un &laquo;keycode&raquo;. X à une méthode différente de traiter les touches: X transforme le keycode reçu de noyau selon sa propre table de correspondance, pour restituer par exemple une frappe de touche (a, 1, ...) ou encore une action (lancer le navigateur, augmenter le volume sonore, ...). Pour que toutes les touches soient utilisables sous X, il faut donc définir pour chacune d&rsquo;entre elles : un couple scancode/keycode valable pour le noyau quand il n&rsquo;existe pas encore (un clavier de type AT est mis en place par défaut), plus une table de correspondance pour X. Cette méthode peut sembler étrange mais permet à X de rester indépendant de la méthode utilisée par le noyau.
+</p>
+
+</div>
+<!-- SECTION [3127-3976] -->
+<a name="utliser_gnome-keybinding-properties"></a><h2> Utliser gnome-keybinding-properties: </h2>
+<div class="level2">
+
+<p>
+ Essayez d&rsquo;abord de vérifier le fonctionnement de votre touche avec l&rsquo;utilitaire gnome-keybinding-properties, disponible sous le menu: Système/Préférences/Raccourcis clavier. Si cela ne fonctionne pas, ou si gnome-keybinding-properties ne possède pas l&rsquo;action désirée pour votre touche, vous aurez besoin de lire le reste de cette page. 
+</p>
+
+</div>
+<!-- SECTION [3977-4369] -->
+<a name="declarer_les_keycodes_du_kernel"></a><h2> Déclarer les keycodes du kernel </h2>
+<div class="level2">
+
+<p>
+ On cherche d&rsquo;abord à identifier les touches ne disposant pas encore d&rsquo;une relation scancode/keycode.
+</p>
+<ul>
+<li class="level1"><span class="li"> Allez sur une vraie console par &lt;CTRL&gt;&lt;ALT&gt;+F1. (&lt;ALT&gt;+F7 pour retourner sous GNOME)</span>
+</li>
+<li class="level1"><span class="li"> Passez en root :</span>
+</li>
+</ul>
+<pre class="code">      su -</pre>
+<ul>
+<li class="level1"><span class="li"> Tapez la commande :</span>
+</li>
+</ul>
+<pre class="code">      tail -f /var/log/messages</pre>
+
+<p>
+ (&lt;CTRL&gt;+C pour revenir à l&rsquo;invite de commande)
+</p>
+<ul>
+<li class="level1"><span class="li"> Maintenant, appuyez sur les touches que vous souhaitez programmer, une par une. Vous devriez voir un message ressemblant à celui ci :</span>
+</li>
+</ul>
+<pre class="code">      atkbd.c: Unknown key pressed (translated set 2, code 0x9e on isa0060/serio0).
+      atkbd.c: Use 'setkeycodes e01e &lt;keycode&gt;' to make it known.</pre>
+
+<p>
+Les mêmes infos pourront êtres retrouvées plus tard en tapant dans la console :
+</p>
+<pre class="code">      dmesg</pre>
+
+<p>
+ C&rsquo;est tout ce dont vous avez besoin, mais avant d&rsquo;affecter les keycodes manquants et pour éviter tout conflit, vous devez savoir lesquels sont disponibles. Toujours dans la console, tapez: 
+</p>
+<pre class="code">      dumpkeys</pre>
+
+<p>
+ Vous obtenez alors la liste des keycodes. Repérez ceux qui ne sont pas encore utilisés.
+</p>
+
+<p>
+Maintenant vous savez:
+</p>
+<ul>
+<li class="level1"><span class="li"> identifier les touches qui n&rsquo;ont pas de keycode</span>
+</li>
+<li class="level2"><span class="li"> quels sont les keycodes disponibles</span>
+</li>
+</ul>
+
+<p>
+Il est désormais possible de créer la relation scancode/keycode. Toujours dans la console, tapez: 
+</p>
+<pre class="code">      setkeycodes e01e 120</pre>
+
+<p>
+ <strong>e01e</strong> est le scancode suggéré par le message du noyau (voir plus haut), et <strong>120</strong> est un keycode disponible. 
+</p>
+<ul>
+<li class="level1"><span class="li"> Répétez cette étape pour chacune des touches à programmer.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Pour que ces commandes soient disponibles au prochain démarrage du système, vous pouvez les ajouter à la fin du ficher /etc/init.d/bootmisc.sh.</span>
+</li>
+</ul>
+
+<p>
+ Maintenant que toutes vos touches sont utilisables, vous pouvez passer à l&rsquo;étape suivante.
+</p>
+
+</div>
+<!-- SECTION [4370-6124] -->
+<a name="a_declarer_des_keysyms_du_x"></a><h2> À déclarer des keysyms du X </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> Cette fois vous restez sous X.</span>
+</li>
+<li class="level1"><span class="li"> Les keysyms du X sont des codes descriptifs comme : XF86AudioMedia, XF86WWWW etc. Mais on ne peut pas utiliser un nom au hasard. <strong>La liste de keysyms du x</strong> est disponible dans le ficher: /usr/lib/X11/XKeysymDB</span>
+</li>
+<li class="level1"><span class="li"> Bien des modèles de claviers sont déclarés dans ce ficher, et vous pourriez prendre votre modèle et le mettre dans /etc/X11/org.conf sous XkbModel (ou avec gnome-keyboard-properties), mais si chaque touche multimédia n&rsquo;a pas déjà une paire de scancode/keycode de définie, ça ne marcherait pas. Donc, on va les déclarer manuellement.</span>
+</li>
+<li class="level1"><span class="li"> Dans un terminal tapez:</span>
+</li>
+</ul>
+<pre class="code">      xev</pre>
+<ul>
+<li class="level1"><span class="li"> Tapez la clé voulue. Si vous êtes chanceux il possède déjà un keysym, et le terminal afficherait quelque chose comme:</span>
+</li>
+</ul>
+<pre class="code">      KeyRelease event, serial 28, synthetic NO, window 0x3200001,
+      root 0xb7, subw 0x0, time 137010761, (693,138), root:(705,256),
+      state 0x10, keycode 136 (keysym 0x1008ff27, XF86Forward), same_screen YES,
+      XLookupString gives 0 bytes:</pre>
+<ul>
+<li class="level1"><span class="li"> La troisième rangée nous intéresse: elle signifie que cette clé possède un keycode (136) et un keysym (XF86Forward). Si un keysym lui est affecté, c&rsquo;est parfait, et vous pouvez utliser ce code pour représenter cette clé et déclarer une action liée à cette clé via gnome keybindings ou metacity bindings. (Voir au-dessous.)</span>
+</li>
+<li class="level1"><span class="li"> Mais probablement, vous vous retrouverez avec une clé qui n&rsquo;a pas de keysym, comme ceci:</span>
+</li>
+</ul>
+<pre class="code">      KeyRelease event, serial 28, synthetic NO, window 0x3200001,
+      root 0xb7, subw 0x0, time 137355697, (401,146), root:(413,264),
+      state 0x10, keycode 136 (keysym 0x0, NoSymbol), same_screen YES,
+      XLookupString gives 0 bytes:</pre>
+<ul>
+<li class="level1"><span class="li"> Dans ce cas il faudra que vous assignez un keysym au keycode rélié (136). On le fait ce-ci avex xmodmap.</span>
+</li>
+<li class="level1"><span class="li"> En premier lieu, créez un ficher avec ton X carte clavier actuelle: dans un terminal, tapez:</span>
+</li>
+</ul>
+<pre class="code">      xmodmap -pke &gt; xmodmap.conf</pre>
+<ul>
+<li class="level1"><span class="li"> Pis, vous allez ajouter tout vous keysyms manqants à ce fiche: engagez le xev à voir quelle keysym à utliser, regardez dans le ficher /usr/lib/X11/XKeysymDB  à trouver de noms de keysym, ouvirez xmodmap.conf et remplir les manquant keysyms.</span>
+</li>
+<li class="level1"><span class="li"> Répétez cette passage pour tout les clés désirés.</span>
+</li>
+<li class="level1"><span class="li"> Quand vous avez fini, appliquez vos changements avec:</span>
+</li>
+</ul>
+<pre class="code">      xmodmap xmodmap.conf</pre>
+<ul>
+<li class="level1"><span class="li"> Maintenant vous voulez loader votre nouveau xmodmap.conf lorsque X démarre. Ce qui suit ne marchera que pour GDM (Utilisé par défaut avec Ubuntu, pour les utilisateurs de Kubuntu : voir plus bas). Tapez:</span>
+</li>
+</ul>
+<pre class="code">      sudo cp xmodmap.conf /etc/xmodmap.conf 
+      cd /etc/X11/gdm/PostLogin 
+      sudo cp Default.sample Default</pre>
+<ul>
+<li class="level1"><span class="li"> Maintenant ouvrir le ficher Default et au fin ajoutez:</span>
+</li>
+</ul>
+<pre class="code">      xmodmap /etc/xmodmap.conf</pre>
+<ul>
+<li class="level1"><span class="li"> De ce façon tu devrait tout vos scancodes/keycodes/keysyms assignés au démmarge du X et du système.</span>
+</li>
+<li class="level1"><span class="li"> Maintenant vous pourriez faire qqch d&rsquo;utile avec:</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [6125-9122] -->
+<a name="prendre_en_compte_le_xmodmap.conf_corrige_sous_kde"></a><h2> Prendre en compte le xmodmap.conf corrigé sous KDE </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> Une fois le fichier xmodmap.conf modifié, placez-le dans /etc/</span>
+</li>
+</ul>
+<pre class="code">      sudo cp xmodmap.conf /etc/xmodmap.conf </pre>
+<ul>
+<li class="level1"><span class="li"> Créez un script qui prendra xmodmap.conf en compte à chaque lancement de KDE en tapant :</span>
+</li>
+</ul>
+<pre class="code">      vim ~/.kde/Autostart/xmod</pre>
+<ul>
+<li class="level1"><span class="li"> Appuyez sur la touche I (comme Insertion) et copiez-collez les deux lignes suivantes :</span>
+</li>
+</ul>
+<pre class="code">      #!/bin/sh
+      xmodmap /etc/xmodmap.conf</pre>
+<ul>
+<li class="level1"><span class="li"> Tapez &ldquo;Echap&rdquo; puis &ldquo;:w&rdquo; (avec les deux points) et enfin &ldquo;:q&rdquo; pour successivement enregistrer et quitter le script.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Vous devez ensuite rendre ce script executable :</span>
+</li>
+</ul>
+<pre class="code">      chmod +x ~/.kde/Autostart/xmod</pre>
+<ul>
+<li class="level1"><span class="li"> Relancez KDE, vos touches devraient être prises en charge.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [9123-9860] -->
+<a name="a_engager_keybindings_de_gnome_ou_metacity_a_binder_des_commandes_au_cles"></a><h2> À engager keybindings de gnome ou metacity à binder des commandes au clés </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> En premier, essayer à binder les clés avec gnome-keybinding-property: C&rsquo;est plus vite et il a plusieurs belles actions de défaut, donc ouvriez le du terminal ou du menu.</span>
+</li>
+<li class="level1"><span class="li"> Si ça ne vous suffit pas, employez metacity. Dans un terminal, tappez:</span>
+</li>
+</ul>
+
+<p>
+        gconf-editor 
+</p>
+<ul>
+<li class="level1"><span class="li"> Allez sous apps/metacity. Vous verrez 2 rangées (en temps qu&rsquo;autres) global_keybindings et keybinding_commands </span>
+</li>
+<li class="level1"><span class="li"> Si vous cliquez sur global_keybindings, sur le côté droite vous verrez quelques entrées de commandes, comme: run_command_1, run_command_2, etc. Ces ont besoin d&rsquo;être remplit avec le keysym correct pour ton clé. (i.e.: XF86Play, exctre. Utlisez xev à voir.)</span>
+</li>
+<li class="level1"><span class="li"> Pis, vous pouvez assigner la commande (ou scripte) voulu sur l&rsquo;autre rangée, sous keybinding_commands. Vous avex beaucoup de commmandes utiles disponible comme: xmms &ndash;fwd, exctre.</span>
+</li>
+<li class="level1"><span class="li"> Engagez le terminal sur ces application à découvrir quels paramètres sont disponibles, (eg. xmms &ndash;help).</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [9861-10909] -->
+<a name="c_est_tout"></a><h1> C'est tout. </h1>
+<div class="level1">
+
+<p>
+Traduction et adaptation par Rhys Hynaws, le 1er mai 2005ec, de <a href="http://www.ubuntulinux.org/wiki/MultimediaKeys" class="urlextern" title="http://www.ubuntulinux.org/wiki/MultimediaKeys" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.ubuntulinux.org/wiki/MultimediaKeys</a>. Test, sans identification, histoire de vérifier si la remarque de nikko est juste :) 
+</p>
+
+</div>
+<!-- SECTION [10910-] -->

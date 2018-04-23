@@ -1,0 +1,110 @@
+{{tag>sécurité réseau anonymat BROUILLON}}
+
+----
+
+====== Vidalia ======
+
+<note warning>Vidalia n'est plus supporté depuis 2011(([[https://blog.torproject.org/blog/plain-vidalia-bundles-be-discontinued-dont-panic|Source]])). </note>
+
+**Vidalia** est une interface graphique pour le réseau anonyme [[Tor]].
+
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+==== Depuis les dépôts officiels ====
+
+Vidalia est disponible dans les dépôts officiels depuis Ubuntu 9.10. Pour l'installer, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>vidalia]]**.
+
+<note warning>Les développeurs déconseillent d'utiliser les paquets des dépôts officiels d'Ubuntu, notant qu'ils sont désuets et n'incluent donc pas les plus récents correctifs de stabilité et de sécurité. Il vaudrait mieux installer depuis le dépôt externe.(([[https://www.torproject.org/docs/debian-vidalia.html.en|Source (en anglais).]]))</note>
+
+==== Depuis le dépôt externe ====
+//(Source: [[http://www.torproject.org/docs/debian.html.en#ubuntu | Tor manual ]])//
+
+[[:tutoriel:comment_modifier_sources_maj|Ajoutez un des dépôts]] suivants à vos sources de mises à jour (choisissez celui correspondant à votre version d'Ubuntu) :
+
+^ Version ^ Dépôt ^
+| Ubuntu 10.10     | ''%%deb http://deb.torproject.org/torproject.org maverick main%%''  |
+| Ubuntu 10.04 LTS | ''%%deb http://deb.torproject.org/torproject.org lucid main%%''  |
+| Ubuntu 9.10      | ''%%deb http://deb.torproject.org/torproject.org karmic main%%'' |
+| Ubuntu 9.04      | ''%%deb http://deb.torproject.org/torproject.org jaunty main%%'' |
+| Ubuntu 8.04 LTS  | ''%%deb http://deb.torproject.org/torproject.org hardy main%%''  |
+
+  - Dans une fenêtre de [[:terminal]] (//Applications → Accessoire → **Terminal**//), exécutez les commandes suivante afin de récupérer la clé de signature du dépôt de Tor :<code>
+gpg --keyserver keys.gnupg.net --recv 886DDD89
+gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | sudo apt-key add -
+</code>
+  - [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste des paquets]];
+  - [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt://vidalia|vidalia]]**.
+
+==== Par compilation ====
+
+Si vous désirez compiler Vidalia depuis les sources, [[:tutoriel:comment_modifier_sources_maj|modifiez vos sources de mises à jour]] pour y ajouter le dépôt suivant, en plus de celui de la rubrique précédente ([[#Depuis le dépôt externe]]) :
+<file>deb-src http://deb.torproject.org/torproject.org <DISTRIBUTION> main</file>
+
+[[:tutoriel:comment_installer_un_paquet|Installez les dépendances]] de compilation **[[apt://build-essential,fakeroot,devscripts,qt4-dev-tools,qt4-designer,libqt4-dev,g++,cmake|build-essential fakeroot devscripts qt4-dev-tools qt4-designer libqt4-dev g++ cmake]]**.
+
+Ouvrez un [[terminal]] et saisissez la commande suivante :
+  apt-get build-dep vidalia
+
+Vous pouvez maintenant compiler Vidalia dans **~/debian-packages** :
+
+  mkdir ~/debian-packages; cd ~/debian-packages
+  apt-get source vidalia
+  cd vidalia-*
+  debuild -rfakeroot -uc -us
+  cd ..
+
+Installez le paquet qui vient d'être compilé :
+
+  sudo dpkg -i vidalia_*.deb
+
+Vidalia est maintenant installé et fonctionnel.
+
+===== Utilisation =====
+
+Il est parfois nécessaire d'arrêter tor avant de lancer Vidalia (notamment si la case « Lancer tor au démarrage de Vidalia » est cochée dans les préférences... :
+
+  sudo /etc/init.d/tor stop
+
+Pour lancer Vidalia, tapez simplement :
+
+  vidalia
+
+==== Utilisation avancée ====
+
+Si vous voulez utiliser les options de configuration de tor, il vous faudra ouvrir le fichier /etc/tor/torrc et décommenter la ligne : 
+
+<file>
+ControlPort 9051
+</file>
+
+puis faire un
+
+  sudo /etc/init.d/tor stop
+
+puis lancez vidalia et ensuite cliquez sur démarrer tor.
+
+<note tip>N'oublier pas de changer le port de contrôle de tor dans les préférences de vidalia en mettant 9051 à la place de 9050.</note>
+
+===== Résolution des messages d'Erreurs  =====
+''Unacceptable option value:Severs must be able to freely connect to the rest of the Internet, so they must not set Reachable*Addresses or FacistFirewall''
+
+Il faut tout décocher alors dans les paramètres au niveau de l'option Réseau.
+
+
+===== Voir aussi =====
+
+  * <del>[[https://www.torproject.org/projects/vidalia|Site officiel]]</del> FIXME Lien brisé...
+
+
+
+----
+
+//Contributeurs : [[utilisateurs:U-topic]], [[utilisateurs:cipher16]].//
+
+//Basé sur <del>[[https://www.torproject.org/docs/debian-vidalia.html.en|Vidalia on Ubuntu or Debian]].</del>// FIXME Lien brisé...

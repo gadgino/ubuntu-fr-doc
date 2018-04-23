@@ -1,0 +1,42 @@
+{{tag>Precise lecteur_audio}}
+
+----
+
+====== Listen : gestionnaire de musique pour GNOME  ======
+
+**Listen** est un gestionnaire et un [[lecteur_audio|lecteur de musique]]. Il est programmé en Python et distribué sous [[wpfr>licence publique generale|licence GPL v.2]].
+Il s'appuie sur le système multimédia [[:GSTreamer]]. 
+
+<note warning>N'est plus dans les [[:dépôts]] d'Ubuntu depuis [[:Utopic|Ubuntu 12.10]]. [[http://www.listen-project.org/|site officiel de Listen]] abandonné.</note>
+
+
+===== Installation =====
+
+Pour installer Listen sous [[:precise|Ubuntu Precise 12.04]], il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>listen]]**.
+
+Attention, cette application n'est plus dans les dépôts des [[:versions]] d'Ubuntu ultérieures, si vous souhaitez tout de même l'installer vous pouvez la télécharger à cette [[http://packages.ubuntu.com/precise/listen|adresse]]. (Testée sous [[:trusty|Trusty 14.04]])
+=====Problèmes connus=====
+
+==== Erreur "pixbuf should be a GdkPixbuf" ====
+
+Lorsque vous lancez Listen, via le terminal, vous constatez cette erreur, adoptez la démarche suivante :
+<code>sudo gedit /usr/lib/listen/stock.py</code>
+
+Supprimez les deux lignes suivantes :
+<code>
+Try: icons.add (SHUFFLE, gtk.IconSet (gtk.icon_theme_get_default (). Load_icon ( "stock_shuffle", -1, gtk.ICON_LOOKUP_USE_BUILTIN)))
+except gobject.GError:pass Except gobject.GError: pass
+</code>
+
+Enregistrez le ficher et relancez Listen. Celui-ci doit normalement, maintenant, démarrer. :)
+
+[[http://ubuntuforums.org/archive/index.php/t-469038.html|Source]]
+
+===== Voir aussi =====
+
+  * [[http://www.listen-project.org/|site officiel de Listen]] - abandonné
+
+
+----
+
+//Contributeurs : Rédigé par [[utilisateurs:yomega]], [[utilisateurs:meven]], [[utilisateurs:JC Second]] et [[utilisateurs:Fengy]] //

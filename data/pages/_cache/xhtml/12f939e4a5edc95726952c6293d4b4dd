@@ -1,0 +1,53 @@
+
+<a name="installer_une_carte_wifi_d-link"></a><h1> Installer une carte Wifi D-Link </h1>
+<div class="level1">
+
+<p>
+ Les cartes Wifi D-Link sont plutôt difficiles à installer sous Linux, car elles utilisent une puce, l&rsquo;ACX100, qui n&rsquo;est pas reconnue intuitivement. Ubuntu intègre le module acx100_pci.ko, ce qui nous simplifiera grandement la tâche. (Sous Hoary, il semble que la DWL-650+ soit automatiquement reconnue sans avoir à réaliser quoique ce soit. C&rsquo;est en tout cas le cas chez moi)
+</p>
+
+<p>
+La première étape consiste à trouver le pilote correspondant à votre carte Wifi. Ce dernier se trouve sur le CD l&rsquo;accompagnant. Il y a plusieurs pilotes pour les différentes versions de Windows. Chez moi les pilotes de Win2000 marchent très bien. Vous devez, à peu de choses près, trouver ça :
+</p>
+<pre class="code">
+    AIRPLUS.BIN WLANGEN.BIN
+    RADIO0d.BIN RADIO11.BIN
+</pre>
+
+<p>
+Assurez vous que les noms soient bien en majuscule (sauf le &ldquo;d&rdquo; de RADIO0d.BIN), puis déplacez ces fichiers dans le dossier /usr/share/acx/ (vous devez être root pour déplacer ces fichiers).
+</p>
+
+<p>
+Voici deux scripts à télécharger : 
+</p>
+<ul>
+<li class="level1"><span class="li"> <a href="http://conrad.lelubre.free.fr/start_wifi" class="urlextern" title="http://conrad.lelubre.free.fr/start_wifi" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://conrad.lelubre.free.fr/start_wifi</a></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://conrad.lelubre.free.fr/stop_wifi" class="urlextern" title="http://conrad.lelubre.free.fr/stop_wifi" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://conrad.lelubre.free.fr/stop_wifi</a></span>
+</li>
+</ul>
+
+<p>
+ Le premier servira à lancer la connexion, le second à l&rsquo;arrêter. Vous devez éditer le premier pour  y intégrer vos paramètres réseaux. Tout y est commenté.
+</p>
+
+<p>
+<u>Dernière étape :</u> placer ces deux fichiers dans /usr/bin.   Pour lancer la connexion, vous devrez exécuter (en root) :
+</p>
+<pre class="code">
+    start_wifi
+</pre>
+
+<p>
+Pour la stopper :
+</p>
+<pre class="code">
+    stop_wifi
+</pre>
+
+<p>
+Cette dernière commande désactivera le module.
+</p>
+
+</div>

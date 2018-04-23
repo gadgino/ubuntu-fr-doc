@@ -1,0 +1,142 @@
+{{tag>Xenial capture_d'écran vidéo}}
+
+----
+{{ http://4.bp.blogspot.com/-ZMWz5LwgCC0/UCZyZ7y57pI/AAAAAAAAAww/6Kzz0ahcTLw/s1600/kazam-screencaster.png?80}}
+====== Kazam ======
+
+===== Présentation =====
+
+Kazam est un logiciel capable d'enregistrer votre écran. Il vous laissera le choix de faire soit une capture en continu (format vidéo) ou une simple capture d'écran. Le logiciel se lance depuis le menu Applications ->son et vidéo et s'installe dans la barre des tâches durant le screencast.
+Doté d'une interface graphique, il est très simple d'utilisation et laisse place à plusieurs réglages que nous aborderons par la suite.
+
+===== Fonctionnalités =====
+
+Kazam permet d'enregistrer:
+  * En plein écran
+  * Plusieurs écrans (dualscreen ou plus)
+  * Une fenêtre et seulement cette fenêtre (tout contenu même cachant cette fenêtre ne sera pas visible)
+  * Une zone
+
+Ces éléments sont valables pour la capture vidéo et la capture d'écran.
+
+Kazam permet également pour la capture vidéo de capturer le son des hauts-parleurs et du microphone.
+On peut choisir ou non si l'on souhaite voir le curseur.
+Et pour terminer, Kazam s'intègre avec la barre d'outils permettant de lancer/stopper l'enregistrer plus simplement.
+
+===== Installation =====
+
+==== Via les dépôts officiels===
+=== Méthode graphique ===
+Pour installer ce logiciel, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>kazam|kazam]]**.
+
+=== Méthode en ligne de commande ===
+Ouvrez un [[:terminal]] et entrez la commande suivante:<code>sudo apt-get install kazam </code>
+
+==== Via un PPA ===
+
+Ce dépôt PPA maintenu par les développeurs de Kazam permet d'obtenir une version stable relativement récente par rapport à celle des dépôts.
+
+=== Méthode graphique ===
+
+Si vous souhaitez la version stable (recommandée) :
+  * [[ppa|ajoutez à vos sources de logiciels le PPA]] **ppa:kazam-team/stable-series**((https://launchpad.net/~kazam-team/+archive/ubuntu/stable-series))
+  * [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]]
+  * [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>kazam|kazam]]**. 
+
+=== Méthode en ligne de commande ===
+Ouvrez un [[:terminal]] et entrez les commandes suivantes
+
+Pour la version stable (recommandée):
+<code>sudo add-apt-repository ppa:kazam-team/stable-series
+sudo apt-get update && sudo apt-get install kazam</code>
+
+===== Réglages =====
+
+==== Pour Ubuntu 13.04 et supérieur ====
+
+En cliquant sur l'onglet "Fichier", vous aurez le choix entre "Préférences" et "Quitter".
+Choisissez bien évidemment "Préférences" :-)
+
+Une fenêtre s'ouvre avec 3 onglets de disponible.
+Je vais expliquer le rôle de chacun:
+
+=== Général ===
+
+Cet onglet concerne principalement les options du son.
+
+  * Microphone: par défaut, vous devriez avoir "Monitor of Audio Stéréo anolog..." ou équivalent en français.
+  * Speakers (ou Hauts-parleurs): par défaut "Audio interne Stéréo analogique".
+
+À la droite de ces deux boutons, une îcone.
+Cliquez dessus permettra de modifier le niveau du volume.
+
+<note tip>Il est ceci dit recommandé d'utiliser le contrôle de [[pulseaudio|volume avancé]] <code>sudo apt-get install pavucontrol</code> afin de gérer correctement les entrées et sorties de la carte son.</note>
+
+  * Countdown splash: il s'agit d'un bouton permettant d'activer ou non le compte à rebours avant le lancement de la capture.
+
+Sur l'écran principal, une phrase disant: "seconds to wait before capturing:" permet de choisir le décompte.
+Par défaut, le décompte est de 5 secondes (maximum 10 secondes).
+
+=== Screencast ===
+
+Cette partie va concerner toute la capture vidéo.
+<note important>Il est important de bien configurer cette zone au quel cas, durant la capture vidéo, votre PC se pourrait être ralenti.</note>
+
+  * __**Framerate:**__ par défaut à 15. Correspond aux FPS (frames per seconds) ou images par secondes.
+Il est ceci dit recommandé de l'augmenter jusqu'à 24 (approximatif <del>mais l'homme est capable de voir jusqu'à 24 images par secondes</del>). Ceci, pour un jeu, il peut être intéressant de l'augmenter jusqu'à 30 ou même 60.
+
+Comme précisé précédemment, il faut tenir compte des capacités de votre ordinateur. Si vous jouez à une jeu avec un PC correct, les images par secondes du jeux peuvent être ralenties car beaucoup de puissance de calcul est demandé pour capturer les images.
+
+  * __**Record with:**__ par défaut réglé sur H264 / MP4 permet de choisir quel sera l'encodage final de la vidéo.
+
+  * __**Automatic file saving:**__ Permet d'activer ou non si une fois la capture finie, le fichier doit se sauvegarder automatiquement dans le dossier spécifié.
+Si l'option est désactivée, lors de la fin de l'enregistrement, une fenêtre s'ouvrira permettant soit de choisir l'emplacement, soit de modifier avec un logiciel.
+**De plus, si l'option est désactivée, les paramètres ci-dessous ne s'appliqueront pas.**
+
+  * __**Directory:**__ Dossier où doit être enregistré la capture vidéo une fois fini.
+
+  * __**Filename prefix:**__ préfixe que prendra la vidéo.
+
+Exemple de fichier avec le préfixe par défaut (Kazam_screencast): <box>Kazam_screencast_00000.mp4</box>
+
+Si un fichier existe déjà, le nombre sera incrémenté.
+
+=== Screenshot ===
+
+  * Shutter sound: activer/désactiver le son lors de la capture d'image (à vérifier)
+  * Shutter type: choisir quel type "d'appareil" (peut-être pour la qualité des couleurs, ou la qualité de l'image)
+
+Les onglets suivants ("Automatic saving", "Directory", "Filename_prefix") ont le même comportement que dans l'onglet "screencast".
+
+----
+Sur l'écran principal, vous pourrez cocher ou non si l'on souhaite
+  * voir apparaître la souris ("mouse cursor")
+  * activer le son des hauts-parleurs ("sound from speakers")
+  * activer le son du microphone ("sound from microphone")
+
+=== Son Stéréo ===
+
+Par défaut, Kazam enregistre les sons en mono uniquement. Pour corriger ce problème, il faut d'abord éditer le fichier gstreamer.py :
+
+<code>sudo gedit /usr/lib/python3/dist-packages/kazam/backend/gstreamer.py </code>
+
+Rechercher ensuite les deux lignes suivantes :
+
+<file> self.aud_caps = Gst.caps_from_string("audio/x-raw")
+ self.aud2_caps = Gst.caps_from_string("audio/x-raw") </file>
+
+Et les remplacer par celles ci :
+
+<file> self.aud_caps = Gst.caps_from_string("audio/x-raw,channels=2")
+ self.aud2_caps = Gst.caps_from_string("audio/x-raw,channels=2") </file>
+===== Capture =====
+
+Une fois que vous avez tout paramétré et sélectionné les zones à capturer, vous pouvez cliquer sur le bouton "Capture", ou utiliser la séquence de touche **Super + Ctrl + r**, la fenêtre de Kazam va alors se fermer (une cinématique de compte à rebours sera présent si vous avez activé l'option), et la capture commencera.
+
+<note help>Vous allez me dire: "Mais comment on arrête la capture ?"</note>
+
+C'est simple, ne tentez pas d'ouvrir de nouveau Kazam, ça ne marchera pas, la solution, est simplement d'aller dans la barre d'outils, si vous l'aurez remarqué, à l'ouverture de Kazam, une îcone était présente. Vous pourrez mettre en pause, ou stopper l'enregistrement depuis ce bouton. Sinon vous pouvez utiliser le clavier avec la séquence de touches **Super + Ctrl + f** pour arrêter l'enregistrement et **Super + Ctrl + p** pour mettre en pause. Pour afficher Kazam utiliser la séquence  **Super + Ctrl + s**.
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[tutoriel:comment_supprimer_un_paquet|supprimer son paquet]].

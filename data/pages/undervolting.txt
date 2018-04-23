@@ -1,0 +1,80 @@
+{{tag>hardy matériel système énergie}}
+----
+
+====== Undervolting ======
+
+ou baisse de la tension en français
+
+===== Principe =====
+
+Le processeur de l'ordinateur (CPU) travaille à une tension donnée (généralement entre 1V et 1,5V) qui est spécifiée par le fondeur.
+Lorsque l'on veut faire travailler son processeur plus vite que sa fréquence nominale (overclocking) afin de gagner en performances, il est parfois utile d'augmenter la tension du processeur pour que les commutations de ses transistors soit facilitée malgré la vitesse élevée.
+
+Dans notre cas nous allons essayer de faire l'inverse. Pour permettre de faire chauffer moins son processeur, gagner en discretion et en autonomie.
+Pour cela, nous allons baisser la tension du processeur. On retrouve alors les même types de problèmes que pour l'overclocking : la tension d'alimention peut ne pas être suffisante pour assurer la commutation des transistors et le processeur peut s'arrêter d'un coup.
+
+Il faut donc savoir avant de commencer que cette opération, bien que facile, peut présenter quelques risques : lorsque l'on baisse la tension du processeur, il est possible que celui ci "freeze" ou bloque. Dans ce cas, pas d'inquiétude, en rebootant tout rentre dans l'ordre.
+
+===== Processeur Intel =====
+
+Pour les processeurs Intel (Pentium  M, Core, Core 2 ...) nous utiliserons Linux-phc.
+
+Pour pouvoir agir directement au niveau du processeur, il est impératif de modifier le noyau Linux. En effet les fonctions bas niveau de contrôle du processeur ne sont pas accessible depuis la couche applicative de Linux.
+
+Linux PHC se présente sous la forme d'un patch pour le noyau Linux et propose de modifier le module "acpi-cpufreq". Il permet en définitive d'assigner une tension différente à chaque niveau (step) de fréquence de fonctionnement du processeur.
+
+==== Installation ====
+
+Deux méthodes s'offrent à nous :
+  * Manuellement, en compilant soit même le module.
+  * En récupérant le module pré-compilé, si c'est le cas sautez la prochaine étape.
+
+=== Compilation ===
+
+Tout d'abord, il nous faut récupérer les sources linux :
+[[:tutoriel:comment_installer_un_paquet|Installez les paquets]] **build-essential linux-source linux-headers-generic ** ([[apt://build-essential,linux-source,linux-headers-generic|Installation en 1-clic]])
+
+Après avoir récupéré les sources, décompressez le fichier linux-source-2.6.*.tar.bz2 (doit correspondre à votre kernel) qui se trouve dans le dossier : ** /usr/src **
+<file>tar -xjf /usr/src/linux-source-2.6.*.bz2 -C ~/source/</file>
+
+Après avoir décompressé le fichier (dans votre home par exemple) :
+<file>cd linux-source-2.6.*</file>
+
+Récupérez la dernière version de linux-phc : [[http://phc.athousandnights.de/viewtopic.php?f=13&t=2|Linux PHC]]
+
+Décompressez le fichier dans le dossier. Le fichier doit ressembler à ceci : linux-phc*.patch
+Maintenant patchez le kernel :
+<file>patch -p1 < linux-phc*.patch</file>
+et compilez le module :
+<file>cd arch/x86/kernel/cpu/cpufreq/
+make -C /lib/modules/$(uname -r)/build SUBDIRS=$(pwd) modules</file>
+
+=== Mise en place ===
+
+Maintenant que vous avez compilé le fichier **acpi-cpufreq.ko** (ou que vous avez récupéré le module patché pour votre kernel et votre architecture), copiez-le dans le dossier : **/lib/modules/$(uname -r)/kernel/arch/x86/kernel/cpu/cpufreq/**
+
+<file>sudo cp acpi-cpufreq.ko /lib/modules/$(uname -r)/kernel/arch/x86/kernel/cpu/cpufreq</file>
+
+==== Vérification ====
+
+Après avoir redémarré, vous devriez avoir un fichier **phc_controls** qui synthétise les couples fréquences/tensions actuellement utilisés par le processeur.
+
+<file>cat /sys/devices/system/cpu/cpu0/cpufreq/phc_controls
+> 13:38 10:30 8:24 6:18</file>
+
+Si ça marche bien, c'est **GAGNE**.
+
+==== Utilisation ====
+
+[[:tutoriel:comment_editer_un_fichier|éditez le fichier]] /sys/devices/system/cpu/cpu0/cpufreq/phc_controls
+<file>gksu gedit /sys/devices/system/cpu/cpu0/cpufreq/phc_controls</file>
+
+Pour plus d'informations :
+[[http://wiki.ubuntuusers.de/Prozessorspannung_absenken|Site wiki]] (en allemand)
+[[http://ubuntuforums.org/showthread.php?t=786402|Forum]] (en anglais)
+
+===== Processeur AMD =====
+
+Nous allons utiliser [[http://sourceforge.net/projects/cpupowerd|cpupowerd]]
+
+Pas plus d'informations pour le moment

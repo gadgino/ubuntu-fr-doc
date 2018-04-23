@@ -1,0 +1,78 @@
+{{tag>Precise Trusty interface_3d personnalisation}}
+
+----
+
+{{ emerald-logo.png?80}}
+
+
+====== Emerald ======
+
+**Emerald** est un décorateur de fenêtre, il s'utilise en duo avec [[wpfr>Compiz]]. Il gère les fichiers « .emerald ». De nombreux thèmes peuvent être installés.                                                
+
+
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir installé [[:Compizconfig-settings-manager]].
+ 
+===== Installation =====
+ <note important>**Emerald** n'est plus disponible depuis les [[:depots|dépôts officiels]] mais depuis un [[:PPA|dépôt PPA]]. Installer un paquet hors des [[:dépôts]] officiels peut présenter un risque d'instabilité pour votre système. </note>
+Pour installer **Emerald** :
+  * [[:ppa#ajout_d_un_ppa_a_vos_sources_logicielles|Ajoutez le PPA]] **ppa:noobslab/themes**((https://launchpad.net/~noobslab/+archive/ubuntu/themes)) dans vos sources de logiciels,
+  * Puis [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]],
+  * Enfin [[:tutoriel:comment_installer_un_paquet|installez les paquets]] **[[apt>emerald]]**.
+Ou dans un [[:terminal]], saisir les [[:commande_shell|commandes]] suivantes: <code>sudo add-apt-repository ppa:noobslab/themes
+sudo apt-get update
+sudo apt-get install emerald</code> 
+
+=====Utilisation====
+<note important>La modification des effets visuels peut provoquer une très grande instabilité de votre système. **Restez prudent!** \\
+__Si vous êtes sous [[:Unity]]__: Sachez ce que vous faites. L'activation de la fonctionnalité **Décoration de la fenêtre** désactivera la fonctionnalité des plugins Unity avec le risque de disparition du bureau et ses composants. 
+<note tip>Une fois installés, [[:Compizconfig-settings-manager]] et **Emerald** ne nécessitent pas les [[:sudo|droits d'administration]]. Pour plus de sécurité, créer un [[:utilisateur|nouvel utilisateur]] pour faire vos tests sans risque dans une [[:lightdm|session utilisateur]] dédiée, jusqu'à ce que vous trouviez ce qui vous convient. </note>
+</note>
+  -  Ouvrez [[:Compizconfig-settings-manager]]
+  -  Recherchez dans la catégorie **Effets** la fonctionnalité **Décoration de la fenêtre**
+  - Dans le champs //Commande// entrez <file>emerald --replace &</file> et quitter  [[:Compizconfig-settings-manager]]
+  - [[:lightdm#redemarrage_de_session|Redémarrez votre session]],
+  - Lancer **Emerald** pour importer ou choisir un thème.
+
+===== Installer un thème =====
+Différentes possibilités s'offrent à vous :
+  * Le [[#installation|PPA ajouté ci dessus]] possède une très grande quantité de thèmes. Tous ces thèmes sont répertoriés sur le [[http://www.noobslab.com|site officiel du PPA]], Onglet **Thèmes**. Ces thèmes sont maintenant disponibles depuis votre [[:gestionnaire_de_paquets|gestionnaire de paquets]] habituel.
+  * Installer de nombreux thèmes en faisant une recherche dans votre [[:gestionnaire_de_paquets|gestionnaire de paquets]] avec le mot clé **emerald**, déjà quelques paquets disponibles : **[[apt>hoverglass-emerald, avalon-darklight-emerald, emerald-theme-pack]]**,
+  * Télécharger directement depuis un site comme [[http://www.gnome-look.org|Gnome look]] ou [[http://www.beryl-themes.org|Beryl look]] : sélectionnez « Ouvrir avec gestionnaire de thème Emerald »,
+  * Importer un fichier depuis votre disque dur : ouvrez Emerald, cliquez sur le bouton « Import... », puis sélectionnez votre fichier « .emerald ».
+
+**Pour activer votre thème cliquez simplement dessus.**
+
+===== Thème personnalisé =====
+
+==== Modifier un thème ====
+
+Dans l'onglet « Paramètres des thèmes » cliquez sur le sous-onglet « Édition ».
+
+Vous pouvez à présent modifier :
+  * le moteur d'armature ;
+  * les boutons ;
+  * les armatures, les ombres ;
+  * la barre de titre ;
+  * l’image d’aperçu et informations sur le thème.
+
+<note>Vous pouvez, pour vous entraîner, modifier un thème existant sans le sauvegarder.</note>
+
+
+==== Créer votre propre thème ====
+
+Les fichiers qui composent les thèmes sont stockés dans le répertoire « .emerald » de votre **Dossier Personnel**((Note : si vous ne voyez pas le dossier faites //Affichage → Afficher les dossiers cachés// ou faites Ctrl+h.)). Le dossier //Thème// contient votre thème actuel, le répertoire //Thème**s**// contient tous les thèmes que vous avez installés.
+
+Vous remarquerez qu’un thème est constitué de plusieurs fichiers d'image « .png ». vous pouvez donc facilement créer le votre avec un logiciel de traitement d'image ([[:Gimp]], [[:Krita]], etc.)
+
+
+===== Désinstallation =====
+ 
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+----
+
+//Contributeurs : [[utilisateurs:miss_maika|Miss Maïka]].//

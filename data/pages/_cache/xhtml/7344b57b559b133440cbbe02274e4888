@@ -1,0 +1,105 @@
+
+<a name="introduction"></a><h1> Introduction </h1>
+<div class="level1">
+
+<p>
+ GRUB (GRand Unified Bootloader) est le gestionnaire de boot installé par défaut dans les versions récentes d&rsquo;Ubuntu Linux.  C&rsquo;est un projet  GNU qui fournit un chargeur-amorce qui soutient un grand nombre de logiciels d&rsquo;exploitation.  Ce document explique comment faire une disquette de boot pour régéner GRUB aprés avoir installé un autre système d&rsquo;exploitation ou vous présenter un Shell de commande de sorte que vous puissiez écrire des commandes directement.  Il suppose que vous faites la disquette sur Ubuntu Linux.
+</p>
+
+</div>
+
+<a name="1._obtenir_les_privileges_root"></a><h4> 1.  Obtenir les priviléges &quot;root&quot;. </h4>
+<div class="level4">
+<pre class="code">  sudo -s
+  au prompt tapez votre &quot;password&quot;</pre>
+
+</div>
+
+<a name="2._formater_une_disquette_au_format_ext2"></a><h4> 2.  Formater une disquette au format ext2: </h4>
+<div class="level4">
+<pre class="code">  mke2fs /dev/fd0</pre>
+
+</div>
+
+<a name="3._montez_la_disquette_et_copiez_les_fichiers_necessaire_a_grub_pour_booter"></a><h4> 3.  Montez la disquette et copiez les fichiers nécessaire à GRUB pour booter : </h4>
+<div class="level4">
+<ul>
+<li class="level1"><span class="li"> mount /dev/fd0 /media/floppy</span>
+</li>
+<li class="level2"><span class="li"> mkdir /media/floppy/boot/grub</span>
+</li>
+<li class="level2"><span class="li"> cd /boot/grub</span>
+</li>
+<li class="level2"><span class="li"> cp stage1 stage2 /media/floppy/boot/grub</span>
+</li>
+</ul>
+
+<p>
+Si vous voulez démarrer le système d&rsquo;exploitation déjà  installé sur la machine, sur la disquette copiez également:
+</p>
+<pre class="code">  /boot/grub/menu.lst et /boot/grub/device.map dans </pre>
+
+<p>
+le répertoire correspondant de la disquette.
+</p>
+
+</div>
+
+<a name="4._demonter_la_disquette"></a><h4> 4.  Démonter la disquette </h4>
+<div class="level4">
+
+<p>
+ Démonter la disquette (umount /dev/fd0), et  démarrager GRUB en mode interactif. Au prompt de GRUB (grub &gt;),  vous devrez taper ces commandes:
+</p>
+<ul>
+<li class="level1"><span class="li"> device (fd0) /dev/fd0</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> root (fd0)</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> setup (fd0)</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> quit</span>
+</li>
+</ul>
+
+</div>
+
+<a name="5._fin"></a><h4> 5.  Fin </h4>
+<div class="level4">
+
+<p>
+ A ce stade, vous possédez une disquette amorçable. Si vous ajoutiez  les dossiers supplémentaires mentionnés ci-dessus, vous devriez obtenir  un écran standard de GRUB au boot de la machine.
+</p>
+
+</div>
+
+<a name="6._sauvegarde_du_mbr"></a><h4> 6. sauvegarde du MBR </h4>
+<div class="level4">
+
+<p>
+ Si vous êtes paranoïaque et que vous voulez une copie du MBR du disque sur disquette ( exemple, boot.mbr), procédez comme suite (le MBR se trouvant sur hda):
+</p>
+<ul>
+<li class="level1"><span class="li"> dd if=/dev/hda of=/media/floppy/boot.mbr bs=512 count=1</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Pour le restaurer, vous inversez juste les paramètres de la commande :</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> dd if=/media/floppy/boot.mbr of=/dev/hda bs=512 count=1</span>
+</li>
+</ul>
+
+<p>
+Voir aussi <a href="http://www.ubuntu-fr.org/articles/demarrage_grub/#demarrage" class="urlextern" title="http://www.ubuntu-fr.org/articles/demarrage_grub/#demarrage" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.ubuntu-fr.org/articles/demarrage_grub/#demarrage</a> 
+</p>
+
+</div>

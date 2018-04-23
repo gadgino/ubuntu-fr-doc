@@ -1,0 +1,76 @@
+{{tag>Precise cao mécanique architecture}}
+
+----
+
+======ARES======
+
+**ARES** est un logiciel de CAO commercial multiplateforme publié par l'entreprise Gräbert. Il est pleinement compatible avec AutoCAD, dont il reprend les formats de fichier DWG (jusqu'à AutoCAD 2010) et DXF, ainsi que l'interface (dont la ligne de commande) et la plupart des fonctionnalités. Son interface est disponible en français.
+
+Il se décline en deux versions:
+
+  *ARES pour la création 2D et la visualisation 3D, comparable à AutoCAD LT (version non confirmée sous Linux) ;
+  *ARES Commander Edition, qui offre en plus la modélisation 3D ACIS. 
+
+Une version d'évaluation est disponible sur le site de l'éditeur.
+
+{{:applications:ares_lucid_01.png?500|La fenêtre d'ARES Commander Edition}}
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Sous [[ubuntu_64bits|Ubuntu 64 bits]] seulement : avoir installé la bibliothèque de compatibilité 32 bits **[[apt>ia32-libs]]** et le paquet **[[apt>util-linux]]**.
+
+=====Installation=====
+
+
+Rendez-vous sur [[http://www.graebert.com/en/cad/ares/99|le site officiel]], déroulez la page et cliquez sur le bouton « Download » à côté de « Ubuntu, Debian: » pour télécharger le paquet **graebert_ares-commander-edition_2011.4.225.deb**, puis [[:tutoriel:comment_installer_un_paquet|installez-le]].
+
+==== Installation sous Ubuntu 64 bits ====
+
+Sous [[ubuntu_64bits|Ubuntu 64 bits]], si vous tentez d'installer le paquet graphiquement avec [[Gdebi]], vous obtiendrez une erreur à l'effet que l'architecture 32 bits n'est pas présente. Il faut donc forcer l'installation, par le [[:terminal]] :
+
+  sudo dpkg -i --force-architecture [le nom du paquet à installer]
+
+<note tip>Au lieu de saisir tout le chemin vers le fichier, depuis votre [[gestionnaire de fichiers]], glissez le fichier à installer sur la fenêtre du terminal, le chemin complet sera automatiquement inséré ; il suffira à faire « Entrée » au clavier pour lancer la commande.
+</note>
+
+=====Utilisation=====
+
+Lancez l'application depuis le menu //Applications -> Graphisme -> ARES Commander Edition//.
+
+Lors du premier lancement, une fenêtre vous offre les choix suivants :
+  * **Activer** le logiciel, pour inscrire une version complète ou une version d'essai gratuite de 30 jours sans restrictions
+  * **Exécuter** l'application en mode démo à usage restreint : l'impression et l'enregistrement sont désactivés.
+
+<note>
+Il est possible que rien n'apparaisse dans votre menu si vous installez la dernière version disponible en 32bits (ARES Commander Edition 2014). 
+Après installation du paquet .deb, le binaire est en fait disponible sur ce chemin :
+<code>/opt/graebert-gmbh/ARES Commander Edition 2014/Linux/ARES Commander Edition 2014</code>
+</note>
+==== Diminuer la taille des icônes ====
+
+Par défaut, ARES se lance avec les icônes de barres d'outils de grande taille. Pour diminuer la taille des icônes :
+  * Ouvrir le menu //Outils -> Options// ;
+  * Dans la fenêtre Options, cliquer à gauche sur « Outils Systèmes » ;
+  * Cliquer sur le bouton « + » devant **Afficher**, puis devant **Options d'écran** ;
+  * Décochez « Utiliser les grandes icônes ».
+
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+
+
+=====Voir aussi=====
+
+  * **(en,de)** [[http://www.graebert.com|Site officiel Gräbert]]
+  * **(en)** [[http://www.cadalyst.com/cad/graebert-launches-first-native-cad-solution-windows-mac-and-linux-13121|Un article sur ARES]]
+  * [[DraftSight]], une version gratuite de ARES
+  * [[bricscad|Bricscad]], un concurrent direct
+  * **(fr)** [[http://forum.ubuntu-fr.org/viewtopic.php?id=257947|Discussion « Autocad Like en natif sous LINUX!!! » sur le forum Ubuntu-fr]]
+
+
+----
+//Contributeur principal : [[:utilisateurs:Gemnoc]]//.

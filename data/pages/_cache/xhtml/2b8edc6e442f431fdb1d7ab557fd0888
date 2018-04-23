@@ -1,0 +1,40 @@
+<pre class="code">
+Versions Warty et Hoary
+</pre>
+
+<a name="problemes_de_polices_de_caracteres_gtk_1.x"></a><h1> Problèmes de polices de caractères GTK 1.x </h1>
+<div class="level1">
+
+<p>
+ Par défaut, Ubuntu n&rsquo;inclut pas les paquets nécessaires à un bon rendu des polices dans les applications GTK 1.x. 
+</p>
+
+<p>
+Si vous avez installé et lancé Audacity, aMule ou autres, vous avez certainement été confronté à des polices microscopiques, digne de l&rsquo;illisible. Avant de jeter votre PC (ou Mac) par la fenêtre, voyons ensemble comment résoudre le problème.
+</p>
+
+<p>
+Installez les paquets suivants à l&rsquo;aide du gestionnaire de paquet Synaptic : 
+</p>
+<ul>
+<li class="level1"><span class="li"> xfonts-100dpi-transcoded</span>
+</li>
+<li class="level1"><span class="li"> xfonts-75dpi-transcoded</span>
+</li>
+<li class="level1"><span class="li"> xfonts-base-transcoded</span>
+</li>
+</ul>
+
+<p>
+ Si vous préférez le mode console :
+</p>
+<pre class="code">
+     sudo apt-get install xfonts-100dpi-transcoded xfonts-75dpi-transcoded xfonts-base-transcoded
+</pre>
+
+<p>
+À présent, c&rsquo;est un peu mieux.
+</p>
+
+</div>
+<!-- SECTION [41-] -->

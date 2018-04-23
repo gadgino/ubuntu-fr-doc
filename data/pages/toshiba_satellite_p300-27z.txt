@@ -1,0 +1,334 @@
+{{tag>matériel portable liste_portables_toshiba toshiba webcam ati radeon amd-ati carte_graphique liste_carte_graphique}}
+
+----
+
+====== Toshiba Satellite P300-27Z ======
+
+{{ materiel:liste_portables:toshiba_satellite_p300_1.jpg?150}}
+{{ materiel:liste_portables:toshiba_satellite_p300_2.jpg?150}}
+
+Cette page couvrira aussi les Toshiba P300-275, qui possèdent simplement un disque dur de capacité plus importante (1To au lieu de 640 Go).
+
+Par ailleurs, je réalise toujours mon installation à partir de l'alternate CD.
+
+===== En un coup d’œil =====
+
+Le tableau suivant récapitule la prise en charge du matériel de portable par les différentes versions d'Ubuntu.
+Il utilise les notations suivantes :
+  * {{icons:important.png|Fonctionne après config}} : **Fonctionne après quelques manipulations**
+  * {{icons:icon-ubuntu.png|Fonctionne immédiatement}} : **Fonctionne immédiatement**
+  * {{icons:icon-support.png|Pas testé}} : **Pas d'informations disponibles**
+  * {{icons:process-stop.png?36|Ne fonctionne pas}} : **Ne fonctionne pas**
+
+^ Version ^ Installation ^ Carte graphique ^ Son ^ Wifi ^ Ethernet ^ Bluetooth ^ Webcam ^ Touchpad ^ Raccourcis multimédia ^ Autres ^
+| [[:jaunty|Kubuntu 9.04 (Jaunty Jackalope)]] | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | - | {{icons:important.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-support.png|Pas testé}} | Mise en veille non fonctionnelle |
+| [[:karmic|Kubuntu 9.10 (Karmic Koala)]] | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}}| {{icons:important.png|Fonctionne après config}} | - | {{icons:icon-support.png|Pas testé}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-support.png|Pas testé}} | Mise en veille non fonctionnelle |
+| [[:karmic|Kubuntu 10.04 (Lucid Lynx) 32]] | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}}| {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | - | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} avec [[:cheese]] ou [[:xawtv]] | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-support.png|Pas testé}} | Mise en veille fonctionnelle |
+| [[:precise|Kubuntu 12.04 (Precise Pangolin) 64]] | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}}| {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | - | {{icons:icon-support.png|Pas testé}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-support.png|Pas testé}} | Mise en veille fonctionnelle |
+| [[:trusty|Kubuntu 14.04 (Trusty) 64]] | {{icons:important.png|Fonctionne après config}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}}| {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | - | {{icons:icon-support.png|Pas testé}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-support.png|Pas testé}} |  |
+
+**Utilisateurs du Wiki possédant cet ordinateur fonctionnel :**
+  * **[[:utilisateurs:Olivier V]]** : [[:Trusty|Kubuntu 14.04 (Trusty)]]
+
+**Cet ordinateur portable n'est pas [[:pc_tatoué|tatoué]].**
+
+
+===== Descriptif du matériel =====
+
+  * processeur : Intel Core 2 Duo P7350 2,13 Ghz
+  * ram : 4 Go DDR2
+  * carte graphique : ATI Mobility Radeon HD 4650
+  * écran 17 pouces TruBrite 1440x900
+  * stockage : 2 disques durs de 340 Go chacun SATA 5400 tr
+  * graveur : DVD Multi Hitachi
+  * webcam : Webcam Chiconi
+  * Touchpad Alps
+  * Wifi : Carte Intel Wifi Link 5100 AGN
+  * Ethernet : Carte réseau Marvell Ykon 88E8040T PCI-E
+  * Lecteur de cartes mémoires 5 en 1
+  * connectique : 4 USB 2.0 (dont 1 combo eSATA), 1 FireWire, 1 RJ-45, 1 VGA, 1 HDMI, entrée et sortie audio (pas de bluetooth)
+  * dimensions : 398 mm x 286,5 mm x 38,5 mm
+
+<note>
+Noter que la présence de deux disques durs permet l'installation de linux sur le second disque dur, sans toucher au MBR du premier disque dur sur lequel est installé Vista.
+
+Penser à répondre **non** quand l'installeur demande d'installer grub dans le MBR. Préciser à l'étape suivante de l'installer sur // /dev/sdb // puis modifier l'ordre de boot dans le bios de la machine pour booter sur le second disque en premier.
+</note>
+
+----
+
+===== Installation sous Kubuntu 14.04 =====
+
+Les pilotes propriétaires ne fonctionnent plus sous cette version car ils ne sont plus mis à jour par le fabricant.
+Il faut donc obligatoirement utiliser les pilotes libres "radeon".
+
+==== Installation à partir du DVD ====
+
+Lors du démarrage du DVD il faut rapidement appuyer sur la touche F6 pour faire apparaître les options.
+
+Ensuite supprimer les options "**quiet splash**" et les remplacer par "**nomodeset**".
+
+L'installation peut alors se dérouler normalement tout en ayant provisoirement une résolution graphique faible. Ce problème sera réglé après l'installation (voir ci-dessous).
+
+==== Carte graphique ====
+
+Sources :
+   * http://doc.ubuntu-fr.org/radeon
+   * https://help.ubuntu.com/community/RadeonDriver
+
+=== Mise en place pour un fonctionnement correct ===
+
+Une fois le système lancé, éditer le fichier **/etc/default/grub** et remplacer la ligne débutant par GRUB_CMDLINE_LINUX_DEFAULT par ceci :
+  GRUB_CMDLINE_LINUX_DEFAULT="radeon.dpm=0"
+Vous pouvez aussi mettre GRUB_CMDLINE_LINUX_DEFAULT="quiet splash radeon.dpm=0" mais supprimer impérativement nomodeset.
+Sans cette modification le système plante ou plutôt ne démarre pas.
+
+Exécuter pour finir :
+  sudo update-grub
+  
+=== Gestion de la chaleur ===
+
+La gestion de l'énergie du pilote radeon laisse par contre beaucoup chauffer la carte graphique, même avec le profil sensé être dynamique "dynpm".
+
+J'utilise donc le profil "low" qui permet de réduire au minimum la puissance de la carte.
+
+Créer le fichier **/etc/init.d/ati-power-save** avec des droits d'administration.
+
+Ajouter les lignes suivantes dans le fichier
+
+  #!/bin/sh
+  # ATI power save
+  echo profile > /sys/class/drm/card0/device/power_method
+  echo low > /sys/class/drm/card0/device/power_profile
+
+(remplacez low par le mode voulu parmi : default, auto, low, mid, high).
+
+Enregistrer et puis rendre exécutable le fichier :
+  sudo chmod +x /etc/init.d/ati-power-save 
+
+Il reste à créer les liens qui permettrons au script d'être exécuté à chaque démarrage:
+  sudo update-rc.d ati-power-save defaults 99 
+
+
+=== Modification du profil en cours de session ===
+
+Pour changer de profil à tout moment, j'utilise ce script :
+  #!/bin/bash
+  echo ""
+  echo "--- Choix de la puissance  ---"
+  echo "--- de la carte graphique Mobility Radeon HD 4650  ---"
+  echo "Saisissez un choix,  <q> pour quitter le menu"
+  echo ""
+  echo "<1> 	dynpm"
+  echo "<2>	low"
+  echo "<3>	medium"
+  echo "<4>	high"
+  echo "<5>	auto"
+  echo "<6>	default"	
+  echo "<q>	exit"			
+  read choix
+  case $choix in 
+  1) sudo sh -c 'echo dynpm > /sys/class/drm/card0/device/power_method' ;;
+  2) sudo sh -c 'echo profile > /sys/class/drm/card0/device/power_method ; echo low > /sys/class/drm/card0/device/power_profile' ;;
+  3) sudo sh -c 'echo profile > /sys/class/drm/card0/device/power_method ; echo mid > /sys/class/drm/card0/device/power_profile' ;;
+  4) sudo sh -c 'echo profile > /sys/class/drm/card0/device/power_method ; echo high > /sys/class/drm/card0/device/power_profile' ;;
+  5) sudo sh -c 'echo profile > /sys/class/drm/card0/device/power_method ; echo auto > /sys/class/drm/card0/device/power_profile' ;;
+  6) sudo sh -c 'echo profile > /sys/class/drm/card0/device/power_method ; echo default > /sys/class/drm/card0/device/power_profile' ;;
+  q) exit;;
+  *) echo "Choix incorrect";;
+  esac
+
+Afin d'éviter la saisie du mot de passer, on peut paramétrer le fichier **/etc/sudoers** en ajoutant à la fin une ligne du type :
+  user ALL= NOPASSWD: /home/user/bin/nom_du_script
+où user est à remplacer par votre nom d'utilisateur.
+
+Appeler alors le script par
+  sudo /home/user/bin/nom_du_script
+
+=== Optionnel ===
+
+Mise en place du décodage vidéo par la carte graphique :
+  sudo apt-get install mesa-vdpau-drivers
+Vérification :
+  sudo apt-get install vdpauinfo
+  vdpauinfo
+Doit répondre :
+  display: :0   screen: 0
+  API version: 1
+  Information string: G3DVL VDPAU Driver Shared Library version 1.0
+
+===== Installation sous Kubuntu 12.04 =====
+
+La carte graphique fonctionne par défaut avec les pilotes libres radeon.
+En conséquence : pas d'accélération 3D et des ventilateurs qui tournent à fond.
+
+Il faut donc installer les [[:catalyst|pilotes propriétaires catalyst amd-ati]], mais **pas dans leur dernière version** (12.8 à ce jour) car cette carte n'est plus supportée à partir de la version 12.8.
+La version à utiliser est la [[http://support.amd.com/us/gpudownload/linux/legacy/Pages/legacy-radeon_linux.aspx|12.6]].
+
+On suivra la procédure [[:catalyst#installation_en_creant_les_paquets_deb_pour_ubuntu|d'installation de catalyst]], mais avec le fichier [[http://www2.ati.com/drivers/legacy/12-6/amd-driver-installer-12.6-legacy-x86.x86_64.zip|amd-driver-installer-12.6-legacy-x86.x86_64.zip]]
+
+Cela donne en console :
+  sudo apt-get install debhelper dh-modaliases execstack build-essential
+  sudo apt-get install ia32-libs
+  wget http://www2.ati.com/drivers/legacy/12-6/amd-driver-installer-12.6-legacy-x86.x86_64.zip
+  unzip amd-driver-installer-12.6-legacy-x86.x86_64.zip
+  chmod +x amd-driver-installer-12.6-legacy-x86.x86_64.run
+  sudo sh ./amd-driver-installer-12.6-legacy-x86.x86_64.run --buildandinstallpkg
+
+On teste avec cette commande qui ne doit pas donner d'erreur.
+  fglrxinfo
+
+
+Si cette commande vous retourne un beau YES , c'est que l'accélération 3d est disponible.
+  glxinfo | grep rendering
+
+Les FPS sont obtenus par :
+  glxgears
+
+Liens utiles :
+  * Trouver la version à installer : http://support.amd.com/us/gpudownload/Pages/index.aspx
+  * Installation : [[:catalyst#installation_en_creant_les_paquets_deb_pour_ubuntu]]
+  * Désinstallation propre : [[catalyst#desinstaller_proprement_le_pilote_catalyst]]
+  * Discussion ayant mené à cette solution : http://forum.ubuntu-fr.org/viewtopic.php?pid=10770571#p10770571
+
+---
+===== Installation sous Kubutu 10.04 =====
+
+L'installation ne pose aucun problème particulier.
+
+
+==== Carte graphique ====
+
+Pour de meilleures performances (3D notamment) l'installation des pilotes propriétaires est nécessaire.
+
+Il suffit de lancer l'utilitaire graphique du menu K : **Système -> Hardware driver** (ou sudo jockey-kde).
+
+Cela résout aussi la gestion d'énergie de la carte graphique qui chauffe avant l'installation des pilotes propriétaires (et donc le ventilateur tourne à vitesse maximale).
+
+
+==== Webcam ====
+
+TODO
+
+
+==== Mise en veille ====
+
+La mise en veille (suspend to ram) fonctionne avec cette version et un noyau à jour, ce qui n'était pas le cas sous 9.04.
+Néanmoins quelques problèmes de réveil avec écran noir se produisent parfois ...
+
+  sudo pm-suspend
+
+
+----
+
+
+===== Installation sous Kubutu 9.10 =====
+
+==== Problème à l'installation ====
+
+Le matériel réseau (Wifi **et** ethernet) n'est pas reconnu.
+Donc aucune connexion n'est disponible.
+
+On peut néanmoins obtenir la connexion ethernet à l'installation à partir de l'alternate CD en :
+  * choisissant la langue,
+  * puis en tapant F6,
+  * ensuite taper Escape,
+  * à la ligne de commande qui apparait en bas, il faut insérer **pci=use_crs** après **quiet** et avant **''--''** **''--''**,
+  * puis installer normalement.
+
+
+=== Résoudre le problème temporairement ===
+
+On trouve [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3196309|ici]] une discussion proposant d'ajouter d'ajouter l'option ''pci=use_crs'' à // /etc/default/grub//, ce qui donne une ligne type :
+
+ **GRUB_CMDLINE_LINUX="pci=use_crs"**
+
+ou
+
+**GRUB_CMDLINE_LINUX_DEFAULT="pci=use_crs"**.
+
+<note important>Ne pas oublier de laisser les paramètres déjà présents dans le fichiers de configuration</note>
+
+Puis faire un **sudo update-grub**.
+Et redémmarrer la machine.
+
+<note warning>Chez moi cette manipulation fonctionne, mais la connexion est d'une lenteur atroce !
+Je suis donc revenu à Kubuntu 9.04.
+
+J'ai aussi signalé ce bug sur launchpad. Il est référencé ici :
+[[https://bugs.launchpad.net/ubuntu/+bug/505102 | Bug505102]]
+Toutefois, le bug étant résolu sous 10.04, le statut est maintenant //résolu//.
+</note>
+
+
+
+----
+
+===== Installation sous Kubutu 9.04 =====
+
+L'installation ne pose aucun problème particulier.
+
+<note>
+**Avec Grub <2**
+
+Noter que la présence de deux disques durs permet l'installation de linux sur le second disque dur, sans toucher au MBR du premier disque dur sur lequel est installé Vista.
+
+Avec l'alternate CD, penser à répondre **non** quand l'installeur demande d'installer grub dans le MBR. Préciser à l'étape suivante de l'installer sur // /dev/sdb //.
+
+Pour lancer Vista, il alors faudra éditer le fichier /boot/grub/menu.lst
+  sudo kate /boot/grub/menu.lst
+et modifier la fin en remplaçant :
+  title		Windows Vista (loader)
+  rootnoverify	(hd0,1)
+  savedefault
+  chainloader	+1
+par :
+  title        Windows Vista (loader)
+  root   (hd1,1)
+  map  (hd0)  (hd1)
+  map  (hd1)  (hd0)
+  chainloader    +1
+</note>
+
+
+==== Carte graphique ====
+
+Pour de meilleures performances (3D notamment) l'installation des pilotes propriétaires est nécessaire.
+
+Il suffit de lancer l'utilitaire graphique du menu K : **Système -> Hardware driver** (ou sudo jockey-kde).
+
+Cela résout aussi la gestion d'énergie de la carte graphique qui chauffe avant l'installation des pilotes propriétaires (et donc le ventilateur tourne à vitesse maximale).
+
+
+==== Webcam ====
+
+La webcam est reconnue par [[:Cheese]], mais par exemple pas par [[:Camorama]], **webcam**.
+
+Avec vlc, il faut entrer :
+
+  vlc v4l2://dev/video0
+
+
+<note>
+FIXME Avec mplayer
+
+  * <code>mplayer tv:// -tv driver=v4l:device=/dev/video0:width=640:height=480 </code> ne fonctionne pas
+
+  * <code>mplayer tv:// -tv driver=v4l2:device=/dev/video0:width=640:height=480 </code> ne fonctionne pas.
+</note>
+
+
+----
+
+===== Autres sites à visiter =====
+
+Voici les liens vers les autres sites classiques classifiant les portables.
+Je n'y ai trouvé aucune information majeure, si ce n'est la confirmation des problèmes de reconnaissance du matériel réseau.
+  * [[http://linux.toshiba-dme.co.jp/linux/eng/installinfo.htm]] P300 et P300D sous Ubuntu 8.04
+  * [[http://tuxmobil.org/toshiba.html]] 
+  * [[http://www.linux-on-laptops.com/toshiba.html]] explications en russe pour le P300D
+
+
+----
+
+//Contributeurs : [[:utilisateurs:Olivier V]]//

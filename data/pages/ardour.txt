@@ -1,0 +1,212 @@
+{{tag>Trusty audio multimédia mao}}
+
+----
+
+{{ applications:ardour:logo.png?64}}
+
+====== Ardour ======
+
+
+===== Introduction =====
+
+ [[https://ardour.org/|Ardour]] est une station de travail audio numérique, permettant notamment l'enregistrement multipiste et le mixage. Développé par [[http://en.wikipedia.org/wiki/Paul_Davis_%28programmer%29|Paul Davis]] (qui travaille à plein temps dessus) et par toute une communauté de développeurs, ce logiciel est à Pro Tools ce que [[:gimp|GIMP]] est à Photoshop, et s'adresse donc aux professionnels (enregistrement, montage, mixage, mastering) et aux passionnés de l'audio. Les non-professionnels préféreront certainement  [[https://launchpad.net/jokosher/|Jokosher]]. <note important>Lien périmés, comme cette doc.. MàJ (nov. 2016) Fichier jokosher.deb se trouve sur launchpad.</note>qui sont plus simples d'emploi, bref, plus adaptés aux musiciens souhaitant arranger leurs morceaux rapidement . Sa grande particularité est qu'il peut utiliser le serveur [[:jackd|JACK]] pour fonctionner, ce qui permet de connecter comme bon vous semble les entrées et sorties de votre carte son avec celles d'Ardour et des logiciels compatibles JACK. A partir de la version 4, vous pouvez aussi l'utiliser directement avec ALSA.
+
+**Attention**: <del>Actuellement (Décembre 2015), trois versions du logiciel existes: Ardour 2 (sans le support du midi, version très stable), Ardour 3 (Ajout du support midi et de la synchronisation vidéo, version stable) et Ardour4 (utilisation d'ALSA, stable). La version stable d'Ardour2 est la 2.8.16, la dernière version d'Ardour3 est la 3.5.403 et Ardour4 est sorti il y a peu de temps (4.2)</del>
+MàJ (avril 2017): la dernière et la seule version disponible d'Ardour est la 5.8.  
+
+Ardour 3 en action...
+[[http://jamiejessup.files.wordpress.com/2013/03/ardour3shot.png]]
+
+
+
+
+===== Installation =====
+
+==== Ardour 2 ====
+
+Deux façons d'installer Ardour2 vous seront proposées.
+
+La première, qui est aussi la plus simple, installe Ardour grâce à votre [[:gestionnaire de paquets]] ou en [[apt://ardour | cliquant ici]].
+
+La seconde, plus compliquée et beaucoup plus longue, vous permettra d'avoir un Ardour qui accepte les **plugins VST**. En effet, à cause de la licence (pas libre du tout) sous laquelle est publié VST, il est interdit de distribuer Ardour avec le support de VST sous forme de paquet, ce qui complique son installation car il faut compiler Ardour à la main.
+
+Sachez qu'Ardour utilise déjà [[wp>LADSPA]] , Lv2 et les Vst natifs pour les plugins et [[wp>DSSI]] pour les instruments virtuels ; ceux-ci sont beaucoup moins graphiques et plus rustiques que les plugins VST, mais les pros sauront s'y retrouver. En revanche, le support de VST Windows ne serait, apparemment, pas totalement stable (Wine oblige) et donc moins confortable que sur les systèmes d'exploitation qu'il supporte en standard.
+
+C'est donc à vous de choisir, selon le temps dont vous disposez, ce dont vous avez besoin, et votre confiance en vous en ce qui concerne la manipulation de la ligne de commande.
+
+=== Par paquets (sans le support VST) ===
+
+Il existe une distribution dérivée d'Ubuntu destinée aux studios d'enregistrement. Il s'agit d'[[http://www.ubuntustudio.org|UbuntuStudio]], qui vous intéressera particulièrement si vous ne vous servez de votre ordinateur que pour l'audio, car elle dispose déjà d'Ardour (sans VST) et de tous les outils dont vous avez besoin.
+
+Mais sous ubuntu vous n'avez plus qu'à [[tutoriel:comment_installer_un_paquet|installer]] les paquets suivants :
+  * [[apt://ardour-i686|ardour-i686]]   (i686)
+  * [[apt://ardour|ardour-x64]]  (x64)
+  * [[apt://ubuntustudio-audio-plugins|ubuntustudio-audio-plugins]]
+  * [[apt://jackd|jackd]]
+  * [[apt://qjackctl|qjackctl]]
+Code pour la console : <code>sudo apt-get install ardour-i686 ubuntustudio-audio-plugins jackd qjackctl</code>
+
+Vous pouvez maintenant passer à la section [[:ardour#Utilisation]].
+
+=== Par les dépôts de KXstudio (sans le support VST) ===
+
+KXstudio a compilé la dernière version version d'ardour sur son dépôt. Pour l'obtenir [[:ppa|Ajoutez à vos sources de logiciels le PPA]] ppa:kxstudio-team/ppa . d'autres depots KXstudio sont disponible sur le[[http://kxstudio.sourceforge.net/KXStudio:Repositories|site officiel]]. 
+[[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]], puis [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt://ardour|ardour]]**. Cela peut se faire en ligne de commande:
+  sudo add-apt-repository ppa:kxstudio-team/ppa
+  sudo apt-get update
+  sudo apt-get install ardour
+  
+=== Par compilation (avec le support VST) ===
+
+:!: Cette methode semble ne plus fonctionner sur les versions récentes (>11.04).
+
+== Télécharger les sources et les dépendances ==
+
+Avant de commencer, il va falloir [[:tutoriel:comment_installer_un_paquet|installer tout un tas de paquets]] nécessaires à la compilation et à l'utilisation d'Ardour : **build-essential scons gettext libtool jackd qjackctl libjack0.100.0-dev libxml2-dev libxslt1-dev libart-2.0-dev libsamplerate0 libsamplerate0-dev libraptor1 libraptor1-dev liblrdf0 liblrdf0-dev libasound2-dev libglib2.0-dev libgtk2.0-dev libgnomecanvas2-dev libsndfile1 libfftw3-dev liblo0 liblo0-dev libboost-dev boost-build wine-dev blop caps cmt fil-plugins ladspa-sdk mcp-plugins omins swh-plugins tap-plugins vcf-plugins dssi-example-plugins dssi-host-jack dssi-plugin-fluidsynth dssi-plugin-hexter dssi-plugin-hexter dssi-plugin-xsynth dssi-utils**.
+
+(si vous ne voulez pas des plugins LADSPA et DSSI, arrêtez-vous après wine-dev)
+
+Entrez votre mot de passe utilisateur si demandé, et validez l'installation en tapant 'O' puis Entrée.
+
+On a un peu de temps devant nous, alors profitons-en pour [[http://ardour.org/download|télécharger les sources]].
+
+//Edit TheDeadAngel666 : Lien mis à jour : Version 2.4.1 disponible //
+
+Une fois téléchargé, ouvrez le fichier et décompactez-le dans votre répertoire personnel.
+
+== Activer le support des VST ==
+
+Pour les raisons citées au début de cet article, il va falloir télécharger le kit de développement VST depuis le site de Steinberg; mais d'abord, il vous faut accepter la licence (en anglais). 
+
+FIXME : lien mort 404 : Rendez vous donc sur [[http://www.steinberg.net/532+M52087573ab0.html|cette page]] et cliquez sur **I AGREE (Download Version 2.4)** après, bien sûr, avoir lu la licence ;)
+
+adresse temporaire (Version 2.3) : [[http://ygrabit.steinberg.de/~ygrabit/public_html/vstsdk/Download/VST%20Plug-Ins%20SDK%202.3/vstsdk2.3.zip]]
+
+(Télécharger le fichier à l'adresse temporaire vous fera passer l'étape suivante)
+
+Et ce n'est pas fini! Pour pouvoir télécharger le SDK, il va falloir donner votre adresse mail, votre nom et prénom, et enfin, ré-accepter la licence! Cliquez ensuite sur **VST Audio Plug-Ins SDK (2.4)** et sauvegardez le fichier ainsi fourni dans le répertoire //libs/fst// des sources d'Ardour.
+
+== Compiler Ardour ==
+
+Ouvrez un terminal, et tapez les lignes suivantes :
+<code>cd ~/ardour-2.8.16
+scons VST=1</code>
+
+A la question :
+<code>Are you building Ardour for personal use (rather than distribution to others)? [no]:</code>
+
+Répondez yes, puis Entrée. Préparez-vous un café, il y'en a un pour un certain temps :) Si tout va bien, tout un tas de lignes vont s'afficher pendant quelques minutes. Si ça dure moins de deux minutes, soit vous avez récupéré votre ordinateur chez la NASA, soit vous vous êtes plantés quelque part;à moins que ce ne soit moi qui ait oublié quelque chose d'important. Dans tous les cas, si la compilation s'arrête sur une erreur, venez-en parler sur [[http://forum.ubuntu-fr.org/viewtopic.php?id=120106|ce topic]] du forum.
+
+Conseil : Si le problème vient de fichiers que vous n'avez pas, cherchez-les à l'aide de la commande sudo aptitude search nomdufichier, et installez les fichiers que vous verrez s'afficher.
+
+Une fois tout cela fini, vous devriez voir le message suivant (mon Ubuntu est en anglais; si ce message s'affiche en français, n'hésitez pas à éditer cette page pour mettre la version française du message :) ) :
+
+<code>scons: done building targets.</code>
+
+Vous pouvez donc finir l'installation en tapant : 
+<code>sudo scons install</code>
+
+et par la même occasion, vous refaire du café :)
+
+Si tout s'est bien passé, vous pouvez supprimer le répertoire ardour-2.3, ou le garder si vous pensez avoir besoin de le recompiler sous peu.
+
+Vous êtes probablement très content d'avoir fait tout ça, mais maintenant il faut pouvoir l'utiliser! Comme nous ne sommes pas passés par un système de paquets, il n'y a pas d'entrée Ardour 2 dans le menu!
+
+Voici donc les informations dont vous aurez besoin pour créer un lanceur :
+<code>Type : Application
+Nom : Ardour 2 VST
+Commande : /usr/local/bin/ardourvst</code>
+
+Pour ce qui est de l'icône, elle se trouve dans le répertoire :
+
+<code>/usr/local/share/ardour2/icons</code>
+
+== Installation des plugins ==
+La seule chose qui vous reste à faire, c'est de créer le répertoire qui accueillera vos plugins :
+<code>sudo mkdir /usr/local/lib/vst</code>
+et de les copier dedans avec l'aide des droits administrateurs.
+
+==== Ardour 3 ====
+
+Ardour 3 apporte de nombreuses possibilités supplémentaires par rapport à Ardour2 à savoir: \\
+- Le support du midi \\
+- La synchronisation vidéo
+
+=== Par les dépôts ===
+Pour installer Ardour3, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>ardour3|ardour3]]** \\
+
+=== Pour avoir la dernière version (3.5.403) ===
+Il est possible d'avoir en même temps la/les version(s) d'Ardour (2 ou/et 3) dans les dépôts et celle téléchargée depuis le site.
+== Par le site officiel ==
+Si vous voulez la dernière version il faut contribuer financièrement pour obtenir le logiciel. Celui-ci étant en rolling-release, Paul Davis propose que vous donniez 1, 4 ou 10 dollars par mois et vous avez ainsi accès à toutes les versions les unes après les autres (Ardour 2, 3 et 4). Avec le lien suivant [[https://ardour.org/download]], on télécharge ainsi une archive .tar contenant un script très simple et très efficace qui installe automatiquement le soft.
+
+Le site officiel propose une page détaillant la procédure d'installation (qui est très simple soit dit en passant) : [[http://ardour.org/first_time_linux.html]]
+
+
+== Par les dépôts de KxStudio == 
+
+KXstudio a compilé la dernière version version d'ardour3 sur son dépot. Pour l'obtenir téléchargez le paquet .deb à cette adresse: [[http://kxstudio.sourceforge.net/Repositories]] puis installez le. Ensuite installez le paquet  **[[apt>ardour3|ardour3]]** 
+
+==== Ardour 4 ====
+Ardour 4 apporte de nombreuses possibilités par rapport à Ardour3 à savoir: \\
+- Peut fonctionner directement avec ALSA (tout en gardant la possibilité de travailler avec [[:jackd|JACK]]
+
+=== Par les dépôts ===
+Non présent dans les dépôts d'ubuntu 14.04
+
+=== Pour avoir la dernière version (4.1 en Juin 2015) ===
+Il est possible d'avoir en même temps la/les version(s) d'Ardour (2 ou/et 3) dans les dépôts et celle téléchargée depuis le site.
+
+== Par le site officiel ==
+Si vous voulez la dernière version il faut contribuer financièrement (minimum 1$ mais vous pouvez donner plus pour accélérer le développement d'Ardour)  pour obtenir le logiciel. Celui-ci étant en rolling-release, Paul Davis propose que vous donniez 1, 4 ou 10 dollars par mois et vous avez ainsi accès à toutes les versions les unes après les autres (Ardour 2, 3 et 4). Avec le lien suivant [[https://ardour.org/download]], on télécharge ainsi une archive .tar contenant un script très simple et très efficace qui installe automatiquement le soft.
+
+
+Petit tuto FR décrivant l'installation **Ardour 4 + Jack en images** : https://www.youtube.com/watch?v=-nzXvD974EM
+
+
+===== Utilisation =====
+
+==== Jack ====
+
+Voilà, c'est prêt..Mais pas si vite! Avant de lancer Ardour, il faut d'abord lancer le serveur Jack! Quelques lignes plus bas qu'Ardour, dans votre menu **Applications/Son et Vidéo** se trouve **JACK Control** qui ne demande qu'à être lancé.
+
+Une fois lancé, JACK tente de s'activer. Bien sûr, ça ne marche pas à tous les coups, c'est pourquoi vous devrez probablement cliquer sur le bouton **Setup** pour configurer tout ça.
+
+Je ne m'étendrais pas sur l'utilisation de Jack, mais vous trouverez plus de documentation à son sujet sur cet [[:jackd|article du wiki.]]
+
+==== Quelques trucs à savoir ====
+
+* Si vous utilisez une carte son FireWire utilisez le pilote **FFADO**. Il faut toutefois que vote carte son FireWire soit supportée, ce qui est pour l'instant assez rare. Rendez-vous sur [[http://www.ffado.org/?q=devicesupport/list|cette page]] pour vous assurer que votre carte est reconnue.
+ * Si JACK a démarré avec succès alors que vous n'avez pas précisé d'utiliser FFADO, c'est que JACK utilise actuellement la carte son intégrée à votre PC (celle de votre carte mère ou une carte PCI), ce qui n'est pas le but recherché ;).
+ * Si JACK ne veut pas se lancer avec FFADO, c'est probablement que votre utilisateur n'a pas les permissions pour utiliser le port FireWire; ne paniquez pas, il suffit d'appuyer sur **Alt+F2**, de taper
+<code>gksudo adduser <votre nom d'utilisateur> disk</code>
+et de redémarrer votre ordinateur pour montrer qui est le chef!
+
+  * Il est **important** d'avoir **une latence la plus basse possible** pour travailler confortablement sous Ardour. Cette latence, exprimée en millisecondes, est affichée en bas de la fenêtre **Setup** de JACK Control. Vous pouvez bricoler les options de JACK pour obtenir la latence la plus basse possible, mais selon votre ordinateur, le son peut se trouver craquelé si vous essayez d'en obtenir une plus basse que votre ordinateur ne le permet. L'installation d'un noyau basse latence peut améliorer les choses; pour ce faire, installez le paquet **linux-lowlatency** par l'intermédiaire du Gestionnaire de paquets Synaptic (Système/Administration) et redémarrez votre ordinateur.
+
+* Par défaut, Ardour connecte automatiquement les pistes nouvellement créées aux entrées de votre carte son. Si vous voulez changer la configuration des connexions, ça se passe dans la fenêtre **Connect** de JACK Control.
+
+* Sachez que vous ne pouvez pas importer du MP3 (du aux droits nécéssaires), il va donc falloir passer par le format WAV !!
+
+
+
+===== Voir aussi =====
+
+Voilà, vous êtes maintenant seul face aux nombreuses possibilités d'Ardour. Seul ? Pas nécessairement : voici quelques liens qui vous aideront :
+
+  * [[http://www.linuxmao.org/tiki-index.php?page=ardour|La page Ardour sur LinuxMao]] qui vous aidera à vous repérer dans Ardour.
+  * [[http://fr.flossmanuals.net/ardour/]] le manuel bien traduit en français d'Ardour 2, de quoi débuter sereinement.
+  * [[http://forum.ttoine.net/viewforum.php?id=4|Un forum français où vous pourrez poser vos questions concernant la configuration de JACK]]
+  * [[http://www.ardour.org/files/manual/index.html|Le manuel officiel en anglais]], très, très, très complet :)
+  * [[http://ardour3-docs-videos-tutos.blogspot.fr/p/accueil-que-propose-ce-blog.html|Le blog dédié à Ardour 3]] qui vous propose des articles, de la documentation et des vidéos tutoriels pour apprendre à utiliser Ardour 3.
+
+Ardour est développé par des bénévoles ; Paul Davis, le fondateur du projet et mainteneur principal d'Ardour, travaille dessus à plein temps et n'est rémunéré que par les donations des utilisateurs. Si vous utilisez et appréciez ce logiciel, pensez à faire une donation (du montant de votre choix) ou une souscription mensuelle. Tout ceci passe par Paypal, est sécurisé et marche quelle que soit la monnaie de votre pays. Même si vous ne donnez que quelques euros/dollars, c'est « toujours ça de pris » et c'est ce qui aide l'équipe d'Ardour à continuer de faire évoluer le logiciel.
+
+  * Le [[http://www.ardour.org|site officiel]]
+  * Pour toutes discussions sur cet article, j'ai créé [[http://forum.ubuntu-fr.org/viewtopic.php?id=120106|un post sur le forum]]
+  * [[http://www.lprod.org/wiki/doku.php/association:livre_eyrolles|Livre "montage audio-vidéo libre" Editions Eyrolles - Ecrit par lprod.org]]
+
+
+----
+
+//Contributeurs : [[http://forum.ubuntu-fr.org/profile.php?id=13231|nilux]].//

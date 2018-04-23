@@ -1,0 +1,288 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#how_to_pour_le_partage_de_donnee_sur_appletalk" class="toc"> How To pour le partage de donnée sur AppleTalk </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#installation" class="toc"> Installation </a></span></li>
+<li class="level2"><span class="li"><a href="#le_probleme_de_parametrage_par_defaut" class="toc"> Le problème de paramétrage par defaut </a></span></li>
+<li class="level2"><span class="li"><a href="#la_solution" class="toc"> La Solution </a></span></li>
+<li class="level2"><span class="li"><a href="#bogue_bug" class="toc"> Bogue (Bug) ? </a></span></li>
+</ul>
+</li>
+<li class="level1"><span class="li"><a href="#parametrage" class="toc"> Paramètrage </a></span></li>
+<li class="level1"><span class="li"><a href="#le_partage" class="toc"> Le partage </a></span></li>
+<li class="level1"><span class="li"><a href="#demarrage" class="toc"> Démarrage </a></span></li>
+<li class="level1"><span class="li"><a href="#liens_netatalk" class="toc"> Liens Netatalk </a></span></li>
+</ul>
+</div>
+</div>
+
+<p>
+Traduction libre de <a href="http://wiki.ubuntu.com/AppleTalk" class="urlextern" title="http://wiki.ubuntu.com/AppleTalk" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">AppleTalk</a>
+</p>
+
+<p>
+Rédigé par <a href="/utilisateurs/manu" class="wikilink1" title="utilisateurs:manu" onclick="return svchk()" onkeypress="return svchk()">manu</a>.
+</p>
+
+<a name="how_to_pour_le_partage_de_donnee_sur_appletalk"></a><h1> How To pour le partage de donnée sur AppleTalk </h1>
+<div class="level1">
+
+<p>
+Pour les personnes utilisant Ubuntu et voulant partager leurs données (ou accéder) avec des utilisateurs de Mac Os 9.x et inférieurs doivent installer netatalk. C&rsquo;est le <em>Samba</em> pour les machines Apple.
+</p>
+
+</div>
+<!-- SECTION [106-378] -->
+<a name="installation"></a><h2> Installation </h2>
+<div class="level2">
+
+<p>
+Pour l&rsquo;installer rien de plus facile, il suffit de passer par <em>Synaptic</em> ou <em>apt-get</em>:
+</p>
+<pre class="code">
+  $ sudo apt-get install netatalk
+</pre>
+
+</div>
+<!-- SECTION [379-547] -->
+<a name="le_probleme_de_parametrage_par_defaut"></a><h2> Le problème de paramétrage par defaut </h2>
+<div class="level2">
+
+<p>
+Le <em>noeud</em> d&rsquo;Ubuntu apparaît sur le réseau d&rsquo;Appletalk en tant que <em>localhost</em>. C&rsquo;est dû à <em>hostname -s</em> qui  renvoi sur localhost au lieu d&rsquo;employer le vrai nom (dans /etc/init.d/netatalk).
+</p>
+
+</div>
+<!-- SECTION [548-803] -->
+<a name="la_solution"></a><h2> La Solution </h2>
+<div class="level2">
+
+<p>
+Changez la ligne appropriée dans <em>/etc/hosts</em> et déplacez le vrai <em>hostname</em> devant <strong>localhost.localdomain</strong>, par exemple:
+</p>
+<pre class="code">
+127.0.0.1  realname localhost.localdomain localhost
+</pre>
+
+</div>
+<!-- SECTION [804-1028] -->
+<a name="bogue_bug"></a><h2> Bogue (Bug) ? </h2>
+<div class="level2">
+
+<p>
+Il y a un rapport de <em>bogue</em> ouvert, documentant le problème de l&rsquo;ordre <em>/etc/hosts</em> qui cause des ennuis avec d&rsquo;autres programmes, aussi.
+</p>
+
+<p>
+<a href="https://bugzilla.ubuntu.com/show_bug.cgi?id=2256" class="urlextern" title="https://bugzilla.ubuntu.com/show_bug.cgi?id=2256" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">https://bugzilla.ubuntu.com/show_bug.cgi?id=2256</a>
+</p>
+<hr noshade="noshade" size="1" />
+<hr noshade="noshade" size="1" />
+
+<p>
+La suite de ce How To a été réalisé grâce à cette <a href="http://www.inforoots.org/aide/linux/Netatalk.html" class="urlextern" title="http://www.inforoots.org/aide/linux/Netatalk.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow"> documentation </a>  
+</p>
+<hr noshade="noshade" size="1" />
+<hr noshade="noshade" size="1" />
+
+<p>
+J&rsquo;ai recopié ici les informations pour la distribution Ubuntu et non ce qui concernent l&rsquo;installation via RPM ou via les sources.
+</p>
+
+<p>
+<u>Attention</u> : Pour faire fonctionner <strong>Netatalk</strong> vous devez avoir <em>AppleTalk</em> compilé dans votre noyau ou le module doit être chargé au démarrage.
+</p>
+
+</div>
+<!-- SECTION [1029-2144] -->
+<a name="parametrage"></a><h1> Paramètrage </h1>
+<div class="level1">
+
+<p>
+Pour commencer vous devez éditer le fichier <em>/etc/services</em> et rajouter ceci :
+</p>
+<pre class="code">
+ rtmp           1/ddp       # Routing Table Maintenance Protocol
+ nbp            2/ddp       # Name Binding Protocol
+ echo           4/ddp       # AppleTalk Echo Protocol
+ zip            6/ddp       # Zone Information Protocol
+ aftpovertcp  548/tcp       # AFP over TCP
+ afpovertcp   548/udp
+</pre>
+<ul>
+<li class="level1"><span class="li"> Le fichier <strong>atalkd.conf</strong> :</span>
+</li>
+</ul>
+
+<p>
+ Ce fichier contient les paramètres de l&rsquo;interface Appletalk pour le noyau <em>Atalk</em>.
+</p>
+
+<p>
+ La configuration de base de <strong>atalkd.conf</strong> nous suffit pour faire un simple partage.
+</p>
+<ul>
+<li class="level1"><span class="li"> Le fichier <strong>afpd.conf</strong> :</span>
+</li>
+</ul>
+
+<p>
+ Ce fichier sert à donner les paramètres au <em>deamon</em> Appletalk. D&rsquo;origine ce fichier positionne les options de base qui nous intéresse.
+</p>
+
+</div>
+<!-- SECTION [2145-2948] -->
+<a name="le_partage"></a><h1> Le partage </h1>
+<div class="level1">
+
+<p>
+Maintenant que <strong>Netatalk</strong> est configuré, il nous reste plus qu&rsquo;à définir les partages.
+</p>
+
+<p>
+Pour cela les fichiers à utiliser sont :
+</p>
+<pre class="code">
+ - AppleVolumes.default
+ - AppleVolumes.system
+</pre>
+
+<p>
+Ces fichiers servent à définir les chemins de partages et à définir les types et créateurs.
+</p>
+
+<p>
+Dans <em>Samba</em> (SMB) il n&rsquo;existe pas de types et de créateurs, c&rsquo;est tout à fait normal car les fichiers Mac n&rsquo;ont pas d&rsquo;extension (.txt, .tar .conf ) alors pour reconnaître les différents fichiers le system utilise des attributs composés de 4 octets : Le créateur et le type.
+</p>
+
+<p>
+Le créateur définit les fichiers par une application tant dit que le type définit <em>l&rsquo;équivalence</em> dans un autre system d&rsquo;exploitation.
+</p>
+
+<p>
+Le fichier <em>AppleVolumes.default</em> est utilisé seulement quand un utilisateur réel se connecter. Pour tous les utilisateurs (invité ou réel) c&rsquo;est le fichier <em>AppleVolumes.system</em> qui sera utilisé.
+</p>
+
+<p>
+Pour notre exemple nous allons définir un partage pour tous les utilisateurs.
+</p>
+
+<p>
+Pour cela éditer le fichier <em>AppleVolumes.system</em> et rajouter la ligne suivante :
+</p>
+<pre class="code">
+   /partage &quot;MonPartage&quot;
+</pre>
+
+<p>
+Cela aura pour effet de partager le répertoire /partage. L&rsquo;utilisateur mac verra <em>MonPartage</em>.
+</p>
+
+<p>
+Bien sur il nous faut aussi quelques types et constructeurs vous pouvez donc rajouter ses lignes dans <em>AppleVolumes.system</em> :
+</p>
+<pre class="code">
+ .mod      STrk       STrk
+ .mid      Midi       ttxt
+ .aiff     AIFF       SNdm
+ .wav      WAVE       SNdm
+ .au       ULAW       SNdm
+ .moov     MooV       mMPG
+ .mov      MooV       mMPG
+ .mpg      MPEG       mMPG
+ .mpeg     MPEG       mMPG
+ .html     TEXT       MOS!
+ .rtf      TEXT       MSWD
+ .doc      WDBN       MSWD
+ .pdf      PDF        CARO
+ .txt      TEXT       R*ch
+ .bin      BINA       MB2P
+ .zip      ZIP        ZIP
+ .tar      TARF       TAR!
+ .gzGzip   Gzip
+ .ZZIVM    LZIV
+ .sea      ????       SITx
+ .cpt      PACT       CPCT
+ .sit      SIT!       SIT!
+ .hqx      TEXT       SITx
+ .tiff     TIFF       8BIM
+ .tif      TIFF       8BIM
+ .TIF      TIFF       8BIM
+ .TIFF     TIFF       8BIM
+ .bmp      BMPp       8BIM
+ .pct      PICT       ttxt
+ .pict     PICT       ttxt
+ .jpeg     JPEG       8BIM
+ .jpg      JPEG       8BIM
+ .gif      GIFf       8BIM
+ .ps       TEXT       vgrd
+</pre>
+
+</div>
+<!-- SECTION [2949-5251] -->
+<a name="demarrage"></a><h1> Démarrage </h1>
+<div class="level1">
+
+<p>
+ Maintenant que nous avons fini la configuration il ne nous reste plus qu&rsquo;à lancer le <em>deamon</em> :
+</p>
+<pre class="code">
+ /etc/rc.d/init.d/atalk start
+ ou
+ /usr/local/atalk/etc/aftpd ñF /usr/local/atalk/etc/aftpd.conf
+</pre>
+
+<p>
+Attention, ne vous inquiétez pas, il est très long à se lancer.
+</p>
+
+<p>
+Normalement, maintenant votre serveur tourne. Vos utilisateurs mac pourront voir votre machine Linux.
+</p>
+
+<p>
+Par la même occasion, si vous utiliser <em>Samba</em> pour vos utilisateurs Windows et que vous partagez les mêmes fichiers qu&rsquo;avec <strong>Netatalk</strong> vous pourrez donc échanger des fichiers entre un poste Mac et Windows.
+</p>
+
+<p>
+<u>Attention :</u>
+</p>
+
+<p>
+Si vous utiliser <em>Samba</em> et <strong>Netatalk</strong> conjointement, les utilisateurs windows vont voir des fichiers:
+</p>
+<pre class="code">
+   AppleDouble, Network Trash Folder , TheVolumeSettingsFolder apparaîssent, ce qui est normal.
+</pre>
+
+<p>
+Pour ne plus les voir rajouter la ligne suivante à votre <strong>smb.conf</strong> pour <em>Samba</em> :
+</p>
+<pre class="code">
+  veto files = /.AppleDouble/.AppleDesktop/Network Trash Folder/TheVolumeSettingsFolder/
+</pre>
+
+<p>
+Relancé <em>Samba</em> et hop les fichiers ont disparu !
+</p>
+
+</div>
+<!-- SECTION [5252-6365] -->
+<a name="liens_netatalk"></a><h1> Liens Netatalk </h1>
+<div class="level1">
+<ul>
+<li class="level1"><span class="li"> <a href="http://sourceforge.net/projects/netatalk" class="urlextern" title="http://sourceforge.net/projects/netatalk" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow"> Téléchargement et modification</a> </span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> <a href="http://www.anders.com/projects/netatalk/" class="urlextern" title="http://www.anders.com/projects/netatalk/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow"> Documentation trés fournit mais en anglais</a> </span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> <a href="http://www.linux-france.org/macintosh/netatalk/" class="urlextern" title="http://www.linux-france.org/macintosh/netatalk/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow"> Un autre How To en français</a> </span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [6366-] -->

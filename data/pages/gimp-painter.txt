@@ -1,0 +1,74 @@
+{{tag>gimp graphisme}}
+
+----
+
+====== Gimp Painter ======
+
+**Gimp Painter** est une variante de [[Gimp]] qui lui rajoute l'outil mix-brush, permettant une gestion avancée des brush pour faire de la **peinture numérique**, ainsi que l'outil G-pen, une version améliorée de l'outil **calligraphie**.
+
+[[http://gimpfr.org/news_id.php?id=621|Description du logiciel sur gimpfr.org]]
+
+===== Installation =====
+
+====Depuis le dépôt DEB====
+Gimp Painter dispose désormais de son propre PPA Launchpad, pour Karmic et Lucid.
+
+[[:PPA|Ajoutez le PPA]] **ppa:mizuno-as/gimp-painter**((https://launchpad.net/~mizuno-as/+archive/gimp-painter)) dans vos sources de logiciels, puis [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]].
+
+Enfin, [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt://gimp|gimp]]**.
+
+S'il était déjà installé, votre version de //Gimp// sera mise à jour avec le patch de //Gimp Painter//.
+
+==== Installation manuelle sur Ubuntu 10.04 LTS ====
+
+Pour ceux qui voudraient installer Gimp Painter sur Lucid, voici une explication détaillée pour le compiler et l'installer en parallèle d'un Gimp non-patché.
+
+<note important>
+La compilation manuelle de gimp-painter n'est plus nécessaire pour Lucid : un PPA est désormais disponible. cf la section précédente.\\
+Cependant, il peut être utile de faire une compilation manuelle si on souhaite garder à la fois la version originelle de Gimp et la version patchée avec gimp-painter.
+</note>
+
+<note tip>
+Vous pouvez adapter ce tutoriel à la dernière version de gimp [[ftp://ftp.gimp.org/pub/gimp/v2.6/gimp-2.6.10.tar.bz2.md5|(2.6.10)]] avec la derniere version du patch [[http://sourceforge.jp/projects/gimp-painter/downloads/48031/gimp-painter--20100627.diff/|(20100627)]]
+et les patchs du [[https://launchpad.net/ubuntu/maverick/+source/gimp/2.6.10-1ubuntu2/+files/gimp_2.6.10-1ubuntu2.debian.tar.gz|gimp-2.6.10 d'ubuntu 10.10]].
+</note>
+
+  * installer les bibliothèques nécessaires pour compiler gimp en saisissant dans un [[terminal]] la commande suivante :<code>sudo apt-get build-dep gimp</code>
+  * Télécharger les sources (gimp-2.6.8.tar.bz2) [[ftp://ftp.gimp.org/pub/gimp/v2.6/|ici]] et le patch (gimp-painter--20090715.diff) [[http://sourceforge.jp/projects/gimp-painter/releases/|là]], ainsi que [[https://launchpad.net/ubuntu/lucid/+source/gimp/2.6.8-2ubuntu1.1/+files/gimp_2.6.8-2ubuntu1.1.debian.tar.gz|cette archive contenant les derniers correctifs]]
+  * Créer un dossier dans votre Dossier Personnel (qu'on appellera GimpPaint par exemple), mettre les 2 archives et le patch dedans.
+  * Décompresser les archives.
+  * Aller dans le dossier extrait /debian/patches et copier les 4 patches numérotés. Les coller dans le même repertoire que le patch gimp-painter--20090715.diff (/GimpPaint donc ici)
+<note>Il y a trois patches dans la version gimp-2.6.10, le patch 04_gimp-statusbar.patch est manquant, mais ne gêne en rien le fonctionnement de Gimp-Painter</note>
+  * Ensuite dans le Terminal, aller dans le dossier des sources en saisissant <code>
+cd GimpPaint/gimp2.6.8
+</code>
+  * Puis pour appliquer les patches saisir:<code>
+patch -p1 < ../01_debian-gimprc.patch
+patch -p1 < ../02_help-message.patch
+patch -p1 < ../03_gimp.desktop.in.in.patch
+patch -p1 < ../04_gimp-statusbar.patch
+patch -p1 < ../gimp-painter--20090715.diff
+</code>
+  * Configurer:<code>
+./configure --prefix=/opt/gimp-painter --with-gimpdir=/.gimp-painter --disable-default-binary
+</code>
+(--prefix= indique où installer gimp-patché, --with-gimpdir= indique le dossier de config dans le home, et la 3em option m'a semblée bien pour ne pas interférer avec la version système non-patchée )
+  * Compiler: <code>make</code>
+  * Installer:<code>sudo make install</code>
+  * Maintenant pour le lancer [[raccourci-lanceur|créer un lanceur]] (dans le menu principal ou sur le tableau de bord) contenant la commande:<code>/opt/gimp-painter/bin/gimp-2.6</code>
+  * Vous pouvez ensuite installer par dessus [[http://code.google.com/p/gps-gimp-paint-studio/downloads/list|Gimp-Paint-Studio]] ou (mieux) le [[http://www.davidrevoy.com/?article29/free-brush-kit-for-chaos-and-evolutions|Kit de brosses certifiées Open Source de Deevad]] en copiant les fichiers dans le dossier caché /home/.gimp-painter/brushes .
+
+
+  * Et pour finir vous pouvez personnaliser votre [[:raccourci-lanceur|lanceur]] en créant une icône adaptée, ou utiliser celle ci par exemple (découpée sur le splashscreen Gimp de Deevad) :
+[[http://img189.imageshack.us/i/gimpainticon.png/|{{http://img189.imageshack.us/img189/8199/gimpainticon.png}}]]
+
+Bonne peinture numérique ! ;-)
+
+===== Voir aussi =====
+
+  * **(jp)** [[http://cue.yellowmagic.info/main/index.php?gimp-painter-|Site officiel en japonais]]
+  * **(fr)** [[http://book.abe.free.fr/blog/?post/2009/05/28/Gimp-Gimp-Painter-%3A-Installation-et-petit-tour-du-propri%C3%A9taire|Article sur l'installation et l'utilisation de gimp painter]] 
+
+----
+
+//Contributeurs : [[:utilisateurs:pops]], [[:utilisateurs:Animtim]] .//

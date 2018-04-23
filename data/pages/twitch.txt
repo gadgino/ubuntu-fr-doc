@@ -1,0 +1,31 @@
+======Twitch ======
+{{tag>streaming vidéo}}
+=====Regarder des Stream Twitch=====
+Il suffit de se rendre sur http://twitch.tv mais avant cela, il faut télécharger Flashplayer {{backlinks>flashplayer}}
+=====Streamer sur Twitch=====
+Streamer sur Twitch reste aussi très simple.
+
+1.Allez sur ce lien  https://github.com/dinnozap/TwitchConsoleStreamer/releases, téléchargez la dernière version disponible de TwitchConsoleStreamer et extrayez la où vous le souhaitez.
+
+2.Copiez votre adresse de stream (allez sur http://twitch.tv > panneau de configuration > clé de flux) et collez la dans le fichier : "twitch_key"
+
+3.Allez dans le dossier dans lequel vous l'avez extrait  <code>cd ~/TwitchConsoleStream-*</code>
+
+4.Donnez les permissions aux scripts <code>chmod 777 TwitchStream.sh</code> et <code>chmod 777 twitch_ffmpeg.sh</code>
+
+5.Lancez le programme <code>./TwitchStream.sh</code> Et voilà il ne suffit plus que de paramétrer 2 ou 3 options puis de streamer ! ;-)
+
+Un tutoriel vidéo est aussi disponible https://www.youtube.com/watch?v=UFBzfsN1VbY
+
+=====Streamer sur Twitch avec OBS (plus connu)=====
+OBS fonctionne aussi sous Linux.
+<note tip>[[ffmpeg|ffmpeg]] doit être préalablement intallé</note>
+<note tip>N'oubliez pas de récupérer votre clé Twitch à l'adresse https://www.twitch.tv/**VOTRE_PSEUDO**/dashboard/streamkey qui vous permettra de Streamer</note>
+[[https://github.com/jp9000/obs-studio/wiki/Install-Instructions#linux | Voici le lien officiel d'OBS]].
+
+Pour installer OBS, il suffit d'ajouter le ppa **obsproject** puis d'installer **OBS** :
+<code>sudo add-apt-repository ppa:obsproject/obs-studio
+sudo apt-get update && sudo apt-get install obs-studio</code>
+Vous trouverez de nombreux tutoriaux [[https://www.youtube.com/watch?v=3NvnJh3obvI | dont celui-ci]] que j'ai trouvé assez bien expliqué pour vous assister à l'utilisation d'OBS.
+
+--- //[[:utilisateurs:Judibet|Judibet]] Le 29/10/2016, 14:27//

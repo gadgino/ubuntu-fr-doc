@@ -1,0 +1,141 @@
+{{tag>serveur }}
+
+----
+====== Serveur Web - LAMP =======
+
+Un serveur **[[wpfr>LAMP]]** est un serveur Web. Historiquement, l'acronyme « LAMP » fait référence aux quatre composantes d'un tel serveur Web :
+  * **L**inux : le système d'exploitation constituant la base du système. Ici, il s'agit d'[[:ubuntu_distribution |Ubuntu]].
+  * **A**pache : le serveur HTTP qui gère la communication avec le client.
+  * **M**ySQL : le système de gestion de base de données.
+  * **P**HP/Python/Perl : le langage de programmation associé 
+<note >Les serveurs Linux/Apache/MySQL associés à [[:Python]] ou [[http://fr.wikipedia.org/wiki/Perl_%28langage%29|Perl]] au lieu de PHP sont également appelés serveur « LAMP ». Cependant, pour des soucis de simplicité, seul le cas (majoritaire) où PHP est utilisé comme langage de script est présenté ici. Vous pouvez obtenir des informations sur [[http://forum.ubuntu-fr.org/viewtopic.php?id=395008|l'installation de Python dans Apache sur le forum]]</note>
+
+===== Installation =====
+
+Le prérequis pour un serveur "LAMP" est d'avoir un système d'exploitation GNU/Linux. La première étape est donc d'[[:installation |installer Ubuntu]] (ou une de ses [[:variantes]]). La variante [[:ubuntu_server|Ubuntu server]] est particulièrement adaptée dans le cas d'un serveur de production contrôlable à distance (par [[:ssh]] notamment) et ne nécessitant pas d'interface graphique. 
+
+==== Méthode recommandée : Installation des paquets ====
+
+Cette méthode consiste à [[:tutoriel:comment_installer_un_paquet|installer]] les paquets nécessaires pour apache, php et mysql :\\
+
+à partir d'Ubuntu 16.04 :\\
+**Attention :** Les paquets doivent être installés par le biais d'un terminal pour fonctionner correctement (voir note ci-dessous).
+<code bash>sudo apt install apache2 php mysql-server libapache2-mod-php php-mysql</code>
+ou si vous préférez opter pour [[mariadb|MariaDB]] au lieu de MySQL:
+<code bash>sudo apt install apache2 php mariadb-server libapache2-mod-php php-mysql</code>
+<note important>L'installation du paquet mysql-server en cliquant simplement sur un lien apt crée un problème à l'installation ! L'installeur ne demande pas le mot de passe pour mysql-server et l'accès est dès lors compliqué à mysql. Installez bien ce paquet en utilisant le terminal et la commande <code>sudo apt install mysql-server</code> comme indiqué juste au dessus. Vous pouvez consulter cette discussion [[https://forum.ubuntu-fr.org/viewtopic.php?pid=21588812#p21588812]]
+Pour ceux qui auraient le probleme de connexion mysql sur la 16.04, voici la manip à faire pour régler le soucis.
+> sudo mysql -u root
+> DROP USER 'root'@'localhost';
+> CREATE USER 'root'@'%' IDENTIFIED BY '';
+> GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
+> FLUSH PRIVILEGES;
+</note>
+<note important>Il est préferable d'installer les paquets un par un, l'installation en une ligne de commande pouvant crée des problèmes de configuration.(Cette méthode corrigeant donc le problème énoncé, ci-dessus.)</note>
+pour les versions précédentes :\\
+**[[apt>apache2,php5,mysql-server,libapache2-mod-php5,php5-mysql|apache2, php5, mysql-server, libapache2-mod-php5, php5-mysql]]**
+<code bash>sudo apt-get install apache2 php5 mysql-server libapache2-mod-php5 php5-mysql</code>
+
+
+
+Description des paquets :
+  * Le paquet [[apt>apache2|apache2]] installe le serveur [[:apache2 |Apache 2]].  
+  * Le paquet [[apt>php5|php5]] installe le langage [[:php |PHP 5]]
+  * Le paquet [[apt>libapache2-mod-php5|libapache2-mod-php5]] (module d'intégration dans Apache) est installé automatiquement ((grâce aux dépendances du précédent ( à vérifier) )).
+  * Le paquet [[apt>mysql-server|mysql-server]] installe le serveur [[:mysql |MySQL]].
+  * Le paquet [[apt>php5-mysql|php5-mysql]] installe le module d'interface avec PHP. ((vérifier s'il n'est pas installé automatiquement grâce aux dépendances (non réalisé pour Ubuntu 13.04) )).
+
+Une fois les paquets installés, ouvrez un des liens suivants dans votre navigateur :
+  * [[http://127.0.0.1/]]
+  * [[http://localhost]]
+
+Si le message << **It works!** >> s'affiche, votre serveur Lamp est correctement installé.
+
+Selon la version installée, vous pouvez aussi avoir une page intitulée « Apache2 Ubuntu Default Page ».
+
+Sinon consultez les notes ci-dessous :
+
+<note important>Si après l'installation, le serveur refuse d'ouvrir les fichiers en PHP (Firefox vous demande si vous voulez télécharger la page en PHP), il faudra vider le cache de Firefox (ça peut suffire) et parfois (ré)installer le paquet libapache2-mod-php5. De même il arrive qu'il faille (ré)installer le paquet php5-mysql si PHP ne dispose pas des instructions de gestion des bases de données MySQL.</note>
+
+<note>
+Les méthodes d'installation décrites ici permettent d'obtenir un serveur "LAMP" pré-configuré et fonctionnel.\\
+Une configuration n'est donc nécessaire que dans le cas d'une personnalisation de l'installation.
+</note>
+
+==== Alternative : Installation par tâches ====
+
+=== Méthode graphique ===
+
+Préalable : installer [[apt>tasksel]]
+
+[[:Synaptic]] permet d'installer automatiquement tous les paquets correspondant à une tâche. La liste des tâches est accessible par le menu //Édition/Sélectionner paquets par tâches//. Il suffit de sélectionner « serveur LAMP » et de valider puis de cliquer sur le bouton « Appliquer » pour installer les paquets nécessaires.
+
+=== Méthode en lignes de code ===
+[[:Tasksel]] permet également d'installer automatiquement tous les paquets nécessaires sans avoir recours à une interface graphique.
+Dans le cas d'un serveur "LAMP", l'installation complète se résume à l'utilisation d'une seule [[:terminal |commande]] :
+  sudo tasksel install lamp-server
+
+<note warning>Si vous voulez désinstaller LAMP, ne faites surtout pas "sudo tasksel remove lamp-server". \\
+__Tasksel ne doit jamais être utilisé pour la suppression de paquet__. \\
+Celui-ci supprime les paquets nécessaires au reste du système sans se poser de question.(([[https://help.ubuntu.com/community/Tasksel|Tasksel sur Help Ubuntu]])) et (([[https://launchpad.net/bugs/574287|tasksel: forcefully removes packages when tasks overlap]]))</note>
+<note>En fait, c'est le package lamp-server^ (avec l'accent circonflexe) qu'il ne faut pas désinstaller. Que ce soit via apt-get ou tasksel. En revanche,les autres packages peuvent être désinstallés via Tasksel tout comme via apt-get.</note>
+
+ou sans passer par tasksel 
+
+<code>sudo apt-get install lamp-server^</code>
+//**N'oubliez pas** le caractère **^** en fin de ligne.// 
+.
+
+===== personnalisation de l'installation =====
+
+==== Configuration d'Apache 2 ====
+
+==== Personnaliser Apache2 ====
+
+La configuration et les détails à propos d'Apache 2 sont accessibles sur la [[:apache2 |page dédiée à ce serveur HTTP]].
+
+La configuration et les détails  pour permettre à chaque utilisateur d'avoir son propre site dans public_html sont accessibles sur la page [[apache2#mod_userdir_gerer_les_dossiers_utilisateur| Page dédiée <<public_html>>]].
+
+Ceci est utile en toute circonstance avec un Debian et un Ubuntu.
+==== Configuration de PHP ====
+
+La configuration et les détails à propos de PHP sont accessibles sur la [[:php |page dédiée à ce langage]].
+==== Configuration de MySQL ====
+
+La configuration et les détails à propos de MySQL sont accessibles sur la [[:mysql |page dédiée à ce serveur de base de données]].
+Il est courant d'installer également [[:PHPMyAdmin]] afin de gérer la base de donnée MySQL dans une interface Web écrite en PHP.
+==== Configuration du répertoire de travail ====
+
+La configuration du répertoire de travail est accessible sur cette [[tutoriel:lamp_repertoires_de_travail |page]]
+
+==== Configuration du démarrage automatique de LAMP ====
+
+=== Empêcher LAMP de démarrer automatiquement  ====
+Par défaut, apache démarre automatiquement lorsque vous allumez votre ordinateur.
+Pour empêcher cela :
+<code>sudo update-rc.d -f apache2 disable</code>
+
+Et pour mysql:
+<code>sudo sh -c "echo manual >> /etc/init/mysql.override."</code>
+
+Vous pourrez donc ensuite les lancer manuellement:
+Pour Apache:
+<code>/etc/init.d/apache2 start</code>
+
+et pour MySql
+<code>mysql -u root -p -hlocalhost</code>
+===== Utilisation et accès au serveur =====
+Une fois l'installation effectuée, le serveur est accessible (via un navigateur internet) à l'une des URL (locales) suivantes:
+  * http://127.0.0.1
+  * http://localhost
+  * http://hostname ("hostname" étant le nom de votre ordinateur)
+
+Il existe des interfaces graphiques pour utiliser Apache et MySQL. De la plus simple à la plus complète : [[http://websyys.olympe.in/localserver-indicator-raccourcis-pour-serveur-local-ubuntu-13-10.html|localserver-indicator]] FIXME [lien cassé]
+
+ [[https://launchpad.net/localhost-indicator|localhost-indicator]], [[https://launchpad.net/rapache|rapache]] et [[webmin]] (à utiliser avec prudence).
+
+===== Voir aussi =====
+  * [[http://www.it-connect.fr/installer-un-serveur-lamp-linux-apache-mysql-php/|Tutoriel : Mise en place d'un serveur LAMP sur IT-Connect ]] **(fr)**
+  * [[xampp]] Une version de LAMP simplifiée, servant pour le développement (seulement).
+
+//Contributeurs : [[utilisateurs:oxossi]], [[utilisateurs:albanmartel]], [[utilisateurs:harren]].

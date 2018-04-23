@@ -1,0 +1,216 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#samba_ou_le_partage_de_fichier_avec_windows" class="toc"> Samba ou le partage de fichier avec Windows </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#configuration_de_base" class="toc"> Configuration de base </a></span></li>
+<li class="level2"><span class="li"><a href="#acces_aux_repertoires_partages_sur_windows" class="toc"> Accés aux répertoires partagés sur Windows </a></span></li>
+<li class="level2"><span class="li"><a href="#creer_un_partage_samba" class="toc"> Créer un partage Samba </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#deux_methodes_de_partage" class="toc"> Deux méthodes de partage </a></span></li>
+<li class="level3"><span class="li"><a href="#authentification" class="toc"> Authentification </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#note" class="toc"> Note </a></span></li>
+<li class="level2"><span class="li"><a href="#liens" class="toc"> Liens </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/manu" class="wikilink1" title="utilisateurs:manu" onclick="return svchk()" onkeypress="return svchk()">manu</a>.
+</p>
+
+<a name="samba_ou_le_partage_de_fichier_avec_windows"></a><h1> Samba ou le partage de fichier avec Windows </h1>
+<div class="level1">
+
+<p>
+ Pour partager des fichiers avec les systèmes de Microsoft, il est conseillé d&rsquo;utiliser <br/>
+ <a href="http://www.samba.org/" class="urlextern" title="http://www.samba.org/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow"> Samba</a>. Cette page a pour but de vous donner les informations essentielles pour que vous puissiez accéder à un répertoire partagé sur une machine Windows et créer un partage sur votre Ubuntu pour que les autres puissent venir les chercher grâce à <strong>Samba</strong>.
+</p>
+
+</div>
+<!-- SECTION [68-511] -->
+<a name="configuration_de_base"></a><h2> Configuration de base </h2>
+<div class="level2">
+
+<p>
+ Si vous désirez simplement avoir accès aux répertoires partagés par les Windows sans avoir sur votre Ubuntu de partage, vous n&rsquo;avez rien de particulier à installer car le minimum est déjà présent (<strong>smbclient</strong>). Mais si vous voulez aussi créer un répertoire de partage accéssible aux autres, il vous faut installer le paquet <strong>samba</strong> avec <em>Synaptic</em> (voir <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">synaptic</a> ) ou avec la commande <em>apt-get</em>.
+</p>
+<pre class="code">
+$&gt;sudo apt-get install samba
+</pre>
+
+</div>
+<!-- SECTION [512-1024] -->
+<a name="acces_aux_repertoires_partages_sur_windows"></a><h2> Accés aux répertoires partagés sur Windows </h2>
+<div class="level2">
+
+<p>
+  <u>1) Sur Ubuntu <strong>Hoary</strong>:</u>
+</p>
+
+<p>
+Cet accés aux répertoires partagés est trés simple, dans le menu <strong>Raccourcis</strong> vous avez deux possibilités:
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=applications%3Amenuraccourcis.png" class="media" title="applications:menuraccourcis.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=applications%3Amenuraccourcis.png" class="medialeft" alt="" /></a> 
+</p>
+<ul>
+<li class="level1"><span class="li"> <strong>Serveurs réseaux</strong>, vous permettra de parcourir le réseau <em>Windows</em> pour trouver votre répertoire partagé. Il suffit de savoir le nom du <em>worksgroup</em> et de la machine(nom <em>netbios</em>), puis le cas échéant de rentrer un login (nom + pass) connu par la machine possédant le partage (Attention si c&rsquo;est un WindowsXP le compte utilisé doit avoir un mot de passe non vide). Si vous le désirez, vous pouvez créer un <em>raccourci réseau</em> (appelé sous Windows <em>lecteur réseau</em>) en faisant un clic droit sur le répertoire partagé et dans le menu contextuel choisir <em>Connecter ce serveur</em>. Vous aurez un raccourci sur le bureau ou dans le menu du même nom.<br/>
+</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> <strong>Connecter au serveur...</strong>, vous permettra de rentrer directement les paramètres vous permettant de créer un raccouccis pointant sur le dossier partagé.<br/>
+</span>
+</li>
+</ul>
+
+<p>
+<br/>
+ <br/>
+
+</p>
+
+<p>
+Dans la fenêtre <strong>Connexion au serveur</strong> plusieurs paramètres possible:
+</p>
+
+<p>
+ <a href="/fetch.php?cache=cache&amp;media=applications%3Afrconnectserveur.png" class="media" title="applications:frconnectserveur.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=applications%3Afrconnectserveur.png" class="medialeft" alt="" /></a> 
+</p>
+<ul>
+<li class="level1"><span class="li"> <strong>Type de service</strong>: Utilisez le menu pour choisir <strong>Partage Windows</strong>.</span>
+</li>
+<li class="level1"><span class="li"> <strong>Serveur</strong>: Il faut indiquer le nom <em>netbios</em> (nom windows) de la machine ayant le partage.</span>
+</li>
+<li class="level1"><span class="li"> <strong>Partage</strong>: Donnez le nom du partage créé sur le Windows.</span>
+</li>
+<li class="level1"><span class="li"> <strong>Dossier</strong>: Option non obligatoire cela permet de viser un dossier dans le répertoire partagé.</span>
+</li>
+<li class="level1"><span class="li"> <strong>Nom d&rsquo;utilisateur</strong>: Nom utilisé pour l&rsquo;authentification.</span>
+</li>
+<li class="level1"><span class="li"> <strong>Nom à utiliser pour la connexion</strong>: Nom pour le raccourci créé sur votre Ubuntu.</span>
+</li>
+<li class="level1"><span class="li"> <strong>Parcourir le réseau</strong>: Touche qui vous met dans le cas décrit pour <strong>Serveurs réseaux</strong> du menu <em>Raccourcis</em>.</span>
+</li>
+</ul>
+
+<p>
+ <u><strong>Attention</strong></u>:Dans tous les cas de figure, faîtes attention à la casse pour les noms de partages et ceux des comptes d&rsquo;authentification Windows.
+</p>
+
+</div>
+<!-- SECTION [1025-3004] -->
+<a name="creer_un_partage_samba"></a><h2> Créer un partage Samba </h2>
+<div class="level2">
+
+<p>
+ Une fois que vous avez installé le paquet <strong>samba</strong>, vous pouvez partager un répertoire de votre <em>Home</em> pour donner un accés aux machines Windows à vos fichiers.
+</p>
+
+</div>
+<!-- SECTION [3005-3210] -->
+<a name="deux_methodes_de_partage"></a><h3> Deux méthodes de partage </h3>
+<div class="level3">
+
+</div>
+
+<a name="premiere_methode"></a><h4> Première méthode </h4>
+<div class="level4">
+
+<p>
+ Ubuntu est une distribution qui cherche à simplifier l&rsquo;utilisation de Linux et le partage de dossier est aussi simple que sous Windows. Soit vous utilisez l&rsquo;utilitaire <strong>Dossiers partagés</strong> (dans le menu <strong>Système &rArr; Administration</strong>):
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=applications%3Amenusystemadmin.png" class="media" title="applications:menusystemadmin.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=applications%3Amenusystemadmin.png" class="media" alt="" /></a>
+</p>
+
+<p>
+Dans la nouvelle fenêtre <strong>Paramètres des dossiers partagés</strong> cliquez sur <strong>Ajouter</strong> &rArr; <strong>Répertoire partagé</strong>
+</p>
+
+<p>
+Indiquez le répertoire à partager dans <strong>Chemin</strong> et le type de partage <strong>SMB</strong>, puis donnez un nom à ce partage, éventuellement un commentaire. Puis cochez ou pas les options <strong>Lecture seul</strong> et <strong>Autoriser navigation du dossier</strong> (cette dernière permet de parcourir les répertoires contenus dans le dossier partagé). Le bouton <strong>Réglages généraux du partage Windows</strong> permet de régler quelques options spécifiques (recherche serveur wins, nom du worksgroup...) mais les réglages défauts suffisent pour la plupart des cas.
+</p>
+
+<p>
+<u><strong>Attention:</strong></u> Cette méthode a un défaut, c&rsquo;est que les dossiers créés ainsi, sont attribués à <em>root</em> donc vous n&rsquo;aurez qu&rsquo;un accès en lecture seule. Il faudra modifier manuellement le <em>propriétaire</em> et/ou le groupe. Soit par <a href="/console/ligne_de_commande" class="wikilink1" title="console:ligne_de_commande" onclick="return svchk()" onkeypress="return svchk()">les commandes</a> <em>chgrp</em> (change groupe) et chown (change propriétaire) ou plus <em>simple et graphique</em> dans un shell lancer: 
+</p>
+<pre class="code">
+sudo nautilus
+</pre>
+
+<p>
+ Ainsi vous aurez l&rsquo;explorateur de fichier <em>Nautilus</em> avec des droits <em>root</em> et en faisant un clic droit sur le(s) dossier(s) vous avez <em>Propriétés</em> qui vous permettra de modifier dans l&rsquo;onglet <em>Permissions</em> les droits et propriétaire.<br/>
+ <br/>
+ <br/>
+ <a href="/fetch.php?cache=cache&amp;media=applications%3Apartage2.png" class="media" title="applications:partage2.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=applications%3Apartage2.png" class="mediaright" alt="" /></a> 
+</p>
+
+</div>
+
+<a name="deuxieme_methode"></a><h4> Deuxième méthode </h4>
+<div class="level4">
+
+<p>
+ Plus simplement, il suffit de créer ou utiliser un dossier de votre <em>Home</em>, puis un clic droit et sélectionnez <strong>Dossier partagé</strong>. Rentrez votre mot de passe <em>root</em> et vous retrouvez la fenêtre de configuration : <strong>Répertoire partagé</strong> expliquée plus haut. Avantage de cette méthode les droits de ce répertoire ne bougent pas.
+</p>
+
+</div>
+<!-- SECTION [3211-5280] -->
+<a name="authentification"></a><h3> Authentification </h3>
+<div class="level3">
+
+<p>
+ Dernière chose à faire avant de pouvoir accéder au répertoire partagé de votre machine, il faut créer des mots de passe pour les comptes qui auront accés à ceux-ci. Car <strong>Samba</strong> n&rsquo;utilisent pas les mots de passe du système mais il a son propre fichier pour stocker ceux-ci (/etc/smbpasswd)
+</p>
+
+<p>
+Pour créer les mots de passe <strong>samba</strong> :
+</p>
+<pre class="code">
+smbpasswd -a user_name
+</pre>
+
+<p>
+<u>Remarque:</u> Remplacer <strong>user_name</strong> par le(s) nom(s) des utilisateurs ayant accés samba, il faut que ces utilisateurs aient un compte (au sens Unix sur la machine) <a href="/applications/gestion_compte" class="wikilink1" title="applications:gestion_compte" onclick="return svchk()" onkeypress="return svchk()">gestion compte</a> explique la marche à suivre pour ajouter un utilisateur.
+</p>
+
+</div>
+<!-- SECTION [5281-5936] -->
+<a name="note"></a><h2> Note </h2>
+<div class="level2">
+
+<p>
+ Samba permet beaucoup plus de chose, comme les PDC et les serveurs WINS. Egalement le fait d&rsquo;éditer directement le fichier <strong>smb.conf</strong> et donne accés à plus de finesse dans les réglages. Et sans oublier la possibilité de configuration en ligne via les interfaces <strong>SWAT</strong> ou <strong>Webmin</strong>. Tout ceux-ci sera détaillé dans la page <a href="/applications/samba/avancee" class="wikilink1" title="applications:samba:avancee" onclick="return svchk()" onkeypress="return svchk()">avancée de Samba</a>.
+</p>
+
+</div>
+<!-- SECTION [5937-6340] -->
+<a name="liens"></a><h2> Liens </h2>
+<div class="level2">
+
+<p>
+ Quelques <acronym title="Uniform Resource Locator">URL</acronym> pour trouver plus d&rsquo;informations. 
+</p>
+<ul>
+<li class="level1"><span class="li"> <a href="http://www.ac-creteil.fr/reseaux/systemes/linux/tp-samba1.html" class="urlextern" title="http://www.ac-creteil.fr/reseaux/systemes/linux/tp-samba1.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.ac-creteil.fr/reseaux/systemes/linux/tp-samba1.html</a></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://www.commentcamarche.net/reslinux/reslsamba.php3" class="urlextern" title="http://www.commentcamarche.net/reslinux/reslsamba.php3" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.commentcamarche.net/reslinux/reslsamba.php3</a></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://www3.uqar.uquebec.ca/ajacques/INF16103/Travaux%20pratiques/TP07/Travail_Pratique7.htm" class="urlextern" title="http://www3.uqar.uquebec.ca/ajacques/INF16103/Travaux%20pratiques/TP07/Travail_Pratique7.htm" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www3.uqar.uquebec.ca/ajacques/INF16103/Travaux%20pratiques/TP07/Travail_Pratique7.htm</a></span>
+</li>
+<li class="level1"><span class="li"> Et n&rsquo;oubliez pas... <a href="http://www.google.fr" class="urlextern" title="http://www.google.fr" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Google</a>  est votre ami <img src="/smileys/icon_wink.gif" align="middle" alt=";-)" /></span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [6341-] -->

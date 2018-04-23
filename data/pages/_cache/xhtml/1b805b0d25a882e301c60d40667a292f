@@ -1,0 +1,26 @@
+<pre class="code">Toutes versions</pre>
+<em>par Futal</em>
+<a name="recuperation_de_la_partition_home_d_une_precedente_distribution"></a><h1> Récupération de la partition &quot;/home&quot; d'une précédente distribution </h1>
+<div class="level1">
+
+<p>
+ Si vous utilisiez déjà Linux avant de passer à Ubuntu, vous avez peut-être gardé votre partition &ldquo;/home&rdquo; pour retrouver vos document et la configuration de votre bureau. Cependant, il y a de fortes chances que les noms de fichiers contenant des accents ne soient plus affiché correctement. En effet, Ubuntu utilise le codage international UTF8 et non des codages régionaux encore largement utilisés par les autres distributions.
+</p>
+
+<p>
+La solution consiste à convertir les noms de fichiers en UTF8 à l&rsquo;aide de l&rsquo;utilitaire &ldquo;convmv&rdquo; 
+</p>
+<pre class="code">sudo apt-get install convmv</pre>
+
+<p>
+ Dans un premier temps, regardez la liste des modifications proposées par &ldquo;convmv&rdquo;. Celui-ci sait reconnaître les noms de fichiers déjà en UTF8 (au cas où vous auriez déjà commencé à en modifier certains à la main). Si vous aviez une localisation française, il est probable que le codage actuellement utilisé soit &ldquo;latin15&rdquo;. 
+</p>
+<pre class="code">convmv -f latin15 -t utf8 -r ~/</pre>
+
+<p>
+ Pour appliquer réellement les modifications proposées. 
+</p>
+<pre class="code">convmv -f latin15 -t utf8 -r --notest ~/</pre>
+
+</div>
+<!-- SECTION [34-] -->

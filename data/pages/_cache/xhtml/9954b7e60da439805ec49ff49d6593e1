@@ -1,0 +1,42 @@
+
+<p>
+Cette page s&rsquo;adresse aux possesseurs d&rsquo;un <strong>Compaq Presario série R3000</strong> (le mien étant un R3332).<br/>
+  La config de Ubuntu sur les portable étant quelque peu compliquée, j&rsquo;adresse ces conseils à ceux qui voudraient disposer:
+</p>
+<ol>
+<li class="level1"><span class="li"> de l&rsquo;accélération graphique</span>
+</li>
+<li class="level1"><span class="li"> du touchpad</span>
+</li>
+<li class="level1"><span class="li"> du support ACPI et des réglages de la fréquence du processeur</span>
+</li>
+</ol>
+
+<a name="acceleration_graphique_et_problemes_de_resolution"></a><h1> Accélération graphique et problèmes de résolution: </h1>
+<div class="level1">
+
+<p>
+<br/>
+  La configuration de xorg à l&rsquo;origine sur Ubuntu ne prend pas en charge l&rsquo;accélération graphique de la geforce4 embarquée dans les portables de la série R3000.<br/>
+  Le premier reflexe à avoir est d&rsquo;installer les pilotes <a href="/materiel/nvidia" class="wikilink1" title="materiel:nvidia" onclick="return svchk()" onkeypress="return svchk()">nvidia</a>.<br/>
+  En rebootant le serveur X, on s&rsquo;apercoit que la résolution passe en 1024*768, ce qui donne des résultats très moches sur l&rsquo;écran. La solution est simple, elle est due à un bug des pilotes nvidia pour les cartes graphiques mobiles.<br/>
+  Pour le résoudre, on édite le fichier <em>/etc/modprobe.d/nvidia-kernel-nkc</em>: <br/>
+ 
+</p>
+
+<p>
+<code>sudo gedit /etc/modprobe.d/nvidia-kernel-nkc</code> <br/>
+
+</p>
+
+<p>
+On ajoute la ligne <code>options nvidia NVreg_Mobile=0</code> dans ce fichier<br/>
+ 
+</p>
+
+<p>
+On sauve et <em>ctrl+alt+backspace</em> pour rebooter le serveur X, et normalement tout rentre dans l&rsquo;ordre!
+</p>
+
+</div>
+<!-- SECTION [352-] -->

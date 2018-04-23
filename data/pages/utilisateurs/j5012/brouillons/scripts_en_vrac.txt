@@ -1,0 +1,84 @@
+======= Scripts en vrac =======
+
+Bouts de scripts de plusieurs auteurs, à utiliser en connaissance de cause, et toujurs avec prudence !
+
+==== FUR1204 -by- framakey ====
+
+<code>
+ubuntu@ubuntu:~$ ls /home
+ubuntu
+ubuntu@ubuntu:~$ cat /etc/lightdm/lightdm.conf
+
+[SeatDefaults]
+allow-guest=false
+autologin-guest=false
+autologin-user=ubuntu
+autologin-user-timeout=0
+autologin-session=lightdm-autologin
+user-session=ubuntu
+greeter-session=unity-greeter
+ubuntu@ubuntu:~$
+</code>
+
+==== Balise HTML /s IE8 -by- idleman ====
+
+Entre les balises <head> et </head> de votre site, ajoutez le code suivant :
+
+<code>
+<script type="text/javascript"><br>
+ document.createElement("header");<br>
+ document.createElement("footer");<br>
+ document.createElement("section");<br>
+ document.createElement("aside");<br>
+ document.createElement("nav");<br>
+ document.createElement("article");<br>
+ document.createElement("figure");<br>
+ </script>
+</code>
+
+Le code créé ces nouvelles balises dans les références du navigateur avant le chargement de la page.
+
+Au début de votre css, ajoutez le code suivant :
+
+<code>
+header, footer, section, hgroup, aside, nav, article, figure, figcaption, time, dialog {<br>
+ display: block;<br>
+ }
+</code>
+
+Les balises HTML5 se comporteront par défaut en tant que bloc.
+
+==== PHP :: Récuperer et sécuriser automatiquement toutes les variables POST et GET -by- idleman ====
+
+<code>
+$_ = array();<br>
+foreach($_POST as $key=>$val){<br>
+$_[$key]=mysql_escape_string(htmlentities($val));<br>
+}<br>
+foreach($_GET as $key=>$val){<br>
+$_[$key]=mysql_escape_string(htmlentities($val));<br>
+}
+
+<?php<br>
+echo $_['MaVariablePostOuGet'];<br>
+?>
+</code>
+
+==== Service local visible sur l'internet -by- anonym at korben's ====
+
+Mettre à disposition sur le net de manière totalement sauvage n'importe quel service disponible sur votre machine : Pagekite !
+
+Pagekite va mapper votre service en local (par exemple 127.0.0.1:80) avec une URL comme http://toto.pagekite.me.
+
+Maintenant pour l'installer, c'est très simple :
+
+**Sous Mac OSX et Linux**
+
+<code>curl -s https://pagekite.net/pk/ | sudo bash</code>
+<code>pagekite.py 80 yourname.pagekite.me</code>
+
+**Sous Windows**
+
+  * Téléchargez et installez Python 2.7
+  * Téléchargez pagekite.py sur votre ordi
+  * Lancez le script !

@@ -1,0 +1,108 @@
+{{tag>gestionnaire_de_fenêtres}}
+
+----
+
+====== Enlightenment ======
+{{http://enlightenment.org/p/index/d/logo.png }}
+
+===== Présentation =====
+**Enlightenment** (surnommé //**E17**// puis //E18// puis //E19// pour la version suivante) auparavant considéré comme un [[gestionnaire_de_fenetres|gestionnaire de fenêtres]], est aujourd'hui un [[environnements|environnement de bureau]] presque complet. Après dix années de développement la première version stable est sortie le 21 décembre 2012(([[http://enlightenment.fr/2012/12/22/enlightenment-dr17-enfin/|Enlightenment DR17 Enfin !]])).
+
+
+Cette page a pour but de vous aider et vous guider dans l'installation et la configuration de E17 (et des versions suivantes, au 10 mars 2014 E18 est disponible sur le site officiel, E19 est sorti le 15 Septembre 2014).\\
+
+<note tip>Il est probablement plus simple d'installer une distribution dédiés à //Enlightenment// (comme Bodhi) plutôt que de vouloir modifier une Ubuntu "standard". //E// est un gestionnaire de bureau vraiment différent, et il y a beaucoup de choses à modifier par rapport à un autre gestionnaire de bureau.</note>
+
+//Quelques captures d'écran de ce qui est possible d'obtenir ://
+
+{{2009-08-09-213745.png?150}}
+{{http://www.e17-stuff.org/CONTENT/content-pre1/107767-1.jpg?150}}
+{{http://e17-stuff.org/CONTENT/content-pre1/149066-1.png?150}}
+{{http://www.e17-stuff.org/CONTENT/content-pre1/95019-1.jpg?150}}
+
+=====Installation=====
+La version disponible dans le dépôt officiel est ancienne, de nombreux bugs ont été corrigés depuis. Préférez l'installation depuis le PPA.
+
+=== Dépôt officiel ===
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>e17]]**.\\
+Par exemple dans un [[:terminal]] avec l'outil [[:apt-get]] saisissez la [[:commande_shell|commande]] suivante :
+<code>sudo apt-get install e17</code>
+
+=== Dépôt PPA ===
+  - [[:PPA|Ajoutez le PPA]] **ppa:efl/trunk** ((https://launchpad.net/~efl/+archive/trunk)) pour la version stable.
+  - [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste des paquets]]
+  - [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>e17]]**.
+
+== Résumé en ligne de commande ==
+Depuis un [[:terminal]] avec l'outil [[:apt-get]] saisissez les [[:commande_shell|commandes]] suivantes :
+<code>
+sudo apt-add-repository ppa:efl/trunk
+sudo apt-get update
+sudo apt-get install e17
+</code>
+
+**La toute dernière version E19 est disponible dans le dépôt niko2040**
+<code>
+sudo add-apt-repository ppa:niko2040/e19
+sudo apt-get update
+sudo apt-get install enlightenment
+</code>
+==== Sources ====
+Pour installer Enlightenment à partir du **code source**, référez-vous à [[installation_e17_sources|cette page]].
+
+===== Utilisation =====
+
+Une fois installé, pour lancer Enlightenment il suffit de redémarrer le pc, au //login// au dessus à droite du champ réservé au mot de passe, cliquer sur l'icon Ubuntu et sélectionner celle d'Enlightenment.
+
+==== Applications ====
+  * [[Eve]] : navigateur web
+  * [[Enna]] : Media center
+  * EFM: navigateur de fichiers inclus par défaut
+
+FIXME **À compléter**.
+
+==== Utilitaire ====
+  * [[Exalt]] : Le gestionnaire de réseau de e17, tout pour vous connecter au réseau souhaité sous e17.
+
+==== Modules ====
+  * [[:ibar|Ibar]] : une barre de [[:racourci-lanceur|lanceur]] d'application animée.
+  * iBox : module tout simple servant à contenir les applications iconifiées. Il a bien sa place à côté du pager dans le shelf principal.
+  * Deskshow : dé/iconifie toutes les applications du bureau courant.
+  * Screenshot : petit module très paramétrable qui fait une capture d'écran quand on clique dessus.
+
+FIXME **À compléter**.
+
+==== Autre ====
+  * [[personnalisation_e17|Personnaliser e17]] : toutes les astuces pour personnaliser votre environnement nouvellement installé.
+  * [[Faq e17]] : les questions fréquemment posées concernant tout ce qui touche à l'environnement enlightenment DR17. N'hésitez pas à allez y jeter un coup d’œil avant de poser une question !
+<note>Pour avoir accès à vos modèles, créer un lien nommé templates vers le répertoire modèles de votre dossier personnel</note>
+<note>Pour avoir une zone de notifications, clic droit sur la barre, contenu, puis zone de notification, ajouter un gadget.</note>
+
+=====Les gadgets=====
+Pour avoir le module Gadget, voici le menu principal que vous pouvez obtenir en faisant un clic gauche sur le bureau :\\
+{{enlightenment:gadget.png?250}}\\
+Selon les modules que vous aurez chargés, vous disposerez de plus ou moins de gadgets à mettre sur le bureau :\\
+{{enlightenment:gestionnaire de gadget.png?250}}\\
+
+===== Variantes de GNU/Linux avec Enlightenment =====
+Parmi les variantes utilisant Enlightenment, il y a :
+  * [[http://www.elivecd.org/|Elive]] (basée sur Debian)
+  * [[http://opengeu.intilinux.com/|OpenGEU]] (basée sur Ubuntu)
+  * [[http://moonos.org//|moonOS]] (basée sur Ubuntu)
+  * [[http://www.bodhilinux.com/|Bodhi linux]] (basée sur Ubuntu)
+  * [[http://www.hybryde.org/site/index.php|Hybride Fusion]] (basée sur Ubuntu, à des fins de présentations d'interfaces graphiques)
+  * et d'autres...
+
+===== Bibliographie =====
+  * [[http://www.enlightenment.org/|Site officiel de Enlightenment]]
+  * [[http://enlightenment.fr/|Site francophone de Enlightenment]]
+  * [[http://trac.enlightenment.org/e/wiki|Wiki officiel]]
+
+  * [[https://help.ubuntu.com/community/InstallingE17Howto|Guide d'installation de e17 en anglais]] (sur ubuntu.com)
+  * [[http://exchange.enlightenment.org/|Site pour échanger les thèmes, les scripts, etc.]]
+  * [[http://www.e17-stuff.org/|Équivalent de gnome-look.org pour E17]]
+  * [[http://web.enlightenment.org/p.php?p=docs&l=en|API documentation]]
+  * [[http://code.google.com/p/e-apps/|Application pour enlightenment sur google code]]
+
+----
+//Contributeurs : Black_Pignouf, Toma222, Lut!n, davromaniak, mondai, koshie-2.0, rustyBSD//

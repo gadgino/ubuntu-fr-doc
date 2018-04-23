@@ -1,0 +1,61 @@
+
+{{tag>Lucid Precise enlightenment}}
+
+----
+<note warning>L'installation depuis les sources que propose cette page n'a semble-t-il pas été testé récemment. Les dépendances ainsi que les scripts ne sont plus forcément à jour.</note>
+
+====== Installation de E17 par les sources ======
+
+L'installation via le dépôt [[:subversion|svn]] permet d'utiliser directement et librement le code source des programmes. Pas d'intermédiaires, pas de modifications : les programmes tels que les conçoivent les développeurs et un accès privilégié à la vie des projets.\\
+L'installation depuis les sources [[:subversion|svn]] permet, en outre, d'accéder à de nombreux programmes qui ne seront vraisemblablement jamais disponibles sous forme de paquet pour Ubuntu. Vous aurez aussi la primeur des dernières améliorations et la possibilité de personnaliser votre environnement comme il vous plaira.\\
+Bref, toute la puissance de [[:enlightenment|E17]] à votre service !
+
+===== Installation =====
+
+Il existe plusieurs scripts FIXME qui permettent de s'affranchir d'une installation depuis les sources pas toujours aisée.
+
+  * [[#Script easy_e17.sh]]
+  * [[#Script get_e.sh]]
+==== Script easy_e17.sh ====
+
+  - [[:tutoriel:comment_installer_un_paquet#en_ligne_de_commande|installez]] les paquets suivants: **[[apt>build-essential,cvs,subversion,libglib-2.0-dev,automake,libtool,libltdl3-dev,automake1.9,autotools-dev,libpopt-dev,libcurl3-dev,libx11-dev,x11proto-xext-dev,libbz2-dev,libid3tag0-dev,libpng12-dev,libtiff4-dev,libungif4-dev,libjpeg62-dev,libssl-dev,libfreetype6-dev,bison,flex,gettext,libimlib2-dev,libpam0g-dev,libxml2-dev,libxcursor-dev,libgtk2.0-dev,autoconf,pkg-config,libpng3-dev,libxine-dev,libxkbfile-dev,libsqlite3-dev,giblib-dev,libxmu-dev,libxdamage-dev,libxcomposite-dev,libtag1-dev,libtagc0-dev,giblib-dev,libasound2-dev,libdbus-1-dev,libfontconfig-dev,libudev-dev,liblua5.1-0-dev,libxcb-shape0-dev|build-essential cvs subversion libglib-2.0-dev automake libtool libltdl3-dev automake1.9 autotools-dev libpopt-dev libcurl3-dev libx11-dev x11proto-xext-dev libbz2-dev libid3tag0-dev libpng12-dev libtiff4-dev libungif4-dev libjpeg62-dev libssl-dev libfreetype6-dev bison flex gettext libimlib2-dev libpam0g-dev libxml2-dev libxcursor-dev libgtk2.0-dev autoconf pkg-config libpng3-dev libxine-dev libxkbfile-dev libsqlite3-dev giblib-dev libxmu-dev libxdamage-dev libxcomposite-dev libtag1-dev libtagc0-dev giblib-dev libasound2-dev libdbus-1-dev libfontconfig-dev libudev-dev liblua5.1-0-dev libxcb-shape0-dev]]**.\\ En une ligne dans un [[:terminal]] et avec [[:apt-get]] <code>sudo apt-get install -y build-essential cvs subversion libglib-2.0-dev automake libtool libltdl3-dev automake1.9 autotools-dev libpopt-dev libcurl3-dev libx11-dev x11proto-xext-dev libbz2-dev libid3tag0-dev libpng12-dev libtiff4-dev libungif4-dev libjpeg62-dev libssl-dev libfreetype6-dev bison flex gettext libimlib2-dev libpam0g-dev libxml2-dev libxcursor-dev libgtk2.0-dev autoconf pkg-config libpng3-dev libxine-dev libxkbfile-dev libsqlite3-dev giblib-dev libxmu-dev libxdamage-dev libxcomposite-dev libtag1-dev libtagc0-dev giblib-dev libasound2-dev libdbus-1-dev libfontconfig-dev libudev-dev liblua5.1-0-dev libxcb-shape0-dev</code>
+  - Téléchargez dans votre //Dossier Personnel// le [[tutoriel:script_shell|script]] **easy_e17.sh** disponible [[http://omicron.homeip.net/projects/easy_e17/|ici]]:\\<code>
+wget http://omicron.homeip.net/projects/easy_e17/easy_e17.sh</code>
+  - Rendez le script [[:droits|exécutable]]: <code>chmod u+x ~/easy_e17.sh</code>
+  - Lancez le script <code>sh -c ~/easy_e17.sh -i -e</code>
+
+Une fois le script terminé, il ne reste plus qu'a faire apparaître Enlightenment dans le choix des [[environnements]] de bureaux à l'[[:fenetre_de_connexion|écran de connexion]]. Pour cela, [[:tutoriel:comment_modifier_un_fichier|créez avec les droits d'administration]] le fichier **/usr/share/xsessions/Enlightenment-0.17.desktop** pour y insérer les lignes suivantes:
+
+<file>
+[Desktop Entry]
+Encoding=UTF-8
+Name=Enlightenment 0.17
+Comment=
+Exec=/opt/e17/bin/enlightenment_start
+Icon=
+Type=Application
+</file>
+Après sauvegarde de ce fichier, [[:tutoriel:comment_modifier_un_fichier|ouvrez avec les droits d'administration]] le fichier **/etc/environment** pour y ajouter ''/opt/e17/bin'' au [[:variables_d_environnement#variables_liees_aux_emplacements_de_fichiers|PATH]]. Vous aurez ainsi quelque chose comme
+<file>PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/bin/X11:/opt/e17/bin</file>
+
+Voilà, vous pouvez maintenant sortir de votre session pour sélectionner enlightenment comme session de démarrage à l'[[:fenetre_de_connexion|écran de connexion]].
+
+==== Script get_e.sh ====
+FIXME Partie peut-être pas nécessaire: ne propose pas de mise à jour ni de désinstallation.
+
+Un autre [[tutoriel:script_shell|script]] connu pour installer e17 est celui de [[http://www.rasterman.com/|Carsten "Rasterman" Haitzler]], le leader du projet E17.\\
+Vous pouvez télécharger **get_e.sh** [[http://www.rasterman.com/files/|ici]] par exemple en tapant dans un [[:terminal]] :<code>wget http://www.rasterman.com/files/get_e.sh</code>
+Notez que d'après le contenu de ce script, il n'est pas adapté à Jaunty (ou alors il faudrait le modifier).
+
+===== Mise à jour =====
+Si vous avez installez E17 par le [[#script easy_e17.sh]], depuis un [[:terminal]], allez dans le répertoire où se trouve le [[tutoriel:script_shell|script]] **easy_e17.sh** téléchargé (normalement votre //Dossier Personnel//) et lancez la mise  jour:
+<code>cd ~
+./easy_e17.sh -u</code>
+
+===== Désinstallation =====
+Si vous avez installez E17 par le [[#script easy_e17.sh]], il s'agit de [[:tutoriel:comment_supprimer_un_fichier|supprimer avec les droits d'administration]] les dossiers **/opt/e17/** et **e17_src** qui se trouve dans votre dossier personnel. Depuis un [[:terminal]]:
+<code>sudo rm -rf /opt/e17
+sudo rm -rf ~/e17_src</code>
+
+----
+//Contributeurs : mondai//

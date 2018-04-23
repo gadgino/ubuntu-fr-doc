@@ -1,0 +1,84 @@
+{{tag>Precise acer portable}}
+
+----
+
+======  Acer Aspire 5738ZG_454G50mn ======
+
+===== En un coup d'œil =====
+
+Le tableau suivant récapitule la prise en charge du matériel de portable par les différentes versions d'Ubuntu.
+Il utilise les notations suivantes :
+  * {{icons:icon-ubuntu.png|Fonctionne immédiatement}} : **Fonctionne immédiatement**
+  * {{icons:important.png|Fonctionne après config}} : **Fonctionne après quelques manipulations**
+  * {{icons:process-stop.png|Ne fonctionne pas}} : **Ne fonctionne pas**
+  * {{icons:icon-support.png|Pas testé}} : **Pas d'informations disponibles**
+
+^ Version ^  Installation  ^ Carte graphique ^ Son ^ Wifi ^  Bluetooth  ^ Webcam ^ Touchpad ^ Raccourcis multimédia ^ Autres ^
+| [[:precise |12.04.4 (Precise)]] |  Disque dur (en dual boot avec Windows 7)  | {{  icons:icon-ubuntu.png  |Fonctionne immédiatement}} | {{  icons:icon-ubuntu.png  |Fonctionne immédiatement}} | {{  icons:icon-ubuntu.png  |Fonctionne immédiatement}} |  N/A  |  {{  icons:icon-ubuntu.png  |Fonctionne immédiatement}}  | {{  icons:important.png  |Fonctionne après config}} | {{  icons:icon-ubuntu.png  |Fonctionne immédiatement}}| HDMI audio : {{  icons:important.png  |Fonctionne après config}} |
+
+
+**Utilisateurs du Wiki possédant cet ordinateur, fonctionnel :**
+  * **[[:utilisateurs:metalux]]** : [[:precise|12.04 (Precise Pangolin)]]
+  * **[[:utilisateurs:mossroy]]** : [[:precise|12.04.4 (Precise Pangolin)]]
+
+**Cet ordinateur portable n'est à priori pas [[:pc_tatoué|tatoué]].**
+
+
+==== Touchpad ====
+
+=== Bug du bouton d'activation ===
+
+Un bug existe au niveau du bouton d'activation/désactivation du pavé tactile. En effet, on peut désactiver le pavé tactile mais sa réactivation est impossible, les appuis sur le bouton d'activation restent sans effet.
+
+Pour corriger ce symptôme reportez-vous à cette [[:touchpad#Résolution des problèmes|page]].
+
+==== Problème d'interface graphique qui ne se lance pas (Ubuntu 12.04) ====
+
+Dans certains cas, au moins avec Ubuntu 12.04, il arrive qu'on se retrouve sur la page de login en mode texte (à la place de l'interface graphique).
+Cela semble être un petit bug : https://bugs.launchpad.net/ubuntu/+source/lightdm/+bug/969489
+Il peut être contourné en modifiant le fichier /etc/init/lightdm.conf (à éditer en tant que root) : recherche la ligne exec lightdm, et rajouter devant un instruction "sleep" pour le faire attendre un peu :
+<file>
+   # Add a sleep for a race condition : see https://bugs.launchpad.net/ubuntu/+source/lightdm/+bug/969489
+    sleep 5
+
+    exec lightdm
+</file>
+
+(Il est possible qu'une valeur + faible que 5 puisse suffire : à tester)
+
+==== Erreurs "*ERROR* UVD not responding, trying to reset the VCPU!!!" au démarrage (Ubuntu 12.04.4) ====
+Apparemment cela se produit avec le kernel 3.11 (et probablement d'autres versions), mais pas en 3.2 ou 3.5.
+Cela concerne le décodage vidéo matériel, et n'est donc pas problématique pour le bon fonctionnement de l'ordinateur (le CPU est suffisant pour décoder les vidéos).
+
+Apparemment, ce serait dû à une version de firmware pas en phase avec le kernel : https://bugs.freedesktop.org/show_bug.cgi?id=65274 . Il y a donc des chances que ce soit corrigé dans la version 14.04 (Trusty)
+
+==== Pas d'audio en HDMI (Ubuntu 12.04.4) ====
+Par défaut, il n'est pas possible d'avoir du son sur la sortie HDMI.
+C'est désactivé par défaut dans le kernel 3.11 (et probablement les précédents aussi), car pas supporté par tous les chipsets.
+
+D'après mes tests, ça fonctionne bien sur cet ordinateur. Il est possible de l'activer en rajoutant l'option de démarrage **radeon.audio=1** dans le fichier // /etc/default/grub//.
+
+Ouvrez un [[:terminal|terminal]] et [[:tutoriel:comment_editer_un_fichier|éditez le fichier]] // /etc/default/grub //:
+<code>
+gksudo gedit /etc/default/grub
+</code>
+
+Recherchez la ligne qui contient **GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"** et juste après //quiet splash// ajouter simplement l'option //radeon.audio=1//. Vous devez donc obtenir ça : **GRUB_CMDLINE_LINUX_DEFAULT="quiet splash radeon.audio=1"** (plus éventuellement l'option i8042.nomux pour le touchpad : voir le paragraphe au-dessus)
+
+N'oubliez pas d'enregistrer avant de fermer le fichier. Puis tapez:
+
+<code>
+sudo update-grub
+</code>
+
+Il est probable que ce ne soit plus nécessaire dans une version ultérieure du kernel
+
+===== Voir aussi =====
+//Discutions à propos du touchpad sur le forum://
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3984256|Touchpad sous Ubuntu 10.04]]
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=416382|Réactivation Touchpad Acer Aspire 7535g]]
+ 
+
+----
+
+//Contributeurs : [[:utilisateurs:ekass]] [[:utilisateurs:mossroy]]//

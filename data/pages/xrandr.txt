@@ -1,0 +1,182 @@
+{{tag>Precise Trusty écran personnalisation résolution}}
+
+----
+
+====== XRandR ======
+
+**XRandR** est un outil en ligne de commande qui utilise l'extension RandR de [[:Xorg]] afin de gérer les paramètres d'affichage de vos écrans comme la taille, le redimensionnement, la rotation ou le multi-écran.
+
+Le point fort de l'extension RandR est que cette dernière est directement implémentée dans Xorg et ne nécessite pas le redémarrage de X lorsque l'on souhaite par exemple changer sa résolution, brancher un deuxième écran ou [[:multi-écran|en utiliser plusieurs]].
+
+Il existe des interfaces graphiques réalisant une partie des transformations de xrandr.
+
+  * Voir la page [[:configurer_son_ecran|sur comment configurer son écran]].
+  * **[[apt>LXRandR]]** (installé par défaut sous [[:Lubuntu]]).
+  * **[[apt>ARandR]]** : très utile pour gérer le multi-écran avec LXDE (Lubuntu).
+
+
+===== Configuration =====
+
+==== Lister les résolutions disponibles ====
+
+Pour lister les résolutions disponibles, depuis un [[:terminal]] lancez la commande suivante: <code>xrandr</code>
+
+Vous obtenez une réponse, variable suivant votre matériel et la configuration de votre serveur X, du type : <code>
+Screen 0: minimum 320 x 200, current 1366 x 768, maximum 32767 x 32767
+eDP1 connected primary 1366x768+0+0 (normal left inverted right x axis y axis) 345mm x 194mm
+   1366x768       60.0*+
+   1360x768       59.8     60.0  
+   1024x768       60.0  
+   800x600        60.3     56.2  
+   640x480        59.9  
+CVT connected 1440x900+0+0 (normal left inverted right x axis y axis) 0mm x 0mm
+   1440x900      60.0
+   1024x768       60.0*  
+   800x600        60.3     56.2  
+   848x480        60.0
+   640x480        59.9  
+TV1 unknown connection (normal left inverted right x axis y axis)
+   848x480        59.9 +
+   640x480        59.9 +
+   1024x768       59.9  
+   800x600        59.9
+</code>
+
+Vous voyez apparaître les noms des modes écrans disponibles en première colonne et les différentes fréquences de rafraîchissement disponibles en seconde colonne.  
+
+Les noms des écrans apparaissent en MAJUSCULES et leur statut suit.  Il existe 4 sorties vidéo possibles : sortie VGA, sortie DVI, sortie LVDS pour la sortie principale d'un portable et sortie TV pour S-video.
+
+Attention, il n'est pas nécessaire d'avoir sur votre ordinateur toutes les sorties détectées par XRandR. Certaines peuvent être bridées par le constructeur.
+
+Les modes activés sont ceux/celui qui est directement suivi du signe *.
+==== Fréquence listée dans les modes disponibles ====
+=== Dimension de la fenêtre===
+Pour changer la résolution vers 1440x900 (plus haute fréquence disponible d'après la réponse du terminal), tapez dans un [[:terminal]]: <code>xrandr -s 1440x900</code>
+
+=== Fréquences de rafraîchissement ===
+
+La commande ci-dessous change la fréquence à la nouvelle valeur de 1440×900 à 60 Hz : <code>xrandr -s 1440x900 -r 60</code>  
+
+=== Utiliser plusieurs écrans ===
+
+Si par exemple vous souhaitez mettre le second écran connecté en HDMI sur le coté droit de l'écran principal et que l'écran principal ait une résolution de ''1920x1200'',  nous pouvons entrer dans un terminal : <code>xrandr --output HDMI --pos 1920x0 --mode 1440x900 --rate 60</code>
+
+Ainsi, nous pouvons en déduire l'effet des paramètres.
+
+  * **%%--output%%** détermine l'écran à configurer
+  * **%%--pos%%** positionne l'écran dans l'espace virtuel, dans cet exemple l'écran sera décalé de 1920 px vers la droite et de 0 vers le bas. Soit tout simplement à droite de l'écran principal (optionnel)
+  * **%%--mode%%** détermine le mode utilisé (optionnel)
+  * **%%--rate%%** la fréquence de l'écran, optionnel : par défaut c'est la plus grande valeur qui est appliquée.
+
+==== Fréquence non listée dans les modes disponibles ====
+
+Il est tout à fait possible que votre écran supporte le mode //1280x1024 à 60Hz// mais que ce mode n'est actuellement pas listé dans les modes disponibles. Dans ce cas vous pouvez imposer la résolution de l'écran à cette dimension et cette fréquence avec ''xrandr''. Mais, si ce mode n'est pas supporté, vous obtiendrez un message ''Frequency out of range'' et vous ne verrez plus rien à l'écran... Vous pourrez éventuellement revenir à une résolution et une fréquence supportées en utilisant le paragraphe [[#Fréquence listée dans les modes disponibles|Fréquence listée dans les modes disponibles]] en aveugle (c'est à dire sans voir ce que l'on tape!).
+
+Pour obtenir un mode non listé, utilisez les programmes complémentaires **//gtf//** et **//sed//**.  Vous entrez la ligne de commande suivante, vous devriez bien entendu adapter les nombres 1280, 1024 et 60 à votre résolution cible :
+<code>xrandr --newmode $(gtf 1280 1024 60 | sed -ne 's/"//g;s/ Modeline //p')</code>
+
+Vous avez normalement défini un mode nommé ''1280x1024_60.00'' ou un nom adapté à votre résolution cible.  Maintenant, il ne vous reste plus qu'à l'autoriser pour l'écran récalcitrant.  Imaginons que le nom de cet écran soit //VGA1//.
+<code>xrandr --addmode VGA1 1280x1024_60.00</code>
+Vous pouvez maintenant utiliser un programme graphique pour changer la résolution de cet écran. Par exemple, par le biais de la [[:configurer_son_ecran|méthode graphique]] ou par celle décrite à la section [[#Fréquence listée dans les modes disponibles]] ci-dessus.
+
+==== Activer la résolution choisie ====
+Il reste maintenant à appliquer cette résolution soit (liste non exhaustive) :
+  * En ligne de commande : <code>xrandr --output <SortieEcran> --mode <NomDuMode> </code>
+  * En sélectionnant dans les [[:configurer_son_ecran|paramètres d'affichage]] le nouveau mode,
+  * En sélectionnant dans ArandR ce nouveau mode.
+
+Maintenant que la nouvelle résolution fonctionne, il faut l'activer pour l'avoir au prochain  démarrage de l'ordinateur. Une solution consiste à créer un script avec nos deux commandes et de le lancer au démarrage. Avec notre exemple, [[:tutoriel:comment_modifier_un_fichier|créez un fichier]] **Resolution.sh** avec ce qui suit comme contenu :
+<code bash>
+xrandr --addmode HDMI 1440x900_60
+xrandr --output HDMI --mode 1440x900_60
+</code>
+rendez votre script [[:tutoriel:script_shell#executer_un_script|éxécutable]] et ajoutez-le enfin [[:tutoriel:application_demarrage|aux applications au démarrage]].
+
+==== Ajouter une résolution ====
+
+Pour ajouter une résolution par exemple de ''1366x768_60'' sur une sortie VGA : 
+  * Demandez d'abord les informations sur la résolution avec la commande : <code>cvt 1366 768 60</code>
+  * Puis copiez les informations données en retour : <code>"1366x768_60.00"   85.25  1368 1440 1576 1784  768 771 781 798 -hsync +vsync</code>
+  * Essayez la résolution dans la console : <code>xrandr --newmode "1366x768_60.00"   85.25  1368 1440 1576 1784  768 771 781 798 -hsync +vsync
+xrandr --addmode VGA1 1366x768_60.00</code>
+  * Pour la persistance [[:tutoriel:comment_modifier_un_fichier|créez le fichier]] **45x11-xrandr** avec les [[:sudo|droits d'administration]] dans **/etc/X11/Xsession.d/**, en y mettant les 2 lignes ci-dessus.
+
+Une autre méthode consiste à regarder les choix disponibles en lançant **arandr** puis en regardant le nom du ou des sorties dans le menu **Sortie**.
+
+===== Résolution virtuelle =====
+
+La résolution virtuelle consiste à définir une résolution plus grande que pourrait supporter l'écran.
+
+==== Mode « panning » pour Ubuntu 12.04 ====
+
+La taille d'affichage n'est pas modifiée mais on peut déplacer son écran au sein de cette résolution virtuelle. Ce serait comme si on utilisait une lucarne pour visionner une partie d'un paysage et qu'on la déplaçait.
+
+Exemple d'une résolution virtuelle de 1024x800 pixels pour un Eee PC 901 disposant d'un écran de 1024x600 pixels.
+
+<code>xrandr --output LVDS1 --panning 1024x800</code>
+
+Pour restaurer la résolution d'origine du Eee PC 901.
+
+<code>xrandr --output LVDS1 --panning 1024x600</code>
+
+==== Mode « scale » pour Ubuntu 12.04 ====
+
+Vous pouvez **augmenter artificiellement la résolution** native à une résolution supérieure de celle supportée par la dalle LCD. Contrairement à la résolution virtuelle, tout le contenu est visible mais redimensionné.
+
+Exemple pour bénéficier d'une résolution de 1024×600 pixels sur la dalle LCD de 800×480 pixels du Eee PC 701. Le paramètre ''scale'' est un facteur appliqué à la largeur x hauteur.
+
+<code>xrandr --output LVDS1 --mode "800x480" --scale "1.28x1.25"</code>
+
+Pour restaurer la résolution d'origine du Eee PC 701.
+
+<code>xrandr --output LVDS1 --mode "800x480" --scale "1x1"</code>
+
+
+Depuis la version 11.10 d'Ubuntu, les modes « panning » et « scale » ne fonctionnent plus correctement. FIXME, Ubuntu 12.04
+
+==== Modes « panning » et « scale » à partir d'Ubuntu 14.04 ====
+
+À partir d'[[:trusty|Ubuntu 14.04]] il faut préciser les paramètres « panning » et « scale » ensembles.
+
+Exemple pour une sortie VGA 1280x800 pixels :
+  * mode « scale » :
+<code>xrandr --output VGA1 --mode 1280x800 --scale 1.5x1.5 --panning 1920x1200</code>
+  * mode « panning » :
+<code>xrandr --output VGA1 --mode 1280x800 --scale 1x1 --panning 1920x1200</code>
+  * revenir en mode « normal » :
+<code>xrandr --output VGA1 --mode 1280x800 --scale 1x1 --panning 1280x800</code>
+
+<note important>
+Après plusieurs changements de mode, il est possible qu'une erreur similaire à celle ci-dessous se produise.
+<code>X Error of failed request:  BadMatch (invalid parameter attributes)
+  Major opcode of failed request:  140 (RANDR)
+  Minor opcode of failed request:  7 (RRSetScreenSize)
+  Serial number of failed request:  26
+  Current serial number in output stream:  28</code>
+Dans ce cas essayez :
+<code>xrandr --output VGA1 --scale 2x1 ; !-1</code>
+</note>
+
+
+==== Conserver les paramètres ====
+
+L'automatisation de l'augmentation de résolution est possible. [[:tutoriel:comment_modifier_un_fichier|Créez le fichier]] **/etc/X11/Xsession.d/45x11-xrandr** avec les [[:sudo|droits d'administration]] et collez-y le code suivant :
+
+<file>xrandr --verbose --output LVDS1 --mode "800x480" --scale "1.28x1.25"</file>
+
+Enregistrez et quittez. Dorénavant, la résolution sera augmentée automatiquement lors de chaque connexion.
+
+
+===== Voir aussi =====
+
+  * [[http://www.delafond.org/traducmanfr/X11/man1/xrandr.1x.html|Manuel de XRandR]]
+  * [[http://www.planet-libre.org/index.php?post_id=1359|Faire du multi-écrans avec XRandR]]
+  * [[https://wiki.ubuntu.com/X/Config/Resolution#Adding%20undetected%20resolutions|XrandR]] : Ajouter un mode vidéo non listé (modeline) - wiki officiel anglophone.
+
+
+===== Le fichier xorg.conf =====
+La configuration de [[:xorg|xorg.conf]] n'est plus nécessaire sur les versions récentes d'Ubuntu et même, ce fichier n'existe plus. Cependant pour certaines cartes cela peut s'avérer utile, dans ce cas référez-vous à la page qui traite d'[[:Xorg]].
+
+----
+
+//Contributeurs : [[utilisateurs:ymulleneers]] [[utilisateurs:azerttyu]], [[utilisateurs:Id2ndR]], [[utilisateurs:Ignace72]], [[utilisateurs:percherie]], [[:utilisateurs:l_africain|L'Africain]].//

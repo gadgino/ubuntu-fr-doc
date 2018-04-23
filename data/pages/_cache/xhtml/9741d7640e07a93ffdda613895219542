@@ -1,0 +1,166 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#comment_configurer_la_rotation_d_ecran" class="toc"> Comment configurer la rotation d'écran ? </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#configuration_du_serveur_x" class="toc"> Configuration du serveur X </a></span></li>
+<li class="level2"><span class="li"><a href="#utilisation_de_la_rotation_d_ecran" class="toc"> Utilisation de la rotation d'écran </a></span></li>
+<li class="level2"><span class="li"><a href="#annuler_la_configuration_du_serveur_x" class="toc"> Annuler la configuration du serveur X </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/ostaquet" class="wikilink1" title="utilisateurs:ostaquet" onclick="return svchk()" onkeypress="return svchk()">ostaquet</a>.
+</p>
+
+<a name="comment_configurer_la_rotation_d_ecran"></a><h1> Comment configurer la rotation d'écran ? </h1>
+<div class="level1">
+
+<p>
+ Typiquement, la rotation d&rsquo;écran permet d&rsquo;utiliser un moniteur LCD en mode portrait. Cependant, elle peut aussi être utile lorsqu&rsquo;un projecteur vidéo est fixé au plafond à l&rsquo;envers.
+</p>
+
+<p>
+Remarquez que la rotation d&rsquo;écran n&rsquo;est possible que sur les cartes graphiques le supportant. Cette procédure a été testée avec succès sur plusieurs cartes NVidia récentes (GeForce4 et GeForce FX-5200).
+</p>
+
+<p>
+Cette procédure comporte une issue de secours si la configuration ne fonctionne pas. De cette manière, vous pourrez revenir dans l&rsquo;état précédent l&rsquo;installation sans encombre.
+</p>
+
+</div>
+<!-- SECTION [72-709] -->
+<a name="configuration_du_serveur_x"></a><h2> Configuration du serveur X </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> Ouvrez un terminal.</span>
+</li>
+<li class="level1"><span class="li"> Lancez la commande suivante pour avoir un fichier de sauvegarde de votre configuration actuelle :</span>
+</li>
+</ul>
+<pre class="code">
+sudo cp /etc/X11/xorg.conf /etc/X11/xorg.conf.bak
+</pre>
+<ul>
+<li class="level1"><span class="li"> Editez le fichier de configuration avec la commande suivante :</span>
+</li>
+</ul>
+<pre class="code">
+sudo gedit /etc/X11/xorg.conf
+</pre>
+<ul>
+<li class="level1"><span class="li"> Dans la section &ldquo;Device&rdquo; qui ressemble quelque peu à ceci :</span>
+</li>
+</ul>
+<pre class="code">
+Section &quot;Device&quot;
+	Identifier	&quot;NVIDIA Corporation NV5M64 [RIVA TNT2 Model 64/Model 64 Pro]&quot;
+	Driver		&quot;nvidia&quot;
+	BusID		&quot;PCI:1:0:0&quot;
+EndSection
+</pre>
+<ul>
+<li class="level1"><span class="li"> Ajoutez entre <code>BusID</code> et <code>&gt;EndSection</code> la ligne suivante :</span>
+</li>
+</ul>
+<pre class="code">
+Option &quot;RandRRotation&quot; &quot;on&quot;
+</pre>
+<ul>
+<li class="level1"><span class="li"> Sauvegardez le fichier et quittez l&rsquo;éditeur.</span>
+</li>
+<li class="level1"><span class="li"> Redémarrez la machine.</span>
+</li>
+</ul>
+
+<p>
+ <em>Remarque :</em> Si vous n&rsquo;obtenez pas votre écran de démarrage habituel et que vous vous retrouvez en mode console, regardez la section &ldquo;Annuler la configuration du serveur X&rdquo;.
+</p>
+
+</div>
+<!-- SECTION [710-1640] -->
+<a name="utilisation_de_la_rotation_d_ecran"></a><h2> Utilisation de la rotation d'écran </h2>
+<div class="level2">
+
+<p>
+ Pour utiliser la rotation d&rsquo;écran, vous pouvez le faire en ligne de commande dans un terminal via la commande suivante : 
+</p>
+<pre class="code">
+xrandr -o OPTION
+</pre>
+
+<p>
+ <code>OPTION</code> représente la manière dont vous voulez effectuer une rotation.
+</p>
+<ul>
+<li class="level1"><span class="li"> <code>left</code> tourne l&rsquo;écran de 90° dans le sens anti-horlogique</span>
+</li>
+<li class="level1"><span class="li"> <code>right</code> tourne l&rsquo;écran de 90° dans le sens horlogique.</span>
+</li>
+<li class="level1"><span class="li"> <code>normal</code> remet l&rsquo;écran normalement (mode paysage)</span>
+</li>
+<li class="level1"><span class="li"> <code>inverted</code> tourne l&rsquo;écran de 180°.</span>
+</li>
+</ul>
+
+<p>
+ Cependant, l&rsquo;usage de cette commande dans la console est quelque peu rébarbatif. Je vous conseille d&rsquo;utiliser des lanceurs (icône sur le bureau) pour activer les rotations que vous désirez utiliser.
+</p>
+
+<p>
+Voici les instructions pour créer un lanceur qui va mettre l&rsquo;écran sur <code>left</code>. Il est applicable à n&rsquo;importe quel type de rotation, il suffit de changer <code>OPTION</code>. 
+</p>
+<ul>
+<li class="level1"><span class="li"> Cliquez avec le bouton droit sur le fond du bureau (le fond d&rsquo;écran).</span>
+</li>
+<li class="level1"><span class="li"> Choisissez l&rsquo;option <em>Créer un lanceur</em>.</span>
+</li>
+<li class="level1"><span class="li"> Comme <em>Name</em> indiquez <code>Mode portrait</code>.</span>
+</li>
+<li class="level1"><span class="li"> Comme <em>Command</em> indiquez <code>xrandr -o left</code>.</span>
+</li>
+<li class="level1"><span class="li"> Choisissez une icône explicite (c&rsquo;est plus facile pour la suite).</span>
+</li>
+<li class="level1"><span class="li"> Cliquez sur <em>Valider</em>.</span>
+</li>
+</ul>
+
+<p>
+ Maintenant, en double-cliquant sur cette icône, vous pouvez passer en mode portrait.
+</p>
+
+<p>
+Il vous suffit de répéter cette procédure pour créer un lanceur pour basculer en mode normal.
+</p>
+
+</div>
+<!-- SECTION [1641-3030] -->
+<a name="annuler_la_configuration_du_serveur_x"></a><h2> Annuler la configuration du serveur X </h2>
+<div class="level2">
+
+<p>
+ Pour annuler la configuration du serveur X; il vous suffit de lancer dans un terminal (ou dans une console texte) la commande suivante : 
+</p>
+<pre class="code">
+sudo cp /etc/X11/xorg.conf.bak /etc/X11/xorg.conf
+</pre>
+
+<p>
+Ensuite, vous redémarrez la machine.
+</p>
+
+<p>
+Pour redémarrer la machine lorsque vous êtes en mode console, vous utilisez la commande suivante : 
+</p>
+<pre class="code">
+sudo reboot
+</pre>
+
+</div>
+<!-- SECTION [3031-] -->

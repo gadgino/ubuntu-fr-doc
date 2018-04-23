@@ -1,0 +1,20 @@
+====== Installer thunderbird 3 comme mise à jour quand thunderbird 2 l'est déjà ======
+
+ajouter à /etc/apt/sources.list.d/thunderbird.list
+<file>
+# Thunderbird 
+# Vous devez saisir la clé suivante :
+# sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com C1289A29
+deb http://switch.dl.sourceforge.net/project/ubuntuzilla/apt all main
+</file>
+
+mettre à jour : <code>sudo apt-get update</code>
+installer : <code>sudo apt-get install ubuntuzilla</code>
+
+sauver son dossier profil thunderbird2 : <code>cp ~/mozilla-thunderbird ~/mozilla-thunderbird-back</code>
+
+
+lancer : <code>ubuntuzilla.py -a install -p thunderbird</code>
+
+faire gaffe aux questions ... 
+premier : y

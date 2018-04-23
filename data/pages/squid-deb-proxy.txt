@@ -1,0 +1,38 @@
+{{tag>réseau apt proxy}}
+
+----
+
+====== Proxy Squid configuré pour faire du cache de paquet sur le réseau local ======
+
+
+Si vous disposez de plusieurs ordinateurs sur un réseau local, ceux-ci téléchargent souvent les même paquets dans le dépôts, par exemple lorsqu'ils effectuent les mêmes mise-à-jour de sécurité. \\
+Pour éviter que ces paquets soient téléchargés plusieurs fois, il existe plusieurs méthodes, comme les proxy cache. La plupart de ces méthodes nécessitent, par contre, l'utilisation d'un « noeud central », à partir duquel sont récupérés les paquets.
+
+Squid-deb-proxy, utilise le système de découverte du réseau [[zeroconf]] pour découvrir et partager un éventuel « noeud central » sur le réseau qui pourra redistribuer les paquets. Le « serveur » vérifie et télécharge les paquets disponibles lors des sollicitations des clients et en garde une copie automatiquement pour les redistribuer si un autre client les demande.
+
+Si vous avez une machine qui est allumée plus souvent que les autres, c'est celle qui faut choisir comme « noeud central », qu'on appellera également « serveur » dans la suite de cette page. \\
+  * lorsqu'elle est allumée, elle évitera le téléchargement multiples d'un même paquet ([[http://castrojo.wordpress.com/2010/02/28/zeroconfing-squid-deb-proxy/|source]])
+  * lorsqu'elle ne l'est, les clients récupéreront les paquets directement sur l'Internet
+
+===== Installation =====
+
+Sur la machine qui est le plus souvent allumée, installer [[apt://squid-deb-proxyapt-zeroconf|squid-deb-proxy]]
+
+Sur toutes les machines (y compris le « serveur »), installer [[apt://squid-deb-proxy-client|squid-deb-proxy-client]]
+
+===== Configuration =====
+
+Pour permettre l'accès a des dépôts tiers (type PPA), modifier le fichier **/etc/squid-deb-proxy/squid-deb-proxy.conf** en changeant les directives existantes de la manière suivante : <file>
+#http_access deny !to_archive_mirrors
+http_access allow !to_archive_mirrors
+</file>
+
+Pour autoriser l'accès en IPv6 depuis le lan avec adressage globale, ajouter le plage IPv6 dans le fichier **/etc/squid-deb-proxy/allowed-networks-src.acl.d/10-default**. En effet par défaut seules les adresses de liens sont autorisées.
+
+===== Utilisation =====
+
+Utiliser le gestionnaire de paquets habituel : c'est transparent.
+
+----
+
+//Contributeurs : [[utilisateurs:Id2ndR]]//

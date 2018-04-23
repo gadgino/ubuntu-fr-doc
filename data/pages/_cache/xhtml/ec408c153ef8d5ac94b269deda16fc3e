@@ -1,0 +1,264 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#introduction" class="toc"> Introduction </a></span></li>
+<li class="level1"><span class="li"><a href="#comment_me_connecter_a_internet_avec_mon_modem_cableadsl_pppoe" class="toc"> Comment me connecter à internet avec mon modem câble/ADSL pppoe ? </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#il_dit_qu_il_ne_detecte_pas_le_concentrateur_qu_est-ce_que_je_fais" class="toc"> Il dit qu'il ne détecte pas le **concentrateur** ! qu'est-ce que je fais ? </a></span></li>
+</ul>
+</li>
+<li class="level1"><span class="li"><a href="#comment_se_connecter_a_internet_avec_mon_modem_speedtouch_usb" class="toc"> Comment se connecter à internet avec mon modem Speedtouch usb ? </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#1_introduction" class="toc"> 1 Introduction </a></span></li>
+<li class="level2"><span class="li"><a href="#2_telechargements" class="toc"> 2 Téléchargements </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#2-2_resoudre_le_probleme_de_dependance" class="toc"> 2-2 Résoudre le problème de dépendance </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#3_installation_a_partir_de_paquet_binaire" class="toc"> 3 Installation  à partir de paquet binaire </a></span></li>
+<li class="level2"><span class="li"><a href="#4_configuration" class="toc"> 4 Configuration </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#4-1_connexion_pppoa_avec_gnulinux" class="toc"> 4-1 Connexion PPPoA avec GNU/Linux </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#5_demarrer_la_connexion" class="toc"> 5 Démarrer la connexion </a></span></li>
+<li class="level2"><span class="li"><a href="#6_arreter_la_connexion" class="toc"> 6 Arrêter la connexion </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+page en cours de création
+</pre>
+
+<a name="introduction"></a><h1> Introduction </h1>
+<div class="level1">
+
+<p>
+ Bienvenue sur la page de documentation sur les modems ADSL. Vous pouvez rajouter vos informations de configuration pour permettre à d&rsquo;autres d&rsquo;utiliser ce type de connexion.
+</p>
+
+</div>
+<!-- SECTION [44-248] -->
+<a name="comment_me_connecter_a_internet_avec_mon_modem_cableadsl_pppoe"></a><h1> Comment me connecter à internet avec mon modem câble/ADSL pppoe ? </h1>
+<div class="level1">
+
+<p>
+ Certes, l&rsquo;outil de configuration réseau ne propose pas PPPOE comme type de connexion ,  mais il y a un outil pour la configurer en ligne de commande :
+</p>
+<pre class="code">
+    sudo pppoeconf
+</pre>
+
+<p>
+Le script doit détecter sur quelle interface se trouve le modem et vous posera les questions d&rsquo;usage  (identifiant de connexion, mot de passe...).
+</p>
+
+</div>
+<!-- SECTION [249-668] -->
+<a name="il_dit_qu_il_ne_detecte_pas_le_concentrateur_qu_est-ce_que_je_fais"></a><h2> Il dit qu'il ne détecte pas le **concentrateur** ! qu'est-ce que je fais ? </h2>
+<div class="level2">
+
+<p>
+ Et bien... Nous allons tout faire à la main !
+</p>
+
+<p>
+Premièrement, on désactive l&rsquo;interface eth0 :
+</p>
+<pre class="code">
+    sudo ifconfig eth0 down
+</pre>
+
+<p>
+Ensuite, on édite le fichier /etc/ppp/peers/dsl-provider : 
+</p>
+<pre class="code">
+    sudo nano /etc/ppp/peers/dsl-provider
+</pre>
+
+<p>
+(Si vous ne connaissez pas nano voir [FrNanoHowTo])
+</p>
+
+<p>
+Et on ajoute les lignes (indiquez bien sûr votre propre identifiant de connexion à &ldquo;user&rdquo;) :
+</p>
+<pre class="code">
+    user fti/xxxxxxx@fti
+    plugin rp-pppoe.so eth0
+</pre>
+
+<p>
+On édite maintenant le fichier /etc/ppp/chap-secret :
+</p>
+<pre class="code">
+    sudo nano /etc/ppp/chap-secret
+</pre>
+
+<p>
+Et on entre l&rsquo;identifiant de connexion suivi du mot de passe de connexion :
+</p>
+<pre class="code">
+    fti/xxxxxxx@fti  * Mot_de_passe *
+</pre>
+
+<p>
+Pour lancer la connexion, ouvrez un Root Terminal et tapez la commande :
+</p>
+<pre class="code">
+    /etc/ppp/pppoe_on_boot
+</pre>
+
+<p>
+Pour que la connexion se lance automatiquement au démarrage de l&rsquo;ordinateur :
+</p>
+<pre class="code">
+    sudo ln -s /etc/ppp/pppoe_on_boot /etc/ppp/ppp_on_boot
+</pre>
+
+</div>
+<!-- SECTION [669-1746] -->
+<a name="comment_se_connecter_a_internet_avec_mon_modem_speedtouch_usb"></a><h1> Comment se connecter à internet avec mon modem Speedtouch usb ? </h1>
+<div class="level1">
+
+<p>
+ <u>Installation rapide de la version 1.3:</u> 
+</p>
+<ul>
+<li class="level1"><span class="li"> <strong>Auteur: Benoit PAPILLAULT , 10/06/2004</strong></span>
+</li>
+<li class="level1"><span class="li"> <strong>Modifié par Jérôme PERRET le 15 Février 2005</strong></span>
+</li>
+</ul>
+
+<p>
+ <strong><u>REMARQUE</u></strong> : Une méthode automatisant cette procédure grâce à un utilitaire, la rendant ainsi plus simple (tout en conservant les derniers pilotes) est disponible ici : <a href="/materiel/modem_adsl_speedtouch_330" class="wikilink1" title="materiel:modem_adsl_speedtouch_330" onclick="return svchk()" onkeypress="return svchk()">Modem ADSL SpeedTouch 330</a>
+</p>
+
+</div>
+<!-- SECTION [1747-2220] -->
+<a name="1_introduction"></a><h2> 1 Introduction </h2>
+<div class="level2">
+
+<p>
+  Ce document va vous guider au travers de l&rsquo;installation du pilote speedtouch usermode version 1.3. Ce pilote supporte les modèles SpeedTouch USB et SpeedTouch 330 de Thomson (anciennement Alcatel) et fonctionne sous GNU/Linux, FreeBSD, OpenBSD et NetBSD. Les connexions de types PPPoA et PPPoE sont supportées. PPPoE n&rsquo;est pas supporté sur OpenBSD car le noyau d&rsquo;OpenBSD ne fournit pas d&rsquo;interface tap.    <strong>Avertissement:</strong> il existe aussi un pilote noyau qui est inclus dans le noyau Linux ou disponible séparément.
+</p>
+
+<p>
+ Pour plus d&rsquo;informations ou une documentation à jour, allez sur notre site principal: <a href="http://speedtouch.sourceforge.net/" class="urlextern" title="http://speedtouch.sourceforge.net/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://speedtouch.sourceforge.net/</a>
+</p>
+
+</div>
+<!-- SECTION [2221-2897] -->
+<a name="2_telechargements"></a><h2> 2 Téléchargements </h2>
+<div class="level2">
+
+<p>
+  Afin d&rsquo;installer le pilote speedtouch, vous avez besoin de téléchargement certains fichiers qui sont décrits ici. Vous avez au moins besoin du pilote lui-même et du firmware du modem. 
+</p>
+<ul>
+<li class="level1"><span class="li"> Paquet Debian pour i386 : <a href="http://prdownloads.sourceforge.net/speedtouch/speedtouch_1.3-1_i386.deb" class="urlextern" title="http://prdownloads.sourceforge.net/speedtouch/speedtouch_1.3-1_i386.deb" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://prdownloads.sourceforge.net/speedtouch/speedtouch_1.3-1_i386.deb</a></span>
+</li>
+</ul>
+
+<p>
+ <u>Téléchargement du firmware du modem sur le site de Thomson</u>
+</p>
+
+<p>
+ Allez sur <a href="http://www.speedtouch.com/driver_upgrade_lx_3.0.1.2.htm" class="urlextern" title="http://www.speedtouch.com/driver_upgrade_lx_3.0.1.2.htm" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.speedtouch.com/driver_upgrade_lx_3.0.1.2.htm</a> et accepter la license avant de télécharger le fichier SpeedTouch330_firmware_3012.zip.
+</p>
+
+</div>
+<!-- SECTION [2898-3447] -->
+<a name="2-2_resoudre_le_probleme_de_dependance"></a><h3> 2-2 Résoudre le problème de dépendance </h3>
+<div class="level3">
+
+<p>
+ Télécharger pppoe et installer le : <a href="http://higgs.djpig.de/ubuntu/www/hoary/net/pppoe" class="urlextern" title="http://higgs.djpig.de/ubuntu/www/hoary/net/pppoe" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://higgs.djpig.de/ubuntu/www/hoary/net/pppoe</a>
+</p>
+<pre class="code">
+ dpkg -i pppoe_3.5-4ubuntu1_i386.deb
+</pre>
+
+</div>
+<!-- SECTION [3448-3641] -->
+<a name="3_installation_a_partir_de_paquet_binaire"></a><h2> 3 Installation  à partir de paquet binaire </h2>
+<div class="level2">
+
+<p>
+ Paquet Debian pour i386
+</p>
+<pre class="code">
+ dpkg -i speedtouch_1.3-1_i386.deb
+</pre>
+
+</div>
+<!-- SECTION [3642-3774] -->
+<a name="4_configuration"></a><h2> 4 Configuration </h2>
+<div class="level2">
+
+<p>
+  Dans tout les cas, vous aurez besoin des informations suivantes: 
+</p>
+<ul>
+<li class="level1"><span class="li"> votre vpi</span>
+</li>
+<li class="level1"><span class="li"> votre vci</span>
+</li>
+<li class="level1"><span class="li"> le login fourni par votre fournisseur d&rsquo;accès Internet</span>
+</li>
+<li class="level1"><span class="li"> le mot de passe fournit par votre fournisseur d&rsquo;accès Internet</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [3775-4027] -->
+<a name="4-1_connexion_pppoa_avec_gnulinux"></a><h3> 4-1 Connexion PPPoA avec GNU/Linux </h3>
+<div class="level3">
+<ul>
+<li class="level1"><span class="li"> copier le fichier SpeedTouch330_firmware_3012.zip dans /etc/speedtouch/</span>
+</li>
+<li class="level1"><span class="li"> lancer speedtouch-setup</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [4028-4178] -->
+<a name="5_demarrer_la_connexion"></a><h2> 5 Démarrer la connexion </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> manuellement en lançant speedtouch-start</span>
+</li>
+<li class="level1"><span class="li"> automatiquement en branchant votre modem (requiert l&rsquo;installation de hotplug)</span>
+</li>
+</ul>
+
+<p>
+<strong><u>ATTENTION TRES IMPORTANT !</u></strong>
+</p>
+
+<p>
+Il semble qu&rsquo;il y ai un problème lors du démarrage En effet le modem speedtouch ne fonctionne plus si il est détécté au boot de l&rsquo;ordinateur !
+</p>
+
+<p>
+<u>Solution temporaire : </u>
+</p>
+
+<p>
+Débrancher le modem et le rebrancher une fois sous ubuntu, la connection se lancera tout seule.
+</p>
+
+</div>
+<!-- SECTION [4179-4657] -->
+<a name="6_arreter_la_connexion"></a><h2> 6 Arrêter la connexion </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> manuellement en lançant speedtouch-stop</span>
+</li>
+<li class="level1"><span class="li"> automatiquement en débranchant votre modem (dans ce dernier cas,votre fournisseur d&rsquo;accés Internet peut ne pas voir immédiatement que vous avez été déconnecté et peux vous empécher de vous reconnecter pendant une courte durée).</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [4658-] -->

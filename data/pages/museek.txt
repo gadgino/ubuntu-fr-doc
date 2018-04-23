@@ -1,0 +1,95 @@
+{{tag>p2p}}
+
+----
+
+====== Museek+ ======
+
+**Museek+** est un logiciel de [[p2p|partage]] développé en C++ pour le réseau P2P Soulseek.
+
+Il se compose de trois applications principales:
+  * museekd : le [[http://fr.wikipedia.org/wiki/Daemon_(informatique)|daemon]]
+  * museeq : l'interface graphique (GUI)
+  * mucous : l'interface console
+
+C'est une alternative à [[:nicotine_plus|Nicotine+]] et bien sûr aussi au client propriétaire [[http://www.slsknet.org/|Soulseek]]. Cette solution a l'avantage d'être basé sur le modèle client/serveur, ce qui est idéal pour la mise en place d'un [[serveur de telechargement]].
+
+===== Installation =====
+
+[[:tutoriel:comment_installer_un_paquet|Installez les paquets]] **[[apt://museekd,museeq|museekd museeq]]**.
+
+Pour avoir Museeq en français, [[:tutoriel:comment_installer_un_paquet|Installez encore le paquet]] **[[apt://museeq-locales|museeq-locales]]**.
+
+=====Configuration=====
+
+
+Museekd est un daemon. Il n'a donc pas d'interface graphique à lui.
+La configuration du deamon se fera donc via **musetup** en mode console ou via l'interface graphique **[[apt://musetup-gtk |musetup-gtk]]** 
+
+Les informations nécessaires au serveur sont:
+
+ **Soulseek Server**
+
+    * __server host__: server.slsknet.org
+    * __port__: 2242
+    * __server username__: Mon_Log_Soulseek 
+    * __server password__: Mon_Password
+
+**Interface listener setup**:
+
+	* __Interface password__: Mon_Password_Museekd
+	* __Add new interface listener__: permet d'ajouter des interfaces sur lesquels le daemon museekd sera à l'écoute. Voir le paragraphe ci-dessous.
+
+La connection à museekd est possible soit depuis la machine sur laquelle le daemon est installée, soit depuis une autre machine du réseau local.
+Il y a donc deux cas de figures :
+
+    * Si vous souhaitez utiliser museeq ou mucous depuis la machine sur laquelle museekd est installée, la configuration de base suffit.
+
+    * Si vous souhaitez utiliser museeq ou mucous depuis une autre machine de votre réseau local, ajoutez l'interface suivante :
+        *__Add new interface listener__
+            *__Add TCP socket listener__
+                *__Local address to bind to (empty = all) []__: IP_Locale_de_Votre_Machine
+                *__Port []__: 2244
+
+Dans tout les cas, n'oubliez pas de définir le mot de passe Mon_Password_Museekd, qui permettra au logiciel de votre choix de se connecter au daemon. 
+
+**Download and incomplete file directory**:
+
+	*__Completed downloads__: Mon_Dossier_Soulseek
+	*__Incomplete downloads__: Mon_Dossier_Temporaire_Soulseek\\
+\\
+Mon_Dossier_Soulseek correspond au dossier dans lequel les musique entièrement téléchargées seront stockées.\\
+Mon_Dossier_Temporaire_Soulseek correspond au dossier dans lequel les fichiers incomplets seront stockés, avant d'être déplacé dans Mon_Dossier_Soulseek une fois le téléchargement fini.\\
+Le même dossier peut être utilisé pour stocker les fichiers complets et incomplets. Pour cela, il suffit de ne rien écrire dans __Incomplete downloads__.
+
+**Shared directories**:\\
+\\
+permet d'ajouter les dossiers que vous souhaitez partager sur le réseau soulseek.
+
+**Buddy-Only Shared directories**:\\
+\\
+permet d'ajouter les dossiers que vous souhaitez partager __uniquement avec vos amis__ sur le réseau soulseek.
+
+La configuration du daemon museekd est maintenant terminée. Vous pouvez quitter **musetup** ou **[[apt://musetup-gtk |musetup-gtk]]**, sans oublier de sauvegarder les changements. Pensez à redémarrer museekd s'il était lancé, en saisissant dans un [[terminal]] les commandes suivantes :
+  killall museekd
+  museekd &
+
+Vous pouvez également scanner vos dossiers partagés en saisissant dans un [[terminal]] la commande suivante :
+  muscan -r
+
+Pensez à rescanner régulièrement vos dossiers partagés. Vous pouvez éventuellement programmer cette tâche à l'aide de [[cron]] ou [[anacron]].
+
+=====Utilisation=====
+
+On peut à présent lancer museeq, qui permet toutes les fonctions classiques de soulseek, en tapant la commande suivante dans un [[terminal]] :
+    museeq
+
+
+===== Voir aussi =====
+
+  * Le site officiel: http://www.museek-plus.org/
+  * Le forum officiel du réseau Soulseek: http://forums.slsknet.org/ipb/
+  * Les règles de bonne conduite sur le réseau, en anglais, sur le forum officiel : http://forums.slsknet.org/ipb/index.php?showtopic=6676
+
+----
+
+//Contributeur : [[:utilisateurs:adLfos]]//

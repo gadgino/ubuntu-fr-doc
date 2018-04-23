@@ -1,0 +1,32 @@
+{{tag>sauvegarde}}
+
+-----
+
+====== duplicity, un utilitaire de sauvegarde en ligne de commande ======
+L'utilitaire **''duplicity''** est un outil en ligne de commande permettant d'effectuer des sauvegardes incrémentielles de fichiers et dossiers.
+
+Il effectue la sauvegarde en créant des archives TAR chiffrées avec GnuPG. Ces archives sont alors envoyées dans un répertoire de sauvegarde local ou distant -- les protocoles distants pris en charge sont FTP, SSH/SCP, Rsync, WebDAV/WebDAVs et Amazon S3. Puisque ''duplicity'' repose sur ''librsync'', les sauvegardes incrémentielles sont économes en espace de stockage : seules les parties modifiées des fichiers sont prises en considération.
+
+
+
+===== Installation =====
+
+**Duplicity** est installé par défaut sur Ubuntu, en effet cette version de la distribution inclut le logiciel [[deja-dup|Déjà Dup]], qui est une interface graphique pour **duplicity**.
+
+Pour installer Duplicity sur une [[:variante]] d'Ubuntu, il suffit d'[[:tutoriel:comment_installer_un_paquet|Installer le paquet]] **[[apt>duplicity]]**.
+
+
+
+===== Exemple d'utilisation =====
+Un exemple simple de copie de sauvegarde du dossier personnel d'un utilisateur (''/home/utilisateur/'') vers un dossier local ''backup/'' dans un disque dur externe monté en ''/media/DisqueExterne/'' (''/media/DisqueExterne/backup/''): <code>utilisateur@ordinateur:~$ duplicity /home/utilisateur /media/DisqueExterne/backup</code>
+
+Consultez [[http://manpages.ubuntu.com/duplicity|le manuel de duplicity]] pour plus d'exemples de sauvegarde et de restauration à l'aide des divers protocoles pris en charge.
+
+
+
+===== Déjà Dup: une interface graphique pour duplicity =====
+**Déjà Dup** (prononcer //dé-ja-doop//) est un utilitaire de sauvegarde très simple. Interface graphique pour l'outil ''duplicity'', Déjà Dup a pour but de cacher les complexités relatives à une bonne façon d'effectuer des copies de sauvegarde (chiffrement, sauvegardes locales ou en réseau, fréquence de la prise des sauvegardes…) pour se concentrer sur l'essentiel : effectuer des sauvegardes de votre système et de vos données personnelles de manière sécuritaire, complète et fiable.
+  * //[[deja-dup|Plus d'informations à propos de Déjà Dup]]//
+
+==== Voir aussi ====
+  * [[http://duplicity.nongnu.org/|Site officiel de Duplicity]]

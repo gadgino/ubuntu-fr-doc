@@ -1,0 +1,98 @@
+{{tag>Trusty visionneuse pdf}}
+
+----
+
+====== Adobe Reader======
+
+<note warning>Adobe ne fournit plus ce logiciel pour Linux. Les versions présentées ci-dessous sont obsolètes.
+Elles présentent des risques de sécurité, et risquent de ne pas fonctionner du tout. 
+Si vous étiez dans l'obligation d'utiliser cette application pour communiquer avec votre imprimante, [[:Okular]] reste la solution la plus crédible. Cependant il reste toujours des cas ou seul acroread est capable de lire correctement certains pdf.</note>
+**Adobe Reader (c)** (précédemment publié sous le nom Acrobat Reader(c)) est une application propriétaire et gratuite maintenue par [[http://www.adobe.com|Adobe System Incorporated]] pour lire les fichiers [[:PDF]]. 
+
+Étant donné que les logiciels Adobe ne respectent pas les spécifications ISO du format PDF((voir [[:pdf]])), Adobe Reader est quasiment le seul lecteur PDF sachant lire toutes les fonctionnalités des fichiers générés par les logiciels Adobe, notamment :
+  * notes, post-it dans les documents, etc.
+  * formulaires XFA (formulaires CERFA);
+  * impression de recueils (même si [[:livret]] permet de le faire),
+
+<note IMPORTANT>
+Les versions Acrobat "code libre de diffusion" du lecteur Adobe Reader sont disponibles à cette adresse: [[ftp://ftp.adobe.com/pub/adobe/reader/unix/|Serveur Adobe "Archives" des anciennes versions Unix-Linux]].
+</note>
+
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+====Via les paquets deb====
+Si vous êtes sous [[:precise|Ubuntu 12.04]] il suffit d'[[:tutoriel:comment_installer_un_paquet|installer les paquets]] **[[apt>acroread,adobereader-fra]]**.\\
+
+Si vous êtes sur un version plus récente, téléchargez et [[:tutoriel:comment_installer_un_paquet|installez les paquets]] **acroread-bin acroread-common, acroread**, et **adobereader-fra** correspondants à votre [[:architecture_materielle|architecture matérielle]] [[http://archive.canonical.com/ubuntu/pool/partner/a/acroread/|ici]].\\
+
+Ou bien directement en 32 bits [[http://ardownload.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/AdbeRdr9.5.5-1_i386linux_enu.deb|ici]] ou [[http://ardownload.adobe.com/pub/adobe/reader/unix/9.x/9.4.2/fra/AdbeRdr9.4.2-1_i386linux_fra.deb|là]] pour une version moins récente mais en français. Dans ces derniers cas il faudra pour les [[:architecture_materielle|architecture 64 bits]] avoir [[:tutoriel:comment_installer_un_paquet|installé les paquets]] **[[apt>libgtk2.0-0:i386,libnss3-1d:i386,libnspr4-0d:i386,lib32nss-mdns,libxml2:i386,libxslt1.1:i386,libstdc++6:i386]]**.
+
+
+
+==== Via PlayOnLinux ====
+L'utilisation de [[:PlayOnLinux]] est probablement la manière la plus simple quant à l'installation d'une version récente d'Adobe Reader… pour Microsoft Windows (à travers [[wine|Wine]]) :
+  * Installer [[:PlayOnLinux]],
+  * Ouvrir PlayOnLinux, cliquer sur Installer. Puis chercher « Acrobat » et lancer l'installation.
+  * Après l'accord de licence, PlayOnLinux vous propose de choisir la méthode d'installation. Le plus simple est de choisir «Télécharger le programme».
+  * Suivre les indications et accepter de créer une icône sur le bureau (autrement, il faut ouvrir PlayOnLinux pour lancer le programme).
+
+===== Configuration =====
+==== Définir comme lecteur PDF par défaut ====
+Normalement AcrobatReader se mettra par defaut comme lecteur PDF.
+Si ce n'est pas le cas, il est possible de le configurer :
+  * Clic droit de votre souris sur un quelconque fichier PDF et choisissez **Propriétés**.
+  * Allez dans l'onglet **Ouvrir avec…**.
+  * Cliquez sur le bouton **Ajouter** et choisissez **Adobe Reader**.
+  * Cochez **Adobe Reader** dans la liste pour qu'il soit utilisé par défaut.
+  * Fermez la fenêtre de propriétés.
+
+===== Utilisation =====
+
+Pour ouvrir un document PDF (valable aussi pour les fichiers CERFA) avec Adobe Reader, vous pouvez procéder de différentes manières. 
+
+Une première façon de procéder est de faire une recherche dans [[:unity#tableau_de_bord_dash|le tableau de bord Unity]] avec le mot clé ** Adobe Reader**. Vous avez maintenant la possibilité d'ouvrir un fichier PDF directement dans le logiciel.
+
+Une seconde façon est [[:tutoriel:changer_l_association_par_defaut_des_fichiers_avec_les_applications|d'assigner Adobe Reader en tant que visionneuse par défaut]] de documents PDF. De cette façon, dès que vous ouvrirez un fichier PDF, il sera ouvert avec Adobe Reader.
+
+Enfin, une troisième manière consiste à ouvrir un document PDF directement dans une fenêtre de Mozilla Firefox. Vous pouvez ouvrir un document en ligne, en spécifiant l'URL vers ce fichier ''http://serveur/chemin/fichier.pdf'' ou présent localement dans votre ordinateur, en précisant le chemin vers le fichier ([[file:///chemin/fichier.pdf]]).
+
+==== Sauvegarde des "données du formulaire" ====
+  * Faites "Fichier" > "Enregistrer une copie..."
+
+===== Problèmes connus =====
+====Les fichiers CERFA====
+Il est possible de remplir les fichiers CERFA directement en ligne, ce qui vous évite les problèmes liés à ce type de formulaires.
+
+30/08/2016: evince 3.18 supporte assez bien les formulaires CERFA (cases à cocher, champ de code postale...)
+==== Problème d'imprimante avec Acrobat Reader ====
+
+Demande d'impression depuis Acrobat Reader et l'erreur suivante s'affiche:
+<code>
+'usage: lpr [-cdfghlmnpqrstv] [-#num] [-1234 font] [-C class] [-i [numcols]] [-J job] [-Pprinter] [-T title] [-U user] [-wnum] [name ...]'
+</code>
+
+**Solution**: 
+
+  * Supprimer le paquet **[[apt>lpr]]** (et le paquet **[[apt>lprng]]**),
+  * Installer le paquet **[[apt>cups-bsd]]**,
+  * Fermer l'application **acroread** et la relancer.
+
+L'impression fonctionne depuis **acroread**.
+
+====Problème d'autocompletion====
+Problème d'auto-completion ajoutant un espace lorsqu'on utilise tab semble lié au fichier
+/opt/Adobe/Reader9/Resource/Shell/acroread_tab. Voir [[https://bugs.launchpad.net/ubuntu/+source/gnome-terminal/+bug/768876|ici]].
+
+=====Voir aussi=====
+  * [[https://bugs.launchpad.net/ubuntu/+source/acroread/+bug/1176131|le bug qui réclame le paquet deb de la version 9.5.5 pour les dépôts Trusty]],
+  * **(en)** [[http://www.adobe.com/fr/products/reader.html|Site officiel]] ,
+  * **(en)** [[https://help.ubuntu.com/community/AcrobatHowTo|AcrobatHowTo]] sur Ubuntu.com,
+  * **(fr)** [[:pdf]].
+
+----
+
+//Contributeurs : [[utilisateurs:ostaquet]], [[utilisateurs:jcr]], [[utilisateurs:Ner0lph]], [[utilisateurs:XtremXpert]],  [[utilisateurs:abartravail]], [[utilisateurs:eagle08]].//

@@ -1,0 +1,191 @@
+{{tag>Karmic synchronisation bluetooth BROUILLON}}
+-----------
+
+====== Synchronisation de Kontact et d'un agenda de téléphone mobile ======
+
+
+Il existe diverses méthodes pour synchroniser un agenda de téléphone mobile et celui de votre PC (PIM : Personal Information Manager). On décrira ici l'une d'entre elles, basée sur les protocoles bluetooth et irmc.
+
+===== Description de la solution =====
+
+==== Le protocole irmc ====
+
+Le protocole irmc est un protocole créé par Sony-Ericsson pour synchroniser l'agenda du téléphone avec un ordinateur ou avec un autre agenda. Ce protocole peut paraître obsolète, il n'en marche pas moins très bien. Un autre protocole existe, Sync-ML, mais l'auteur n'a pas tellement reussi à l'utiliser, c'est pour cela qu'il s'est rabattu sur irmc.
+
+On explicitera ici que la solution basée sur irmc.
+
+==== Bluetooth ====
+
+Dans l'absolu, on pourrait tout-à-fait travailler avec un bête cable usb au lieu d'une connectivité bluetooth. C'est d'ailleurs ce que propose la notice des téléphones en général. Sous GNU/Linux, ceci ne peut se faire qu'en étant root, ce qui pose de nombreux problèmes.
+
+C'est pourquoi, on travaillera ici en bluetooth. Ceci est très facile et ne pose aucun problème au final.
+
+==== Sony-Ericsson ====
+
+Cette méthode se base sur un modèle Sony-Ericsson w380i. il y a de fortes chances qu'elle fonctionne aussi pour de nombreux autres modèle de cette marque, voire pour d'autres marques si celles-ci ont implémentés irmc. Sinon, il est préferable d'essayer d'autres protocoles, tels que Sync-ML.
+
+<note important>Pensez après à ameliorer la documentation du wiki si vous trouvez une autre méthode, ou à ameliorer cet article.</note>
+
+==== Kontact ====
+
+La solution peut surement être étendue à d'autre logiciels que Kontact avec le plugin adéquat.
+
+===== Pré-requis =====
+
+  * Vous devez pouvoir installer des logiciels (donc avoir les droits d'administrer la machine).
+  * Vous devez avoir installée la pile bluetooth (sinon, il vous faut l'installer maintenant).
+  * Bien entendu, il vous faut un materiel compatible (tout cela ne sert à rien si l'un des deux appareils ne connait pas bluetooth). Je vous renvoie donc à la page ad-hoc concernant [[:bluetooth|bluetooth]].
+===== Installation =====
+
+Il vous faut [[:tutoriel:comment_installer_un_paquet#paquet_present_dans_les_depots|installer les paquets]] **[[apt://multisync-tools,opensyncutils,opensync-plugin-irmc,opensync-plugin-kdepim|multisync-tools opensyncutils opensync-plugin-irmc opensync-plugin-kdepim|opensync-plugin-kdepim]]**.
+
+
+===== Repérage =====
+
+<note important>Toutes les commandes qui suivent peuvent être lancées sans les droits d'administration. Évitez donc de le faire.</note>
+
+Vous devez d'abord reconnaître votre téléphone avec son adresse. Pour ce faire, vous pouvez soit utiliser les interfaces graphiques de votre environnement de bureau, soit lancer un scan bluetooth grâce à la commande hcitool scan.
+
+<code>
+stephane@juno:~$ hcitool scan
+Scanning ...
+        00:23:39:87:42:B0       n/a
+        00:1F:E4:50:71:89       W380i
+stephane@juno:~$
+
+</code>
+
+Ensuite, il vous faut reperer le numéro du canal irmc. Pour ce faire, lancez cette fois-ci la commande sdptool browse"adresse".
+
+<code>
+stephane@juno:~$ sdptool browse "00:1F:E4:50:71:89"
+Browsing 00:1F:E4:50:71:89 ...                     
+Service Description: Sony Ericsson W380            
+Service RecHandle: 0x10000                         
+Service Class ID List:                             
+  "PnP Information" (0x1200)
+
+...
+
+Service Name: OBEX IrMC Sync Server
+Service RecHandle: 0x1000d         
+Service Class ID List:             
+  "IrMC Sync" (0x1104)             
+Protocol Descriptor List:          
+  "L2CAP" (0x0100)                 
+  "RFCOMM" (0x0003)
+    Channel: 8
+  "OBEX" (0x0008)
+Profile Descriptor List:
+  "IrMC Sync" (0x1104)
+    Version: 0x0100
+</code>
+
+<note tip>Au passage, remarquez tous les services que fournit votre téléphone bluetooth. Peut-être y a t-il Sync-ML dedans ? Une piste si la méthode présente ne fonctionne pas !</note>
+
+En l’occurrence, il s'agit de 8.
+
+<note warning>Faîtes attention, ce numéro de canal est différent selon les mobiles. Utilisez bien le numero que vous donne la commande !</note>
+
+===== Appairer les appareils =====
+
+
+Il vous faut aussi appairer votre téléphone à votre PC de façon à ce que toutes les synchronisations se passent sans failles, et qu'ils ne vous posent pas sans cesse la question "Dois-je laisser cette appareil se connecter ?"
+
+Pour cela, vous devez rentrer le téléphone dans la liste de "périphériques de confiance" de la pile bluetooth d'Ubuntu, et inversement. Si vous l'avez déjà fait, passez au paragraphe Configuration.
+
+Sinon, faîtes une recherche de périphériques bluetooth depuis votre téléphone, entrez un code pin, puis le même code pin sur votre PC. S'il ne vous propose pas d'entrer un code PIN sur votre PC, c'est que ce code PIN a été prédéfini dans Ubuntu.
+
+Lisez donc dans ce cas le fichier /etc/bluetooth/hcid.conf et reperez la ligne 
+
+<file>
+	# Default PIN code for incoming connections
+	passkey "1234";
+</file>
+
+En l'occurence, le code PIN est bien 1234. Refaîtes alors une requête d'authentification depuis votre mobile et entrez le code PIN donné.
+
+===== Configuration =====
+
+Il faut à présent passer au logiciel de synchronisation lui-même. C'est msynctool. Il fonctionne avec la notion de groupe et de plugin. Un groupe lie entre eux deux plugins ou plus. Chaque plugin a pour mission de faire la passerelle entre son élément et le reste du groupe de synchronisation.
+
+<note help>Une aide substantielle vous sera apportée par le manuel (man msynctool) ou par l'aide (msynctool --help) notammant pour savoir comment lister les plugins disponibles (que vous avez installés sur le système).</note>
+
+Il vous faut tout d'abord créer un groupe. Entrez la commande : msynctool --addgroup nom-du-groupe dans laquelle nom-du-groupe est le nom du groupe que vous utiliserez. Exemple :
+
+<code>
+msynctool --addgroup tagada
+</code>
+
+Puis ajoutez les plugins irmc et kdepim :
+
+<code>
+msynctool --addmember tagada kdepim-sync
+msynctool --addmember tagada irmc-sync
+</code>
+
+La configuration est simple. Le plugin kdepim ne prend pas d'option. Le plugin irmc oui. Entrez donc la commande suivante :
+
+<code>
+msynctool --configure tagada 2
+</code>
+
+Vous obtiendrez ceci :
+
+<file>
+<config>
+ <connectmedium>bluetooth</connectmedium>
+ <btunit>00:1F:E4:50:71:89</btunit>
+ <btchannel>8</btchannel>
+ <irname></irname>
+ <irserial></irserial>
+ <cabletype>0</cabletype>
+ <cabledev>/dev/ttyS0</cabledev>
+</config>
+</file>
+
+Mettez bien connectmedium à bluetooth, btunit doit recevoir l'adresse de votre téléphone, et btchannel, le numero du canal irmc.
+
+===== Synchronisation =====
+
+Pour synchroniser votre téléphone et votre PC, il suffit de lancer la commande :
+
+<code>
+msynctool --sync tagada
+</code>
+
+En remplaçant bien sûr tagada par le nom du groupe utilisé.
+
+===== Synchronisation lente =====
+
+Lors de chaque synchronisation, le logiciel crée un fichier verrou (lock) dans le dossier du group considéré ( ~/.opensync/group"x"/lock ). Si l'operation se déroule correctement, ce fichier est ensuite détruit. Si l'operation ne se termine pas, le verrou va rester, et lors de la synchronisation suivante, des conflits apparaîtront. C'est ce qui s'appelle une synchronisation lente. Si vous êtes sûr de n'avoir rien modifié sur vos deux agendas (mobile et pc), vous pouvez vous-même détruire ce fichier.
+
+===== Notes =====
+
+Vous connaissez certainement le logiciel Knotes qui permet d'afficher des post-it sur le bureau de kde. Des notes existent aussi dans votre téléphone. Ces notes font bugguer la synchronisation (elle ne se termine pas, vous la tuez par vous-même, le fichier lock reste là, et vous obtenez donc une synchronisation lente à l'iteration suivante). La solution est tout simplement de ne pas synchroniser les notes. Pour se faire, lancez la commande msynctool --sync nom-du-group avec l'option filter-objtype : 
+
+<code>
+msynctool --sync tagada --filter-objtype note
+</code>
+
+===== Quelle heure est-il ? =====
+
+Il peut arriver que vous ayez des problèmes avec l'heure de vos rendez-vous entre votre agenda pc et votre agenda mobile. C'est probablement parce que vous avez déclaré un fuseau horaire sur l'un et pas sur l'autre. Verifiez celà. Kontact propose par exemple un paramètrage de vos rendez-vous suivant un fuseau horaire (different de celui de KDE, mais vous ne vous en êtiez pas aperçu...). Essayez differents réglages, vous retomberez surement sur vos pieds.
+
+===== Kitchensync =====
+
+Vous pouvez utiliser l'interface graphique Kitchensync si vous êtes allergique à la ligne de commande. N'oubliez pas non plus dans ce cas de ne pas synchroniser les notes, si pour vous aussi, elles posent problème !
+
+[[apt://kitchensync]]
+
+FIXME n'est plus disponible dans les dépots pour Jaunty, indiquer où le trouver.
+
+===== Liens =====
+
+Cet article est la reprise de la page [[http://22decembre.fr.nf/synchro.php|Synchronisation]] du site web de l'auteur.
+
+Vous pouvez aussi retrouver des informations sur [[http://www.tuxmobil.org|TuxMobil]]
+
+----
+
+//Contributeurs : [[utilisateurs:stephaneguedon]]//

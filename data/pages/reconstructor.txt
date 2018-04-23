@@ -1,0 +1,189 @@
+{{tag>système administration BROUILLON}}
+
+----
+
+
+====== Reconstructor ======
+
+Reconstructor est un logiciel qui permet de personnaliser les CD d'Ubuntu.
+
+Version 2.0\\
+Ubuntu GNU/Linux Live CD Creator\\
+http://www.reconstructor.org  (Lien HS) \\
+(c) Reconstructor Team, 2006
+
+<note warning>Ce logiciel semble abandonné. En effet le site officiel n'existe plus et sur [[https://github.com/ehazlett/reconstructor.engine|github]] la dernière mise à jour date de mars 2013.</note>
+===== Installation & Exigences =====
+Téléchargez le paquet Debian sur votre bureau\\
+(Feisty:il est vraiment sur le bureau sur Gutsy:Dossier personnel)--> [[http://sourceforge.net/projects/reconstructor/files/reconstructor-stable/reconstructor-2.7/reconstructor_2.7_all.deb/download]]\\
+\\
+OU
+\\
+Extrayez-le à partir de l'utilitaire file-roller en mode graphique !\\
+Pour l'apercevoir dans les menus Applications\\
+Pointez la fléche de votre souris sur Applications\\
+Cliquez droit sur votre souris\\
+Cliquez sur 'Editer les menus'\\
+Cliquez sur 'Outils système'\\
+Cochez la case 'Installateur de paquets GDebi'\\
+\\
+Ou exécutez dans un terminal \\
+<code>
+echo "Vous êtes dans un terminal et votre profil s'appelle $HOME"
+sudo mkdir -m 777 RC27
+cd RC27
+wget -q http://reconstructor.aperantis.com/index.php?option=com_remository&Itemid=33&func=download&id=159&chk=8980c505b4be143b958c48d6f065e4fa|reconstructor_2.7_all.deb
+sudo dpkg -i reconstructor_2.7_all.deb
+sudo apt-get -f install
+</code>
+\\
+ou compilez-le en faisant cet suite de code\\
+<code>
+echo "Vous êtes dans votre profil qui s'intitule $HOME"
+mkdir -m 777 RC27
+cd RC27
+wget -q http://downloads.sourceforge.net/reconstructor/reconstructor_2.7_all.tar.gz?modtime=1198794762&big_mirror=0
+tar zxf reconstructor_2.7_all.tar.gz
+echo vous êtes dans le dossier appelé $PWD
+./configure
+make
+sudo make install
+</code>
+Reconstructor peut fonctionner à partir de n'importe quel répertoire,\\
+De sorte qu'aucune «installation» est nécessaire.\\
+Reconstructor n'a été testé que sur Ubuntu 6.06 donc LTS (Long Time Supported).\\
+Les résultats peuvent donc varier.\\
+Vous aurez aussi besoin des Paquets squashfstools, gcc, make, et libbogldev qui se trouve dans les dépôts univers (voir le sujet [[depots]]).
+Si besoin, modifiez votre fichier [[sources.list]].
+
+Lancez un terminal \\
+<code>
+sudo apt-get install  gcc patch libbogl-dev fakeroot linux-libc-dev libgd2-xpm mkisofs libusplash-dev squashfs-tools libbogl0 dpkg-dev gnupg-agent gpgsm gnucash subversion
+</code>
+\\
+
+===== Utilisation =====
+Pour exécuter reconstructor, ouvrir un terminal et faire cd répertoire_dans_lequel_il_est_extrait\\
+et lancer :\\
+<code>
+echo Exemple: RC27=ReConstructor2.7
+echo "Exécution dans votre profil qui s'appelle $HOME"
+sudo mkdir -m 777 $HOME/RC27
+sudo python reconstructor.py
+</code>
+\\
+Pour utiliser une autre langue autre que votre environnement local\\
+Langue, exécutez LANGUAGE = [code] sudo python reconstructor.py - où le code est code de langue.\\
+Par exemple, si vous vouliez utiliser le français, exécutez :\\
+<code>
+LANGUAGE = fr sudo python reconstructor.py
+</code>
+Le premier écran est l'écran de bienvenue.\\
+
+===== Configuration =====
+L'écran suivant configure l'environnement de travail.\\
+Vous devez sélectionner les options :\\
+'Create Remaster' "Créer Remaster"\\
+'Create Root' "Créer Root", et\\
+'Create Initial Ramdisk' "Créer Initial Ramdisk"\\
+pour les premières fois.\\
+Ceci crée le cdrom arborescence, le système de fichiers root directory tree, et le disque\\
+virtuel initial (Initrd) arbre.\\
+\\
+Si vous voulez continuer une session précédente et que vous voulez garder les arbres existants\\
+(Qui se chargera de tous les logiciels installés et personnalisations), décochez les options.\\
+Le Live CD Nom du fichier ISO option consiste à utiliser une Ubuntu Live CD fichier ISO au lieu d'un cdrom physique.\\
+
+===== Personnalisation =====
+Boot Screen\\
+Cet écran est pour la personnalisation de tous les Live CD.\\
+La première option est l'écran de démarrage.\\
+Vous pouvez créer une image pcx dans Gimp (640x480) pour le CD splash screen.\\
+Pour le bootsplash\\
+Sélectionner un usplash créés ou téléchargés sorte de fichier.\\
+Pour générer un usplash (actuellement 6,06 pour Ubuntu seulement), cliquez sur le bouton «Générer».\\
+(Vous devez en créer avec les ces caractéristiques 640x400, 16 bit, avec l'extension png)\\
+(ubuntu voir le wiki pour plus de détails sur la création d'une Usplash image).\\
+Une fenêtre apparaîtra pour l'image png, suivie d'une autre fenêtre pour enregistrer le fichier\\
+généré  avec l'extension .so sorte de bibliothèque.\\
+
+===== Gnome =====
+L'onglet suivant dans la section est une personnalisation de Gnome.\\
+La section est pour Login\\
+Personnaliser Gnome Display Manager (GDM écran de connexion) et l'écran de démarrage de Gnome.\\
+Le bouton à droite de la liste est le thème de GDM pour importer un thème personnalisé.\\
+Par exemple,\\
+Visitez la section du thème GDM Gnomelook.org, télécharger un thème, cliquez sur le bouton d'importation\\
+À côté de la liste de thème GDM, et recherchez le thème et sélectionnez-le.\\
+Le thème sera alors montrer\\
+Dans la liste de thème GDM.\\
+Le bureau de la section est du choix de votre papier peint de bureau Gnome et polices.\\
+Le thème de la section est pour le réglage du thème (contrôles), la fenêtre de frontières, et les icônes.\\
+Là encore, une\\
+Bonne source pour les thèmes et icônes est Gnomelook.org\\
+===== Apt =====
+Cette section sert à sélectionner les Référentiels Apt pour le live cd.\\
+c'est à dire l'homonyme de /etc/apt/sources.list\\
+* S’il vous plaît veuillez noter: vous devez également sélectionner les dépôts ici pour que les modules reconstructor  (voir la section des Modules) pour travailler.\\
+Reconstructor sélectionnera automatiquement les dépôts en fonction de la version de Ubuntu qui est utilisé.\\
+Par exemple, si vous utilisez le "Dapper" 6.06.1 Live CD, reconstructor ajoutera les dépôts Dapper, les Edgy dépôts si vous utilisez le disque "Edgy".\\
+La partie inférieure utilise les référentiels normaux, un référentiel par ligne.\\
+
+===== Optimisation =====
+L'optimisation sert pour la personnalisation du démarrage et de l'arrêt.\\
+Cochez la case "Activer" pour activer les options de démarrage.\\
+Cochez l'option "Optimiser Shutdown" pour optimiser le processus d'arrêt du système (supprime tous les scripts inutilement redondants.\\
+Voir ici pour plus d'informations sur le démarrage, et ici pour des infos sur l'arrêt.)\\
+Note: ces réglages sont expérimentaux, vous pourriez ou pas voir un quelconque changement ...\\
+
+===== LiveCD =====
+Le LiveCD vous permet de personnaliser l'environnement d'activité (Live).\\
+Options, telles que le nom d'utilisateur, nom complet, mot de passe et nom d'hôte peut être réglée ici.\\
+Cela peut être très utile pour les applications telles que le shell sécurisé (ssh), où l'accès à distance est souhaitée.\\
+S’il vous plaît noter:\\
+Toute valeur qui est laissée en blanc utilisera la valeur par défaut d'Ubuntu, ou une valeur précédente personnalisés.\\
+Par conséquent, les mots de passe vides ne sont pas admis pour des raisons de sécurité.\\
+
+===== Terminal =====
+Le Terminal bouton dans le coin inférieur gauche de la section Personnalisation gnomeconsole lance une console pour la personnalisation de l'environnement de phase.\\
+Toute modification apportée apparaîtra dans la live cd (répertoires, liens, etc.)\\
+Il s'agit d'un environnement chroot, avec le plein accès au réseau.\\
+
+===== Modules =====
+Les modules sont le principal cadre de travail de Reconstructor.\\
+Ils effectuent essentiellement toute action dans l'environnement chroot.\\
+Il y a deux façons pour un module de fonctionner.\\
+Tout d'abord, une norme Execute ( "run now"), qui réalise des actions directement à la chroot, et d'autre part, un "run on boot" méthode.\\
+Cela permettra au module de fonctionner après la connection de l'utilisateur.\\
+N'importe quel nombre d'actions peuvent être définies pour s'exécuter au démarrage de votre système, telles que l'ouverture de Firefox à un site spécifique, ou à l'installation de logiciels sous licence restrictive qui ne peuvent pas être redistribués.\\
+Pour effacer et supprimer des modules de fonctionner sur démarrer, cliquez sur le bouton "Effacer les modules de démarrage".\\
+Il existe trois autres boutons en bas à gauche de l'écran Modules.\\
+Pour ajouter un module tierce partie, cliquez sur "Ajouter".\\
+Pour visualiser le module sélectionné, soit cliquer sur "View" ou double-cliquer l'item.\\
+Et enfin, à vérifier les mises à jour (si supporté par le module), cliquez sur "Mise à jour du module".\\
+
+===== Appliquer les modifications =====
+Cliquez une fois sur Appliquer, vous obtiendrez un avertissement, et ensuite le programme va configurer et installer le\\
+Logiciel sélectionné.\\
+Vous devez cliquer sur «Appliquer» pour apporter des modifications.\\
+Après chaque modifications, la taille estimée de l'ISO va se mettre à jour.\\
+Vous pouvez aussi mettre à jour la taille en cliquant sur le bouton à côté de la taille estimée iso.\\
+===== Construction "Build" =====
+L'écran de contruction est la dernière étape.\\
+L'option Initial Ramdisk génère l'initrd pour le live cd.\\
+L'option SquashFS Root sert à créer le système de fichiers racine.\\
+Cela doit être fait au moins une fois, et à chaque fois que vous effectuerez des personnalisations.\\
+Les Live CD (ISO) option crée le live cd. Fichier iso.\\
+La case à cocher pour supprimer les composants Win32 sur le Live CD (Firefox, Gtk +, Thunderbird, etc)\\
+La liste déroulante permet de créer des Intel/x86 soit, PowerPC, ou IA_64 bit live cd's.\\
+
+===== Finalisation =====
+Une fois que la construction est terminée, vous obtiendrez un message d'état, suivi du chemin où se trouve le fichier iso.\\
+Pour graver le fichier ISO sur le disque, cliquez sur "Burn ISO"\\
+Grâce au projet Ubuntu et Canonical Ltd pour la création d'une telle grande distribution.\\
+\\
+Pour les commentaires, questions, suggestions, etc, nous contacter à [[http://www.reconstructor.org/]]\\
+
+----
+
+//Contributeurs : [[utilisateurs:depan-informatique]], [[utilisateurs:EricLaffrat]].//

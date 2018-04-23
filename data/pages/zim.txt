@@ -1,0 +1,73 @@
+{{tag>notes wiki}}
+----
+ 
+====== Zim ======
+ {{ applications:zim_logo.png?150|Logo de Zim}}
+Zim est une application permettant de créer l'équivalent d'un [[wpfr>wiki]] dans votre système de fichier local. Il s'agit en fait d'une collection des pages contenant des marqueurs wiki, sauvegardée en local sous formes de fichier texte et interconnectées.
+
+Cet utilitaire peut servir notamment à organiser ses notes personnelles.
+ 
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+=== Dépôt officiel ===
+
+Pour installer ce logiciel, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>zim|zim]]** présent dans les [[:dépôts]].
+
+=== Depuis un PPA (pour la dernière version) ===
+
+<note warning>Vous allez installer un [[:depots|dépôt]] non officiel. Les logiciels installés à partir de ce dépôt [[:PPA]] n'auront pas de support officiel. Contactez le mainteneur du dépôt si vous avez un problème.</note>
+  - [[:PPA|Ajoutez le PPA]] **ppa:jaap.karssenberg/zim**((https://launchpad.net/~jaap.karssenberg/+archive/zim)) dans vos sources de logiciels.
+  - [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste des paquets]]
+  - [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>zim]]**
+
+=== Résumé en ligne de commande===
+
+Le résumé, à saisir dans un [[:terminal]], utilise ici la [[:commande_shell|commande]] **[[:apt-get]]** :
+<code>sudo add-apt-repository ppa:jaap.karssenberg/zim
+sudo apt-get update
+sudo apt-get install zim</code>
+
+===== Utilisation=====
+ 
+Lancez l'application depuis le menu //Applications -> Accessoires -> Zim// ou via le [[:unity#tableau_de_bord_dash|dash]] si vous utilisez une version supérieur à Ubuntu 10.10.\\
+Vous pouvez également le lancer avec la [[:commande_shell|commande]] suivante à travers un [[terminal]] :
+<code>zim</code>
+ 
+Petit aperçu de l'utilisation de Zim (crédit : [[http://zim-wiki.org/screenshots.html|site officiel]])
+
+
+{{zim-normal.png?500|Utilisation de Zim}}
+
+==== Dans le systray au démarrage ====
+
+Pour que Zim se lance dans le systray dés le démarrage de la machine, il est nécessaire d'utiliser un [[tutoriel:script_shell|script shell]] et de l'ajouter dans les [[
+tutoriel:application_demarrage|applications à lancer au démarrage]] :
+<code>
+ #! /bin/bash
+ sleep 15
+ /usr/bin/zim 
+ sleep 2 
+ /usr/bin/wmctrl -c ' - Zim' 
+</code>
+Pour que le script s'exécute il faut lui donner les droits nécessaires : 
+<code>chmod +x monscript.sh</code>
+Et vérifier que wmctrl soit bien installé :
+<code>apt-cache policy wmctrl</code>
+Source : [[http://zim-wiki.org/wiki/doku.php?id=how_to_start_zim_as_icon_in_the_system_tray]].
+
+===== Désinstallation =====
+ 
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi =====
+ 
+  * **(en)** [[http://zim-wiki.org/index.html|Site officiel de l'application]]
+  * [[RedNotebook]] [[http://rednotebook.sourceforge.net/|Site officiel]] un logiciel proche de Zim.
+
+----
+//Contributeurs principaux : [[utilisateurs:amlawish|Amlawish]].//

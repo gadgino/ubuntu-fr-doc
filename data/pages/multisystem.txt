@@ -1,0 +1,130 @@
+{{tag>live_usb}}
+----
+
+====== MultiSystem : Créez votre LiveUSB MultiBoot simplement======
+
+**MultiSystem** est un logiciel qui, contrairement aux outils traditionnels comme [[http://www.linuxliveusb.com/|LinuxLive USB Creator]], [[Usb-creator|Usb-creator]], ou encore [[unetbootin#depuis_ubuntu|Unetbootin]], permet de créer entre autres des clés dites [[:live_usb|Live-USB]] mais [[wpfr>multiboot]]. C'est-à-dire que vous pourrez installer autant de [[:live_cd|Live-CD]] que l'espace disponible de votre clé %%USB%% le permet et choisir au démarrage de votre PC, via un menu graphique, la [[wpfr>Distribution#Informatique|distribution]] ou le [[wpfr> Système d'exploitation]] à démarrer.\\
+Vous trouverez la liste des distributions supportées par MultiSystem sur [[http://liveusb.info/dotclear/index.php?pages/os|cette page]] du site officiel.
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion Internet pour l'installation du logiciel.
+  * Avoir le [[:depots|dépôt]] "universe"  d'activé sur votre système pour éviter des soucis de "dépendances non satisfaites".
+<note important>Si Ubuntu est installé en mode UEFI, l'installation et l'utilisation de Multisystem est déconseillée : voir [[http://forum.ubuntu-fr.org/viewtopic.php?id=1953591|cette discussion]]\\
+La version **1.0357** en date du 15 juillet 2016 est __compatible UEFI BIOS__\\
+test et installation effectués sur un UEFI BIOS de marque ASUS pour une réinstallation de Windows 10 ; création de la clé sous Ubuntu 16.04 </note>
+<note warning>En date du 31 juillet 2016 en version 16.04.1 **EFI**,  La commande multisystem produit une clé de boot inutilisable en LEGACY  [[https://forum.ubuntu-fr.org/viewtopic.php?pid=21561425#p21561425]]   </note>
+<note important>En date du 31 juillet 2016 en version 16.04.1 **EFI**,  La commande  "Mettre à jour grub2" détruit la fonctionnalité de boot ubuntu. Le boot suivant aura lieu sous windows.  [[https://forum.ubuntu-fr.org/viewtopic.php?pid=21561425#p21561425]]
+Mais actuellement cette commande est systématiquement lancée en fin de copie de l'ISO</note> 
+<note important>Si votre ordinateur ne parvient pas à booter sur la clé alors que le sécure boot est bien désactivé pour pouvez téléchargez le fichier [[https://github.com/jfwells/linux-asus-t100ta/blob/master/boot/bootia32.efi|suivant]] et  le mettre dans le dossier EFI/BOOT de la clé.</note> 
+===== Installation =====
+
+==== Première méthode : Avec le script de l'auteur ====
+
+  - Télécharger le script : http://liveusb.info/multisystem/install-depot-multisystem.sh.tar.bz2
+  - [[:archivage|Décompressez]] install-depot-multisystem.sh.tar.bz2
+  - [[:tutoriel/script_shell#executer_un_script|Exécutez]] install-depot-multisystem.sh
+  
+==== Seconde méthode : En ligne de commande ====
+Ouvrez un [[terminal|Terminal]] et entrez les [[:commande_shell|commandes]] suivantes :
+  - Ajoutez le Depôt de MultiSystem 
+  - Ajoutez la clé publique 
+  - Rechargez les sources 
+  - Installez MultiSystem 
+
+<code>
+sudo apt-add-repository 'deb http://liveusb.info/multisystem/depot all main'
+wget -q http://liveusb.info/multisystem/depot/multisystem.asc -O- | sudo apt-key add -
+sudo apt-get update
+sudo apt-get install multisystem
+</code>
+=== Utilisateurs ubuntu disposant d'un micro EFI et non LEGACY ===
+Le package actuel utilisé est le package X86_64.efi.       Certains micros  qui vont utiliser cette clé fabriquée pour des micros EFI, ne sont pas EFI. Il ne pourront pas booter.
+Il est donc nécessaire d'utiliser le package **I386-pc** compatible  EFI et LEGACY.   Malheureusement la version ubuntu installée n'a prévu son installation.
+Il vous appartient donc de les télécharger.
+__
+**Cette procédure n'est pas encore au point**__
+
+http://www.ubuntuupdates.org/package/core/xenial/main/proposed/grub-common
+
+http://www.ubuntuupdates.org/package/core/xenial/main/proposed/grub-pc-bin
+
+Puis d'installer le package 32 bits. Il s'installera automatiquement à coté du package X86_64.efi
+
+=== Utilisateurs Debian ===
+
+
+<note tip> Aux utilisateurs de Debian (2 méthodes) : 
+  - Après l'installation de MultiSystem, ajoutez votre nom d'utilisateur au groupe //adm//.
+<code bash>sudo usermod -a -G adm "$SUDO_USER"</code>
+Si la console vous renvoie : //usermod : l'utilisateur  n'existe pas//, appliquer plutôt la variable $USER
+<code bash>sudo usermod -a -G adm "$USER"</code>
+$USER est une variable globale indiquant votre nom d'utilisateur.
+Si la console vous renvoie : //usermod : l'utilisateur  n'existe pas//,mettez tout simplement votre nom d'utilisateur sans le $ à la place de USER
+<code bash>sudo usermod -a -G adm "USER"</code>
+Relancer votre session ou redémarrer le PC pour que le fichier /etc/group soit pris en compte.
+
+  -  [[:tutoriel:comment_modifier_un_fichier|Editez le fichier]]** /usr/local/share/multisystem/gui_multisystem.sh**
+commenter la partie :
+<file bash /usr/local/share/multisystem/gui_multisystem.sh>
+#stop si root!
+#if [ "$(id -u)" == "0" ]; then
+#zenity --error --text "$(eval_gettext "Erreur: pas en root!")"
+#nohup "$dossier"/kill.sh&
+#exit 0
+#fi
+</file>
+</note>
+
+  * [[http://liveusb.info/dotclear/index.php?pages/install|PPA]] procédure officielle
+=====Utilisation==== 
+
+Il faut d'abord 
+  - Cliquer sur la clef %%USB%% (formatée en Fat 32) dans le gestionnaire de fichier, puis, 
+  - Lancer l'application depuis [[:unity#tableau_de_bord_dash|dash]] //(menus classique: Applications => Accessoires => MultiSystem)// ou saisissez dans un [[:terminal]] la [[:commande_shell|commande]] suivante:  <code>multisystem</code>
+
+Sélectionnez votre clé et validez.
+
+Ensuite, vous avez juste à Glisser/Déposer vos fichiers .iso dans le rectangle blanc du bas et c'est tout !\\
+Pour le reste l'interface est plutôt intuitive. Passer la souris sur les boutons pour voir les infobulles.
+
+{{:multisystem:Multisystem_lucid_01.png?nolink&|Interface de MultiSystem }} pour accéder au paramètres avancés, cliquer sur l’œil 8-), les boutons sur le côté droit permettent ainsi de modifier l'ordre, supprimer un iso...
+
+{{:multisystem:Multisystem_lucid_02.png?nolink&|Interface avancée de MultiSystem }}
+
+{{:multisystem:capture-vbox.png?nolink&|La fenêtre pour tester un live}}
+
+{{:multisystem:capture-grub2.png?nolink&|Interface au démarrage du PC sur la clé USB}}
+
+<note>Il est possible d'utiliser Multisystem pour un système [[:uefi]]. Mais si vous préparez votre clé sur un système hôte ((le pc sur lequel vous utilisez multisystem)) en uefi, vous ne pourrez que démarrer votre clé en uefi. Par contre si votre système hôte est en legacy ((bios traditionnel)) vous pourrez à la fois démarrer en uefi et en legacy.</note>
+
+====Installer une ISO de Windows====
+Rendez vous sur cette [[:installer_windows_7_boot_usb|page]].
+
+====Personnalisation de votre clé====
+=== Changer le fond d'écran ===
+Rien de plus simple, il suffit de modifier l'image splash.png contenue dans le dossier boot/splash de votre clé.
+Le plus simple est d'ouvrir l'image avec [[:Gimp]] et la modifier (pour garder la taille, etc.)
+
+=== Changer les couleurs du texte ===
+  * Dans la fenêtre principale cliquer sur le bouton "réglages grub"
+  * Changer les couleurs et fermer
+{{:multisystem008.png|{{:multisystem008.png?200|}}
+
+=== Changer les intitulés ===
+  * Double cliquer sur la liste de vos OS
+  * Double cliquer sur les lignes à modifier
+  * Valider et fermer pour finir
+
+
+===== Voir aussi =====
+  * [[http://liveusb.info/dotclear|Site officiel du logiciel]]
+  * [[http://liveusb.info/dotclear/index.php?pages/install|Détails sur les différentes méthodes d'installation de Multisystem]] sur le site officiel.
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=427605| Fil de support dédié à cet effet]] et [[http://forum.ubuntu-fr.org/viewtopic.php?id=1229491|sa suite]] sur le forum Ubuntu-fr.
+
+----
+//Contributeur: [[:utilisateurs:frafa]], [[:utilisateurs:cyberscooty]]//\\
+//Autres contributeurs : [[utilisateurs:eagle08|René Stoecklin]] : Mise à jour de la note de compatibilité //
+
+//Page mise à jour en date du 25 juillet 2016 //

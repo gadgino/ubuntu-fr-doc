@@ -1,0 +1,108 @@
+{{tag>Precise matériel netbook Acer poulsbo }}
+
+----
+
+====== Acer Aspire One 751 (AO751h)======
+{{AcerAspireOne751.jpg}}    {{ao751h-autoportrait-01.jpg?440}}  
+
+===== En un coup d'œil =====
+
+Le tableau suivant récapitule la prise en charge matérielle du portable par les différentes versions d'Ubuntu.
+Il utilise les notations suivantes :
+  * {{icons:important.png|Fonctionne après config}} : **Fonctionne après quelques manipulations**
+  * {{icons:icon-ubuntu.png|Fonctionne immédiatement}} : **Fonctionne immédiatement**
+  * {{icons:icon-support.png|Pas testé}} : **Pas d'informations disponibles**
+  * {{icons:process-stop.png?36|Ne fonctionne pas}} : **Ne fonctionne pas**
+
+^ Version ^ Installation ^ Carte graphique ^ Accélération 3D ^ Son ^ Wifi ^ Lecteur cartes ^ Touchpad ^  Webcam ^ Bluetooth ^Autres ^ Compiz 3D ^
+| [[:Precise|"Precise Pangolin" - 12.04 ]] | Live-USB  | {{icons:important.png|Accélération matériel avec les pilotes 2D seulement}} | {{icons:important.png}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement }} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} |{{icons:icon-ubuntu.png|Fonctionne immédiatement}}|{{icons:icon-ubuntu.png|Fonctionne immédiatement}}| {{icons:icon-support.png|Pas testé}} | {{icons:important.png}} |
+
+
+
+**Utilisateurs du Wiki possédant cet ordinateur, fonctionnel (ou pas):**
+
+  * **[[:utilisateurs:THk.02]]** : [[:Maverick|Maverick Merkat]]. Fonctionne très bien.Y compris la webcam. Les problèmes de playback vidéo réglés en utilisant xv même avec un stick tnt hauppauge qui fonctionne parfaitement après installation des pilotes propriétaires (sous metv). Signal WiFi très bon, mais j'ai changé la carte wifi pour une intel WiFi Link 5100 n.IMPORTANT: L'AO751h fonctionne ainsi parfaitement sans plantage, alors qu'il bloquait fréquemment sous Seven ! Il me semble que cela est dû à une meilleure gestion du refroidissement. (Peut-être aussi y-a-t-il un lien avec la gestion de l'interface Ethernet ?)
+  * **[[:utilisateurs:slvn]]** : [[:Maverick|Maverick Merkat]]. Fonctionne très bien. Bluetooth pas testé. Encore des problèmes de playback vidéo et webcam inutilisable. Signal WiFi (pilote STA) un peu faible comparé à la version Windows.
+  * **[[:utilisateurs:noia06]]** : [[:Maverick|Maverick Merkat]]. Tous fonctionne (même les jeux en 3D comme AssaultCube). Mais pas de Webcam.
+  * **[[:utilisateurs:heiwa86]]** : [[:Maverick|Maverick Merkat]]. La webcam et les vidéos fonctionnent seulement si poulsbo-driver-3d n'est pas installé. La diode du wifi s'allume enfin.
+  * **[[:utilisateurs:juli3n]]** : [[:Jaunty|Jaunty Jackalope]]
+  * **[[:utilisateurs:Escé]]** : [[:Jaunty|Jaunty Jackalope]]
+  * **[[:utilisateurs:cyflo]]** : [[:Jaunty|Jaunty Jackalope]] (Entièrement fonctionnel avec la manipulation décrite ci dessous pour les pilotes vidéo 2D/3D) 
+  * **[[:utilisateurs:Lutin Malicieu]]** :  [[Lubuntu]] LTS 12.04 (en test: tout semble ok)
+  * **[[:utilisateurs:herd75]]** : [[:Jaunty|Jaunty Jackalope]]
+  * **[[:utilisateurs:TONIOMEX]]** : [[:Lucid|lucid Lynx, netbook edition 2D]] (fonctionnel, 3D pas testée, manque voyant wifi, vidéo avec son mais sans images)
+  * **[[:utilisateurs:ThomasBo]]** : [[:Karmic|Karmic Koala]]
+  * **[[:utilisateurs:Thorfin89]]** : [[:Karmic|Karmic Koala]] (Installation avec Live-USB. Ne manque que la gestion fiable de la batterie, les touches de réglage de la luminosité et le voyant Wifi)
+  * **[[:utilisateurs:jibehef]]** : [[:Jaunty|Jaunty Jackalope]] (installation depuis lecteur DVD externe)
+  * **[[:utilisateurs:nsauzede]]** : [[:Karmic|Karmic Koala]] (entièrement fonctionnel, et résolu les problèmes de freezes de la machine)
+  * **[[:utilisateurs:EauLand]]** : [[:Jaunty|Jaunty Jackalope]] (entièrement fonctionnel) && [[:Lucid|Lucid Lynx]] (pas d'accélération matériel, quelques configurations pour avoir la résolution 1366x768)
+  * **[[:utilisateurs:unikpmc]]** : [[:Jaunty|Jaunty Jackalope]] (install via live-USB; 2D ok avec bidouillages) && [[:Lucid|Lucid Lynx]] (ok avec l'ISO modifié de Lucazade [[https://wiki.ubuntu.com/HardwareSupportComponentsVideoCardsPoulsbo/|lien]] torrent dispo là: [[http://linuxtracker.org/download.php?id=f0b262a10d2a4401a4641cb01aef44c8fbccd051&f=ubuntu-10.04-desktop-i386-psb1.torrent|TORRENT]]) && [[:Maverick|Maverick Merkat]] 2D ok avec les [[:acer_aspire_one_751#installation_des_drivers_2d_et_3d|bidouillages]]; led wifi OK
+  * **[[:utilisateurs:Jean-Louis75]]** : [[:Lucid|lucid Lynx]] (installation avec noyau modifié par lucazade pour les drivers pulsbo pré-compilés. Fonctionne directement avec la bonne résolution 1366x768. Images non déformées. Remplace vbetool par uswsusp pour le réveil après fermeture du couvercle.)
+  * **[[:utilisateurs:flecellier]]** : [[:Precise|Precise Pangolin]]. Fonctionne très bien. (3D non testée)
+
+**Cet ordinateur portable ne semble pas être [[:pc_tatoué|tatoué]]**.
+
+===== Préparation =====
+Étapes préparatoires à l'[[:installation]] d'Ubuntu sans casser Windows (double boot à partir de [[grub]]).
+
+==== Sauvegarde du Système Windows et de vos données====
+Avant l'installation, il peut être nécessaire de faire une "sauvegarde" du système Windows et des drivers livrés par Acer avec une graveur externe de DVDs grâce à l'application **//eRecovery//** :
+  * Recovery1 : 4 Go
+  * Recovery2 : 1,5 Go
+  * AppDrv1 : 1,3 Go
+
+Pensez à sauvegarder vos données personnelles importantes présentes sur votre disque dur!
+Puis procédez à un [[:repartitionner|repartitionnement]] du disque.
+
+==== Préparation de la clé-USB de démarrage sous Ubuntu ====
+Il faut une clé USB d'au moins 1 Go préparée à partir du CD d'installation avec le "[[usb-creator]]" (créateur de clé-USB de démarrage).
+
+===== Configuration de Ubuntu 12.04 (Precise Pangolin) =====
+
+Comme précisé [[https://wiki.ubuntu.com/HardwareSupportComponentsVideoCardsPoulsbo#Psb_gfx_drivers_.28promising_for_Precise_12.04.29|ici]] et [[http://blog.bodhizazen.net/linux/ubuntu-12-04-gma500-poulsbo-boot-options/|là]], pour éviter les bugs d'affichage (écran noir, écran partagé), il faut [[:tutoriel:comment_modifier_un_fichier|modifier le fichier]] **/etc/default/grub**  avec les [[:sudo|droits d'administration]], pour modifier a fin de la ligne:
+<file>GRUB_CMDLINE_LINUX=""</file> comme ceci :
+<file> GRUB_CMDLINE_LINUX="console=tty1" </file>
+Sauver et quitter, puis mettez à jourgrub: <code> sudo update-grub </code>
+
+Si jamais ça continue, dans le même fichier remplacer
+<file>GRUB_CMDLINE_LINUX_DEFAULT=”quiet splash”</file>
+par
+<file>GRUB_CMDLINE_LINUX_DEFAULT=”quiet console=tty1 acpi_backlight=vendor acpi_osi=Linux acer_wmi.blacklist=yes mem=1920mb”</file>
+
+===== Optimisation =====
+
+
+
+====Autres distributions légères basées sur Debian/Ubuntu supporté par l'AO751h ?====
+  * [[:crunchbang]] (une IHM //plus légère//, mais aussi //plus réactive// ?)
+  * [[http://zorin-os.com|Zorin OS lite]] (la version lite est basée sur Lubuntu, est légèrement plus legère, le wifi et la webcam fonctionne par défaut)
+==== Virtualisation ====
+<note warning>
+  * __Information :__ Les paramètres du BIOS //ne permettent pas d'activer la technologie **Intel VT**// (virtualisation matérielle) directement. Vous pouvez obtenir cette virtualisation de manière automatique en flashant la dernière version du
+bios disponible sur le site de support d'ACER que vous trouverez [[http://global-download.acer.com/Step5.aspx?Step1=Netbook&Step2=Aspire One&Step3=AO751h&BC=Acer&SC=EMEA_27&LC=en&OS=V10&FS=O01&Category=BIOS|ici]] !
+</note>
+
+===KVM==
+Fonctionne correctement avec la dernière version du bios v.3210
+
+===VirtualBox===
+La dernière version de [[:Virtualbox]] s'installe et fonctionne correctement (ne pas oublier d'installer le paquet **[[apt>dkms]]**).  
+
+
+==== Pavé tactile (touches bleus) et boutons sous le clavier ====
+**OK** : 
+  *toutes les fonctions //Fn// sont fonctionnelles en standard (sauf Fn-F2, il n'y a pas d'équivalent sous ubuntu au panneau système windows) :
+    * Fn-F1 : type d'alimentation (secteur/batterie) ;
+    * Fn-F3 : Bluetooth off, cependant (__Bug 411694 :__ [[https://bugs.launchpad.net/ubuntu/+bug/411694|AO751h shortcut to stop bluetooth get a luminosity icon]]) **c'est un symbole de //luminosité// qui s'affiche dans la zone de notification** ;
+    * Fn-F4 : hibernation ;
+    * Fn-F5 : activation de la //sortie d'écran extene// (ex : vidéo-proj.) ;
+    * Fn-F6 : éteind l'écran ;
+    * Fn-F7 : désactive le //touchpad// (**très très utile**) ;
+    * Fn-F8 : sourdine (son //off//). 
+  * les deux boutons sous clavier fonctionnent (ils mettent respectivement on/off les modules //bluetooth// et //wifi//).
+
+=====Voir aussi=====
+Une discussion existe sur le forum au sujet de cette machine [[http://forum.ubuntu-fr.org/viewtopic.php?id=319538&p=7|Forum:Matériel/AcerAspireOnePro751|ici]]
+----
+
+//Contributeurs : [[:utilisateurs:juli3n]], [[:utilisateurs:Escé]], [[:utilisateurs:Lutin Malicieu]], [[:utilisateurs:herd75]], [[:utilisateurs:EauLand]]//

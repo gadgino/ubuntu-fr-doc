@@ -1,0 +1,580 @@
+{{tag>programmation À_RECYCLER}}
+
+----
+
+<note>Attention **BROUILLON** ! Certaines parties de cette page sont obsolètes, pour une installation sur Karmic, voir directement la section //Installation complète (Karmic Koala)//.
+
+Pour l'installation de Ruby 1.9.2 et de Ruby On Rails 3.0, voir directement la section //Installation complète (Maverick Meerkat)//</note>
+
+<note warning>L'installation de RVM devrait se faire pour un utilisateur uniquement et donc sans sudo devant, [[https://rvm.beginrescueend.com/rvm/install/|comme expliqué dans la doc officielle]]. Il est déjà dangereux de télécharger et installer un bash en une seule commande, le faire avec un sudo devant est juste une pratique à bannir. Merci de compléter et de mettre les avertissements nécessaires. --- YoBoY - Administrateur de la Documentation Francophone</note>
+
+====== Ruby On Rails ======
+
+Rails est un framework de développement d'applications web basé sur le concept [[http://fr.wikipedia.org/wiki/Mod%C3%A8le-Vue-Contr%C3%B4leur|Modèle-Vue-Controleur]] (MVC).
+ 
+  * **Ruby** - Ruby 1.9.3 est la version recommandée pour l'utilisation de Rails. Ruby 1.9.1, 1.8.7, 1.8.4 et 1.8.2 conviennent aussi, mais pas la version 1.8.3.
+  * **RubyGems** - RubyGems est le gestionnaire standard de paquets Ruby.  Similaire à apt-get, mais est utilisé pour installer les librairies et applications en Ruby. Les Gems sont en quelque sorte comme les paquets .deb (les gems sont la meilleure façon d'installer Rails et ses dépendances)
+  * **Rails** - Avec **RubyGems** installé, vous pouvez installer Rails et ses dépendances.
+  * **Rails 3.0** - La dernière version de Rails n'est pas disponible dans les dépôts. Vous pouvez cependant l'installer via RVM.
+
+
+===== Installation complète de Ruby 1.9.3 et Rails 3.0 via RVM (Maverick Meerkat) =====
+<note>Ruby On Rails 3.0 ne supporte pas Ruby 1.9.1</note>
+
+Si vous souhaitez installer Ruby 1.9.3 et Rails 3.0, vous ne pouvez pas le faire via les dépôts officiels. Il va donc vous falloir les installer à la main.
+==== Ruby enVironment (Version) Manager (RVM) ====
+RVM vous permet de gérer manuellement les versions de Ruby. 
+
+=== Pré-requis ===
+Installer les dépendances :
+<code>sudo apt-get install curl git-core build-essential zlib1g-dev libssl-dev libreadline6-dev gem libyaml-dev</code>
+
+=== Installation ===
+La commande suivante récupère et installe RVM :
+<code>bash < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)</code>
+Ou celle ci qui suis un redirecteur
+<code>curl -L get.rvm.io | bash -s stable</code>
+
+<note>Le « sudo » est à proscrire en dehors d'une [[http://rvm.beginrescueend.com/deployment/system-wide/|installation multi-utilisateurs (serveur)]]. Pour plus d'informations sur cette commande, rendez-vous sur la [[http://rvm.beginrescueend.com/rvm/install/|page officielle de RVM (en anglais)]]. Il existe d'autres méthodes pour installer RVM, mais que celles-ci nécessitent des modifications plus complexes de votre système.</note>
+
+Les binaires sont installés dans $HOME/.rvm, la fonction suivante permet de les rendre accessibles via le terminal :
+<code>echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function' >> ~/.bashrc</code>
+
+Pour actualiser la configuration, fermer et rouvrir le terminal ou exécuter :
+<code>source ~/.bashrc</code>
+En single-user (sans sudo), **l'installation de RVM est terminée : passez directement à Installation de Ruby**.
+
+=== Finalisation multi-utilisateur (avec sudo) ===
+<note>Inutile si l'on s'est contenté d'une installation //single-user// (sans sudo).</note>
+Une fois l'installation terminée, il faut ajouter votre compte dans le groupe //rvm// :
+<code>sudo adduser <utilisateur> rvm</code>
+
+=== Test ===
+Pour vérifier l'installation, exécutez :
+<code>rvm info</code>
+
+<note>
+Si vous obtenez :
+<code>
+Commande 'rvm' non trouvée
+</code>
+
+Vérifiez s'il n'est pas écrit :
+<code>
+Installation of RVM to /usr/local/rvm/ is complete.
+</code>
+
+Si c'est le cas, vous pouvez corriger comme cela :
+<code>
+ln -s /usr/local/rvm/bin/rvm /usr/bin/
+</code>
+</note>
+==== Installation de Ruby 1.9.2 ====
+
+=== Installation ===
+Tapez la commande suivante :
+<code>sudo rvm install 1.9.2</code>
+
+Une fois le téléchargement fini, l'installation débute toute seule et peut durer un certain temps, soyez donc patient !
+
+Avec la commande ci-dessus, si vous obtenez cette erreur : 
+<code>sudo: rvm: command not found</code>
+
+Il faut executer la commande : 
+
+<code>rvm list known</code>
+
+Et choisir la version de ruby que vous souhaitez installer, en l'occurence ici :
+
+<code>rvm  install ruby-1.9.2-p180</code>
+
+Pour plus d'informations pour l'installation de Ruby avec RVM, vous pouvez vous rendre ici : [[https://rvm.beginrescueend.com/rubies/installing/]]
+
+<note warning>Sous **Ubuntu 11.10** et **RVM 1.10.0** (installation //single-user//)
+
+Une erreur survient pendant la compilation de Ruby :
+<code>gcc -I. -I../../.ext/include/x86_64-linux -I../.././include -I../.././ext/openssl -DRUBY_EXTCONF_H=\"extconf.h\"    -fPIC -O3 -ggdb -Wextra -Wno-unused-parameter -Wno-parentheses -Wpointer-arith -Wwrite-strings -Wno-missing-field-initializers -Wno-long-long  -fPIC  -o ossl_ssl.o -c ossl_ssl.c
+ossl_ssl.c:110:1: erreur: ‘SSLv2_method’ undeclared here (not in a function)
+ossl_ssl.c:111:1: erreur: ‘SSLv2_server_method’ undeclared here (not in a function)
+ossl_ssl.c:112:1: erreur: ‘SSLv2_client_method’ undeclared here (not in a function)
+make[1]: *** [ossl_ssl.o] Erreur 1
+make[1]: quittant le répertoire « /home/<user>/.rvm/src/ruby-1.9.2-p180/ext/openssl »
+make: *** [mkmain.sh] Erreur 1</code>
+
+**La solution**
+
+//inspirée de cette page [[http://29a.ch/2011/10/28/rvm-on-ubuntu-11-10]] (en anglais)//
+
+Faire le ménage :
+<code>rvm remove 1.9.2</code>
+Installer le paquet openssl de RVM :
+<code>rvm pkg install openssl</code>
+Forcer l'installation de Ruby avec le paquet openssl précédemment installé :
+<code>rvm install 1.9.2 --with-openssl-dir=$rvm_path/usr</code></note>
+
+=== Version par défaut ===
+Il vous faut indiquer la version de Ruby utilisée par défaut :
+<code>sudo rvm --default ruby-1.9.2</code>
+
+=== Rendre Ruby accessible dans le shell ===
+
+<note important>La partie qui suit est très importante (uniquement dans le cas d'une installation //multi-utilisateur//) !</note>
+
+Avec votre éditeur de texte préféré, éditez le fichier situé ///home/<user>/.bashrc// puis faites les actions suivantes :
+  - Commentez la ligne : <code>[ -z "$PS1" ] && return</code> en mettant un # devant
+  - Ajoutez à la place : <code>if [[ -n "$PS1" ]]; then</code>
+  - Ajoutez une nouvelle ligne, indentez d'un "cran" de plus et mettez <code>[[ -s "$HOME/.rvm/src/rvm/scripts/rvm" ]] && . "$HOME/.rvm/src/rvm/scripts/rvm"  # This loads RVM into a shell session.</code>
+  - Ajoutez une nouvelle ligne et mettez <code>fi</code>
+
+Enregistrez le fichier, fermez les éventuels terminaux ouverts et ouvrez-en un nouveau. Pour tester si la modification a fonctionné, tapez :
+<code>ruby -v</code>
+
+Il doit vous afficher quelque chose de semblable à :
+<code>ruby 1.9.2p180 (2011-02-18 revision 30909) [x86_64-linux]</code>
+
+<note>Vous devrez effectuer la manipulation d'ajout dans le groupe //rvm// ainsi que de modification du fichier //.bashrc// pour chaque utilisateur devant avoir accès à rvm et ruby</note>
+
+<note>
+Comme pour rvm, si vous obtenez le message suivant :
+<code>
+Le programme « ruby » n'est pas installé.  Vous pouvez l'installer en saisissant :
+apt-get install ruby
+</code>
+
+Exécutez la commande suivante :
+<code>
+sudo ln -s /usr/local/rvm/bin/ruby /usr/bin
+</code>
+</note>
+==== Installation de Rails 3.0 ====
+
+=== Installation ===
+Installez Rails 3.0 :
+<code>sudo gem install rails</code>
+
+Le système va se charger d'installer Rails ainsi que ses dépendances. Votre terminal peut ne pas afficher d'information durant un laps de temps, ne vous inquiétez pas et soyez une fois de plus patient.
+
+<note>(Optionnel) Vous pouvez en profiter pour installer le gem //mysql// (remplacez simplement "rails" par "mysql")</note>
+
+=== Test ===
+
+Vous pouvez maintenant accéder à Rails.
+Pour tester si tout s'est bien passé, tapez la ligne suivante dans un terminal (il faut fermer le terminal en cours et en ouvrir un autre). Elle aura pour effet de créer un nouveau projet Rails au chemin indiqué.
+
+<code>rails new /chemin/du/projet/nomDuProjet -d mysql</code>
+
+<note>//-d mysql// signifie que je vais utiliser une connexion à MySQL. Cette option est totalement optionnelle.</note>
+
+Vous devez avoir une liste de fichiers créés qui doit s'afficher, semblable à celle-ci : 
+
+<code>
+create  
+      create  README
+      create  Rakefile
+      create  config.ru
+      create  .gitignore
+      create  Gemfile
+      create  app
+      create  app/helpers/application_helper.rb
+      create  app/controllers/application_controller.rb
+      create  app/views/layouts/application.html.erb
+...
+</code>
+
+
+Votre installation est terminée. Vous pouvez utiliser Ruby et Rails de façon classique.
+
+=== Intégration avec Apache 2 ===
+
+Rails 3.0 pose quelques soucis avec Mongrel. 
+Par contre, l'utilisation de passenger à la place se veut très simple et efficace :
+[[http://www.nicosphere.net/configuration-dapache-avec-passenger-pour-rails-2215]]
+
+===== Installation complète (Karmic Koala) =====
+
+<note>Un gem c'est un peu comme un paquet deb.\\
+La version 1.9 de Ruby correspond à la version de test.</note>
+
+Pour installer Ruby et le framework Ruby on Rails, il faut installer les paquets **ruby**, **ruby-dev** et **libopenssl-ruby** :
+<code>sudo apt-get install ruby ruby-dev libopenssl-ruby</code>
+^ Ruby On Rails en un clic ^[[apt://ruby,ruby-dev,libopenssl-ruby|{{ :apt.png |Installer en 1 clic.}}]]|
+
+La version de RubyGems située dans les dépôts est trop ancienne pour installer le gem **rails**. Installons RubyGems manuellement :
+<code>
+wget http://production.cf.rubygems.org/rubygems/rubygems-1.3.7.tgz
+tar -xvf rubygems-1.3.7.tgz
+sudo ruby rubygems-1.3.7/setup.rb
+sudo ln -s /usr/bin/gem1.8 /usr/bin/gem
+</code>
+Mettez éventuellement RubyGems à jour :
+<code>sudo gem update --system</code>
+
+Ensuite il faut mettre la ligne suivante dans **~/.gemrc** pour indiquer le chemin où installer les binaires et désactiver l'installation des docs qui sont longues à installer :
+<code>gem: --bindir /usr/local/bin --no-ri --no-rdoc</code>
+
+Puis installer la gem **rails** :
+<code>sudo gem install rails</code>
+
+Pour pouvoir interfacer Ruby avec MySQL, il faut installer le paquet **libmysqlclient-dev**  :
+<code>sudo apt-get install libmysqlclient-dev</code>
+^Installation du gem mysql^|[[apt://libmysqlclient-dev|{{ :apt.png |Installer le paquet.}}]]|
+Ainsi que le gem **mysql** :
+<code>sudo gem install mysql</code>
+
+===== Installation standard =====
+
+<note>
+Depuis Dapper, vous pouvez installer **Rails** depuis les dépôts, mais cette solution est connue pour causer des problèmes entre apt-get et le manager de paquets gem. Le mieux est d'installer Rails par le biais des **gems**.
+</note>
+
+==== Installation de Ruby ====
+
+[[:tutoriel:comment_installer_un_paquet|Installez les paquets]] **y rubygems**
+
+Fil de discussion à ce sujet : [[http://forum.ubuntu-fr.org/viewtopic.php?id=288407]]
+
+==== Mise à jour de RubyGems ====
+<note help>
+Si vous êtes derrière un proxy, il faut d'abord mettre la variable d'environnement :
+<code>
+export HTTP_PROXY=http://url_du_proxy:port_HTTP
+</code>
+</note>
+
+<code>
+sudo gem update
+sudo gem update --system
+</code>
+
+
+==== Installation de Rails et ses dépendances (avec RubyGems) ====
+
+  sudo gem install rails --include-dependencies
+ou pour la version courte :
+  sudo gem install rails -y
+
+>Pas besoin d'option (//--include-dependencies// ou //-y//) sous Hardy car elles sont mises par défaut.\\ FIXME et pour Gutsy et précédentes ? toujours d'actualité ?
+
+<note help>Si vous obtenez une erreur du type :
+<file>
+uninitialized constant Gem::GemRunner
+</file>
+
+[[:tutoriel:comment_editer_un_fichier|Éditer le fichier]] **/usr/bin/gem** et ajoutez la ligne :
+<file>require 'rubygems/gem_runner'</file> juste avant la ligne :
+<file>require 'rubygems'</file>
+puis relancez la commande voulue.
+</note>
+
+Vous pouvez dès lors installer les « gems » dont vous avez besoin.
+
+<note>
+Suite à un gem update --system, vous pouvez rencontrer ce type d'erreur, simplement parce que /usr/bin/gem est différent de /usr/bin/gem1.8.
+J'ai résolu le problème simplement en supprimant /usr/bin/gem et en faisant un lien symbolique vers /usr/bin/gem1.8 :
+<file>
+sudo rm /usr/bin/gem
+sudo ln -s /usr/bin/gem1.8 /usr/bin/gem
+</file>
+</note>
+===== Créez votre première application Rails =====
+
+Entrez la commande suivante :
+  rails new /chemin/vers/la/nouvelle/application
+
+Évidemment, remplacez ///chemin/vers/la/nouvelle/application// par le chemin vers lequel vous voulez stocker le code de votre application.\\
+Par exemple ~/rails/maKillerApp
+===== Installations supplémentaires =====
+
+Rails est installé avec le serveur WebRick. Une fois votre application créée, vous pouvez la visualiser en vous plaçant dans le répertoire de l'application et en tapant :
+  rails server
+Le serveur WebRick se lance alors et vous pouvez y accéder à l'adresse http://localhost:3000
+
+Vous pouvez aussi installer et utiliser d'autres serveurs...
+
+==== Mongrel ====
+
+Pour installer [[http://mongrel.rubyforge.org/|mongrel]], 
+[[:tutoriel:comment_installer_un_paquet|installez les paquets]] **build-essential ruby1.8-dev**, puis entrez la commande :
+  sudo gem install mongrel
+
+
+
+
+
+==== Mongrel_cluster et apache 2.2 ====
+
+1 - installer mongrel :
+  sudo gem install gem_plugin mongrel mongrel_cluster --include-dependencies
+
+2 - créer le fichier de configuration de mongrel_cluster :
+  sudo mongrel_rails cluster::configure -e production  -p 8000 -N 3 -c /var/www/monsite -C /var/www/monsite/config/mongrel_cluster.yml -a 127.0.0.1 --user www-data --group www-data
+-e : indique le type d'environnement du serveur, ici production\\
+-p : indique le port de la première instance du serveur mongrel, ici 8000\\
+-N : indique le nombre d'instances à lancer, ici 3\\
+-c : indique le chemin du site, ici /var/www/monsite\\
+-C : indique où enregistrer le fichier de config que cette commande génère, ici /var/www/monsite/config\\
+-a : indique à Rails découter l'interface du réseau local 127.0.0.1\\
+--user : indique l'identité de l'utilisateur avec lequel démarrer les processus mongrel, ici www-data\\
+--group : indique l'identité de le group avec lequel démarrer les processus mongrel, ici www-data\\
+
+3 - créer un lien symbolique du fichier précédent vers /etc/mongrel_cluster :
+  sudo ln -s /var/www/monsite/config/mongrel_cluster.yml  /etc/mongrel_cluster/monsite.yml
+
+NOTE : au point 2 on aurait pu enregistrer directement le fichier de configuration du cluster dans /etc/mongrel_cluster, ce qui aurait évité d'avoir à créer un lien symbolique, cela permet ici de garder la configuration du cluster dans le site lui-même (au choix)
+
+4 - lancer le cluster mongrel :
+  sudo mongrel_rails cluster::start -C /etc/mongrel_cluster/monsite.yml
+
+5 - activer les modules apache correspondant :
+  sudo a2enmod rewrite
+  sudo a2enmod proxy
+  sudo a2enmod proxy_balancer
+  sudo a2enmod proxy_http
+
+6 - configurer apache :
+  [[:tutoriel:comment_modifier_un_fichier|Éditez le fichier]] /etc/apache2/sites-available/default et modifiez la première ligne
+  NameVirtualHost *
+  <VirtualHost *>
+
+puis
+  [[:tutoriel:comment_modifier_un_fichier|Éditez le fichier]] /etc/apache2/sites-available/monsite et modifiez le fichier comme suit
+  <VirtualHost *>
+  	ServerName monsite
+  	ServerAdmin admin@monsite.fr
+  	
+  	DocumentRoot /var/www/public
+  	<Directory /var/www/public/>
+  		Options FollowSymLinks
+      		AllowOverride none
+  		Order allow,deny
+  		allow from all
+  	</Directory>
+  
+	<Proxy balancer://mongrel_cluster>
+		BalancerMember http://127.0.0.1:8000
+		BalancerMember http://127.0.0.1:8001
+		BalancerMember http://127.0.0.1:8002
+	</Proxy>
+  
+	RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_FILENAME} -f
+	RewriteRule (.*) $1 [L]
+  
+	ProxyPass / Balancer://mongrel_cluster/
+	ProxyPassReverse / balancer://mongrel_cluster/
+  
+	# Deflate
+	AddOutputFilterByType DEFLATE text/html text/plain text/xml application/xml application/xhtml+xml text/javascript text/css
+	BrowserMatch ^Mozilla/4 gzip-only-text/html
+	BrowserMatch ^Mozilla/4.0[678] no-gzip
+	BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+  
+  
+	# Possible values include: debug, info, notice, warn, error, crit,
+	# alert, emerg.
+	LogLevel warn
+  
+	ErrorLog /var/log/apache2/monsite.log
+	CustomLog /var/log/apache2/access.log combined
+	ServerSignature Off
+  
+  </VirtualHost>
+
+activer le serveur virtuel
+  sudo a2ensite monsite
+
+7 - modifier le mode proxy d'apache par défaut :\\
+par défaut le mode proxy est interdit à tout le monde, ce qui a pour effet que toute requête à Apache se solde par "forbidden", il faut donner l'autorisation de consulter les pages à tout le monde
+  [[:tutoriel:comment_modifier_un_fichier|Éditez le fichier]] /etc/apache2/mods-available/proxy.conf
+commenter les lignes qui interdisent la consultation et donner l'autorisation à tout le monde
+                #Order deny,allow
+                #Deny from all
+                Order allow,deny
+                Allow from all
+
+8 - relancer apache
+  sudo /etc/init.d/apache2 restart
+  
+<note important>En cas de "mongrel_rails: command not found" => créer un lien symbolique de /var/lib/gems/1.8/bin/mongrel_rails vers /usr/bin</note>
+
+==== MySQL ====
+
+Pour installer le gem mysql, 
+[[:tutoriel:comment_installer_un_paquet|installez]] le paquet **libmysqlclient16-dev** puis entrez la commande :
+  sudo gem install mysql2 -v 0.2.7
+
+
+==== Postgres ====
+Pour pouvoir utiliser postgres avec Rails, 
+[[:tutoriel:comment_installer_un_paquet|installez]] les paquets **make** (si cela n'est pas déjà fait) et **libpq-dev** puis entrez la commande :
+  sudo gem install postgres
+
+===== Configuration avancée de Apache + FCGI =====
+Il est aisé de tester Ruby on Rails avec le serveur intégré WEBrick ou mongrel, mais pour ceux qui veulent intégrer Ruby on Rails dans un environnement Apache, voici les instructions.
+
+<note important>L'utilisation de fastcgi est fortement déconseillée et il convient maintenant d'utiliser apache 2.2 et son mode proxy_balancer couplé à des serveurs mongrel en cluster (cf supra)</note>
+
+==== Pré-requis ====
+  * Avoir Ruby on Rails installé et fonctionnel
+  * Votre application doit fonctionner en utilisant WEBrick ( ''/chemin/vers/l/application/script/server'' ).\\ Cela signifie que vous avez toutes les librairies et gems correctement installées.
+  * Avoir une installation d'Apache fonctionnelle. (voir [[lamp]] (Contentez vous d'installer Apache et MySQL) si ce n'est pas le cas).
+
+Activez le mod_rewrite :
+  sudo a2enmod rewrite
+
+Installez le support de FCGI pour Apache et Ruby en [[:tutoriel:comment_installer_un_paquet|installant le paquet]] **libapache2-mod-fcgid**.\\
+Après l'installation de mod_fcgid le module devrait être activé, sinon faites <code>sudo a2enmod fcgid</code>
+
+Vous pouvez [[:tutoriel:comment_installer_un_paquet|installer]] **libfcgi-ruby1.8** depuis les [[:dépôts]], mais le meilleur moyen est de le faire en utilisant **rubygems** de cette façon :
+
+Installez d'abord les paquets **build-essential ruby1.8-dev libfcgi-dev** puis faites :
+  sudo gem install fcgi
+
+===== Choix du mode de fonctionnement de l'application =====
+
+Maintenant vous devez décider si votre application fonctionnera comme serveur virtuel de votre serveur web, ou si elle sera intégrée à la structure préexistante de votre serveur.
+
+==== Serveur virtuel ====
+
+Éditer un nouveau fichier **/etc/apache2/sites-available/<nom du serveur>** pour créer un hôte virtuel.
+
+Le contenu du fichier devra être :
+<file>
+<VirtualHost *>
+        SetEnv RAILS_ENV development
+        ServerName www.monsite.com
+        DocumentRoot /chemin/vers/l/application/public
+        <Directory /chemin/vers/l/application/public/>
+                Options ExecCGI FollowSymLinks
+                AddHandler fcgid-script .fcgi
+                Order allow,deny
+                Allow from all
+                RewriteEngine On
+                RewriteRule ^$ index.html [QSA]
+                RewriteRule ^([^.]+)$ $1.html [QSA]
+                RewriteCond %{REQUEST_FILENAME} !-f
+                RewriteRule ^(.*)$ /dispatch.fcgi?$1 [QSA,L]
+                AllowOverride None
+        </Directory>
+        ServerSignature On
+#       ErrorDocument 500 /500.html
+        ErrorLog /var/log/apache2/www.monsite.com.error.log
+        CustomLog /var/log/apache2/www.monsite.com.access.log combined
+        LogLevel warn
+</VirtualHost>
+</file>
+
+Bien sûr, remplacez les valeurs par celles qui correspondent à votre installation. Soyez sûrs de bien mentionner le chemin vers le répertoire public de votre application Rails ( ''/chemin/vers/l/application/public'' ).
+
+Pour les fichiers d'accès et d'erreurs, créez un répertoire ou mettez les où vous voulez.
+
+Si tout est configuré de cette manière vous pouvez vous passez du fichier ''.htaccess'' dans le répertoire public de votre application. Mais il n'est pas nécessaire d'y toucher ou de le supprimer.
+
+Si c'est une installation locale et que vous ne prévoyez pas d'avoir une entrée DNS pour votre serveur virtuel, vous pouvez ajouter <nom du serveur> dans votre fichier **/etc/hosts** à la ligne commençant par 127.0.0.1 (en séparant de ce qui est déjà écrit par un espace ou une tabulation).
+
+Maintenant il faut activer le serveur virtuel :
+  sudo a2ensite <nom du serveur>
+
+Puis redémarrez le serveur Apache :
+  sudo /etc/init.d/apache2 restart
+
+Tout devrait fonctionner normalement.
+
+Si vous avez ajouté ''<nom du serveur>'' à **/etc/hosts**, n'oubliez pas que c'est un changement local et que vous devrez faire la même chose sur chaque machine utilisant l'application. Sur les autres machines le nom du serveur virtuel devra être précédé de l'IP réelle du serveur et non de 127.0.0.1.
+
+=== Problèmes ===
+
+Cliquez sur le bouton « About your application's environment » de la page d'accueil de votre application et consultez ce qui suit pour connaître la source du problème.
+
+== Beaucoup de texte, commençant par **#!/usr/bin/ruby1.8**... ==
+
+Le handler CGI/FCGI n'est pas configuré correctement.
+
+Vérifiez que la configuration du serveur virtuel ne **contient pas** la directive ''AllowOverride none''.
+
+== 404 ==
+Les règles de réécriture n'ont pas d'effet.
+
+Vérifiez que la configuration du serveur virtuel ne **contient pas** la directive ''AllowOverride none''.
+
+== Application Error ==
+
+Apache n'a pas les permissions correctes pour exécuter l'application.
+
+Les répertoires **log** et **tmp** de votre application doivent être  accessibles en écriture par le serveur Apache. Le meilleur moyen est de changer le propriétaire de ces répertoires en **www-data**. Les permissions devraient être lecture/écriture pour le propriétaire et lecture seule pour les autres (644) :
+
+  chgrp www-data -R /chemin/vers/l/application/log
+  chgrp www-data -R /chemin/vers/l/application/tmp
+  chmod 644 -R /chemin/vers/l/application/tmp
+  chmod 644 -R /chemin/vers/l/application/log
+
+==== Répertoire en Alias sous la racine du serveur ====
+
+[[:tutoriel:comment_editer_un_fichier|Modifiez]] le fichier existant sous **/etc/apache2/sites-available/**. Insérez ce qui suit juste avant la balise ''</VirtualHost>'' dans le fichier :
+<file>
+    Alias /<alias> "<chemin_vers_le_répertoire _public_de _l_application>"
+    <Directory <chemin_vers_le_répertoire _public_de _l_application>>
+        Options +FollowSymlinks +ExecCGI
+        Order allow,deny
+        Allow from all
+        AddHandler fcgid-script .fcgi
+        RewriteEngine On
+        RewriteBase /<alias>
+        RewriteRule ^$ index.html [QSA]
+        RewriteRule ^([^.]+)$ $1.html [QSA]
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteRule ^(.*)$ dispatch.fcgi [QSA,L]
+        ErrorDocument 500 /500.html
+    </Directory>
+</file>
+
+  * <chemin_vers_le_répertoire _public_de_l_application> est explicite (donc si votre application se situe dans `/var/www-rails/app`, ça devra être `/var/www-rails/app/public`).
+  * <alias> est le chemin relatif à la racine de votre serveur où vous vous "situez" votre application (ie. `Alias /xxx/yyy` signifie que votre application sera accessible par l'url `http://votre_serveur_web/xxx/yyy`).
+
+Aucune modification du fichier **/etc/hosts** n'est nécessaire.
+
+Redémarrez votre serveur apache :
+  sudo /etc/init.d/apache2 restart
+
+et essayez votre application.
+
+===== Problèmes rencontrés =====
+  * Après la commande :
+<code>
+rake db:migrate
+</code>
+Si vous obtenez l'erreur suivante :
+
+<code>
+Please install the postgres adapter: `gem install activerecord-postgres-adapter` (no such file to load -- active_record/connection_adapters/postgres_adapter)
+</code>
+
+Il faut vérifier que vous avez bien **postgresql** dans votre fichier **config/database.yml** et non pas **postgres**. Pour pallier à ce problème, utilisez la commande suivante lors de la création de votre projet :
+<code>
+rails mon_projet -d postgresql
+</code>
+
+Si vous obtenez l'erreur suivante :
+
+<code>
+Could not find gem 'sqlite3 (>= 0)' in any of the gem sources listed in your Gemfile.
+</code>
+
+Il faut saisir ça dans un terminal :
+
+<code>
+  sudo apt-get install libsqlite3-dev
+  bundle install
+</code>
+
+===== Liens =====
+  * [[:gmate]] plugin pour la coloration syntaxique sous gedit.
+  * [[http://www.stoneageblog.com/articles/2006/11/20/ubuntu-edgy-eft-installer-rubyonrails-eclipse-radrails|Installer Ruby On Rails et Radrails sous Ubuntu Edgy Eft]]
+  * [[http://www.stoneageblog.com/articles/2007/01/11/debian-on-rails-apache-2-2-mysql-ruby-rails-php-mongrel-mongrel_cluster-subversion-trac-capistrano/|Serveur RubyOnRails avec Mongrel, Mongrel Cluster, Apache 2.2, Subversion, Trac et Capistrano]] (Réalisé sous debian etch mais identique sous Ubuntu.
+  * [[http://www.stoneageblog.com/articles/2007/03/04/ma-premiere-application-ruby-on-rails/|Débuter avec Ruby On Rails : ma première application !]]
+  * [[http://blog.escarworld.com/post/2010/10/12/Installation-Ruby-enterprise-edition-%28REE%29-Passenger-Nginx|Installer ruby enterprise edition avec passenger et nginx.]]
+  * [[http://guides.rubyonrails.org/getting_started.html|Getting started pour ROR, à faire absolument]]
+
+
+----
+
+tiré de [[https://help.ubuntu.com/community/RubyOnRails]]

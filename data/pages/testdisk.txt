@@ -1,0 +1,185 @@
+{{tag>Xenial Trusty récupérer système disque_dur}}
+
+----
+====== Testdisk======
+<note tip>Avant de commencer à utiliser testdisk, assurez-vous que votre disque est en bon état physique (smartctl)</note>
+
+<note important>Aussitôt que vous constatez la perte de fichiers, arrêtez d'utiliser, autant que faire se peut, le disque dur (ou autre périphérique de stockage sur lequel a eu lieu la perte). Autrement, vous risquez de ré-écrire par dessus vos fichiers perdus. Ainsi pour l'installation de PhotoRec puis la sauvegarde des fichiers récupérés, vous ne devez pas utiliser la partition sur laquelle les fichiers ont été perdus.</note>
+
+**Testdisk** est un outil analysant un disque dur à la recherche de [[:partitions|partitions]] effacées ou endommagées. Il recherche un « index » permettant de retrouver une partition formatée à tort. Ayant retrouvé cet index, il reconstitue le [[systeme_de_fichiers|système de fichiers]].\\
+Il est fourni avec [[:Photorec]], un outil permettant d'analyser une partition pour retrouver puis récupérer des fichiers effacés.\\
+L'utilisation ensuite de [[:fsck]] peut compléter la récupération après l'utilisation de TestDisk en corrigeant la structure du [[:système de fichiers]] de la partition récupérée.\\
+Testdisk est distribué sous [[http://www.gnu.org/licenses/gpl.html|Licence GPLv2]] et fonctionne sous Windows,%% GNU/Linux, Mac OS X, Solaris et BSD.%%
+
+
+===== Pré-requis =====
+ * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Savoir ce qu'est un [[wpfr>disque dur]].
+  * Savoir exactement où est branché le disque dur sur son ordinateur :
+    * 1er/2e disque dur SATA ?
+    * Sur le contrôleur IDE 1 ou 2, en maître ou en esclave ?
+  * Savoir ce qu'est une partition et ce qu'est le formatage d'un disque dur.
+
+===== Installation =====
+==== Installation dans une instance opérationnelle.====
+[[:tutoriel:comment_installer_un_paquet|Installer le paquet]] **[[apt>testdisk|testdisk]]** .
+==== Installation dans une live usb====
+  * sudo add-apt-repository "deb  http://archive.ubuntu.com/ubuntu $(lsb_release -sc) universe"   
+  *// sudo apt-get install software-properties-common  ## A faire lorsque la commande add-apt-repository est inconnue:  Spécialement avec Lubuntu// 
+  * sudo apt-get update
+  * sudo apt-get install testdisk 
+
+Remarque: Faites bien un copier/coller de la première ligne.     Surtout ne cliquer pas sur le lien 
+
+
+===== Configuration =====
+
+Pas de configuration particulière.
+=====Lancement=====
+Dans un [[:terminal]], saisir la [[;commande_shell|commande]] <code>sudo testdisk</code>
+===== Utilisation=====
+<note important>Ne s'utilise pas pour récupérer les partitions protégé par chiffrement. "C'est le but même du chiffrement"</note>
+La version actuelle stable des dépôts officiels Ubuntu (décembre 2016) est la version 7.0 d'avril  2015.
+
+Lancée sur mon ordinateur elle a détecté une partition recovery qui est certainement celle de windows 8.1. 
+Une description du fonctionnement d'une version plus récente est disponible [[http://www.cgsecurity.org/wiki/TestDisk_Etape_par_Etape|ici]]
+==== Etape 1 ====
+(capture d'une version Windows ici, mais il n'y a aucune différence visible entre les versions).
+
+{{ :applications:testdisk1_xenial.png?450 }}
+
+Puis avec les flèches haut et bas, on choisit le disque dur sur lequel se trouve la partition formatée à tort.
+
+
+<note warning>Attention si vous vous trompez de disque dur vous risquez de perdre des données (cela équivaut à le formater en fait).</note>
+==== Etape 2 ====
+On choisit l'option « Proceed » en bas avec les flèches « ← » et « → » puis on valide avec « Entrée ».
+
+{{:applications:testdisk1_xenial.png?450}}
+==== Etape 3 ====
+On choisit le type de partition. Notez qu'on peut ainsi récupérer différents [[systeme_de_fichiers]] : des disques XBox, Mac ou Sun. Dans la plupart des cas, ce sera Intel donc pour un PC Windows ou GNU/Linux.
+
+{{:applications:testdisk2_xenial.png?450}}
+==== Etape 4 ====
+On choisit ensuite « analyse » :
+
+{{tuto_20testdisk_htm_m34fbf52.png|}}
+
+Il nous dit comment est partitionné le disque dur pour le moment. Ici, il y a une grosse partition en FAT32 créée par erreur.
+
+{{tuto_20testdisk_htm_m504776e1.png|}}
+==== Etape 5 ====
+On choisit donc l'option « proceed » :
+
+{{tuto_20testdisk_htm_36b2c2db.png}}
+
+Il nous dit que la partition actuelle est en bonne santé ; on peut lister les fichiers qu'elle contient et d'autres manipulations, moins conseillées si on ne sait pas ce qu'on fait.
+Donc on appuie juste sur « Entrée » pour passer a l'étape suivante.
+==== Etape 6 ====
+Là on choisit « Search » cela va lancer le scan.
+
+{{tuto_20testdisk_htm_m504776e1.png|}}
+
+Scan lancé.
+
+{{tuto_20testdisk_htm_1bd09c81.png|}}
+
+On laisse mijoter ainsi longtemps… très longtemps ici pour un disque dur de 250 Gio
+Mais on constate que, au bout de quelques secondes, il a déjà retrouvé la partition :
+
+{{tuto_20testdisk_htm_5a611058.png|}}
+==== Etape 7 ====
+Soit on appuie sur « Entrée » pour arrêter la recherche car nous avons reconnu notre partition (inutile d'attendre qu'il analyse tout le disque).
+
+
+Soit on laisse toute la recherche se faire lorsque le cas est plus complexe
+
+{{tuto_20testdisk_htm_m4b4b19da.png|}}
+==== Etape 8 ====
+Il me liste les partitions effacées qu'il a découvertes.
+Ici, une autre partition en FAT32 (sûrement une partition encore plus vieille) et MA partition en NTFS ; je vois même le label (le nom) de mon ancienne partition.
+
+{{tuto_20testdisk_htm_m79e6954e.png}}
+
+Pour récupérer cette partition, il faut appuyer sur les flèches droites et gauche.
+En effet, on remarque au début de la ligne un « D » ce qui signifie //Deleted// (effacée) on va changer ça.
+On peu choisir soit :
+  * L = logical
+  * E = extended
+  * P = primary
+  * * = primaire et bootable
+
+Dans mon cas, c'est //primary bootable// à noter que je n'ai le choix que entre « primary »
+
+{{tuto_20testdisk_htm_18d5b64c.png|}}
+
+et « primary bootable »
+
+{{tuto_20testdisk_htm_ea9bfb4.png|}}
+==== Etape 9 ====
+Je mets donc le flag « primary bootable » et j'appuie sur « Entrée » pour valider.
+
+{{tuto_20testdisk_htm_70ce73a8.png}}
+
+<note important>
+Attention, en choisissant « write », il réécrit l'index du disque dur donc tout ce qu'il y a actuellement sur le disque dur sera effacé par contre on pourra récupérer les données de l'ancienne partition (si on n'a pas réécrit dessus).
+</note>
+
+Puis on redémarre l'ordinateur et c'est tout bon.
+==== Etape 10====
+La liste des partitions qu'il a détectée est très vraisemblable.  Il est alors possible de l'écrire telle que proposée.
+On a alors récupéré une structure utilisable.
+==== Etape 11 ====
+La table de partition n'est pas réécrite car trop détruite. 
+Il est alors nécessaire de faire le **deeper search** et de sauvegarder les données qui vont être récupérées sur un autre support physique.
+
+
+{{application:application:testdisk.ds1.png}}
+
+et de laisser tourner car cela prend beaucoup de temps. On  peut regarder l'écran évoluer.
+
+{{application:application:testdisk.ds2.png}}
+
+Au final on a une liste qui peut être très impressionnante ou pas.
+
+{{application:testdisk.ds7.png}}
+==== Etape 12 ====
+Il faut maintenant aller scanner les partitions à la recherche des données perdues.
+Le fait de connaître préventivement l'implantation ancienne peut éviter de rechercher dans certaines partitions. Sinon elles sont toutes à faire dans l'ordre qu'on le sent. Il faut se positionner sur la ligne choisie et frapper le caractère **P** qui permet de visualiser le contenu.
+
+{{application:testdisk.ds8.png}}
+
+Dans la grille ci-dessus, Les répertoires et fichiers logiquement supprimés ont été masquées (commande** h**)
+sinon ils seraient affichés en rouge.
+On s'est baladé dans les répertoires en  faisant un return sur les lignes tentantes. On peut aussi descendre dans la hiérarchie. (Ici, on est descendu dans un répertoire.) On remonte d'un cran par la commande ** q**. En conclusion: On a décidé de récupérer trois répertoires qui ont été sélectionnés en appuyant sur le caractère **:** Ils sont maintenant affichés en vert.
+C'est le moment de les copier sur un autre support  par la commande **C**
+==== Etape 13 ====
+C'est le moment de bien naviguer pour sélectionner le répertoire de réception de ce qui va être copié. Une explication plus détaillée est disponible dans cette discussion https://forum.ubuntu-fr.org/viewtopic.php?pid=21702798#p21702798
+
+Ne pas oublier qu'il ne doit pas être sur le même disque et qu'il doit être de taille adéquate par rapport à ce qui a été sélectionné.
+Au besoin, diminuer la sélection en prenant seulement un répertoire. Puis lorsque la copie sera faite, sélectionner les autres répertoires avec un autre support physique pour la sortie.
+
+{{application:testdisk.ds9.png}}
+
+il ne reste plus qu'à sélectionner le répertoire  ** ..**    et lancer la copie par la commande **C** 
+Puis regarder l'action se faire.
+{{application:testdisk.ds10.png}}
+
+===== Réaliser l’image Disque bit par bit =====
+Lancer une récupération de fichiers sur un disque dur défectueux, ce n’est pas le pied. D'abord parce que ce n'est pas fiable, ça plante tout le temps et ensuite parce que cela risque d'endommager encore plus le disque dur. **Cette copie sera un clone identique** du disque, cela veut dire que vous pourrez récupérer dessus tous les fichiers même ceux qui ont été effacés par inadvertance.
+  * Lire ici la procedure: [[http://korben.info/realiser-limage-dun-disque-dur-testdisk.html]]
+
+Jusqu'à preuve du contraire, lorsque le disque est défaillant, l'outil de duplication à priviliégier est ddrescue.
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. La configuration de l'application sera conservée ou supprimée selon la méthode de désinstallation que vous choisirez.
+
+===== Voir aussi =====
+
+  * **(fr, en)** [[http://www.cgsecurity.org/wiki/TestDisk_Etape_par_Etape|TestDisk, étape par étape]] : mode d'emploi simple et détaillé sur le site officiel.
+  * **(fr)** [[https://www.benji1000.net/recuperer-les-donnees-dun-disque-dur-non-reconnu/|Récupérer les données d’un disque-dur non reconnu]] : tutoriel étape par étape sur le blog de benji1000.
+
+----
+
+//Contributeurs : [[utilisateurs:toth_o]].//

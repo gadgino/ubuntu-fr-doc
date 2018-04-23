@@ -1,0 +1,802 @@
+{{tag>serveur mail BROUILLON}}
+----
+
+====== Installation d'une solution mail complète : Postfix, Dovecot, MySQL, Postfixadmin ======
+
+Cette page propose un pas-à-pas pour mettre en place rapidement un serveur de messagerie en faisant appel à l'ensemble:
+  * [[:Postfix]] qui servira de [[wpfr>Mail_Transfer_Agent|MTA]]
+  * [[:Dovecot]] qui servira de serveur [[wpfr>Internet_Message_Access_Protocol|IMAP]] et/ou [[wpfr>Post_Office_Protocol|POP3]]
+  * [[:MySql]] pour enregistrer les comptes mails virtuels
+  * [[http://sourceforge.net/projects/postfixadmin/|Postfixadmin]] pour gérer les domaines et comptes mails.
+
+<note>**Cette solution est complexe**
+
+//Ceci est l'avis d'un administrateur système professionnel, expert en logiciels libres.//
+
+La solution présentée ici est très complexe et n'est mise en œuvre, en environnements professionnels, que dans des cas complexes. Il y a de nombreux aspects sur lesquels un débutant pourra se casser les dents, tout en ayant de nombreuses fonctionnalités qui seront sous-utilisées. Je pense notamment à MySQL, dont Postfix n'a vraiment pas besoin...
+Ce tutoriel n'est donc //à mon avis// pas à suivre pour la mise en place d'un petit serveur de messagerie : personnel, familial, entre amis, etc.
+
+--- //[[:utilisateurs:tiramiseb|tiramiseb]] Le 24/07/2015, 11:00//</note>
+
+=====Pré-requis=====
+
+  * Une solution [[:lamp|LAMP]] fonctionnelle.\\
+  * Un certificat SSL (auto-signé ou autre) valide.
+<note>Rappel simple :<code>
+sudo apt-get install ssl-cert
+sudo make-ssl-cert generate-default-snakeoil --force-overwrite</code></note>
+
+====Création de l'administrateur mail dans MySQL====
+
+<code>sudo mysql -u root -p</code>
+Créez la base de données (ici //postfixadmin//) et l'utilisateur (ici //postfixadmin//)
+<code>create database postfixadmin;
+grant all on postfixadmin.* to 'postfixadmin'@'localhost' identified by 'mot_de_passe_administrateur_mail';
+</code>
+
+Plus d'informations sur la page [[:MySQL]]
+
+====Installation des paquets===
+
+   - [[:tutoriel:comment_installer_un_paquet|Installez]] la première série de paquets utiles à savoir:
+    * **[[apt>bsd-mailx,dovecot-core,dovecot-imapd,dovecot-pop3d,dovecot-mysql,postfix]]** ou via **[[:Tasksel]]** installez l'ensemble **[[apt>mail-server^]]** pour la partie MTA, IMAP, POP3.\\ Choisissez "**Site Internet**" quand c'est demandé. Renseignez le "**Nom de courrier**" sous la forme //domaine.tld// et non juste le //hostname// proposé.\\ Par exemple avec l'outil [[:apt-get]] ou [[:aptitude]], saisissez dans un [[:terminal]] : <code>sudo apt-get install bsd-mailx dovecot-core dovecot-imapd dovecot-pop3d dovecot-mysql postfix</code>
+    * **[[apt>amavisd-new,clamav,clamav-daemon,spamassassin]]** pour [[:antivirus|Antivirus]] et AntiSpam.\\ À ce stade, vous risquez d'obtenir un message d'erreur pour la configuration d'amavis à propos du hostname. Nous le traiterons plus loin dans ce tutoriel.\\ Lancer une première fois "**freshclam**" pour mettre à jour les bases de données antivirus, puis lancer "**clamav-daemon**".\\ Par exemple avec l'outil [[:apt-get]] ou [[:aptitude]], saisissez dans un [[:terminal]] : <code>sudo apt-get install amavisd-new clamav clamav-daemon spamassassin</code> <code>sudo freshclam
+sudo service clamav-daemon start</code>
+    * **[[apt>php5-imap]]** pour la gestion par postfixadmin.\\ Par exemple avec l'outil [[:apt-get]] ou [[:aptitude]], saisissez dans un [[:terminal]] : <code>sudo apt-get install php5-imap</code> 
+   - Relancez le [[:services|service]] [[:apache]]\\ <code>sudo service apache2 restart</code>
+   - Installez la seconde série de paquets utiles à savoir :
+    * **[[apt>libnet-dns-perl,pyzor,razor]]** pour requêtes DNS et AntiSpam
+    * **[[apt>arj,bzip2,cabextract,cpio,file,gzip,nomarch,pax,unzip,zip]]** pour décompresser des [[:archivage|archives]] directement dans roundcube \\ <code>sudo apt-get install libnet-dns-perl pyzor razor
+sudo apt-get install arj bzip2 cabextract cpio file gzip nomarch pax unzip zip</code>
+    * **[[apt>wwwconfig-common]]** en dépendance pour postfixadmin. <code>sudo apt-get install wwwconfig-common
+</code>
+
+=====Postfixadmin=====
+
+Postfixadmin permet de gérer graphiquement les domaines et les boites e-mail rattachées. Il permet de créer des administrateurs par domaine qui peuvent eux-mêmes créer des boites ainsi que des alias. Le tout se pilotant au travers d'un [[:navigateur]] web.
+
+==== Installation ====
+Un paquet tout prêt est disponible et évite plusieurs étapes de configuration/mise en place. Il s'agit donc de 
+  - le télécharger à [[http://downloads.sourceforge.net/project/postfixadmin/postfixadmin/postfixadmin-2.3.5/postfixadmin_2.3.5-1_all.deb|cette adresse]]
+  - l'[[:tutoriel:comment_installer_un_paquet#installer_un_paquet_hors_depots_non_recommande|installer]].
+  - Choisissez "**apache2**" et "**apache-ssl**" quand c'est demandé. Puis choisir d'installer via //**dbconfig-common**//, en précisant "**mysql**" en base de données.\\ Attention à différencier le mot de passe 'root MySql' et 'postfixadmin' que vous avez précédemment entré.
+Ceci se résume dans un [[:terminal]] par:
+<code>wget http://downloads.sourceforge.net/project/postfixadmin/postfixadmin/postfixadmin-2.3.5/postfixadmin_2.3.5-1_all.deb
+sudo dpkg -i postfixadmin_2.3.5-1_all.deb</code>
+
+==== Configuration ====
+=== Paramètres principaux ===
+[[:tutoriel:comment_modifier_un_fichier|Ouvrez avec les droits d'administration]] le fichier **/etc/postfixadmin/config.inc.php**, pour modifier/vérifier les variables comme suit :
+
+<file php>
+$CONF['configured'] = true;
+$CONF['postfix_admin_url'] = '/postfixadmin'; # à laisser tel quel pour le multi-domaine
+$CONF['admin_email'] = 'postmaster@change-this-to-your.domain.tld'; # l'adresse mail de l'administrateur général
+$CONF['smtp_server'] = 'localhost';
+$CONF['smtp_port'] = '25';
+$CONF['encrypt'] = 'md5crypt';
+$CONF['domain_path'] = 'YES';
+$CONF['domain_in_mailbox'] = 'NO';
+</file>
+
+=== Définition de la base de données ===
+
+[[:tutoriel:comment_modifier_un_fichier|Ouvrez avec les droits d'administration]] le fichier **/etc/postfixadmin/dbconfig.inc.php** pour insérer les accès MySQL [[#Création de l'administrateur mail dans MySQL|précédemment créés]].
+
+<file php>
+$dbuser='postfixadmin';
+$dbpass='mot_de_passe_administrateur_mail';
+$basepath='';
+$dbname='postfixadmin';
+$dbserver=''; # utilisera la valeur par défaut : localhost
+$dbport=''; # utilisera le port MySQL par défaut
+$dbtype='mysqli';
+</file>
+
+=== Mise en place ===
+Modifier si nécessaire /etc/apache2/apache2.conf pour y introduire la configuration postfixadmin (ou se trouve principalement le positionnement de l'alias "postfixadmin")
+<file conf>Include /etc/postfixadmin/apache.conf</file> 
+Relancez le [[:services|service]] [[:apache]]\\ <code>sudo service apache2 restart</code>
+Un rechargement de la configuration apache peut suffire
+<code>sudo service apache2 reload</code>
+Lancez la configuration en saisissant dans votre navigateur l'adresse : http://localhost/postfixadmin/setup.php. À ce stade postfixadmin s'installe tout seul et vérifie votre configuration.
+Créez la clé de hash via le mot de passe demandé en bas de page. (ce mot de passe sert de contrôle à la clé de hash).
+<note important>Attention, le script vous retourne votre mot de passe "hashé". **NOTEZ LE BIEN !!!**\\ Il sera utilisé dans votre configuration finale.</note>
+Créez un administrateur Postfixadmin. Il est **fortement conseillé** de bien le différencier de l'administrateur mail quant à son ensemble //nom/mot de passe//. Indiquez le mot de passe précédent qui vous à servit à générer la clé de hash, puis l'identifiant du premier administrateur (sous la forme : nom@domaine.tld) et enfin son mot de passe. 
+
+[[:tutoriel:comment_modifier_un_fichier|Ouvrez avec les droits d'administration]] le fichier **/etc/postfixadmin/config.inc.php** et modifier la variable :
+<file php>$CONF['setup_password'] = '… votre mot de passe hashé …';</file>
+
+Il faut ensuite protéger cette page (vous pourrez créer d'autres administrateurs via l'interface de postfixadmin).\\
+[[:tutoriel:comment_modifier_un_fichier|Ouvrez avec les droits d'administration]] le fichier **/etc/apache2/conf.d/postfixadmin**, et ajouter :
+
+<file><Files "setup.php">
+deny from all
+</Files></file>
+
+Se rendre sur la page http://localhost/postfixadmin, et créer le premier domaine. Ajouter une boite mail à ce domaine.\\
+{{:serveur:mail:postfixadmin_premiere_connexion.png?200|}} {{:serveur:mail:postfixadmin_accueil.png?200|}} {{:serveur:mail:postfixadmin_premier_domaine.png?200|}} {{:serveur:mail:postfixadmin_premier_compte_mail.png?200|}}\\
+À ce stade, Postfixadmin est opérationnel.
+
+
+
+=====Répertoire des e-mails=====
+
+Ici les utilisateurs sont virtuels, et donc indépendant  de la création/gestion classique Unix. Un seul utilisateur (Unix) aura les droits sur ce dossiers et permettra de gérer les liaisons entre [[:Dovecot]] et [[:Postfix]].\\
+Pour l'exemple, l'utilisateur sera **vmail** et le groupe **mail** (ce dernier existe peut-être déjà sur votre système). Le répertoire dédié sera dans **/home/vmail** //(ces valeurs sont à votre convenance)//.
+
+  * Création du groupe **mail** puis de l'utilisateur **vmail** associé à ce groupe <code>sudo groupadd mail
+sudo useradd -r -u 150 -g mail -d /home/vmail -s /sbin/nologin -c "Propriétaire des répertoires e-mail virtuel" vmail</code>
+  * Création du répertoire dédié et les droits associés <code>sudo mkdir /home/vmail
+sudo chmod 770 /home/vmail</code>
+  * Désignation du //propriétaire:groupe// du dossier <code>sudo chown vmail:mail /home/vmail</code>
+
+=====Dovecot=====
+
+[[:Dovecot]] gère les connexions POP3 et IMAP, permet de gérer les mails locaux et récupère les courriers en provenance de Postfix.\\
+Il gère également l'authentification SMTP.\\
+
+==== Configuration ====
+
+Vous allez attaquer la première partie "fatiguante" .\\
+
+=== Définition de la base de données ? ===
+[[:tutoriel:comment_modifier_un_fichier|Éditez ou créez avec les droits d'administration]] le fichier **/etc/dovecot/conf.d/auth-sql.conf.ext** avec le contenu suivant :
+
+<file txt auth-sql.conf.ext># Look up user passwords from a SQL database as
+# defined in /etc/dovecot/dovecot-sql.conf.ext
+passdb {
+  driver = sql
+  args = /etc/dovecot/dovecot-sql.conf.ext
+}
+# Look up user information from a SQL database as
+# defined in /etc/dovecot/dovecot-sql.conf.ext
+userdb {
+  driver = sql
+  args = /etc/dovecot/dovecot-sql.conf.ext
+}</file>
+
+=== Définition des accès à la base de données ? ===
+Vérifiez avant tout l'[[wpfr>User_identifier|UID]] et le [[wpfr>Group_identifier|GID]] :
+<code>grep vmail /etc/passwd</code>
+devrait répondre quelque chose comme
+<code>vmail:x:150:1001:Virtual maildir handler:/home/vmail:/sbin/nologin</code>
+Notez bien ces informations avant d' [[:tutoriel:comment_modifier_un_fichier|éditer avec les droits d'administration]] le fichier **/etc/dovecot/dovecot-sql.conf.ext** que vous modifierez comme suit :
+  * Type de base de données: <file># Database driver: mysql, pgsql, sqlite
+driver = mysql</file>
+  * Ici remplacez //mot_de_passe_postfixadmin// par celui entrée à la section [[#creation_de_l_administrateur_mail_dans_mysql|1.1]] <file># Examples:
+#   connect = host=192.168.1.1 dbname=users
+#   connect = host=sql.example.com dbname=virtual user=virtual password=blarg
+#   connect = /etc/dovecot/authdb.sqlite
+#
+connect = host=localhost dbname=postfixadmin user=postfixadmin password=mot_de_passe_postfixadmin</file>
+  * Type d'authentification <file># Default password scheme.
+#
+# List of supported schemes is in
+# http://wiki2.dovecot.org/Authentication/PasswordSchemes
+#
+default_pass_scheme = MD5-CRYPT</file>
+  * Requète de mot de passe (adaptez avec les informations obtenues en début de ce chapitre) <file># Define the query to obtain a user password.
+password_query = \
+  SELECT username as user, password, '/home/vmail/%d/%n' as userdb_home, \
+  'maildir:/home/vmail/%d/%n' as userdb_mail, 150 as userdb_uid, 1001 as userdb_gid \
+  FROM mailbox WHERE username = '%u' AND active = '1'</file>
+  * Information utilisateur (adaptez avec les informations obtenues en début de ce chapitre) <file># Define the query to obtain user information.
+user_query = \
+  SELECT '/home/vmail/%d/%n' as home, 'maildir:/home/vmail/%d/%n' as mail, \
+  150 AS uid, 1001 AS gid, concat('dirsize:storage=', quota) AS quota \
+  FROM mailbox WHERE username = '%u' AND active = '1'</file>
+
+=== FIXME ===
+
+[[:tutoriel:comment_modifier_un_fichier|Éditez avec les droits d'administration]] le fichier **/etc/dovecot/conf.d/10-auth.conf** et modifier comme suit :
+
+<file># Disable LOGIN command and all other plaintext authentications unless
+# SSL/TLS is used (LOGINDISABLED capability). Note that if the remote IP
+# matches the local IP (ie. you're connecting from the same computer), the
+# connection is considered secure and plaintext authentication is allowed.
+disable_plaintext_auth = yes</file>
+
+<file># Space separated list of wanted authentication mechanisms:
+#   plain login digest-md5 cram-md5 ntlm rpa apop anonymous gssapi otp skey
+#   gss-spnego
+# NOTE: See also disable_plaintext_auth setting.
+auth_mechanisms = plain login</file>
+
+<file>##
+## Password and user databases
+##
+ 
+#
+# Password database is used to verify user's password (and nothing more).
+# You can have multiple passdbs and userdbs. This is useful if you want to
+# allow both system users (/etc/passwd) and virtual users to login without
+# duplicating the system users into virtual database.
+#
+# <doc/wiki/PasswordDatabase.txt>
+#
+# User database specifies where mails are located and what user/group IDs
+# own them. For single-UID configuration use "static" userdb.
+#
+# <doc/wiki/UserDatabase.txt>
+ 
+#!include auth-deny.conf.ext
+#!include auth-master.conf.ext
+ 
+#!include auth-system.conf.ext
+# Use the SQL database configuration rather than any of these others.
+!include auth-sql.conf.ext
+#!include auth-ldap.conf.ext
+#!include auth-passwdfile.conf.ext
+#!include auth-checkpassword.conf.ext
+#!include auth-vpopmail.conf.ext
+#!include auth-static.conf.ext</file>
+
+=== FIXME ===
+
+[[:tutoriel:comment_modifier_un_fichier|Éditez avec les droits d'administration]] le fichier **/etc/dovecot/conf.d/10-mail.conf** et modifier comme suit :
+
+<file># Location for users' mailboxes. The default is empty, which means that Dovecot
+# tries to find the mailboxes automatically. This won't work if the user
+# doesn't yet have any mail, so you should explicitly tell Dovecot the full
+# location.
+#
+# If you're using mbox, giving a path to the INBOX file (eg. /var/mail/%u)
+# isn't enough. You'll also need to tell Dovecot where the other mailboxes are
+# kept. This is called the "root mail directory", and it must be the first
+# path given in the mail_location setting.
+#
+# There are a few special variables you can use, eg.:
+#
+#   %u - username
+#   %n - user part in user@domain, same as %u if there's no domain
+#   %d - domain part in user@domain, empty if there's no domain
+#   %h - home directory
+#
+# See doc/wiki/Variables.txt for full list. Some examples:
+#
+#   mail_location = maildir:~/Maildir
+#   mail_location = mbox:~/mail:INBOX=/var/mail/%u
+#   mail_location = mbox:/var/mail/%d/%1n/%n:INDEX=/var/indexes/%d/%1n/%n
+#
+# <doc/wiki/MailLocation.txt>
+#
+mail_location = maildir:/home/vmail/%d/%n</file>
+
+<file># System user and group used to access mails. If you use multiple, userdb
+# can override these by returning uid or gid fields. You can use either numbers
+# or names. <doc/wiki/UserIds.txt>
+mail_uid = vmail
+mail_gid = mail</file>
+
+<file># Valid UID range for users, defaults to 500 and above. This is mostly
+# to make sure that users can't log in as daemons or other system users.
+# Note that denying root logins is hardcoded to dovecot binary and can't
+# be done even if first_valid_uid is set to 0.
+#
+# Use the vmail user uid here.
+first_valid_uid = 150
+last_valid_uid = 150</file>
+
+=== FIXME ===
+
+[[:tutoriel:comment_modifier_un_fichier|Éditez avec les droits d'administration]] le fichier **/etc/dovecot/conf.d/10-ssl.conf** et modifier comme suit :\\
+Si vous voulez utiliser le support SSL/TLS et/ou utiliser votre propre certificat. Dans le cas de votre propre certificat, il vous faudra renseigner les parties //ssl_key_password =// et //ssl_ca =// \\
+
+<file># SSL/TLS support: yes, no, required. <doc/wiki/SSL.txt>
+ssl = yes
+ 
+# PEM encoded X.509 SSL/TLS certificate and private key. They're opened before
+# dropping root privileges, so keep the key file unreadable by anyone but
+# root. Included doc/mkcert.sh can be used to easily generate self-signed
+# certificate, just make sure to update the domains in dovecot-openssl.cnf
+ssl_cert = </etc/ssl/certs/dovecot.pem
+ssl_key = </etc/ssl/private/dovecot.pem</file>
+
+=== FIXME ===
+
+[[:tutoriel:comment_modifier_un_fichier|Éditez avec les droits d'administration]] le fichier **/etc/dovecot/conf.d/10-master.conf** et modifier comme suit :\\
+Ajout des options de Postfix à Dovecot.\\
+
+<file>service auth {
+  # auth_socket_path points to this userdb socket by default. It's typically
+  # used by dovecot-lda, doveadm, possibly imap process, etc. Its default
+  # permissions make it readable only by root, but you may need to relax these
+  # permissions. Users that have access to this socket are able to get a list
+  # of all usernames and get results of everyone's userdb lookups.
+  unix_listener auth-userdb {
+   mode = 0600
+    user = vmail
+    group = mail
+  }
+ 
+  # Postfix smtp-auth
+  unix_listener /var/spool/postfix/private/auth {
+    mode = 0666
+    # Assuming the default Postfix user and group
+    user = postfix
+    group = postfix       
+  }</file>
+  
+Rendre accessible la configuration à Dovecot et aux utilisateurs vmail.\\
+
+<code>sudo chown -R vmail:dovecot /etc/dovecot
+sudo chmod -R o-rwx /etc/dovecot</code>
+  
+
+
+===== Amavis ClamAV, SpamAssassin =====
+
+Ajout des utilisateurs clamav et amavis et partage de leurs droits :
+<code>sudo adduser clamav amavis
+sudo adduser amavis clamav</code>
+
+====Configuration Amavis ClamAV====
+
+[[:tutoriel:comment_modifier_un_fichier|Éditez avec les droits d'administration]] le fichier **/etc/amavis/conf.d/05-node_id** et modifier comme suit :\\
+
+<file>$myhostname = "domaine.tld";</file>
+
+[[:tutoriel:comment_modifier_un_fichier|Éditez avec les droits d'administration]] le fichier **/etc/amavis/conf.d/15-content_filter_mode** et modifier comme suit :\\
+
+<file txt 15-content_filter_mode>use strict;
+ 
+# You can modify this file to re-enable SPAM checking through spamassassin
+# and to re-enable antivirus checking.
+ 
+#
+# Default antivirus checking mode
+# Please note, that anti-virus checking is DISABLED by
+# default.
+# If You wish to enable it, please uncomment the following lines:
+ 
+@bypass_virus_checks_maps = (
+   \%bypass_virus_checks, \@bypass_virus_checks_acl, \$bypass_virus_checks_re);
+ 
+#
+# Default SPAM checking mode
+# Please note, that anti-spam checking is DISABLED by
+# default.
+# If You wish to enable it, please uncomment the following lines:
+ 
+@bypass_spam_checks_maps = (
+   \%bypass_spam_checks, \@bypass_spam_checks_acl, \$bypass_spam_checks_re);
+ 
+1;  # ensure a defined return</file>
+
+====Configuration SpamAssassin====
+
+[[:tutoriel:comment_modifier_un_fichier|Éditez avec les droits d'administration]] le fichier **/etc/default/spamassassin** et modifier comme suit :\\
+
+<file># Change to one to enable spamd
+ENABLED=1</file>
+
+<file># Cronjob
+# Set to anything but 0 to enable the cron job to automatically update
+# spamassassin's rules on a nightly basis
+CRON=1</file>
+
+On relance les services :\\
+
+<code>sudo service amavis restart
+sudo service spamassassin restart</code>
+
+=====Postfix=====
+
+Seconde partie "fatiguante" :-P\\
+Postfix gère les courriers entrant, via le protocole SMTP. Ici nous allons configurer Postfix pour qu'il gère les courriers au niveau Antivirus et AntiSpam avant de transmettre le tout à Dovecot, ainsi que la gestion des utilisateurs virtuels se connectant via SMTP pour envoyer du courrier.
+
+Sous 12.10 (server) il faut installer le paquetage grâce auquel Postfix accédera aux bases de données:
+<code>aptitude install postfix-mysql</code>
+  
+====Configuration====
+
+<note tip>Les sections de fichiers qui suivent, sont téléchargeables directement depuis le nom indiqué dans l'onglet de chaque blocs.</note>
+Création des fichiers de configuration pour que Postfix trouve les utilisateurs et domaines.\\
+
+[[:tutoriel:comment_modifier_un_fichier|Éditez avec les droits d'administration]] le fichier **/etc/postfix/mysql_virtual_alias_domainaliases_maps.cf** et modifier comme suit :\\
+
+<file txt mysql_virtual_alias_domainaliases_maps.cf>user = postfixadmin
+password = mot_de_passe_administrateur_postfix
+hosts = 127.0.0.1
+dbname = postfixadmin
+query = SELECT goto FROM alias,alias_domain
+  WHERE alias_domain.alias_domain = '%d'
+  AND alias.address=concat('%u', '@', alias_domain.target_domain)
+  AND alias.active = 1</file>
+
+[[:tutoriel:comment_modifier_un_fichier|Éditez avec les droits d'administration]] le fichier **/etc/postfix/mysql_virtual_alias_maps.cf** et modifier comme suit :\\
+
+<file txt mysql_virtual_alias_maps.cf>user = postfixadmin
+password = mot_de_passe_administrateur_postfix
+hosts = 127.0.0.1
+dbname = postfixadmin
+table = alias
+select_field = goto
+where_field = address
+additional_conditions = and active = '1'</file>
+
+[[:tutoriel:comment_modifier_un_fichier|Éditez avec les droits d'administration]] le fichier **/etc/postfix/mysql_virtual_domains_maps.cf** et modifier comme suit :\\
+
+<file txt mysql_virtual_domains_maps.cf>user = postfixadmin
+password = mot_de_passe_administrateur_postfix
+hosts = 127.0.0.1
+dbname = postfixadmin
+table = domain
+select_field = domain
+where_field = domain
+additional_conditions = and backupmx = '0' and active = '1'</file>
+
+[[:tutoriel:comment_modifier_un_fichier|Éditez avec les droits d'administration]] le fichier **/etc/postfix/mysql_virtual_mailbox_domainaliases_maps.cf** et modifier comme suit :\\
+
+<file txt mysql_virtual_mailbox_domainaliases_maps.cf>user = postfixadmin
+password = mot_de_passe_administrateur_postfix
+hosts = 127.0.0.1
+dbname = postfixadmin
+query = SELECT maildir FROM mailbox, alias_domain
+  WHERE alias_domain.alias_domain = '%d'
+  AND mailbox.username=concat('%u', '@', alias_domain.target_domain )
+  AND mailbox.active = 1</file>
+
+[[:tutoriel:comment_modifier_un_fichier|Éditez avec les droits d'administration]] le fichier **/etc/postfix/mysql_virtual_mailbox_maps.cf** et modifier comme suit :\\
+
+<file txt mysql_virtual_mailbox_maps.cf>user = postfixadmin
+password = mot_de_passe_administrateur_postfix
+hosts = 127.0.0.1
+dbname = postfixadmin
+table = mailbox
+select_field = CONCAT(domain, '/', local_part)
+where_field = username
+additional_conditions = and active = '1'</file>
+
+Création du fichier qui contient les directives pour "nettoyer" les entêtes des courriers, tel que la base originale de l'adresse IP ou les identifiants de messagerie.\\
+[[:tutoriel:comment_modifier_un_fichier|Éditez avec les droits d'administration]] le fichier **/etc/postfix/header_checks** et modifier comme suit :\\
+
+<file txt header_checks>/^Received:/                 IGNORE
+/^User-Agent:/               IGNORE
+/^X-Mailer:/                 IGNORE
+/^X-Originating-IP:/         IGNORE
+/^x-cr-[a-z]*:/              IGNORE
+/^Thread-Index:/             IGNORE</file>
+
+Fichier de configuration principale de Postfix qui contient un bon nombre de choix complexes et des options sur la façon dont le courrier est relayé et comment se comporte SMTP. Pour affiner votre configuration, reportez vous à la configuration de Postfix (///usr/share/postfix/main.cf.dist//).\\
+<note important>Attention aux différents points, tel que : \\ - Le nom de domaine principal\\ - Dossier de vmail\\ - UID / GID \\ - le paramètre "check_policy_service inet:127.0.0.1:10023" necessite d'avoir installé l'anti-pourriels Postgrey</note>
+[[:tutoriel:comment_modifier_un_fichier|Éditez avec les droits d'administration]] le fichier **/etc/postfix/main.cf** et modifier comme suit :\\
+
+<file txt main.cf># See /usr/share/postfix/main.cf.dist for a commented, more complete version
+ 
+# The first text sent to a connecting process.
+smtpd_banner = $myhostname ESMTP $mail_name
+biff = no
+# appending .domain is the MUA's job.
+append_dot_mydomain = no
+readme_directory = no
+ 
+# SASL parameters
+# ---------------------------------
+ 
+# Use Dovecot to authenticate.
+smtpd_sasl_type = dovecot
+# Referring to /var/spool/postfix/private/auth
+smtpd_sasl_path = private/auth
+smtpd_sasl_auth_enable = yes
+broken_sasl_auth_clients = yes
+smtpd_sasl_security_options = noanonymous
+smtpd_sasl_local_domain =
+smtpd_sasl_authenticated_header = yes
+ 
+# TLS parameters
+# ---------------------------------
+ 
+# Replace this with your SSL certificate path if you are using one.
+smtpd_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
+smtpd_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
+# The snakeoil self-signed certificate has no need for a CA file. But
+# if you are using your own SSL certificate, then you probably have
+# a CA certificate bundle from your provider. The path to that goes
+# here.
+#smtpd_tls_CAfile=/path/to/ca/file
+smtpd_use_tls=yes
+smtp_tls_security_level = may
+smtpd_tls_security_level = may
+#smtpd_tls_auth_only = no
+smtp_tls_note_starttls_offer = yes
+smtpd_tls_loglevel = 1
+smtpd_tls_received_header = yes
+smtpd_tls_session_cache_timeout = 3600s
+tls_random_source = dev:/dev/urandom
+#smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
+#smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
+ 
+# See /usr/share/doc/postfix/TLS_README.gz in the postfix-doc package for
+# information on enabling SSL in the smtp client.
+ 
+# SMTPD parameters
+# ---------------------------------
+ 
+# Uncomment the next line to generate "delayed mail" warnings
+#delay_warning_time = 4h
+# will it be a permanent error or temporary
+unknown_local_recipient_reject_code = 450
+# how long to keep message on queue before return as failed.
+# some have 3 days, I have 16 days as I am backup server for some people
+# whom go on holiday with their server switched off.
+maximal_queue_lifetime = 7d
+# max and min time in seconds between retries if connection failed
+minimal_backoff_time = 1000s
+maximal_backoff_time = 8000s
+# how long to wait when servers connect before receiving rest of data
+smtp_helo_timeout = 60s
+# how many address can be used in one message.
+# effective stopper to mass spammers, accidental copy in whole address list
+# but may restrict intentional mail shots.
+smtpd_recipient_limit = 16
+# how many error before back off.
+smtpd_soft_error_limit = 3
+# how many max errors before blocking it.
+smtpd_hard_error_limit = 12
+ 
+# This next set are important for determining who can send mail and relay mail
+# to other servers. It is very important to get this right - accidentally producing
+# an open relay that allows unauthenticated sending of mail is a Very Bad Thing.
+#
+# You are encouraged to read up on what exactly each of these options accomplish.
+ 
+# Requirements for the HELO statement
+smtpd_helo_restrictions = permit_mynetworks, warn_if_reject reject_non_fqdn_hostname, reject_invalid_hostname, permit
+# Requirements for the sender details
+smtpd_sender_restrictions = permit_sasl_authenticated, permit_mynetworks, warn_if_reject reject_non_fqdn_sender, reject_unknown_sender_domain, reject_unauth_pipelining, permit
+# Requirements for the connecting server
+# Attention MODIFICATION de la config proposée.
+# ------------------------------------------------------------- 
+# Le serveur de blacklist dnsbl.njabl.org n'est plus en service depuis mars 2013 - Voir [[http://www.dnsbl.com/2007/03/how-well-do-various-blacklists-work.html]]
+# Donc remplacer la ligne suivante 
+# smtpd_client_restrictions = reject_rbl_client sbl.spamhaus.org, reject_rbl_client blackholes.easynet.nl, reject_rbl_client dnsbl.njabl.org
+# Par la nouvelle ligne
+smtpd_client_restrictions = reject_rbl_client sbl.spamhaus.org, reject_rbl_client blackholes.easynet.nl
+# Requirement for the recipient address. Note that the entry for
+# "check_policy_service inet:127.0.0.1:10023" enables Postgrey.
+smtpd_recipient_restrictions = reject_unauth_pipelining, permit_mynetworks, permit_sasl_authenticated, reject_non_fqdn_recipient, reject_unknown_recipient_domain, reject_unauth_destination, check_policy_service inet:127.0.0.1:10023, permit
+smtpd_data_restrictions = reject_unauth_pipelining
+ 
+# require proper helo at connections
+smtpd_helo_required = yes
+# waste spammers time before rejecting them
+smtpd_delay_reject = yes
+disable_vrfy_command = yes
+ 
+# General host and delivery info
+# ----------------------------------
+ 
+myhostname = votre_domaine_principal.tld
+myorigin = /etc/hostname
+mydestination = localhost
+#relayhost =
+# If you have a separate web server that sends outgoing mail through this
+# mailserver, you may want to add its IP address to the space-delimited list in
+# mynetworks, e.g. as 111.222.333.444/32.
+mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
+mailbox_size_limit = 0
+recipient_delimiter = +
+inet_interfaces = all
+mynetworks_style = host
+ 
+# This specifies where the virtual mailbox folders will be located.
+virtual_mailbox_base = /home/vmail
+# This is for the mailbox location for each user. The domainaliases
+# map allows us to make use of Postfix Admin's domain alias feature.
+virtual_mailbox_maps = mysql:/etc/postfix/mysql_virtual_mailbox_maps.cf, mysql:/etc/postfix/mysql_virtual_mailbox_domainaliases_maps.cf
+# and their user id
+virtual_uid_maps = static:150
+# and group id
+virtual_gid_maps = static:1001
+# This is for aliases. The domainaliases map allows us to make
+# use of Postfix Admin's domain alias feature.
+virtual_alias_maps = mysql:/etc/postfix/mysql_virtual_alias_maps.cf, mysql:/etc/postfix/mysql_virtual_alias_domainaliases_maps.cf
+# This is for domain lookups.
+virtual_mailbox_domains = mysql:/etc/postfix/mysql_virtual_domains_maps.cf
+ 
+# Integration with other packages
+# ---------------------------------------
+ 
+# Tell postfix to hand off mail to the definition for dovecot in master.cf
+virtual_transport = dovecot
+dovecot_destination_recipient_limit = 1
+ 
+# Use amavis for virus and spam scanning
+content_filter = amavis:[127.0.0.1]:10024
+ 
+# Header manipulation
+# --------------------------------------
+ 
+# Getting rid of unwanted headers. See: https://posluns.com/guides/header-removal/
+header_checks = regexp:/etc/postfix/header_checks
+# getting rid of x-original-to
+enable_original_recipient = no</file>
+
+[[:tutoriel:comment_modifier_un_fichier|Éditez avec les droits d'administration]] le fichier **/etc/postfix/master.cf** et modifier comme suit :\\
+Notez le "**5025      inet  n       -       -       -       -       smtpd**", ce port a été choisi pour passer le blocage de certains FAI sur le port 25 (exemple : Orange). Cela vous permet d'utiliser votre propre serveur smtp. 
+
+<file txt master.cf>#
+# Postfix master process configuration file.  For details on the format
+# of the file, see the master(5) manual page (command: "man 5 master").
+#
+# Do not forget to execute "postfix reload" after editing this file.
+#
+# ==========================================================================
+# service type  private unpriv  chroot  wakeup  maxproc command + args
+#               (yes)   (yes)   (yes)   (never) (100)
+# ==========================================================================
+smtp      inet  n       -       -       -       -       smtpd
+5025      inet  n       -       -       -       -       smtpd
+#smtp      inet  n       -       -       -       1       postscreen
+#smtpd     pass  -       -       -       -       -       smtpd
+#dnsblog   unix  -       -       -       -       0       dnsblog
+#tlsproxy  unix  -       -       -       -       0       tlsproxy
+#submission inet n       -       -       -       -       smtpd
+#  -o syslog_name=postfix/submission
+#  -o smtpd_tls_security_level=encrypt
+#  -o smtpd_sasl_auth_enable=yes
+#  -o smtpd_client_restrictions=permit_sasl_authenticated,reject
+#  -o milter_macro_daemon_name=ORIGINATING
+#smtps     inet  n       -       -       -       -       smtpd
+#  -o syslog_name=postfix/smtps
+#  -o smtpd_tls_wrappermode=yes
+#  -o smtpd_sasl_auth_enable=yes
+#  -o smtpd_tls_auth_only=yes
+#  -o smtpd_client_restrictions=permit_sasl_authenticated,reject_unauth_destination,reject
+#  -o smtpd_sasl_security_options=noanonymous,noplaintext
+#  -o smtpd_sasl_tls_security_options=noanonymous
+#  -o milter_macro_daemon_name=ORIGINATING
+#628       inet  n       -       -       -       -       qmqpd
+pickup    fifo  n       -       -       60      1       pickup
+  -o content_filter=
+  -o receive_override_options=no_header_body_checks
+cleanup   unix  n       -       -       -       0       cleanup
+qmgr      fifo  n       -       n       300     1       qmgr
+#qmgr     fifo  n       -       n       300     1       oqmgr
+tlsmgr    unix  -       -       -       1000?   1       tlsmgr
+rewrite   unix  -       -       -       -       -       trivial-rewrite
+bounce    unix  -       -       -       -       0       bounce
+defer     unix  -       -       -       -       0       bounce
+trace     unix  -       -       -       -       0       bounce
+verify    unix  -       -       -       -       1       verify
+flush     unix  n       -       -       1000?   0       flush
+proxymap  unix  -       -       n       -       -       proxymap
+proxywrite unix -       -       n       -       1       proxymap
+smtp      unix  -       -       -       -       -       smtp
+relay     unix  -       -       -       -       -       smtp
+#       -o smtp_helo_timeout=5 -o smtp_connect_timeout=5
+showq     unix  n       -       -       -       -       showq
+error     unix  -       -       -       -       -       error
+retry     unix  -       -       -       -       -       error
+discard   unix  -       -       -       -       -       discard
+local     unix  -       n       n       -       -       local
+virtual   unix  -       n       n       -       -       virtual
+lmtp      unix  -       -       -       -       -       lmtp
+anvil     unix  -       -       -       -       1       anvil
+scache    unix  -       -       -       -       1       scache
+#
+# ====================================================================
+# Interfaces to non-Postfix software. Be sure to examine the manual
+# pages of the non-Postfix software to find out what options it wants.
+#
+# Many of the following services use the Postfix pipe(8) delivery
+# agent.  See the pipe(8) man page for information about ${recipient}
+# and other message envelope options.
+# ====================================================================
+#
+# maildrop. See the Postfix MAILDROP_README file for details.
+# Also specify in main.cf: maildrop_destination_recipient_limit=1
+#
+maildrop  unix  -       n       n       -       -       pipe
+  flags=DRhu user=vmail argv=/usr/bin/maildrop -d ${recipient}
+#
+# ====================================================================
+#
+# Recent Cyrus versions can use the existing "lmtp" master.cf entry.
+#
+# Specify in cyrus.conf:
+#   lmtp    cmd="lmtpd -a" listen="localhost:lmtp" proto=tcp4
+#
+# Specify in main.cf one or more of the following:
+#  mailbox_transport = lmtp:inet:localhost
+#  virtual_transport = lmtp:inet:localhost
+#
+# ====================================================================
+#
+# Cyrus 2.1.5 (Amos Gouaux)
+# Also specify in main.cf: cyrus_destination_recipient_limit=1
+#
+#cyrus     unix  -       n       n       -       -       pipe
+#  user=cyrus argv=/cyrus/bin/deliver -e -r ${sender} -m ${extension} ${user}
+#
+# ====================================================================
+# Old example of delivery via Cyrus.
+#
+#old-cyrus unix  -       n       n       -       -       pipe
+#  flags=R user=cyrus argv=/cyrus/bin/deliver -e -m ${extension} ${user}
+#
+# ====================================================================
+#
+# See the Postfix UUCP_README file for configuration details.
+#
+uucp      unix  -       n       n       -       -       pipe
+  flags=Fqhu user=uucp argv=uux -r -n -z -a$sender - $nexthop!rmail ($recipient)
+#
+# Other external delivery methods.
+#
+ifmail    unix  -       n       n       -       -       pipe
+  flags=F user=ftn argv=/usr/lib/ifmail/ifmail -r $nexthop ($recipient)
+bsmtp     unix  -       n       n       -       -       pipe
+  flags=Fq. user=bsmtp argv=/usr/lib/bsmtp/bsmtp -t$nexthop -f$sender $recipient
+scalemail-backend unix  -       n       n       -       2       pipe
+  flags=R user=scalemail argv=/usr/lib/scalemail/bin/scalemail-store ${nexthop} ${user} ${extension}
+mailman   unix  -       n       n       -       -       pipe
+  flags=FR user=list argv=/usr/lib/mailman/bin/postfix-to-mailman.py
+  ${nexthop} ${user}
+ 
+#
+# The next two entries integrate with Amavis for anti-virus/spam checks.
+#
+amavis      unix    -       -       -       -       2       smtp
+        -o smtp_data_done_timeout=1200
+        -o smtp_send_xforward_command=yes
+        -o disable_dns_lookups=yes
+        -o max_use=20
+127.0.0.1:10025 inet    n       -       -       -       -       smtpd
+        -o content_filter=
+        -o local_recipient_maps=
+        -o relay_recipient_maps=
+        -o smtpd_restriction_classes=
+        -o smtpd_delay_reject=no
+        -o smtpd_client_restrictions=permit_mynetworks,reject
+        -o smtpd_helo_restrictions=
+        -o smtpd_sender_restrictions=
+        -o smtpd_recipient_restrictions=permit_mynetworks,reject
+        -o smtpd_data_restrictions=reject_unauth_pipelining
+        -o smtpd_end_of_data_restrictions=
+        -o mynetworks=127.0.0.0/8
+        -o smtpd_error_sleep_time=0
+        -o smtpd_soft_error_limit=1001
+        -o smtpd_hard_error_limit=1000
+        -o smtpd_client_connection_count_limit=0
+        -o smtpd_client_connection_rate_limit=0
+        -o receive_override_options=no_header_body_checks,no_unknown_recipient_checks
+ 
+#
+# Integration with Dovecot - hand mail over to it for local delivery, and
+# run the process under the vmail user and mail group.
+#
+dovecot      unix   -        n      n       -       -   pipe
+        flags=DRhu user=vmail:mail argv=/usr/lib/dovecot/dovecot-lda -d $(recipient)</file>
+        
+=====Ouvrir les ports=====
+
+Dans le cas où vous utilisez ufw et qu'il est activé, vous devez ouvrir :
+<code>
+sudo ufw allow pop3    # Port 110
+sudo ufw allow imap2    # Port 143
+sudo ufw allow imaps    # Port 993
+sudo ufw allow smtp    # Port 25
+sudo ufw allow pop3s    # Port 995
+sudo ufw allow 5025/tcp    # Port smtp ouvert pour FAI bloquant
+</code>
+
+=====Relancer tous les services=====
+
+<code>sudo service postfix restart
+sudo service spamassassin restart
+sudo service clamav-daemon restart
+sudo service amavis restart
+sudo service dovecot restart</code>
+
+=====Postfixadmin=====
+
+====Configuration====
+
+=====Liens=====
+ * [[http://sourceforge.net/projects/postfixadmin/|Projet de PostfixAdmin]] (en)
+
+----
+//Contributeurs:[[:utilisateurs:McPeter]]//

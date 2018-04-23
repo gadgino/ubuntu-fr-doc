@@ -1,0 +1,66 @@
+{{tag> Precise Trusty multimédia vidéo logiciels éducation webcam }}
+
+----
+
+====== Luciole ======
+{{:luciole_logo.png|}} Luciole est un logiciel libre (GPLv3) de capture image par image dédié à la réalisation de films d’animation. \\
+Initialement imaginé pour les besoins en logiciel libre dans le cadre scolaire, il est utilisé par des élèves de la maternelle à l'université...
+
+Le logiciel permet l'acquisition depuis une webcam, une caméra numérique ou directement à partir de fichier image.
+
+Luciole se situe en amont de la réalisation de film d'animation. Il permet de capturer des images, de les séquencer et de les monter. L'outil permet aussi d'exporter le montage en divers format vidéo, ou bien vers des outils de montage vidéo comme [[cinelerra]], [[kdenlive]] ou [[pitivi]]. 
+
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir activé l'accès aux [[:depots#depots_officiels|dépôts Universe]] et [[:depots#medibuntu|Medibuntu]].
+
+===== Installation =====
+<note important>Luciole n'est plus disponible dans les dépôts officiels d'Ubuntu depuis [[Wily]].</note>
+==== Via le dépot officiel ====
+Pour installer ce logiciel, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]]  **[[apt>luciole|luciole]].**
+==== Via le dépot inattendu ====
+<note importante>
+On trouve ici la version 0.8.7 de luciole qui corrige des problèmes de compatibilités avec ubuntu maverick, natty et oneiric.
+</note>
+Ajoutez la [[:tutoriel:comment_modifier_sources_maj#gerer_les_cles_d_authentification|clé d'authentification]] du dépôt, en saisissant dans un [[terminal]] la commande suivante :
+
+<code>  wget -q http://repository.inattendu.org/inattendu.key -O- | sudo apt-key add - </code>
+
+puis
+[[:tutoriel:comment_modifier_sources_maj|Ajoutez le dépôt]] 
+ 
+
+<code>deb http://repository.inattendu.org maverick main </code>
+ou, suivant la version d'ubuntu 
+ <code>deb http://repository.inattendu.org natty main </code>
+
+ <code>deb http://repository.inattendu.org oneiric main </code>
+
+dans vos sources de logiciels, [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]], puis [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>luciole|luciole]]**
+===== Utilisation=====
+
+Lancez l'application depuis le menu //Applications -> Son et vidéo -> Luciole// ou //via// la commande suivante dans un terminal:
+
+  luciole
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, le configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi=====
+
+  * **(fr)** [[http://festival.inattendu.org/Luciole-Linux| La page de luciole]]. Page présentant luciole avec tutoriel pour réalisation de film d'animation.
+  * **(en)** [[https://launchpad.net/luciole| Luciole dans le launchpad]]. Gestion de bug, code source, information de versions, traductions, ... 
+  * **(fr)** Section [[animation#stopmotion|animation]] image par image (stopmotion) du portail animation sur ubuntu-fr.org.
+
+===== Logiciels équivalents =====
+  * [[stopmotion]] Logiciel de stop-motion.
+  * [[myrtille]] Logiciel de stop-motion.
+  * [[toonloop]] Logiciel de stop-motion.
+
+----
+
+//Contributeurs principaux :

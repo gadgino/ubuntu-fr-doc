@@ -1,0 +1,214 @@
+{{tag>sauvegarde synchronisation}}
+
+----
+
+====== FullSync : Synchroniser en toute simplicité ======
+
+**Fullsync** permet d'effectuer simplement des tâches répétitives de synchronisation. Par exemple, si je travaille toute la journée sur un projet et veux continuer le soir chez moi sur mon portable pour être avec ma famille, je peux d'un clic demander la mise à jour des fichiers de mon ordinateur par rapport à ceux de mon portable. Ainsi, je suis sûr d'avoir toujours la dernière version de mes fichiers sur l'une ou sur l'autre de mes machines. Une autre application intéressante sont les backups. FullSync me rend de bons services moi qui suis sans cesse en train de modifier mon blog.
+
+Fullsync utilise un système de tâches séparées. Chaque tâche possède ses propres caractéristiques : un dossier source, un dossier cible et le mode de mise à jour (synchronisation, backup, mise à jour, etc.). A l'heure actuelle FullSync permet de synchroniser des dossiers en local, ou bien via FTP, SFTP ou le protocole SMB.
+
+Les logiciels de synchronisation libres ne sont pas courants, et FullSync soutient aisément la comparaison avec la pléthore de concurrents propriétaires disponibles. Par ailleurs, FullSync est multiplate-forme. Il va tourner sur tout ordinateur équipé d'une machine virtuelle Java. Notons aussi que FullSync est disponible en plusieurs langues, dont le français.
+La dernière version est sortie en avril 2016.
+===== Pré-requis =====
+
+  * Disposer d'une connexion à Internet configurée et activée ;
+  * Avoir [[:tutoriel:comment_installer_un_paquet|installé le paquet]] [[apt://sun-java5-jre]] ou [[apt://sun-java6-jre]] ou [[apt://openjdk-6-jdk]]. //Note :// ce paquet installera automatiquement le paquet sun-java5/6-bin qui est nécessaire ;
+  * Avoir téléchargé la dernière version de [[http://switch.dl.sourceforge.net/sourceforge/fullsync/FullSyncInstaller.jar|FullSync]].
+  * Utiliser Ubuntu 32 bits, sinon voir la section [[#Problèmes connus]].
+
+===== Installation =====
+
+Pour Installer FullSync rien de plus simple. Après avoir téléchargé l'archive du logiciel, vous n'avez plus qu'à faire un clic droit sur ce même fichier puis dans propriétés » permissions cocher "Autoriser l'exécution du fichier comme un programme", enfin clic droit sur ce fichier et choisir dans le menu déroulant l'option **Ouvrir avec « Sun Java 5.0 Runtime »** (ou **« Sun Java 6.0 Runtime »** si vous avez Java 6 ou **«openjdk java 6 Runtime»**)
+
+ou encore depuis un [[terminal]] avec la commande :
+  java -jar fichier_installation.jar
+
+La procédure d'installation débute. Voici comment ça se passe :
+
+
+{{fullsync0.png?500|}}
+
+Panneau de bienvenue dans l'installeur.
+
+{{fullsync1.png?500|}}
+
+Acceptation de la licence.
+
+{{fs2.png?500|}}
+
+Sélection du chemin d'installation du logiciel.
+
+{{fs3.png?500|}} {{fs4.png?500|}}
+
+Progression de l'installation des fichiers.
+
+{{fs5.png?500|}}
+
+Message informant des raccourcis à créer que l'installeur ne peut faire lui-même.
+
+{{fs6.png?500|}}
+
+Installation terminée.
+====Lancement au démarrage====
+<note>Utile pour réaliser un serveur distant, à travers une connexion sécurisée ([[ssh]], [[vpn]]...) </note>
+===Monter un partage au démarrage===
+
+Editer /etc/fstab afin de monter automatiquement un dossier partagé (ex: samba, Nfs) au démarrage :<code>sudo gedit /etc/fstab</code>
+
+Ajouter :<code>//ADRESSE_RESEAU/REPERTOIRE1 /media/REPERTOIRE2 smbfs password=LEPASSE,username=LUTILISATEUR 0 0</code>
+
+ou si vous avez des problèmes d'encodage ou de droit :
+<code>//ADRESSE_RESEAU/REPERTOIRE1 /media/REPERTOIRE2 smbfs password=LEPASSE,username=LUTILISATEUR,iocharset=utf8,codepage=cp850,uid=1000 0 0</code>
+
+Remplacer :
+    * ADRESSE_RESEAU par l'adresse réseau
+    * REPERTOIRE1 par le répertoire sur le serveur
+    * REPERTOIRE2 par le répertoire local
+    * LEPASSE distant
+    * LUTILISATEUR distant
+
+Vous pouvez si vous le désirez changer /media par /mnt .
+
+===Lancer fullsync au démarrage===
+
+Dans système Applications au démarrage :
+   * Cliquer sur ajouter
+   * Nom : Fullsync
+   * Commande : <code>sh /EMPLACEMENT/FullSync/bin/fullsync.sh</code> exemple :
+<code>sh /home/UTILISATEUR/FullSync/bin/fullsync.sh</code>
+
+===Paramétrer fullsync===
+
+Lancer fullsync, et activer la planification du profil de votre choix.
+
+Modifier l’intervalle de planification pour prendre en compte votre capacité réseau (ex : X (M)bit/s /8 * durée_intervalle = taille maximum de fichier synchronisable en une synchro)
+===== Configuration =====
+
+Tout d'abord, nous supposons que vous avez installé le logiciel dans le répertoire **/opt/FullSync/** . Pour lancer le logiciel, ouvrez un terminal et tapez :
+  /opt/FullSync/bin/fullsync.sh
+<note tip> Ou alors se rendre dans le répertoire en question et taper :
+       sh fullsync.sh 
+</note>
+
+Et là petit désagrément : un message d'erreur s'affiche vous indiquant :
+  FULLSYNC_HOME = /opt/FullSync
+  Error : JAVA_HOME is not defined correctly
+  We cannot execute java
+
+Le problème vient du fait que Fullsync ne trouve pas l'endroit où est installé //Java Runtime Environnement//. Il faut donc compléter le fichier fullsync.sh pour lui indiquer ce chemin correspondant à l'endroit où est installé le paquet de Sun. Pour cela ouvrir le fichier avec un éditeur. Par exemple tapez dans un terminal : 
+
+<code>gedit /opt/FullSync/bin/fullsync.sh</code>
+
+Dans le fichier ouvert, sous la ligne :
+  #!/bin/sh
+ajouter :
+
+^ Version ^ java 5 ^ java6 ^ openjdk |
+^ Dapper (6.06) |JAVA_HOME=/usr/local/java/jre1.5.0_06 | | |
+^ Edgy3 (6.10) et Feisty (7.04) | JAVA_HOME=/usr/lib/jvm/java-1.5.0-sun | JAVA_HOME=/usr/lib/jvm/java-6-sun| | 
+^ Hardy (8.04)|  |JAVA_HOME=/usr/lib/jvm/java-6-sun-1.6.0.14/jre  |  |
+^ Intrepid (8.10) |  | JAVA_HOME=/usr/lib/jvm/java-6-sun-1.6.0.10/jre | JAVA_HOME=/usr/lib/jvm/java-6-openjdk/jre ou JAVA_HOME=/usr/lib/jvm/java-6-openjdk-i386/jre/|
+^ Jaunty (9.04) |  | JAVA_HOME=/usr/lib/jvm/java-6-sun/jre | JAVA_HOME=/usr/lib/jvm/java-6-openjdk/jre ou JAVA_HOME=/usr/lib/jvm/java-6-openjdk-i386/jre/|
+^ Karmic (9.10) |  |  | JAVA_HOME=/usr/lib/jvm/java-6-openjdk/jre ou JAVA_HOME=/usr/lib/jvm/java-6-openjdk-i386/jre/|
+^ Lucid (10.04) |  | JAVA_HOME=/usr/lib/jvm/java-6-sun-1.6.0.20/jre | JAVA_HOME=/usr/lib/jvm/java-6-openjdk/jre ou JAVA_HOME=/usr/lib/jvm/java-6-openjdk-i386/jre/| 
+^ Maverick (10.10) |  | JAVA_HOME=/usr/lib/jvm/java-6-sun-1.6.0.22/jre | JAVA_HOME=/usr/lib/jvm/java-6-openjdk/jre ou JAVA_HOME=/usr/lib/jvm/java-6-openjdk-i386/jre/ | 
+
+
+Voilà le problème est résolu.
+
+<note tip>Si vous utilisez une version 64bits d'Ubuntu, fullsync ne se lance pas et ne renvoie aucun message d'erreur depuis un terminal.
+
+Il vous faut utiliser la version 32bits de java des dépôts [[apt://ia32-sun-java6-bin]] et utiliser le chemin pour celle-ci dans fullsync.sh, autrement dit :
+JAVA_HOME=/usr/lib/jvm/ia32-java-6-sun/jre (testé sous Jaunty et Lucid)</note>
+
+
+
+
+
+
+
+
+
+
+
+
+
+===== Utilisation =====
+
+Pour ce qui est de l'utilisation il n'y a pas plus simple. Après le premier lancement du logiciel, vous constatez que le logiciel est en anglais. Pour modifier cela, allez dans le menu **Edit => Preferences => Language** choisissez **French** puis redémarrez.
+Attardons-nous sur l'interface maintenant. Une petite icône avec 2 flèches jaunes se place dans la zone de notification, et une fenêtre de ce type apparaît :
+
+{{fs7.png?500|}}
+
+Pour créer une instance cliquez sur l'icône {{fsnew.png|}} **Nouveau profil** et une fenêtre de configuration apparaît.
+
+{{fs9.png?500|}}
+
+Comme vous le constatez, rien de bien difficile en ce qui concerne la configuration d'une instance. Choisissez un **répertoire de source**, **un répertoire de destination (ex : ftp://ftpperso.free.fr/repertoire)**, **le type de synchronisation** que vous souhaitez.
+Voici les types de synchronisation les plus utiles : \\
+ - **Exact copy** qui crée une copie conforme du dossier à sauvegarder. En cas de problème avec le dossier source, il suffit de le supprimer et de copier/coller le dossier de sauvegarde à son emplacement. \\
+ - **Backup Copy** qui crée une sauvegarde de vos fichiers tout en gardant une copie de ceux qui ont été modifiés. \\
+ - **Two Way Sync** pour synchroniser deux dossiers entre eux. Notamment si l'on travaille sur un dossier présent à la fois sur un PC et sur une clef USB. \\ \\
+Ne pas oublier de cocher la case **synchroniser les sous-répertoires** pour que la synchronisation porte sur l'intégralité des dossiers. Dans le cas contraire, Fullsync ignorera les sous-dossiers. \\ \\
+Les différents protocoles :
+<code>
+ file://[disque:/]chemin_absolu
+ ftp://hôte[:port]/chemin_relatif[?[passive=true|false]&compatible=true|false]]
+ sftp://hôte[:port]/chemin_relatif
+ smb://hôte/partage/chemin_relatif
+</code>
+Et pour terminer vous n'avez plus qu'à créer une planification de vos sauvegardes. En cliquant sur le bouton **Modifier la planification**, une fenêtre de ce type apparaît :
+
+{{fs10.png|}} {{fs11.png|}} {{fs12.png|}}
+
+puis vous n'avez plus qu'à choisir l'intervalle de temps que vous souhaitez entre vos sauvegardes. Il existe 2 modes, le mode **Intervalle** qui permet de définir un laps de temps entre chaque instance et le mode **Tableau chronologique** qui permet, lui, de définir des dates précises pour les instances.
+
+Une des grandes forces de ce logiciel est qu'il permet de synchroniser des dossiers et/ou fichiers via FTP, SFTP ou encore le protocole SMB. Je n'ai pas testé toutes ces possibilités mais si quelqu'un les essaye, faites-le moi savoir, je mettrai à jour la page du Wiki.
+
+Pour ce qui est des défauts de ce petit soft, pardon, je devrais dire du défaut car je n'en ai trouvé qu'un pour le moment, il est d'ordre esthétique. Des boutons mal dimensionnés, des fenêtres aussi. Mais rien au niveau fonctionnel.
+
+
+**Pour désinstaller Fullsync**, placez-vous dans le répertoire fullsync/Uninstaller
+et lancer le désinstallateur par la commande :
+   java -jar uninstaller.jar
+
+===== Problèmes connus =====
+
+**Attention** Il faut que le support de destination soit monté pour que la sauvegarde se passe bien. Si ce n'est pas le cas, Fullsync ne vous le signalera pas et lance une copie vers une autre destination.
+
+==== Erreur lors de la comparaison du système de fichier ====
+
+Une erreur due à un problème de gestion des espaces et des minuscules sur les serveurs FTP
+Ajouter compatible=true à la fin de votre ligne ftp :
+
+<code>ftp://backup.test.fr/photos?compatible=true</code>
+
+
+==== Erreur de connexion ====
+
+Ajouter passive=false. Pour les deux options, on fait comme ceci :
+
+<code>ftp://myhost/path/path?compatible=true&passive=false</code> 
+
+====Ubuntu 64 bits====
+**FullSync ne fonctionne pas en 64 bits.**
+Il faut en fait installer la version 32bits de java en plus (apt://ia32-sun-java6-bin) et définir le chemin de cette version dans le fichier fullsync.sh, ce qui revient à mettre en début de fichier :
+
+''#! /bin/sh \\
+JAVA_HOME=/usr/lib/jvm/ia32-java-6-sun
+''
+
+==== Noms de répertoires et fichiers en VFAT ===
+Avec les supports utilisant un système de fichiers FAT32 on peut rencontrer des difficultés de synchronisation liés à la casse des noms. FAT32 ne fait a priori pas la différence de casse (entre majuscules et minuscules). Le problème apparaît à partir de la première synchro : les noms tout en majuscules (ex MONREPERTOIRE) sur la partition ext3 sont en minuscules sur le support FAT. Dès lors FullSync n'arrive pas à gérer la synchronisation avec les répertoires ou les fichiers en question car soit il ne trouve pas de correspondances sur le support FAT32, soit il les recrée avec le nom en minuscule sur le support ext3.
+La solution artisanale : penser à ne pas nommer ses répertoires ou ses fichiers tout en majuscules. Ex : remplacer MONREPERTOIRE par MonRepertoire sur le support ext3.
+
+===== Voir aussi =====
+
+  * **(en)** [[http://fullsync.sourceforge.net/|Site officiel de Fullsync]]
+
+------
+Contributeurs : //[[utilisateurs:cedy-na-mix|Cedy-na-mix]],[[utilisateurs:psychederic|Psychederic]] //
+
+
+Basé sur « [[http://www.cedynamix.fr/fullsync-cest-magique/|Fullsync c'est magique]] » par Cedy-Na-Mix

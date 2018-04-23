@@ -1,0 +1,54 @@
+{{tag>accessibilité reconnaissance_vocale}}
+
+----
+
+======SpeechControl - le contrôle d'Ubuntu par la voix======
+{{http://robotart.co.cc/siibuttonsmall.png }}
+Speechcontrol est un logiciel libre ( GPL V3 ) - en cours de développement par Canonical : vise à fournir la fonctionnalité de [[reconnaissance vocale]] et orienter cette fonctionnalité pour le bureau Linux (et ubuntu). Les bibliothèques sous-jacentes utilisées pour un tel exploit sont fournies par la suite [[CMU Sphinx]], spécifiquement [[PocketSphinx]], [[Qt]] et d'autres utilitaires open-source.
+
+L'outil de [[reconnaissance vocale]] sera particulièrement efficace avec la nouvelle interface utilisateur [[UNITY]], le menu et le HUD d'ubuntu et certains [[logiciels]]. La page du logiciel:[[https://web.archive.org/web/20120606141733/http://www.thesii.org/wiki/SpeechControl]] )
+=====Objectifs du projet =====
+
+[[https://wiki.ubuntu.com/SpeechControl/|SpeechControl sera en mesure d'accomplir ce qui suit]]:
+     * **La [[reconnaissance vocale]]**: En utilisant les outils disponibles, SpeechControl sera en mesure de comprendre votre parole.
+     * [[Synthèse vocale]]: Plus communément appelé au TTS (Text-To-Speech), la voix qui communique avec l'utilisateur final sera aussi naturelle et accueillante que la technologie le permet.
+     * [[Assistant Virtuel]]: un assistant pour améliorer les tâches répétitives et permettre l'exécution des processus de manière plus rapide et plus lisse.
+     * [[http://www.thesii.org/wiki/SpeechControl/Plugins|Exécution de commandes préconfigurées]]
+
+=====Installation=====
+
+<note important>Le dépôt speechcontrol-devel/stable ne contient plus de paquets, et le dépôt speechcontrol-devel/unstable ne contient que le paquet pour [[Precise]].
+Les deux autres étant pour des versions d'Ubuntu qui ne sont plus soutenues.   </note>
+
+==== Version stable ( oneiric et supérieur )====
+
+  * [[:PPA|Ajoutez le PPA]] **ppa:speechcontrol-devel/stable** ((https://launchpad.net/~speechcontrol-devel/+archive/stable)) dans vos sources de logiciels ;
+  * [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste des paquets]] ;
+  * [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>speechcontrol|speechcontrol]]**
+
+
+====Version unstable  ( oneiric et supérieur )====
+  * [[:PPA|Ajoutez le PPA]] **ppa:speechcontrol-devel/unstable** ((https://launchpad.net/~speechcontrol-devel/+archive/unstable)) dans vos sources de logiciels ;
+  * [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste des paquets]] ;
+  * [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>speechcontrol-all|speechcontrol-all]]**
+
+=====Configuration=====
+
+Vous devez configurer correctement l'application et votre matériel (comme faire en sorte que votre matériel audio / microphones fonctionnent correctement, etc.). Un micro de trop mauvaise qualité et mal réglé donnera de très mauvais résultats.
+
+Puis dans la dernière étape, vous avez à "former" le moteur acoustique de l'application, de sorte qu'il soit en mesure de reconnaître votre voix. 
+
+=====Désinstallation=====
+
+Il suffit de supprimer les paquets.
+
+=====Voir aussi=====
+   * (en) [[https://wiki.ubuntu.com/SpeechControl/|SpeechControl sur le wiki ubuntu anglais]]
+   * (en) [[https://launchpad.net/speechcontrol/|Sur launchpad : The SpeechControl Project]]
+   * (en) [[http://www.thesii.org/wiki/SpeechControl|Site officiel]]
+   * (en) [[http://www.hecticgeek.com/2012/03/speechcontrol-speech-recognition-project-ubuntu/|SpeechControl: The Speech Recognition Project for Ubuntu is Underway! by Gayan • March 21, 2012]] 
+
+
+----
+
+//Contributeurs : [[:utilisateurs:psychederic|Psychederic]],  …//

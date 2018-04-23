@@ -1,0 +1,1145 @@
+{{tag>réseau serveur }}
+
+----
+
+====== Serveur HTTP Apache 2 ======
+
+
+**Apache** est le plus populaire des serveurs HTTP. Il est produit par la « Apache Software Foundation ». C'est un logiciel libre fourni sous la [[wpfr>Licence_Apache|licence spécifique Apache]], [[http://www.apache.org/licenses/|licence (en)]].
+
+Cette page présente un cas concret de configuration d'un serveur HTTP Apache. À vous de l'adapter à vos besoins.\\
+Elle est une fusion :
+    * du [[:projets:ecole:apache|cours sur apache]] du canal IRC [[:projets:ecole|#ubuntu-fr-classroom]] ;
+    * de diverses autres recherches sur le site de la [[http://httpd.apache.org/docs/|documentation d'Apache]] \\
+Des liens vers [[tutoriel:securiser_apache2_avec_ssl|sécuriser Apache avec SSL]], [[tutoriel:virtualhosts_avec_apache2|virtualhosts avec Apache]] et d'autres documentations seront donnés au moment opportun.\\
+
+<note important>La version de Apache installée à l'heure actuelle, est la version 2.4.6-2.
+Ce changement de version implique des changements de certaines directives présentes dans vos VHOSTS par rapport aux autres versions.
+Référez-vous à la page : [[http://httpd.apache.org/docs/2.4/upgrading.html|suivante]] qui décrit, en détails, les changements entre la version 2.2 et la version 2.4.
+</note>
+===== Pré-requis =====
+
+  * Quelques connaissances de base des protocoles HTTP, DNS (ou /etc/hosts configuré) et TCP/IP (adressage, sous-réseaux, etc.) ;
+  * Un réseau local en état de marche (IP attribuées, connexion à internet) ;
+  * Un serveur     [[:bind9|DNS]] configuré (pour le domaine).
+
+===== Introduction : HTTP ======
+==== Qu'est-ce que le Web ? ====
+
+Le Web est un des nombreux services disponibles sur Internet. Il s'agit de l'ensemble des documents accessibles par le protocole HTTP (par un navigateur Web). Une caractéristique essentielle du Web est la capacité de passer d'un document à un autre par des liens hypertexte. Un site Web est quant à lui un ensemble de pages Web, liées entre elles.
+
+Un site Web a une adresse, comme celle du site Ubuntu-fr : http://ubuntu-fr.org.\\
+La page Web principale de ce site propose des liens hypertexte vers d'autres pages et d'autres sites, par exemple : http://ubuntu-fr.org/telechargement.
+
+Attention à ne pas faire d'amalgame entre Web (service HTTP) et Internet (le réseau mondial). Le salon IRC sur lequel s'est déroulée la [[:projets:ecole|séance de cours]] utilise Internet, pas le Web.
+==== HTTP et navigation ====
+
+Pour **accéder à un site Web**, il vous faut **utiliser un client Web**, communément appelé  **navigateur**, par exemple : firefox, lynx, opera, rekonq, konqueror, w3m… ppo\\
+Généralement vous passez par un moteur de recherche pour trouver l'adresse d'un site  mais vous pouvez aussi l'entrer directement dans la barre d'adresse.\\
+
+Vous devez **spécifier** en plus du **nom** ou de l'**adresse IP**, le **protocole** utilisé.\\
+L'adresse de la page se découpe ainsi : 
+**protocole**<nowiki>://</nowiki>**sd**.**SLD**.**TLD**/\\
+  - protocole **[[wpfr>Protocole_réseau]]** : http, ftp... \\
+  - sd **[[wpfr>Nom_de_domaine|sous-domaine]]** : www, ftp, doc, httpd...\\
+  - SLD(Second Level Domain)  **[[wpfr>Domaine_de_deuxième_niveau]]** : ubuntu-fr, apache...\\
+   - TLD(Top Level Domain)  **[[wpfr>Domaine_de_premier_niveau]]** : org, com, fr...\\
+
+Les TLD sont délivrés par L'**[[wpfr>|ICANN]]** [[http://www.icann.org/tr/french.html|ICANN fr]] \\
+Les SLD par les **[[wpfr>Bureau_d'enregistrement|registraires]]** qui sont autorisés à les déléguer\\
+Les sous-domaines par le propriétaire du domaine puisque le registraire lui a assigné la gestion de ce domaine.\\
+
+Le protocole qui nous intéresse ici est HTTP((L'acronyme **[[wpfr>Hypertext_Transfer_Protocol|HTTP]]** signifie //HyperText Transfert Protocol// ; //Protocole de Transfert HyperTexte//.)) qui est l'acronyme anglais de **Protocole de Transfert HyperTexte**.\\
+
+Un document **[[wpfr>Hypertexte|hypertexte]]** est un document contenant des **[[wpfr>Hyperlien|hyperliens]]**.\\
+Ceux-ci permettent de lier les pages les unes avec les autres. Ainsi, vous pouvez naviguer grâce à des liens sur les pages.\\
+Cet ordinateur, auquel vous vous connectez pour lire cette documentation, héberge à cette adresse un logiciel qui fournit les pages demandées. Apache est [[http://news.netcraft.com/archives/web_server_survey.html|le plus utilisé]].
+
+Il existe une version sécurisée du HTTP : le HTTPS((L'acronyme **[[wpfr>Hypertext_Transfer_Protocol#HTTPS|HTTPS]]** signifie //HyperText Transfert Protocol Secured// ; //Protocole de Transfert Hypertexte Sécurisé//.)).\\
+Afin de **différencier quel protocole** on utilise, on leur **réserve un port**((**[[wpfr>Port_%28logiciel%29|Port]]** Découpe logique de l'interface physique il en existe 65536)), par défaut le **80 pour le mode non sécurisé** et le **443 pour le mode sécurisé**.\\
+Il faut toutefois noter que les conventions ci-dessus peuvent ne pas être respectées si le client et le serveur sont cohérents entre eux et que le nouveau numéro choisi n'est pas, par ailleurs, déjà utilisé.\\
+
+==== Mode de fonctionnement sommaire ====
+
+Au moment de son démarrage, Apache charge les  [[apache2#configuration|fichiers de configuration]] de la machine locale et se met en attente de requêtes sur les interfaces réseaux.
+
+Lorsque vous utilisez votre navigateur Web (un client HTTP), que vous cliquiez sur un lien ou que vous rentriez directement l'adresse dans la barre d'adresse,
+vous effectuez une requête : 
+  * Le client détermine et se connecte au serveur ([[:bind9#introduction|voir documentation DNS]]) ;
+  * Le client effectue une requête HTTP sur le serveur, par la méthode GET du protocole HTTP : il lui demande une page ;
+  * Après l'analyse de la requête, le serveur renvoie la page concernée sous forme de code dont on peut spécifier le format de données (pour ceux qui connaissent les balises <meta> de l'en-tête des documents servis, le fameux "content-type" des pages html) ;
+  * Une fois toutes les données envoyées, le serveur ferme la connexion ;
+  * Parallèlement, le client analyse et construit l'affichage à partir du code reçu.
+
+Voilà, comment fonctionnent le protocole HTTP et APACHE2 (sans entrer dans les détails :-D).
+
+<note tip>Voir la [[projets:ecole:apache|page de cours sur Apache de #u-classroom]]
+
+[[wpfr>Hypertext_Transfer_Protocol|Plus d'informations concernant le protocole HTTP…]]
+
+[[wpfr>Apache_HTTP_Server|Plus d'informations concernant Apache HTTP Server…]]
+</note>
+Pour installer un serveur HTTP, nous allons utiliser une application bien connue des administrateurs réseaux : Apache2.
+
+===== Installation =====
+
+Apache est composé de plusieurs paquets...
+====Installation de base====
+
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>apache2|apache2]]**.
+
+À la suite de cette installation votre serveur doit fonctionner et être accessible à l'adresse suivante [[http://localhost]] (à partir de la même machine).
+
+Un beau message va s'afficher dans votre navigateur  **It Works**, c'est le contenu du fichier **/var/www/html/index.html** (configuration par défaut)
+
+<note important>
+**À partir d'Ubuntu 14.04** \\
+Le répertoire par défaut n'est plus //"/var/www"// mais //"/var/www/html"//. Si vous n'avez pas touché aux fichiers de config par défaut de apache et que vos sites en localhost ne sont plus accessibles, vous pouvez les déplacer dans ce dossier //"/var/www/html"// ou changer le chemin du //"DocumentRoot"// dans le fichier //"/etc/apache2/sites-available/000-default.conf"//</note>
+\\
+
+
+====La bibliothèque, le serveur et ses outils====
+
+^ Nom ^ Rôle ^
+| **[[apt>libapr1|libapr1]]** | Apache's Portable Runtime Library, bibliothèque de fonctions standards portables. |
+| **[[apt>apache2|apache2]]** | Ce paquet contient le serveur. |
+| **[[apt>apache2.2-common|apache2.2-common]]** |Ce paquet contient les modules standards apache2, qui incluent le support SSL. |
+| **[[apt>apache2-utils|apache2-utils]]** | Outils pour serveurs web. |
+
+<note tip>Pour [[Dapper]], remplacez par **[[apt>libapr0|libapr0]]** et **[[apt>apache2-common|apache2-common]]**.</note>
+
+==== Le MPM ====
+
+Le MPM((//Multi-Processing Module//, module multi traitements)), indispensable, est le moteur du serveur, la manière dont il intercepte les requêtes. Il en existe plusieurs à vous de choisir en fonction de vos besoins mais le ''mod-php5'' ne supporte que le //prefork// : FIXME et  itk ?
+
+^ Nom ^ Commentaire ^
+| **[[apt>apache2-mpm-prefork|apache2-mpm-prefork]]** | Modèle traditionnel pour Apache2 version sans thread,                        intercepte les requêtes à la manière Apache 1.3, utile pour éviter la mise en thread pour la compatibilité avec les bibliothèques non-thread-safe. C'est le meilleur mpm pour isoler les requêtes. |
+| **[[apt>apache2-mpm-worker|apache2-mpm-worker]]** | Modèle à processus haute vitesse pour Apache2 version avec thread, il est considérablement plus rapide que la version traditionnelle et **c'est le MPM recommandé**. |
+| **[[apt>apache2-mpm-itk|apache2-mpm-itk]]** | Permet d'exécuter les scripts php avec les droits d'un utilisateur donné dans un virtualhost. |
+
+<note important>A partir de Trusty 14.04, ces paquets pour le choix du MPM sont devenus obsolètes. Cependant, ils continuent d'exister pendant une phase de transition. Leur unique fonction est d'installer le paquet //apache2// par le mécanisme des dépendances.</note>
+
+
+===== Configuration =====
+
+<note note>Remise en question de la part d'un adminsys : cette section donne un ensemble de fichiers de configuration, en indiquant qu'il faudrait remplacer les fichiers par défaut. Pourquoi ? Les fichiers par défaut sont tout à fait corrects et je ne vois pas l'intérêt de les remplacer.  --tiramiseb</note>
+
+ Tous les **fichiers de configuration** de Apache2 sont dans le dossier **/etc/apache2**.\\
+
+==== /etc/apache2 ====
+Rendez-vous dans le répertoire /etc/apache2/, et regardez les fichiers le composant :
+  apache2.conf  conf.d  envvars  httpd.conf  mods-available  mods-enabled  ports.conf  sites-available  sites-enabled
+
+La plupart de ces fichiers sont plus ou moins spécifiques à Debian/Ubuntu et nous permettent de séparer la configuration en plusieurs parties.
+  * **''httpd.conf''** est le fichier utilisé par apache1, il est conservé vide dans Apache2 pour assurer la rétrocompatibilité. Il ne nous servira pas ;
+  * **''envvars''** est utilisé pour définir des variables d'environnement propres à Apache ;
+  * **''ports.conf''** contient la directive //listen// qui spécifie les adresses et les ports d'écoutes ;
+  * **''apache2.conf''** est le fichier principal de configuration c'est à partir de lui que tous les autres fichiers sont chargés ;
+  * **''conf.d''** est un répertoire qui contient plusieurs petits fichiers qui seront analysés par apache. Le seul fichier pour le moment est ''charset'', qui spécifie l'encodage à utiliser par défaut ;
+  * **''mods-available''** contient la liste des modules d'apache installés ;
+  * **''mods-enabled''** celle des modules activées ;
+  * **''sites-available''** contient la liste des vhosts installés ;
+  * **''sites-enabled''** celle des vhosts activées. 
+
+==== Configuration des interfaces ====
+
+La spécification des **interfaces** sur lesquelles **Apache2 écoutera** les requêtes se fait dans **ports.conf** avec la directive **Listen**.\\
+Vous devez spécifier au moins le port. Apache écoutera alors sur toutes les interfaces.\\
+
+**Pour restreindre** l'utilisation à une ou plusieurs interfaces il suffit de les spécifier, suivies du port. Il faut une directive Listen par interface.\\
+ - Si le serveur est **connecté avec une IP Internet** et que l'on souhaite écouter sur cette interface on ajoute la directive **Listen IP.Internet** .\\
+ - Si le serveur est **connecté avec une IP locale** et que l'on souhaite écouter sur cette interface on ajoute la directive **Listen IP.Locale** .\\
+ - Si l'on souhaite **écouter sur un certain port** on rajoute **:Le_Port** . Il est aussi possible de ne spécifier que le port **Listen Le_Port**.\\
+
+[[:tutoriel:comment_editer_un_fichier|Éditez le fichier]] **/etc/apache2/ports.conf**.(remplacer les X.X.X.X par l'ip de l 'interface d'écoute )\\
+
+<file>
+ #interface (local ou internet) connectée sur port standard
+ Listen X.X.X.X:80
+
+ # toutes les interfaces connectées sur port ssl
+ Listen 443
+</file>
+<note important>
+Il faut que les interfaces aient été démarrées avant Apache</note>
+
+==== Fichier de configuration ====
+
+[[:tutoriel:comment_editer_un_fichier|Éditez le fichier]] **/etc/apache2/apache2.conf** afin qu'il ressemble a ceci.\\
+
+Les explications des différentes lignes sont données dans le fichier de configuration.\\
+
+Les directives **<IfModule !nom.c>** testent la présence du module afin de s'adapter aux configurations.\\
+Les autres lignes commençant par **#** sont des commentaires\\
+
+
+<code apache>
+# Répertoire Racine du serveur
+ServerRoot "/etc/apache2"
+
+# Fichier de vérrouillage (lock) du serveur 
+# IL DOIT SE TROUVER SUR LE DISQUE LOCAL
+#<IfModule !mpm_winnt.c>
+#<IfModule !mpm_netware.c>
+LockFile /var/lock/apache2/accept.lock
+#</IfModule>
+#</IfModule>
+
+# Fichier du PID: endroit où, à son démarrage, apache doit stocker
+# son numéro d'identification de processus
+PidFile /var/run/apache2.pid
+
+# Delai d'attente dépassé : nombre de secondes avant de recevoir et d'envoyer
+# un message de "Délai d'attente dépassé" (timeout)
+Timeout 300
+
+# Connexion persistante: Alloue ou non les requêtes persistantes
+# (plus d'une requête par connexion ).
+# Mettre à "Off" pour désactiver.
+KeepAlive On
+
+# Nombre Maximum de requêtes allouées durant une connexion persistante.
+# 0 = non limité
+# Il est recommandé de garder ce nombre assez haut pour des performances maximales
+MaxKeepAliveRequests 100
+
+# Nombre de secondes d'attente pour la prochaine requête
+# d'un même client sur une même connexion avant un timeout
+KeepAliveTimeout 15
+
+# Configuration du mpm chargé
+<IfModule mpm_prefork_module>
+# Nombre de processus serveurs fils à créer au démarrage.
+   StartServers          5
+# Nombre minimum de processus en attente d'intercepter des requêtes
+   MinSpareServers       5
+# Nombre maximum de processus en attente
+   MaxSpareServers      15
+# Nombre maximum processus fils créés
+# pour intercepter les requêtes simultanément
+   MaxClients          150
+# Limite le nombre de requête qu'un processus fils intercepte 
+# durant son temps de vie. Si 0 alors le processus n'expirera jamais.
+    MaxRequestsPerChild   0
+</IfModule>
+
+<IfModule mpm_worker_module>
+    StartServers          2
+    MaxClients          150
+# Nombre minimum de processus en attente d'intercepter les piques de requêtes
+    MinSpareThreads      25
+# Nombre maximum de processus en attente
+    MaxSpareThreads      75 
+    ThreadsPerChild      25
+    MaxRequestsPerChild   0
+</IfModule>
+
+# Utilisateur et Group sous lesquels les processus du serveur seront lancés
+User www-data
+Group www-data
+
+# Fichier de restriction des accès 
+# non conseillé, préferer les directives internes au fichier de configuration
+# voir [[http://httpd.apache.org/docs/2.2/howto/htaccess.html]]
+AccessFileName .htaccess
+
+# Les lignes suivantes empêchent les fichiers .htaccess et .htpasswd d'être vus 
+# par les clients Web (i.e. les navigateurs) .
+<Files ~ "^\.ht">
+    Order allow,deny
+    Deny from all
+    Satisfy All
+</Files>
+
+# Restriction de la racine du serveur
+<Directory />
+  Order Deny,Allow
+  Deny from all
+  Options None
+  AllowOverride None
+</Directory>
+
+# Fichier contenant la liste des conversions des extensions de fichiers vers le type de contenu.
+# par défaut ce fichier est relié au contenu enregistré à l'IANA. http://www.iana.org/assignments/media-types/index.html.
+TypesConfig /etc/mime.types
+
+# définit le type par défaut des fichiers dont le type ne peut être déterminé
+# par le serveur.
+# Il convient de le mettre à "none" afin de ne pas fournir d'informations erronées.
+DefaultType none
+
+# Active la résolution DNS pour les noms d'hôtes
+HostnameLookups Off
+
+# chemin du fichier de log des erreurs du serveur.
+ErrorLog /var/log/apache2/error.log
+
+# niveau de log du serveur 
+# emerg  	Messages Urgents - Le système est inutilisable.
+# alert 	Messages d'actions qui doivent être effectuées immédiatement.
+# crit 	        Messages critiques.
+# error 	Messages d'erreurs.
+# warn 	        Messages d'avertissement.
+# notice 	Messages normales mais significatives.
+# info 	        Messages d'informations.
+# debug 	Messages de débogage
+LogLevel warn
+
+# format des lignes contenues dans les logs
+# %a 	        Adresse ip distante.
+# %A 	        Adresse ip local.
+# %B 	        Taille de la réponse en octets, excluant l'entête HTTP.
+# %b 	        Taille de la réponse en octets, excluant l'entête HTTP au format CLF.
+# %{Foobar}C 	Contenu du cookie "Foobar" de la requête envoyée au serveur.
+# %D 	        Le temps mis à servir la requête .
+# %{FOOBAR}e 	Contenue de la variable d'environnement "FOOBAR".
+# %f 	        Nom du fichier.
+# %h 	        Hôte distant.
+# %H 	        Le protocole demandé.
+# %{Foobar}i 	Le contenu de "Foobar": Ligne(s) d'en-tête de la requête envoyée au serveur.
+# %l 	        nom du fichier de log distant (de identd, si il est fournit).
+# cela retournera un tiret tant que //mod_ident// n'est pas présent 
+# et //IdentityCheck// n'est pas mis à ON.
+# %m 	        Méthode de la requête.
+# %{Foobar}n 	Contenu de la note "Foobar" provenant d'un autre module.
+# %{Foobar}o 	Le contenu de "Foobar": Ligne(s) d'entête dans la réponse.
+# %p 	        Port canonique du serveur qui sert la réponse.
+# %P 	        Id du processus fils qui a servi la requête.
+# %{format}P 	Id du processus ou du thread fils qui a servi la requête.
+# Les formats valides sont pid, tid, et hextid.
+# hextid nécessite APR 1.2.0 ou supérieur.
+# %q 	        Chaînes de la requête (Commençant avec un ? si une chaine de requête existe, sinon une chaîne vide)
+# %r 	        Première ligne de la requête.
+# %s 	        Statut. Pour les requête redirigées en interne, ceci est la requête originale --- %>s pour la dernière.
+# %t 	        Heure à laquelle la requête a été reçue (format standard anglais mois jour année )
+# %{format}t 	L'heure, au format précisé, qui doit être dans les formats de strftime(3). (potentiellement localisé).
+# %T 	        Le temps mis pour répondre à la requête.
+# %u 	        Utilisateur distant (de l'authentification; peut être faux si le  code de retour de statut (%s) est 401)
+# %U 	        Url demandée, n'inclue aucune chaîne de requête.
+# %v 	        Nom canonique de ServerName du serveur qui répond à la requête.
+# %V 	        Nom du serveur en fonction du paramètre UseCanonicalName.
+# %X 	        Statut de la connexion une fois la réponse envoyée.
+#               X = connexion annulée avant la réponse complète.
+#               + = la connexion peut être maintenue après l'envoi de la réponse.
+#               - = la connexion sera fermée après l'envoi de la réponse.
+# %I 	        Octets reçus, incluant l'entête et la requête, ne peut être nul. Vous devez activer //mod_logio// pour l'utiliser.
+# %O 	        Octets envoyés, incluant l'entête, ne peut être nul. Vous devez activer //mod_logio// pour l'utiliser.
+
+LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" combined
+LogFormat "%h %l %u %t \"%r\" %>s %b" common
+LogFormat "%{Referer}i -> %U" referer
+LogFormat "%{User-agent}i" agent
+
+# entête envoyée au client à propos du serveur
+# Prod                    Server: Apache
+# Major                   Server: Apache/2
+# Minor                   Server: Apache/2.0
+# Min                     Server: Apache/2.0.41
+# OS                      Server: Apache/2.0.41 (Unix)
+# Full (ou non spécifié)  Server: Apache/2.0.41 (Unix) PHP/4.2.2 MyMod/1.2 
+ServerTokens Prod
+
+# Pied de page renvoyé par le serveur 
+# utile afin de déterminer quelle est le serveur 
+# qui dans une chaîne (proxy) qui génère une erreur
+ServerSignature Off
+
+# Inclusion des fichiers, contenus dans le dossier des mods, qui sont activés
+Include /etc/apache2/mods-enabled/*.load
+Include /etc/apache2/mods-enabled/*.conf
+
+# Inclusion de l'ancien fichier de configuration de apache
+# à des fins de compatibilités ascendantes.
+Include /etc/apache2/httpd.conf
+
+# Inclusion du fichier de configuration des adresses et ports
+# sur lesquels le serveur sera à l'écoute
+Include /etc/apache2/ports.conf
+
+# Inclusion d'autres fichiers de configuration
+Include /etc/apache2/conf.d/
+
+# inclusion des configurations des sites actifs
+Include /etc/apache2/sites-enabled/
+
+# Directive des alias
+<IfModule alias_module>
+# alias des icones d'apache
+# nom de l'alias , répertoire vers lequel pointe l'alias
+    Alias /icons "/usr/share/apache2/icons/"
+    <Directory "/usr/share/apache2/icons">
+        Options None
+        AllowOverride None
+        Order allow,deny
+        Allow from all
+    </Directory>
+
+# alias pour awstats 
+    Alias /awstats-icon "/usr/share/awstats/icon"
+    ScriptAlias /awstats "/usr/lib/cgi-bin/"
+	<Directory "/usr/share/awstats/icon">
+   	     Options None
+#Indexes MultiViews
+		AllowOverride None
+		Order allow,deny
+		Allow from all
+	</Directory>
+</IfModule>
+
+# Types images d'icône
+<IfModule mod_autoindex.c>
+
+    IndexOptions FancyIndexing VersionSort HTMLTable NameWidth=*
+
+    AddIconByEncoding (CMP,/icons/compressed.gif) x-compress x-gzip
+
+    AddIconByType (TXT,/icons/text.gif) text/*
+    AddIconByType (IMG,/icons/image2.gif) image/*
+    AddIconByType (SND,/icons/sound2.gif) audio/*
+    AddIconByType (VID,/icons/movie.gif) video/*
+
+    AddIcon /icons/binary.gif .bin .exe
+    AddIcon /icons/binhex.gif .hqx
+    AddIcon /icons/tar.gif .tar
+    AddIcon /icons/world2.gif .wrl .wrl.gz .vrml .vrm .iv
+    AddIcon /icons/compressed.gif .Z .z .tgz .gz .zip
+    AddIcon /icons/a.gif .ps .ai .eps
+    AddIcon /icons/layout.gif .html .shtml .htm .pdf
+    AddIcon /icons/text.gif .txt
+    AddIcon /icons/c.gif .c
+    AddIcon /icons/p.gif .pl .py
+    AddIcon /icons/f.gif .for
+    AddIcon /icons/dvi.gif .dvi
+    AddIcon /icons/uuencoded.gif .uu
+    AddIcon /icons/script.gif .conf .sh .shar .csh .ksh .tcl
+    AddIcon /icons/tex.gif .tex
+    AddIcon /icons/bomb.gif core
+
+    AddIcon /icons/back.gif ..
+    AddIcon /icons/hand.right.gif README
+    AddIcon /icons/folder.gif ^^DIRECTORY^^
+    AddIcon /icons/blank.gif ^^BLANKICON^^
+
+ 
+    DefaultIcon /icons/unknown.gif
+
+    ReadmeName README.html
+    HeaderName HEADER.html
+
+    IndexIgnore .??* *~ *# RCS CVS *,v *,t 
+</IfModule>
+
+# Type langages
+<IfModule mod_mime.c>
+    AddType application/x-compress .Z
+    AddType application/x-gzip .gz .tgz
+
+    AddLanguage ca .ca
+    AddLanguage cs .cz .cs
+    AddLanguage da .dk
+    AddLanguage de .de
+    AddLanguage el .el
+    AddLanguage en .en
+    AddLanguage eo .eo
+    AddLanguage es .es
+    AddLanguage et .et
+    AddLanguage fr .fr
+    AddLanguage he .he
+    AddLanguage hr .hr
+    AddLanguage it .it
+    AddLanguage ja .ja
+    AddLanguage ko .ko
+    AddLanguage ltz .ltz
+    AddLanguage nl .nl
+    AddLanguage nn .nn
+    AddLanguage no .no
+    AddLanguage pl .po
+    AddLanguage pt .pt
+    AddLanguage pt-BR .pt-br
+    AddLanguage ru .ru
+    AddLanguage sv .sv
+    AddLanguage zh-CN .zh-cn
+    AddLanguage zh-TW .zh-tw
+</IfModule>
+
+# Langue prioritaire pour les pages de réponses (choisir l'ordre des langues des pages)
+<IfModule mod_negotiation.c>
+   
+    LanguagePriority fr ca cs da de el eo es et en he hr it ja ko ltz nl nn no pl pt pt-BR ru sv zh-CN zh-TW
+
+    ForceLanguagePriority Prefer Fallback
+
+</IfModule>
+
+# Type d'encodage de caractères 
+<IfModule mod_mime.c>
+    AddCharset us-ascii    .ascii .us-ascii
+    AddCharset ISO-8859-1  .iso8859-1  .latin1
+    AddCharset ISO-8859-2  .iso8859-2  .latin2 .cen
+    AddCharset ISO-8859-3  .iso8859-3  .latin3
+    AddCharset ISO-8859-4  .iso8859-4  .latin4
+    AddCharset ISO-8859-5  .iso8859-5  .cyr .iso-ru
+    AddCharset ISO-8859-6  .iso8859-6  .arb .arabic
+    AddCharset ISO-8859-7  .iso8859-7  .grk .greek
+    AddCharset ISO-8859-8  .iso8859-8  .heb .hebrew
+    AddCharset ISO-8859-9  .iso8859-9  .latin5 .trk
+    AddCharset ISO-8859-10  .iso8859-10  .latin6
+    AddCharset ISO-8859-13  .iso8859-13
+    AddCharset ISO-8859-14  .iso8859-14  .latin8
+    AddCharset ISO-8859-15  .iso8859-15  .latin9
+    AddCharset ISO-8859-16  .iso8859-16  .latin10
+    AddCharset ISO-2022-JP .iso2022-jp .jis
+    AddCharset ISO-2022-KR .iso2022-kr .kis
+    AddCharset ISO-2022-CN .iso2022-cn .cis
+    AddCharset Big5        .Big5       .big5 .b5
+    AddCharset cn-Big5     .cn-big5
+    # For russian, more than one charset is used (depends on client, mostly):
+    AddCharset WINDOWS-1251 .cp-1251   .win-1251
+    AddCharset CP866       .cp866
+    AddCharset KOI8      .koi8
+    AddCharset KOI8-E      .koi8-e
+    AddCharset KOI8-r      .koi8-r .koi8-ru
+    AddCharset KOI8-U      .koi8-u
+    AddCharset KOI8-ru     .koi8-uk .ua
+    AddCharset ISO-10646-UCS-2 .ucs2
+    AddCharset ISO-10646-UCS-4 .ucs4
+    AddCharset UTF-7       .utf7
+    AddCharset UTF-8       .utf8
+    AddCharset UTF-16      .utf16
+    AddCharset UTF-16BE    .utf16be
+    AddCharset UTF-16LE    .utf16le
+    AddCharset UTF-32      .utf32
+    AddCharset UTF-32BE    .utf32be
+    AddCharset UTF-32LE    .utf32le
+    AddCharset euc-cn      .euc-cn
+    AddCharset euc-gb      .euc-gb
+    AddCharset euc-jp      .euc-jp
+    AddCharset euc-kr      .euc-kr
+    #Not sure how euc-tw got in - IANA doesn't list it???
+    AddCharset EUC-TW      .euc-tw
+    AddCharset gb2312      .gb2312 .gb
+    AddCharset iso-10646-ucs-2 .ucs-2 .iso-10646-ucs-2
+    AddCharset iso-10646-ucs-4 .ucs-4 .iso-10646-ucs-4
+    AddCharset shift_jis   .shift_jis .sjis
+
+    AddHandler type-map var
+
+    AddType text/html .shtml
+    AddOutputFilter INCLUDES .shtml
+</IfModule>
+
+<IfModule mod_setenvif.c>   
+    BrowserMatch "Mozilla/2" nokeepalive
+    BrowserMatch "MSIE 4\.0b2;" nokeepalive downgrade-1.0 force-response-1.0
+    BrowserMatch "RealPlayer 4\.0" force-response-1.0
+    BrowserMatch "Java/1\.0" force-response-1.0
+    BrowserMatch "JDK/1\.0" force-response-1.0
+
+    BrowserMatch "Microsoft Data Access Internet Publishing Provider" redirect-carefully
+    BrowserMatch "MS FrontPage" redirect-carefully
+    BrowserMatch "^WebDrive" redirect-carefully
+    BrowserMatch "^WebDAVFS/1.[012]" redirect-carefully
+    BrowserMatch "^gnome-vfs/1.0" redirect-carefully
+    BrowserMatch "^XML Spy" redirect-carefully
+    BrowserMatch "^Dreamweaver-WebDAV-SCM1" redirect-carefully
+</IfModule>
+
+# module d'information sur le statut du serveur
+<IfModule mod_status.c>
+    <Location /server-status>
+        SetHandler server-status
+        Order deny,allow
+        Deny from all
+        Allow from 127.0.0.1
+    </Location>
+</IfModule>
+
+# module des informations du serveur
+<IfModule mod_info.c>
+    <Location /server-info>
+        SetHandler server-info
+        Order deny,allow
+        Deny from all
+        Allow from 127.0.0.1
+    </Location>
+</IfModule>
+
+</code>
+
+==== sites-available ====
+
+Ce fichier contient les différents **vhosts**((Un vhost signifie //Virtual Host// ; //Hôte Virtuel//.)) que vous utiliserez. Ils vous permettent de **définir plusieurs sites** sur une même machine,\\
+le plus souvent des sous-domaines (**www**.domain.tld, **machin**.domain.tld...), mais aussi d'autres domaines (**domain**.tld, **autredomain**.tld...).\\
+<note note>Si vous voulez utiliser plusieurs hôtes virtuels voir [[:tutoriel:virtualhosts_avec_apache2|virtualhosts_avec_apache2]]</note>
+[[:tutoriel:comment_editer_un_fichier|Éditez le fichier]] **/etc/apache2/sites-available/default** (le seul vhost existant pour le moment).
+
+<code apache>
+# NameVirtualHost définit les IPs à utiliser par apache,
+# * signifie qu'on utilise n'importe quel IP pour accéder au serveur
+# 127.0.0.1 (boucle locale), 192.168.x.x (ip reseau local), ou une IP externe.
+# Cette directive est en dehors du Vhost, on pourrait donc la déplacer dans apache2.conf.
+# Dans tous les cas, si elle est définie à * , elle ne doit pas être reprise dans les autres vhosts.
+NameVirtualHost *:80
+
+# Le vhost proprement dit : il est compris dans un bloc <VirtualHost>,
+# Ces blocs définissent la "portée" de la validité des directives qui y sont définies.
+# Le * derrière VirtualHost définit ici que le vhost est valable pour toutes les IP sur lesquelles apache écoute.
+<VirtualHost domain.tld:80>
+# ServerName définit le nom utilisé pour le vhost. Mettez le nom de l'hôte du domaine
+ServerName www.domain.tld
+# ServerAlias définit les autres sous-domaines pour lesquels le serveur répondra.
+ServerAlias domain.tld *.domain.tld
+# ServerAdmin vous permet de spécifier un email à utiliser en cas de problème, sur une page d'erreur 404 par exemple.
+ServerAdmin administrateur.web@domain.tld
+# DocumentRoot définit le dossier racine dans lequel seront stockés les fichiers du site.
+DocumentRoot /var/www/htdocs
+        # Directory définit les options par défaut du répertoire
+	<Directory /var/www/htdocs>
+                # Active les options :
+                # FollowSymLinks permet de suivre les liens symboliques.
+                # Indexes autorise le listage de fichiers d'un répertoire qui ne contient pas d'index.
+		Options Indexes FollowSymLinks MultiViews
+                # AllowOverride permet de surcharger certaines options en utilisant des fichiers .htaccess dans le répertoire du site.
+		AllowOverride None
+                # Droits par defaut
+		Order allow,deny
+		allow from all
+		# permet de rediriger les requêtes vers un fichier d'index précis 
+		RedirectMatch ^/$ /index.php
+	</Directory>
+
+	ErrorLog /var/log/apache2/error.domain.tld.log
+	CustomLog /var/log/apache2/access.domain.tld.log combined
+</VirtualHost>
+
+</code>
+
+Enregistrez les changements sous un autre nom (ex: nomduvhost).
+
+Supprimer l'ancien lien symbolique de la configuration d'origine
+
+<code>sudo a2dissite default</code>
+
+Il faut maintenant **activer le vhost**. Pour cela il faut créer un **lien symbolique** du fichier **de sites-available/ vers sites-enabled/**.\\
+En utilisant :
+
+<code>sudo a2ensite nomduvhost</code>
+
+<note note>
+**a2dissite** : Apache2 Disable Site\\
+**a2ensite** : Apache2 Enable Site
+</note> 
+Cette méthode du lien symbolique permet de réaliser rapidement des changements dans la configuration d'apache.
+
+[[:tutoriel:comment_editer_un_fichier|Éditez le fichier]] **/etc/hosts** et modifier la ligne avec nomduvhost le ServerName que vous avez choisi :
+
+<file>127.0.0.1 localhost nomduvhost</file>
+
+Cela permettra à votre système de faire la correspondance entre le nom de l'hôte et votre machine locale.
+
+Notez que sous Debian/Ubuntu 2 les pages a utiliser comme index sont spécifiées dans le module dir (mods-available/dir.conf).
+
+== Activer les scripts CGI ====
+
+Pour ce faire, rien de plus simple, ajoutez les lignes suivantes à votre "apache2.conf" :
+
+<code>ScriptAlias /cgi-bin/ /var/www/votre_site/cgi-bin/
+	<Directory /var/www/votre_site/cgi-bin/>
+	Options ExecCGI
+	AddHandler cgi-script cgi pl py
+	</Directory>
+</code>
+==== Sécuriser Apache  ====
+
+  *  [[tutoriel/securiser_apache2_avec_ssl|Sécuriser Apache2 avec SSL]]
+  *  Voir la documentation [[http://www.cgsecurity.org/Articles/apache.html]]
+
+=== Sécurité des pages ===
+ Afin de modifier les pages nous allons créer un utilisateur **webadmin** le seul à pouvoir en créer, en supprimer et en modifier.\\
+ En faisant de webadmin le propriétaire et de www-data le groupe, tous les autres utilisateurs du système ne pourront accéder aux fichiers grâce aux droits appliqués ensuite.\\
+Nous interdirons à apache2 de modifier les pages en autorisant seulement la lecture au groupe www-data (l'utilisateur sous lequel tourne apache et qui est aussi son groupe), et en donnant tous les droits au propriétaire.\\
+
+__Création de l'utilisateur webadmin:__
+<code>sudo adduser webadmin</code>
+__Modification des propriétaires de tous les fichiers et dossiers du répertoire :__
+<code>sudo chown -Rf webadmin:www-data /var/www</code>
+__RÉPERTOIRES lecture et exécution pour le group www-data et écriture pour le propriétaire 750 :__
+<code>sudo find /var/www -type d -exec chmod 750 {} \;</code>
+__FICHIERS lecture pour www-data et creation pour le propriétaire 640 :__
+<code>sudo find  /var/www -type f -exec chmod 640 {} \;</code>
+alternativement, pour modifier les droits (mais pas les propriétaires), il est possible d'utiliser les deux commandes suivantes:
+<code>sudo chmod -R 644 /var/www</code>
+l'interet est de ne pas lancer une multitude de commandes pour changer les droits (find lance la commande à chaque fois qu'il trouve un fichier correspondant)
+qui a pour effet de mettre le propriétaire comme étant le seul avec droit de lecture et
+<code> sudo chmod a+X /var/www</code>
+qui ajoute le droit x aux dossiers uniquement (droit de traverser)
+
+=== Pare-Feu ===
+__Sachant que  :__\\
+  - HTTP est un protocole utilisant TCP,
+  - Le **serveur reçoit** sur le port **80** ou **443**  ( si SSL est utilisé [[tutoriel/securiser_apache2_avec_ssl|Sécuriser Apache2 avec SSL]] ) les requêtes, venant d'un port **supérieur à 1024 inclus**, d'**un client**,
+   - Qu'il **répond** à ces requêtes sur ces **même ports vers les même ports**.\\
+
+Nous allons pouvoir construire les règle de base qui autorise les entrées et la sortie du serveur vers ces ports.
+
+__Le serveur est :__\\
+  * connecté directement à internet :
+<code>
+ext_if="eth0"
+srv_www_ip="SRV_WWW.INTERNET.IP.NUMBER"
+# iptables -[A:ajoute] -[i:interface d'entree|o:interface de sortie] if_interface -[s:source] ip
+--[sport:port source] port -[d|destination] ip --[dport:destination port] port -J [ACCEPT:accepter|REJECT:rejeter]
+iptables -A INPUT  -p tcp -i $ext_if --sport 1024: -d $srv_www_ip --dport 80, 443 -J ACCEPT
+iptables -A OUTPUT -p tcp -o $ext_if -s $srv_www_ip --sport 80,443 -d --dport 1024: -J ACCEPT
+done
+</code>
+
+  * sur le réseau local :
+
+Le mode **forwarding** et les règles **NAT** doivent être activées. 
+
+<code>
+ext_if="eth0"
+srv_www_ip_local="SRV.local.IP.address"
+
+iptables –I PREROUTING –t nat –p tcp –i $ext_if –s -–dport 80 –j DNAT –to $srv_www_ip_local:80
+iptables –I PREROUTING –t nat –p tcp –i $ext_if -–dport 443 –j DNAT –to $srv_www_ip_local:443
+iptables –I FORWARD –p tcp –i $ext_if –d $srv_www_ip_local –-dport 80 –j ACCEPT
+iptables –I FORWARD –p tcp –i $ext_if –d $srv_www_ip_local –-dport 443 –j ACCEPT
+
+</code>
+
+
+
+
+===== Utilisation =====
+<code>sudo service apache2 start | stop | restart | status </code>
+
+Il existe des interfaces graphiques pour utiliser Apache. De la plus simple à la plus complète : [[https://launchpad.net/localhost-indicator|localhost-indicator]] FIXME cassé et [[https://launchpad.net/rapache|rapache]] 
+
+==== Erreur au démarrage ====
+
+Au démarrage d'Apache, il est possible que celui-ci ne soit pas capable de déterminer un nom de domaine. Ce message sera affiché dans le terminal :
+
+>Could not reliably determine the server's fully qualified domain name, using 127.0.1.1 for ServerName
+
+Pour corriger l'erreur :
+=== Première solution ===
+On doit [[:tutoriel:comment_modifier_un_fichier|éditer le fichier]] **/etc/apache2/apache2.conf**
+
+Par défaut ce fichier est vide, il faut donc ajouter la ligne suivante:
+
+<code>ServerName localhost</code>
+
+<note tip>On peut l'écrire aussi directement à la fin du fichier **/etc/apache2/apache2.conf** si ça ne marche vraiment pas (ce qui a été mon cas).</note>
+
+On enregistre, on quitte et on redémarre Apache :
+
+=== Deuxième solution ===
+On doit [[:tutoriel:comment_modifier_un_fichier|éditer le fichier]] **/etc/hosts**
+
+Sur la première ligne, on trouve habituellement ça :
+<code>127.0.0.1         localhost</code>
+
+Comme Apache2 ne sait pas extrapoler, il faut la modifier ainsi :
+<code>127.0.0.1         localhost.localdomain localhost</code>
+
+Vous pouvez toujours mettre le nom réel de votre serveur, mais toujours sous un format [[http://fr.wikipedia.org/wiki/Fully_qualified_domain_name|FQDN]]
+
+<code>127.0.0.1        Mon_Super_Serveur.maison localhost</code>
+//Le nom doit correspondre avec celui contenu dans /etc/hostname//
+==== Redémarrer Apache2 ====
+
+<code>
+sudo /etc/init.d/apache2 restart
+</code>
+ou
+<code>
+sudo service apache2 restart
+</code>
+
+Il est aussi possible de redémarrer apache2 sans "tuer" les requêtes en cours :
+<code>apache2ctl graceful</code>
+Cette solution est plus élégante sur un serveur en production.\\
+
+Nous pouvons maintenant passer à la phase de vérification.\\
+
+S'il y a des messages d'erreurs regarder les fichiers suivants :\\
+<code>
+tail -f /var/log/syslog
+tail -f /var/log/apache2/access.log
+tail -f /var/log/apache2/error.log
+</code>
+
+==== Activer les fichiers .htaccess ====
+
+Les .htaccess permettent de créer des zones administrateur protégées très facilement ou aussi d'activer des configurations de façon localisées pour des serveurs auxquels vous n'avez pas accès au fichier de configuration principale.
+
+[[:tutoriel:comment_editer_un_fichier|éditez le fichier]] /etc/apache2/sites-enabled/000-default
+
+<note tip>Vous pouvez aussi éditer /etc/apache2/apache2.conf plutôt que d'utiliser des fichiers .htaccess (ne pas les activer par conséquent), ce qui est d'ailleurs préférable \\
+__Selon la doc Apache :__
+//En général, vous ne devriez jamais utiliser les fichiers .htaccess à moins que vous n'ayez pas accès au fichier principal de configuration du serveur. Il y a, par exemple, une conception erronée qui prévaut selon laquelle les droits des utilisateurs doivent toujours être gérés dans le fichier .htaccess. Cela n'est simplement pas le cas. Vous pouvez placer les configurations des droits dans la configuration principale du serveur, et cela est, **en fait**, la manière favorisée de le faire.//
+
+//"In general, you should never use .htaccess files unless you don't have access to the main server configuration file. There is, for example, a prevailing misconception that user authentication should always be done in .htaccess files. This is simply not the case. You can put user authentication configurations in the main server configuration, and this is, in fact, the preferred way to do things.\\
+.htaccess files should be used in a case where the content providers need to make configuration changes to the server on a per-directory basis, but do not have root access on the server system."// cf: [[http://httpd.apache.org/docs/2.2/howto/htaccess.html#when]]
+ </note>
+
+Ajoutez ces lignes à la fin du fichier :
+<code>
+<Directory /var/www/le_rep_ou_vous_voulez_activer_le_.htaccess>
+    AllowOverride all
+</Directory>
+</code>
+
+[[:apache2#redemarrer_apache2 | Redémarrer ensuite apache]] et les .htaccess sont activés
+
+Si vous souhaitez autoriser les fichiers .htaccess partout (et pas uniquement dans un unique répertoire) il vous faudra remplacer "AllowOverride none" par "AllowOverride All" entre les balises <Directory />…</Directory> et <Directory /var/www/>…</Directory> du fichier /etc/apache2/sites-enabled/000-default.
+
+<note>**Dossier invisible** : pour activer PHP 5 sur les hébergements Free.fr, un fichier .htaccess contenant "php 1" est nécessaire; la présence de celui-ci a pour conséquence de rendre le dossier conteneur invisible sous Apache.</note>
+
+===== Modules =====
+
+Il est possible d'ajouter des modules à apache, ajoutant des fonctionnalités à votre serveur web.
+Tous les modules sont répertoriés ici : /etc/apache2/mods-available
+==== Activer l'URL rewriting ====
+
+Chargez le module rewrite :
+<code>a2enmod rewrite</code>
+
+Ensuite, deux possibilités s'offrent à vous suivant vos capacités de gestion de votre serveur :
+  * **pour un serveur mutualisé par exemple** : placer  un fichier .htaccess avec des règles de rewriting à la racine de votre site. Pour cela les fichiers .htaccess doivent être autorisés : [[:apache2#activer_les_fichiers_.htaccess | Activer les fichiers .htaccess]]
+  * **pour un serveur dédié ou un serveur personnel** (sur votre propre distribution) il est conseillé d'ajouter les règles de rewriting directement dans le fichier de configuration d'Apache2 : /etc/apache2/apache2.conf en recopiant les lignes suivantes à la fin dudit fichier.
+
+
+Un petit exemple :
+
+<code>
+Options +FollowSymlinks
+RewriteEngine on
+
+# Lorsque l'on tape dans la barre d'adresse www.votre_domaine.net/page-1 c'est la page www.votre_domaine.net/page.php?id=1 qui s'affiche
+# [L]=[last] signifie que si cette règle s'applique on n'en cherche pas d'autre
+RewriteRule ^page-1$ /page.php?id=1 [L]
+
+</code>
+
+Encore mieux avec les expressions régulières : 
+
+<code>
+Options +FollowSymlinks
+RewriteEngine on
+
+# Lorsque l'on tape dans la barre d'adresse www.votre_domaine.net/page-* c'est la page www.votre_domaine.net/page.php?id=* qui s'affiche
+# ^ et $ signifie respectivement le début et la fin d'une expression régulière
+RewriteRule ^page-([0-9]+)$ /page.php?id=$1 [L]
+
+</code>
+
+====Mod_bw - Limiter la bande passante====
+
+Il existe un module compatible avec apache2 permettant de limiter la bande passante.
+
+**Installation du module :** 
+[[apt>libapache2-mod-bw]]
+
+**Charger le module bandwidth :** 
+   sudo a2enmod bw
+
+**Configuration du module :**
+
+Pour cela il faut ajouter quelques lignes dans les Vhost de vos domaines :
+
+   cd /etc/apache2/sites-enabled
+
+   sudo vim votredomaine.tls.conf
+
+Juste avant //</VirtualHost>//, ajouter :
+
+  * Limiter tous les utilisateurs à 10Kb/s :
+
+   BandwidthModule On
+   ForceBandWidthModule On
+   Bandwidth all 10240
+
+  * Limiter tous les utilisateurs à 50Kb/s pour les fichiers supérieurs à 8000Kb :
+
+   BandwidthModule On
+   ForceBandWidthModule On
+   LargeFileLimit * 8000 50000
+
+  * Limiter les fichiers .avi et .mpg à 20Kb/s :
+
+   BandwidthModule On
+   ForceBandWidthModule On
+   LargeFileLimit .avi 1 20000
+   LargeFileLimit .mpg 1 20000
+
+**Redémarrer Apache2**
+
+   sudo /etc/init.d/apache2 restart
+
+====Mod_deflate - Compression gzip====
+
+Le mod_deflate sur apache2 permet de gagner en rapidité et en bande passante grâce à la compression des données qui transitent entre le serveur et les clients. La compression utilisée est gzip. L'installation ci-dessous permet de compresser les fichiers texte (html, css,...).
+
+**Activation des modules deflate et headers : ** 
+
+   sudo a2enmod headers
+   sudo a2enmod deflate
+
+**Configuration de deflate : **
+
+Créez ou modifiez le fichier /etc/apache2/conf.d/mod_deflate.conf et ajoutez-y :
+
+   <Location />
+   # Insérer le filtre
+   SetOutputFilter DEFLATE
+   # Netscape 4.x rencontre quelques problèmes...
+   BrowserMatch ^Mozilla/4 gzip-only-text/html
+   # Netscape 4.06-4.08 rencontre encore plus de problèmes
+   BrowserMatch ^Mozilla/4\.0[678] no-gzip
+   # MSIE se fait passer pour Netscape, mais tout va bien
+   BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+   # Ne pas compresser les images
+   SetEnvIfNoCase Request_URI \
+   \.(?:gif|jpe?g|png)$ no-gzip dont-vary
+   # S'assurer que les serveurs mandataires délivrent le bon contenu
+   Header append Vary User-Agent env=!dont-vary
+   </Location> 
+
+**Redémarrage de apache2:**
+   sudo /etc/init.d/apache2 restart
+
+Les pages seront compressées quand le client le supporte.
+
+<note tip>Si un message d'erreur de ce type apparaît :
+
+apache2: Could not reliably determine the server's fully qualified domain name, using 127.0.1.1 for ServerName.
+
+Voir [[apache2?&#erreur_au_demarrage|ici]] </note>
+==== mod_userdir gérer les dossiers utilisateur ====
+Cette partie est déjà documentée sur [[:xampp#modifier_le_dossier_racine_du_serveur_apache|la page xampp]] mais reprenons le ici.
+
+Certaines personnes aimeraient faire en sorte à ce que chaque utilisateur du serveur puisse avoir son site web perso.\\
+Ce site peut être accessible par : http://mondomaine.com/~nom_du_user
+<note> dans la plupart des cas c'est http://localhost/~nom_du_user</note>
+
+
+=== Permettre à chaque utilisateur d'avoir son propre site dans public_html ===
+
+Créer un répertoire public_html et lui donner les droits de lecture et d'exécution
+<code>
+mkdir ~/public_html
+echo '<?php echo "PHP est actif dans votre public_html"; ?>' > ~/public_html/index.php
+chmod -R 755 ~/public_html
+</code>
+
+===Activer l'exécution en php pour le module userdir (à partir de Ubuntu 10.04 (Lucid)) ===
+Editer /etc/apache2/mods-enabled/php5.conf et commenter les lignes correspondantes (avec ##) dans le fichier php5.conf qui se trouve dans /etc/apache2/mods-enabled.
+
+<file>
+<FilesMatch ".+\.ph(p[345]?|t|tml)$">
+    SetHandler application/x-httpd-php
+</FilesMatch>
+<FilesMatch ".+\.phps$">
+    SetHandler application/x-httpd-php-source
+    # Deny access to raw php sources by default
+    # To re-enable it's recommended to enable access to the files
+    # only in specific virtual host or directory
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+# Deny access to files without filename (e.g. '.php')
+<FilesMatch "^\.ph(p[345]?|t|tml|ps)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+# Running PHP scripts in user directories is disabled by default
+# 
+# To re-enable PHP in user directories comment the following lines
+# (from <IfModule ...> to </IfModule>.) Do NOT set it to On as it
+# prevents .htaccess files from disabling it.
+##<IfModule mod_userdir.c>
+##    <Directory /home/*/public_html>
+##        php_admin_flag engine Off
+##    </Directory>
+##</IfModule>
+</file>
+
+== (Pour mémoire)  Ancienne version de php5.conf ==
+<file>
+<IfModule mod_php5.c>
+    <FilesMatch "\.ph(p3?|tml)$">
+	SetHandler application/x-httpd-php
+    </FilesMatch>
+    <FilesMatch "\.phps$">
+	SetHandler application/x-httpd-php-source
+    </FilesMatch>
+    # To re-enable php in user directories comment the following lines
+    # (from <IfModule ...> to </IfModule>.) Do NOT set it to On as it
+    # prevents .htaccess files from disabling it.
+    ##<IfModule mod_userdir.c>
+    ##      <Directory /home/*/public_html>
+    ##        php_admin_value engine Off
+    ##     </Directory>
+    ##</IfModule>
+</IfModule>
+</file>
+
+===Optionnel : Personnaliser votre répertoire de site ===
+ 
+Il est possible de changer le dossier par défaut (public_html) de votre site par un autre répertoire.
+
+==Éditer le fichier de configuration de userdir ==
+
+Modifier la variable <<UserDir public_html>> dans le fichier /etc/apache2/mods-available/userdir.conf :
+<file><IfModule mod_userdir.c>
+	UserDir public_html
+	UserDir disabled root
+
+	<Directory /home/*/public_html>
+		AllowOverride FileInfo AuthConfig Limit Indexes
+		Options MultiViews Indexes SymLinksIfOwnerMatch IncludesNoExec
+		<Limit GET POST OPTIONS>
+			Require all granted
+		</Limit>
+		<LimitExcept GET POST OPTIONS>
+			Require all denied
+		</LimitExcept>
+	</Directory>
+</IfModule>
+
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
+</file>
+
+===Activer le module userdir===
+<code>
+sudo a2enmod userdir
+sudo /etc/init.d/apache2 reload
+</code>
+
+Dans le navigateur web rendez-vous à l'adresse http://127.0.0.1/~nom_du_user et vérifier que le message <<//PHP est actif dans votre public_htm//>> s'affiche.
+
+
+==== mod_proxy ou comment rediriger certains domaines vers certaines machines ====
+
+Mon problème était le suivant :
+
+**routeur :**
+  * renvoi du port 80 sur la machine 192.168.0.10
+
+**machine 192.168.0.10 :**
+  * virtualhosts renvoyant vers plusieurs dossiers
+  * toto.mondomaine.com va vers /home/toto/www
+  * titi.mondomaine.com va vers /home/titi/www
+  * etc...
+  * et 000-default va vers /var/www
+
+**machine 192.168.0.11 :**
+  * virtualhosts renvoyant vers plusieurs dossiers
+  * tata.mondomaine.com va vers /home/tata/www
+  * tutu.mondomaine.com va vers /home/tutu/www
+  * etc...
+  * et 000-default va vers /var/www
+
+Sauf que si on met http://tata.mondomaine.com dans son navigateur on se retrouve avec le site par defaut de 192.168.0.10....
+
+Donc, il faut appeller mod_proxy à la rescousse.
+
+sur 192.168.0.10 :
+activer le module proxy avec :
+  a2enmod proxy
+créer un virtualhost /etc/apache2/sites-available/tata.mondomaine.com qui contient :
+
+  <VirtualHost 192.168.0.10:80>
+          ProxyRequests Off
+          ProxyPreservehost on
+          ServerName tata.mondomaine.com
+          ProxyPass  / http://192.168.0.11/
+          ProxyPassReverse / http://192.168.0.11/
+          <Proxy>
+              Order Allow,Deny
+              Allow from all
+          </Proxy>
+  </VirtualHost>
+
+Activer ce fichier :
+  sudo a2ensite tata.mondomaine.com
+
+Redémarrer apache
+
+Et c'est tout :)
+
+Si ca veut pas, activer aussi les modules proxy_http et proxy_connect
+
+bien sûr on peut rajouter dans /etc/hosts:
+  192.168.0.11 tata.mondomaine.com
+
+comme ça, dans ProxyPass et ProxyPassReverse on peut utiliser les noms de domaine à la place des adresses
+
+et comme c'est un proxy, beaucoup d'autres options sont envisageables mais je n'irai pas plus loin pour aujourd'hui.
+
+===== Optimiser votre serveur apache2 =====
+
+Il est possible d'optimiser votre serveur apache.
+
+====Accélérateurs PHP====
+
+Permet de mettre en cache le code PHP déjà compilé. Ceci évitera de recompiler les fichiers PHP à chaque fois, ce qui augmente de façon considérable les performances de votre serveur et donc de vos sites.
+
+__**Voici un comparatif de ce qui existe actuellement :**__
+
+[[http://dotclear.placeoweb.com/post/PHP-accelerator-cache]]
+
+=== XCache ===
+
+Plus moderne et a été réécrit de zéro récemment. Il assure un meilleur support des versions récentes de PHP, au contraire des anciens eaccelerator and co.
+
+[[:xcache]]
+
+=== eAccelerator ===
+
+[[:eaccelerator]]
+
+
+===== Empêcher le démarrage automatique d'apache =====
+<note warning> Méthode déconseillée pour un serveur en production ! </note>
+
+<note>Dans le cas d'un ordinateur de bureau, **apache** est souvent utilisé de façon occasionnelle pour développer et tester en local.
+
+Pour les amoureux de l'écologie c'est de l'énergie gaspillée sans raison valable. 
+
+Pour les machines à faibles ressources, apache diminue la vitesse de démarrage  
+
+Autant de raisons valables pour démarrer manuelle apache quand nous en avons besoin et enlever le <<[[https://fr.wikipedia.org/wiki/Daemon_%28informatique%29|daemon]]>>/service de démarrage automatique ! </note>
+
+==== Modifier le service apache avec upstart ====
+Se reporter à l'exemple : [[upstart#utilisation|Upstart]]
+
+==== 
+==== Restaurer le démarrage automatique d'apache avec update-rc.d ====
+
+<code> user@PCMachine:~$ sudo update-rc.d apache2 default </code>
+
+
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de :\\
+  * [[:tutoriel:comment_supprimer_un_paquet|supprimer les paquets]]. Vous devez supprimer tous les paquets que vous avez installés. La configuration de l'application sera conservée ou supprimée selon la méthode de désinstallation que vous choisirez ('sudo apt-get purge [paquet]' pour virer les configs et les fichiers, 'sudo apt-get remove [paquet]' pour garder la config.)\\
+
+===== Liens utiles =====
+
+   * (en) [[http://apache.org/|Site officiel Projets Apache]]
+   * [[http://httpd.apache.org/docs/|Documentation Apache]]
+   * [[tutoriel/securiser_apache2_avec_ssl]]
+   * [[lamp |installer un serveur LAMP]]
+   * [[lamp_plus|serveur LAMP aller plus loin]]
+   * (fr) [[http://www.it-connect.fr/tutoriels/serveur-web/apache/|Plusieurs tutoriels sur la configuration d'Apache sur IT-Connect]]
+   * (fr) [[http://documentation.online.net/fr/serveur-dedie/tutoriel/installation-solution-lamp_apache-php-mysql]]
+   
+
+----
+// Contributeurs : [[:utilisateurs:benje]], [[:utilisateurs:Pepou06]], [[:utilisateurs:Oxossi]], [[:utilisateurs:Karting06]], [[:utilisateurs:albanmartel]]. //

@@ -1,0 +1,119 @@
+{{tag>jabber serveur réseau BROUILLON vétuste}}
+
+----
+
+====== Openfire ======
+
+{{ http://www.igniterealtime.org/fans/logo-openfire.png?300x100 }}
+
+ Openfire est un serveur [[wpfr>jabber|Jabber]] libre et écrit en [[java|Java]]. Totalement administrable depuis une interface web, il est simple d'accès et dispose de greffons très intéressants. Cependant, il n'est pas directement disponible dans les dépôts et demande donc d'installer le [[http://www.igniterealtime.org/downloads/index.jsp|paquet deb fournit]] par [[http://www.jivesoftware.com/|Jive]]. D'autre part, s'il semble possible de compiler Openfire avec [[wpfr>openJDK|l'implémentation libre (openJdk)]] de Java, le paquet deb requière l'implémentation propriétaire.
+
+===== Installation =====
+==== Pré-requis ====
+
+On commence par installer [[apt>sun-java6-bin|Java]]
+
+<code bash>sudo apt-get install sun-java6-bin</code>
+
+<note important>
+
+Sous Maverick
+
+   sudo gksu /usr/bin/software-properties-gtk
+
+Puis pour installer Java6
+
+   sudo apt-get install sun-java6-jre
+</note>
+
+=== Avec MySQL ===
+
+Bien que cela ne soit pas nécessaire, Openfire peut fonctionner avec [[mysql|MySQL]] comme base de données. Si ce n'est pas fait, installer [[apt>mysql-server|MySQL]] :
+
+<code bash>sudo apt-get install mysql-server</code>
+
+puis on se connecte 
+
+  mysql -u <votre login en général root> -p
+
+et l'on crée la base de données 
+
+  CREATE DATABASE openfire;
+  
+suivie de l'utilisateur,
+
+  CREATE user "openfire"@"localhost";
+
+de son mot de passe,
+
+  SET password FOR "openfire"@"localhost" = password("<votre mot de passe>");
+
+et des droits sur la base de données :
+
+  GRANT ALL ON openfire.* TO openfire@localhost;
+
+==== Openfire en soi ====
+
+Il faut obtenir, en premier, le paquet binaire d'Openfire (environ 11,9Mo) :
+
+  wget http://download.igniterealtime.org/openfire/openfire_3.8.0_all.deb
+
+et enfin l'installer.
+
+<code bash>sudo dpkg -i openfire_3.8.0_all.deb</code>
+
+===== Configuration =====
+
+Afin de pouvoir connecter le serveur Openfire avec la base de données MySQL nommée "openfire", créée précédemment, vous devez importer son schéma se trouvant dans le fichier openfire_mysql.sql inclus par défaut.
+
+     $cd /usr/share/openfire/resources/database
+     $cat openfire_mysql.sql |mysql openfire -p ;
+     Enter password:                 <---votre mot de passe root Mysql
+
+La configuration se fait par l'interface web [[http://localhost:9090]]. Par défaut, il est possible d'accéder à l'interface d'administration en http sécurisé ([[https://localhost:9091]]) ou non sécurisé ([[http://localhost:9090]]). Si vous souhaitez désactiver l'une de ces deux interfaces, il suffit de définir le port comme négatif lors de la configuration. Pour le reste, il suffit de remplir [[http://wiki.jabberfr.org/Installation_du_serveur_Jabber_Openfire|les formulaires]].
+
+==== Règles du pare-feu ====
+
+La page d'accueil de la console d'administration donne l'ensemble des ports utilisés. À minima, c'est à dire pour pouvoir se connecter au serveur, à d'autres serveurs et transférer des fichiers, il faut que les ports 5222 (xmpp-client), 5223 (xmpp-serveur), 7777 (transfert de fichier) soient accessibles. Pour se faire, les règles [[iptables|Iptables]] sont les suivantes:
+
+  iptables -A INPUT -p tcp -m state --state NEW --dport 5222 -j ACCEPT
+  iptables -A INPUT -p tcp -m state --state NEW --dport 5223 -j ACCEPT
+  iptables -A INPUT -p tcp -m state --state NEW --dport 7777 -j ACCEPT #transfert de fichier
+
+Selon votre configuration, vous pouvez avoir besoin d'accéder aussi à l'interface de configuration (ici, en https sur le réseau local).
+
+  iptables -A INPUT -p tcp -m state --state NEW --dport 9091 -s 192.168.0.0/16 -j ACCEPT 
+
+==== Greffons ====
+
+Ils sont accessibles sur le dernier onglet à droite de la console d'administration. Cependant, une fois activés, ils sont répartis dans l'ensemble de la console. En particulier, la configuration des passerelles (IM gateways) est sous l'onglet "Interfaces" de la page principale. 
+
+===== Reconfigurer Openfire =====
+
+Il peut arriver que vous ayez besoin de reconfigurer votre serveur, parce que, par exemple, vous avez perdu le mot de passe d'administration. Il vous suffit pour cela de modifier le fichier **/etc/openfire/openfire.xml** en remplaçant à la fin du fichier :
+
+  <setup>true</setup> 
+
+par
+
+  <setup>false</setup>
+
+En vous reconnectant à l'interface d'administration, vous pourrez de nouveau configurer votre serveur.
+
+ ===== Désinstallation =====
+
+Il suffit de supprimer les programmes installés :
+
+<code bash>sudo apt-get remove --purge openfire</code> 
+
+Vous pouvez supprimer sun-java-bin, mysql-serveur selon votre installation
+
+===== Voir aussi =====
+
+  * Le site Ignite Realtime (en) [[http://www.igniterealtime.org/index.jsp]]
+  * Le wiki jabberfr (fr) [[http://wiki.jabberfr.org/Openfire]]
+  * Serveur de réseau social et chat libre (OpenFire et Jappix) [[http://blog.adminrezo.fr/2012/04/reseau-social-et-chat-libre-jabber-xmpp-openfire-jappix-debian/]]
+
+----
+
+//Contributeurs : [[utilisateurs:ButterflyOfFire]],//

@@ -1,0 +1,46 @@
+{{tag>graphisme}}
+
+----
+
+
+====== KolourPaint ======
+
+KolourPaint est un éditeur simple d'images sous license BSD. C'est le logiciel qui se rapproche le plus sur Linux de Microsoft Paint.
+
+{{:application:kolourpaint_karmic.png|KolourPaint}}
+
+===== Installation =====
+
+
+Il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt://kolourpaint4|kolourpaint4]]**.
+
+En ligne de commande : 
+<code> sudo apt-get install kolourpaint4 </code>
+
+=====Utilisation=====
+
+Son utilisation se veut très simple. Kolourpaint comprend tous les outils de Microsoft Paint (Sélection libre, Sélection, Gomme/Gomme couleur, Remplissage, Prélèvement d'une couleur, Zoom/Loupe, Pinceau, Brosse, Aérographe, Texte, Ligne, Courbe, Rectangle, Polygone, Ellipse, et Rectangle arrondi) ce qui le rend très pratique pour faire des dessins basiques ou de petites modifications.
+Kolourpaint possède cependant quelques fonctionnalités en plus, parmi elles :
+  * La transparence
+  * La similitude des couleurs (appelée aussi Baguette magique dans d'autres logiciels de dessin)
+  * Rogner automatiquement
+
+Tout comme sous Paint, il est possible de retourner/faire pivoter, étirer/Incliner, inverser les couleurs, modifier les attributs d'une image, dessiner opaque, modifier la teinte/saturation/luminosité.
+
+
+=====Bugs connus=====
+====Problème d'affichage sur GNOME====
+
+Voir [[http://forum.ubuntu-fr.org/viewtopic.php?id=322908|cette discussion]].
+
+Sur ubuntu 9.10 karmic, il y a parfois un soucis d'affichage, un effet "transparent" assez désagréable. Voilà la solution tout droit sortie d'un forum :
+il suffit de lancer kolourpaint avec la commande suivante :
+<code>env XLIB_SKIP_ARGB_VISUALS=1 kolourpaint %u</code>
+
+===== Voir aussi  =====
+
+  *[[http://kolourpaint.org/|Site officiel (en)]].
+
+----
+
+//Contributeurs : [[utilisateurs:YannUbuntu]], [[utilisateurs:Phendrax]]//

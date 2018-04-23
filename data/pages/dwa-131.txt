@@ -1,0 +1,52 @@
+{{tag>matériel wifi}}
+----
+
+======Carte Wifi DWA-131, "Wireless N Nano USB Adapter"======
+=====Mise au point=====
+
+Il existe trois versions de cette clé WiFi, pour connaître la votre il faut taper dans un terminal 
+
+<code>lsusb</code>
+
+__A1__ : (ID 07d1:3303)\\
+__B1__ : (ID 2001:330d)\\
+__E1__ : (ID  2001:3319)\\
+
+{{:terminal:lsusb_dlink_version.png}}
+
+
+
+
+
+
+=====Installation des pilotes=====
+====Révision A1====
+Cette version fonctionne out-of-the-box, c'est à dire qu'il suffit de la brancher pour qu'elle fonctionne directement.
+Désolé ne fonctionne plus
+====Révision B1====
+La révision B1 n'est pas stable avec les drivers installés par défaut (Wifi non détecté, connexion très lente...)
+Il faut donc installer un driver alternatif à l'aide de ces commandes : 
+
+<code>sudo apt-get install git linux-headers-generic build-essential dkms
+git clone https://github.com/pvaret/rtl8192cu-fixes.git
+sudo dkms add ./rtl8192cu-fixes
+sudo dkms install 8192cu/1.10
+echo "blacklist rtl8192cu" | sudo tee -a /etc/modprobe.d/blacklist.conf</code>
+
+Il suffit ensuite de redémarrer. (Fonctionne à partir de la version 13.10 (Testé sur la version 16.04)) 
+Marche très bien sur debian 8 testé le 8 octobre 2016
+====Révision E1====
+Pour la révision E1, vous pouvez suivre [[https://forum.ubuntu-fr.org/viewtopic.php?id=1958921|cette discussion]].
+
+A partir d'ubuntu 15.10 (voire avant, à confirmer), le plus simple est d'installer le pilote  rtl8192eu disponible sur Github à l'aide des commandes suivantes:
+
+<code>sudo apt-get install git build-essential
+git clone https://github.com/Mange/rtl8192eu-linux-driver.git
+cd rtl8192eu-linux-driver
+sudo make
+sudo make install</code>
+
+
+=====Notes=====
+-Il est très probable que networkmanager donne un indice de qualité de connexion mauvais ou moyen \\ mais ne vous y fiez pas c'est un bug.\\
+-à chaque mise à jour du noyau vous devrez répéter l'opération d'installation.

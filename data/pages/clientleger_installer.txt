@@ -1,0 +1,30 @@
+{{tag>edubuntu ltsp serveur}}
+
+
+====== Installer un serveur de clients légers ======
+
+**Niveau :** technique
+
+**Prérequis :** connexion Internet
+
+**Nota :** en ce qui concerne la distribution **Edubuntu**, l'étape décrite ici est incluse dans l'installation, mais on peut installer un serveur de clients légers à partir de Ubuntu, Kubuntu, Xubuntu...
+
+===== 1. Installer les serveurs dhcp, tftp, ssh =====
+
+  sudo apt-get install ltsp-server-standalone openssh-server 
+
+
+
+====   2. Construire l'environnement d'exécution du client léger ====
+
+//  sudo ltsp-build-client// 
+
+Ce script crée un système complet dans ''/opt/ltsp/i386'' (dans le cas le plus fréquent où les postes clients sont de type "i386" ainsi que le serveur).
+
+Dans le cas où le serveur est de type "amd64" et que les clients sont de type "i386", il faut saisir :
+
+   sudo ltsp-build-client --arch i386
+
+Attention à modifier ensuite le fichier "dhcpd.conf" en conséquence en y remplaçant les chemins "amd64" par "i386".
+
+8-)

@@ -1,0 +1,98 @@
+{{tag>jeu multimédia nds}}
+
+----
+
+======DSVidéo======
+
+<note>
+Le site du projet est mort. 
+</note>
+
+=====Présentation=====
+
+DSVidéo est un petit logiciel permettant de convertir simplement un fichier ***.avi** en ***.dsv**, format lisible par dsvideo.nds, un binaire créé pour Nintendo DS afin de supporter la lecture de vidéo plus légèrement qu'avec Moonshell.
+
+[[http://dsvideo.recoil.org/|{{dsvideo.png}}]]
+
+=====L'encodage de la vidéo=====
+
+
+====Installation====
+
+L'encodage de la vidéo va permettre de modifier le format de la vidéo (de *.avi à *.dsv), la taille de la vidéo (256x192) ainsi que leur poids/qualité (une vidéo pesant à l'origine 170Mo pèsera environ 50Mo après opération).
+
+Pour commencer, il faut aller télécharger les binaires à cette [[http://dsvideo.recoil.org/releases/dsvideo-linux-1.10.tar.gz|adresse]].
+
+Ensuite décompressez l'archive avec votre logiciel préféré.
+
+Les paquets //FFMpeg// et //TwoLAME// ont besoin d'être installé au préalable.
+
+
+====Utilisation====
+
+Enfin, après avoir choisi votre version (dsvideo.x64 pour le 64 bits, dsvideo.x86 pour le 32 bits), il vous suffira de lancer dans un terminal <code>./chemin/de/votre/binaire /votre/video</code>
+
+Après ré-encodage de la vidéo (ça prend du temps...) vous pourrez l'utiliser sur votre NDS.
+
+Voici l'aide du binaire :
+<file>DSVideo: Version 1.01  (http://dsvideo.recoil.org/)
+
+Usage:
+   dsvideo [-o output filename] input file
+
+Examples:
+   dsvideo my_movie.avi                 (normal use)
+
+   dsvideo -l my_movie.avi              (letterboxing for 16:9 videos)
+   dsvideo -n 24000 my_movie.avi        (higher quality video, larger file)
+   dsvideo -o output.dsv my_movie.avi   (write to 'output.dsv')
+
+Additional options (for more advanced use):
+   -f   max number of frames to encode: default unlimited
+   -n   minimum bitrate (bits per frame): default 12000
+   -x   maximum bitrate (bits per frame): default 70000
+   -r   scale factor for using frame complexity to allocate bits
+        higher number uses more bits per frame: default 1.5
+   -v   output statistics for each frame encoded
+   -l   letterbox video to fit DS screen: default is center cut-out
+   -w   use lower framerate (only available for 24 and 25fps input): default
+        is to use 12fps, but if -w is specified the video is encoded as 8fps
+        instead (to give a smaller video file)
+   -k   set keyframe interval in seconds.  If this is low, seeking will
+        be accurate but compression rate will suffer, if high seeking is
+        coarser but compression will be better.  Default is 5 seconds.
+   -s   use stdin for the input video
+</file>
+
+Pour avoir le film au format original, il faut mettre l'option -l
+<code>./chemin/de/votre/binaire -l /votre/video /votre/vidéo/transformée.dsv</code> mais dans le cas de vidéos avec sous-titres, ça fait un peu trop petit pour être lisible (si la vidéo est au format 16:9).
+
+Vous pouvez mettre le fichier binaire dans /usr/local/bin/ pour le lancer avec une simple commande :
+  dsvideo
+
+<code>sudo mv votre/binaire/dsvideo /usr/local/bin/dsvideo</code>
+
+Par la suite, une simple <code>dsvideo votre/video</code> suffira.
+
+=====La lecture de la vidéo=====
+
+====Installation====
+
+Étant donné qu'on parle ici de vidéos au format *.dsv, lisible sur NDS (Nintendo DS), je ne parlerai ici que de la lecture sur linker.
+
+Tout d'abord, téléchargez les binaires *.nds [[http://dsvideo.recoil.org/releases/dsvideo-1.10.zip|ici]].
+
+Choisissez le binaire *.nds de votre choix, il y a entre autre une version pour R4 (mon type de linker) qui marche fort bien.
+
+====Utilisation====
+
+Mettez le binaire sur votre linker (à la racine du linker, ça marche bien, je n'ai pas essayé ailleurs) et mettez vos vidéos où vous le souhaitez. Il vous suffira d'aller les chercher. Quelques [[http://dsvideo.recoil.org/|screenshots]] pour vous donner une idée.
+
+
+=====Liens=====
+
+[[http://dsvideo.recoil.org/|Le site de l'auteur]]
+
+----
+
+//Contributeurs : [[utilisateurs:Tamaris]]//

@@ -1,0 +1,98 @@
+{{tag>VÉTUSTE}}
+====== Etherwake ======
+
+Utiliser le **Wake-On-Lan** sous Linux.
+
+
+
+
+<note important>Ce tutoriel est obsolète et inapplicable dans la plupart des cas (page à réécrire ou à supprimer), référez vous plutôt à cette page [[wakeonlan]]</note>
+
+
+
+===== Introduction =====
+
+
+Le "Wake-on-lan" est une fonction qui permet d'allumer une machine distante. Cela peut se faire d'un PC du même réseau (wake on LAN) ou même d'internet (wake on WAN).
+
+Le Wake-On-lan utilise l'adressage MAC. si vous ne savez pas ce que c'est :
+
+Wikipédia : [[wpfr>Adresse_MAC]]
+
+
+===== Configuration =====
+
+Vous aurez besoin de plusieurs choses :
+
+  * Activer le "Wake-on LAN" dans le bios (peut parfois s'appeller "Wake on PCI")
+  * Notez l'adresse MAC de la machine souhaitée
+  * Configurer votre routeur (si vous en avez un)
+
+Je vous conseille de regarder la page :
+
+http://www.aduf.org/viewtopic.php?t=50695
+==== Freebox en mode routeur ====
+
+Je vous conseille ce tuto :
+
+<del>http://coolxp.free.fr/tutorial/freewol/freewol.htm</del>(lien expiré)
+http://paiiou.free.fr/Tuto/Net/wakeOnLAN.php
+
+A noter que sur ma Freebox (v5), il semblerait que ce soit l'adresse MAC de la freebox qui active le Wake-on-lan, et non l'adresse de la machine.
+
+Sur la Freebox Revolution, il faut activer l'option paramètres>configuration>"proxy wake on Lan", et activer la redirection du port 8 (par défaut) en UDP, vers le serveur qui se trouve derrière.
+
+===== Etherwake =====
+
+C'est ici qu'on arrive **ENFIN** à la partie un peu plus propre à Ubuntu :)
+
+[[:tutoriel:comment_installer_un_paquet|Installez donc le paquet]] [[apt://etherwake|etherwake]]
+
+
+etherwake s'utilise comme suit :
+
+<code>
+$ sudo etherwake 00:00:00:00:00:00
+</code>
+
+Où "00:00:00:00:00:00:00" sera l'adresse MAC de la machine distante.
+
+Si vous ne la connaissez pas, vous pouvez essayer la commande (machine allumée) :
+
+<code>
+arp -a
+</code>
+
+si vous utilisez une interface réseau autre que eth0, vous pouvez la spécifier à etherwake ( par exemple: eth1 )
+
+<code>
+sudo etherwake -i eth1 00:00:00:00:00:00
+</code>
+
+
+Si tout se passe bien, la machine distante sera allumée ! :)
+
+Vous pouvez maintenant créer un fichier texte avec la commande en question. Puis, rendez ce fichier exécutable. Il vous suffira de lancer ce fichier, de rentrer le mot de passe de sudo, et votre ordinateur distant sera allumé !
+
+== Obtenir une liste de commandes ==
+
+etherwake gére aussi les fonctions avancée (mot de passe...). Pour avoir une aide détaillée :
+
+<code>
+etherwake -u
+</code>
+    
+
+
+===== Liens =====
+
+  * [[:wakeonlan|Le logiciel Wakeonlan]]
+
+  * Routeur : http://www.aduf.org/viewtopic.php?t=50695
+
+  * Freebox : http://coolxp.free.fr/tutorial/freewol/freewol.htm
+
+
+**Le Wake-on-Lan (généralités) :**
+
+http://www.supinfo-projects.com/fr/2005/wake%5Fon%5Flan/

@@ -1,0 +1,69 @@
+{{tag>variante environnements GNOME}}
+
+----
+{{ :ubuntu-mate-icon.png?140|icone}}
+====== Ubuntu-MATE======
+
+**Ubuntu-MATE**, [[:variantes#variantes_reconnues|variante reconnue d'Ubuntu]] à partir de [[vivid|Vivid 15.04]], est un [[wpfr>Fork_(développement_logiciel)|fork]] de [[GNOME]] 2 (ce dernier n'étant plus maintenu, il a été retiré des dépôts).\\ **Ubuntu-MATE** permet d'utiliser une interface exactement semblable à l'ancienne interface de GNOME 2. Il utilise des paquets renommés et des applications de sorte qu'il n'entre pas en conflit avec GNOME 3 et vous pouvez avoir à la fois MATE et GNOME 3 installés dans le même temps, quelque chose qui n'est pas possible avec la version de GNOME 2.\\
+Le grand avantage de cette interface est la faible consommation de ressources (mémoire et CPU) pour une aisance d'utilisation importante.\\
+Il permet d'éviter au moins un changement brutal de ses habitudes après une migration vers une version récente d'Ubuntu ne supportant plus Gnome 2. De plus, contrairement au bureau standard d'Ubuntu, Ubuntu Mate est fourni sans publicité.
+
+|  {{mate_1.4.2_-_fr_-_a_propos.png?600|Ubuntu-MATE 15.10}} |
+^  Ubuntu-MATE [[:vivid|15.10]]  ^
+
+===== Installation=====
+==== Pré-requis ====
+  * Disposer des [[:sudo|droits d'administration]];
+  * Disposer d'une connexion à Internet configurée et activée.
+
+====En tant que système complet====
+**Ubuntu-Mate** est disponible  en tant que [[:variantes|variante]]. Pour l'installer, la procédure est similaire aux autres variantes.
+  - [[http://cdimage.ubuntu.com/ubuntu-mate/releases/|Télécharger l'image ISO UbuntuMate]];
+  - Rendez-vous sur [[:tutoriel/amorcer_sur_cd_ubuntu|le tutoriel d'installation d'Ubuntu]] et suivez les étapes.
+
+====Depuis une autre variante d'Ubuntu====
+<note>Avant d'installer MATE dans Ubuntu, veuillez noter que MATE est un [[wpfr>Fork_(développement_logiciel)|fork]] de GNOME2, de sorte qu'il ne prend pas en charge "appindicators Ubuntu" : il n'y a pas de menu Messagerie, etc...</note>
+
+Vous pouvez installer le bureau **Ubuntu-Mate**, son environnement et ses applications depuis une installation existante d'Ubuntu (ou une [[:variantes|variante]]). Cette méthode ne remplace pas votre installation existante d'Ubuntu mais la complète en installant toutes les applications (et leurs lanceurs) ainsi que l'environnement de **Ubuntu-Mate** .\\
+[[:tutoriel:comment_installer_un_paquet|Installer le méta-paquet]] **[[apt>ubuntu-mate-meta]]** (non disponible pour [[:trusty|Ubuntu Trusty 14.04]])\\
+Vous pourrez ensuite choisir votre bureau lors de la [[:lightdm|connexion à votre session]] en cliquant sur le bouton représentant le logo Ubuntu-Mate pour sélectionner **Ubuntu-Mate**.
+
+===Pour Trusty===
+Le méta-paquet nécessaire n'est pas disponible dans les [[:depots|dépôts officiels]] depuis [[:trusty|Trusty 14.04]] mais depuis un [[:ppa|dépôt PPA]].
+<note important>Installer un paquet hors des [[:depots|dépôts officiels]] peut présenter un risque d'instabilité du système.</note>
+  - [[:gestionnaire_de_mises_a_jour|Mettre à jour]] votre système;
+  - [[:ppa#ajout_d_un_ppa_a_vos_sources_logicielles|Ajoutez à vos sources de logiciels le PPA]] suivant : **ppa:ubuntu-mate-dev/ppa**((https://launchpad.net/~ubuntu-mate-dev/+archive/ubuntu/ppa));
+  -  [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|recharger la liste des paquets]],
+  - [[:tutoriel:comment_installer_un_paquet|installer le meta-paquet]] **[[apt>ubuntu-mate-meta]]**.
+Ou, dans un [[:terminal]], saisir les [[:commande_shell|commandes]] (pour trusty): <code>sudo apt-add-repository ppa:ubuntu-mate-dev/ppa
+sudo apt-add-repository ppa:ubuntu-mate-dev/trusty-mate
+sudo apt-get update && sudo apt-get upgrade
+sudo apt-get install --no-install-recommends ubuntu-mate-core ubuntu-mate-desktop</code>
+
+Vous pourrez ensuite choisir votre bureau lors de la [[:lightdm|connexion à votre session]] en cliquant sur le bouton représentant le logo Ubuntu-Mate pour sélectionner **Ubuntu-Mate**.
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés. Désinstaller les applications propres à **Ubuntu-Mate**.\\
+Vous pouvez également [[:ppa#suppression_d_un_ppa_sans_desinstaller_les_paquets_du_ppa|retirer ce dépôt des sources de vos logiciels]] si vous l'aviez utilisé.
+
+
+===== Correspondance logicielles  =====
+Pour permettre une cohabitation avec GNOME 3, les paquets suivants ont été renommés :
+^ Éditeur de texte | [[gedit|Gedit]] => | Pluma|
+^ Émulateur de terminal | GNOME Terminal => | MATE Terminal|
+^ Gestionnaire d'archives | [[file-roller|File Roller]] => | Engrampa|
+^ Gestionnaire de fichiers | [[nautilus|Nautilus]] => | Caja|
+^ Visionneuse de documents | [[evince|Evince]] => | Atril|
+^ Visionneuse d'images | [[eog|Eye of GNOME]] => | Eye of Mate|
+
+===== Voir aussi =====
+   *[[:tutoriel:personnaliser_mate| Personnaliser MATE]]
+   * **(fr)** [[http://www.mate-desktop.org/fr/ |Site officiel français: L'environnement de bureau MATE]]
+   * **(en)** [[http://wiki.mate-desktop.org/download#ubuntu|Site officiel]]
+   * **[[wpfr>MATE]]** sur Wikipédia
+   * **(fr)** [[http://cubuntu.fr/ |Cubuntu version remastérisé d'Ubuntu en 14.04 & 14.10 Utopic avec **Mate** 1.8.1 & ** Cinnamon**]]
+
+----
+
+// Contributeurs: //

@@ -1,0 +1,56 @@
+
+<a name="installation"></a><h3>Installation</h3>
+<div class="level3">
+
+<p>
+ Lors de l&rsquo;installation, l&rsquo;imprimante/scanner HP PSC 1215 all-in-one n&rsquo;a pas été detectée automatiquement. L&rsquo;installation de l&rsquo;imprimante se fait bien via le Centre de configuration de KDE (je suis sous Kubuntu). En revanche, pour la configuration  du scanner, il faut installer manuellement <code>hpoj</code> et <code>sane</code> lancer <code>sane-find-scanner</code>, arrêter puis démarrer le scanner puis lancer <code>sudo /etc/init.d/hpoj setup</code>. Ça y est, vous pouvez utiliser le scanner dans Kooka :) 
+</p>
+<pre class="code">$ sudo apt-get install hpoj sane
+$ sane-find-scanner</pre>
+
+<p>
+ Démarrer l&rsquo;imprimante/scanner. 
+</p>
+<pre class="code">$ sudo /etc/init.d/hpoj setup</pre>
+
+</div>
+<!-- SECTION [1-629] -->
+<a name="problemes"></a><h3>Problèmes</h3>
+<div class="level3">
+
+</div>
+
+<a name="lors_de_l_installation"></a><h4>Lors de l'installation</h4>
+<div class="level4">
+
+<p>
+Le gestionnaire des imprimantes dans le &ldquo;Centre de configuration de KDE&rdquo; ne prend pas en compte les paramètres de localisation lors de l&rsquo;ajout de l&rsquo;imprimante : il faut penser à changer la taille du papier de <em>letter</em> à <em>A4</em> lorsque l&rsquo;option configuration apparaît (Hoary).
+</p>
+
+</div>
+
+<a name="lors_de_l_utilisation"></a><h4>Lors de l'utilisation</h4>
+<div class="level4">
+
+<p>
+Par la suite, des problèmes peuvent apparaître : les tâches ne sont plus imprimées  et sont uniquement mise en file d&rsquo;attente dans KJobViewer. Redémarrer les serveurs Cups, Hpijs, Hpoj, la détection d&rsquo;imprimante, l&rsquo;imprimante ou l&rsquo;ordinateur ne règle pas le problème.
+</p>
+
+<p>
+Ce problème a été observé avec : 
+</p>
+<ul>
+<li class="level1"><span class="li"> une imprimante <em>HP PSC 2110</em> sur un PowerPC (cf. <a href="http://forum.ubuntu-fr.org/viewtopic.php?id=6739" class="urlextern" title="http://forum.ubuntu-fr.org/viewtopic.php?id=6739" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://forum.ubuntu-fr.org/viewtopic.php?id=6739</a>) et résolu supprimant l&rsquo;imprimante, puis redémarrant Cups puis en réinstallant l&rsquo;imprimante ;</span>
+</li>
+<li class="level1"><span class="li"> une imprimante <em>HP PSC 1215</em> sur un Athlon 2600+ avec le pilote hpijs pour <em>HP PSC 1210</em> mais la méthode précédente n&rsquo;a pas fonctionnée.</span>
+</li>
+</ul>
+
+<p>
+ Le problème semble provenir de l&rsquo;impossibilité de lancer le serveur Hpijs : 
+</p>
+<pre class="code">$ sudo hpijs
+unable to init hpijs server</pre>
+
+</div>
+<!-- SECTION [630-] -->

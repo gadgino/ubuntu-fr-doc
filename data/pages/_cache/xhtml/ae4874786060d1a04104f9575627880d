@@ -1,0 +1,225 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#partition_cryptee_avec_cryptoloop" class="toc"> Partition cryptée avec cryptoloop </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#methode" class="toc"> Méthode </a></span></li>
+<li class="level2"><span class="li"><a href="#creer_le_fichier" class="toc"> Créer le fichier </a></span></li>
+<li class="level2"><span class="li"><a href="#choisir_l_algorithme_de_cryptage" class="toc"> Choisir l'algorithme de cryptage </a></span></li>
+<li class="level2"><span class="li"><a href="#creer_le_systeme_de_fichier_crypte" class="toc"> Créer le système de fichier crypté </a></span></li>
+<li class="level2"><span class="li"><a href="#montage_automatique" class="toc"> Montage automatique </a></span></li>
+<li class="level2"><span class="li"><a href="#charger_le_module_cryptoloop_au_demarrage" class="toc"> Charger le module cryptoloop au démarrage </a></span></li>
+<li class="level2"><span class="li"><a href="#deplacer_des_fichiers_dans_la_partition_cryptee" class="toc"> Déplacer des fichiers dans la partition cryptée </a></span></li>
+</ul>
+</li>
+<li class="level1"><span class="li"><a href="#et_les_autres" class="toc"> Et les autres ? </a></span></li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/eks" class="wikilink1" title="utilisateurs:eks" onclick="return svchk()" onkeypress="return svchk()">eks</a>.
+</p>
+
+<a name="partition_cryptee_avec_cryptoloop"></a><h1> Partition cryptée avec cryptoloop </h1>
+<div class="level1">
+
+<p>
+<em>Versions d&rsquo;Ubuntu : Hoary et suivantes, non teste sur Warty</em><br/>
+  <em>Source : <a href="http://www.ubuntulinux.org/wiki/EncryptedFilesystemHowto" class="urlextern" title="http://www.ubuntulinux.org/wiki/EncryptedFilesystemHowto" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.ubuntulinux.org/wiki/EncryptedFilesystemHowto</a> (dernière partie)</em>
+</p>
+
+<p>
+Comme tout le monde, vous avez des informations personelles et/ou professionnelles que vous souhaiteriez ne pas laisser à l&rsquo;indiscretion du premier venu ? Vous voudriez un moyen sûr de mettre des données à l&rsquo;abris, même d&rsquo;un vol de portable ou de disque dur ?<br/>
+  Cryptoloop vous offre une solution efficace et simple à mettre en place.<br/>
+  Mini How-To pour un coffre-fort en 3 coups de cuillère à pot.<br/>
+ 
+</p>
+
+</div>
+<!-- SECTION [67-685] -->
+<a name="methode"></a><h2> Méthode </h2>
+<div class="level2">
+
+<p>
+ Pour créer notre coffre-fort virtuel, nous allons tout d&rsquo;abrod créer un fichier de la taille que l&rsquo;on souhaite attribuer à notre coffre (dans ce tuto nous prendrons 100 Mo), puis le monter système de fichier, et ce en utilisant l&rsquo;algorithme de cryptage de votre choix (ici twofish).<br/>
+ 
+</p>
+
+</div>
+<!-- SECTION [686-998] -->
+<a name="creer_le_fichier"></a><h2> Créer le fichier </h2>
+<div class="level2">
+
+<p>
+ On utilise l&rsquo;utilitaire dd pour créer un fichier de 100 Mo (100 blocs de 1 Mo) que l&rsquo;on rempli de 0 (input file = /dev/zero), par exemple le fichier &ldquo;private&rdquo; dans votre répertoire personnel : 
+</p>
+<pre class="code">$ dd <span class="re2">if=</span>/dev/zero <span class="re2">bs=</span>1M <span class="re2">count=</span><span class="nu0">100</span> <span class="re2">of=</span>~/private</pre>
+<p>
+ <strong>NB : </strong>Pour rendre une éventuelle tentative de décryptage plus difficile, on peut utiliser /dev/random comme entrée :  
+</p>
+<pre class="code">$ dd <span class="re2">if=</span>/dev/random <span class="re2">bs=</span>1M <span class="re2">count=</span><span class="nu0">100</span> <span class="re2">of=</span>~/private</pre>
+<p>
+ Cependant, le temps de création du fichier passe alors de quelques seconde à plusieur minutes, voir plusieurs dizaines de minutes. Mais on est jamais trop prudent ;)
+</p>
+
+</div>
+<!-- SECTION [999-1649] -->
+<a name="choisir_l_algorithme_de_cryptage"></a><h2> Choisir l'algorithme de cryptage </h2>
+<div class="level2">
+
+<p>
+ Lançons le module cryptoloop : 
+</p>
+<pre class="code">$ sudo modprobe cryptoloop</pre>
+<p>
+ Vérifions : 
+</p>
+<pre class="code">$ lsmod | grep cryptoloop</pre>
+<p>
+ Vous devriez obtenir 2 lignes ressemblant à ceci (les nombres ne sont pas nécessairement identiques) : 
+</p>
+<pre class="code">cryptoloop              3584  0 
+loop                   14728  1 cryptoloop</pre>
+
+<p>
+ Listez alors les algorithmes de cryptage disponibles avec la commande : 
+</p>
+<pre class="code">$ sudo modinfo /lib/modules/`uname -r`/kernel/crypto/* | grep description</pre>
+<p>
+ A moins d&rsquo;avoir un noyau personnalisé selon vos envies, vous devriez avoir un truc du genre : 
+</p>
+<pre class="code">    description:    ARC4 Cipher Algorithm
+    description:    Blowfish Cipher Algorithm
+    description:    Cast5 Cipher Algorithm
+    description:    Cast6 Cipher Algorithm
+    description:    CRC32c (Castagnoli) calculations wrapper for lib/crc32c
+    description:    Null Cryptographic Algorithms
+    description:    Deflate Compression Algorithm for IPCOMP
+    description:    DES &amp; Triple DES EDE Cipher Algorithms
+    description:    Khazad Cryptographic Algorithm
+    description:    MD4 Message Digest Algorithm
+    description:    Michael MIC
+    description:    Serpent Cipher Algorithm
+    description:    SHA1 Secure Hash Algorithm
+    description:    SHA256 Secure Hash Algorithm
+    description:    SHA-512 and SHA-384 Secure Hash Algorithms
+    description:    Quick &amp; dirty crypto testing module
+    description:    Twofish Cipher Algorithm</pre>
+
+<p>
+ Si vous avez installé l&rsquo;algorythme AES avec le paquet loop-aes-utils : 
+</p>
+<pre class="code">$ sudo modinfo /lib/modules/`uname -r`/kernel/arch/i386/crypto/* | grep description</pre>
+<p>
+ Vous obtiendrez quelque chose du genre : 
+</p>
+<pre class="code">description:    Rijndael (AES) Cipher Algorithm, i586 asm optimized</pre>
+
+<p>
+Choisisser un algorithme de cryptage (pas de hashage ou de digest) comme blowfish ou twofish. Dans ce tuto, j&rsquo;ai choisi twofish. Notez le nom sur un bout de papier ou avec un copié-collé si vous n&rsquo;êtes pas sûr de pouvoir l&rsquo;orthographier correctement.
+</p>
+
+</div>
+<!-- SECTION [1650-3705] -->
+<a name="creer_le_systeme_de_fichier_crypte"></a><h2> Créer le système de fichier crypté </h2>
+<div class="level2">
+
+<p>
+ On monte alors le fichier avec losetup, en précisant l&rsquo;algorithme de cryptage choisi avec l&rsquo;option -e : 
+</p>
+<pre class="code">$ sudo losetup -e twofish /dev/loop0  ~/private</pre>
+<p>
+ <strong><u>Attention extrême : </u></strong> (ça fait peur hein ?) Le mot de passe qui vous est demandé <strong>n&rsquo;est pas le mot de passe sudo</strong> ! En effet, vous l&rsquo;aviez saisi juste au-dessus, il a alors été mémorisé pour quelques minutes. Ce mot de passe est celui de la partition : il vous sera demandé à chaque fois que vous voudrez monter cette partition. Choisissez donc un bon mot de passe, différent de votre mot de passe habituel.
+</p>
+
+<p>
+Si vous avez un message d&rsquo;erreur vous indiquant que /dev/loop0 est occupé, trouver un emplacement libre avec la commande 
+</p>
+<pre class="code">$ sudo losetup -f</pre>
+<p>
+Il faut encore créer le système de fichier sur la nouvelle partition, par exemple ext3 : 
+</p>
+<pre class="code">$ sudo mkfs.ext3 /dev/loop0</pre>
+<p>
+ et le point de montage : 
+</p>
+<pre class="code">$ sudo mkdir /mnt/private</pre>
+<p>
+ et voilà, votre coffre fort est créé !
+</p>
+
+<p>
+Vous pouvez libérer /dev/loop0 : 
+</p>
+<pre class="code">$ sudo losetup -d /dev/loop0</pre>
+</div>
+<!-- SECTION [3706-4845] -->
+<a name="montage_automatique"></a><h2> Montage automatique </h2>
+<div class="level2">
+
+<p>
+ Afin de pouvoir (dé)monter le système de fichier crypté, ajoutez cette ligne dans /etc/fstab :
+</p>
+<pre class="code"> /home/votre_login/private /mnt/private ext3 noauto,encryption=twofish,user,exec 0 0</pre>
+
+<p>
+en remplaçant &ldquo;votre_login&rdquo; par votre nom d&rsquo;utilisateur
+</p>
+
+<p>
+Vous pouvez maintenant monter votre partition (uniquement lorsque vous en avez besoin) avec : 
+</p>
+<pre class="code">$ mount /mnt/private</pre>
+<p>
+ en entrant le mot de passe, et la démonter lorsque vous avez fini de travailler dessus : 
+</p>
+<pre class="code">$ umount /mnt/private</pre>
+<p>
+<strong>NB : </strong>Vous ne pouvez modifier les fichiers de cette partition crypté qu&rsquo;en root (à l&rsquo;aide de sudo). Le mieux est donc de réserver celle-ci pour les infos auquelles vous avez habituellement accès en lecture.
+</p>
+
+</div>
+<!-- SECTION [4846-5600] -->
+<a name="charger_le_module_cryptoloop_au_demarrage"></a><h2> Charger le module cryptoloop au démarrage </h2>
+<div class="level2">
+
+<p>
+ Pour ne pas avoir à charger &ldquo;à la main&rdquo; (ie via modprobe) le module cryptoloop, il suffit de l&rsquo;ajouter au fichier /etc/modules : 
+</p>
+<pre class="code">$ sudo -s
+# echo &quot;cryptoloop&quot; &gt;&gt; /etc/modules
+# exit</pre>
+
+<p>
+ Ainsi, le module sera chargé à chaque démarrage (sans lui vous obtenez une erreur lorsque vous essayez de monter la partition cryptée).
+</p>
+
+</div>
+<!-- SECTION [5601-5994] -->
+<a name="deplacer_des_fichiers_dans_la_partition_cryptee"></a><h2> Déplacer des fichiers dans la partition cryptée </h2>
+<div class="level2">
+
+<p>
+ Comme je l&rsquo;ai dit plus haut, vous ne pouvez écrire dans la partition qu&rsquo;en root. Il vous faut donc utiliser sudo à chaque fois, ou vous logguer en root avec 
+</p>
+<pre class="code">sudo -s</pre>
+
+<p>
+Mais il ne sert à rien de protéger vos fichiers dans une partition cryptée si il en reste des traces en clair sur une de vos partition. Donc, au lieu de déplacer des données (ce qui reviendrait à les copier puis les effacer de façon &ldquo;conventionelle&rdquo;), copiez-les et effacez-les avec une méthode plus sûre (voir le mini how-to <a href="/securite/detruire_un_fichier" class="wikilink1" title="securite:detruire_un_fichier" onclick="return svchk()" onkeypress="return svchk()">Détruire efficacement un fichier</a>).
+</p>
+
+</div>
+<!-- SECTION [5995-6643] -->
+<a name="et_les_autres"></a><h1> Et les autres ? </h1>
+<div class="level1">
+
+<p>
+ Cryptoloop n&rsquo;est pas l&rsquo;unique solution, ni la plus efficace. Je l&rsquo;ai décrite ici car c&rsquo;est, à mon avis la plus simple à mettre en place pour protéger une quantité variable de donnée. Si vous souhaitez aller plus loin, et notamment utiliser le successeur de cryptoloop (dm-crypt), je vous recommande la lecture de l&rsquo;excellent How-To <a href="http://www.ubuntulinux.org/wiki/EncryptedFilesystemHowto" class="urlextern" title="http://www.ubuntulinux.org/wiki/EncryptedFilesystemHowto" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.ubuntulinux.org/wiki/EncryptedFilesystemHowto</a> (en anglais). 
+</p>
+
+</div>
+<!-- SECTION [6644-] -->

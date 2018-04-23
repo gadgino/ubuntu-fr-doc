@@ -1,0 +1,92 @@
+{{tag>Precise  Trusty  application bureau_a_distance}}
+
+====== x2go ======
+
+x2go est un logiciel client-serveur qui permet de se connecter à un ordinateur serveur linux distant. C'est un projet qui s'appuie sur le protocole libre [[freenx]], lui-même issu du protocole NX créé par la société NoMachine. Ce protocole est très performant (beaucoup plus que [[vnc]]) et la navigation est fluide même avec une connexion à faible débit.
+
+Il permet d'avoir accès au bureau en utilisant la carte vidéo et audio du client. La connexion est sécurisée par le protocole ssh.
+
+===== Pré-requis =====
+
+  * Vous devez disposer des [[:sudo|droits d'administration]] sur le serveur ET le client.
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation du serveur =====
+Cette installation est à effectuer sur le serveur sur lequel vous souhaitez vous connecter à distance.
+
+Le serveur x2go n'est pas présent dans les dépôts officiels d'Ubuntu. Il est nécessaire d'ajouter un [[ppa]]
+<code>sudo apt-get -y install python-software-properties</code>
+
+ou
+
+<code>sudo apt-get -y install software-properties-common</code>
+
+<code>sudo add-apt-repository ppa:x2go/stable -y </code>
+<code>sudo apt-get update</code>
+<code>sudo apt-get -y install x2goserver x2goserver-xsession</code>
+Il est conseillé d'installer un bureau léger pour travailler à distance, comme xfce. Un post qui en parle sur le forum X2go : [[http://lists.x2go.org/pipermail/x2go-user/2014-June/002313.html]].
+Il vous suffit d'installer le paquet xfce4 pour disposer de xfce ou de taper la ligne de commande :
+<code> sudo apt-get install xfce4 </code>
+Cela ne vous empêchera pas d'utiliser Unity comme bureau par défaut sur votre poste serveur.
+
+
+===== Problème Connu =====
+
+Can not connect to ip-ou-ndd-du-serveur
+
+kex error : no match for method mac algo client->server: server [hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,hmac-ripemd160], client [hmac-sha1]
+
+
+
+pour corriger ce bug il suffit de modifier la configuration du serveur ssh
+
+<code>nano /etc/ssh/sshd_config</code>
+
+puis commentez les 3 dernières lignes, elles doivent ressembler à ceci
+
+<code>Ciphers aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes128-ctr
+
+MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,hmac-ripemd160
+
+KexAlgorithms diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha1</code>
+
+et pour vous faire plaisir on relance le serveur ssh
+
+<code>service ssh reload</code>
+
+===== Installation du client =====
+Il est nécessaire d'installer le client x2go sur le poste depuis lequel vous souhaitez vous connecter à distance.
+
+Le client x2go est présent dans les dépôts officiels d'ubuntu : Il suffit d'installer le paquet x2goclient.
+
+  * Lien direct : [[apt>x2goclient]]
+
+===== Utilisation et configuration du client =====
+
+Lancez l'application via le [[:unity#tableau_de_bord_dash|dash]] (Unity) ou via le [[:terminal]] (toutes versions d'Ubuntu) avec la [[:commande_shell|commande]] suivante :
+<code>x2goclient</code>
+
+Démarrer le client x2go.
+
+  * Créer un nouveau profil
+  * Dans "host" entrer l'adresse IP ou le non de domaine du serveur sur lequel vous souhaitez vous connecter
+  * dans "identifiant" entrer son nom d'utilisateur (celui sur le serveur distant).
+  * dans "session type" sélectionner "custom desktop" et dans "command" entrer <code>gnome-session</code> ou <code> xfce</code> ou <code>lxsession -s Lubuntu -e LXDE</code>
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+===== Voir aussi =====
+
+==== Liens internes ====
+
+  * [[bureau_a_distance | Bureau à distance]]
+
+==== Liens externes ====
+
+  * ''**(en)**''[[http://wiki.x2go.org/doku.php| Le site officiel du projet x2go]]
+  * [[http://guides.ovh.com/UbuntuDesktopGeneralites| Guide x2go OVH]]
+
+----
+
+//Contributeurs principaux : [[:utilisateurs:piel]], [[:utilisateurs:andykimpe]].//

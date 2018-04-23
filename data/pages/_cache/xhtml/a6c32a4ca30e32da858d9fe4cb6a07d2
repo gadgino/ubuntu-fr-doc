@@ -1,0 +1,265 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#le_gestionnaire_de_paquets_synaptic" class="toc"> Le gestionnaire de paquets Synaptic </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#demarrage_de_synaptic" class="toc"> Démarrage de Synaptic </a></span></li>
+<li class="level2"><span class="li"><a href="#ce_que_synaptic_est_capable_de_faire" class="toc"> Ce que Synaptic est capable de faire... </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#comment_ajouter_ou_retirer_des_depots" class="toc"> Comment ajouter ou retirer des dépots ? </a></span></li>
+<li class="level3"><span class="li"><a href="#ajouter_reinstaller_ou_supprimer_des_programmes" class="toc">  Ajouter, réinstaller ou supprimer des programmes </a></span></li>
+<li class="level3"><span class="li"><a href="#chercher_et_parcourir_les_listes_de_paquet" class="toc"> Chercher et parcourir les listes de paquet </a></span></li>
+<li class="level3"><span class="li"><a href="#garder_votre_systeme_a_jour" class="toc"> Garder votre système à jour </a></span></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/ostaquet" class="wikilink1" title="utilisateurs:ostaquet" onclick="return svchk()" onkeypress="return svchk()">ostaquet</a>.
+</p>
+
+<a name="le_gestionnaire_de_paquets_synaptic"></a><h1> Le gestionnaire de paquets Synaptic </h1>
+<div class="level1">
+
+<p>
+ Il y a de nombreux moyens pour installer et désinstaller des programmes sur Ubuntu. Un des plus utilisé est Synaptic, un gestionnaire graphique (les autres sont en ligne de commande, comme <a href="/applications/apt-get" class="wikilink1" title="applications:apt-get" onclick="return svchk()" onkeypress="return svchk()">apt-get</a>). Ce document décrit comment utiliser le gestionnaire de paquets Synaptic.
+</p>
+
+<p>
+Les instructions qui suivent sont considérées comme si vous aviez les permissions d&rsquo;administration (sudo). Si vous avez installé Ubuntu vous même, vous avez ces permissions.
+</p>
+
+<p>
+Si les notions de dépot et de paquet vous semblent obscures, vous pouvez trouver des explications sur <a href="/installation/depots" class="wikilink1" title="installation:depots" onclick="return svchk()" onkeypress="return svchk()">cette page</a>.
+</p>
+
+</div>
+<!-- SECTION [72-721] -->
+<a name="demarrage_de_synaptic"></a><h2> Démarrage de Synaptic </h2>
+<div class="level2">
+
+<p>
+ Pour démarrer le gestionnaire de paquet Synaptic, vous devez cliquer sur l&rsquo;application. Elle se trouve dans le menu <strong>Système &rArr; Administration</strong>.
+</p>
+
+<p>
+A priori, le système vous demandera de confirmer votre mot de passe. Cette sécurité est prévue pour éviter que n&rsquo;importe quel utilisateur installe n&rsquo;importe quoi sur la machine.
+</p>
+
+<p>
+Lorsque vous ouvrez Synaptic, vous êtes devant l&rsquo;écran suivant :
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=applications%3Abasicsynaptic.png" class="media" title="applications:basicsynaptic.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=applications%3Abasicsynaptic.png" class="media" alt="" /></a>
+</p>
+
+<p>
+Dans cette fenêtre principale, vous avez les actions en haut (une barre d&rsquo;outil); les catégories de logiciels à gauche et la liste des applications disponibles sur le dépot.
+</p>
+
+<p>
+Chaque application est précédée d&rsquo;un carré indiquant le statut du paquet (vert = installé, rouge = cassé, blanc = non installé).
+</p>
+
+<p>
+En cliquant sur cette case, vous obtiendrez les différentes opérations que vous pouvez appliquer à ce paquet. Les opérations possibles sont les suivantes (si l&rsquo;opération n&rsquo;est pas permise, elle est grisée) :
+</p>
+<ul>
+<li class="level1"><span class="li"> Déselectionner : sert à déselectionner le paquet si il a été sélectionné précédemment pour une autre opération.</span>
+</li>
+<li class="level1"><span class="li"> Sélectionner pour installation.</span>
+</li>
+<li class="level1"><span class="li"> Sélectionner pour réinstallation.</span>
+</li>
+<li class="level1"><span class="li"> Sélectionner pour mise à jour.</span>
+</li>
+<li class="level1"><span class="li"> Sélectionner pour suppression.</span>
+</li>
+<li class="level1"><span class="li"> Sélectionner pour suppression complète.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [722-2048] -->
+<a name="ce_que_synaptic_est_capable_de_faire"></a><h2> Ce que Synaptic est capable de faire... </h2>
+<div class="level2">
+
+<p>
+ Synaptic est capable de :
+</p>
+<ul>
+<li class="level1"><span class="li"> ajouter et retirer des dépots.</span>
+</li>
+<li class="level1"><span class="li"> ajouter, réinstaller ou supprimer des programmes.</span>
+</li>
+<li class="level1"><span class="li"> garder votre système à jour.</span>
+</li>
+</ul>
+
+<p>
+ Dans la suite de ce document, nous allons examiner comment effectuer ces trois tâches.
+</p>
+
+</div>
+<!-- SECTION [2049-2343] -->
+<a name="comment_ajouter_ou_retirer_des_depots"></a><h3> Comment ajouter ou retirer des dépots ? </h3>
+<div class="level3">
+
+<p>
+ <em>Remarque :</em> Plus d&rsquo;informations sur les dépots sur <a href="/installation/depots" class="wikilink1" title="installation:depots" onclick="return svchk()" onkeypress="return svchk()">cette page</a>.
+</p>
+
+<p>
+Dans Synaptic, vous pouvez appeler la fenêtre de gestion des dépots en allant dans le menu Catégories &rArr; Dépots. Une fenêtre comme celle-ci s&rsquo;ouvre :
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=applications%3Aconfigdepot.png" class="media" title="applications:configdepot.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=applications%3Aconfigdepot.png" class="media" alt="" /></a>
+</p>
+
+<p>
+Le contenu de cette fenêtre dépend des dépots que vous avez configurés ou qui étaient configurés par défaut lors de l&rsquo;installation d&rsquo;Ubuntu.
+</p>
+
+<p>
+Voici une courte explication de ce que vous voyez dans la fenêtre :
+</p>
+<ul>
+<li class="level1"><span class="li"> chaque ligne est un dépot configuré.</span>
+</li>
+<li class="level1"><span class="li"> pour chacun de ces dépots, il y a des paramètres pour savoir où chercher les informations.</span>
+</li>
+</ul>
+
+<p>
+ Pour éditer un dépot, il vous suffit de cliquer avec le bouton gauche sur l&rsquo;un d&rsquo;entre eux, et de cliquer sur le bouton <strong>Edit</strong> situé dans la partie droite de la fenêtre.
+</p>
+
+<p>
+Une fenêtre d&rsquo;édition du dépot s&rsquo;ouvre devant vous. Cette fenêtre permet de choisir le type de dépot (binaire ou source), l&rsquo;<acronym title="Uniform Resource Identifier">URI</acronym> du dépot (la manière d&rsquo;accéder au dépot) ainsi que la distribution (pour Ubuntu, warty ou hoary) et les sections.
+</p>
+
+<p>
+Les sections indiquent des subdivisions faites par le distributeur (celui qui met en place le dépot) pour classer les versions des applications. Par exemple, chez Ubuntu, les sections sont à peu près définies comme ceci :
+</p>
+<ul>
+<li class="level1"><span class="li"> section main : logiciels principaux supportés par Ubuntu.</span>
+</li>
+<li class="level1"><span class="li"> section restricted : logiciels aux copyrights restreints (supportés par Ubuntu).</span>
+</li>
+<li class="level1"><span class="li"> section multiverse : logiciels propriétaires (non supportés par Ubuntu).</span>
+</li>
+<li class="level1"><span class="li"> section universe : logiciels maintenus par la communauté (non supportés par Ubuntu).</span>
+</li>
+</ul>
+
+<p>
+ Pour ajouter un dépot, vous pouvez le faire par le biais du bouton <strong>Ajouter</strong>. Dans ce cas, une fenêtre comme celle-ci s&rsquo;ouvre :
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=installation%3Adepots.png" class="media" title="installation:depots.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=installation%3Adepots.png" class="media" alt="" /></a>
+</p>
+
+<p>
+Par cette fenêtre, vous pouvez ajouter les dépots standards d&rsquo;Ubuntu (à savoir les multiverse et universe). Pour ce faire, il vous suffit de cocher les deux cases prévues à cet effet.
+</p>
+
+<p>
+Pour ajouter un dépot particulier, vous devez passer par le bouton <strong>Personnalisé</strong>; dans ce cas, vous devez connaître la ligne APT de configuration pour accéder à ce dépot.
+</p>
+
+<p>
+Vous pouvez connaître les différents dépots nécessaires aux articles de ce wiki sur la page des <a href="/installation/depots" class="wikilink1" title="installation:depots" onclick="return svchk()" onkeypress="return svchk()">depots</a>.
+</p>
+
+<p>
+Pour retirer un dépot, il vous suffit de cliquer dessus avec le bouton gauche et ensuite de cliquer sur <em>Enlever</em>.
+</p>
+
+<p>
+Après modification de la liste des dépots, n&rsquo;oubliez pas d&rsquo;effectuer un rechargement des applications disponibles. Vous pouvez effectuer cette opération à partir de la fenêtre principale en cliquant sur le bouton <strong>Recharger</strong>.
+</p>
+
+</div>
+<!-- SECTION [2344-5024] -->
+<a name="ajouter_reinstaller_ou_supprimer_des_programmes"></a><h3>  Ajouter, réinstaller ou supprimer des programmes </h3>
+<div class="level3">
+
+<p>
+ Pour faire une de ces opérations, il faut que vous soyez dans la fenêtre principale de Synaptic. 
+</p>
+
+<p>
+Dans la partie droite de la fenêtre, vous avez une liste de programme ainsi que leurs versions et une brève description. Chaque ligne de cette liste est précédée d&rsquo;une petit carré. Cette case change de couleur suivant le statut du paquet (vert = installé, rouge = cassé, blanc = non installé).
+</p>
+
+<p>
+Pour installer, réinstaller ou supprimer un programme, il vous suffit de cliquer avec le bouton gauche sur cette case et de choisir l&rsquo;opération souhaitée.
+</p>
+
+<p>
+Lors de l&rsquo;ajout d&rsquo;un paquet, il se peut que Synaptic vous propose d&rsquo;installer d&rsquo;autres paquets qui sont nécessaires au fonctionnement de celui que vous avez demandé. Vous devez accepter d&rsquo;installer les dépendances sinon le paquet sélectionné ne sera pas installé.
+</p>
+
+<p>
+Lors de la suppression d&rsquo;un paquet, Synaptic peut vous signaler qu&rsquo;il faut supprimer d&rsquo;autres paquets car ils dépendent du paquet que vous venez de sélectionner. Vous devez accepter de supprimer ces autres paquets sinon le paquet sélectionné ne sera pas supprimé.
+</p>
+
+<p>
+Une fois vos opérations choisies, vous cliquez sur le bouton <strong>Appliquer</strong> pour appliquer les changements que vous avez demandé.
+</p>
+
+</div>
+<!-- SECTION [5025-6324] -->
+<a name="chercher_et_parcourir_les_listes_de_paquet"></a><h3> Chercher et parcourir les listes de paquet </h3>
+<div class="level3">
+
+<p>
+ Pour rechercher un paquet dans la liste, vous avez plusieurs possibilités; soit vous cherchez de manière précise, soit vous explorez l&rsquo;arborescence.
+</p>
+
+<p>
+Pour rechercher un paquet précis, vous avez un bouton <strong>Rechercher</strong> dans le haut de la fenêtre. Une fois que vous avez cliqué dessus, une boite de dialogue vous demande le mot clé à rechercher. En cliquant sur <em>Rechercher</em>, la liste des paquets affichés dans la fenêtre principale se limitera à ceux qui contiennent le mot clé indiqué.
+</p>
+
+<p>
+Pour explorer les paquets disponibles, dans la gauche de l&rsquo;écran (en bas), vous avez 4 boutons. Ces boutons permettent d&rsquo;afficher des catégories dans la gauche de l&rsquo;écran (suivant les catégories proprement dite, les états des paquets, les précédentes recherches et des filtres personnalisés). 
+</p>
+
+<p>
+Si vous êtes en mode catégorie (comme sur la capture d&rsquo;écran ci-dessus), vous pouvez filtrer la liste des paquets sur base de leurs catégorie (Multimédia, Traitement de texte,...). Ces catégories indiquent également si vous vous trouvez dans des paquets supportés par Ubuntu (sans annotations) ou non supportés par Ubuntu (multiverse ou universe).
+</p>
+
+</div>
+<!-- SECTION [6325-7542] -->
+<a name="garder_votre_systeme_a_jour"></a><h3> Garder votre système à jour </h3>
+<div class="level3">
+
+<p>
+ Pour garder votre système à jour, vous pouvez utiliser le <strong>Gestionnaire de mise à jour d&rsquo;Ubuntu</strong> ou le gestionnaire Synaptic.
+</p>
+
+<p>
+Pour mettre votre système à jour via Synaptic, il vous suffit de suivre la procédure suivante dans la fenêtre principale : 
+</p>
+<ul>
+<li class="level1"><span class="li"> Demandez la recharge des listes des dépots via le bouton <strong>Recharger</strong>.</span>
+</li>
+<li class="level1"><span class="li"> Cliquez sur le bouton <strong>Tout mettre à jour</strong>.</span>
+</li>
+<li class="level1"><span class="li"> Choisissez l&rsquo;option <strong>Mise à jour intelligente</strong>.</span>
+</li>
+<li class="level1"><span class="li"> Cliquez sur le bouton <strong>Appliquer</strong> pour effectuer la mise à jour.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [7543-] -->

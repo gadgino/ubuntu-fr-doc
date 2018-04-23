@@ -1,0 +1,168 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="clear"><ul class="toc">
+<li class="level2"><span class="li"><a href="#version" class="toc"> VERSION : </a></span></li>
+<li class="level2"><span class="li"><a href="#resume_comment_faire_fonctionner_ubuntu_sur_un_presario_de_serie_r3xxx" class="toc"> RÉSUMÉ : Comment faire fonctionner Ubuntu sur un Presario de série R3XXX </a></span></li>
+<li class="level2"><span class="li"><a href="#preambule" class="toc"> PRÉAMBULE : </a></span></li>
+<li class="level2"><span class="li"><a href="#prerequis" class="toc"> PRÉREQUIS : </a></span></li>
+<li class="level2"><span class="li"><a href="#acceleration_graphique_et_problemes_de_resolution" class="toc"> Accélération graphique et problèmes de résolution: </a></span></li>
+<li class="level2"><span class="li"><a href="#support_du_touchpad" class="toc"> Support du Touchpad </a></span></li>
+<li class="level2"><span class="li"><a href="#support_du_wifi" class="toc"> Support du wifi </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<a name="version"></a><h2> VERSION : </h2>
+<div class="level2">
+<pre class="code">Warty et/ou  Hoary </pre>
+
+<p>
+ Rédigé par <a href="/utilisateurs/gui13" class="wikilink1" title="utilisateurs:gui13" onclick="return svchk()" onkeypress="return svchk()">Gui13</a>
+</p>
+
+</div>
+<!-- SECTION [1-84] -->
+<a name="resume_comment_faire_fonctionner_ubuntu_sur_un_presario_de_serie_r3xxx"></a><h2> RÉSUMÉ : Comment faire fonctionner Ubuntu sur un Presario de série R3XXX </h2>
+<div class="level2">
+
+</div>
+<!-- SECTION [85-173] -->
+<a name="preambule"></a><h2> PRÉAMBULE : </h2>
+<div class="level2">
+
+<p>
+Cette page s&rsquo;adresse aux possesseurs d&rsquo;un <strong>Compaq Presario série R3000</strong> (le mien étant un R3332).<br/>
+  La config de Ubuntu sur les portable étant quelque peu compliquée, j&rsquo;adresse ces conseils à ceux qui voudraient disposer:
+</p>
+<ol>
+<li class="level1"><span class="li"> de l&rsquo;accélération graphique</span>
+</li>
+<li class="level1"><span class="li"> du touchpad</span>
+</li>
+<li class="level1"><span class="li"> du wifi</span>
+</li>
+</ol>
+
+</div>
+<!-- SECTION [174-494] -->
+<a name="prerequis"></a><h2> PRÉREQUIS : </h2>
+<div class="level2">
+<ol>
+<li class="level1"><span class="li"> Un ordinateur portable ;)</span>
+</li>
+<li class="level1"><span class="li"> Fonction “sudo” activée (si non voir ajout sudo utilisateur).</span>
+</li>
+<li class="level1"><span class="li"> Connexion Internet configurée et activée <strong>si possible</strong> (si non voir la section : accueil Modem RTC et ADSL). </span>
+</li>
+</ol>
+
+</div>
+<!-- SECTION [495-740] -->
+<a name="acceleration_graphique_et_problemes_de_resolution"></a><h2> Accélération graphique et problèmes de résolution: </h2>
+<div class="level2">
+
+<p>
+<br/>
+  La configuration de xorg à l&rsquo;origine sur Ubuntu ne prend pas en charge l&rsquo;accélération graphique de la geforce4 embarquée dans les portables de la série R3000.<br/>
+  Le premier reflexe à avoir est d&rsquo;installer les pilotes <a href="/materiel/nvidia" class="wikilink1" title="materiel:nvidia" onclick="return svchk()" onkeypress="return svchk()">nvidia</a>.<br/>
+  En rebootant le serveur X, on s&rsquo;apercoit que la résolution passe en 1024*768, ce qui donne des résultats très moches sur l&rsquo;écran. La solution est simple, elle est due à un bug des pilotes nvidia pour les cartes graphiques mobiles.<br/>
+  Pour le résoudre, on édite le fichier <em>/etc/modprobe.d/nvidia-kernel-nkc</em>: <br/>
+ 
+</p>
+
+<p>
+<code>sudo gedit /etc/modprobe.d/nvidia-kernel-nkc</code> <br/>
+
+</p>
+
+<p>
+On ajoute la ligne <code>options nvidia NVreg_Mobile=0</code> dans ce fichier<br/>
+ 
+</p>
+
+<p>
+On sauve et <em>ctrl+alt+backspace</em> pour rebooter le serveur X, et normalement tout rentre dans l&rsquo;ordre!
+</p>
+
+</div>
+<!-- SECTION [741-1613] -->
+<a name="support_du_touchpad"></a><h2> Support du Touchpad </h2>
+<div class="level2">
+
+<p>
+ Alors là c&rsquo;est TOUT SIMPLE!<br/>
+ J&rsquo;en ai discuté avec un utilisateur de Ubuntu et il m&rsquo;a donné la solution:<br/>
+ Il faut éditer le fichier <em>/boot/grub/menu.lst</em> et ajouter &ldquo;i8042.nomux&rdquo; à la ligne de boot principale :<br/>
+ 
+</p>
+<pre class="code">kernel          /boot/vmlinuz-2.6.10-5-386 root=/dev/hda5 ro quiet splash i8042.nomux</pre>
+
+<p>
+<br/>
+ Et voilà! Il suffit de rebooter et le touchpad fonctionnera sous X! (il faut bien sur l&rsquo;avtiver en pressant le bouton au dessus du touchpad ;)).
+</p>
+
+</div>
+<!-- SECTION [1614-2115] -->
+<a name="support_du_wifi"></a><h2> Support du wifi </h2>
+<div class="level2">
+
+<p>
+ Alors cette partie est assez simple :)<br/>
+
+</p>
+<ul>
+<li class="level1"><span class="li"> Il faut installer ndiswrapper (on m&rsquo;a dit que la version d&rsquo;Unbuntu déconnait, mais ce n&rsquo;est pas le cas chez moi) avec un <pre class="code">sudo apt-get install ndiswrapper</pre>
+
+<p>
+ Si vous avez des problèmes avec cette version, désinstallez-la et compilez ndiswrapper.</span>
+
+</p>
+</li>
+<li class="level1"><span class="li"> Il faut récupérer les fichiers .inf et .sys du pilote windows. Il vous faut pour cela aller sur le site de Compaq et télecharger le pilote dans sa derniere version. <br/>
+</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Lorsque vous avez ces deux fichiers (chez moi c&rsquo;était bcmwl5a.inf et bcmwl5.sys), il suffit de lancer cette suite de commandes:</span>
+</li>
+</ul>
+<pre class="code">
+$ sudo ndiswrapper -i /chemin/acces/fichier/bcmwl5a.inf
+$ sudo ndiswrapper -l
+</pre>
+
+<p>
+ Cette 2eme commande permet de vérifier si le matériel est bien détecté; ndiswrapper devrait vous répondre: 
+</p>
+<pre class="code">
+$ sudo ndiswrapper -l
+Installed ndis drivers:
+bcmwl5a driver present, hardware present
+</pre>
+
+<p>
+Si ca vous dit ca, alors c&rsquo;est bon!<br/>
+ On charge le module et on lance l&rsquo;interface: 
+</p>
+<pre class="code">
+$ sudo modprobe ndiswrapper
+$ sudo ifup wlan0
+$ ifconfig //(on vérifie que wlan0 apparait bien dans la liste des interfaces)
+</pre>
+
+<p>
+Si tout fonctionne, alors on peut charger le module au démarrage en lancant cette commande:
+</p>
+<pre class="code">$ sudo ndiswrapper -m</pre>
+
+<p>
+ Et voilà! Le wifi est installé et fonctionne.  La configuration de la carte peut se faire via le menu Système / Administration / Réseau . 
+</p>
+
+</div>
+<!-- SECTION [2116-] -->

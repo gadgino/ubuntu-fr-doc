@@ -1,0 +1,107 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#vsftp_very_secure_ftp" class="toc"> VsFTP, Very secure FTP </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#installation" class="toc"> Installation </a></span></li>
+<li class="level2"><span class="li"><a href="#configuration_de_vsftpd" class="toc"> Configuration de vsftpd </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/ju" class="wikilink1" title="utilisateurs:ju" onclick="return svchk()" onkeypress="return svchk()">Ju</a>
+</p>
+
+<a name="vsftp_very_secure_ftp"></a><h1> VsFTP, Very secure FTP </h1>
+<div class="level1">
+
+<p>
+ Vs<acronym title="File Transfer Protocol">FTP</acronym>d est un serveur <acronym title="File Transfer Protocol">FTP</acronym> conçu avec la problématique d&rsquo;une sécurité maximale. Contrairement aux autres serveurs <acronym title="File Transfer Protocol">FTP</acronym> (ProFTPd, PureFTPd, etc.), aucune faille de sécurité n&rsquo;a jamais été décelée dans VsFTPd. Ce serveur est notamment utilisé à grande échelle par des entreprises telles que Red Hat.
+</p>
+
+<p>
+La configuration par défaut de VsFTPd est trés restrictive :  
+</p>
+<ol>
+<li class="level1"><span class="li"> Seul le compte anonyme est autorisé à se connecter au serveur</span>
+</li>
+<li class="level1"><span class="li"> En <strong>lecture seule</strong></span>
+</li>
+<li class="level1"><span class="li"> Les utilisateurs ne peuvent accéder à leur compte</span>
+</li>
+</ol>
+
+</div>
+
+<a name="remarques"></a><h4> Remarques </h4>
+<div class="level4">
+
+<p>
+Aussi sécurisé que soit un serveur ftp, le protocole ftp en lui même <strong>n&rsquo;est pas sûr</strong> ! en effet l&rsquo;echange du nom d&rsquo;utilisateur et du mot de passe transite en clair sur le réseau. Si vous utilisez ce serveur sur votre lAN pas de soucis, mais attention si vous comptez utiliser le serveur ftp depuis internet, de fait n&rsquo;utilisez pas un compte qui a les droits sudo via ftp (en fait n&rsquo;utilisez de l&rsquo;exterieur ce compte QUE via ssh ou tout autre protocole sécurisé, POPs, etc.)
+</p>
+
+</div>
+<!-- SECTION [66-1131] -->
+<a name="installation"></a><h2> Installation </h2>
+<div class="level2">
+
+<p>
+<a href="http://packages.ubuntu.com/hoary/net/vsftpd" class="urlextern" title="http://packages.ubuntu.com/hoary/net/vsftpd" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">vsftpd</a> est dans le dépôt Main, le nom du paquet est <strong>vsftpd</strong> pour une installation vue <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a>. Pour installer VsFTPd en console, entrez la commande suivante dans un terminal :
+</p>
+<pre class="code">
+sudo apt-get install vsftpd
+</pre>
+
+</div>
+<!-- SECTION [1132-1437] -->
+<a name="configuration_de_vsftpd"></a><h2> Configuration de vsftpd </h2>
+<div class="level2">
+
+<p>
+ La configuration de VsFTPd est centralisée dans un seul et même fichier <code>/etc/vsftpd.conf</code>. Choisissez votre éditeur de texte favori (en mode super utilisateur) et appliquez les modifications suivantes en fonction du mode de fonctionnement de VsFTPd.
+</p>
+<ul>
+<li class="level1"><span class="li"> Pour permettre à vos utilisateurs locaux (ceux qui ont un compte sur la machine) de se connecter au serveur et d&rsquo;écrire.</span>
+</li>
+</ul>
+<pre class="code">local_enable=YES
+write_enable=YES</pre>
+<ul>
+<li class="level1"><span class="li"> Vous pouvez personnaliser le texte de connexion au serveur  </span>
+</li>
+</ul>
+<pre class="code"> ftpd_banner=Bienvenue sur le serveur ftp de René</pre>
+<ul>
+<li class="level1"><span class="li"> Vous pouvez pour quelques utilisateurs privilégiés ne pas les &lsquo;emprisonner&rsquo; dans leur dossier personnel gràce à la configuration suivante :</span>
+</li>
+</ul>
+<pre class="code">chroot_local_user=YES
+chroot_list_enable=YES
+
+chroot_list_file=/etc/vsftpd.chroot_list</pre>
+
+<p>
+ Les login dans <em>/etc/vsftpd.chroot_list</em> auront le droit naviguer en dehors de leur dossier personnel.
+</p>
+
+<p>
+ Aprés chaque changement sur la configuration, pensez à relancer le serveur pour les prendre en compte : 
+</p>
+<pre class="code"> sudo /etc/init.d/vsftpd restart</pre>
+
+<p>
+Plus d&rsquo;infos sur la configuration de vsftpd: <a href="http://vsftpd.beasts.org/vsftpd_conf.html" class="urlextern" title="http://vsftpd.beasts.org/vsftpd_conf.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Documentation vsFTPd</a>
+</p>
+
+<p>
+ Note : Il est tout à fait possible d&rsquo;utiliser vsftpd avec xinetd (xinetd se chargeant de lancer le serveur ftp uniquement quand une connexion est demandée) si vous voulez savoir comment configurer xinetd dans ce cas : <a href="http://debuntu.tuxfamily.org/doku.php?id=i-r_vsftpd" class="urlextern" title="http://debuntu.tuxfamily.org/doku.php?id=i-r_vsftpd" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Debuntu</a> 
+</p>
+
+</div>
+<!-- SECTION [1438-] -->

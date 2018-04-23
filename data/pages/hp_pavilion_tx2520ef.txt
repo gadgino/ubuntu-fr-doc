@@ -1,0 +1,417 @@
+{{tag>matériel portable hp Jaunty}}
+
+----
+
+====== HP Tablet PC Pavilion TX2520EF ======
+
+===== En un coup d'œil =====
+
+Ce tableau permet de visualier rapidement la prise en charge du matériel de portable par les différentes versions d'Ubuntu.
+
+^ Version ^ Installation ^ Ecran tactile ^ Carte graphique ^ Son ^ Wifi ^ Bluetooth ^ Webcam ^ Touchpad ^ Raccourcis multimédia ^ Autres ^
+| [[:jaunty|"Jaunty Jackalop" - 9.04]] | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} | Installation |
+
+
+Légende des notations utilisées :
+  * {{icons:icon-ubuntu.png|Fonctionne immédiatement}} : **Fonctionne immédiatement**
+  * {{icons:important.png|Fonctionne après config}} : **Fonctionne après quelques manipulations**
+  * {{icons:icon-support.png|Pas testé}} : **Pas d'informations disponibles**
+  * {{icons:process-stop.png?36|Ne fonctionne pas}} : **Ne fonctionne pas**
+
+<note>Cet ordinateur n'est pas [[:pc_tatoué|tatoué]], vous pouvez donc installer Ubuntu en écrasant le tatouage sans risque</note>
+
+===== Procédures d'installation et de configuration =====
+
+<note important>
+Une partie de cette documentation vient de la traduction des pages du forum Ubuntu anglophone. N'hésitez pas à vous y référer en cas d'erreur dans la procédure décrite sur cette page, ainsi que pour être à jour des dernières informations. (cf. [[:hp_pavilion_tx2520ef#liens_externes|Liens externes]]). [Traduction actuelle en date du 25/10/08]</note>
+
+
+==== Configuration ====
+
+
+==== Activer le son ====
+
+  * Ouvrir un terminal et éditer le fichier /etc/modprobe.d/alsa-base
+<code>gksudo gedit /etc/modprobe.d/alsa-base</code>
+et ajouter la ligne suivante en bas du fichier:
+"options snd-hda-intel index=0 model=toshiba position_fix=1". Ensuite sauver et fermer.
+
+
+==== Activer l'écran tactile ====
+<note warning>Attention, cette procédure est compliquée, ne vous y engager que si vous êtes sûr de ce que vous faites, après avoir au préalable sauvegardé vos données et lu l'ensemble de la procédure</note>
+
+Entrer dans un terminal:
+
+<code>cd ./Bureau
+wget http://prdownloads.sourceforge.net/linuxwacom/linuxwacom-0.8.3-6.tar.bz2
+sudo apt-get update
+sudo apt-get install build-essential libx11-dev libxi-dev x11proto-input-dev xserver-xorg-dev tk8.4-dev tcl8.4-dev libncurses5-dev
+sudo apt-get upgrade</code>
+
+Toutes les commandes apt-get intallent les paquets nécessaires et mettent à jour le système.
+
+<code>sudo apt-get remove wacom-tools xserver-xorg-input-wacom</code>
+
+Il faut ensuite ajouter les en-têtes de noyau à votre noyau.
+Pour vérifier la version de votre noyau, taper:
+<code>uname -r</code>
+
+Pour la plupart, il s'agit d'un noyau générique ("numero_de_noyau-generic"), il suffit donc de faire:
+<code>sudo apt-get install linux-headers-generic</code>
+
+Dans le cas d'un noyau rt, il faut alors taper:
+<code>sudo apt-get install linux-headers-rt</code>
+
+<note important>Si à n'importe moment, une notification demandant de redémarrer ou si une icône de redémarrage apparait dans la barre de tâche (icone flèche bleu), il faut surtout redémarrer desuite. Si vous n'êtes pas sûr, faites le par mesure de sécurité.</note>
+
+Viens ensuite l'installation à proprement parler du pilote:
+
+<code>tar xjvf linuxwacom-0.8.3-6.tar.bz2
+cd linuxwacom-0.8.3-6
+./configure --enable-wacom
+make
+sudo make install
+sudo rmmod wacom</code>
+Si après cette commande, une erreur s'affiche disant que wacom n'est pas chargé, ne vous inquiétez pas , c'est normal si vous n'aviez jamais installé ce module.
+<code>sudo cp ./src/2.6.24/wacom.ko /lib/modules/`uname -r`/kernel/drivers/input/tablet/wacom.ko
+sudo depmod -e
+sudo modprobe wacom</code>
+
+Si vous êtes sur la version 8.10 ou supérieur, utilser la commande suivante à la place:
+<code>sudo cp ./src/2.6.27/wacom.ko /lib/modules/`uname -r`/kernel/drivers/input/tablet/wacom.ko
+sudo depmod -e
+sudo modprobe wacom</code>
+
+
+
+Ceci a donc installer le pilote mais il faut maintenant configurer le serveur X.
+
+<note>La partie suivante a été simplifiée au maximum, malheureusement, pour des raisons inconnues, les actions du stylet et du toucher ne répondent pas aux mêmes numéros d'actions à chaque fois, il faut donc utiliser une autre méthode:
+
+Tout d'abord, si vous aviez déjà effectuer des modifications au fichier "/etc/X11/xorg.conf" par rapport à wacom, supprimer toutes ces modifications (vérifier bien aussi d'effacer toutes les références wacom dans la section Layout (?est-ce pareil en français?FIXME) du serveur.</note>
+
+
+Taper alors dans le terminal:
+
+<code>gedit ~/.xinitrc</code>
+et supprimer toutes les lignes contenant "xsetwacom" à leur début (sauf si vous savez pourquoi ça y est). Cela rend la calibration plus facile. Si vous avez un fichier vierge , ce n'est pas un problème. Sauvegarder puis redémarrer.
+
+Une fois la commande "sudo modprobe wacom", voyez si la flèche de la souris répond aux mouvements du stylet/l'écran tactile/de la gomme. Elle devrait se déplacer, même si la calibration n'est pas au point. Si ce n'est pas le cas, rendez-vous sur le forum anglophone (cf. Liens externes) et postez-y ce que renvoit la commande
+<code>./configure --enable-wacom
+make
+sudo make install
+sudo rmmod wacom
+sudo modprobe wacom</code>
+ainsi que le contenu de "xorg.conf" (situé dans /etc/X11/xorg.conf).
+
+Si tout marche bien jusque là, taper dans le terminal
+<code>gksudo gedit /etc/X11/xorg.conf &</code>
+(Laisser le terminal ouvert)
+Dans l'éditeur de texte, ajouter les lignes suivantes sous la section
+"Synaptic InputDevice" (voir le fichier xorg.conf sur ce lien pour l'exemple: [[http://ubuntuforums.org/showpost.php?p=5617788&postcount=30]])
+
+<file>Section "InputDevice"
+Identifier "stylus"
+Driver "wacom"
+Option "Type" "stylus"
+Option "USB" "on"
+Option "Device" "/dev/input/by-path/pci-0000:00:0b.1-usb-0:2.3:1.0-event-mouse"
+Option "Button2" "3" # make side-switch a right button
+Option "TopX" "225"
+Option "TopY" "225"
+Option "BottomX" "26300"
+Option "BottomY" "16375"
+EndSection
+
+Section "InputDevice"
+Identifier "touch"
+Driver "wacom"
+Option "Type" "touch"
+Option "USB" "on"
+Option "Device" "/dev/input/by-path/pci-0000:00:0b.1-usb-0:2.3:1.1-event-"
+Option "TopX" "200"
+Option "TopY" "225"
+Option "BottomX" "4000"
+Option "BottomY" "3875"
+EndSection
+
+Section "InputDevice"
+Identifier "eraser"
+Driver "wacom"
+Option "Type" "eraser"
+Option "Device" "/dev/input/by-path/pci-0000:00:0b.1-usb-0:2.3:1.0-event-mouse"
+Option "USB" "on"
+EndSection</file>
+
+Ensuite, trouver la section "ServerLayout" et y ajouter:
+<file>Inputdevice "stylus"	"SendCoreEvents"
+Inputdevice "touch"	"SendCoreEvents"
+Inputdevice "eraser"	"SendCoreEvents"</file>
+
+Maintenant, il faut ajuster la partie touchpad de Synaptic. Vu qu'il y a le mot "touch" dedans, il est faussement détecté.
+
+Trouver la partie contenant: 
+<file>Identifier "Synaptics Touchpad"</file> et la changer en: <file>Identifier "Synaptics Pad"</file>
+et changer cela aussi dans la partie Layout du serveur.
+
+<note important>Cette procédure étant relativement compliqué, il serait plus facile de simplment télécharger le fichier xorg.conf sur le lien donné plus. Cependant, celui-ci a été établi pour un ordinteur tx2000Series, et non tx2500Series. Il n'est donc pas judicieux de l'utiliser, cela aurait toutes les chances de ne pas fonctionner</note>
+
+Maximiser le terminal et entrez-y:
+<code>reset
+dmesg | grep Wacom</code>
+
+Il devrait y avoir deux lignes similaires à ceci:
+<code>[ 45.460644] input: Wacom ISDv4 93 as /devices/pci0000:00/0000:00:0b.1/usb2/2-2/2-2.3/2-2.3:1.0/input/input9
+[ 45.478030] input: Wacom ISDv4 93 as /devices/pci0000:00/0000:00:0b.1/usb2/2-2/2-2.3/2-2.3:1.1/input/input10</code>
+
+Taper alors:
+<code>ls /dev/input/by-path</code>
+
+Vous devriez avoir quelquechose du genre:
+<code>lrwxrwxrwx 1 root root 9 2008-07-27 12:07 pci-0000:00:0b.1-usb-0:2.3:1.0-event-mouse -> ../event9
+lrwxrwxrwx 1 root root 9 2008-07-27 12:07 pci-0000:00:0b.1-usb-0:2.3:1.0-mouse -> ../mouse1
+lrwxrwxrwx 1 root root 9 2008-07-27 12:07 pci-0000:00:0b.1-usb-0:2.3:1.1- -> ../mouse2
+lrwxrwxrwx 1 root root 10 2008-07-27 12:07 pci-0000:00:0b.1-usb-0:2.3:1.1-event- -> ../event10
+lrwxrwxrwx 1 root root 9 2008-07-27 12:07 platform-i8042-serio-0-event-kbd -> ../event1
+lrwxrwxrwx 1 root root 10 2008-07-27 12:07 platform-i8042-serio-1-event-mouse -> ../event11
+lrwxrwxrwx 1 root root 9 2008-07-27 12:07 platform-i8042-serio-1-mouse -> ../mouse3
+lrwxrwxrwx 1 root root 9 2008-07-27 12:07 platform-pcspkr-event-spkr -> ../event2</code>
+
+Il faut alors trouver le fichier qui corresponde à la sortie de "dmesg".
+Par exemple:
+input9 (de dmesg) correspond à event9 (dans le ls command) 
+Donc le fichier "pci-0000:00:0b.1-usb-0:2.3:1.0-event-mouse" est celui nécessaire dans cet exemple.
+
+Puis: input10 (de dmesg) correspond avec event10 (dans le ls command)
+Donc le fichier "pci-0000:00:0b.1-usb-0:2.3:1.1-event-" est l'autre nécessaire.
+
+Modifier alors votre xorg.conf avec ces deux fichiers (celui se terminant par "mouse" doit être placé dans la section Stylet et gomme; et celui se terminant par "event-' doit être placé dans la section touch.
+
+En théorie, vu que les portables sont tous basiquementles même, ces fichiers devraient être identiques à ceux donnés dans le lien précédent, mais il est plus prudent de vérifier.
+
+Cela devrait alors compléter la procédure.
+Appuyer sur Ctrl + Alt + Backspace pour redémarrer le ServeurX.
+Sur l'écran de connexion, testez le stylet/gomme/toucher pour voir si leurs mouvements ont  changés.
+
+Une fois connecté à votre session, nous allons pouvoir effectuer la calibration.
+Ouvrer un terminal et entrez-y
+
+<code>wacomcpl</code>
+
+Il s'agit de la nouvelle interface graphique. Vous y trouverez probablement tout ce dont vous avez besoin, juste lisez les boutons.
+
+Pour garder les paramètres wacomcpl au redémarrage, entrez dans un terminal:
+
+<code>chmod +x ~/.xinitrc</code>
+
+Puis aller dans : Système > Préférences > Sessions
+Clicker sur ajouter et  pour cette commande, taper "~/.xinitrc" (sans les quillemets) en le nommant comme voulu.
+
+Ceci ne marche cependant que pour l'utilisateur; lorsque vous êtes sur la fenêtre de connexion, l'écran n'est donc pas calibré.
+
+Pour que cela soit effectif sur l'ensemble du système, voici un petit tutoriel:
+En premier:
+<code>rm ~.xinitrc</code>
+
+Maintenant, repartez dans wacomcpl et arrangez le comme vous le souhaitez (calibration y-compris)
+
+Maintenant, nous allons ouvrier .xinitrc et xorg.conf:
+<code>gedit ~/.xinitrc & gksudo gedit /etc/X11/xorg.conf</code>
+
+Ensuite, on transfert juste les choses dans le xorg.conf
+Par exemple, la ligne dans le .xinitrc est:
+<code>xsetwacom set touch bottomy "3951"</code>
+
+Si vous ouvrez un terminal, vous pouvez utiliser xsetwacom pour trouver comment le traduire dans le xorg.conf.
+Donc ce vous feriez pour la ligne au-dessus est:
+<code>xsetwacom -x get touch bottomy</code>
+
+le "x" correspond à xconf; "get" vous donne la valeur
+Cette commande ressort:
+<code>Option "BottomY" "3951"</code>
+que l'on mettrait dans le xorg.conf sous la section Touch
+
+Voici un autre court exemple:
+
+dans .xinitrc:
+xsetwacom set stylus Button3 "Button 3"
+
+Commande:
+<code>xsetwacom -x get stylus button3</code>
+
+Partie à mettre dans xorg.conf:
+
+<code>Option "Button3" "BUTTON 3"</code>
+
+
+
+==== Installer le pilote propriétaire ATI ====
+
+  * Ouvrir le gestionnaire de pilote propriétaire:
+Système > Administration > Pilotes de périphérique
+
+  * Cocher la ligne "Pilote d'accélération graphique ATI"
+
+  * Redémarrer
+
+
+
+==== Lecteur d'empreinte digitale ====
+
+En ce qui concerne le lecteur d'empreinte, il y a un nouveau projet appelé [[:fprint|fprint]], mais il est en cours de développement et n'est pas entièrement prêt à être utilisé en version stable.
+FIXME
+
+
+==== Webcam ====
+
+Pour faire marcher la webcam, il suffit de faire:
+<code>sudo apt-get install luvcview cheese</code>
+,ce qui installera un simple programme de webcam appelé [[:cheese|Cheese]]
+FIXME
+
+
+==== Télécommande IR====
+
+Se reporter aux pages sur les [[:telecommande|télécommandes]]FIXME
+
+==== Rotation====
+<note warning>A l'heure actuelle, ce tutoriel n'est pas fonctionnel. Il est issu du topic du forum sur le TX2050, ainsi que de l'article du wiki sur la rotation (cf.[[hp_pavilion_tx2520ef#Liens externes]]). Bien que cette méthode fonctionne avec l'autre modèle, il semble que XRandR ne fonctionne pas bien sur notre TX2520. Cependant, la méthode présentée ici devrait être efficace à partir du moment où ce bug sera corrigé. Si vous savez où et comment régler ce problème, n'hésitez pas à faire partager sur ce wiki
+FIXME</note>
+
+En premier lieu, il faut installer les paquets wacom-tools pour activer XRandR; soit par le lien APT **[[apt://wacom-tools|wacom-tools]]**, soit en tapant dans un terminal:
+<code>sudo apt-get install wacom-tools</code>
+
+Editer ensuite le fichier de configuration de X
+<code>gksudo gedit /etc/X11/xorg.conf</code>  et ajouter dans la section Device 
+<code>Option "RandRRotation" "on"</code>
+avant la ligne "EndSection, puis enregistrer.
+
+Vous devez optenir quelque chose du genre:
+<code>Section "Device"
+    Identifier    "Configured Video Device"
+    Driver        "nvidia"
+    Option        "NoLogo"    "True"
+    Option        "RandRRotation"  "on"
+EndSection</code>
+
+Nous allons maintenant créer un script qui va effectuer la rotation dès qu'il sera lancer.
+Créer un fichier caché dans votre home à partir du terminal:
+<code>gedit ~/.rotation.sh</code>
+(vous pouvez le mettre ailleurs si vous le souhaitez.)
+
+et y copier ce script:
+<code>#!/bin/bash
+#version 8.04 (Hardy Heron):
+rotation="$(xrandr -q --verbose | sed -n '2 {p;q}' | cut -d' ' -f5)"
+
+case "$rotation" in
+    normal)
+        xrandr -o right
+        xsetwacom set "TabletPCStylus" Rotate CW
+        ;;
+    right)
+        xrandr -o inverted
+        xsetwacom set "TabletPCStylus" Rotate HALF
+        ;;
+    inverted)
+        xrandr -o left
+        xsetwacom set "TabletPCStylus" Rotate CCW
+        ;;
+    left)
+        xrandr -o normal
+        xsetwacom set "TabletPCStylus" Rotate NONE
+        ;;
+esac</code>
+
+Une fois enregistré, changer les permissions sur ce fichier:
+<code>chmod +x ~/.rotation.sh</code>
+
+
+=== Touches multimedia===
+<note important>Il s'agit de la configuration des quatre touches situées sur le bord de l'écran. Pour l'instant, cette méthode ne permet que de faire fonctionner les touches DVD et QuickPlay (celle juste à côté)
+Cette astuce provient du topic sur le TX2050 dans le forum (cf.[[hp_pavilion_tx2520ef#Liens externes]]).</note>
+
+Dans votre home, créer ou modifier le ~/.Xmodmap 
+<code>gedit ~/.Xmodmap</code>
+
+et ajouter:
+<code>keycode 237 = XF86Launch0
+keycode 205 = XF86Launch1</code>
+afin d'associer la touche à un keysyms.
+
+Le keycode 237 correspond à la touche DVD, et 205 à la touche QuickPlay
+
+Taper dans un terminal la commande:
+<code>xmodmap ~/.Xmodmap</code> pour prendre cette ajout en compte.
+
+Pour que cela soit pris en compte à chaque fois que vous démarrez votre ordinateur, il faut aussi ajouter cette commande au démarrage de ta session en allant dans le menu Systeme/Préférence/Session puis clicker sur Ajouter et entrer la commande ci-dessous à la case "commande")
+
+Maintenant, il faut associer les touches à des actions.
+<note>C'est ici que vous pouvez décider de personnaliser l'utilisation des touches. Dans l'exemple qui est donné ici, on a associé la touche DVD au lancement du logiciel Elisa, et la touche QuickPlay à la rotation de l'écran (à condition d'avoir effectuer la configuration nécessaire; cf.[[hp_pavilion_tx2520ef#Rotation|Rotation]]). Vous pouvez à la place associer tout autre action ou application en remplaçant "elisa" et "~/rotation.sh" par ce que vous voulez.</note>
+
+Lancer l'éditeur de configuration, soit en passant par le Menu (Application/Outils système/Editeur de configuration)
+soit en tapant dans le terminal
+<code>gconf-editor</code>
+Naviguer dans l'arborescence dans les sections Apps/Compiz/General/AllScreens/Options/. Une fois dans cette dernière, modifier les clefs de la manière suivante:
+<code>
+Name                        Value
+run_command0_key      XF86Launch0
+run_command1_key      XF86Launch1
+command0              elisa
+command1              ~/rotation.sh</code>
+
+A partir de là, cela devrait fonctionner.
+
+FIXME
+
+
+
+
+
+
+
+===== Détails de la configuration matérielle =====
+**Processeur**: AMD Turion x2 Ultra ZM-80 2.1GHz; cache 2Mo de niveau L2
+
+**Mémoire vive**: 3072Mo (1024Mo+2048Mo) DDR2 800 MHz (PC6400)
+
+**Disque dur**: 250Go S-ATA 5400t/min
+
+**Carte Graphique**: ATI Mobility Radeon HD 3200 IGP 64Mo DDR2
+
+**Ecran tactile**: Wacom WXGA 12,1" 1280x800 dual-touch (électro-magnétique/sensitif)
+
+**Carte son**: Realtek High Definition Audio
+
+**Cartes réseau**:
+  * **Wifi**: Broadcom BCM4322 WLAN 802.11 a/b/g/n
+  * **Ethernet**: Realtek RTL8111/8168B PCI-E LAN Gigabit Ethernet 10/100/1000
+  * **Bluetooth**:
+  * **Modem**:Motorola SM56 SY 56K V92
+
+**Lecteur d'empreinte digitale**: AuthenTec AES 1600/1610
+
+**Receveur Infra-Rouge**: ENE CIR Receiver
+
+
+
+
+=====Liens externes=====
+  * [[http://ubuntuforums.org/showthread.php?t=873188|Tutoriel d'installation d'Hardy 8.04.1 64bits (eng)]]
+  *  [[http://ubuntuforums.org/showthread.php?t=845911|Topic sur les modèles de la série TX2500 (eng)]]
+  *  [[http://ubuntuforums.org/showthread.php?p=5469447|Topic sur les écrans tactiles (eng)]]
+  *  [[http://forum.ubuntu-fr.org/viewtopic.php?pid=1955876|Topic sur le TX 2050, comportant des astuces sur la rotation et les touches mutimédia (fr)]]
+  *  [[http://ubuntuforums.org/showthread.php?t=996830|Topic sur la rotation pour TX 2000, TX 2500 et autres Tablet-PC (eng)]]
+  *  [[tutoriel:creer_et_utiliser_un_agencement_de_clavier_personnalise|Créer et utiliser un agencement de clavier personnalisé]]
+  *  [[:configurer_son_ecran#rotation_de_l_affichage|Article de la documentation sur la rotation d'écran]]
+  *  [[http://www.pietrobattiston.it/wiki/doku.php?id=jaunty_on_hp_pavilion_tx2500|Page recensant toutes les informations pour TX2500 sur Jaunty]]
+  *  [[http://www.pietrobattiston.it/wiki/doku.php?id=karmic_on_hp_pavilion_tx2500|Page recensant toutes les informations pour TX2500 sur Karmic]]
+
+-----
+
+**Utilisateurs du Wiki possédant cet ordinateur, fonctionnel :**
+  * **[[:utilisateurs:Umuntu]]** : [[:lucid|Lucid Lynx 10.04]]
+
+
+
+//Contributeurs :[[:utilisateurs:Umuntu]]//

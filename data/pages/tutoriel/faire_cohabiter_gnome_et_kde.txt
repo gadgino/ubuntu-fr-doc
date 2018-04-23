@@ -1,0 +1,93 @@
+{{tag>Lucid Gnome KDE tutoriel}}
+
+----
+
+
+====== Faire cohabiter Gnome et KDE ======
+
+Ce tutoriel décrit comment faire cohabiter sur un même système les 2 environnements de bureau : [[:Gnome]] et [[:KDE]], afin de pouvoir disposer de comptes d'utilisateurs ([[:sessions|sessions]]) avec Gnome et d'autres comptes avec KDE. 
+
+<note>Ce qui est à faire sur un compte avec KDE est à faire sur tous les comptes utilisant ce gestionnaire. Idem pour les comptes Gnome.</note>
+
+
+===== Pré-requis =====
+
+  * Si vous aviez une installation classique d'Ubuntu (Gnome), avoir [[:tutoriel:comment_installer_un_paquet|installé le paquet]] **[[apt://kubuntu-desktop|kubuntu-desktop]]**
+  * Si vous aviez une installation classique de Kubuntu (KDE), avoir [[:tutoriel:comment_installer_un_paquet|installé le paquet]] **[[apt://ubuntu-desktop|ubuntu-desktop]]**
+
+
+
+===== Harmoniser le système de son de KDE avec celui de Gnome =====
+
+
+==== Le problème ====
+
+Si deux sessions (l'une fonctionnant sous KDE et l'autre sous gnome) sont connectées sur un même système, vous aurez souvent des problèmes de son. Généralement vous n'aurez pas de son du tout sur la seconde session qui a été ouverte et pour cause, les périphériques sonores utilisés par GNOME (Pulsaudio) et KDE sont différents et s'excluent mutuellement.
+
+La solution : utiliser un seul périphérique quel que soit le gestionnaire utilisé.
+==== Si l'on veut garder le périphérique de Gnome (Pulseaudio) ====
+
+__suivre la procédure suivante dans tous les comptes KDE :__
+
+Saisissez la commande suivante dans un [[:terminal]] (ou via le raccourci Alt-F2) :
+  systemsettings
+
+Puis dans l'//onglet "Général">Multimédia//, cliquez sur **"Playback/recording through the PulseAudio sound server"** et appuyez sur le bouton "Monter" jusqu'à faire parvenir **"Playback/recording through the PulseAudio sound server"** en haut de la liste.
+Ensuite, cliquez sur "Appliquer la liste de périphérique à...", cochez toutes les cases de la fenêtre qui s'ouvre puis OK.
+
+Enfin, quand vous revenez à la fenêtre "Multimédia - Configuration su système", __n'oubliez pas de cliquer sur "Appliquer"__.
+
+Un petit redémarrage de session plus tard, tout fonctionne sans interférence, essayez de lancer une session GNOME en même temps que la session KDE que vous avez paramétrée et vous constaterez qu'il n'y a plus aucun soucis.
+
+==== Si l'on veut garder le périphérique de KDE ====
+
+
+__suivre la procédure suivante dans tous les comptes GNOME :__
+
+FIXME
+
+=====Retirer les lanceurs intrus =====
+====Retirer de Gnome les lanceurs de KDE====
+
+__suivre la procédure suivante dans tous les comptes GNOME  :__
+
+
+Il suffit de lancer l'[[:alacarte|éditeur de menu Gnome]] (via le menu Système→Préférences→Menu Principal), puis décocher les applications KDE.
+ 
+Pour rappel, vous trouverez les applications par défaut d'Ubuntu sur [[:applications_par_defaut_sous_ubuntu|cette page]].
+====Retirer de KDE les lanceurs de Gnome====
+
+__suivre la procédure suivante dans tous les comptes KDE  :__
+
+Il suffit de lancer l'[[:kmenuedit|éditeur de menu KDE]] (clic-droit sur le Menu K ->Éditeur de menu OU saisir la commande ''kmenuedit''), puis masquer les applications Gnome. **N'oubliez pas de cliquer sur "Enregistrer" à la fin**.
+
+
+===== Ouvrir les fichiers avec les programmes de son gestionnaire de bureau =====
+
+==== Le problème ====
+
+Vous aviez une installation classique de l'un ou l'autre d'ubuntu (Gnome) et de Kubuntu (KDE) et vous avez installé le gestionnaire de bureau de Bureau que vous n'aviez pas. Dans la plus part des cas, lorsque vous essayez d'ouvrir un document, celui-ci s'ouvre avec un programme de votre ancien gestionnaire de bureau, ce qui n'est ni esthétique ni pratique car les logiciels KDE ont des fonctionnalités de communication entre eux et les logiciels Gnome aussi.
+
+Si vous souhaitez rendre votre système cohérent, voici les instructions à suivre suivant votre cas.
+
+==== Si vous aviez une installation classique d'Ubuntu (Gnome) et que vous avez installé le paquet kubuntu-desktop ====
+
+//Suivez la procédure suivante dans tous les comptes KDE  ://
+
+Saisissez dans un terminal (ou via le raccourci Alt-F2) la commande suivante : 
+<code>systemsettings</code>
+
+Allez à //Onglet "Avancé"-->Association de fichiers//
+
+Puis sélectionnez un format de fichier (ogg, pour les fichier audio, par exemple) et dans la fenêtre de droite faites avancer au plus haut le programme avec lequel vous souhaitez ouvrir par défaut ce type de fichiers sous KDE (en l'occurrence [[:amarok|Amarok]] ou [[:kaffeine|kaffeine]]), vous pouvez vous aider d'[[:logiciels|une liste d'équivalences entre les programmes Gnome et KDE]]. Évidement c'est fastidieux mais la petite astuce est de commencer par les formats de fichiers que vous utilisez le plus (ogg, ODT, DOC, MP3 etc) et surtout n'oubliez pas le groupe "application" car il contient plusieurs types de fichiers importants.
+==== Si vous aviez une installation classique de Kubuntu (KDE) et que vous avez installé le paquet Ubuntu-desktop ====
+FIXME
+
+===== Voir aussi =====
+
+  * [[http://lehollandaisvolant.net/linux/gkde/#lc|Faire cohabiter GNOME et KDE]]
+  * [[http://www.siteduzero.com/tutoriel-3-70632-installer-desinstaller-un-ou-plusieurs-gestionnaires-de-bureau-proprement-gnome-kde-xfce-etc.html ...|Installer/désinstaller un ou plusieurs gestionnaires de bureau proprement (Gnome, KDE, XFCE, etc.)]] (attention, date de 2009) 
+
+
+----
+//Contributeurs principaux : [[:utilisateurs:fove2]]//

@@ -1,0 +1,78 @@
+{{tag>portable mac}}
+
+----
+====== Liste des portables « Apple » ======
+
+Voici tous les micro-ordinateurs portables ayant été testés sous Ubuntu, classés par ordre alphabétique.
+
+Complétez ces tableaux avec les ordinateurs que vous avez pu tester. 
+
+Légende des icônes : 
+
+| {{  icons:process-stop.png?20  |Ne fonctionne pas}}Ne fonctionne pas | {{ icons:icon-ubuntu.png?20 |Fonctionne immédiatement}}Fonctionne immédiatement | {{wiki:modeles:laptop_work.png|Fonctionne après config}}Nécessite quelques réglages | -\\ Pas testé |
+
+<note tip>Si vous avez testé avec succès une version 64bits sur votre ordinateur, ajoutez le smiley :-D pour le signaler dans la colonne '64b'. </note>
+
+===== iBook =====
+^ Modèle ^ Problème installation ^ Problème matériel ^ Commentaires  ^ [[:versions|Version]] ^
+|iBook G4 800 MHz | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | Tout fonctionne même Compiz Fusion.| 7.10 |
+|iBook G4 1,07 Ghz | |-|Pas de wifi, l'hibernation ne fonctionne pas.| |
+|iBook G4 1,07 Ghz | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | |Parfait sous Breezy mais pas de wifi.|
+|iBook G4 1,20 Ghz | | {{wiki:modeles:laptop_work.png|Fonctionne après config}}|Quelques soucis de Wifi.| |
+|iBook G4 1,33 GHz | {{icons:icon-ubuntu.png|Fonctionne immédiatement}}| |Wifi Ok, Pb carte video| 10.04 |
+|iBook G3 800 Mhz | {{icons:icon-ubuntu.png|Fonctionne immédiatement}}| |Wifi Ok (Airport) , Hibernation Ok.| 7.04|
+|iBook G3 600 MHz | | |Testé sous Breezy, WiFi OK (carte AirPort) hibernation ne fonctionne pas.| |
+|iBook G3 500 Mhz | {{icons:icon-ubuntu.png|Fonctionne immédiatement}}| |Wifi Ok (Carte airport) et Hibernation Ok.| 7.04 |
+|iBook dual USB 500 MHz | | | Pas de clavier canadien/français, l'hibernation ne fonctionne pas sous Breezy | |
+
+
+===== PowerBook =====
+
+^ Modèle ^ Problème installation ^ Problème matériel ^ Commentaires  ^ [[:versions|Version]] ^
+|powerBook G4 12%%''%% 1,5 GHz  | {{:icons:icon-ubuntu.png| Reconnue par défaut.}} | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | pas de wifi (in progress), pas de support de la geforce 5200 | Breezy |
+|powerBook G4 14%%''%% 1,67 GHz | {{:icons:icon-ubuntu.png| Reconnue par défaut.}} | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | pas de wifi, son OK, trackpad OK | Breezy |
+|PowerBook G4 15%%''%% 1 GHz | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | Les LiveCD gusty et hardy plantent, mais les mises à jours jusqu'à hardy n'ont pas posés de problèmes (wifi ok avec le paquet b43-fwcutter). Hibernation n'a jamais fonctionné.  | Hardy |
+|powerBook G4 15%%''%% 1,5 GHz | {{:icons:icon-ubuntu.png| Reconnue par défaut.}} | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | Blocage au démarrage (écran multicolore) | Hardy |
+|PowerBook G4 15.2%%''%% Titanium 500Mhz | {{:icons:icon-ubuntu.png| Reconnue par défaut.}} | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | Ecran multicolore au démarage (Il faut bidouiller le xorg.conf en spécifiant les valeurs de HorizSync et VertRefresh malheureusement différente en fonction de la version installée et du modèle de l'ordinateur mais en fouillant dans les forums et en faisant quelques essais on fini par trouver la bonne ! Le Live-Cd Gutsy Plante mais par upgrade : No Problem | Feisty → Gutsy|
+
+
+===== MacBook =====
+^ Modèle ^ Problème installation ^ Problème matériel ^ Commentaires  ^ [[:versions|Version]] ^
+|MacBook Core 2 Duo 2 GHz | {{:icons:icon-ubuntu.png| Reconnue par défaut.}} | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | La mise à jour depuis Edgy posait problème au boot, visiblement à cause du pilote wifi chargé avec ndiswrapper. du coup j'ai refait une installation de Feisty directement avec le CD Desktop. Wifi ok (avec madwifi-hal-0.9.30.13), bluetooth ok (mighty mouse), clavier ok (touches Fn, F1 à F6 pour éclairage et son, eject ...), webcam pas testée mais fonctionnait sous Edgy, sortie vidéo pas testée. La lecture de film DVD ne semble pas possible facilement, que ce soit avec totem, xine, vlc. | Feisty |
+|MacBook Core 2 Duo 2 GHz | {{:icons:icon-ubuntu.png| Reconnue par défaut.}} | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | Aucun problème pour l'installation avec Gutsy:7.10(préparer les partition, avec bootcamp par exemple, utiliser éventuellement rEFIt pour un triple boot avec windows). Pour le Wifi, voir madwifi (comme cette carte a un chipset atheros vous pouvez utiliser aircrack-ng) sinon tout est reconnu. | Gutsy |
+| MacBook 4,1 | {{:icons:icon-ubuntu.png| Reconnue par défaut.}} | {{:icons:icon-ubuntu.png| Reconnue par défaut.}} |  | Precise |
+|MacBook Core 2 Duo 4 GHz | {{:icons:icon-ubuntu.png| Reconnue par défaut.}} | {{:icons:icon-ubuntu.png| Reconnue par défaut.}} | Aucun problème à l'installation. Mais je ne l'ai pas installé en natif, je passe par Parallels Desktop. Tout marche parfaitement. | Intrepid |
+|MacBook Core 2 Duo 1.83 Ghz | {{:icons:icon-ubuntu.png| Reconnue par défaut.}} | {{:icons:icon-ubuntu.png| Reconnue par défaut.}} | Aucun problème à l'installation (9.04 Desktop CD). En dual avec Mac OS X, sous rEFIt. Tout fonctionne, carte wifi reconnue immediatement (Athéros(Aircrack-ng ok ! ;-)), bluetooth ok, isight ok, juste une mauvaise gestion pour les touches de réglage de brightness, et un trackpad pas fou... sinon parfait! | Jaunty |
+|MacBook 2,1 2GHz| {{:icons:icon-ubuntu.png| Reconnue par défaut.}} | {{wiki:modeles:laptop_work.png|Fonctionne après config}} |installé en 9.04 puis mis à jour en 9.10, le réglage de luminosité qui était foireux, mais marchait en 9.04 ne marche plus du tout. Le Wifi marche mieux qu'avec la 9.04. J'ai pas testé la iSight. L'hibernation ne marche pas et bloque le mac sur un écran noir, obligé de rester appuyé sur le bouton d'alim pour éteindre.| Koala |
+| MacBook 5.2 | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3104614#p3104614|Voir le forum]] pour l'installation. Pour le son, ajouter « options snd-hda-intel model=imac24 » dans /etc/modprobe.d/alsa-base.conf. Touches arobase et supérieur/inférieur inversées. Choisir comme modèle de clavier « Portable Apple ». Ajouter l'option nomodeset pour l'installation. | 12.04 13.04 |
+| [[Macbook 7.1]] | {{:icons:icon-ubuntu.png| Reconnue par défaut.}} | {{:icons:icon-ubuntu.png| Reconnue par défaut.}} | Pour activer le défilement naturel comme sous MacOs il faut aller dans système->préférence->souris  et cocher l'option "le contenu colle au doigts" | Precise vivid|
+
+
+===== MacBook Pro =====
+^ Modèle ^ Problème installation ^ Problème matériel ^ Commentaires  ^ [[:versions|Version]] ^
+|MacBook Pro Core duo 1.83 GHz | {{:icons:icon-ubuntu.png| Reconnue par défaut.}} | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | Aucun problème pour l'installation avec Hardy:8.04 : pour le clavier sous X et en mode console, voir le post " Comment obtenir caractères {[pipe..." sur forum "Sur Mac" isight | Hardy |
+|MacBook Pro Core 1.1 duo 2.1 GHz | {{:icons:icon-ubuntu.png| Reconnue par défaut.}} | {{:icons:icon-ubuntu.png| Reconnue par défaut.}} |Version 32 bits (mate) | xenial |
+|MacBook Pro Core 2 duo 2.2 GHz | {{:icons:icon-ubuntu.png| Reconnue par défaut.}} | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | Souris ou trackpad qui change de sensibilité dans les mouvements d'ascenseur ou de déplacement d'objet. Double Boot avec leopard et Bootcamp en utilisant rEFIt, impeccable.|-|
+|MacBook Pro Core 2 duo 2.4 GHz (4.1) | {{:icons:icon-ubuntu.png| Reconnue par défaut.}} | wifi | Nécessite l'installation des drivers propriétaires pour le Wifi (Broadcom BCM4328).  |Lucid Lynx|
+|MacBook Pro Core 2 duo 2.4 GHz. Version unibody 2008 (5.1) | {{:icons:icon-ubuntu.png| Reconnue par défaut.}} | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | Double Boot en utilisant rEFIt. rétroéclairage clavier | Karmic |
+|MacBook Pro 5,5 P8700 2,53 GHz (mi 2009) | {{:icons:icon-ubuntu.png| Reconnue par défaut.}} | {{:icons:icon-ubuntu.png| Reconnue par défaut.}} |  |Lucid Lynx|
+| MacBook 5.5 |{{:icons:icon-ubuntu.png| Reconnue par défaut.}} | {{:icons:icon-ubuntu.png| Reconnue par défaut.}} |  | Xenial |
+| Macbook 6.1 | {{:icons:icon-ubuntu.png| Reconnue par défaut.}} | {{:icons:icon-ubuntu.png| Reconnue par défaut.}} |  | Raring |
+|Macbook Pro 8.2 | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | carte graphique au boot : Entrer quelques lignes dans la config de grub en live et en dur [[http://askubuntu.com/questions/664821/amd-discrete-graphics-unusable-on-a-macbook-pro-8-2|Voir le lien sur askubuntu]] | Xenial |
+| Macbook Pro 9.1 | {{:icons:icon-ubuntu.png| Reconnue par défaut.}} | {{:icons:icon-ubuntu.png| Reconnue par défaut.}} | Si vous installez macOS après Ubuntu utilisez [[http://www.rodsbooks.com/refind/|rEFInd]] (un boot manager libre) pour gérer le dualboot, le boot manager de macOS ne supporte pas le démarrage d'Ubuntu. | Xenial |
+| [[:macbook_pro_11.1|Macbook 11.1]] | {{:icons:icon-ubuntu.png| Reconnue par défaut.}} | {{:icons:icon-ubuntu.png| Reconnue par défaut.}} | [[https://medium.com/@racter/how-to-install-ubuntu-16-04-on-a-retina-macbook-11-2-74e7779c0e47#.wiscues8z|installation détaillée en anglais]] | Trusty Xenial |
+
+
+===== MacBook Air =====
+^ Modèle ^ 64b ^ Problème installation ^ Problème matériel ^ Commentaires  ^ [[:versions|Version]] ^
+|MacBook4,2||||Modèle Apple MacBook Air 13" mi-2011.||
+|MacBookAir4-2||||||
+|MacBook4,1||||Modèle Apple Macbook Air 11" mi-2011.||
+|Macbook3,1||||Modèle Apple MacBook Air 11" (1) et 13" (2) fin-2010||
+|MacBookAir3-2||||||
+|Macbook2,1||||||
+|Macbook1,1||||||
+
+===== Mac Pro =====
+^ Modèle ^ 64b ^ Problème installation ^ Problème matériel ^ Commentaires  ^ [[:versions|Version]] ^
+|MacPro 2.8 GHz | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | {{:icons:icon-ubuntu.png| Reconnue par défaut.}} | son //(wifi, vidéo)// | Aucun problème pour l'installation depuis Hardy:8.04. Configuration recommandée pour la vidéo (mode Vesa par défaut) et le wifi | Hardy-Karmic |

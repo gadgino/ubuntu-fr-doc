@@ -1,0 +1,131 @@
+
+
+====== Qid ======
+
+==== Un bonjour de Qid ====
+
+=== Je me présente ===
+
+pour moi l'informatique est un plaisir : j'aime bien aider/orienter\\
+les autres et ainsi partager mes sources de connaissances\\
+
+pour preuve : je suis l'un des plus actifs de mon GUL :\\
+[[http://www.montpel-libre.fr|Montpel'libre le GUL de Montpellier (France, Hérault, 34)]]\\
+
+de plus, avec une connaissance du GUL, on a créé une autre association\\
+pour gérer "[[http://libre-shop.com|une plate-forme d'e-commerce communautaire]]"\\
+ainsi qu'[[http://blog.libre-shop.com|un blog d'information sur les "produits" libres]]\\
+
+En tous cas l'idéal pour que tout se passe bien entre nous\\
+c'est de savoir poser des questions construites\\
+et donner suffisamment de détails sur le problème\\
+sans pour autant en donner trop non plus\\
+;-)\\
+
+=== Pourquoi mon pseudo ===
+
+Q = l'initiale de mon prénom\\
+i = l'initiale de mon nom de famille\\
+le d lui est la a cause à l'époque d'une saleté de jeux\\
+qui voulait enregistrer les recors avec 3 lettres du coups\\
+j'ai choisi "d" en référence à Kidd Paddle ou Billy The Kid\\
+maintenant que vous savez ça vous éviterez\\
+d'écrire mon pseudo avec un "u" et aussi\\
+vous le prononcerer comme il faut :\\
+c'est bien "Kid" et non "Kuid"\\
+Bref par la suite ce pseudo m'est resté\\
+(avec quelques extentions suivant le domaine\\
+mais la base est toujours Qid)\\
+
+=== Mon Prompt et la variable dont il a besoin ===
+
+PS1='${debian_chroot:+($debian_chroot)}\\
+\[\033[34m\] $DATE à \t \[\033[0m\]\\
+\[\033[36m\] PC \h sous Kernel $(uname -r) \[\033[0m\]\\
+\[\033[35m\] TTY/PTS \l lancé depuis $[$SECONDS/86400]J$[($SECONDS%86400)/3600]H$[($SECONDS%3600)/60]m$[$SECONDS%60]s \[\033[0m\]\\
+\[\033[31m\] Utilisateur en ligne > $USER \[\033[0m\]\\
+\[\033[33m\] Dans > $PWD \[\033[0m\]\\
+\[\033[32m\] CMD > \[\033[0m\]'\\
+
+**# Création de variable**\\
+export DATE=`date +%A\ %d/%m/%Y`\\
+
+=== Quelques uns de mes alias (à utiliser sans modération) ===
+
+**# Gerer les packages**\\
+%%#alias aptinstaller='sudo apt-get update ; sudo apt-get install'%%\\
+%%alias aptinstaller='sudo apt update ; sudo apt install'%%\\
+%%#alias aptdesinstaller='sudo apt-get update ; sudo apt-get clean autoclean ; sudo apt-get autoremove --purge'%%\\
+%%alias aptdesinstaller2='sudo apt-get update ; sudo apt-get clean autoclean ; sudo apt-get autoremove --purge'%%\\
+%%alias aptdesinstaller='sudo apt update ; sudo apt remove --purge'%%\\
+%%#alias aptchercher='sudo apt-get update ; echo "--------------------------" ; apt-cache search'%%\\
+%%alias aptchercher='sudo apt update ; echo "--------------------------" ; apt search'%%\\
+%%#alias aptdetailpackage='sudo apt-get update ; echo "--------------------------" ; apt-cache show'%%\\
+%%alias aptdetailpackage='sudo apt update ; echo "--------------------------" ; apt show'%%\\
+**(notez les équivalences apt/apt-*)**\\
+
+**# Mettre a jour**\\
+%%#alias majsysteme='sudo apt-get update ; sudo apt-get upgrade ; sudo apt-get dist-upgrade'%%\\
+%%alias majsysteme='sudo apt update ; sudo apt upgrade ; sudo apt full-upgrade'%%\\
+**(notez les équivalences apt/apt-*)**\\
+
+**# Supprimer les fichiers**\\
+%%alias supprimerfichier='sudo rm -ri'%%\\
+%%alias supprimerbackup~='sudo find -regex "^.*~$" -exec sudo rm -i {} \;'%%\\
+
+**# Gerer un plantage**\\
+%%alias pidatrouver='ps aux | grep'%%\\
+%%alias pidatuer='sudo kill -9'%%\\
+
+**# Brancher et debrancher**\\
+%%alias brancherpartition='sudo mount -o rw,uid=1000,gid=1000'%%\\
+%%alias debrancherpartition='sudo umount'%%\\
+
+**# Editer**\\
+%%alias editerfichieruser='nano'%%\\
+%%alias editerfichierroot='sudo nano'%%\\
+%%alias editerbash='sudo nano /etc/bash.bashrc ; unalias -a ; source /etc/bash.bashrc'%%\\
+%%alias editernet='sudo nano /etc/{network/interfaces,resolv.conf,hosts} ; sudo /etc/init.d/networking restart'%%\\
+%%alias editercrontab='sudo nano /etc/crontab'%%\\
+%%alias editercassefichier='rename `s/(^.)/\u$1/` *'%%\\
+
+**# Lister**\\
+%%alias listerfichier='ls -alh --group-directories-first --color'%%\\
+%%alias listerscreens='screen -ls'%%\\
+%%alias listerpartitions='sudo fdisk -l ; echo "--------------------------" ; sudo parted -l ; echo "--------------------------" ; df -aTh ; echo "--------------------------" ; free -h ; echo "--------------------------" ; ls -l /dev/disk/by-label/'%%\\
+%%alias listerutilisateursconnectes='w -so'%%\\
+
+**# Ecouter et regarder**\\
+%%alias ecoutermp3='mplayer -shuffle -loop 0 -ao alsa -nolirc'%%\\
+%%alias regarderimage='fbi'%%\\
+%%alias regardervideo='mplayer -vo fbdev -fs -zoom'%%\\
+
+**# Gestion des droits**\\
+%%alias droitusrgrp='sudo chown -cRHL'%%\\
+%%alias droitall='sudo chmod -cR 777'%%\\
+
+**# Afficher des informations**\\
+%%alias affichercalendrierdateheure='cal -my ; echo "--------------------------" ; date'%%\\
+%%alias afficherheurelive='watch -n1 "banner \$(date +"%H:%M:%S")"'%%\\
+%%alias afficheretatbatterie='acpi -ba'%%\\
+%%alias affichertemperature='sudo hddtemp /dev/sda ; echo "--------------------------" ; sensors ; echo "--------------------------" ; acpi -tB'%%\\
+%%alias afficherpcon='nmap -sP 192.168.1.255/24'%%\\
+%%alias affichertailledudossier='du -hsc'%%\\
+%%alias affichernomsystème='cat /var/log/installer/media-info ; echo " avec $XDG_CURRENT_DESKTOP"'%%\\
+
+**# Arreter**\\
+%%alias arreterpcauto='sudo shutdown -hP'%%\\
+%%alias arreterecran='sleep 1 ; xset dpms force off'%%\\
+%%alias arretermusique='pkill mplayer'%%\\
+%%alias arreterson='amixer sset PCM toggle'%%\\
+
+**# Telecharger**\\
+%%alias telechargerviainterneta='wget --continue --user-agent=Mozilla\/5.0\ \(compatible\;\ Konqueror\/3.5\)\ KHTML\/3.5.0\ \(like\ Gecko\) --limit-rate'%%\\
+%%alias telechargerviasshport='scp -r -P'%%\\
+
+**# Lancer un programme**\\
+%%alias lancerexplorateur='mc'%%\\
+%%alias lancercalculatrice='bc -i'%%\\
+%%alias lancerimprimecran='scrot -cd'%%\\
+%%alias lancerinterfacegraphique='startx'%%\\
+%%alias lancerpartagetemporairedudossierencours='python -m SimpleHTTPServer'%%\\

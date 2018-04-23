@@ -1,0 +1,59 @@
+{{tag>Trusty Xenial cron}}
+
+----
+
+====== GNOME Schedule, le planificateur de tâches de GNOME ======
+
+{{ :applications:gnome-schedule_trusty01.png?250}}
+
+**GNOME Schedule** vous permet de programmer à l'avance l'exécution de certaines tâches. C'est en fait une interface graphique permettant de gérer le [[:cron]]. Et pour ceux qui connaissent, c'est l'équivalent des « Tâches planifiées » sous Windows. C'est d'ailleurs sous ce nom, **Tâches planifiées**, que vous le trouverez dans [[:unity#tableau_de_bord_dash|le tableau de bord Unity]].
+
+Bien sûr, le besoin de programmer à l'avance le lancement d'une commande ne vous prend pas tous les jours. Mais le jour où vous en aurez besoin, vous serez content de savoir que GNOME Schedule existe, surtout si vous ne savez pas éditer vous même votre //crontab//, et à la rigueur, même si vous savez le faire, mais que vous vous embrouillez toujours un peu dans les syntaxes.
+
+
+===== Installation =====
+
+Il vous suffit, pour cela, d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>gnome-schedule]]**. Gnome-schedule n'est malheureusement plus présent dans les dépôts à partir d'[[:xenial|Ubuntu 16.04]], mais vous pouvez télécharger le paquet deb [[https://bugs.launchpad.net/ubuntu/+source/gnome-schedule/+bug/1576060/+attachment/4701008/+files/gnome-schedule_2.3.0-0ubuntu16.04_amd64.deb|ici]].
+
+===== Utilisation=====
+
+{{ :applications:gnome-schedule_trusty02.png?250}}
+Pour lancer l'application faites une recherche dans [[:unity#tableau_de_bord_dash|le tableau de bord Unity]] avec les mots clés **Tâches planifiées**.
+Dès le lancement du logiciel, vous pouvez ajouter votre première tâche. En cliquant sur la première icône, //Nouveau//, vous allez avoir le choix entre trois type de tâche :
+  * Une tâche lancée régulièrement, 
+  * Une tâche qui ne se lance qu'une fois,
+  * Une tâche à partir d'un modèle. Il n'y a pas de modèles par défaut, ça sera à vous si vous le souhaitez d'enregistrer des tâches comme modèles pour pouvoir les utiliser après.
+
+La création d'une tâche se révèle très simple. Vous saisissez un nom et tapez la commande à lancer. Pour les tâches qui se lancent une seule fois, vous aurez à votre disposition un calendrier pour saisir la date. Et pour les tâches récurrentes, vous pouvez utiliser une des fréquences basique du genre toutes les minutes, toutes les heures… Mais si vous souhaitez un réglage plus fin, du style lancer une commande toutes les cinq minutes, n'hésitez pas à cliquer sur « Expert », puis un des boutons « Modifier », vous pourrez alors très facilement définir ce que vous souhaitez.
+
+N.B.: Une tâche à usage unique peut être constituée d'une liste de plusieurs commandes consécutives. Une tâche récurrente, elle, ne peut comporter qu'une seule commande. Si on désire lancer une tâche récurrente qui exécutera plusieurs commandes, il faut regrouper celles-ci dans un script qui sera la commande unique lancée par le planificateur de tâches.
+
+Les plus experts pourront du coup utiliser GNOME Schedule pour taper directement ce qu'il souhaitent dans la bonne case, par exemple « ''*/15'' », etc. Et d'un clic sur l'icône en forme de point d'exclamation, vous pourrez vérifier la syntaxe qu'utilise GNOME Schedule pour vos tâches.
+
+Vous pouvez pour finir tester votre tâche et la lancer d'un clic sur l'icône en forme d'engrenages.
+
+
+===== Utilisation en tant que root=====
+
+{{ applications:gnome_schedule:gnome_schedule_interface.png?250}}
+
+Parfois il peut être utile de définir des tâches en tant que [[:sudo|super-utilisateur]] (//root//). Rien de plus facile avec GNOME Schedule. Ouvrez un terminal et tapez :
+
+  gksudo gnome-schedule
+
+Vous pouvez alors modifier la liste des tâches de root ou en ajouter. Et vous pouvez même éditer les tâches des autres utilisateurs en cliquant sur l'icône en forme de cadenas.
+
+===== Désinstallation =====
+
+Pour supprimer GNOME Schedule, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer le paquet]] **gnome-schedule**.
+
+<note importante>**Remarque importante :** Sa désinstallation ne supprimera pas pour autant les tâches créées qui continueront d'être exécutées.</note>
+
+===== Voir aussi =====
+
+  * [[wpfr>cron]], sur Wikipedia
+
+----
+
+
+//Contributeurs : [[utilisateurs:dgaussin|dgaussin]].//

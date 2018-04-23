@@ -1,0 +1,44 @@
+{{tag>Trusty Xenial lecteur_audio}}
+----
+====== Nightingale ======
+
+Le logiciel **Nightingale** est un logiciel de lecture de musique, c'est un fork de [[:Songbird]] sous licence libre (([[wpfr>Licence_publique_g%C3%A9n%C3%A9rale_GNU|GPL v3]]))
+
+{{:nightingale-linux-screenshot-raw.jpeg?250|Capture d'écran de Nightingale}}
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+====Avant Ubuntu 16.04====
+Pour installer ce logiciel :
+  * [[:PPA|Ajoutez le PPA]] **ppa:nightingaleteam/nightingale-release** ((https://launchpad.net/~nightingaleteam/+archive/nightingale-release)) dans vos sources de logiciels,
+  * [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste des paquets]],
+  * [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>nightingale]]**.
+====Ubuntu 16.04====
+<note important>Le paquet Nightingale du dépôt ppa:nightingaleteam/nightingale-nightly n'apparaît pas dans la liste des logiciels de votre gestionnaire de paquet, il faut l'installer en ligne de commande.</note>
+
+Entrez dans un [[:terminal]] les commandes suivantes :
+<code>sudo add-apt-repository ppa:nightingaleteam/nightingale-nightly
+sudo apt-get update 
+sudo apt-get install nightingale</code>
+
+
+
+===== Utilisation=====
+Lancez l'application via le [[:unity#tableau_de_bord_dash|tableau de bord Unity]] ou depuis un [[:terminal]] (toutes versions d'Ubuntu) avec la [[:commande_shell|commande]] suivante :
+<code>nightingale</code>
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi =====
+
+  * **(en)** [[http://getnightingale.com/|Site du projet]]
+  * **(fr)** [[http://www.frenchbirds.org/|La communauté francophone de Nightingale et Songbird]]
+
+----
+//Contributeurs: FIXME//

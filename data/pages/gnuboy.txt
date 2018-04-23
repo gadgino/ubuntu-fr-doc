@@ -1,0 +1,54 @@
+{{tag>émulateurs_console brouillon}}
+-------------------
+====== Gnu Boy ======
+gnuboy est un émulateur de GameBoy qui existe en 3 versions. Une Version SVGA, une version X et une version SDL. 
+
+<note>Seule la version SDL fonctionne, les autres ne se lancent tout simplement pas.
+Gnuboy n'est plus développé depuis des années.</note>
+===== GnuBoy SDL ===== 
+<note>Les joysticks fonctionnent correctement.</note>
+====Installation ====
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>gnuboy-sdl]]**.
+<note>Si le paquet est introuvable, vérifiez que le dépôt multiverse soit bien activé</note>
+====Utilisation ====
+Tapez dans un [[terminal]] :
+  sdlgnuboy <ROM>
+Si vous ne souhaitez pas utiliser le mode plein écran, tapez :
+  sdlgnuboy <ROM> --fullscreen=0
+De même vous pouvez augmenter la taille de l'affichage:
+  sdlgnuboy <ROM> --fullscreen=0 --scale=4
+
+===== GnuBoy SVGA =====
+<note>Joystick non reconnu par défaut.</note>
+==== Installation ====
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>gnuboy-svga]]**. ((Disponible uniquement dans les dépôts de [[Precise]]))
+==== Utilisation ====
+  sgnuboy <ROM>
+<note tip>Peut être lancé depuis un terminal virtuel (<ctrl>+<alt>+1-6) sans interface graphique.</note>
+
+==== Problèmes connus ====
+
+  svgalib: Cannot get I/O permissions.
+
+Résolution : lancer avec les [[sudo|droits administrateur]], ou rendre le bit sticky [[permissions|exécutable]].
+
+===== GnuBoy X =====
+<note>Impossible d'utiliser le mode plein écran. Il vous faudra presque la loupe pour jouer.
+
+Joystick non reconnu par défaut.
+</note>
+==== Installation ====
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>gnuboy-x]]**.
+==== Utilisation ====
+  xgnuboy <ROM>
+  
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi=====
+  * [[http://code.google.com/p/gnuboy/|Site officiel de gnuboy ]]
+  * http://www.svgalib.org/svgalib.user.faq.html#q8
+
+-------------
+//Contributeurs principaux :

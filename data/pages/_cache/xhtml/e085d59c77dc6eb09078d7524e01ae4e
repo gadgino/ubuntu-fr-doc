@@ -1,0 +1,65 @@
+<pre class="code">Version Hoary</pre>
+ Rédigé par Teolemon
+<a name="introduction"></a><h2> Introduction </h2>
+<div class="level2">
+
+<p>
+ Ce tutoriel explique comment synchroniser un Palm Zire 31 avec Evolution sur Ubuntu.
+</p>
+
+<p>
+ Pourquoi ce tutoriel a-t-il été écrit? Le Palm Zire 31 est un <acronym title="Personal Digital Assistant">PDA</acronym> Palm relativement récent et le support pour Linux n&rsquo;est pas particulièrement fantastique. Ca m&rsquo;a pris un petit bout de temps pour comprendre ce qu&rsquo;il fallait faire, et j&rsquo;ai voulu que mon expérience profite à tout le monde. La méthode décrite ci-dessous a été testée sous Warty et Hoary et fonctionnera probablement avec d&rsquo;autres versions d&rsquo;Ubuntu.
+</p>
+
+<p>
+1) Avant de commencer, vous devez vous assurer que le démon gpilot n&rsquo;est pas en marche. A cet effet, lancez le terminal(Applications&rarr;Outils Système&rarr;Terminal) et tapez: ps -A | grep gpilot S&rsquo;il n&rsquo;y a aucune sortie (aucun texte qui s&rsquo;affiche),  vous pouvez passer à l&rsquo;étape suivante <img src="/smileys/icon_smile.gif" align="middle" alt=":-)" />. Si le démon gpilot est en marche, la commande provoquera une sortie de ce type:
+</p>
+<pre class="code"> 3247 ?        00:00:06 gpilotd
+3541 ?        00:00:00 gpilotd
+3542 ?        00:00:00 gpilotd
+3543 ?        00:00:00 gpilotd</pre>
+
+<p>
+Si le démon fonctionne,vous devrez &ldquo;tuer&rdquo; le processus.(Ne vous inquietez pas,c&rsquo;est le terme linux pour dire arrêter le processus. Sinon,les linuxiens sont en général contre la peine de mort <img src="/smileys/icon_wink.gif" align="middle" alt=";-)" /> ). Faites celà en tapant la commande suivante dans le terminal kill 3247 NOTE: Le nombre 3247 est appelé le process id (pid). Il variera d&rsquo;un ordinateur à l&rsquo;autre, donc au lieu de taper 3247, vous devez taper le plus petit pid que vous voyez qui est dans cet exemple 3247. Verifiez que le démon est bien tué en tapant à nouveau ps -A | grep gpilot (non,il n&rsquo;y a pas de messages religieux subliminaux cachés ,ce sont justes des termes techniques sortis de l&rsquo;esprit d&rsquo;informaticiens torturés à 1 heure du matin<img src="/smileys/icon_wink.gif" align="middle" alt=";-)" /> ).  again. Si le démon n&rsquo;est pas tué, répétez l&rsquo;opération. 
+</p>
+<ol>
+<li class="level1"><span class="li"> Modifiez le fichier /usr/share/gnome-pilot/devices.xml. A cet effet, tapez la commande suivante dans le terminal: sudo gedit /usr/share/gnome-pilot/devices.xml Il vous demandera votre mot de passe, tapez le et ajoutez ensuite les deux lignes n&rsquo;importe où dans le fichier (bien que je l&rsquo;ajoute personnellement après la ligne qui précède les <acronym title="Personal Digital Assistant">PDA</acronym> Samsung,mais c&rsquo;est comme vous voulez).</span>
+</li>
+</ol>
+<pre class="code">    &lt;!--Palm Zire 31--&gt;
+    &lt;device vendor_id=&quot;0830&quot; product_id=&quot;0061&quot; /&gt;</pre>
+
+<p>
+Cette étape indique au système qu&rsquo;il y a un nouveau matériel appelé Palm Zire 31. Les parts les plus importantes sont les champs vendor_id et product_id et l&rsquo;appareil ne sera pas synchronisé si le système ne sait rien sur l&rsquo;appareil.
+</p>
+
+<p>
+2) Démarrez Evolution
+</p>
+
+<p>
+3) Dans Evolution, à partir des menus allez dans Outils&rarr;Paramètres du Pilot. Laissez &ldquo;Cradle&rdquo; dans la boite texte Nom, entrez &ldquo;/dev/ttyUSB1&rdquo; dans la boîte de texte Port, réglez Vitesse à  115200, et choisissez le bouton USB comme type.
+</p>
+
+<p>
+4) Assurez vous que votre appareil est correctement connecté et allumé. Cliquez maintenant sur Suivant.
+</p>
+
+<p>
+5) Vous avez probablement déjà synchronisé l&rsquo;appareil (par exemple sous Windows). Si c&rsquo;est le cas, laissez cet écran tel quel et cliquez encore une fois sur Suivant. Si vous ne l&rsquo;avez jamais fait, entrez alors vos détails.
+</p>
+
+<p>
+6) Maintenant pressez le bouton hot sync (NdT:synchronisation à chaud,un petit bouton circulaire avec deux flèches si je ne m&rsquo;abuse,je n&rsquo;ai jamais eu de palm moi-même <img src="/smileys/icon_wink.gif" align="middle" alt=";-)" />) sur votre appreil. Et si tout va bien, la synchronisation doit avoir lieu! 
+</p>
+
+<p>
+Ces étapes ont été testées sur des machines de type x86 et PPC. Elle fonctionnent. Cepandant,en cas de problème, vous pouvez aller sur les forums français ou anglais ou bien encore utilisez la liste de diffustion pour obtenir une aide supplémentaire.
+</p>
+
+<p>
+Envoyé par Philip Goh. philip _dot_ goh _at_ macosx _dot_ com  CategoryDocumentation CategoryCleanup 
+</p>
+
+</div>
+<!-- SECTION [42-] -->

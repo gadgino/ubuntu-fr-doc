@@ -1,0 +1,228 @@
+{{tag>serveur sécurité pare-feu}}
+
+----
+====== Bannir des IP avec fail2ban ======
+
+{{ :fail2ban_logo.png?90}}
+**fail2ban** lit les logs de divers services (SSH, Apache, FTP...) à la recherche d’erreurs d'authentification répétées et ajoute une règle iptables pour bannir l'adresse IP de la source.
+
+
+
+
+
+
+===== Installation =====
+
+[[tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>fail2ban]]** disponible dans les [[:depots#universe_et_multiverse|dépôts Universe]]. \\
+
+
+
+Lancer ensuite la commande
+<code>
+sudo fail2ban-client -x start
+</code>
+===== Configuration =====
+<note important>Dans ce tutoriel, il est souvent mentionné de modifier **/etc/fail2ban/jail.conf**, il est en fait préférable de copier ce fichier dans **/etc/fail2ban/jail.__local__**, et de modifier dans ce dernier les configurations de base avec les paramètres spécifiques. Ce fichier jail.local sera automatiquement lu lors de l'initialisation de fail2ban.</note>
+==== Généralités ====
+Le but de fail2ban est d'empêcher une attaque qui, par force brute, trouve un identifiant/mot de passe permettant l'accès à un service. Les postes serveurs ne dormant jamais, ils sont la cible d'attaques automatiques en provenance de partout. Et sans un tel outil, qui sanctionne les tentatives, plus un serveur est rapide à répondre, plus il est menacé. Le paramétrage par défaut de la sanction est de 10mn, alors faisons un petit calcul : si un attaquant du service SSH fait 5 tentatives toutes les 10mn (il ne se fait sanctionner qu'à 6 erreurs), alors sans jamais se faire bloquer, il pourra effectuer 5×(60/10)×24×365=262800 tentatives par an, soit plus d'un quart de million. Alors supposons qu'un individu dispose de 10 postes (10 IP) d'où lancer une attaque, il aura effectué au bout d'un an 2.6 millions d'essais, et avec 100 ou 1000 postes, 26 millions ou 260 millions. On voit donc bien que 10 minutes n'est pas une sanction suffisante.
+==== Paramétrage par défaut ====
+Par rapport au blocage par défaut (600s), un blocage de 1h est bien plus réaliste (**3600**s), ou même 1 journée (**86400**s), ou pourquoi pas 1 semaine (**604800**s). Mais attention que changer le 'bantime' n'agit pas sur le 'findtime' qu'il faut également ajuster, car sinon le 'findtime' par défaut (10mn) est utilisé, ce qui permet à nouveau l'attaque expliquée au point précédent. L'inconvénient d'un (très ?) grand 'findtime' est qu'il pousse fail2ban à analyser de plus longs fichiers de log, et que ça peut être pénalisant du point de vue des performances, alors c'est à vous de voir. La solution est alors de choisir un grand 'findtime' et un très grand 'bantime' : 3600 et 86400, ou encore 86400 et 604800.
+
+Mais maintenant que vous avez mis en place une punition importante, il faut bien veiller à ajouter en liste blanche vos adresses IPs les plus communes, car l'erreur est humaine, donc il ne faudrait pas vous bloquer vous-même de l'accès à votre serveur. La liste 'ignoreip' est séparée d'espaces, donc si votre IP est 8.8.8.8, éditez le fichier **/etc/fail2ban/jail.conf** :
+<code>[DEFAULT]
+ignoreip = 127.0.0.1 8.8.8.8
+findtime = 3600
+bantime = 86400</code>
+==== Modifier la configuration pour l'adapter à vos besoins ====
+
+Pour spécifier à **fail2ban** quels services il doit surveiller, éditez le fichier **/etc/fail2ban/jail.conf**
+
+Dans la partie //jail// vous trouverez des blocs du type :
+<file>
+[ssh]
+
+enabled = true
+port    = ssh,sftp
+filter  = sshd
+logpath  = /var/log/auth.log
+maxretry = 6
+</file>
+
+Il indique, par ordre, l'activation, les ports à bloquer avec les règles iptables, le nom du filtre (expression régulière) associé, le fichier de log à lire, le nombre maximal de tentatives.
+
+Un certain nombre de services disposent de tels blocs de configuration, vous pouvez les activer en passant si besoin false à true.
+
+<note important>Attention, sur la ligne "port", "ssh" n'est qu'un alias pour le port standard, i.e. 22; si vous avez changé le port ssh dans la configuration de OpenSSH, il faut le préciser à fail2ban ! Dans la configuration ci-dessus, ajoutez à la ligne "port", votre port SSH, par exemple **port =ssh,sftp,2276** si votre nouveau port ssh est 2276, sans quoi fail2ban ne surveillera que le port 22.</note>
+
+<note tip>D'une manière générale, il est important d'effectuer des tests pour vérifier le bon fonctionnement de fail2ban ! Voir ci-dessous comment procéder.</note>
+
+
+Relancez la configuration avec
+<code>sudo fail2ban-client reload</code>
+
+Vous pouvez alors vérifier si les prisons ont été correctement lancées avec :
+<code>sudo fail2ban-client status
+Status
+|- Number of jail:      3
+`- Jail list:           apache, vsftpd, ssh
+</code>
+
+
+Les prisons peuvent être contrôlées séparément avec les mots clés //start//,//stop//,//status//
+Par exemple :
+<code>sudo fail2ban-client stop ssh
+Jail stopped
+</code>
+
+Pour plus d'informations, référez-vous aux pages de //man//.
+
+==== Verifier le bon fonctionnement de votre configuration Fail2Ban  ====
+
+Pour vérifier le bon fonctionnement de fail2ban : essayez de vous identifier plusieurs fois en saisissant un mauvais mot de passe.
+Si Fail2ban fonctionne, vous devriez être interdit d'accès au serveur au bout d'un certain nombre d'essais (précisés dans la configuration à la ligne maxretry).
+
+Côté serveur vous pouvez également surveiller ce qu'il se passe avec la commande 
+<code>sudo fail2ban-client status ssh</code>
+qui dans ce cas vous retournera le statut de la prison 'ssh' (avec le nombre de tentative échouée et la liste des IP banni)
+
+Attention, si votre IP de test apparaît comme banni mais que vous pouvez tout de même vous loguer, 
+il se peut que vous ayez un problème de configuration des ports pour fail2ban (voir l'avertissement dans "configuration" ci-dessus)
+  * une variante de fail2ban-client status, qui permet un checklist des ip bannies sur toutes les jails 
+<code>sudo nano checklist_ban
+#!/bin/bash
+#lancer le script en sudo 
+JAILS=$(fail2ban-client status | grep " Jail list:" | sed 's/`- Jail list:\t//g' | sed 's/,//g')
+for j in $JAILS
+do
+echo "$j $(fail2ban-client status $j | grep " Currently banned:" | sed 's/   |- Currently banned:\t//g')"
+done
+</code>
+
+===== Configuration avancée =====
+
+À chaque service est associé un fichier de configuration dans le dossier **/etc/fail2ban/filter.d**
+
+Une expression rationnelle définit les lignes du log qui signalent une erreur d'authentification. Il est possible de spécifier via une //regex// des exceptions, //ie// des lignes à ignorer. Cela peut être utile par exemple pour ne pas bannir les IP provenant de votre réseau local.
+
+==== Exemple avec la règle anti-w00tw00t ====
+
+Voici un exemple, pour bannir les désormais célèbres requêtes DFind w00tw00t. Dans le fichier **/etc/fail2ban/jail.conf** on ajoute :
+<file>
+[apache-w00tw00t]
+enabled = true
+filter = apache-w00tw00t
+action = iptables[name=Apache-w00tw00t,port=80,protocol=tcp]
+logpath = /var/log/apache*/*access.log
+maxretry = 1
+</file>
+
+On notera que contrairement aux autres règles, celle-ci s'attaque au fichier de log des accès (///var/log/apache2/access*.log//).
+
+Voici le fichier de règles **/etc/fail2ban/filter.d/apache-w00tw00t.conf**
+<file>[Definition]
+
+failregex = ^<HOST> -.*"GET \/w00tw00t\.at\.ISC\.SANS\.DFind\:\).*".*
+
+ignoreregex =
+</file>
+
+On teste maintenant si la règle s'applique bien en faisant :
+
+<code>fail2ban-regex /var/log/apache2/access.log /etc/fail2ban/filter.d/apache-w00tw00t.conf</code>
+
+Si vous subissez ce genre d'attaque, on peut voir en sortie de ce programme les adresses des spammeurs. Les règles iptables sont automatiquement crées en conséquence.
+
+<note important>Pour qu'il accepte de se lancer au démarrage, j'ai dû changer la ligne "socket = /var/run/fail2ban/fail2ban.sock" en "socket = /var/run/fail2ban.sock" dans le fichier /etc/fail2ban/fail2ban.conf</note>
+
+==== Alertes e-mail après un bannissement ====
+
+Il est possible de recevoir un e-mail après chaque bannissement d'une adresse IP en utilisant la syntaxe suivante dans la section [DEFAULT] du fichier **/etc/fail2ban/jail.local** : 
+<code>destemail = votrelogin@votrelogin-desktop</code>
+Voire même toute autre adresse mail si le système est correctement configuré pour l'envoi de mail, par exemple avec [[ssmtp|ssmtp]].
+
+La valeur par défaut est root@localhost dans la section [DEFAULT] de /etc/fail2ban/jail.conf et concerne donc toutes les prisons. Il reste cependant possible de spécifier un destemail particulier dans une prison donnée.
+
+Pour voir les messages locaux (si vous avez laissé une adresse e-mail du type @localhost), il vous faudra ouvrir un terminal et taper la commande "mail" ou, plus simplement encore, consulter le fichier **/var/mail/votrelogin**.
+
+**Pour activer l'envoi de mail**, modifier la ligne dans le fichier /etc/fail2ban/jail.conf
+
+<code>action = %(action_)s </code>
+
+Vers : (pour envoyer un mail avec le whois)
+
+<code>action = %(action_mw)s </code>
+
+ou : (pour envoyer un mail avec le whois ainsi que les logs)
+
+<code>action = %(action_mwl)s </code>
+
+Si les dates d'envoi des messages ne correspondent pas à la date réelle, il faut alors ajouter à la fin du fichier **/etc/default/fail2ban** :
+<code>LC_ALL=C
+LANG=C</code>
+
+pensez à redémarrer fail2ban pour que cette modification soit prise en compte
+<code>sudo service fail2ban restart</code>
+
+Des informations complémentaires sont disponibles sur le site officiel de Fail2ban : 
+[[http://www.fail2ban.org/wiki/index.php/FAQ_french#J.27utilise_Postfix_sur_mon_syst.C3.A8me_mais_je_n.27ai_pas_de_commande_.22mail.22._Comment_recevoir_les_notifications_par_mail.3F|FAQ Fail2ban]]
+==== Modification du filtre SASL ====
+Pour activer le filtre SASL permettant le bannissement en cas d'attaque par force brute il faut modifier l'expression régulière du filtre dans le fichier **/etc/fail2ban/filter.d/sasl.conf**
+
+Remplacer la ligne:
+<code>failregex = (?i): warning: [-._\w]+\[<HOST>\]: SASL (?:LOGIN|PLAIN|(?:CRAM|DIGEST)-MD5) authentication failed(: [A-Za-z0-9+/]*={0,2})?$</code>
+Par:
+<code>failregex = (?i): warning: [-._\w]+\[<HOST>\]: SASL (?:LOGIN|PLAIN|(?:CRAM|DIGEST)-MD5) authentication failed: \w</code>
+On teste maintenant si la règle s'applique bien en faisant :
+<code>fail2ban-regex /var/log/mail.log /etc/fail2ban/filter.d/sasl.conf</code>
+
+=====erreur "fail2ban.actions.action: ERROR  iptables ..." =====
+
+Une erreur qui semble toucher les versions inférieures à 0.8.5-2 (fail2ban-client --version).
+Si dans votre /var/log/fail2ban.log, vous avez ce genre d'erreurs "fail2ban.actions.action: ERROR  iptables ..." et qu'il manque curieusement des règles fail2ban dans iptables (sudo iptables -L -n -v), veuillez modifier le fichier /usr/bin/fail2ban-client
+
+>sudo nano /usr/bin/fail2ban-client
+>et ajouter time.sleep(0.1) ou time.sleep(0.2)
+<code>
+	def __processCmd(self, cmd, showRet = True):
+		beautifier = Beautifier()
+		for c in cmd:
+			time.sleep(0.1)
+			beautifier.setInputCmd(c)
+			try:
+				client = CSocket(self.__conf["socket"])
+				ret = client.send(c)
+</code>
+  * Vérification
+<code>
+sudo fail2ban-client reload
+sudo tail -n 300 /var/log/fail2ban.log
+</code>
+
+=====Erreur "FilterPyinotify callback ..." =====
+
+Une erreur qui semble toucher les versions récentes !
+
+>Debian GNU/Linux 8.7 (jessie)
+>Fail2Ban v0.8.13
+
+<code>
+Error in FilterPyinotify callback: 'module' object has no attribute '_strptime_time'
+</code>
+
+Changer la configuration par défaut pour corriger cette erreur.
+
+>nano /etc/fail2ban/jail.conf
+<code>
+#backend = auto
+backend = polling
+</code>
+>service fail2ban restart
+
+===== Ressources =====
+[[http://www.fail2ban.org/wiki/index.php/Main_Page|Le site de fail2ban]]
+===== Voir aussi =====
+
+
+  * [[Denyhosts]] fonctionne à peu près sur le même principe mais sans utiliser [[iptables]].
+===== Liens utiles =====
+  *  (fr) [[http://www.it-connect.fr/premiers-pas-avec-fail2ban/| Premiers pas avec Fail2ban sur IT-Connect]]

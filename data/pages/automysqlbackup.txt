@@ -1,0 +1,52 @@
+{{tag>Xenial serveur sauvegarde sgbd mysql}}
+
+----
+ 
+====== AutoMySQLBackup ======
+ 
+**AutoMySQLBackup** est un script shell ([[bash]]) effectuant une sauvegarde (//dump//) d'une base de données [[:MySQL]]. Par défaut, il crée une sauvegarde différente tous les jours, toutes les semaines et tous les mois. On a donc au bout d'un mois un certain historique de la base.
+
+Il peut aussi être intéressant dans le cadre d'un système de sauvegarde de données global car les fichiers MySQL bruts ne sont pas facilement exploitables et il est de fait préférable d'utiliser les fichiers SQL produits par ce script.
+ 
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir activé l'accès au [[:depots#universe|dépôt Universe]].
+ 
+===== Installation =====
+ 
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>automysqlbackup]]**
+ 
+ 
+===== Configuration =====
+ 
+La configuration par défaut est relativement complète et fonctionne sans aucune modification ((Par défaut le script récupère automatiquement les identifiants du super utilisateur de la base de données, et les utilise pour sauvegarder toutes les bases installées dans le répertoire var/lib/mysq, ce qui suffit à une bonne part des utilisateurs.)).
+Cependant si vous voulez l'affiner, vous pourrez le faire via le fichier **/etc/default/automysqlbackup**.
+Ce fichier est bien commenté (en anglais) et la page de [[:man|manuel]] peut vous aider.
+
+Si pour votre paramétrage, vous avez des noms de répertoires avec des espaces, vous aurez des messages d'erreur "touch".
+Dans /usr/sbin/automysqlbackup.sh, modifiez le code :\\
+__lignes 408 à 415__\\
+$LOGFILE devient "$LOGFILE"\\
+$LOGERR devient "$LOGERR"\\
+__lignes 421 à 436__\\
+$1 devient "$1"\\
+$2 devient "$2"
+===== Utilisation =====
+ 
+Normalement vous n'avez pas à exécuter directement le script si vous avez installé par ailleurs (le paquet n'en dépend pas) un système de déclenchement automatique tel [[:cron]] ou [[:anacron]].
+Cependant vous pouvez provoquer une sauvegarde, par exemple la première, en lançant le script directement :
+  /usr/sbin/automysqlbackup
+ 
+===== Désinstallation =====
+ 
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée.
+ 
+===== Voir aussi =====
+ 
+  * **(en)** [[http://sourceforge.net/projects/automysqlbackup/|Site officiel du projet]]
+ 
+---
+//Contributeurs principaux : [[utilisateurs:Johndescs]].//
+ 

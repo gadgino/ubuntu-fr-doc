@@ -1,0 +1,102 @@
+{{tag> jeu arcade wine}}
+----
+
+====== Alien Swarm ======
+
+{{ jeux:alien_swarm_lucid_01.jpg?300}}
+**Alien Swarm** est un jeu en mode coopératif propriétaire et gratuit publié par Valve Software le 19 juillet 2010. 
+
+Il n'est pas disponible nativement sous GNU/Linux. 
+
+Cette page explique comment l'installer à l'aide de logiciels créant un environnement Windows sous Ubuntu.
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir activé l'[[:accélération graphique]].
+ 
+<note tip>À noter que la configuration minimale requise sous Windows est un Pentium 4 3GHz avec 1Go de RAM et carte graphique ATI X800, Nvidia 6600 ou meilleure ; la configuration conseillée est un Intel Core 2 Duo 2.4GHz avec 2Go de RAM et carte graphique ATI X1600, Nvidia 7600 ou meilleure. Il est possible que l'accélération graphique sous les cartes [[:ATI]] anciennes ne soit pas supportée sous Ubuntu.
+
+Enfin, puisque l'usage de Wine diminue de façon importante les performances (par rapport à l'application tournant nativement sous Windows), vous devez avoir un PC assez costaud.</note>
+ 
+===== Installation =====
+
+**Alien Swarm** n'est disponible qu'en version Windows, il nécessite donc une couche de compatibilité Windows comme **[[:Wine]]** ou **[[:PlayOnLinux]]**, une application frontale pour Wine ; enfin, la plate-forme de jeu **[[:Steam]]** doit être installée et fonctionnelle. 
+
+Les méthodes d'installation possibles peuvent être variées, cette page listera une seule méthode pour l'instant, mais pourra en réunir d'autres plus tard.
+
+==== Installation avec Wine ====
+
+  - Installez la dernière version de **[[:wine|Wine 1.2]]**.
+  - [[:wine#configuration_de_wine|Configurez Wine]]. (n'oubliez pas cette étape !)
+  - Installez [[:Steam]] en suivant les instructions **[[:steam#installation_avec_winetricks|« Installation avec winetricks »]]**.
+  - Lancez Steam et connectez-vous à votre compte (ou créez-en un).
+  - Dans l'onglet **Magasin**, faites une recherche pour « Alien Swarm », puis sur la page de présentation du jeu, cliquez sur le bouton « Installer le jeu ».((Pour info, les fichiers du jeu prennent environ 2 Gio d'espace disque.))
+
+
+===== Configuration =====
+
+<note warning>Attention, dans Steam assurez-vous de **[[:steam#configuration|désactiver la communauté Steam intégrée au jeu]]** qui peut provoquer le plantage du jeu !</note>
+
+Si tout s'est bien passé, le jeu ne devrait pas nécessiter de configuration particulière.
+
+
+===== Utilisation =====
+
+Le jeu peut se lancer directement dans Steam, par le lanceur sur le bureau, ou par le menu //Applications -> Wine -> Programmes -> Steam -> Alien Swarm//. À noter qu'en raison d'un bogue, Steam doit avoir été démarré au préalable.((consultez la section [[:alien_swarm#le_lanceur_est_brise|Le lanceur est brisé]] pour une solution)) ([[http://bugs.winehq.org/show_bug.cgi?id=23378|bogue 23378 de Wine]])
+
+Vous pouvez aussi le démarrer dans un [[:terminal]] :
+  
+  cd ~/.wine/drive_c/Program\ Files/Steam
+  WINEDEBUG=-all wine steam.exe -applaunch 630
+
+
+===== Désinstallation =====
+
+Si vous désirez conserver [[:Steam]], vous pouvez supprimer le jeu depuis l'interface de Steam. Si vous désirez désinstaller à la fois Alien Swarm et Steam, vous pouvez le faire dans l'interface de [[:Wine]].
+
+Enfin, si vous n'avez plus besoin de Wine, vous pouvez [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. N'oubliez pas alors de supprimer le dossier caché **.wine** qui subsistera dans votre Dossier personnel.
+
+===== Problèmes connus =====
+
+==== Alien Swarm plante au lancement ou peu après ====
+
+Vérifiez dans Steam  que la **[[:steam#configuration|la communauté Steam intégrée au jeu est désactivée]]**.
+
+==== Pas de son ====
+
+S'il n'y a pas de son dans le jeu, [[:wine#configuration_de_wine|ouvrez la configuration de Wine (winecfg)]] et sous l'[[:wine#onglet_audio]], réglez l'accélération matérielle de DirectSound à **Émulation**.
+
+==== Le lanceur est brisé ====
+
+Les [[:raccourci-lanceur|raccourcis-lanceurs]] créés dans le menu Wine ainsi que sur le bureau ne fonctionnent pas si Steam n'est pas déjà ouvert, et l'icône n'apparaît pas. Il s'agit d'un bogue avec la dernière version de Steam. ([[http://bugs.winehq.org/show_bug.cgi?id=23378|bogue 23378 de Wine]])
+
+=== Réparer la commande du lanceur ===
+
+  * Allez dans les propriétés du [[:raccourci-lanceur|lanceur]] :
+    * Ouvrez l'[[:alacarte|éditeur de menus]] pour le lanceur du menu ;
+    * Faites un clic droit sur le lanceur du bureau ;
+  * Remplacez la commande existante par <code>env WINEPREFIX="/home/votre_nom/.wine" wine C:\\Program\ Files\\Steam\\Steam.exe -applaunch 630</code>Où "votre_nom" correspond à votre compte utilisateur Ubuntu.
+
+=== Réparer l'icône du lanceur ===
+
+Aucun format d'image utilisable par le lanceur (PNG, SVG ou XPM) ne semble avoir été créé. Il faudra en créer un manuellement.
+
+Vous trouverez l'icône du jeu sous le nom **swarm.ico** dans **~/.wine/drive_c/Program Files/Steam/steamapps/common/alien swarm**.
+
+Ouvrez-le avec la [[:eog|visionneuse d'images]] de GNOME (ou la [[:graphisme#visionneuses|visionneuse]] de votre choix, ou encore avec [[:GIMP]]), et sauvegardez-le au format PNG sous le nom **swarm.png**, préférablement dans un endroit facile à trouver dans votre dossier personnel (ou par exemple dans le dossier caché **~/.icons**).
+
+Ensuite, [[:raccourci-lanceur#modifier_l_icone_d_un_lanceur|modifiez l'icône du lanceur]] afin de le faire pointer sur le fichier **swarm.png** que vous venez de créer.
+
+===== Voir aussi =====
+
+  * **(en)** [[http://www.alienswarm.com/|Site officiel du jeu]]
+  * **(en)** [[http://appdb.winehq.org/objectManager.php?sClass=version&iId=20839|Alien Swarm sur l'AppDB de WineHQ]]
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=408449|Discussion « Alien Swarm gratuit » sur le forum Ubuntu-fr]]
+  * [[:srcds|Comment installer un serveur dédié Source]]
+
+----
+//Contributeur principal : [[:utilisateurs:Gemnoc]].//
+
+//Basé en partie sur [[http://appdb.winehq.org/objectManager.php?sClass=version&iId=2890|Installing Half-Life 2]] de l'AppDB de WineHQ.//

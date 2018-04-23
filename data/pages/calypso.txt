@@ -1,0 +1,59 @@
+{{tag>I2P p2p internet réseau anonymat}}
+
+----
+
+====== Calypso : Réseau anonyme ======
+{{  http://calypso.sourceforge.net/images/my-ant2.128.png?70|La fourmi de Calypso}}
+
+**Calypso**, anciennement appelé Kommute, est un logiciel libre de partage de fichiers à travers [[p2p|le réseau pair-à-pair]] [[anonymat|anonyme]] [[wpfr>MUTE]].
+  * Son protocole de routage est inspiré du modèle des colonies de fourmis : Les résultats des expériences effectuées montrent que la colonie de nœuds MUTE trouve **plus rapidement** la voie la plus courte (ou la plus rapide) entre deux nœuds du réseau.
+  * Il est multiplateforme : Il fonctionne sous Ubuntu, Mac OS X, Windows, FreeBSD, Linux, NetBSD, OpenBSD, et Solaris. 
+  * Calypso est multisources : il télécharge des fichiers depuis plusieurs sources en même temps.
+
+{{ http://pix.toile-libre.org/upload/img/1289088591.png?350|Calypso (Kommute) dans Ubuntu 10.10}}
+
+Le nom du projet est tiré de la mythologie grecque. [[wpfr>Calypso (mythologie)|Calypso]] est une nymphe des mers, fille d'Atlas, qui a caché et gardé prisonnier dans son île le marin Ulysse dans le but d'en faire son époux immortel. Le nom //Calypso// aurait une origine incertaine, signifiant «[[wpfr>Calypso (mythologie)|celle qui dissimule]]» ou «[[wp>Calypso_(mythology)#Name|celle qui s'enfuit par peur]]».
+
+
+Calypso est le logiciel de <del>[[http://sourceforge.net/search/?words=%22anonymous+p2p%22+anonymous&type_of_search=soft&sort=num_downloads_week&sortdir=desc&limit=25|P2P anonyme le plus téléchargé sur Sourceforge]]</del>. FIXME Lien brisé...
+=====Installation=====
+  - [[http://calypso.sourceforge.net/downloads.html#debian|Allez sur la page de téléchargement]] du site officiel du projet Calypso;
+  - Téléchargez le paquet pour Debian et enregistrez-le dans votre ordinateur;
+  - [[:tutoriel:comment_installer_un_paquet|Installez le paquet]].
+
+Par défaut il faut rediriger le port 4900 TCP/UDP du routeur vers votre machine ( FIXME )
+<note help>À l'installation de kommute_0.24-2_i386.deb les dossiers **incoming** et **tmp** sont créés dans **/usr/bin**, 
+ce qui bloque le téléchargement. Vous devez donc créer de nouveaux dossiers dans votre dossier personnel, puis modifier le chemin dans **Paramètres -> Répertoires** et redémarrer kommute.</note>
+
+==== 64 bits ====
+Le paquet ne semble pas encore exister. Vous pouvez télécharger le.exe sur le site, et le faire fonctionner avec wine.
+=====Configuration=====
+L'installation est plutôt intuitive et en français.
+    * Voir [[http://www.nuleninfo.com/tutoriels/amateur/85-kommute-installer-configurer-p2p-anonyme|Le tutoriel de configuration]]
+
+Un point sur le RSA : vous aurez le choix entre des clés de 512 à 2048 bits. Cela peut influencer la charge du processeur ( <del>pour le moment 512 ou 1024 c'est bien</del> DELETEME Plus d'actualité. ). 
+
+=====Utilisation=====
+
+====Lancement====
+
+  * Allez dans le menu //Applications -> Accessoires -> Calypso//
+
+====Recherche====
+  * Cliquez sur rechercher
+  * Entrez votre recherche.
+
+=====Participer au développement=====
+
+Si vous êtes développeur, il serait intéressant d'aider à mettre en place une cryptographie plus forte : le RSA est craquable, c'est une question de « puissance machine »((qui double tous les ans : sans compter les nouveaux processeurs)). 
+
+   * **(en)** [[http://calypso.sourceforge.net/wiki/index.php/Development|Dévelopement à faire]] sur le [[http://calypso.sourceforge.net/wiki/index.php/Main_Page|wiki officiel]], voir le [[http://sourceforge.net/apps/trac/calypso|trac]]. Vous pouvez aussi rapporter des bogues.
+   * Il est également possible de [[http://kommute.sourceforge.net/plugins.html|développer des extensions]].
+
+===== Voir aussi =====
+  * **(fr) [[http://calypso.sourceforge.net/index_fr.html|Site officiel]]**
+  * (en) [[http://calypso.sourceforge.net/wiki/index.php/Main_Page|Wiki officiel]]
+  * (fr,en) [[http://sourceforge.net/apps/phpbb/calypso/|Forum officiel]]
+
+----
+//Contributeurs : ...//

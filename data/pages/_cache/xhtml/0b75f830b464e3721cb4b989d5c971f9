@@ -1,0 +1,96 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#latex" class="toc"> LaTeX </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#installation" class="toc"> Installation </a></span></li>
+<li class="level2"><span class="li"><a href="#paquets_additionnels" class="toc"> Paquets additionnels </a></span></li>
+<li class="level2"><span class="li"><a href="#ressources" class="toc"> Ressources </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+ <a href="https://wiki.ubuntu.com/LaTeX" class="urlextern" title="https://wiki.ubuntu.com/LaTeX" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Traduit</a> et complété par <a href="/utilisateurs/gauthier" class="wikilink1" title="utilisateurs:gauthier" onclick="return svchk()" onkeypress="return svchk()">Gauthier</a>.
+</p>
+
+<a name="latex"></a><h1> LaTeX </h1>
+<div class="level1">
+
+<p>
+ LaTeX est un language de description de document. Si vous avez déjà utilisé le language <acronym title="HyperText Markup Language">HTML</acronym>, ou édité un wiki, vous êtes déjà familier à l&rsquo;idée d&rsquo;utiliser des symboles ou des commandes au sein d&rsquo;un texte pour en définir le rendu et la mise en page. LaTeX est utilisé couramment pour les publications scientifiques. Il est très utile pour créer des documents formatés de manière logique, avec un excellent rendu des équations et formules. Il permet également de générer facilement sommaires, listes de figures et numéros d&rsquo;équation. Les fichiers LaTeX peuvent ensuite être convertis en un grand nombre de formats différents comme par exemple <acronym title="Portable Document Format">PDF</acronym>, PostScript, DVI, et <acronym title="HyperText Markup Language">HTML</acronym>.
+</p>
+
+<p>
+Un fichier LaTeX est un fichier <acronym title="American Standard Code for Information Interchange">ASCII</acronym> contenant du texte et des commandes de marquage. Il peut être écrit avec un éditeur de texte comme Gedit ou vim. Il est ensuite converti vers d&rsquo;autres formats grâce à un compilateur LaTeX. Certaines personnes préféreront écrire des fichiers LaTeX dans un environnement intégré, avec menus et boutons de formatage de texte. Il existe également de nombreux paquets additionnels permettant d&rsquo;enrichir LaTeX en fonctionnalités diverses.
+</p>
+
+</div>
+<!-- SECTION [128-1330] -->
+<a name="installation"></a><h2> Installation </h2>
+<div class="level2">
+
+<p>
+ Tout comme Linux, LaTeX est en fait une collection de plusieurs outils et fichiers indépendants. Et pour éviter de devoir les rechercher un par un, puis de les installer, il existe une distribution LaTeX. La plus courante pour l&rsquo;environnement Linux est teTeX. Elle se trouve dans le dépôt &ldquo;main&rdquo; d&rsquo;Ubtuntu et peut être installée via Synaptic ou apt-get. Pour cela vous aurez besoin au minimum des paquets suivants : 
+</p>
+<pre class="code">tetex-base tetex-bin</pre>
+
+<p>
+ mais vous pourriez également souhaiter installer le paquet : 
+</p>
+<pre class="code">tetex-extra</pre>
+
+</div>
+<!-- SECTION [1331-1881] -->
+<a name="paquets_additionnels"></a><h2> Paquets additionnels </h2>
+<div class="level2">
+
+<p>
+ LaTeX peut être complété par des paquets additionnels, dont vous trouverez la liste détaillée sur le site <a href="http://www.tug.org/tex-archive/help/Catalogue/index.html" class="urlextern" title="http://www.tug.org/tex-archive/help/Catalogue/index.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow"> Catalogue Tex en ligne</a> ou sur <a href="http://www.ctan.org/" class="urlextern" title="http://www.ctan.org/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow"> Réseau d'archives TeX</a>. Ils peuvent en général être téléchargés sous forme de fichiers compressés tar.gz ou zip. Pour les installer, il faut d&rsquo;abord les décompresser puis les copier dans le répertoire /usr/share/texmf/tex/latex/. Lancez ensuite texhash, pour mettre à jour la base de données.
+</p>
+
+<p>
+Supposons que votre nom d&rsquo;utilisateur soit &ldquo;sam&rdquo;, et que vous ayez téléchargé le paquet mhchem.zip vers votre répertoire personnel, les commandes suivantes devraient fonctionner : 
+</p>
+<pre class="code">cd /usr/share/texmf/tex/latex
+sudo unzip /home/sam/mhchem.zip
+sudo texhash</pre>
+
+<p>
+ Parmi d&rsquo;autres paquets utiles : 
+</p>
+<ul>
+<li class="level1"><span class="li">      <a href="http://www.tug.org/tex-archive/help/Catalogue/entries/mhchem.html" class="urlextern" title="http://www.tug.org/tex-archive/help/Catalogue/entries/mhchem.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">mhchem</a> : molécules chimiques, réactions chimiques etc...</span>
+</li>
+<li class="level2"><span class="li">      <a href="http://www.tug.org/tex-archive/help/Catalogue/entries/isotope.html" class="urlextern" title="http://www.tug.org/tex-archive/help/Catalogue/entries/isotope.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">isotope</a></span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [1882-2982] -->
+<a name="ressources"></a><h2> Ressources </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li">      <a href="http://www.tug.org/interest.html" class="urlextern" title="http://www.tug.org/interest.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Groupe d'utilisateurs TeX (en anglais)</a> et d&rsquo;autres liens intéressants</span>
+</li>
+<li class="level2"><span class="li">      <a href="http://www.latex-project.org/guides/" class="urlextern" title="http://www.latex-project.org/guides/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Documentation LaTeX (en anglais)</a></span>
+</li>
+<li class="level2"><span class="li">      <a href="http://www.traduc.org/docs/HOWTO/vf/TeTeX-HOWTO.html" class="urlextern" title="http://www.traduc.org/docs/HOWTO/vf/TeTeX-HOWTO.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Guide Pratique teTeX (traduction française)</a></span>
+</li>
+<li class="level2"><span class="li">      <a href="http://www.grappa.univ-lille3.fr/FAQ-LaTeX/" class="urlextern" title="http://www.grappa.univ-lille3.fr/FAQ-LaTeX/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow"> FAQ-LaTeX (en français)</a></span>
+</li>
+<li class="level2"><span class="li">      <a href="http://www.gutenberg.eu.org/distributions/" class="urlextern" title="http://www.gutenberg.eu.org/distributions/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Groupe francophone des utilisateurs de TeX</a></span>
+</li>
+</ul>
+
+<p>
+ Dernière édition le 2005-05-28 21:02:24 par adsl-213-190-44-43   
+</p>
+
+</div>
+<!-- SECTION [2983-] -->

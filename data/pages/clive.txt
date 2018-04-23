@@ -1,0 +1,60 @@
+{{tag>Trusty Xenial multimédia vidéo flash}}
+----
+
+====== Clive ======
+
+Clive est un logiciel permettant d'enregistrer sur son disque dur des vidéos flash telles que Dailymotion, Youtube, etc.
+
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+Pour installer Clive il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>clive]]**. Pour [[:xenial|Ubuntu 16.04]] le paquet n'est plus dans les dépôts, téléchargez-le [[http://packages.ubuntu.com/fr/trusty/clive|ici]].
+
+===== Utilisation =====
+Pour télécharger une vidéo tapez simplement "clive" suivit de l'URL de la vidéo :
+  clive http://example.org/vidéo
+
+Par défaut clive télécharge les vidéos au format flv, si la vidéo est disponible en HD vous pouvez utiliser la commande :
+   clive --format=hd http://example.org/vidéo
+   
+ Pour télécharger la vidéo au meilleur format possible, tapez :
+  clive -f best http://example.org/vidéo
+  
+clive peut aussi télécharger via un proxy :
+  clive --proxy=URL_de_votre_proxy http://example.org/vidéo
+
+par défaut les vidéos sont téléchargées dans le dossier utilisateur, pour choisir une destination différente :
+  clive  http://example.org/vidéo --output-dir /chemin/vers/votre/dossier
+====Télécharger une liste de vidéos====
+
+Créez un fichier contenant la liste des URL des vidéos à télécharger, par exemple avec le nom de fichier : liste-videos.txt
+
+  http://example.org/vidéo1
+  http://example.org/vidéo2
+  http://example.org/vidéo3
+
+Pour télécharger les vidéos contenues dans le fichier liste-videos.txt, tapez :
+  cat liste-videos.txt | clive
+
+ 
+===== Désinstallation =====
+ 
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+ 
+===== Voir aussi =====
+
+  * **(en)** [[http://clive.sourceforge.net/|Site officiel de Clive]]
+  * [[:cclive|Cclive sur la doc ubuntu-fr]]
+  * [[:mimms|Mimms pour télécharger des flux mms]]
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=178073|Discussion à propos de Clive sur le forum ubuntu-fr.]]
+  * [[https://code.google.com/p/abby/|Abby]] Une interface graphique pour clive et cclive.
+
+----
+
+Source du paragraphe "utilisation" : [[http://dmesg.fr/multimedia/100-telecharger-des-videos-youtube-google-video-dailymotion-vimeo-flux-mms-en-ligne-de-commande|dmesg.fr]].
+//Contributeurs principaux : [[:utilisateurs:david96|david96]]
+
+

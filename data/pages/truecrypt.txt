@@ -1,0 +1,246 @@
+{{tag>Precise sécurité chiffrement}}
+
+----
+{{ truecrypt_logo.png}}
+
+====== Chiffrement de fichiers et de partitions avec Truecrypt ======
+<note warning>**ATTENTION !** La sûreté de Truecrypt semble incertaine depuis mai 2014.
+
+Vous ne devez plus utiliser TrueCrypt, celui-ci n'étant plus maintenu et contenant des failles de sécurité. Dans le cas où vous avez juste besoin d'ouvrir un conteneur TrueCrypt, installez [[veracrypt|VeraCrypt]], qui est compatible avec les archives TrueCrypt, il y a juste une option à cocher au moment du montage du volume.</note>
+
+**Truecrypt** est un programme gratuit de chiffrement de partition qui fonctionne sous [[:gnu|GNU]]/[[:linux|Linux]], MacOS et Windows. Son code source est disponible, mais pour autant il ne s'agit pas d'un logiciel libre (plus de détails sur la [[http://en.wikipedia.org/wiki/TrueCrypt#Licensing|page du wikipédia anglophone]]). (([[http://www.truecrypt.org/legal/license|TrueCrypt License Version 3.0]]))
+
+<note warning>
+À la date du 29 mai 2014 : Le site officiel de TrueCrypt est dans un état pour le moins étrange. Les développeurs (mais s'agit-il bien d'eux ?) conseillent de ne plus utiliser TrueCrypt et d'utiliser plutôt à la place l'outil natif de Windows Bitlocker (à ne PAS faire ! et non disponible sous Linux). La seule version encore disponible sur le site, la version finale v7.2, les autres ayant toutes disparu, semble, d'une part, ne rien chiffrer du tout et, d'autre part, seulement déchiffrer vos données.
+
+Un audit de sécurité de l'avant-dernière version de TrueCrypt, la v7.1a, est actuellement [[http://www.numerama.com/magazine/29540-l-audit-de-securite-de-truecrypt-va-continuer.html|en cours]]. En l'état actuel des choses, utilisez absolument le dépôt Ubuntu, les sites vérifiés ci-dessous ou une version alternative. NE télécharger en AUCUN CAS la version v7.2 du site officiel du développeur !
+
+Les sites d'archivage (vérifiés) pour télécharger/sauvegarder TrueCrypt v7.1a :
+    * [[https://www.grc.com/misc/truecrypt/truecrypt.htm|Archive de la GRC]] ([[https://twitter.com/DefuseSec/status/472846019039084544|source]]) ;
+    * [[https://github.com/DrWhax/truecrypt-archive|DrWax - GitHub]] ([[http://korben.info/alternatives-libres-truecrypt.html|source]], vérifiée par l' [[https://twitter.com/OpenCryptoAudit/status/472358613751963648|Open Crypto Audit]]) ;
+    * [[http://cyberside.net.ee/truecrypt/|CyberSiDE Mirrors]] (depuis GitHub).
+
+Les alternatives à TrueCrypt : http://korben.info/alternatives-libres-truecrypt.html
+
+Quelques informations supplémentaires ici :
+    * [[http://korben.info/truecrypt.html|Blog de Korben]] ;
+    * [[http://www.numerama.com/magazine/29528-truecrypt-ferme-pour-insecurite-et-conseille-de-faire-confiance-a-microsoft.html|Site de Numerama]] ;
+    * [[http://blogs.mediapart.fr/blog/mfrick/310514/qui-tue-truecrypt-le-debut-de-lattaque-contre-lencryption-informatique|Blog de MediaPart]].
+</note>
+
+<note tip>//Un site web situé en Suisse, truecrypt.ch, affirme vouloir relancer le projet, en tirant les leçons de la fin énigmatique du projet initial. Le projet sera situé en Suisse, pour se soustraire à l'influence des services de renseignement américains, l'équipe de développement ne sera plus anonyme et le projet sera « réellement open-source ».//
+
+https://truecrypt.ch/
+
+//Source : Wikipédia.org//</note>
+
+Fonctionnalités principales (traduction du site de [[http://www.truecrypt.org/|TrueCrypt]]) :
+    * Créer un disque virtuel chiffré à l'intérieur d'un fichier et le monter comme un disque réel.
+    * Chiffrer une partition entière d'un disque dur ou un périphérique, tel qu'une clef USB.
+    * Le chiffrement est automatique, temps réel (à la volée) et transparent.
+    * Fournit deux niveaux de protection possibles, dans le cas où quelqu'un vous force à révéler le mot de passe :
+      - Un volume caché (stéganographie – vous trouverez plus d'information sur [[http://www.truecrypt.org/hiddenvolume.php|le site de TrueCrypt (en anglais)]]).
+      - Un volume //TrueCrypt// ne peut être identifié (les volumes ne peuvent être distingués de données aléatoires).
+    * Algorithmes de chiffrement : AES-256, Blowfish (clef de 448 bits), CAST5, Serpent, Triple DES, et Twofish. Mode d'opération : [[http://grouper.ieee.org/groups/1619/email/pdf00017.pdf|LRW (en anglais)]] (CBC supporté par compatibilité ascendante).
+    * Basé sur un Chiffrement de Masse (E4M) 2.02a, conçu en 1997.
+De plus amples informations à propos des fonctionnalités du logiciel sont disponibles dans la [[http://www.truecrypt.org/documentation.php|documentation (en anglais)]].
+
+Ce produit possède une certification de premier niveau fournie par l'agence nationale de la sécurité des systèmes d'information (ANSSI) française. Cela garantit l'efficacité du produit (pour truecrypt version 6.0a).
+[[http://www.ssi.gouv.fr/fr/produits-et-prestataires/produits-certifies-cspn/certificat_cspn_2008_03.html|Certification sur le site de l'ANSSI]]
+
+<note>Truecrypt utilise une licence un peu obscure considérée même comme dangereuse par le projet Fedora ([[https://fedoraproject.org/wiki/ForbiddenItems#TrueCrypt]]), c'est pour cela que des versions libres ont vu le jour comme [[http://rpmfusion.org/Package/realcrypt|realcrypt]] ou[[https://github.com/bwalex/tc-play|tc-play]].</note>
+===== Concept =====
+
+Pour les détails techniques sur le schéma du chiffrement, reportez-vous à la section "Encryption Scheme" du //[[http://www.truecrypt.org/docs/TrueCrypt%20User%20Guide.pdf|TrueCrypt User Guide (en anglais)]]// (page 71).
+
+===== Pré-requis =====
+
+  - Fonction "sudo" activée (sinon se connecter en root).
+  - Une [[internet#connexion_a_internet|Connexion Internet]] configurée et activée.
+===== Installation =====
+
+
+==== Téléchargement ====
+<note>  Truecrypt.org recommande d'utiliser la version mise en ligne sur leur site plutôt que la version des dépots Ubuntu car elle est plus récente.
+C'est ce qui est présenté ici. 
+</note>
+
+Il vous faut télécharger le paquet linux standard pour votre [[:architecture_materielle#mon_processeur_est-il_32_bits_ou_64_bits|architecture]] de **TrueCrypt** sur le [[http://www.truecrypt.org/downloads|site officiel]] :
+
+==== Vérification des fichiers téléchargés ==== 
+Cette étape (optionnelle) consiste à vérifier que les fichiers téléchargés sont bien ceux mis en ligne par www.truecrypt.org.
+
+Les commandes sont bien décrites [[http://www.mattnworb.com/post/16019918033/how-to-verify-a-pgp-signature-with-gnupg|ici]].
+
+Les étapes sont:
+  * créer votre propres signature (si ce n'est déjà fait)
+  * télécharger la clé publique de truecrypt.org
+  * télécharger la signature numérique (fichier gpg) de l'archive
+  * autoriser la clé publique
+  * authentifier la signature du paquet
+
+
+==== Installation ====
+
+** Mode graphique **
+Dans le dossier où vous avez téléchargé le fichier archive, [[:archivage#graphiquement| extraire l'archive]] et  cliquez deux fois sur le fichier truecrypt-<version>-setup-<architecture> (ie: //truecrypt-7.0a-setup-x64//) pour lancer l'installation;\\ de là, choisissez //lancer dans un terminal//, puis suivez les indications d'installation. Pour finir, appuyez sur entrée.
+
+** Mode commande en ligne (pas en root) **
+  tar -xzf  truecrypt-<version>-setup-<architecture>.tar.gz
+  sh truecrypt-7.0a-setup-x86
+
+<note information>
+Sur Kubuntu 13.10 64 bit, avec truecrypt7-1a-setup-x64, la version en Mode commande en ligne ne fonctionne pas, à vérifier pour les autres versions. 
+</note>
+
+<note> Lors de l'installation, si les paquets ne sont pas disponibles sur votre système, on vous informera que TrueCrypt nécessite l'installation de :
+  * FUSE library and tools 
+  * device mapper tools 
+
+[[:tutoriel:comment_installer_un_paquet|Les paquets à installer]] sont respectivement [[apt>fuse-utils]] et [[apt>dmsetup]].
+
+ex: 
+   sudo apt-get install fuse-utils dmsetup
+
+</note>
+
+===== Utilisation ===== 
+{{truecrypt.png|Interface de la version 6.3}}
+
+Vous trouverez un lanceur dans Applications -> Accessoires.
+
+La seule fonction manquante concerne la mise en œuvre des packs de langues. A la date d'édition, juillet 2009, les packs ne sont pas disponibles pour la version Linux.
+
+==== Créer un dossier chiffré ====
+
+   - Dans la fenêtre Truecrypt (identique à celle ci-dessus), cliquez sur ''Create Volume''.
+   - Choisissez si vous voulez créer un dossier chiffré sur votre disque dur local (//container//) ou toute une partition 'chiffrée (//partition/drive//)(possible uniquement sur une partition vierge de votre disque local ou sur un support externe).
+   - Choisissez si vous voulez cacher le volume chiffré (//hidden//) ou non (//standard//) (ie s'il apparaîtra dans votre navigateur de fichiers)
+   - Entrez le chemin du fichier à chiffrer, de la forme : ''/home/votre_id/Documents''.
+   - Sélectionnez l'algorithme de chiffrement souhaité ((Pour information : l'AES est l'algorithme utilisé par le gouvernement Américain pour la transmission des informations jusqu'au niveau //top secret// ...)).
+   - Entrez la taille souhaitée pour votre container __(vous NE pourrez PLUS la modifier par la suite)__ et choisissez votre unité ((KB = 1024 bits ; MB = 1024 KB ; GB = 1024 MB)).
+   - Entrez votre phrase secrète de chiffrement (sa longueur est un élément important de sa [[http://www.queen.clara.net/pgp/pass.html|qualité]]).
+   - Choisissez ensuite le [[systeme_de_fichiers|système de fichier]] (de préférence ext3 ou [[:ext4]] sur un système linux, ou FAT sur un système Windows, la [[:systeme_de_fichiers#la_journalisation|journalisation]] est a éviter pour un média USB).
+   - Laissez tourner l'ordinateur le plus longtemps possible en bougeant la souris de façon aléatoire sur la fenêtre ''Truecrypt'' : cela génère la clé de chiffrement du dossier ou de la partition ((En fonction des coordonnées du curseur sur la fenêtre)).
+
+==== Monter un dossier chiffré ====
+   - Dans la même fenêtre que précédemment, dans la colonne ''Slot'', faites clic-droit sur la première icône (elle représente un disque dur).
+   - Cliquez sur ''Select File and Mount '' si vous avez un **dossier** chiffré ou sur sur ''Select Device and Mount'' si vous avez une **partition** chiffrée.
+   - Entrez ensuite le chemin du fichier ou sélectionnez le chemin de la partition.
+   - Entrez votre mot de passe. Voilà.
+
+<note>Le container chiffré, une fois monté, est considéré par Ubuntu comme un support externe et sera monté dans le répertoire ''/media'' ((ex : /media/truecrypt1)), même si le dossier chiffré est situé dans votre ''/home''. Plus d'informations [[montage|ici]]. </note>
+
+
+====Créer un home chiffré avec truecrypt====
+
+  - Créer un volume , ou fichier , truecrypt.
+  - Placez vos fichier de l'utilisateur ( ou des utilisateurs ).
+  - [[:tutoriel:comment_modifier_un_fichier|modifiez le fichier]]  /etc/gdm/Init/Default
+  - Rajoutez et adaptez ((http://ubuntuforums.org/showthread.php?t=288919)): <code>zenity --entry --text "Enter password" --hide-text | truecrypt /path/to/volume /path/to/mountpoint</code>
+  - [[:tutoriel:comment_modifier_un_fichier|Modifiez le fichier]] /etc/fstab pour pointer vers le nouveau home, "/path/to/mountpoint"  
+1) http://ubuntuforums.org/showthread.php?t=288919
+=====  Accorder les droits administrateurs à Truecrypt sans mot de passe systématique =====
+ 
+
+
+Truecrypt demande à chaque fois le mot de passe administrateur. Pour pouvoir monter vos fichiers sans demande systématique du mot de passe, voici les étapes:
+Saisir cette commande dans un terminal:
+  sudo EDITOR=gedit visudo
+  
+ Puis ajoutez, à la fin du fichier, ceci:
+**ALL ALL=(root) NOPASSWD: /usr/bin/truecrypt**
+===== Lancement au démarrage avec demande de mot de passe et/ou de fichier-clé =====
+
+Afin de vous simplifier la vie, vous pouvez activer l'authentification //Truecrypt// dès le démarrage de votre session. Pour ce faire, allez dans :
+
+Système -> Préférences -> Applications au démarrage, 
+
+et ajoutez //Truecrypt// avec les commandes suivantes :
+
+**si vous avez un dossier chiffré** ayant "chemin" comme chemin d'accès (ex: /home/votre_id)
+   * <code>truecrypt /chemin/votre_fichier_chiffré  --mount-options=</code>
+
+**si vous avez une partition chiffrée**
+   * <code>truecrypt /media/votre_partition_chiffrée  --mount-options=</code>
+
+
+
+A chaque démarrage, une fenêtre //Truecrypt// apparaîtra automatiquement et vous demandera d'entrer votre mot de passe. Votre dossier chiffré sera donc monté très rapidement, sans avoir à vous casser la tête.
+
+<note warning>Attention : en procédant ainsi, vous rendez visible votre dossier chiffré. Dans l'hypothèse (<del>paranoïaque</del>) où quelqu'un aurait cracké le mot de passe de votre session, il serait informé de l'existence d'un dossier chiffré, ce qui peut représenter une faille de sécurité, même si celui-ci n'est pas lisible.</note>
+===== Lancement au démarrage sans saisie de mot de passe =====
+<note warning>En utilisant cette méthode, votre fichier ou partition Truecrypt sera montée automatiquement dès le démarrage du système. Toute personne ayant un accès à votre session peut donc avoir accès à vos fichiers.</note>
+Pour cela, suivez ces instructions:
+
+Allez dans Système -> Préférences -> Applications au démarrage, 
+
+et ajoutez //Truecrypt// avec les commandes suivantes :
+
+**si vous avez un dossier chiffré** ayant "chemin"   - comme chemin d'accès (ex: /home/votre_id)
+   * <code> sudo truecrypt --password=votre_mot_de_passe  /chemin/votre_fichier_chiffré    </code>
+
+**si vous avez une partition chiffrée**
+   * <code>sudo truecrypt --password=votre_mot_de_passe  /media/votre_partition_chiffrée </code>
+<note>Pour éviter d'avoir des erreurs avec la commande, je vous conseille de créer un mot de passe contenant uniquement des chiffres et des lettres. Je vous conseille de créer un mot de passe de 64 caractères et d'utiliser un fichier-clé pour plus de sécurité.</note>
+<note tip>Si votre disque ou votre home est chiffré, vous pouvez utiliser un fichier clé supplémentaire pour avoir plus de sécurité pour vos données.
+Truecrypt génère des fichiers aléatoires mais vous pouvez en créer un avec la commande suivante:
+<code>dd if=/dev/random of=/home/user/ficher_clé bs=1 count=4096</code>
+Voici la commande pour ouvrir un conteneur (partition ou fichier) qui nécessite un mot de passe et un fichier-clé:
+<code> sudo truecrypt  --keyfiles=chemin_vers_votre_fichier_clé --password=votre_mot_de_passe  /chemin/votre_fichier_chiffré_ou_votr_partition_chiffrée </code>
+</note>
+===== Contrôler le lancement automatique d'un conteneur Truecrypt au démarrage =====
+Si vous souhaitez activer votre conteneur Truecrypt au démarrage mais vous souhaitez tout de même avoir la possibilité que votre conteneur se lance uniquement quand vous le désirez lors du démarrage, suivez ces étapes.
+  - Générez une clé PGP uniquement pour Truecrypt: <code>gpg --gen-key</code> et suivez les instructions.
+  - Créez un volume Truecypt avec mot de passe et fichier-clé.
+  - Chiffrez votre fichier-clé avec la nouvelle clé PGP crée pour l'occasion. En effet, le contrôle proposé ici repose sur le chiffrement et déchiffrement du fichier-clé. Truecrypt a besoin du fichier-clé en clair pour pouvoir monter votre conteneur. Si votre fichier-clé est absent, votre conteneur Truecrypt ne se montera pas.
+  - Adaptez ce script et configurez le pour qu'il se lance au démarrage: <code>  #!/bin/bash
+# Script pour déverouiller un fichier-clé necessaire pour TrueCrypt chiffré par PGP.
+# Auteur: Edouard973
+# Version: 1.00 ( Dimanche 18 août 2013)
+# Licence GPL
+xterm -e "gpg --output destination_de_votre_fichier_en_clair_pour_truecrypt --decrypt votre_fichier_clé_chiffré_avec_pgp"    # Se lance dès l'ouverture de session pour demander le mot de passe PGP pour déchiffrer
+# le fichier-clé.
+  sleep 1     # Attend une seconde pour monter avec TrueCrypt avec le fichier-clé en clair.
+       sudo  truecrypt --keyfiles=/votre_fichier_en_clair  --password=votre_mot_de_passe /chemin_vers_votre_conteneur_truecrypt
+  sleep 1     # Attend une seule seconde avant de détruire le fichier-clé en clair.
+  shred -n 35 -z -u / votre_fichier_en_clair
+  exit 0</code>
+  
+  <note important>Pensez à rendre votre script exécutable.</note>
+  
+ Ainsi, dès le démarrage, vous avez un terminal vous demandant un mot de passe. Je vous conseille un mot de passe relativement court. Ainsi, vous tapez votre mot de passe pour déverrouiller votre conteneur puis vous pourrez laisser votre session à une autre personne. L'avantage de cette méthode est que le fichier-clé nécessaire à Truecrypt n'existe pas en clair: il faut votre mot de passe pour le déchiffrer. Si vous ne souhaitez pas ouvrir votre conteneur, vous n'avez qu'à fermer la fenêtre du terminal vous demandant votre mot de passe puis fermez la fenêtre d'erreur de Truecrypt (**qui indique le chemin vers votre fichier-clé en clair**).
+  
+ <note tip>Je vous conseille de ne pas donner un nom trop explicite pour votre script pour le lancement au démarrage.</note>
+
+
+ 
+===== Faire migrer le répertoire Thunderbird dans le dossier Truecrypt =====
+
+   - Tapez dans une console : <code> sudo thunderbird -profilemanager </code>
+   - Créez un nouveau profil (//new profile//) et modifiez le répertoire personnel (//choose folder//) par ''/media/truecrypt1/nouveau_répertoire''.
+   - Copiez le contenu de ''/home/votre_id/.thunderbird'' dans ce ''nouveau_répertoire''.
+   - Supprimez le contenu de ''/home/votre_id/.thunderbird'', éventuellement avec [[shred]] ou [[wipe]], puis votre ancien profil thunderbird (dans la fenêtre profilemanager).
+   - Redémarrez simplement thunderbird.
+
+<note important>Vous ne pourrez désormais lire vos mails qu'après avoir monté le dossier Truecrypt.</note>
+
+===== Démonter automatiquement les volumes Truecrypt lors de l'extinction de l'ordinateur =====
+
+Avec les droits administrateurs, créer un script se nommant  K99_démontage_truecrypt dans le dossier /etc/rc6.d  et contenant la commande **truecrypt -- dismount** puis rendez le exécutable.
+=====désinstaller TrueCrypt =====
+Comme cela est indiqué dans la note durant l'installation\\
+il suffit de lancer le script **/usr/bin/truecrypt-uninstall.sh**\\
+Mais évidement, vous ne pourrez plus accéder à vos partitions chiffrées par cette méthode.
+
+===== Liens externes =====
+
+  * [[http://www.truecrypt.org/|Site officiel]]
+  * [[http://www.truecrypt.org/downloads.php| La page de téléchargement du dernier paquet .deb stable sur le site officiel]]
+  * [[http://youtu.be/tAwQ4Zsw5bE/|Vidéo tuto en français]]
+  * [[http://mhogomchungu.github.io/zuluCrypt/|Zulucrypt - Interface GUI avec récemment une interface francisée]]
+  
+----
+
+//Contributeurs : zanonime, [[:utilisateurs/aurelien88]], [[:utilisateurs/Mr_Djez]]// \\ --- //[[:utilisateurs:Edouard973|Edouard973]]
+//mise à jour : [[:utilisateurs/Ool]], [[:utilisateurs/lorried]]//

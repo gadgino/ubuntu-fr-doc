@@ -1,0 +1,80 @@
+{{tag>telephonie voip sip jabber}}
+
+----
+
+====== Téléphonie IP avec Gizmo ======
+
+<note important>Gizmo est arrêté depuis Avril 2011....</note>
+
+**Gizmo** est un téléphone logiciel (softphone) gratuit pour votre ordinateur, similaire à Skype, mais il utilise des protocoles ouverts et standardisés. Le protocole [[SIP]] sert pour les appels voix et le protocole Jabber pour la messagerie instantanée.
+Ce qui distingue Gizmo des autres logiciels est de pouvoir enregistrer une conversation et de la sauver au format wav (Le format MP3 n'étant pas supporté pour des raisons de licence, même sous Windows).
+Si Gizmo est lié au service de Softphone (la maison mère de Gizmo Project), il est possible de rajouter un autre compte SIP.
+
+<note>Il est à noter que la version linux du protocol **Bonjour** développé par Apple s'appelle Avahi. Installer ce paquet et Avahi est de fait redondant et peut perturber le bon fonctionnement de Avahi. FIXME </note>
+
+===== Installation =====
+
+==== Avec le paquet Deb ====
+
+Seulement disponible en version 32 bits.
+
+Téléchargez et [[:tutoriel:comment_installer_un_paquet#paquet_present_dans_les_depots|installez]] le paquet **Gizmo DEB** disponible sur [[http://gizmo5.com/pc/download/linux|gizmo5.com/pc/download]].
+
+
+==== Avec l'archive Tarball ====
+
+Téléchargez l'archive **Gizmo Binary Tarball** disponible sur [[http://gizmo5.com/pc/download/linux|gizmo5.com/pc/download]].
+
+Placez ensuite l'archive dans le dossier **/opt** en tapant dans un [[terminal|terminal]] :
+
+<code>sudo mv gizmo-project-3.1.0.79-1-libstdc++5.tar.gz /opt/ </code>
+
+Placez-vous dans le dossier **/opt**
+
+<code>cd /opt</code>
+
+Extraire l'archive.
+
+<code> sudo tar -zxvf gizmo-project-3.1.0.79-1-libstdc++5.tar.gz </code> 
+
+Puis supprimez l'archive.
+
+<code> sudo rm gizmo-project-3.1.0.79-1-libstdc++5.tar.gz</code>
+
+Pour finir vous pouvez créer un [[raccourci-lanceur|lanceur]] en indiquant **/opt/gizmo-project-3.1.0.79/gizmo-run** dans commande.
+
+
+===== Utilisation =====
+
+Gizmo se trouve dans le menu Applications / Internet.
+Vous pouvez aussi le démarrer en terminal avec la commande :
+<code>
+$ gizmo
+</code>
+
+==== Création du compte ====
+
+  - Cliquez tout d'abord sur //Register a new Gizmo name//.
+  - Entrez un nom ou un pseudonyme qui vous servira pour l'accès à Gizmo.
+  - Entrez un mot de passe de quatre caractères ou plus.
+  - Entrez à nouveau votre mot de passe.
+  - Entrez votre adresse e-mail.
+  - Entrez le code de sécurité affiché au dessus du champ prévu à cet effet (cela permet de bloquer les enregistrements automatiques).
+  - Cliquez sur //I have read the Gizmo agreement// (après avoir lu les conditions d'inscription bien sûr). ;-)
+  - Enfin, cliquez sur //Continue// afin de créer le compte Gizmo.
+
+===== Captures d'écran =====
+
+{{applications:gizmo.png}}
+{{applications:gizmo-login.png}}
+
+===== Liens =====
+
+  * [[http://www.google.com/gizmo5/|Site officiel de Gizmo5 (en)]].                            
+  * [[http://gizmo5.com/intl/fr/|Site de Gizmo5 (fr)]].
+
+
+----
+
+Contributeur : [[https://wiki.ubuntu.com/Gizmo|Traduit]] et amélioré par [[utilisateurs:kmeleon|Kmeleon]] - Ajout liens par [[utilisateurs:Frezi|Frezi]]
+//Modifié : 13 avr 2009//

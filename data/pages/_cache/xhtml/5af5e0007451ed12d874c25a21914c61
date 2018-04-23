@@ -1,0 +1,59 @@
+
+<a name="regles_de_nommage"></a><h1> Régles de nommage </h1>
+<div class="level1">
+<blockquote>
+ Page originale : <a href="/wiki/namespaces" class="wikilink1" title="wiki:namespaces" onclick="return svchk()" onkeypress="return svchk()">namespaces</a> de diou ! pas facile à traduire celle là. <a href="/utilisateurs/ju" class="wikilink1" title="utilisateurs:ju" onclick="return svchk()" onkeypress="return svchk()">Ju</a></blockquote>
+
+<p>
+ <a href="/wiki/dokuwiki" class="wikilink1" title="wiki:dokuwiki" onclick="return svchk()" onkeypress="return svchk()">DokuWiki</a> utilise des dossiers virtuels afin de separer les differents types de contenu du wiki. Par exemple toutes les informations sur DokuWiki sont dans le dossier &lsquo;wiki&rsquo;. Ces dossiers sont créés avec le caractére <strong>:</strong>dans le <a href="/wiki/nom_de_page" class="wikilink1" title="wiki:nom_de_page" onclick="return svchk()" onkeypress="return svchk()">nom_de_page</a>. Vous pouvez également, si le paramétre <em>useslash</em> est activé, utiliser <strong>:/</strong> comme séparateur pour les dossiers.
+</p>
+
+<p>
+If there is no colon in a linked pagename the current namespace is assumed. You can escape to the default namespace by prepending a colon to the pagename. Here are some examples: Si il n&rsquo;y a pas de <strong>:</strong> dans le nom de la page c&rsquo;est le dossier courant qui est pris en compte. Vous pouvez sortir du dossier courant en préfixant par <strong>:</strong> dans le nom de la page. Quelques exemples ((Le dossier courant est wiki, cf titre de la page) :
+</p>
+<ul>
+<li class="level1"><span class="li"> <a href="/wiki/start" class="wikilink2" title="wiki:start" onclick="return svchk()" onkeypress="return svchk()">start</a> est un lien vers la page <code>wiki:start</code></span>
+</li>
+<li class="level1"><span class="li"> <a href="/wiki/start" class="wikilink2" title="wiki:start" onclick="return svchk()" onkeypress="return svchk()">start</a> est aussi un lien vers la page <code>wiki:start</code></span>
+</li>
+<li class="level1"><span class="li"> <a href="/start" class="wikilink2" title="start" onclick="return svchk()" onkeypress="return svchk()">start</a> est un lien vers <code>start</code></span>
+</li>
+</ul>
+<pre class="code">
+  * [[wiki:start]] est un lien vers la page ''wiki:start''
+  * [[start]] est aussi un lien vers la page ''wiki:start''
+  * [[:start]] est un lien vers ''start''
+</pre>
+
+<p>
+Parfois vous voudrez lier une page dans un sous-dossier sans donner le nom complet. Vous pouvez prefixer le lien par un point (<strong>.</strong>) qui sera remplacé par le nom complet du dossier courant, evidemment quelques exemples : 
+</p>
+<ul>
+<li class="level1"><span class="li"> <a href="/wiki/discussion" class="wikilink2" title="wiki:discussion" onclick="return svchk()" onkeypress="return svchk()">discussion</a> pointe vers <code>wiki:discussion</code></span>
+</li>
+<li class="level1"><span class="li"> <a href="/discussion/visibilite" class="wikilink2" title="discussion:visibilite" onclick="return svchk()" onkeypress="return svchk()">visibilite</a> pointe vers <code>discussion:visibilite</code></span>
+</li>
+<li class="level1"><span class="li"> <a href="/wiki/discussion/visibilite" class="wikilink2" title="wiki:discussion:visibilite" onclick="return svchk()" onkeypress="return svchk()">visibilite</a> pointe vers <code>wiki:discussion:visibilite</code></span>
+</li>
+</ul>
+<pre class="code">
+  * [[discussion]] pointe vers ''wiki:discussion''
+  * [[discussion:visibilite]] pointe vers ''discussion:visibilite''
+  * [[.discussion:visibilite]] pointe vers ''wiki:discussion:visibilite''
+</pre>
+
+<p>
+Les dossiers virtuels sont utiles pour structurer le contenu.
+</p>
+
+<p>
+Cela peut servir à distinguer des pages sur le même sujet, des pages sans rapport entre elles. Cette distinction s&rsquo;opére à deux niveaux : stockage et liens
+</p>
+<ul>
+<li class="level1"><span class="li"> stockage - les dossiers virtuels sont de vrais dossiers sur le système de fichier de la machine hébergeant le wiki. Cela permet de stocker tous les fichiers d&rsquo;un projet au sein du même repertoire. C&rsquo;est trés commode pour les administrateurs de travailler avec des fichiers texte brut : un backup de tous les documents du projet XYZ &rArr; tar -c projectXYZ.tar projectXYZ/</span>
+</li>
+<li class="level2"><span class="li"> liens - les dossiers virtuels ont le prefixe &lt;nom:&gt; sur chaque page. Le fichier texte brut d&rsquo;une page sera stocké dans le dossier &lt;nom&gt;, et tant que les fichiers sont dans ce dossier il n&rsquo;est pas nécessaire de préfixer les pages par &lt;nom:&gt;. Le préfixe est nécessaire uniquement si l&rsquo;on veut lier des pages extérieur au dossier courant sur une page &lt;nom&gt;.</span>
+</li>
+</ul>
+
+</div>

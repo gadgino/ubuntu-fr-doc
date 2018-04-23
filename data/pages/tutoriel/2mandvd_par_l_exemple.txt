@@ -1,0 +1,178 @@
+====== 2manDVD par l'exemple ======
+
+
+<note>[[http://www.cyrille-borne.com/index.php?post/2009/08/05/2ManDVD-par-l-exemple|Tutoriel original sur le blog de Cyrille Borne ]] ([[http://creativecommons.org/licenses/by-nc-sa/3.0/deed.fr|sous licence creative-commons by-nc-sa]])</note>
+
+=====La création d'un menu simple avec 4 boutons=====
+
+
+L'écran d'ouverture vous permet de choisir la nature de votre projet en fonction de votre téléviseur et de votre pays PAL 4/3 ou 16/9 si vous êtes en France, NTSC 4/3 ou 16/9 pour les États Unis par exemple, on choisit de la même façon le répertoire de destination.
+
+
+{{ :tutoriel:2mandvd16_m.jpg |}}
+
+
+Au premier écran, qui correspond à celui de la réalisation des menus (on y reviendra plus loin), on clique sur **Médias**, puis sur **importer** pour ajouter les vidéos qu'on souhaite avoir sur le DVD, il suffit alors de faire un //drag and drop// ou un double clic sur la vidéo pour qu'elle apparaisse dans le plan de travail. 2ManDVD accepte tout type de vidéo, le réencodage sera réalisé pour obtenir la norme DVD. En bas à droite de votre écran, une jauge représentant le pourcentage d'occupation de votre futur DVD, il s'agit d'un DVD 5. Ci-dessous, l'écran d'importation des vidéos, les possibilités offertes par le menu contextuel pour chaque vidéo (clic droit).
+
+
+{{ :tutoriel:2mandvd17_m.jpg |}}
+ 
+
+
+{{ :tutoriel:2mandvd18_m.jpg |}}
+
+
+
+Pour chaque vidéo vous pouvez par un clic droit :
+
+  * chapitrer le média, c'est à dire mettre des points d'ancrage dans la vidéo de façon à ce que la touche next fasse passer l'utilisateur du DVD de chapitre en chapitre. Il est possible de chapitrer de façon manuelle ou de façon automatique par rapport à un certain intervalle de durée (un chapitre toutes les x minutes). Le chapitrage automatique ne “réfléchit” pas, vous pouvez très bien avoir une trame noire en première image de votre chapitre, ce que vous pouvez corriger avec le chapitrage manuel.
+
+{{ :tutoriel:2mandvd19_m.jpg |}}
+
+  * appliquer un effet sur la vidéo, c'est à dire changer le contraste, la luminosité et la saturation de la vidéo
+
+
+{{ :tutoriel:2mandvd20_m.jpg |}}
+
+
+  * changer la miniature de la vidéo. On verra plus loin qu'à la génération du menu, on peut pour le bouton choisir de prendre la miniature de la vidéo et l'animer. Le problème c'est que si les premières images sont des séquences de noir, le bouton sera noir, ce qui n'est pas vraiment parlant. On va alors changer la miniature du média, l'écran suivant est particulièrement explicite, il suffit de changer l'image par le bouton avant ou arrière, un timestamp vous indique la position dans la vidéo on conserve celle de son choix.
+
+
+{{ :tutoriel:2mandvd21_m.jpg |}}
+
+
+  * Changer le bitrate d'une vidéo, on peut imaginer le cas de plusieurs vidéos de très bonne qualité qui ne pourraient rentrer dans le DVD, en diminuant le bitrate (au détriment de la qualité) on peut ajuster pour faire entrer l'ensemble dans le DVD 5.
+
+
+{{ :tutoriel:2mandvd22_m.jpg |}}
+
+
+  * Charger un fichier de sous titres, uniquement en //srt//.
+
+
+Lorsque les différents ajustement sont terminés, on clique sur **fermer**, on arrive à l'écran suivant qui sera notre écran de travail. 
+
+
+{{ :tutoriel:2mandvd23_m.jpg |}}
+
+
+Dans la barre du haut où l'on a déjà cliqué sur média de gauche à droite on a :
+
+    * Médias pour charger les différentes vidéos
+
+    * l'ajout d'un bouton
+
+    * l'ajout d'un groupe de boutons déjà défini
+
+    * l'ajout d'un texte qui ne sera pas interactif (à ne pas confondre avec un bouton texte, le texte n'est pas interactif, le bouton texte oui)
+
+    * le zoom symbolisé par une loupe qui permet d'agrandir ou de diminuer la taille d'un bouton
+
+    * tourner, pour exécuter une rotation sur un bouton selon l'axe perpendiculaire à l'écran
+
+    * déformer pour, exécuter une rotation sur un bouton sur plusieurs axes.
+
+
+Je clique sur le groupe de bouton, je choisis le groupe de quatre.
+
+
+{{ :tutoriel:2mandvd24_m.jpg |}}
+
+
+
+{{ :tutoriel:2mandvd25_m.jpg |}}
+
+
+Les quatre boutons sont vierges. Il existe trois types de boutons différents :
+
+    * le bouton **texte** qui à mon sens n'a d'utilité que pour assurer les transitions entre deux pages de menu (suivant, retour menu principal, etc ...), on verra leur utilisation dans l'exemple suivant,
+    * le bouton **image** dans lequel on charge l'image de son choix,
+    * enfin le bouton le plus intéressant, **miniature vidéo** qui permet d'avoir une petite vidéo sur le bouton correspondant à la vidéo choisie. Dans mon exemple, je ferai ce choix pour les quatre boutons, chacun des boutons correspondant à l'une de mes quatre vidéos. L'association entre le bouton et la vidéo se fait en bas à gauche **lire un média**, dans la boîte de dialogue apparaît les différents médias que vous avez ajoutés au préalable. Si vous avez chapitré votre vidéo dans la partie média, vous avez alors la possibilité de choisir sur quel chapitre vous voulez démarrer en cliquant sur ce bouton, on verra l'utilité plus loin.
+
+
+{{ :tutoriel:2mandvd26_m.jpg |}}
+
+
+Les vignettes par défaut ne bouclent pas, et s'arrêtent au bout de cinq secondes. Pour choisir le temps de la boucle de défilement des vignettes animées, on va dans **menu**, **paramètres avancés**, on clique sur boucle vidéo du menu, on peut faire varier la durée de la boucle de 5 à 15 secondes. 
+
+
+{{ :tutoriel:2mandvd27_m.jpg |}}
+
+
+Dans l'écran suivant, j'ai déplacé les vignettes, fait des rotations et des déformations en utilisant les outils décrits plus haut. Je clique sur le texte pour rajouter des commentaires sur chaque vignette. Le texte est régi de la même façon que les boutons, on peut donc les déplacer, faire des rotations, des déformations. De plus il est possible de changer la police de caractère, la couleur du texte, son opacité, la couleur de l'ombre, l'opacité de celle ci ainsi que son angle par rapport au texte. On remarquera qu'un clic droit sur les boutons permet de réaliser l'option de copie, assez pratique si l'on veut conserver un paramétrage homogène pour les textes par exemple. 
+
+
+{{ :tutoriel:2mandvd28_m.jpg |}}
+
+
+Un clic droit sur le fond permet d'accéder à un menu contextuel offrant les possibilités suivantes :
+
+    * mettre une image fixe
+    * mettre une vidéo en arrière fond qui sera régie par les mêmes règles que les boutons animés,
+    * ajouter une vidéo d'introduction
+    * ajouter une bande son
+
+
+
+Je me contente d'ajouter un fond d'écran. 
+
+
+{{ :tutoriel:2mandvd29_m.jpg |}}
+
+
+
+Mon menu est terminé, je vais dans génération, générer le DVD, l'opération est assez longue, même sur une machine puissante. On peut regarder le résultat final à l'aide de xine et simuler son DVD, créer l'iso, graver l'image ou ... corriger. 
+
+
+{{ :tutoriel:2mandvd30_m.jpg |}}
+
+
+
+
+=====Réalisation d'un DVD avec 3 menus=====
+
+
+Pour faire cette réalisation on part du principe que vous maîtrisez ce qui précède. L'idée ici c'est de prendre une vidéo unique d'environ deux heures, la chapitrer, et pour chacun des chapitres faire un accès par un bouton. On peut considérer que pour ne pas avoir de problème de lisibilité pour le menu, il ne faut pas excéder les neuf boutons par page. Pour la première page du menu, je prévois de faire un accès direct vers le début de la vidéo, un bouton texte suivant vers la deuxième page. Pour la deuxième page de menu, sept boutons correspondants à sept chapitres, un bouton texte pour un retour vers le menu principal, un bouton pour aller vers la troisième page, avec à nouveau sept boutons correspondants à sept autres chapitres un bouton de retour vers le menu numéro deux, un bouton pour revenir au menu principal. Au total on aura donc quatorze chapitres à créer. Pour faire trois pages, il suffit dans l'écran principal, dans la barre du bas d'appuyer deux fois sur **ajouter un menu**. On remarquera que pour le bouton texte, au lieu de l'associer à une vidéo, on utilisera **se rendre à un autre menu**. Par exemple pour le menu principal, le bouton texte sera associé au menu 1 comme on peut le voir sur l'écran suivant. 
+
+
+
+{{ :tutoriel:2mandvd31_m.jpg |}}
+
+
+
+Le menu 1 (deuxième page, la première est nommée menu principal) est composée de sept vignettes animées. Ce qui est important c'est de comprendre que chacun de ces boutons est associé à la même vidéo mais pas au même chapitre, le premier bouton pour le chapitre 1, le second bouton pour le chapitre 2, etc ...Il n'y a pas de création de neuf boutons par défaut, je créé donc un groupe de six puis manuellement trois de plus. Dans le menu **affichage, cacher / afficher les règles** j'ai la possibilité d'afficher des règles pour vérifier le bon alignement des vignettes, vertical et horizontal. 
+
+
+
+{{ :tutoriel:2mandvd32_m.jpg |}}
+
+
+
+
+Ci-dessous le résultat définitif de ma page, avant de modifier la forme de mes vignettes. Par défaut, les vignettes sont rectangulaires, vous pouvez varier avec de très nombreuses, il suffit sur la droite de glisser la souris vers **thèmes et mask**. Il me suffit de cliquer sur un bouton et de sélectionner une forme, le deuxième écran plus bas vous montre le menu avec diverses formes pour les boutons.
+
+
+
+{{ :tutoriel:2mandvd33_m.jpg |}}
+
+
+
+
+{{ :tutoriel:2mandvd34_m.jpg |}}
+
+
+
+Pour conclure, je décide d'ajouter une transition animée de façon à avoir un effet à l'ouverture du menu. Clic droit sur l'arrière plan, **vidéo d'introduction, transition animée**. Le choix des transitions est large, pour les tester il suffit de faire un double clic sur l'effet désiré. La durée de l'effet est au maximum de 10 secondes, vous pouvez y associer une piste son qui peut être différente de celle que vous pouvez potentiellement adjoindre au menu. 
+
+
+
+{{ :tutoriel:2mandvd35_m.jpg |}}
+
+
+
+
+La finalisation du DVD avec la réalisation pour le troisième menu ne pose aucun problème, elle est basée sur ce qui précède, la seule différence se situant sur les boutons textes, le précédent étant orienté vers le menu 1, et un bouton de retour vers le menu principal.
+
+
+
+//[[:2mandvd|Retour à la page 2ManDVD.]]//

@@ -1,0 +1,58 @@
+{{tag>Precise Trusty matériel imprimante scanner}}
+----
+
+====== Pilote dell1600n-net-scan pour scanner en réseau ======
+
+**Dell1600n-net-scan** est un pilote qui permet à certains scanners de communiquer directement avec le PC en envoyant via le réseau les fichiers scannés vers un dossier défini. Il fonctionne avec les Dell 1600n, Dell 1815dn, Ricoh FX200, Samsung CLX-2160n, CLX-3160N, SCX-4720FN, Xerox Phaser 6110.
+
+
+===== Installation=====
+Pour installer ce pilote :
+  * Téléchargez le petit script en Perl [[http://www.jon.demon.co.uk/dell1600n-net-scan/|ici]],
+  * Renommez le script en supprimant le **.txt** final,
+  * [[:tutoriel:comment_modifier_un_fichier|Éditez le script]] et commentez((mettez un # devant la ligne)) les lignes qui ne concerne pas votre imprimante tout en décommentant celle de votre imprimante. Par exemple si vous avec une Samsung Clx2160n, commentez la ligne : <file>$main::model = "1600n";</file> et décommentez : <file>#$main::model = "clx2160n";</file> Ce qui vous donnera : <file>
+#$main::model = "1600n";
+$main::model = "clx2160n";
+</file>
+
+
+=====Configuration=====
+Si vous souhaitez modifier le dossier dans lequel seront enregistré vos documents, modifiez la ligne : <file>$main::scanFileDir = ".";</file>
+en mettant le chemin vers votre dossier avant le point, par exemple : <file>$main::scanFileDir = "/home/moi/scan/.";</file>
+
+Pour modifier les préférences des types de fichiers, adaptez les lignes suivantes : <file>
+$main::preferredFileType = 8; # ( 2=>TIFF, 4=>PDF, 8=>JPEG )
+$main::preferredFileCompression = 0x020;  # ( 0x08 => CCIT Group 4, 0x20 => JPEG )
+$main::preferredFileComposition = 0x040;  # ( 0x01 => TIFF/PDF, 0x40 => JPEG )
+
+$main::preferredResolution = 300;
+</file>
+Dans l'exemple cela vous permettra d'avoir du jpeg en couleur.
+
+=====Utilisation=====
+
+Pour utiliser le script, ouvrez un [[:terminal]] et naviguez jusqu'au dossier où se trouve le script, puis exécutez le avec la commande suivante :
+<code>./dell1600n-net-scan.pl --find</code>
+vous devriez avoir en réponse :
+<code>Broadcasting to 255.255.255.255 for clx2160n-compatible scanners
+
+IP Address: 192.168.0.5
+Model: Samsung CLX-216x Series
+Firmware version: OS V1.02.00.26   10-
+
+Finished querying for network scanners, found 1
+</code>
+Il suffit ensuite de lancer la commande :
+<code>./dell1600n-net-scan.pl --listen 192.168.0.5</code>
+et vous pourrez tester la touche "scanto" de l'imprimante.
+Pour que le script ne s’arrête pas après la première page reçu, utilisez cette commande :
+<code>./dell1600n-net-scan.pl --listen 192.168.0.5 --multi-session</code>
+
+Pour que le service soit actif en permanence ajouter cette commande aux [[:tutoriel:application_demarrage|applications au démarrage]].
+il suffit de rajouter cette ligne dans les service au démarrage pour que la fonction soit active en permanence.
+
+===== Voir aussi =====
+ * [[http://www.jon.demon.co.uk/dell1600n-net-scan/|le site du projet]].
+----
+
+Contributeurs : [[:utilisateurs:l_africain|L'Africain]]

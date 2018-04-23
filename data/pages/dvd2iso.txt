@@ -1,0 +1,171 @@
+{{tag>Trusty Precise gravure tutoriel}}
+
+----
+
+====== Passer d'un DVD Vidéo à un fichier iso  ======
+Pour convertir un DVD vidéo en fichier ISO dans le but de faire une sauvegarde de ces films originaux, vous pouvez soit utiliser [[#Avec Brasero|Brasero]], soit [[#Avec K3B|K3B]] ou encore [[#Dvd2Iso|un script personnalisé]] disponible sur cette page. D'autres alternatives sont [[dvd95]], [[k9copy]].\\
+Il est également possible de combiner l'utilisation de Dvdbackup qui sait faire une sauvegarde des fichiers et de la structure d'un DVD Vidéo sur le disque dur avec mkisofs qui peut produire une image iso fonctionnelle à partir de ces fichiers.
+
+===== Pré-requis =====
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir [[:tutoriel:comment_installer_un_paquet|installé les paquets]] préconisés sur cette [[:lire_un_dvd|page]] pour déchiffrer automatiquement les DVD protégés.
+
+===== Avec Brasero =====
+[[:Brasero]] est déjà installé par défaut sous Ubuntu, si vous utilisez une [[:variante]] d'Ubuntu, voir [[:brasero|cette page]].\\
+Pour convertir un DVD en ISO :
+  - Mettez le DVD dans le lecteur,
+  - Ouvrez Brasero,
+  - Sélectionnez //Copier DVD//,
+  - Option : //Choisissez un disque à graver// -> //Fichier image//,
+  - Si l'extension du fichier "image" n'est pas **''.iso''**, cliquer sur le bouton "Propriétés" et dans la fenêtre d'enregistrement, modifier le "type d'image disque" en **Image ISO9660**.
+  - Valider, la conversion commence....
+
+=====Avec K3B=====
+
+Il est **très facile** de créer une image ISO de n'importe quel DVD du commerce avec l'application [[:K3B]], déjà installé par défaut sous [[:Kubuntu]], si vous utilisez Ubuntu ou une [[:variante]], voir [[:k3b|cette page]].
+
+Ensuite:
+  - Lancez K3B,
+  - allez dans //Outils// puis //Copier le média// et 
+  - cochez //Créer seulement une image//.
+  - Rendez-vous ensuite dans l'onglet //Image// pour sélectionner le dossier où le fichier image sera écrit. 
+
+=====Dvd2Iso=====
+
+Voici un script qui permet, d'un clic de souris, après avoir glissé un DVD Vidéo dans le lecteur, de se retrouver avec une image ISO fonctionnelle de ce DVD sur le disque dur.\\
+[[:tutoriel:comment_installer_un_paquet|Installez les paquets]] **[[apt>dvdbackup, mkisofs]]**.\\
+[[:tutoriel:comment_modifier_un_fichier|Créez le fichier]] **dvd2iso.sh** en copiant le contenu ci-dessous dans un un fichier texte avec les [[:sudo|droits d'administration]] dans **/usr/bin/** :
+<file bash>
+#!/bin/sh
+#####################################################################
+# dvd2iso.sh
+#
+# permet, d'un clic de souris, après avoir glissé un DVD 
+# Vidéo dans le lecteur, de se retrouver avec une image ISO 
+# fonctionnelle de ce DVD sur le disque dur.
+#       ...
+# Dépendances :
+#		- dvdbackup
+#		- mkisofs
+#
+# Auteurs : 
+#		- djoole 
+#		- SandMan 
+#		- mr_djez <djez.depannage> à <gmail> dot <com>
+#
+# Historique :
+#       09/12/2010 (0.3) mr.djez
+#               - mise en forme 
+#               - ajout de commentaire 
+#               - plusieurs petite modification (variable, expression, condition) ;) 
+#		- modification sur le calcul du temps d'exécution
+#		- tests présence des dépendances
+#		- ajout de l'option 'udf' à mkisofs
+#		- tests sur l'espace disponible 
+#       19/12/2008 (0.2) SandMan
+#               - ajout du répertoire temporaire
+#               - calcul du temps
+#       11/01/2007 (0.1) djoole
+#               - écriture initiale
+#####################################################################
+
+# VERSION=0.3
+
+# Heure de lancement
+date_start=$(date +%s)
+
+### Variable ( à modifier selon votre config ) 
+# Device DVD 
+dvd_dev=/dev/sr0
+# Répertoire temporaire à utiliser par le script 
+# /!\ il sera crée et supprimé à chaque utilisation
+rep_app=/tmp/dvd2iso-$date_start
+# Répertoire de stockage des iso
+rep_iso=/media/Doc
+
+# Test des dépendances
+liste="dvdbackup mkisofs" 
+for i in $liste ; do
+	which $i > /dev/null
+	if [ $? -eq 1 ] ; then
+		printf "%s not found \ninstaller le paquet \"%s\" \n apt-get install %s\n" $i $i $i 
+		exit 1
+	fi
+done
+
+printf "\nCopie du DVD dans %s..................\n" $rep_app
+# Création du répertoire
+test ! -d $rep_app && mkdir $rep_app
+# on lance le backup du dvd s'il y a suffisamment d'espace libre
+#      espace libre                             >     taille du dvd
+if [ $(df $rep_app | awk '/^\/dev/ {print $4}') -gt $(df $dvd_dev | awk '/^\/dev/ {print $3}') ] ; then
+	# Backup du dvd
+	dvdbackup -M -i "$dvd_dev" -o "$rep_app" && echo OK || echo FAIL
+else
+	printf "FAIL\n FATAL\: espace libre insuffisant sur %s\n" $rep_app.
+fi
+		
+# Nom du dossier backup
+dvdtitle=$(ls $rep_app)
+
+printf "Conversion des fichiers DVD en ISO....................."
+# on lance la création de l'iso s'il y a suffisamment d'espace libre
+#      espace libre                             >     taille du backup
+if [ $(df $rep_iso | awk '/^\/dev/ {print $4}') -gt $(du $rep_app/$dvdtitle | tail -1 | awk '{print $1}') ] ; then
+	# Création de l'iso
+	mkisofs -dvd-video -udf -quiet -o "$rep_iso/$dvdtitle.iso" "$rep_app/$dvdtitle/" && echo OK || echo FAIL
+else
+	printf "FAIL\n FATAL\: espace libre insuffisant sur %s\n" $rep_iso
+fi
+
+printf "Suppression des fichiers temporaires..................."
+# Efface les fichiers backup
+rm -fr "$rep_app" && echo OK || echo FAIL
+
+# Heure de fin 
+date_stop=$(date +%s)
+
+# Calcul de durée
+duree_total_sec=$(expr $date_stop - $date_start)
+duree_min=$(expr $duree_total_sec / 60)
+duree_sec=$(expr $duree_total_sec % 60)
+
+# Rapport
+printf "\n=== Operation terminee ! ===\n \
+ Duree: %d min %d sec\n \
+ Fichier cree: %s.iso dans %s\n\n" $duree_min $duree_sec $dvdtitle $rep_iso
+
+exit 0
+</file>
+
+Rendez le fichier [[:tutoriel:script_shell#executer_un_script|éxécutable]].\\
+Il ne vous reste plus qu'à le lancer via la [[:commande_shell|commande]] à entrer dans un [[:terminal]]:<code>dvd2iso.sh</code>
+
+Pour utiliser ce script avec une interface graphique, installez [[:zenity]], puis créez par exemple un lanceur appelant le script DVD2ISO (placé dans /usr/bin/ et rendu exécutable) contenant le code suivant :
+<code>dvd2iso|zenity --text-info --title "DVD2ISO" --width=400 --height=300</code>
+
+
+<note>
+3 variables sont "potentiellement" à définir manuellement pour l'adapter à votre système:
+  * **dvd_dev** = chemin absolu vers votre device dvd
+  * **rep_iso** = chemin absolu ou seront stockées les images-dvd.iso
+  * **rep_app** = chemin absolu vers le répertoire tampon utilisé par le script 
+</note>
+
+===== Alternative =====
+
+Si aucune des méthodes ci-dessus ne fonctionne, il est possible de copier de manière brute le contenu du disque.\\
+  - Tout d'abord ouvrez le DVD avec [[:VLC]] pour mettre les clés de déchiffrement [[:lire un DVD|"libdvdcss2"]] en mémoire. 
+  - Fermez [[:VLC]]. 
+  - Avec l'[[:gestionnaire de fichiers|explorateur de fichier]], copier tout le contenu du DVD vidéo dans un dossier de votre disque dur. 
+Vous pourrez le lire par la suite avec VLC en allant dans le menu //Média -> Ouvrir un fichier//, puis naviguer jusqu'à vos fichiers vidéos.
+
+===== Voir aussi =====
+
+  * [[:tutoriel:convertir_des_images_cd|Convertir des images CD/DVD propriétaires en image ISO]],
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3504850#p3504850|cette discussion]] sur le forum ubuntu-fr.
+
+----
+
+//Contributeurs : djoole - (v0.1), SandMan - (v0.2), [[utilisateurs:Mr_Djez|Mr_Djez]] - (v0.3)//

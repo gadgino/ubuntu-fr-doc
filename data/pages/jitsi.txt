@@ -1,0 +1,114 @@
+{{tag>Precise Trusty voip messagerie_instantanée visioconférence sip }}
+
+----
+{{ https://jitsi.org/wiki/pub/sip-communicator/logo3.png?150}}
+====== Jitsi ======
+
+**Jitsi** (anciennement **SIP Communicator**) est un logiciel libre ((sous licence LGPL)) de [[messagerie instantanée]] qui prend en charge les protocoles de [[wpfr>VoIP]] et de messagerie instantanée les plus répandus, tels que [[:SIP]], [[:jabber|Jabber/XMPP]], AIM/ICQ, Yahoo! Messenger, Bonjour... Il dispose de fonctionnalités avancées telles que les appels chiffrés, l'enregistrement des appels audio, le transfert de fichiers, le partage d'écran, etc. Développé en [[:java]], il est multiplateforme.\\
+<note important>FIXME Le paquet n'est plus présent dans les dépôts et celui téléchargé manuellement a des dépendances non satisfaites.</note>
+{{:jitsi.png?500}}
+
+===== Pré-requis =====
+  * Les droits administrateurs sont requis pour l'installation, ainsi qu'une connexion Internet valide.
+  * La messagerie instantanée vidéo (ou visioconférence) propose les [[formats_non-libres|codecs propriétaires]] H264 et H263 mais aussi VP8 (depuis la version 2.0). Ce dernier codec est installé dans Ubuntu par défaut et donc utilisé par [[Empathy]].
+  * L'utilisation de la visioconférence nécessite une "[[:webcam]]" et un micro reconnu par ubuntu ([[cheese|cheese]] est un bon moyen pour effectuer des essais si c'est le cas).
+  * Présence d' **OpenJDK** (installé par défaut dans Ubuntu) ou de [[:Java]] d'Oracle (incompatible Java 8 et Java 9)
+
+=====Installation=====
+
+==== Depuis Trusty (Ubuntu 14.04) ====
+
+<del>Il suffit d'[[:tutoriel:comment_installer_un_paquet|installer un paquet]] **[[apt>jitsi]]**</del> FIXME Paquet introuvable.
+
+==== Pour les versions antérieures d'Ubuntu ====
+
+<note important>L'installation du paquet ajoutera par la même occasion le [[:depots|dépôt]] //**%%http://download.jitsi.org/deb%%**// dans le fichier **/etc/apt/sources.list**.\\
+Par conséquent, le paquet sera par la suite mis à jour via ce dépôt du projet.
+
+N'ajoutez pas vous même ce dépôt dans votre **sources.list**: vous auriez une [[apt-key|"erreur GPG"]] signifiant un problème d'authentification du dépôt.</note>
+
+<del>Télécharger [[http://download.jitsi.org/jitsi/debian/|ici]] et [[:tutoriel:comment_installer_un_paquet|installer]] la dernière version du [[:paquet]] //.deb// adaptée à l'[[architecture_materielle|architecture]] de votre ordinateur:
+  * choisissez **jitsi_xxxxx_amd64.deb**  pour un système 64 bits
+  * choisissez **jitsi_xxxxx_i386.deb**  pour un système 32 bits</del> FIXME Le paquet a des dépendances non satisfaites.
+
+==== Install en Mars 2017 ====
+
+On peut télécharger le paquet qui nous intéresse sur le [[https://download.jitsi.org/jitsi/debian/|site de jitsi.org]].
+
+Mais il peut être plus intéressant d'utiliser le paquet du repository de jitsi.org, en suivant les [[https://jitsi.org/Main/DebianRepository|instructions données]] :   
+<code>$ wget -qO - https://download.jitsi.org/jitsi-key.gpg.key | sudo apt-key add -   
+$ sudo sh -c "echo 'deb https://download.jitsi.org stable/' > /etc/apt/sources.list.d/jitsi-stable.list"   
+$ sudo apt -y update   
+$ sudo apt -y install jitsi   
+</code>
+
+===== Utilisation =====
+
+==== Lancement ====
+Lancer Jitsi en tapant dans le [[unity#tableau_de_bord_dash|tableau de bord]] ou dans le [[terminal|terminal]] la [[:commande_shell|commande]] suivante
+<code>jitsi</code>
+
+==== Création d'un compte ====
+Lors du premier lancement, il vous est proposé d'ajouter les différents types de comptes que vous avez.\\
+Par la suite la création se fait par **Menu** -> **Fichier** -> **Ajouter un nouveau compte** \\
+Vous devrez ensuite sélectionner le protocole adéquat. Notez que pour les protocoles XMPP, IPPI, Jitsi vous donnera la possibilité de créer un nouveau compte ou de vous rediriger vers la page internet via un lien.\\
+
+À chaque fois un couple identifiant (souvent du genre nomdecompte@nomdufournisseur_IM.net) et un mot de passe vous sera demandé avec la possibilité d'enregistrer ou pas ce dernier.
+
+==== Gestion des comptes et utilisations avancées ====
+Allez dans **Menu** -> **Outils** -> **Option** -> **Comptes**\\ 
+En cochant ou décochant vous activez ou non que les comptes que vous souhaitez.
+
+Les différents comptes ont chacun une icône représentative du protocole utilisé.
+C'est dans ce même espace que vous pourrez supprimer/ajouter des comptes ou accéder aux fonctions avancées telles que l'[[wpfr>UPNP|UPnP]], le serveur [[wpfr>STUN|STUN]], ....
+
+La gestion de proxy se fera lui par **Menu** -> **Outils** -> **Option** -> **Avancées** -> **Proxy Global**
+
+La gestion de l'état, des notifications, de la langue se fera par  **Menu** -> **Outils** -> **Option** -> **Général** 
+
+==== Cybercaméra ====
+Elle peut être essayée dans **Menu** -> **Outils** -> **Option** -> **Vidéo** -> ** Périphériques**
+
+==== Clavardage (Chat) ====
+Cette opération nécessite que votre interlocuteur soit connecté. En cliquant sur celui-ci, vous verrez apparaître une bulle de bande-dessinée avec des traits horizontaux. En cliquant dessus, vous pourrez commencer la conversation. Une opération similaire peut se faire via le clic droit.
+
+====Visioconférence et appel audio ====
+Il faut que votre interlocuteur soit connecté et qu'au moins l'un de vous deux possède un micro et/ou une cybercaméra.\\
+L'opération est similaire au [[#clavardage (chat)|clavardage]], mais vous cliquerez sur 
+  * le téléphone vert si vous ne souhaitez qu'un appel audio.
+  * sur la caméra bleu si vous souhaitez réaliser une [[:visioconférence]].
+
+Vous devrez attendre que votre interlocuteur accepte la demande et que les deux logiciels se mettent d'accord (adresse IP, codec audio et vidéo à utiliser ...)
+
+==== Échange de fichiers ====
+Vous pouvez le réaliser en faisant un clic droit sur le destinataire puis choisir **Envoyer un fichier** ou bien durant une conversation en choisissant l'icône avec un papier et une flèche orange partant sur la droite.
+
+==== Partage de Bureau ====
+La aussi, même méthode que pour le  [[#clavardage (chat)|clavardage]], mais vous cliquerez sur les deux rectangles superposés blanc bordés de bleu. Le logiciel vous demandera une confirmation.
+
+==== SIP  ====
+FIXME À compléter
+
+==== Meilleure intégration des notifications au sein d'Ubuntu ====
+De base les notifications sont génériques et jurent avec la manière de faire d'Ubuntu. Pour mieux les intégrer, allez dans **Menu** -> **Outils** -> **Options** -> ** Général**. Là, à la ligne type de modifications pop-up, choisissez **Notifications freedesktop.org** ([[https://fr.wikipedia.org/wiki/Freedesktop|freedesktop]] étant un projet d'interopérabilité entre les différents types de bureaux, cette méthode devrait fonctionner sur d'autres distributions GNU/Linux et d'autres environnements que Gnome).
+
+==== Améliorer l'audio et la vidéo ====
+Par défaut, Jitsi propose les codecs les plus répandus pour l'audio et la vidéo mais ne sont pas forcément les meilleurs (cas du G722 pour l'audio) En allant dans **Menu** -> **Outils** -> **Options** -> ** Son** onglet encodage vous pouvez cochez ou décochez les codec de votre choix ou établir un autre ordre préférentiel de sélection (Jitsi testera la présence de ce codec chez votre interlocuteur avant de passer au suivant). Il semble que un speex/16000 en premier de liste soit un bon compromis.
+Pour la vidéo 3 choix de codecs sont disponibles pour le moment, ils sont accessibles via **Menu** -> **Outils** -> **Options** -> ** Vidéo** -> ** Encodage.**
+Le codec VP8 est connu de toutes les distributions Linux récentes, le codec H264, soumis à redevance, est présent par défaut dans Windows Seven et Windows 8 ainsi que dans Mac OS.
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée.\\
+Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés dans le dossier **~/.jitsi**
+
+=====Voir aussi=====
+  * [[http://jitsi.org/|Site officiel]]
+  * [[https://jitsi.org/index.php/Documentation/FAQ|La foire aux questions]] (**en**) sur le site du projet
+  * Changer de compte tout en gardant ses contacts avec[[http://jabber.ecchi.ca/import/|Jabber Roster Utility en PHP ]]
+  * Créer un compte XMPP [[http://im.apinc.org/inscription/?apinc=1&server=im.apinc.org|parmi les serveurs APINC]]
+  * [[visioconference|Visioconférence (audio+vidéo+messagerie instantanée)]]
+  * [[voip|VoIP : téléphoner avec Ubuntu]]
+  * [[messagerie_instantanee|Messagerie instantanée et chat IRC]]
+
+----
+//Rédacteurs : [[:utilisateurs:psychederic|Psychederic]], ...//

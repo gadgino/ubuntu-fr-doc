@@ -1,0 +1,81 @@
+
+<p>
+<em>Ce document décrit la méthode pour installer et configurer Wine pour utiliser DVDShrink.</em>
+</p>
+
+<p>
+Ce guide pratique suppose que Wine n&rsquo;est pas encore installé et configuré. Dans le cas contraire, vous devrez modifiez certains paramètres en connaissance de cause. La configuration qui suit a été testée sous le système Warty et la dernière version de wine. La dernière version de Wine est bien souvent la meilleure, c&rsquo;est pourquoi nous prendrons toujours la dernière version afin d&rsquo;effectuer cette manoeuvre.
+</p>
+
+<p>
+Ouvrez un terminal et entrez ce qui suit:
+</p>
+<pre class="code">
+$ sudo apt-get install wine winetools
+$ winetools
+</pre>
+
+<p>
+Lisez l&rsquo;écran d&rsquo;introduction de l&rsquo;utilitaire Wine Tools.
+</p>
+
+<p>
+Dans le menu principal, allez dans &ldquo;Installation de base&rdquo; et choisissez &ldquo;Créer un disque virtuel&rdquo;, puis &ldquo;DCOM98&rdquo;. Quittez le programme.
+</p>
+
+<p>
+Entrez les lignes suivantes dans un terminal:
+</p>
+<pre class="code">
+$ ln -s /media/cdrom ~/.wine/dosdevices/d:
+$ sudo gedit ~/.wine/conf
+</pre>
+
+<p>
+Ajoutez les lignes suivantes après les commentaires au début du fichier, avant la ligne &ldquo;[wine]&rdquo;:
+</p>
+<pre class="code">
+[Drive D]
+&quot;Path&quot; = &quot;/media/cdrom&quot;
+&quot;Type&quot; = &quot;cdrom&quot;
+&quot;Label&quot; = &quot;CD-Rom&quot;
+&quot;Filesystem&quot; = &quot;winxp&quot;
+</pre>
+
+<p>
+Ajoutez les lignes suivantes à la fin du fichier, avant la ligne &ldquo;# [/wineconf]&rdquo;:
+</p>
+<pre class="code">
+[AppDefaults\\DVD Shrink 3.2.exe\\Version]
+&quot;Windows&quot; = &quot;winxp&quot;
+</pre>
+
+<p>
+Téléchargez DVD Shrink 3.2 (si vous le possédez pas déjà), à partir de <a href="http://www.dvdshrink.org/where.html" class="urlextern" title="http://www.dvdshrink.org/where.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">ce site (en Anglais)</a>.
+</p>
+
+<p>
+Dans le répertoire où vous avez décompressé le logiciel, tapez:
+</p>
+<pre class="code">
+$ wine dvdshrink32setup.exe
+</pre>
+
+<p>
+Suivez les instructions affichées à l&rsquo;écran. Pour démarrer DVD Shrink, vous devrez entrer dans un terminal:
+</p>
+<pre class="code">
+$ wine /home/dab/.wine/drive_c/Program\ Files/DVD\ Shrink/DVD\ Shrink\ 3.2.exe
+</pre>
+
+<p>
+Notes: L&rsquo;interface de DVD Shrink est buggée et semble ne pas actualiser correctement certains paramètres, mais vous pouvez sans problèmes analyser votre DVD vers votre disque dur. Certaines choses sont tout simplement indisponibles, tel que la prévisualisation vidéo, mais DVD Shrink est globalement fonctionnel.
+</p>
+
+<p>
+Attention: Dans certains pays, il est légal de sauvegarder vos DVDs pour un usage personnel. Merci de vous référer à la loi en vigueur dans votre pays.
+</p>
+
+<p>
+<strong>Traduit de l&rsquo;anglais par Kmeleon, <a href="mailto:&#x6b;&#x6d;&#x65;&#x6c;&#x65;&#x6f;&#x6e;&#x33;&#x40;&#x66;&#x72;&#x65;&#x65;&#x2e;&#x66;&#x72;" class="mail" title="&#x6b;&#x6d;&#x65;&#x6c;&#x65;&#x6f;&#x6e;&#x33;&#x40;&#x66;&#x72;&#x65;&#x65;&#x2e;&#x66;&#x72;">&#x6b;&#x6d;&#x65;&#x6c;&#x65;&#x6f;&#x6e;&#x33;&#x40;&#x66;&#x72;&#x65;&#x65;&#x2e;&#x66;&#x72;</a></strong> 
+</p>

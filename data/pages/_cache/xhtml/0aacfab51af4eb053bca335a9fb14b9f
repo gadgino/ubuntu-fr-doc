@@ -1,0 +1,140 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#comment_installer_l_acceleration_3d_sur_une_carte_matrox" class="toc"> Comment installer l'accélération 3D sur une carte Matrox ? </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#verification_de_la_carte" class="toc"> Vérification de la carte </a></span></li>
+<li class="level2"><span class="li"><a href="#installation_en_mode_console" class="toc"> Installation en mode console </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#installation_pour_warty" class="toc"> Installation pour Warty </a></span></li>
+<li class="level3"><span class="li"><a href="#installation_pour_hoary" class="toc"> Installation pour Hoary </a></span></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Versions : Warty &amp; Hoary
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/ostaquet" class="wikilink1" title="utilisateurs:ostaquet" onclick="return svchk()" onkeypress="return svchk()">ostaquet</a>.
+</p>
+
+<a name="comment_installer_l_acceleration_3d_sur_une_carte_matrox"></a><h1> Comment installer l'accélération 3D sur une carte Matrox ? </h1>
+<div class="level1">
+
+<p>
+ Ubuntu ne fournit pas le pilote Matrox pour les cartes graphiques. Vous devez télécharger le pilote directement chez Matrox et suivre la procédure d&rsquo;installation qui suit.
+</p>
+
+<p>
+Vous pouvez installer le pilote propriétaire Matrox en mode console. Veuillez vous référer aux sections ci-dessous.
+</p>
+
+<p>
+Cependant, avant d&rsquo;installer le pilote, assurez vous que votre carte graphique est bien une Matrox. Si vous installez le pilote Matrox sur une carte qui n&rsquo;est pas prévue pour cela, il vous faudra reconfigurer votre serveur X.
+</p>
+
+<p>
+<strong>Remarque :</strong> Ce pilote est une version BETA et ne fonctionne pas avec les processeurs AMD64.
+</p>
+
+</div>
+<!-- SECTION [83-778] -->
+<a name="verification_de_la_carte"></a><h2> Vérification de la carte </h2>
+<div class="level2">
+
+<p>
+ Installez le pilote Matrox si une des lignes ci-dessous est vraie : 
+</p>
+<ul>
+<li class="level1"><span class="li"> Vous savez que vous possédez une carte Matrox basé sur Parhelia (P650, P750 ou Parhelia-512).</span>
+</li>
+<li class="level1"><span class="li"> Quand vous allumez votre machine, vous voyez un logo apparaître avec Matrox.</span>
+</li>
+<li class="level1"><span class="li"> La commande <pre class="code">lspci</pre>
+
+<p>
+ indique que vous avez une carte Matrox (&rdquo;MGA XXX&rdquo; ou XXX est G650, G750 ou Parhelia).</span>
+
+</p>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [779-1190] -->
+<a name="installation_en_mode_console"></a><h2> Installation en mode console </h2>
+<div class="level2">
+
+</div>
+<!-- SECTION [1191-1232] -->
+<a name="installation_pour_warty"></a><h3> Installation pour Warty </h3>
+<div class="level3">
+<ul>
+<li class="level1"><span class="li"> Téléchargez le pilote 1.4.1 pour Linux du site web de [Matrox <a href="http://www.matrox.com/mga/support/drivers/latest/home.cfm" class="urlextern" title="http://www.matrox.com/mga/support/drivers/latest/home.cfm" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.matrox.com/mga/support/drivers/latest/home.cfm</a>].</span>
+</li>
+<li class="level1"><span class="li"> Ouvrez un terminal et placez vous où vous avez télécharger le pilote (consultez <a href="/console/ligne_de_commande" class="wikilink1" title="console:ligne_de_commande" onclick="return svchk()" onkeypress="return svchk()">la page des commandes basiques</a>).</span>
+</li>
+<li class="level1"><span class="li"> Changer les permissions de ce fichier pour pouvoir l&rsquo;exécuter :</span>
+</li>
+</ul>
+<pre class="code">
+sudo chmod +x mtxdriver-1.4.1_pro.run
+</pre>
+<ul>
+<li class="level1"><span class="li"> Exécutez le fichier téléchargé afin d&rsquo;installer le support 3D :</span>
+</li>
+</ul>
+<pre class="code">
+sudo sh mtxdriver-1.4.1_pro.run
+</pre>
+<ul>
+<li class="level1"><span class="li"> Vous devez reconfigurer le serveur XFree. Vous pouvez le faire avec la commande suivante et en sélectionnant &ldquo;mtx&rdquo; à la place de l&rsquo;ancien pilote.</span>
+</li>
+</ul>
+<pre class="code">
+sudo dpkg-reconfigure xserver-xfree86
+</pre>
+<ul>
+<li class="level1"><span class="li"> Redémarrer la machine.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [1233-2020] -->
+<a name="installation_pour_hoary"></a><h3> Installation pour Hoary </h3>
+<div class="level3">
+<ul>
+<li class="level1"><span class="li"> Téléchargez le pilote 1.4.1 pour Linux du site web de [Matrox <a href="http://www.matrox.com/mga/support/drivers/latest/home.cfm" class="urlextern" title="http://www.matrox.com/mga/support/drivers/latest/home.cfm" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.matrox.com/mga/support/drivers/latest/home.cfm</a>].</span>
+</li>
+<li class="level1"><span class="li"> Ouvrez un terminal et placez vous où vous avez télécharger le pilote (consultez <a href="/console/ligne_de_commande" class="wikilink1" title="console:ligne_de_commande" onclick="return svchk()" onkeypress="return svchk()">la page des commandes basiques</a>).</span>
+</li>
+<li class="level1"><span class="li"> Changer les permissions de ce fichier pour pouvoir l&rsquo;exécuter :</span>
+</li>
+</ul>
+<pre class="code">
+sudo chmod +x mtxdriver-1.4.1_pro.run
+</pre>
+<ul>
+<li class="level1"><span class="li"> Exécutez le fichier téléchargé afin d&rsquo;installer le support 3D :</span>
+</li>
+</ul>
+<pre class="code">
+sudo sh mtxdriver-1.4.1_pro.run
+</pre>
+<ul>
+<li class="level1"><span class="li"> Vous devez reconfigurer le serveur X.org. Vous pouvez le faire avec la commande suivante et en sélectionnant &ldquo;mtx&rdquo; à la place de l&rsquo;ancien pilote.</span>
+</li>
+</ul>
+<pre class="code">
+sudo dpkg-reconfigure xserver-xorg
+</pre>
+<ul>
+<li class="level1"><span class="li"> Redémarrer la machine.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [2021-] -->

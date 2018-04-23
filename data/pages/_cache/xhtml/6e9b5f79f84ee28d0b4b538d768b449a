@@ -1,0 +1,205 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#irssi" class="toc"> Irssi </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#qu_est_ce_que_c_est" class="toc"> Qu'est ce que c'est ? </a></span></li>
+<li class="level2"><span class="li"><a href="#installation" class="toc"> Installation </a></span></li>
+<li class="level2"><span class="li"><a href="#configuration" class="toc"> Configuration </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#serveurs" class="toc"> Serveurs </a></span></li>
+<li class="level3"><span class="li"><a href="#salles_de_discussion" class="toc"> Salles de discussion </a></span></li>
+<li class="level3"><span class="li"><a href="#identification" class="toc"> Identification </a></span></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level1"><span class="li"><a href="#utilisation" class="toc"> Utilisation </a></span></li>
+<li class="level1"><span class="li"><a href="#irc" class="toc"> IRC </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#aller_plus_loin" class="toc"> Aller plus loin </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">Version Hoary</pre>
+ Rédigée par <a href="/utilisateurs/ju" class="wikilink1" title="utilisateurs:ju" onclick="return svchk()" onkeypress="return svchk()">Ju</a>
+<a name="irssi"></a><h1> Irssi </h1>
+<div class="level1">
+
+</div>
+<!-- SECTION [54-74] -->
+<a name="qu_est_ce_que_c_est"></a><h2> Qu'est ce que c'est ? </h2>
+<div class="level2">
+
+<p>
+ Irssi est un programme de chat sur irc en mode console. C&rsquo;est une alternative à <a href="/applications/xchat" class="wikilink1" title="applications:xchat" onclick="return svchk()" onkeypress="return svchk()">Xchat</a>.
+</p>
+
+</div>
+<!-- SECTION [75-203] -->
+<a name="installation"></a><h2> Installation </h2>
+<div class="level2">
+
+<p>
+ Sous Hoary le paquet est irssi-text, à installer via <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a> ou : 
+</p>
+<pre class="code">sudo apt-get install irssi-text</pre>
+
+</div>
+<!-- SECTION [204-338] -->
+<a name="configuration"></a><h2> Configuration </h2>
+<div class="level2">
+
+<p>
+ Comme la plupart des applications sous Linux irssi se configure via l&rsquo;édition d&rsquo;un fichier texte. 
+</p>
+<pre class="code">gedit ~/.irssi/config</pre>
+
+</div>
+<!-- SECTION [339-490] -->
+<a name="serveurs"></a><h3> Serveurs </h3>
+<div class="level3">
+
+<p>
+ Ce fichier est découpé en plusieurs parties, les serveurs à joindre au démarrage : 
+</p>
+<pre class="code">servers = (
+  {
+    address = &quot;irc.freenode.org&quot;;
+    chatnet = &quot;freenode&quot;;
+    port = &quot;6667&quot;;
+    autoconnect = &quot;yes&quot;;
+    term_type = &quot;utf-8&quot;;
+  }
+);</pre>
+
+<p>
+ Voilà au lancement d&rsquo;irssi, vous serez sur un serveur freenode en utf-8 <a href="#fn1" name="fnt1" class="fn_top">1)</a>
+</p>
+
+</div>
+<!-- SECTION [491-943] -->
+<a name="salles_de_discussion"></a><h3> Salles de discussion </h3>
+<div class="level3">
+
+<p>
+ Les salles de discussion à joindre au lancement :  
+</p>
+<pre class="code">channels = (
+  { name = &quot;#ubuntu-fr&quot;; chatnet = &quot;freenode&quot;; autojoin = &quot;yes&quot;; }
+);</pre>
+
+<p>
+ La syntaxe est relativement simple : 
+</p>
+<pre class="code">channels = (
+  { name = &quot;#ubuntu-fr&quot;; chatnet = &quot;freenode&quot;; autojoin = &quot;yes&quot;;},
+  { name = &quot;#autre_chan&quot;; chatnet = &quot;freenode&quot;; autojoin = &quot;yes&quot;; },
+  { name = &quot;#encore_un_autre&quot;; chatnet = &quot;freenode&quot;; autojoin = &quot;No&quot;;}
+);</pre>
+
+</div>
+<!-- SECTION [944-1390] -->
+<a name="identification"></a><h3> Identification </h3>
+<div class="level3">
+<pre class="code">chatnets = {
+  freenode = {
+    type = &quot;IRC&quot;;
+    autosendcmd = &quot;/msg NickServ identify votre_mot_de_passe&quot;;
+  };
+};</pre>
+
+<p>
+ Pour enregistrer un pseudo sur freenode il faut parler au robot NickServ <em>(&rdquo;Nick&rdquo; pour &ldquo;nickname&rdquo; = pseudo)</em> 
+</p>
+<pre class="code">/msg NickServ help</pre>
+
+<p>
+pour plus d&rsquo;informations
+</p>
+
+</div>
+<!-- SECTION [1391-1706] -->
+<a name="utilisation"></a><h1> Utilisation </h1>
+<div class="level1">
+
+<p>
+ Irssi se lance dans un terminal, via la commande : 
+</p>
+<pre class="code">irssi</pre>
+
+<p>
+ La fenêtre se compose de trois parties :
+</p>
+<ul>
+<li class="level1"><span class="li"> Tout au dessus : Le sujet de la salle de discussion où vous vous trouvez actuellement</span>
+</li>
+<li class="level1"><span class="li"> L&rsquo;écran de dialogue proprement dit</span>
+</li>
+<li class="level1"><span class="li"> La barre de statut, tout en bas <a href="#fn2" name="fnt2" class="fn_top">2)</a></span>
+</li>
+</ul>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=applications%3Airssi.png" class="media" title="applications:irssi.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=applications%3Airssi.png" class="media" alt="" /></a>
+</p>
+
+</div>
+<!-- SECTION [1707-2093] -->
+<a name="irc"></a><h1> IRC </h1>
+<div class="level1">
+
+<p>
+Pour afficher le &lsquo;Topic&rsquo; (sujet de la salle où vous vous trouvez) 
+</p>
+<pre class="code">/topic</pre>
+
+<p>
+Pour afficher les noms des personnes dans la salle <a href="#fn3" name="fnt3" class="fn_top">3)</a> 
+</p>
+<pre class="code">/names</pre>
+
+<p>
+ Pour se connecter à un autre channel 
+</p>
+<pre class="code">/join #nom_du_channel</pre>
+
+<p>
+ Pour parler en privé à un utilisateur 
+</p>
+<pre class="code">/msg nom_d_utilisateur</pre>
+
+<p>
+ Se déplacer dans les différentes fenétres :  
+</p>
+<pre class="code">CTRL P  : pour Previous, précédent) 
+CTRL N : pour Next, suivant ;-)</pre>
+
+<p>
+Il y a beaucoup de commandes disponibles pour irc, encore quelques unes sur le site de <a href="http://www.commentcamarche.net/utile/irc.php3" class="urlextern" title="http://www.commentcamarche.net/utile/irc.php3" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">CommentCaMarche</a>
+</p>
+
+</div>
+<!-- SECTION [2094-2791] -->
+<a name="aller_plus_loin"></a><h2> Aller plus loin </h2>
+<div class="level2">
+<ol>
+<li class="level1"><span class="li"> Lire la doc officielle, en anglais : <a href="http://www.irssi.org/?page=docs" class="urlextern" title="http://www.irssi.org/?page=docs" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.irssi.org/?page=docs</a></span>
+</li>
+<li class="level1"><span class="li"> Si vous voulez utiliser de manière plus efficace irssi vous pouvez changer les raccourcis claviers pour les principales commandes (toujours dans <em>~/.irssi/config</em>)</span>
+</li>
+<li class="level1"><span class="li"> Vous pouvez utiliser un script, des tonnes ici : <a href="http://www.irssi.org/scripts/" class="urlextern" title="http://www.irssi.org/scripts/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.irssi.org/scripts/</a></span>
+</li>
+<li class="level1"><span class="li"> Vous pouvez écrire votre propre script en <acronym title="Practical Extraction and Report Language">Perl</acronym> et le diffuser : <a href="http://juerd.nl/site.plp/irssiscripttut" class="urlextern" title="http://juerd.nl/site.plp/irssiscripttut" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://juerd.nl/site.plp/irssiscripttut</a></span>
+</li>
+</ol>
+
+</div>
+<!-- SECTION [2792-] --><div class="footnotes">
+<div class="fn"><a href="#fnt1" name="fn1" class="fn_bot">1)</a> 
+les salles de discussion migrent petit à petit vers utf-8, #ubuntu-fr est en utf-8 par exemple</div>
+<div class="fn"><a href="#fnt2" name="fn2" class="fn_bot">2)</a> 
+il y a, chez moi, une deuxième barre pour <a href="/applications/screen" class="wikilink1" title="applications:screen" onclick="return svchk()" onkeypress="return svchk()">Screen</a></div>
+<div class="fn"><a href="#fnt3" name="fn3" class="fn_bot">3)</a> 
+il existe un script qui <em>tente</em> de faire une barre latérale pour irssi <a href="http://wouter.coekaerts.be/site/irssi/nicklist" class="urlextern" title="http://wouter.coekaerts.be/site/irssi/nicklist" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://wouter.coekaerts.be/site/irssi/nicklist</a> </div>
+</div>

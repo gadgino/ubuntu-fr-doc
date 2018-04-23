@@ -1,0 +1,55 @@
+{{tag>Precise Trusty Xenial accessibilité clavier}}
+
+----
+
+====== OnBoard ======
+
+OnBoard est un [[:clavier#claviers_virtuels|clavier virtuel]] simple. Il est installé par défaut dans Ubuntu.
+
+{{:application:onboard.png}}
+
+=====Installation=====
+
+Pour installer OnBoard, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt://onboard|onboard]]**.
+
+=====Configuration=====
+
+Pour configurer OnBoard, il suffit d'aller dans le menu Applications->Accessibilité->Préférences d'Onboard
+
+=====Utilisation=====
+
+Pour lancer OnBoard, le [[raccourci-lanceur]] d'Onboard se trouve dans le menu Applications->Accessibilité->Onboard.
+
+Il est possible que par défaut le menu Accessibilité et Onboard n'apparaissent pas dans le menu. Si c'est le cas, faîtes un clic droit sur le menu Applications, puis Éditer les menus, et cochez Accès Universel, cliquez ensuite sur Accès Universel dans la partie de gauche et vous pouvez alors cocher Onboard. 
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== 😀 Des emoji dans onboard 😀 =====
+
+Il existe un agencement pour Onboard spécial emoji sur GitHub : [[https://github.com/qnub/onboard-emoji
+]]
+
+La plupart utilisent la police [[apt://ttf-ancient-fonts|ttf-ancient-fonts]] disponible dans les dépôts.
+
+=====Bug connu=====
+
+Il arrive qu'il y ai un bug avec un passage de la disposition AZERTY en QWERTY.
+Pour corriger ce problème :
+aller dans /Systeme/Préférence/Accessibilité
+La il faut cliquer accessibilité du clavier
+Puis Agencement
+
+Partie haute vérifier que le pays en 1er est bien France (le cas échéant l'ajouter)
+Et modèle de clavier : Generic|Pc générique 102touches (intl)
+
+Appliquer à l'ensemble du système
+Un petit redémarrage et plus de problème !
+
+Source : [[https://forum.ubuntu-fr.org/viewtopic.php?id=428452|Forum Ubuntu]]
+
+=====Voir aussi=====
+
+  * [[https://launchpad.net/onboard|Site officiel]]
+  * [[http://live.gnome.org/OnBoard|Presentation d'Onboard]] sur Live.Gnome

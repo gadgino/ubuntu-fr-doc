@@ -1,0 +1,46 @@
+{{tag>Xenial serveur PHP}}
+----
+====== APC ======
+
+[[wp>Alternative_PHP_Cache|Alternative Php Cache]] est un accélérateur [[PHP]] comme [[:XCache]] ou [[:eAccelerator]]. 
+
+===== Pré-requis =====
+
+Cette librairie est utile avec un serveur web tel que [[lamp|Serveur web - LAMP]].
+
+===== Installation =====
+
+Il vous suffit pour cela  d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>php-apcu]]**.
+
+Il sera nécessaire de redémarrer apache pour appliquer le changement.
+<code shell>sudo service apache2 restart</code>
+
+Depuis Ubuntu 14.04 LTS APC n'est plus nécessaire. À la place, PHP 5.5 dispose d'un opcache intégré, que vous pouvez activer dans /etc/php5/apache2/php.ini , en remplaçant :
+<file>
+;opcache.enable=0
+</file>
+par
+<file>
+opcache.enable=1
+</file>
+
+
+===== Utilisation =====
+
+La mise en cache de l'opcode est automatique. De plus, des [[http://php.net/manual/fr/book.apc.php|fonctions]] permettent de pousser son utilisation.
+
+==== Visualiser le cache ====
+
+Il est possible de visualiser le cache en saisissant ces [[:commande_shell|commandes]]:
+<code shell>
+#copier et désarchiver la page PHP de gestion du cache à la racine du serveur web
+sudo cp /usr/share/doc/php-apc/apc.php.gz /var/www/
+sudo gunzip /var/www/apc.php.gz
+</code>
+
+==== Gestion du cache ====
+
+Vous pouvez naviguez sur la page de gestion de cache APC depuis l'adresse **%%http://<serveur>/apc.php%%**((//<serveur>// étant à remplacer par l'adresse IP de celui-ci ou //localhost// le cas échéant)).
+
+----
+//Contributeur: [[utilisateurs:esion|esion]]//

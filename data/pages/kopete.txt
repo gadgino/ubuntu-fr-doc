@@ -1,0 +1,133 @@
+
+{{tag>jabber messagerie_instantanée}}
+
+----
+{{  applications:kde:network:kopete.png}}
+====== Kopete : La messagerie instantanée pour KDE ======
+
+
+
+===== Présentation =====
+
+Kopete est un client de messagerie instantanée multi-protocole intégré à l'environnement de bureau KDE, il est possible par exemple de lier les contacts créés dans Kopete à ceux présents dans le carnet d'adresses [[KAddressBook]] (composant de [[Kontact]]). 
+\\
+\\
+Ainsi, les informations sont partagées par les deux applications ; on peut envoyer un courrier électronique à un contact à partir de Kopete. La photo d'un contact stockée dans KAddressBook peut également être utilisée pour représenter visuellement un contact dans Kopete. Dans l'autre sens, l'état de connexion d'un contact sur un protocole de messagerie instantanée sera affiché dans l'en-tête des messages électroniques et dans la liste des contacts du carnet d'adresses.
+\\
+\\
+Kopete supporte entre autres les protocoles suivant :
+  * Jabber (libre)
+  * Gtalk (la VoIP nécessite l'installation d'un plugin propriétaire) (service de messagerie instantané basé sur le protocole Jabber)
+  * <del>MSN (propriétaire)</del>
+  * ICQ (propriétaire)
+  * Yahoo! Messenger (propriétaire)
+  * AIM (propriétaire)
+
+{{applications/kde/network/kopete-messagerie.png|kopete}}
+=====Installer Kopete=====
+
+Pour installer kopete [[apt>kopete|cliquez ici]].
+
+
+Kopete devrais alors s'afficher en français, si ce n'est pas le cas vérifier que les paquets de langue sont installés [[apt>language-pack-kde-fr,language-pack-kde-fr-base|en cliquant ici]]
+
+Si vous préférez la ligne de commande tapez simplement : 
+
+<code>sudo apt-get install kopete language-pack-kde-fr language-pack-kde-fr-base</code>
+
+=====Configuration d'un compte=====
+
+Au premier démarrage, l'utilisateur est invité à configurer un ou plusieurs compte(s) pour se connecter à un service de messagerie instantanée.
+
+La configuration d'un compte de messagerie instantanée s'effectue généralement de la même façon pour tous les protocoles :
+  * création d'un compte sur un serveur de messagerie instantanée ;
+  * configuration du client (Kopete) avec l'adresse du compte et le mot de passe, pour avoir accès au compte.
+
+<note important>Depuis la version KDE 4.1 Kopete ne gère plus l'IRC, [[:konversation]] peut être utilisé en complément.</note>
+
+Pour ajouter un nouveau compte ou en modifier un existant allez dans, //Configuration → Configurer… → Comptes// puis cliquez sur //Nouveau//, choisissez alors le réseau sur lequel vous désirez ouvrir un compte.
+
+Si vous possédez déjà un compte sur ce réseau, renseignez les cases //Identifiant// et //Mot de passe//, sinon cliquez sur //Créer un compte//.
+
+====Jabber====
+[[:Jabber]] est un protocole libre et gratuit, basé sur des standards ouverts. Parmi ses avantages, on compte :
+  * réseau décentralisé.
+  * simplicité de connexion.
+  * nombre de contacts illimité.
+  * les messages reçus hors-connexion vous sont automatiquement envoyés lors de votre connexion suivante.
+  * possibilité de chiffrer les messages.
+  * passerelles vers d'autres protocoles.
+
+Vous devrez en premier lieu choisir un serveur Jabber. Vous disposez d'un large choix sur [[http://wiki.jabberfr.org/Serveurs|cette page]]. Choisissez-le en fonction de votre utilisation, le besoin d'avoir des passerelles vers d'autres protocoles, etc ...
+
+Choisissez ensuite votre pseudo, ainsi que votre mot de passe. Laissez le reste par défaut, et cliquez //OK//. Laissez-vous guider pour le reste de la configuration.
+==== Facebook ====
+
+Depuis 2010 Facebook prend en charge le protocole Jabber ce qui vous permet d'utiliser le client de votre choix pour discuter avec vos amis. \\ 
+Vous pouvez ajouter un compte de cette manière :
+  - Ajouter un compte jabber.
+  - Dans le champ  //identifiant// ajouter votre pseudo facebook (et non votre adresse email) suivi de @chat.facebook.com.
+  - Entrer votre mot de passe Facebook.
+  
+
+====GoogleTalk====
+
+Le service de messagerie instantanée développé par Google, est basé sur Jabber. La configuration est donc quasiment identique à celle suivie pour un compte Jabber.
+
+  - Ajouter un compte Jabber
+  - Taper votre adresse gmail ainsi que votre mot de passe
+  - Dans l'onglet //Connexion//  cocher //Utiliser le chiffrement du protocol (SSL)// ainsi que //Substituer les informations par défaut du serveur//, à côté de //Serveur :// mettre //talk.google.com//  
+  - Dans l'onglet //Google Talk// cocher la casse //Activer la prise en charge de libjingle ...//
+
+La prise en charge de la VoIP nécessite  l'installation d'un plugin propriétaire téléchargeable [[http://www.google.com/talk/intl/fr/|ici]]
+====Windows Live Messenger (MSN)====
+
+MSN Messenger est un protocole propriétaire et fermé. Bien que Kopete soit multi-protocoles, du fait de la nature fermée de ce protocole, certaines fonctionnalités peuvent ne pas être accessibles.
+
+L'appui sur //Créer un compte// vous emmène sur le site de Microsoft. Il vous faut d'abord créer un compte. En fait, c'est une adresse de courrier, que vous utiliserez également pour la messagerie électronique. Relevez l'adresse et le mot de passe de celle-ci, renseignez les cases prévues à cet effet dans Kopete, et terminez la configuration.
+
+  * Le réseau MSN est centralisé, cela veut dire que tous les messages transitent par les serveurs Microsoft situés aux USA. Il existe des soupçons quant à une censure de certains mots et messages, et il est techniquement possible pour Microsoft d'enregistrer les conversations transitant par leurs serveurs (le chiffrement des messages étant impossible).
+===== Chiffrer vos conversations à l'aide du module OTR =====
+
+Cliquer sur  Configuration ⇒ Configurer les modules ⇒ Cochez "OTR" ⇒ Choisissez le(s) bon(s) compte(s) et générez les clés.
+
+Cliquer [[off-the-record_messaging|ici]] pour avoir plus de détails.
+
+
+
+
+===== FAQ =====
+
+==== Comment transférer un fichier avec mon compte jabber ? ====
+
+Dans les paramètres de votre compte cliquer sur l'onglet //Transfert de fichier//, dans la case //Serveur mandataire JID// ajouter par exemple //proxy.jabberfr.org//
+\\
+\\
+Vous trouverez plus d'informations [[http://wiki.jabberfr.org/Transfert_de_fichier#Serveurs_proxy|ici]]
+
+==== Comment réafficher la barre de menu ? ====
+
+Vous avez malencontreusement décocher //Configuration// > //Cacher la barre de menus//, pas de panique vous pouvez facilement la réafficher via **Ctrl + M**.
+
+
+==== Problème webcam et Kopete Ubuntu 8.10 ? ====
+
+solution sur le [[http://forum.ubuntu-fr.org/viewtopic.php?id=275846|Forum]] merci a castelnau
+
+Récupérez les sources du gscpa puis compiler et installer.
+Ensuite [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt://libv4l-0|libv4l-0]]**
+Puis pour avoir la webcam dans Kopete  : lancer en console
+<code>LD_PRELOAD=/usr/lib/libv4l/v4l1compat.so kopete</code>
+
+<note warning>Ce paragraphe n'est plus d'actualité car le pilote est inclus dans les dernières versions du noyau linux, à supprimer ?</note>
+
+
+===== Liens utiles =====
+
+  * [[http://fr.wikipedia.org/wiki/Kopete|Article sur Wikipedia]]
+  * [[http://kopete.kde.org/|Site officiel (en)]]
+  * [[http://docs.kde.org/stable/fr/kdenetwork/kopete/index.html|Manuel de Kopete (fr)]]
+
+----
+
+//Contributeurs : keny, premier brouillon rédigé par [[utilisateurs:Bobuse]]//

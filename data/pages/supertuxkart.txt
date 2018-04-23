@@ -1,0 +1,100 @@
+{{tag>jeu course}}
+
+----
+
+====== SuperTuxKart ======
+
+**SuperTux Kart** est un jeu de course, clone de MarioKart, mais qui petit à petit, semble s'éloigner du jeu original, pour un résultat des plus intéressant...
+
+Les dernières versions ont apporté d'importantes améliorations dans le gameplay et les graphismes: meilleure gestion de la physique, utilisation de la nitro et des dérapages. Les sons ont été améliorés, de meilleures musiques sont là, et beaucoup de nouvelles courses et de karts. Il y a aussi un mode de jeu multijoueur combat "3-Strikes battle" et des nouveaux items à utiliser. 
+
+{{http://pix.toile-libre.org/upload/original/1435100402.png|STK 0.9}}
+
+===== Installation =====
+
+==== Depuis les dépôts officiels ====
+
+=== Méthode graphique ===
+Il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>supertuxkart|supertuxkart]]**.
+
+=== Méthode en ligne de commande ===
+Ouvrez un [[:terminal]] et entrez la commande suivante:
+<code>sudo apt-get install supertuxkart</code>
+
+
+
+==== Installation des suppléments ====
+<note tip>Les versions actuelles de STK (depuis la 0.7) permettent de télécharger les suppléments directement depuis le menu principal</note>
+Récupérer les suppléments sur le site [[http://addons.supertuxkart.net/|addons.supertuxkart.net]].
+
+Ensuite copier le contenu des dossiers dans **/usr/share/games/supertuxkart/data**
+
+<note important>Vous aurez certainement besoin de la commande :
+<code>sudo chmod -R a+rwx /usr/share/games/supertuxkart/data</code>
+pour avoir la permission de manipuler ces dossiers.</note>
+
+Vous pouvez aussi récupérer ce [[http://sourceforge.net/projects/supertuxkart/files/SuperTuxKart%20Add-ons/Add-ons%200.7/STK_0.7_Karts_AddonsPack.deb/download|paquet]] contenant 15 kartings supplémentaires.
+
+==== Version de développement depuis le PPA ====
+
+Pour avoir la version la plus récente (0.9.2 à ce jour) de t :
+
+Vous pouvez installer SuperTuxKart à partir d'un dépôt **[[PPA]]** pour disposer d'une version stable plus récente, s'il y en a.
+
+
+^ Version Ubuntu ^ Version installée ^ Version du PPA ^ Version Playdeb ^
+| Ubuntu [[:xenial|16.04 LTS]] | 0.9.1 | 0.9.2 | Non disponible |
+| Ubuntu [[:trusty|14.04 LTS]]    | 0.8.1| 0.9.2| 0.9.1 |
+| Ubuntu [[:precise|12.04 LTS]]    | 0.8  | 0.9.2 | 0.8 |
+//(informations à jour le 09/10/2016)//
+
+ === Méthode graphique ===
+  * [[:PPA|Ajoutez le PPA]] **ppa:stk/dev**((https://launchpad.net/~stk/+archive/dev)) dans vos sources de logiciels.
+  * [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste des paquets]].
+  * [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt://supertuxkart|supertuxkart]]**.
+
+=== Méthode en ligne de commande ===
+Ouvrez un [[:terminal]] et entrez la commande suivante:
+  sudo add-apt-repository ppa:stk/dev && sudo apt-get update && sudo apt-get install supertuxkart
+
+
+==== Depuis GetDeb ====
+
+Installez [[getdeb#comment_ajouter_le_depot_de_playdeb|Playdeb]] puis **[[apt>supertuxkart]]**
+===== Utilisation =====
+
+Lancez l'application depuis le menu //Applications -> Jeux -> SuperTuxKart//.
+
+==== Modes de jeu ====
+
+Pour le **mode solo**, vous pouvez courir en mode « Grand Prix », « Course Rapide », « Contre-la-montre » ou "Suis le meneur".
+
+Pour le **mode multi-joueurs** (avec un écran divisé), vous avez le choix entre les modes « Grand Prix », « Course Rapide », "Combat" et "Suis le meneur". 
+
+Depuis la version 0.8, il  existe un **mode histoire** : une carte recense l'ensemble des épreuves disponibles avec à la clé des coupes en bronze, argent ou or.
+
+Le mode **jeu en réseau** est en cours d'implémentation mais n'est pas encore utilisable. 
+==== Astuces ====
+
+  * Vous pouvez tirer les ventouses, les cakes, et les boules de bowling en arrière en utilisant la combinaison :
+**Regarder en arrière + Tirer**
+
+  * Pour avoir accès à tout le contenu du jeu sans passer par tous les challenges :
+Aller dans le dossier  cd **~/.config/supertuxkart** et [[:tutoriel:comment_modifier_un_fichier|modifiez le fichier]] challenges.xml et remplacez toutes les valeurs **"false"** par **"true"** FIXME Fichier introuvable
+
+
+===== Joystick ou manette de jeu =====
+
+<note important>//Bien que les pads soient bien reconnus depuis la version** 0.5**, il se peut que le joystick soit reconnu de façon aléatoire, où ne puisse être configuré. Il est possible d'éditer le fichier input.xml que vous trouverez dans /home/votre_dossier_perso/.config/supertuxkart.// Ce bug est corrigé!</note>
+
+Discussion sur le forum : http://forum.ubuntu-fr.org/viewtopic.php?id=1110431
+
+
+===== Voir aussi =====
+  * [[http://supertuxkart.sourceforge.net/|Site Officiel]]
+  * [[http://addons.supertuxkart.net/|Le site du contenu additionel]] 
+  * [[http://www.jeuxlinux.fr/a68-Supertuxkart.html|Jeulinux]]
+  * **(en)** [[http://wiki.openstreetmap.org/wiki/SuperTuxKart|Générer les décors pour votre ville-village à base des cartes]] [[OpenStreetMap]]
+
+----
+//Contributeurs : [[:utilisateurs:_Enchained]], isaric, Rudy85//.

@@ -1,0 +1,131 @@
+{{tag>tutoriel programmation compilation gcc BROUILLON}}
+
+----
+
+====== Comment utiliser MingW32 pour faire des exécutables Windows ? ======
+
+
+Il peut arriver que pour certaines raisons l'on souhaite créer des exécutables pour Windows depuis Linux. Il existe une solution : MingW32. MingW s'utilise avec GCC ou G++. MingW est le portage sous Windows de GCC.
+
+Pour suivre ce tutoriel vous devez savoir 
+[[tutoriel:console_ligne_de_commande|vous déplacer dans l'arborescence en ligne de commande]].
+
+
+
+
+===== Installer GCC =====
+
+Si ce n'est pas déjà fait, installez GCC. Il suffit pour cela d'installer (//via// [[:Synaptic]] ou [[:APT]]) le paquet nommé « gcc ».
+==== Vérification de l'installation ====
+
+Pour vérifier l'installation, créez un fichier nommé « main.c » et éditez-le.
+
+Copiez-collez le code suivant :
+<code c>
+#include <stdio.h>
+
+int main ()
+  {
+    printf("Bonjour linuxien !\n");
+    return 0;
+  }
+</code>
+
+Ouvrez alors un terminal, pour vous placer dans le dossier ou se situe « main.c » et tapez :
+
+  gcc -o bonjour main.c
+
+Faites ensuite :
+
+   ./bonjour
+
+Le message : « //Bonjour linuxien !// » apparait.
+ 
+
+
+
+===== Installer MingW32 =====
+
+
+L'installation de MingW32 s'effectue en installant le paquet « mingw32 » ([[apt://mingw32]]).
+Cela fait, recompilez le programme fait plus haut en remplaçant :
+
+  gcc -o bonjour main.c
+
+par 
+
+  i586-mingw32msvc-gcc -o bonjour.exe main.c
+
+**Note :** //bonjour// a été remplacé par //bonjour.exe// arbitrairement pour distinguer l'exécutable Linux de l'exécutable Windows mais ce n'est absolument pas obligatoire.
+
+Vous venez de créer un exécutable pour Wine
+
+Vous pouvez compiler le code suivant pour vérifier le fonctionnement des appels windows :
+<code c>
+#include <windows.h>
+
+int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
+    LPSTR lpCmdLine, int nCmdShow)
+{
+  MessageBoxW(NULL,
+    L"Cette fenêtre prouve que le cross-compilateur est fonctionnel !",
+    L"Hello World", MB_OK);
+  return 0;
+}
+
+</code>
+
+
+===== Code Blocks =====
+
+Lien pour le cross compileur (anglais) : http://wiki.codeblocks.org/index.php?title=Code::Blocks_and_Cross_Compilers
+
+==== Erreur de compilation ====
+
+Vous avez l'erreur " uses an invalid compiler. Skipping..." après avoir suivi le tutoriel ci-dessus... pas de panique, il vous manque certainement un répertoire de recherche:
+
+Allez dans **Settings**->**Compiler and debugger settings** //(sélectionner bien sur le compileur mingw32)//
+
+Ensuite allez dans le sous-onglet "**Toolchain executable**" //(ou "**Programs**")//
+
+Cliquez sur "**Additional paths**" et ajouter //(bouton "**ADD**")// :
+  * /usr/bin
+  * /usr/i586-mingw32msvc
+  * /usr/i586-mingw32msvc/bin
+
+Faites un rebuild et tout devrait être rentré dans l'ordre.
+===== Le « makefile » =====
+
+Imaginons maintenant un //makefile// simple (dans le même dossier que « main.c ») :
+
+<code makefile>
+exe: main.c
+	gcc -o exe main.c
+</code>
+
+**Note :** Il y a une tabulation et pas une suite d'espaces devant « gcc » sur la 2e ligne de l'exemple. Cette tabulation est //obligatoire//.
+Attention aux logiciels de traitement de texte qui remplacent, par défaut, les tabulations par des espaces.
+
+Pour l'exécuter tapez (une fois placé dans le bon répertoire) :
+
+  make
+
+Il vous suffit de maintenant remplacer « gcc » par « i586-mingw32msvc-gcc » pour que le //makefile// puisse créer un exécutable Windows.
+
+
+===== Conclusion =====
+
+
+Vous pouvez maintenant créer des exécutables Windows depuis Linux : il vous suffit juste de remplacer lors de vos compilations « gcc » par « i586-mingw32msvc-gcc », « g++ » par « i586-mingw32msvc-g++ », etc.
+
+N'oubliez pas que cependant les programmes seront bien plus gros en taille que ceux produits pour Linux ou par Microsoft Visual Studio. Ceci est dû au fait que la bibliothèque standard doit être liée statiquement avec l'exécutable. 
+
+
+===== Références ======
+
+  * Site officiel : [[http://www.mingw.org/|Home of the MinGW, MSYS and mingwPORT]] [en]
+  * Source : [[http://tfc.duke.free.fr/coding/gcc-fr.html]]
+
+----
+
+//Contributeurs : [[utilisateurs:hind_flo]], [[utilisateurs:Ner0lph]] (éditions mineures), [[:utilisateurs:DarkShade]]//

@@ -1,0 +1,26 @@
+{{tag>À_RECYCLER}}
+====== Ouvrir un fichier avec le logiciel par défaut ======
+
+Cette commande permet d'ouvrir un fichier avec le logiciel par défaut dans le terminal :
+
+exemples :
+<code>
+  xdg-open ma_photo.png
+  xdg-open http://doc.ubuntu-fr.org/xdg-open
+  xdg-open son.mp3
+  xdg-open ssh://foo@192.168.0.1:2221
+  xdg-open fish://192.168.0.2/var/log
+</code>
+
+Les lanceurs d’application se trouvent dans le dossier // ~/.local/share/applications/ // et la liste des associations dans le fichier // ~/.local/share/applications/defaults.list // ou  // ~/.local/share/applications/mimeapps.list // (xdg-open 1.1.0 rc3).
+
+Pour ajouter ou modifier une association par son type MIME  :  
+<code>
+ xdg-mime default xpdf.desktop application/pdf
+</code>
+
+Pour ajouter ou modifier une association par son rôle  : 
+<code>
+ xdg-mime default Thunar.desktop inode/directory
+</code>
+

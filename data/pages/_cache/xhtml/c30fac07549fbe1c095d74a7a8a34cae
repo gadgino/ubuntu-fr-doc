@@ -1,0 +1,109 @@
+<pre class="code">
+page en cours de création pour Hoary
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/manu" class="wikilink1" title="utilisateurs:manu" onclick="return svchk()" onkeypress="return svchk()">manu</a>.
+</p>
+
+<a name="introduction"></a><h2> Introduction </h2>
+<div class="level2">
+
+<p>
+ Samba est composé de programme permettant de vérifer son fonctionnement ou de se connecter avec différentes options. Cette page vous donnera les commandes avec leurs options principales les plus utiles/utilisées. Pour connaître l&rsquo;ensemble des possibilité de chaque commande, veuillez consulter le <strong>man</strong> de chacune.
+</p>
+
+</div>
+<!-- SECTION [92-441] -->
+<a name="commande_samba"></a><h2> Commande Samba </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> <strong>smbstatus</strong> : Cette commande vous permettra de visualiser les connexions actuelles géré par Samba. Syntaxe: </span>
+</li>
+</ul>
+<pre class="code">
+:&gt;smbstatus -[options]    
+:&gt;smbstatus -d                 # sortie d'info détaillé
+:&gt;smbstatus -S                 # n'affiche que la liste des dossiers partagés
+:&gt;man smbstatus                # Pour avoir la liste des options complémentaires
+</pre>
+<ul>
+<li class="level1"><span class="li"> <strong>smbpasswd</strong> : Cette commande permet de créer et modifier les mots de passe de Samba. Un utilisateur ne peut l&rsquo;utiliser que pour changer son mot de passe (hors option de débuggage), root a plus d&rsquo;option permettant la gestion des comptes. Le fichier des mots de passe est par défaut <em> /usr/local/samba/private/smbpasswd</em>. <strong>Attention</strong> quand vous créez un compte associé à un mot de passe pour Samba, le nom doit exister dans le fichier <em> /etc/passwd</em>.</span>
+</li>
+</ul>
+
+<p>
+ Pour les utilisateurs:
+</p>
+<pre class="code">
+:&gt;smbpasswd                  # Pour changer son mot de passe sur machine locale
+:&gt;smbpasswd -r nom_machine   # Pour changer son mot de passe sur une machine distante
+:&gt;man smbpasswd              # Pour avoir plus d'information
+</pre>
+
+<p>
+Pour root :
+</p>
+<pre class="code">
+:&gt;smbpasswd -a user_name     # Pour rentrer un nouvel utilisateur
+:&gt;smbpasswd -x user_name     # Supprime le compte de cet utilisateur
+:&gt;smbpasswd -d user_name     # Pour désactivé le compte de l'utilisateur
+:&gt;smbpasswd -s user_name     # Pour réactiver un compte d'utilisateur
+:&gt;smbpasswd -h               # Affiche simplement les commandes possibles
+</pre>
+<ul>
+<li class="level1"><span class="li"> <strong>smbclient</strong>: Cette commande vous permet de vous connecter sur un partage <em>Netbios ou Samba</em> à la manière d&rsquo;un client <acronym title="File Transfer Protocol">FTP</acronym>. La syntaxe de base est:</span>
+</li>
+</ul>
+<pre class="code">
+:&gt;smbclient //nom_netbios/nom_partage -U user_name        #Une fois connecter taper votre mot de passe
+smb: \&gt;help                                               #Pour avoir les commandes utilisables (presque identique au FTP)
+</pre>
+
+<p>
+Vous pouvez aussi utiliser <strong>smbclient</strong> pour envoyer des messages comme <em>winpopup</em>:
+</p>
+<pre class="code">
+:&gt;echo mon message pour le win | smbclient -M nom_netbios  #Méthode simple mais rapide
+:&gt;cat message.txt | smbclient -M nom_netbios               #Pour envoyer des messages plus importants 
+                                                            Attention limite à 1600 caractéres
+</pre>
+<ul>
+<li class="level1"><span class="li"> <strong>smbcontrol</strong></span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> <strong>smbcacls</strong></span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> <strong>smbcquotas</strong></span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> <strong>smbmount</strong></span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> <strong>smbspool</strong></span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> <strong>smbtar</strong></span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> <strong>smbtree</strong></span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> <strong>net</strong></span>
+</li>
+</ul>
+
+<p>
+ Retour à la page <a href="/applications/samba/avancee" class="wikilink1" title="applications:samba:avancee" onclick="return svchk()" onkeypress="return svchk()">avancée</a> 
+</p>
+
+</div>
+<!-- SECTION [442-] -->

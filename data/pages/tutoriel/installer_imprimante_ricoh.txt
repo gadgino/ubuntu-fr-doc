@@ -1,0 +1,36 @@
+{{tag>imprimante materiel}}
+
+----
+
+====== Installer une imprimante ou une Multifonctions Ricoh ======
+
+=====   Installation avec les pilotes pré-installés =====
+
+Il se peut que, pour votre imprimante, les pilotes soient déjà pré-installés avec Ubuntu. Étant facile à mettre en œuvre et susceptible de vous simplifier grandement la vie, vous avez tout intérêt à essayer dans un premier temps cette  [[:tutoriel:installer_imprimante_preinstalles| méthode des pilotes pré-installés]]. Consultez également la [[:liste_imprimantes_ricoh|liste des imprimantes Ricoh]].
+Si elle n'aboutit pas, vous n'aurez perdu que quelques minutes avant de passer aux tutoriels par modèles.
+
+=====  Tutoriels spécifiques =====
+
+Certaines imprimantes Ricoh utilisent les pilotes génériques, pour cela il est conseillé d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>cups-driver-gutenprint]]**. D'autres  pilotes pour les imprimantes Ricoh peuvent être trouvés sur le site [[http://www.openprinting.org/|www.openprinting.org]].
+
+====Modèles SP-112, SP 204 et SP 201n ====
+<note>Il est possible que la méthode décrite ci-dessous soit valable pour d'autres modèle SP.</note>
+Vous devez commencer par [[:tutoriel:comment_installer_un_paquet|installer les paquets]] **[[apt>git, jbigkit-bin, printer-driver-foo2zjs]]**. Ensuite, pour faire fonctionner ces imprimantes:
+  * Téléchargez l'archive avec [[:git]] qui va télécharger le pilote dans votre dossier personnel: <code>git clone https://github.com/madlynx/ricoh-sp100</code>
+  * Déplacez-vous dans le dossier téléchargé: <code>cd ricoh-sp100/</code>
+  * Exécutez avec [[:sudo|les droits d'administration]] le script ''check-requirements'': <code>sudo ./check-requirements</code>
+  * Rendez root propriétaire du fichier //pstoricohddst-gdi//: <code>chown root:root pstoricohddst-gdi</code>  
+  * Copiez le fichier //pstoricohddst-gdi// dans le dossier des filtres d'impression: <code>sudo cp pstoricohddst-gdi /usr/lib/cups/filter</code>
+  * Installez votre imprimante par [[:tutoriel:installer_imprimante_preinstalles|la méthode classique]] ou par CUPS à l'adresse ''http://localhost:631/'' en choississant l'option //Fournir un fichier .ppd//, fichier que vous trouverez dans le dossier téléchargé plus haut, pour la sp201 prenez le fichier de la sp204.
+
+====Modèle SP213SUW ====
+lancer la commande system-config-printer
+ \\ ajouter une imprimante
+ \\ rechercher l'imprimante selon Network Printer  + adresse IP
+ \\ choisir le pilote : Generic(recommended)
+ \\ puis PCL Laser
+
+=====Voir aussi=====
+[[http://toutbox.fr/alain.phone13/Documents/ricoh-sp201-master,24513478.zip(archive)|Pour les spxxx]]
+---------
+Contributeur: [[:utilisateurs:l_africain|L'Africain]]

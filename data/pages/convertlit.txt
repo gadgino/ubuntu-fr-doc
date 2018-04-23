@@ -1,0 +1,86 @@
+{{tag>ebook Vétuste}}
+------
+
+====== Convert LIT ======
+<note tip>Calibre peut également convertir des fichiers LIT.</note>
+Comme son nom l'indique, Convert LIT convertit des livres électronique ([[eBook]]s) au format LIT ([[http://en.wikipedia.org/wiki/Microsoft_Reader|Microsoft Reader]]) vers un format plus générique ([[http://en.wikipedia.org/wiki/OEBPS|Open eBook]]).
+Cette page vous expliquera comment [[#Installation|installer]] ou [[#Pré-requis à la compilation|compiler]] ce programme.
+
+
+===== Installation =====
+
+<note important>Ces paquetages ont été réalisés par un membre du forum officiel d'Ubuntu. Par conséquent, vous les utilisez à vos risques et périls. Préférez la [[#Pré-requis à la compilation|compilation]], plus sûre.
+
+Le [[http://ubuntu-utah.ubuntuforums.org/showthread.php?t=633429|fil de discussion]].</note>
+
+Télécharger et [[:tutoriel:comment_installer_un_paquet|installer les paquets]] [[http://ace-host.stuart.id.au/russell/files/debian/sarge/libtommath/libtommath_0.37-1_i386.deb|libtommath]] et [[http://ace-host.stuart.id.au/russell/files/debian/sarge/clit/clit_1.8-1_i386.deb|convertlit]] dans cet ordre.
+
+===== Pré-requis à la compilation =====
+
+Afin de compiler ce programme, vous aurez besoin :
+  * d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **build-essential**.
+  * de télécharger les sources de [[http://www.convertlit.com/clit18src.zip|Convert LIT]].
+  * de télécharger les sources de la bibliothèque <del>[[http://math.libtomcrypt.com/files/ltm-0.39.tar.bz2|libtommath]]</del> (lien mort) [[http://ftp.debian.org/pool/main/libt/libtommath/libtommath_0.39.orig.tar.gz|libtommath]]
+
+===== Compilation =====
+
+Décompressez les sources dans le même dossier, par exemple //convertlit//.
+Vous devrez obtenir l'arborescence suivante (Il est possible que clitxx et lib soient dans un même répertoire. Déplacez les répertoires pour avoir la bonne arborescence) :
+  * clitxx
+  * lib
+  * libtommath-0.xx
+  * README
+
+En ligne de commande, rentrez dans le dossier //libtommath-0.xx// et écrivez :
+<code>make</code>
+
+Maintenant que **libtommath** est compilé, on passe au dossier //lib// :
+<code>
+cd ../lib
+make
+</code>
+
+Les sources cherchant la bibliothèque **libtommath** dans le répertoire //libtommath-0.30//, il faut [[:tutoriel:comment_editer_un_fichier|éditer le fichier]] **Makefile** du répertoire //clitxx// pour changer ces 2 lignes afin d'avoir le bon numéro de version :
+  * Ligne 3 : CFLAGS=-funsigned-char -Wall -O2 -I ../libtommath-0.30/ -I ../lib -I ../lib/des -I .
+  * Ligne 8 : gcc -o clit $^  ../libtommath-0.30/libtommath.a
+
+Nous pouvons maintenant passer à la compilation en tapant dans le dossier //clitxx// :
+<code>make</code>
+
+Voilà, un exécutable tout chaud appelé **clit** vient d'être créé dans le dossier.
+
+<note tip>Simplifiez-vous la vie !
+
+Déplacer ce fichier dans le dossier des exécutables en tapant :
+<code>sudo mv clit /usr/bin/</code></note>
+
+Les sources ne vous étant plus d'aucune utilité, vous pouvez supprimer tous ces dossiers.
+Conservez quand même l'exécutable, on sait jamais, ça pourrait servir ! ;-)
+
+===== Utilisation =====
+
+Pour obtenir un joli //Open eBook// ou plus simplement un fichier HTML, rendez-vous dans le dossier contenant votre livre et tapez dans un terminal :
+<code>
+clit -d MonLivre.lit MonLivre/
+</code>
+
+Cette commande aura pour effet de créer un dossier contenant :
+  * les couvertures du livre.
+  * un fichier HTML avec le texte du livre.
+  * un fichier XML (.opf) mettant en page les 2 éléments susnommés.
+
+<note tip>L'aide est disponible en tapant //clit//, tout simplement.</note>
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit d'éliminer l'exécutable compilé. Si vous avez suivi cette documentation, vous le trouverez dans /usr/bin/. Ouvrez un terminal et tapez la commande suivante :
+<code>sudo rm /usr/bin/clit</code>
+
+===== Liens =====
+
+  * [[http://www.convertlit.com/|Site de Convert LIT]]
+  * [[http://math.libtomcrypt.com/download.html|Site de la bibliothèque libtommath]] (lien mort)
+
+----
+
+//Contributeurs : [[utilisateurs:Calaereb|Calaereb]], mathieui (correction des liens).//

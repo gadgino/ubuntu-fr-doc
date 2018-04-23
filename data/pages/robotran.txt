@@ -1,0 +1,28 @@
+{{tag> Karmic Mécanique Simulation BROUILLON}}
+
+----
+
+====== Robotran ======
+
+Une fois **Robotran** téléchargé (téléchargez l'archive .zip évidemment, pas le .exe 8-)) décompressez-le où vous voulez. 
+
+Il faut que vous ayez java et java3d installés. Java est relativement simple à installer via les dépôts. Pour java3d, ça se corse. 
+Téléchargez-le [[https://java3d.dev.java.net/binary-builds.html]] et choisissez celui qui vous convient (amd64 ou i586). Décompressez-le également. Vous trouverez à l'intérieur une autre archive zip : j3d-jre.zip qu'il faut décompresser.
+Une fois décompressée, copier tout le contenu du dossier ext dans /usr/lib/jvm/java-6-sun-xxxx/jre/lib/ext et tout le dossier i386 dans /usr/lib/jvm/java-6-sun-xxxx/jre/lib/i386 (où xxxx est la version de java). 
+Vous avez maintenant java3d :D
+
+Pour ne pas que Robotran vous demande à chaque démarrage où son dossier se trouve et où vous voulez sauver vos projets, il faut éditer un fichier pour rajouter des variables d'environnement :
+
+<code>$ gksudo gedit /etc/environment</code>
+
+rajoutez-y ces 2 lignes : 
+
+MBSPATH="/là/où/vous/avez/décompressé/Robotran"
+
+MBSPRJPATH="/là/où/vous/sauvez/vos/projets"
+
+Le premier est donc l'endroit où vous avez décompressé Robotran et le deuxième où vous voulez sauver vos projets. 
+
+Pour lancer Robotran : 
+
+<code>$ java -jar Robotran/MBsysPad/MBsysPadJ.jar</code>

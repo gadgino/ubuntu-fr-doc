@@ -1,0 +1,68 @@
+{{tag>Lucid matériel iphone ipod gtkpod}}
+
+----
+====== Comment synchroniser un iPhone avec iOS4 sous Ubuntu 10.04 LTS avec gtkpod ? ======
+
+<note>Ce tutoriel nécessite la dernière version de gtkpod (>= 0.99.14), la dernière version libimobiledevice (>=0.9.7-1) ainsi qu'une distribution ayant un gnome-fs récent (typiquement la distribution Ubuntu 10.04 Lucid Lynx)</note>
+<note tips>Si vous avez des problèmes liés au fait qu'il n'existe aucun répertoire dans .gvfs, essayez de mettre à jour le paquet gvfs. </note>
+
+
+==== Méthode simple ====
+
+Cette méthode a été testée sur un live-cd et fonctionne.
+
+<note>** Attention: ** Votre iphone doit disposer d'une base de donnée iTunes avec la bonne version.</note>
+
+** Voici les étapes à suivre : **
+
+  * Connecter votre iPhone. Il doit être monté sur votre bureau automatiquement
+
+  * Lancer Gtkpod (Applications -> Son et vidéos -> gtkpod)
+
+  * Aller dans Edition -> Repository/Ipod Option
+{{:tutoriel:gtkpod_lucid_step_01.png?500|Repository add}}
+
+
+  * Cliquez sur "Add new repository / Ipod..."
+{{:tutoriel:gtkpod_lucid_step_02.png?500|Add new ipod}}
+
+
+  * Indiquez un nom pour cet iphone, ce nom sera présenté dans gtkpod par la suite
+{{:tutoriel:gtkpod_lucid_step_03.png?500|Add name}}
+
+
+  * Vous pouvez soit entrer directement le chemin de l'iphone, soit parcourir avec le bouton Brownse
+  * ** C'est ici que l'on va utiliser la compatibilité entre gnome-fs et les iphone
+{{:tutoriel:gtkpod_lucid_step_04.png?500|Browse}}
+
+
+  * Allez dans votre dossier Home, puis choisissez le dossier caché (à taper dans la barre s'il ne s'affiche pas) .gvfs suivi du nom de votre Iphone (nom donné sur itunes).
+Dans mon cas le chemin est /home/ubuntu/.gvfs/iPhone, plus généralement ce serait /home/[Votre nom de session]/.gvfs/[Votre nom d'iphone].
+{{:tutoriel:gtkpod_lucid_step_05.png?500|Browse2}}
+
+
+  * Choisissez le modèle de l'iphone et cliquez sur "ajouter"
+{{:tutoriel:gtkpod_lucid_step_06.png?500|Add}}
+
+
+  * Terminez par "valider"
+{{:tutoriel:gtkpod_lucid_step_07.png?500|Validate}}
+
+
+  * Maintenant vous pouvez apercevoir l'iphone dans gtkpod, cliquez droit dessus et choisissez "Charger l'ipod"
+{{:tutoriel:gtkpod_lucid_step_08.png|Reload}}
+
+
+  * Il est possible qu'un message d'erreur se présente, vous pouvez l'ignorer
+{{:tutoriel:gtkpod_lucid_step_09.png?500|Error message}}
+
+
+  * Au bout de quelques secondes (temps de chargement de la base), les chansons/albums/listes s'afficheront dans gtkpod
+{{:tutoriel:gtkpod_lucid_step_10.png?500|End}}
+
+
+
+Il n'y a plus de manipulation particulière à faire, votre iPhone devrait être reconnu à chaque démarrage de gtkpod...
+
+-------------------------
+//Contributeur principal : MysterCoCo//.

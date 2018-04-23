@@ -1,0 +1,264 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#comment_installer_le_support_de_sun_java" class="toc"> Comment installer le support de Sun Java ? </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#procedure_d_installation" class="toc"> Procédure d'installation </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#methode_debian" class="toc"> Méthode Debian </a></span></li>
+<li class="level3"><span class="li"><a href="#methode_manuelle" class="toc"> Méthode manuelle </a></span></li>
+<li class="level3"><span class="li"><a href="#methode_ubuntu_backports" class="toc"> Méthode Ubuntu Backports </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#pour_executer_les_.jar" class="toc"> Pour exécuter les .jar </a></span></li>
+<li class="level2"><span class="li"><a href="#installer_le_plugin_pour_mozilla_firefox" class="toc"> Installer le plugin pour Mozilla Firefox </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Versions Warty et Hoary
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/ostaquet" class="wikilink1" title="utilisateurs:ostaquet" onclick="return svchk()" onkeypress="return svchk()">ostaquet</a> et e-Jah (mise à jour Backports par <a href="/utilisateurs/stemp" class="wikilink1" title="utilisateurs:stemp" onclick="return svchk()" onkeypress="return svchk()">Stemp</a> )
+</p>
+
+<a name="comment_installer_le_support_de_sun_java"></a><h1> Comment installer le support de Sun Java ? </h1>
+<div class="level1">
+
+<p>
+ Pour pouvoir exécuter des programmes Java (typiquement, des .jar) ou des applets intégrés dans des pages web, il vous faut une machine virtuelle Java.
+</p>
+
+<p>
+Nous allons envisager dans ce document l&rsquo;installation de la machine virtuelle Java de Sun Microsystems. Nous envisageons cette distribution car malgré le fait d&rsquo;être propriétaire, elle est nécessaire à l&rsquo;usage d&rsquo;application web tel que les opérations banquaires via le net,...
+</p>
+
+</div>
+<!-- SECTION [143-639] -->
+<a name="procedure_d_installation"></a><h2> Procédure d'installation </h2>
+<div class="level2">
+
+<p>
+ Il existe 3 méthodes pour installer la machine virtuelle Java de Sun : la méthode Debian, la méthode manuelle et la méthode Ubuntu Backports. Les trois vont être expliquées ci-dessous.
+</p>
+
+</div>
+<!-- SECTION [640-870] -->
+<a name="methode_debian"></a><h3> Méthode Debian </h3>
+<div class="level3">
+
+<p>
+ Cette méthode permet, lors d&rsquo;une nouvelle installation, de réinstaller facilement Java (encore faut-il avoir fait des backups <img src="/smileys/icon_wink.gif" align="middle" alt=";-)" /> 
+</p>
+<ul>
+<li class="level1"><span class="li"> Vous devez commencer par télécharger le fichier dénommé <strong>JRE 5.0 Update 4</strong> (la version 5.0.4 est celle disponible à ce jour) via la <a href="http://java.sun.com/j2se/1.5.0/download.jsp" class="urlextern" title="http://java.sun.com/j2se/1.5.0/download.jsp" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow"> page de téléchargement du site de Sun</a>. Prenez le &ldquo;Linux self-extracting file&rdquo;    	(jre-1_5_0_04-linux-i586.bin).</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Ensuite vous devez installer le paquet <code>java-package</code> (via <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a> ou via la commande suivante) :</span>
+</li>
+</ul>
+<pre class="code">
+sudo apt-get install java-package
+</pre>
+<ul>
+<li class="level1"><span class="li"> Mettez-vous dans le répertoire où vous avez téléchargé le binaire Java (voir page <a href="/console/ligne_de_commande" class="wikilink1" title="console:ligne_de_commande" onclick="return svchk()" onkeypress="return svchk()">ligne_de_commande</a> pour les commandes de base).</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Exécutez ensuite <code>make-jpkg</code> qui va transformer le binaire de Sun en un paquet Debian :</span>
+</li>
+</ul>
+<pre class="code">
+fakeroot make-jpkg le_fichier_telecharge.bin
+</pre>
+<ul>
+<li class="level1"><span class="li"> Il ne vous reste plus qu&rsquo;à installer le paquet Debian résultant de cette manipulation:</span>
+</li>
+</ul>
+<pre class="code">
+sudo dpkg -i sun-j_votre_version.deb
+</pre>
+
+<p>
+Voilà, c&rsquo;est tout ce qu&rsquo;il y a à faire. Bon amusement <img src="/smileys/icon_smile.gif" align="middle" alt=":-)" />
+</p>
+
+</div>
+<!-- SECTION [871-2012] -->
+<a name="methode_manuelle"></a><h3> Méthode manuelle </h3>
+<div class="level3">
+<ul>
+<li class="level1"><span class="li"> Vous devez commencer par télécharger le fichier dénommé <strong>JRE 5.0 Update 4</strong> (la version 5.0.4 est celle disponible à ce jour) via la <a href="http://java.sun.com/j2se/1.5.0/download.jsp" class="urlextern" title="http://java.sun.com/j2se/1.5.0/download.jsp" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow"> page de téléchargement du site de Sun</a>.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Vous devez accepter le contrat de licence avant de pouvoir choisir le fichier destiné aux plate-formes Linux nommé <strong>Linux self-extracting file</strong> (ce fichier pèse environ 16 Mo).</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Une fois le téléchargement terminé, ouvrez un terminal et allez dans le dossier contenant le fichier que vous venez de télécharger. Il porte un nom du style <em>jre-1_5_0_02-linux-i586.bin</em>. Si vous ne savez pas comment utiliser les commandes basiques du terminal, reportez vous à <a href="/console/ligne_de_commande" class="wikilink1" title="console:ligne_de_commande" onclick="return svchk()" onkeypress="return svchk()">cette page</a>.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Changez les propriétés d&rsquo;accès du fichier afin de pouvoir l&rsquo;exécuter. Ceci est fait à l&rsquo;aide de la commande suivante :</span>
+</li>
+</ul>
+<pre class="code">
+chmod +x jre-1_5_0_02-linux-i586.bin
+</pre>
+<ul>
+<li class="level1"><span class="li"> Exécutez le fichier à l&rsquo;aide de la commande suivante :</span>
+</li>
+</ul>
+<pre class="code">
+sudo ./jre-1_5_0_02-linux-i586.bin
+</pre>
+<ul>
+<li class="level1"><span class="li"> Le contrat de licence s&rsquo;affiche à l&rsquo;écran, vous pouvez faire dérouler les pages avec la barre espace. A la fin de ce document, accepter le contrat de licence en tapant <code>yes</code> suivi de RETURN.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Un répertoire nommé jre1.5.0_02 vient d&rsquo;être créé. Déplacez ce répertoire dans le répertoire <code>/opt</code> qui va contenir toutes les applications utilisateurs propriétaires. Vous pouvez faire ceci avec la commande suivante :</span>
+</li>
+</ul>
+<pre class="code">
+sudo mv -f jre1.5.0_02/ /opt/
+</pre>
+<ul>
+<li class="level1"><span class="li"> Maintenant, il ne vous reste plus qu&rsquo;à ajouter les liens vers les binaires nécessaires à l&rsquo;aide des commandes suivantes :</span>
+</li>
+</ul>
+<pre class="code">
+sudo ln -s /opt/jre1.5.0_02/bin/java /usr/local/bin/java
+sudo ln -s /opt/jre1.5.0_02/bin/policytool /usr/local/bin/policytool
+</pre>
+<ul>
+<li class="level1"><span class="li"> Le support java est maintenant installé.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [2013-3887] -->
+<a name="methode_ubuntu_backports"></a><h3> Méthode Ubuntu Backports </h3>
+<div class="level3">
+
+<p>
+ Cette méthode est de loin la plus facile. 
+</p>
+<ul>
+<li class="level1"><span class="li"> Vous devez commencer par activer les dépôts Backports dans votre <code>sources.list</code> (voir <a href="/installation/depots" class="wikilink1" title="installation:depots" onclick="return svchk()" onkeypress="return svchk()">dépôts</a>)</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Ensuite vous devez installer le paquet <code>sun-j2re1.5</code> (via <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a> ou via la commande suivante) :</span>
+</li>
+</ul>
+<pre class="code">
+sudo apt-get install sun-j2re1.5
+</pre>
+<ul>
+<li class="level1"><span class="li"> Vous pouvez à la place de la JRE, installer la <acronym title="Java Development Kit">JDK</acronym> avec le paquet <code>sun-j2sdk1.5</code> (via <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a> ou via la commande suivante) :</span>
+</li>
+</ul>
+<pre class="code">
+sudo apt-get install sun-j2sdk1.5
+</pre>
+
+<p>
+Voilà, c&rsquo;est tout.
+</p>
+
+</div>
+<!-- SECTION [3888-4462] -->
+<a name="pour_executer_les_.jar"></a><h2> Pour exécuter les .jar </h2>
+<div class="level2">
+
+<p>
+ Préliminaire : Vous devez avoir installé le support pour la machine virtuelle Java.
+</p>
+
+<p>
+Certains logiciels java sont distribués sous forme de .jar. Pour pouvoir les exécuter, vous pouvez utiliser la commande :
+</p>
+<pre class="code">
+java -jar fichier.jar
+</pre>
+
+<p>
+ou plus simplement, créer une association entre les fichiers .jar et la machine virtuelle.  
+</p>
+<ul>
+<li class="level1"><span class="li"> Pour ce faire, lorsque vous avez un fichier .jar, cliquez avec le bouton droit sur celui-ci et sélectionnez <em>Propriétés</em>. Dans les onglets, vous trouverez l&rsquo;onglet <em>Ouvrir avec</em>.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Ensuite, cliquez sur le bouton <em>Ajouter</em> et choisissez <strong>Utiliser une commande personnalisée</strong>.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> La commande personnalisée à utiliser est :</span>
+</li>
+</ul>
+<pre class="code">
+java -jar
+</pre>
+<ul>
+<li class="level1"><span class="li"> Cliquez sur <em>Ajouter</em>.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Sélectionnez dans la liste l&rsquo;application <strong>java</strong> pour ouvrir le type de document .jar.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Cliquez sur <em>Fermer</em>.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Vous pouvez maintenant double cliquer sur une icône .jar, le programme se lancera automatiquement.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [4463-5472] -->
+<a name="installer_le_plugin_pour_mozilla_firefox"></a><h2> Installer le plugin pour Mozilla Firefox </h2>
+<div class="level2">
+
+<p>
+ Préliminaire : Vous devez avoir installé le support pour la machine virtuelle Java et tous vos navigateurs web doivent être fermés. 
+</p>
+<ul>
+<li class="level1"><span class="li"> Ouvrez un terminal et introduisez la commande suivante :</span>
+</li>
+</ul>
+<pre class="code">
+sudo ln -s /opt/jre1.5.0_02/plugin/i386/ns7/libjavaplugin_oji.so /usr/lib/mozilla/plugins/
+sudo ln -s /opt/jre1.5.0_02/plugin/i386/ns7/libjavaplugin_oji.so /usr/lib/mozilla-firefox/plugins/libjavaplugin_oji.so
+</pre>
+
+<p>
+ (si vous téléchargez une version plus récente de JRE (par ex jre1.5.0_0<strong>4</strong>) pensez à modifier le nom du fichier en conséquence dans la ligne de commande) 
+</p>
+<pre class="code"></pre>
+
+<p>
+* Bonjour, j&rsquo;ai constaté en installant la dernière version de la JRE avec les dépots Backports que  le plugin java se trouvait dans  /usr/lib/j2re1.5-sun/plugin/i386/ns7/
+</p>
+
+<p>
+Les commandes à exécuter deviennent alors :  
+</p>
+<pre class="code">
+sudo ln -s /usr/lib/j2re1.5-sun/plugin/i386/ns7/libjavaplugin_oji.so /usr/lib/mozilla/plugins/
+sudo ln -s /usr/lib/j2re1.5-sun/plugin/i386/ns7/libjavaplugin_oji.so /usr/lib/mozilla-firefox/plugins/libjavaplugin_oji.so
+</pre>
+<ul>
+<li class="level1"><span class="li"> Vous pouvez vérifier que les plugins java sont bien reconnu en surfant sur <code>about:plugins</code> dans Firefox.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [5473-] -->

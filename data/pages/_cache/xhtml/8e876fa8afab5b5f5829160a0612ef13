@@ -1,0 +1,155 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="clear"><ul class="toc">
+<li class="level2"><span class="li"><a href="#il_n_y_a_pas_de_compte_root_sous_ubuntu_moi_je_veux_un_compte_root_pas_sudo" class="toc"> Il n'y a pas de compte root sous Ubuntu ? Moi je veux un compte root, pas sudo </a></span></li>
+<li class="level2"><span class="li"><a href="#est-ce_que_tous_les_utilisateurs_ont_acces_a_tout_par_sudo" class="toc"> Est-ce que tous les utilisateurs ont accès à tout par sudo ? </a></span></li>
+<li class="level2"><span class="li"><a href="#comment_avoir_acces_a_tous_les_paquets_debian" class="toc"> Comment avoir accès à tous les paquets Debian ? </a></span></li>
+<li class="level2"><span class="li"><a href="#oui_mais_bon_moi_je_ne_veux_pas_la_stable_qui_ne_bouge_pas_pendant_6_mois._je_veux_unstable" class="toc"> Oui mais bon, moi je ne veux pas la stable qui ne bouge pas pendant 6 mois. Je veux unstable ! </a></span></li>
+<li class="level2"><span class="li"><a href="#moi_je_veux_breezyla_version_unstable" class="toc"> Moi je veux Breezy; la version unstable ! </a></span></li>
+<li class="level2"><span class="li"><a href="#comment_je_convertis_ubuntu_en_vraie_debian" class="toc"> Comment je convertis Ubuntu en vraie Debian ? </a></span></li>
+<li class="level2"><span class="li"><a href="#pourquoi_tant_de_foin_autour_d_ubuntu_ce_n_est_jamais_qu_une_debian_avec_gnome_2.10_et_qui_s_installe_toute_seule" class="toc"> Pourquoi tant de foin autour d'Ubuntu ? Ce n'est jamais qu'une Debian avec Gnome 2.10 et qui s'installe toute seule </a></span></li>
+<li class="level2"><span class="li"><a href="#comment_savoir_quels_paquets_d_universe_ou_de_multiverse_j_ai_installe" class="toc"> Comment savoir quels paquets d'universe ou de multiverse j'ai installé ? </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary
+</pre>
+
+<a name="il_n_y_a_pas_de_compte_root_sous_ubuntu_moi_je_veux_un_compte_root_pas_sudo"></a><h2> Il n'y a pas de compte root sous Ubuntu ? Moi je veux un compte root, pas sudo </h2>
+<div class="level2">
+
+<p>
+ Par défaut le compte <strong>root ne possède pas de mot de passe</strong> (à ne pas confondre avec un mot de passe vide), ce qui signifie qu&rsquo;on ne peut se connecter sous le compte root. À la place, on peut utiliser <strong>sudo</strong>. Ce système a l&rsquo;avantage de ne demander qu&rsquo;un seul mot de passe à l&rsquo;utilisateur pendant l&rsquo;installation et c&rsquo;est réellement un plus pour la facilité. C&rsquo;est l&rsquo;utilisateur qui aura procédé à l&rsquo;installation d&rsquo;Ubuntu qui sera considéré comme administrateur du système.
+</p>
+
+<p>
+Si vous souhaitez quand même <strong>utiliser le compte root directement</strong>, il suffit de lui <strong>attribuer un mot de passe</strong>, ce qui se fait très logiquement par la commande suivante dans un terminal :
+</p>
+<pre class="code">
+ sudo passwd root
+</pre>
+
+<p>
+<em>Remarque :</em> Le premier mot de passe demandé est le vôtre. Puis, vous introduisez deux fois le mot de passe pour root.
+</p>
+
+<p>
+On peut aussi obtenir un <strong>shell root</strong> depuis sudo sans toucher au mot de passe root via la commande suivante :
+</p>
+<pre class="code">
+ sudo -s
+</pre>
+
+<p>
+ou via le menu <strong>Applications &rArr; Outils Système &rArr; Terminal superutilisateur</strong>.
+</p>
+
+</div>
+<!-- SECTION [31-1188] -->
+<a name="est-ce_que_tous_les_utilisateurs_ont_acces_a_tout_par_sudo"></a><h2> Est-ce que tous les utilisateurs ont accès à tout par sudo ? </h2>
+<div class="level2">
+
+<p>
+ <strong>Non</strong>, comme c&rsquo;est écrit plus haut <strong>seul l&rsquo;utilisateur créé pendant l&rsquo;installation a ces droits</strong>. Il est logique de penser que la personne qui vient d&rsquo;installer le système peut en avoir les droits d&rsquo;administration. De plus, le premier utilisateur créé est automatiquement ajouté aux groupes suivants : <em>adm audio cdrom dialout floppy video lpadmin plugdev scanner</em>.
+</p>
+
+</div>
+<!-- SECTION [1189-1644] -->
+<a name="comment_avoir_acces_a_tous_les_paquets_debian"></a><h2> Comment avoir accès à tous les paquets Debian ? </h2>
+<div class="level2">
+
+<p>
+ Il est possible d&rsquo;avoir accès à tous les paquets Debian. Ce n&rsquo;est pas activé par défaut car tous les paquets Debian ne sont pas <strong>supportés</strong> par les développeurs d&rsquo;Ubuntu (dans le sens qu&rsquo;il n&rsquo;y a pas de support technique pour ces paquets). Il suffit de changer, via <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a>, les sources en <strong>multiverse</strong> ou bien de configurer <em> /etc/apt/sources.list</em> pour avoir ce qui suit et ainsi utiliser <a href="/applications/apt-get" class="wikilink1" title="applications:apt-get" onclick="return svchk()" onkeypress="return svchk()">apt-get</a> :
+</p>
+<pre class="code">
+ deb http://archive.ubuntu.com/ubuntu hoary main restricted universe multiverse
+
+ deb http://archive.ubuntu.com/ubuntu hoary-security main restricted
+
+ deb http://archive.ubuntu.com/ubuntu hoary-updates main restricted universe multiverse
+</pre>
+<ul>
+<li class="level1"><span class="li"> <strong>main</strong> contient tous les programmes libres supportés de Ubuntu ;</span>
+</li>
+<li class="level1"><span class="li"> <strong>restricted</strong> contient les programmes non-libres mais supportés ;</span>
+</li>
+<li class="level1"><span class="li"> <strong>universe</strong> contient la pléthore de programmes libres non-supportés (tout Debian en fait) ;</span>
+</li>
+<li class="level1"><span class="li"> <strong>multiverse</strong> contient les programmes non-libres et non-supportés (qui ne sont même pas dans Debian).</span>
+</li>
+</ul>
+
+<p>
+ Et, magie, tous les <em>paquets debian</em> sont accessibles ! On peut, comme sous Debian, rajouter des sources alternatives.
+</p>
+
+</div>
+<!-- SECTION [1645-2886] -->
+<a name="oui_mais_bon_moi_je_ne_veux_pas_la_stable_qui_ne_bouge_pas_pendant_6_mois._je_veux_unstable"></a><h2> Oui mais bon, moi je ne veux pas la stable qui ne bouge pas pendant 6 mois. Je veux unstable ! </h2>
+<div class="level2">
+
+<p>
+ Et bien avec Ubuntu, c&rsquo;est le même principe qu&rsquo;avec Debian, la testing en moins. Ainsi, si vous préférez garder un desktop <strong>stable</strong>, vous restez en <strong>Hoary</strong> et la question ne se pose pas. Vous aurez quand même droit à un bel upgrade tous les 6 mois (si vous le désirez) mais pendant 6 mois vous ne subirez que les corrections de sécurité. Si vous aimez vivre à la pointe, et bien il suffit de prendre de l&rsquo;avance et il suffit de se configurer en <strong>Breezy</strong> (voir question suivante). Mais dans ce cas là, surtout n&rsquo;oubliez pas de rapporter <a href="/rapporter_un_bug" class="wikilink1" title="rapporter_un_bug" onclick="return svchk()" onkeypress="return svchk()">tous les bugs</a> que vous rencontrez.
+</p>
+
+</div>
+<!-- SECTION [2887-3604] -->
+<a name="moi_je_veux_breezyla_version_unstable"></a><h2> Moi je veux Breezy; la version unstable ! </h2>
+<div class="level2">
+
+<p>
+Il vous suffit alors de configurer votre dépôt <strong>repository</strong> comme ceci 
+</p>
+<pre class="code">
+ deb http://archive.ubuntu.com/ubuntu breezy main restricted universe multiverse
+ 
+ deb http://archive.ubuntu.com/ubuntu breezy-security main restricted
+
+ deb http://archive.ubuntu.com/ubuntu breezy-updates main restricted universe multiverse
+</pre>
+
+<p>
+   <u><strong>Mais attention cette version n&rsquo;est pas stable.</strong></u>
+</p>
+
+</div>
+<!-- SECTION [3605-4054] -->
+<a name="comment_je_convertis_ubuntu_en_vraie_debian"></a><h2> Comment je convertis Ubuntu en vraie Debian ? </h2>
+<div class="level2">
+
+<p>
+<u>Une question</u> : pour quelle raison <em>convertir</em> Ubuntu en Debian ? Si vous voulez Debian, installez Debian. Mais peut-être faut-il un peu laisser sa chance à Ubuntu.
+</p>
+
+</div>
+<!-- SECTION [4055-4287] -->
+<a name="pourquoi_tant_de_foin_autour_d_ubuntu_ce_n_est_jamais_qu_une_debian_avec_gnome_2.10_et_qui_s_installe_toute_seule"></a><h2> Pourquoi tant de foin autour d'Ubuntu ? Ce n'est jamais qu'une Debian avec Gnome 2.10 et qui s'installe toute seule </h2>
+<div class="level2">
+
+<p>
+Eh bien voilà, vous avez répondu à votre propre question. C&rsquo;est pour éviter à M. tout le monde de subir l&rsquo;install Debian s&rsquo; il veut <strong>juste un truc qui marche</strong>. Et il faut croire que ça répond à une réelle attente.
+</p>
+
+</div>
+<!-- SECTION [4288-4643] -->
+<a name="comment_savoir_quels_paquets_d_universe_ou_de_multiverse_j_ai_installe"></a><h2> Comment savoir quels paquets d'universe ou de multiverse j'ai installé ? </h2>
+<div class="level2">
+
+<p>
+Une petite commande suffit pour le savoir :
+</p>
+<pre class="code">
+ comm -12 &lt;(apt-cache dumpavail 
+ | grep-dctrl -nsPackage -FSection universe/ 
+ | sort) &lt;(dpkg --get-selections 
+ | awk '$2 \=\=  &quot;install&quot; { print $1 }' 
+ | sort)
+</pre>
+
+</div>
+<!-- SECTION [4644-] -->

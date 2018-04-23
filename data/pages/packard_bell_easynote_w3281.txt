@@ -1,0 +1,26 @@
+{{tag>matériel portable Packard_Bell vétuste}}
+
+----
+
+====== Packard_Bell - EasyNote W3281 ======
+
+   - Installation de la Breezy avec option : //noapic nolapic acpi=off pci=usepirqmask//
+   - L installation se fait normalement, puis au reboot, ca plante ! Le chargement du module de son fait planter la machine, solution :
+
+      *  booter sur knoppix, penser a mettre les droits en écriture sur la partition; en cas de plantage de Knoppix, au boot, lancer 'knoppix lang=fr nodhcp'
+      *  puis aller dans ///etc/hotplug/blacklist// et rajouter //snd_hda_intel// et  //snd-hda-intel// à la fin du fichier
+      *  puis aller dans ///etc/X11/xorg.conf// et rajouter //Option   "noaccel"   "true"// dans la section device correspondant à la carte vidéo sinon le serveur x ne fonctionnera pas !
+Maintenant, nous pouvons booter sur notre Ubuntu mais : le pcmcia, le son, l'Ethernet ne fonctionnent pas ! Pour avoir le net, la seule solution que j'ai trouvé est de mettre la freebox en mode USB, elle sera détecté automatiquement... Sinon on est complètement bloqué pour faire la suite a priori !!! Donc une fois qu'on a le net, on peut faire la suite :
+   - Pour la video (pour avoir l'accélération 2D sinon déplacer une fenêtre freeze) : télécharger le pilote propriétaire ATI pour Linux et suivre les instructions, le paquet dispo par ubuntu est une ancienne version qui ne gère pas le Xpress 200M. fglrxconfig ne détecte pas le port de la carte, donc changer le busid en "PCI:1:5:0". et ajouter le mode 1440x900 dans la section screen
+   - Bon finalement le plus compliqué : compilation d'un nouveau noyau (2.6.14 j'ai pris le dernier du moment) pour avoir le support complet de l'ordinateur... Seulement l option //pci=usepirqmask// est nécessaire au démarrage et tout est détecté ou presque :) Pensez à vérifier que le pilote //ULI526x// est bien mis en module dans le //make menuconfig// (device, networking, 10/100, tulip). Pour savoir comment compiler un noyau : [[tutoriel:comment_compiler_un_kernel_sur_mesure|compiler son noyau]]
+     - A ce stade il ne reste a priori que le son qui reste défectueux ! Télécharger alsa-drivers alsa-lib et alsa-utils 1-0-10 sur [[http://www.alsa-project.org/|Alsa.org]], les installer dans cet ordre (''./configure, make, sudo make install''). Puis copier le hda-intel.c de ULi M5461 ALSA driver dans alsa-driver-1.0.10/alsa-kernel/pci/hda, et lancer: ''make, make install, modprobe snd-hda-intel position_fix=2''. Finalement, on finit par suivre les instructions du [[audio_intel_hda|wiki]] (rubrique Configuration).
+   - Pour le Touchpad, les pilotes [[http://web.telia.com/~u89404340/touchpad/|Synaptics]] 0.14.4 fonctionnent bien, en suivant les instructions d'install. je conseille le plugin gksyn pour Gkrelmm qui offre un mode 'auto' désactivant le touchpad lors de la frappe. Pratique vu la taille du touchpad!!
+
+
+**
+La conclusion de tout çà, est quand même : vivement la prochaine version sur laquelle tout devrait fonctionner du premier coup !**
+Pour me contactez : Alain_ sur #ubuntu-fr  ou gyrev.linux chez free
+
+Ce qui ne fonctionne pas encore :
+  * gestion du suspend-to-ram : lors du retour, il y a un écran blanc. Le serveur x ne veut pas reprendre la main.
+  * gestion de la batterie (affichage de l'information de la batterie fonctionne, en faisant bouton droit sur la barre gnome, puis ajouter, et mettre batterie. Par contre les infos ne sont pas forcément parfaite).

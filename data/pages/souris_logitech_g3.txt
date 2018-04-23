@@ -1,0 +1,63 @@
+{{tag>intrepid matériel souris logitech}}
+====== Souris : Logitech G3 ======
+
+<code>Versions Intrepid, Jaunty</code>
+
+Cette page vous expliquera comment configurer votre souris Logitech G3 sous Ubuntu Intrepid. De cette façon, les boutons "Précédent" et "Suivant" fonctionneront correctement.
+
+
+===== Création du fichier de configuration =====
+
+Sous Intrepid, il est nécessaire de créer un fichier avec l'extension fdi dans le répertoire /etc/hal/fdi/policy.
+
+Lancez l'application Terminal (dans le menu Applications / Accessoires) puis tapez la commande suivante :
+<code>
+sudo gedit /etc/hal/fdi/policy/mouse.fdi
+</code>
+
+Ajoutez le texte suivant dans le fichier fdi :
+<code>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<deviceinfo version="0.2">
+  <device>
+    <match key="info.product" string="Logitech USB Gaming Mouse">
+      <merge key="input.x11_options.ButtonMapping" type="string">1 2 3 4 5 8 9 6 7</merge>
+      <merge key="input.x11_options.ZAxisMapping" type="string">4 5</merge>
+      <merge key="input.x11_options.Emulate3Buttons" type="string">false</merge>
+    </match>
+  </device>
+</deviceinfo>
+</code>
+
+
+===== Prise en compte du nouveau fichier de configuration =====
+Afin que le fichier soit pris en compte, débranchez simplement la souris puis connectez-la à nouveau. 
+
+**Les boutons "Précédent" et "Suivant" fonctionnent normalement.**
+
+===== Utilisation des boutons "Précédent" et "Suivant" =====
+Afin d'utiliser convenablement ces deux boutons, il est nécessaire de :
+  * Installer les paquets xbindkeys et xvkbd via le gestionnaire de paquets Synaptic ou la commande suivante :
+<code>
+sudo apt-get install xbindkeys xvkbd
+</code>
+  * Ajouter le programme xbindkeys à la liste des applications au démarrage dans le menu Sytème / Préférences.
+  * Créer le fichier .xbindkeysrc dans votre répertoire personnel via la commande :
+<code>
+gedit ~/.xbindkeysrc
+</code>
+  * Copier les lignes suivantes dans le fichier :
+<code>
+"/usr/bin/xvkbd -xsendevent -text "\[Alt_L]\[Left]""
+  m:0x0 + b:6
+"/usr/bin/xvkbd -xsendevent -text "\[Alt_L]\[Right]""
+  m:0x0 + b:7
+</code>
+  * Redémarrer votre session ou démarrer directement le logiciel xbindkeys par l'intermédiaire du lanceur d'applications (raccourci <Alt> + <F2>).
+
+**//Les boutons "Précédent" et "Suivant" devrait fonctionner avec les logiciels Firefox, Nautilus, Opera, ...//**
+
+
+
+----
+//Contributeur : [[utilisateurs:mohegan]].//

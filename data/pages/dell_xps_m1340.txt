@@ -1,0 +1,205 @@
+{{tag>matériel portable dell Jaunty}}
+
+----
+
+====== Dell XPS Studio 13 ======
+
+===== En un coup d’œil =====
+
+Le tableau suivant récapitule la prise en charge du matériel de portable par les différentes versions d'Ubuntu.
+Il utilise les notations suivantes :
+  * {{icons:important.png|Fonctionne après config}} : **Fonctionne après quelques manipulations**
+  * {{icons:icon-ubuntu.png|Fonctionne immédiatement}} : **Fonctionne immédiatement**
+  * {{icons:icon-support.png|Pas testé}} : **Pas d'informations disponibles**
+  * {{icons:process-stop.png?36|Ne fonctionne pas}} : **Ne fonctionne pas**
+
+^ Version ^ Installation ^ Carte graphique ^ Son ^ Wifi ^ Bluetooth ^ Webcam ^ Touchpad ^ Raccourcis multimédia ^ Autres ^
+
+| [[:karmic|9.10 (Karmic)]] | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}}  | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} |
+| [[:10.04]] | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}}  | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} |
+
+
+**Utilisateurs du Wiki possédant cet ordinateur, fonctionnel :**
+  * **[[:utilisateurs:TChris]]** : [[:Jaunty|Jaunty 64 bits]], [[:Karmic|Karmic 64 bits]]
+  * **[[:utilisateurs:alt.g]]** : [[:Lucid|Lucid 64 bits]]
+  * **[[:utilisateurs:Soulou]]** : [[:Jaunty|Jaunty 32 bits]]
+  * **[[:utilisateurs:Lowel]]** : [[:Karmic|Karmic 64 bits]]
+
+**Cet ordinateur portable n'est à priori pas [[:pc_tatoué|tatoué]].**
+
+===== Installation =====
+
+Je n'ai rencontré aucun problème lors de l'installation d'Ubuntu sur ce portable. Tout fonctionne à merveille carte graphique, wifi, webcam, touches multimédias, lecteur cd, ...
+
+==== Carte graphique NVIDIA ====
+
+Il suffit d'installer les pilotes NVIDIA (version 180) pour profiter pleinement des capacités de la carte. Attention, ce portable est équipé de deux cartes graphiques (9400 et 9200). Sur Linux seule la carte 9400 est visible. A part ça aucun problème.
+
+Cela vient du chipset "Hybrid Sli" utilisé (nForce 730i), qui n'est que compatible Vista/Win7, peut-être un jour des drivers Linux... Pour le moment, comme dit précédemment, seule la 9400 est opérationnelle, la 9200 étant repérée, mais non utilisable (même seule).
+
+<note> Avec Kde 4, il semble y avoir un problème lors de l'activation des effets du bureau qui entraîne un fort ralentissement du système. Ceci conduit à une désactivation automatique des effets. Tout semble normal si les effets sont désactivés. En revanche avec Gnome, aucun problème. Tout est fluide même avec les effets. </note> 
+
+<note> Pour kde 4 et les relancement intempestifs du serveur X, les pilotes NVIDIA (version 185.18.14) fonctionnent très bien et résolvent le problème [[http://ubuntuforums.org/showthread.php?t=1125400|installation]]</note>
+
+=== NVIDIA et noyau temps réel ===
+
+J'utilise mon portable comme studio audio. Pour cela, j'ai besoin d'installer un noyau temps réel. Sur Jaunty (9.04), impossible de faire cohabiter le noyau temps réel et la carte graphique.
+J'ai donc mis à jour mon système vers la version 9.10 (Karmic). Pour que tout fonctionne, je vous conseille de télécharger les derniers pilotes NVIDIA (version 190) et de procéder à une installation manuelle.
+Une fois le noyau temps réel installe, exécutez la commande suivante. Attention, il est **impératif** d'installer les **"headers"** du noyau car au moment de l'installation des drivers, ces derniers sont recompilés. De meme, il est **impératif** de lancer la commande en **précisant le noyau cible** même si vous êtes déjà sur le bon noyau.
+
+<code>
+sudo sh NVIDIA_installers.run -K -k 2.6.31-9-rt
+</code>
+
+==== Wifi ====
+
+=== Clignotement de la led WIFI ===
+
+Le wifi fonctionne parfaitement (carte Atheros Dell Wireless 1515). Seul petit problème, la led wifi clignote lors des échanges réseaux. Ceci devient vite agaçant. Pour corriger le problème, effectuez les manipulations suivantes :
+
+<code> gedit 99-iwlwifi-blinking-fix.sh </code>
+
+<code> 
+#!/bin/sh
+echo none > /sys/class/leds/ath9k-phy0\:assoc/trigger
+</code>
+
+Puis lancer la commande :
+
+<code>
+sudo install 99-iwlwifi-blinking-fix.sh /etc/acpi/start.d/
+</code>
+
+La led reste maintenant correctement allumée.
+
+<note>
+Après mise à jour vers Karmic, il est nécessaire de modifier légèrement le fichier. Celui-ci devient :
+<code>
+#!/bin/sh
+echo none > /sys/class/leds/ath9k-phy0\:\:assoc/trigger
+</code>
+</note>
+
+=== Freeze ou perte intempestive de la connexion wifi ===
+
+Avec le controller Atheros AR928X et les drivers ath9k, il se peut que vous éprouviez le problème suivant.
+Si votre connextion wifi fonctionne mais ne vous parait pas parfaitement stable: freeze lors de transfert de fichier sur le réseau, ou pendant la lecture de video en streaming par exemple. Si vous avez des perte intempestive de la connexion au réseau.
+
+Vous pouvez vérifier l'existence de se problème en regardant la réponse à la commande:
+<code>dmesg | grep -e ath -e wlan</code>
+Si vous avez un retour ressemblant à celui-ci ou apparaissent de manière récurante une authentification et une association, vous avez surement le problème
+<code>~$ dmesg | grep -e ath -e wlan
+[    3.860312] device-mapper: multipath: version 1.0.5 loaded
+[    3.860314] device-mapper: multipath round-robin: version 1.0.0 loaded
+[   10.419714] ath9k: 0.1
+[   10.419753] ath9k 0000:04:00.0: PCI INT A -> GSI 17 (level, low) -> IRQ 17
+[   10.419764] ath9k 0000:04:00.0: setting latency timer to 64
+[   10.855757] phy0: Selected rate control algorithm 'ath9k_rate_control'
+[   10.887520] Registered led device: ath9k-phy0:radio
+[   10.887535] Registered led device: ath9k-phy0:assoc
+[   10.887551] Registered led device: ath9k-phy0:tx
+[   10.887565] Registered led device: ath9k-phy0:rx
+[   44.537647] ADDRCONF(NETDEV_UP): wlan0: link is not ready
+[   60.698012] wlan0: authenticate with AP 00:22:b0:8c:c3:55
+[   60.712319] wlan0: authenticated
+[   60.712323] wlan0: associate with AP 00:22:b0:8c:c3:55
+[   60.719778] wlan0: RX AssocResp from 00:22:b0:8c:c3:55 (capab=0x431 status=0 aid=2)
+[   60.719781] wlan0: associated
+[   60.742798] ADDRCONF(NETDEV_CHANGE): wlan0: link becomes ready
+[   70.952098] wlan0: no IPv6 routers present
+[  110.703465] wlan0: No ProbeResp from current AP 00:22:b0:8c:c3:55 - assume out of range
+[  113.605093] wlan0: authenticate with AP 00:22:b0:8c:c3:55
+[  113.613259] wlan0: authenticate with AP 00:22:b0:8c:c3:55
+[  113.812171] wlan0: authenticate with AP 00:22:b0:8c:c3:55
+[  114.012151] wlan0: authenticate with AP 00:22:b0:8c:c3:55
+[  114.212183] wlan0: authentication with AP 00:22:b0:8c:c3:55 timed out
+[  129.600407] wlan0: authenticate with AP 00:22:b0:8c:c3:55
+[  129.601935] wlan0: authenticated
+[  129.601940] wlan0: associate with AP 00:22:b0:8c:c3:55
+[  129.605004] wlan0: RX AssocResp from 00:22:b0:8c:c3:55 (capab=0x431 status=0 aid=2)
+[  129.605009] wlan0: associated</code>
+
+Il semblerai que l'installation des modules backports solutionne le problème.
+Pour Karmic: [[apt://linux-backports-modules-karmic-generic]] , [[apt://linux-backports-modules-wireless-karmic-generic]]
+
+==== Disque dur ====
+
+<note>Mon disque dur est un disque de 320 Go 7200 tours équipé du système free-fall sensor.</note>
+
+Il semblerait que ce disque souffre du problème de parquage des têtes évoqué à maintes reprises sur différents sites. Malheureusement, il est très difficile de savoir s'il s'agit réellement d'un problème car aucune information claire sur les conditions de fonctionnement normale du disque ne sont données. Par défaut avant de modifier le fichier /etc/laptop-mode/laptop-mode.conf, le parquage des têtes se faisait une fois toutes les 4 secondes (sur batterie uniquement), largement trop. Après modification du fichier de configuration, le parquage des têtes ne se fait plus qu'une fois par minute environ. Est-ce que cela est normal (pas trop fréquent ou trop peu fréquent) ??? Je n'en sais rien car je n'ai trouvé sur aucun site d'infos indiquant un comportement acceptable. D'après le nombre maximum de parquage autorisé par les disques (60000 - 300000), cette valeur semble correcte.
+
+La modification est la suivate :
+
+<code>sudo gedit /etc/laptop-mode/laptop-mode.conf </code>
+
+Modifier la ligne suivate :
+
+BATT_HD_POWERMGMT=1
+
+par 
+
+BATT_HD_POWERMGMT=240
+
+Vous pouvez toujours augmenter cette valeur pour diminuer la fréquence de parquage des têtes. N'utilisez pas 254 ou 255 car ceci désactiverait complétement le parquage des têtes.
+==== Suspend to RAM et Hibernate ====
+
+Les modes "suspend to RAM" (mise en veille) et "hibernate" (hibernation) fonctionnent sans trop de problème. Seul le wifi semble ne pas redémarrer correctement après un "resume". Pour cela vous pouvez ajouter un fichier dans les scripts de /etc/pm/sleep.d pour arrêter et démarrer correctement le wifi.
+
+Créer le fichier suivant :
+
+<code>sudo gedit /etc/pm/sleep.d/91-network-restart-fix.sh</code>
+ 
+puis copier-coller le code suivant :
+
+<code>
+#!/bin/bash
+case $1 in
+    hibernate)
+        modprobe -r ath9k
+        ;;
+    suspend)
+        modprobe -r ath9k
+        ;;
+    thaw)
+        modprobe ath9k
+        echo none > /sys/class/leds/ath9k-phy0\:assoc/trigger
+        ;;
+    resume)
+        modprobe ath9k
+        echo none > /sys/class/leds/ath9k-phy0\:assoc/trigger
+        ;;
+    *)  ;;
+esac
+</code>
+
+Voilà tout rentre dans l'ordre après un suspend ou un hybernate. En tous cas, je n'ai pas constaté de dysfonctionnement apparent.
+
+<note>
+Pour la version Karmic, il faut légérement modifier le fichier.
+<code>
+#!/bin/bash
+case $1 in
+    hibernate)
+        modprobe -r ath9k
+        ;;
+    suspend)
+        modprobe -r ath9k
+        ;;
+    thaw)
+        modprobe ath9k
+        echo none > /sys/class/leds/ath9k-phy0\:\:assoc/trigger
+        ;;
+    resume)
+        modprobe ath9k
+        echo none > /sys/class/leds/ath9k-phy0\:\:assoc/trigger
+        ;;
+    *)  ;;
+esac
+</code>
+</note>
+
+//Contributeurs : [[:utilisateurs:TChris]], [[utilisateurs:alt.G|alt.G]]//
+
+<note>**Proposition(s) de sets d'icone pour les tableaux :**
+
+{{wiki:modeles:laptop_notok.png|}}{{wiki:modeles:laptop_ok.png|}}{{wiki:modeles:laptop_work.png|}}{{icons:icon-support.png?32|}}</note>

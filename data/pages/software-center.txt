@@ -1,0 +1,130 @@
+{{tag>apt dépôts gestionnaire_de_paquets Trusty}}
+
+----
+
+{{ software-center_logo.png?80&nolink|Logo de la logithèque}}
+
+ ====== Logithèque Ubuntu ======
+
+La **Logithèque Ubuntu** (//Ubuntu Software Center//) est (était) un catalogue de plusieurs milliers d'applications vous permettant d'enrichir en un simple clic votre installation d'Ubuntu avec de nouveaux logiciels. Vous pouvez trouver des applications libres, non libres, gratuites ou payantes.
+
+<note warning>Depuis la version 16.04 d'Ubuntu, la logithèque Ubuntu est remplacée par le [[gnome-software|gnome software center]], sensiblement proche. Ce dernier permet également de mettre à jour les applications ainsi que le système d'exploitation.</note>
+
+Chaque application dispose d'un descriptif, d'une illustration et d'informations complémentaires telles que son poids une fois installés, les évaluations des utilisateurs. Trouver une application est très simple grâce au système de classement par catégories ou encore à la barre de recherche.
+
+La logithèque vous permet aussi de voir quels sont les logiciels installés sur votre ordinateur et de supprimer ceux dont vous n'avez plus besoin.
+
+
+{{ :logithèque_ubuntu_15.10.png?450 |La logithèque sous Ubuntu 15.10}}  8-)
+
+
+===== Installation =====
+La Logithèque Ubuntu fait partie des applications installées par défaut dans Ubuntu. Pour les autres [[:variantes|variantes d'Ubuntu]], il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>software-center]]**.
+====Variantes d'Ubuntu====
+  * **[[:Xubuntu]]**: À partir d'[[:trusty|Ubuntu 14.04]], la Logithèque est installée par défaut.
+  * **[[Kubuntu]]**: On peut aussi installer un équivalent de la logithèque Ubuntu : la logithèque [[:Muon]], pour ce faire il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>muon|muon]]**. 
+  * **[[:Lubuntu]]**: propose également sa propre logithèque installée par défaut, c'est le paquet **[[apt>lubuntu-software-center|lubuntu-software-center]]** qui la fournit. 
+
+
+=====Utilisation=====
+
+Pour utiliser la Logithèque, vous devez être connecté à internet et disposer des [[:sudo|droits d'administration]] (par défaut si vous êtes le propriétaire de l'ordinateur).
+
+==== Trouver et installer un logiciel ====
+
+  -  {{ :software-center_01.png?250|Trouver et installer un logiciel : recherche du logiciel Gimp}} Si vous connaissez le nom de l'application à installer, entrez-le dans le champ de recherche à droite de la logithèque. Vous pouvez aussi entrer des mots clés (//DVD// vous donnera la liste des logiciels de gravure, d'extraction, d'authoring, etc.). Vous pouvez aussi naviguer dans la logithèque grâce aux catégories.
+  - Pour afficher les détails d'une application, cliquez sur la ligne correspondante, puis sur //Plus d'informations//. \\ Si l'application se trouve dans un [[:depôts|dépôt]] non encore activé, la Logithèque vous proposera selon le type de dépôt, son activation nécessaire pour l'installation de l'application. \\ {{ :software-center_02.png?250|Trouver et installer un logiciel : afficher les détails d'une application}}\\
+  - Lancez l'installation grâce au bouton //Installer// situé en haut à droite de la fenêtre. Votre mot de passe peut vous être demandé pour effectuer cette tâche.
+
+L'installation comprend le téléchargement et la décompression des paquets sur votre ordinateur. Une fois l'opération terminée, le label //Installé// apparaît dans la description de l'application.
+
+{{ :software-center_03.png?250|Trouver et installer un logiciel : installation d'Inkscape}}
+
+<note tip>
+Pendant l'installation des nouveaux logiciels, vous pouvez fermer la Logithèque. Cela n'entraînera pas l'arrêt des opérations.
+</note>
+
+<note tip>
+À la fin de l'installation, vous pouvez intégrer l'application dans les lanceurs [[:Unity]] avec le bouton //Ajouter au lanceur// en bas à droite de la fenêtre.
+</note>
+
+==== Ajouter des modules complémentaires ====
+
+{{ :software-center_04.png?250|Ajouter des modules complémentaires}}
+
+Une application peut être étendue (ajout de fonctionnalités) grâce à des modules complémentaires. Ces modules ne s'installent pas automatiquement avec l'application lorsqu'ils sont facultatifs.
+
+Sous la description de certains logiciels, vous pouvez accéder à une section //Modules complémentaires//.
+
+  - Cochez ou décochez simplement la ou les boites correspondant aux fonctionnalités que vous souhaitez ajouter ou supprimer.
+  - Validez avec le bouton //Appliquer les changements//.
+
+==== Ajouter ou supprimer un paquet en particulier ====
+
+{{ :lirc:logitheque_elements_reveles.png?250|Ajouter ou supprimer un paquet en particulier (éléments techniques)}}
+
+La Logithèque cache les aspects techniques que sont les paquets (par exemple les paquets de langues). Pour les découvrir, il faut aller en bas de la fenêtre et cliquer sur la ligne orange soulignée « //Afficher //n// éléments techniques// ».
+
+==== Désinstaller une application ====
+
+Vous pouvez trouver tous les logiciels installés sur votre ordinateur dans la section //Logiciels installés// à gauche de la fenêtre de la logithèque.
+
+Sélectionnez celui que vous souhaitez désinstaller et cliquez sur //Supprimer//. Votre mot de passe peut vous être demandé pour effectuer cette tâche.
+
+==== Évaluer, commenter ====
+
+{{ :software-center_05.png?250|Évaluer, commenter : créer un compte}}
+
+La Logithèque offre la possibilité de commenter les logiciels, et d'évaluer les commentaires des autres utilisateurs. Si vous tentez de faire une de ces deux actions, et que vous n'avez pas de compte, une fenêtre du type de celle ci-contre apparaîtra.
+
+Il ne vous reste plus qu'à entrer les informations demandées. Si vous disposez d'un compte [[Launchpad]], vous pouvez réutiliser vos identifiants Launchpad, vous n'avez pas besoin d'en créer de nouveaux.
+
+===== Utilisation avancée =====
+
+==== Synchronisation entre ordinateurs ====
+
+<note important>Ne semble plus fonctionner depuis l'​arret de [[ubuntuone|Ubuntu One]]</note>
+
+Pour synchroniser les logiciels installés sur plusieurs ordinateurs, il faut aller dans //Fichier → Synchronisation entre ordinateurs//.
+
+La logithèque vous propose de créer un compte //Ubuntu Software Center//. Remplir le formulaire si c'est la première fois sinon choisir « vous avez déjà un compte » pour se connecter avec un compte existant.
+
+Rien de plus simple jusque là, il suffit de suivre les instructions. Ensuite, vous verrez un panneau latéral avec toutes les machines connectées à ce compte. En sélectionnant une des ces machines, vous pourrez voir les logiciels présents sur celle-ci qui ne le sont pas sur celle que vous utilisez actuellement et inversement.
+
+=== Supprimer un ordinateur de la synchronisation ===
+
+Si vous souhaitez supprimer l'ordinateur que vous utilisez, il vous suffit de cliquer sur le rouage en bas du panneau latéral.
+
+Si vous n'avez plus accès à cet ordinateur, il faut vous connecter sur [[https://login.ubuntu.com/+applications]] et supprimer l'ordinateur concerné.
+
+==== Modifier les sources de logiciels ====
+La Logithèque offre un accès à l'utilitaire //[[:software-properties|Sources de logiciels]]//, ce dernier permet de modifier l'adresse des [[:dépôts]] à partir desquels sont téléchargés les logiciels que vous installez.\\
+Vous trouverez toutes les explications nécessaires à cette manipulation sur la page [[:tutoriel:comment_modifier_sources_maj|les sources de logiciels (ou de mises à jour)]] ainsi que des explications du principe de dépôts sur la page [[:dépôts]].
+
+À partir de la Logithèque, pour lancez l'utilitaire //Source de logiciels//, cliquez sur //Édition → Sources de logiciels//.
+
+==== Affichage avec des thèmes sombres ====
+
+<note important> Cette manipulation est à refaire à chaque mise à jour de la Logithèque </note>
+Avec les [[:sudo|droits d'administration]]:
+  - [[:tutoriel:comment_modifier_un_fichier|éditez le fichier]] ''/usr/share/software-center/ui/gtk3/css/softwarecenter.css''
+  - et modifiez la ligne <file>@define-color super-light-aubergine #F4F1F3;</file> par <file>@define-color super-light-aubergine #4a4747;</file>
+Pour du fond gris foncé (ou toute autre couleur de votre choix, cf. [[http://www.color-hex.com/]] pour une table de correspondances des couleurs en hexadécimal).
+
+Attention :!: Le choix de certaines couleurs peut rendre certaines informations invisibles (noir #000000 fait disparaître de nombreuses lignes)... 
+
+
+===== Problèmes rencontrés avec la Logithèque =====
+
+<note important>Il convient de **quitter la Logithèque**, puis d'ouvrir un [[https://doc.ubuntu-fr.org/terminal|Terminal]]
+
+Les commandes étant à saisir dans un terminal.</note> 
+Veuillez vous référez à cette page de la [[https://doc.ubuntu-fr.org/probleme_apt|Documentation Ubuntu]].
+===== Voir aussi =====
+
+  * **(en)** [[https://launchpad.net/software-center|Site officiel]]
+===== Contribuer à la traduction des descriptions de paquet =====
+Vous souhaitez contribuer à la traduction des descriptions de paquet en français ? Rendez-vous sur [[ubuntu-l10n-fr|la page de l'équipe de traduction]].
+----
+
+//Contributeurs principaux : [[:utilisateurs:YannUbuntu]], [[:utilisateurs:mydjey]].//

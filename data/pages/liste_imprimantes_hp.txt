@@ -1,0 +1,132 @@
+{{tag>matériel imprimante}}
+
+----
+
+====== Liste des imprimantes HP sous Ubuntu ======
+
+Cette page recense les modèles d'imprimantes de marque **HP** testées sous Ubuntu.
+
+Il faut savoir que HP fournit gratuitement les drivers Linux sur internet. Au total près de 2000 types d'imprimantes sont prises en charges. 
+
+Visiter [[hplip]] sur la doc de Ubuntu
+
+Visiter le site officel : [[http://hplipopensource.com/hplip-web/index.html]]
+
+<note help>Ajoutez votre modèle, la/les versions d'Ubuntu testées, la difficulté ou impossibilité d'installation
+
+En notant les membres possédant chaque modèle, il sera simple à un utilisateur de contacter une personne ayant le même modèle qu'elle pour résoudre d'éventuels problèmes</note>
+
+Pour la colonne Niveau de support utilisez cette légende pour donner la simplicité d'installation (Ceci permet par exemple de guider les futurs acquéreurs d'imprimantes vers des modèles bien supportés sous Ubuntu !) :
+
+  * {{icons:icon-ubuntu.png|Fonctionne immédiatement}} : **Fonctionne immédiatement**
+  * {{icons:important.png|Fonctionne après config}} : **Fonctionne après quelques manipulations**
+  * {{icons:process-stop.png?36|Ne fonctionne pas}} : **Ne fonctionne pas**
+===== Série Laserjet =====
+
+^ Modèle ^ Version d'Ubuntu ^ Niveau de Support ^ Remarques ^ Page(s) de documentation pouvant aider ^ Membres possédant cette imprimante ^
+| HP Laserjet 100 Color MFP M175nw  | 12.04 | {{icons:important.png}} |Ne pas choisir l'imprimante proposée par défaut. Les pilotes de la série Scanjet 100 et consorts sont incompatibles.\\ Choisir **HP Color LaserJet flow MFP M880 Postscript**.\\ Désactiver l'option multi bacs (impression recto-verso) dans les paramètres de l'imprimante.  |  | [[:utilisateurs:eagle08]]  |
+| Color Laserjet 1600 | 12.04 | {{icons:important.png}} | HP Color LaserJet flow MFP M880 Postscript |  * Supporté par foo2hp mais pas avec celui des dépôts (contenu dans foo2zjs; marche à suivre sur : http://foo2hp.rkkda.com/\\ * [[:hplip]] | [[:utilisateurs:alexisj]] |
+| Color Laserjet CP1215 | 9.10 | {{icons:icon-ubuntu.png}} | R.A.S : installation automatique du pilote HP et fonctionnement immédiat |  | [[:utilisateurs:kaot]] |
+| Laserjet 1000 | 8.04 | {{icons:icon-ubuntu.png}} | Impression parfaite |  * Boite à outil de [[hplip]] pour la maintenance\\ * [[:hplip]] | [[:utilisateurs:swinrock]] |
+| Laserjet 1018 | 12.04 | {{icons:icon-ubuntu.png}} | Reconnue par défaut avec le pilote foo2zjs (recommandé) à partir d'hplip 3.12.6 sans aucune manipulation, pour utiliser hpcups il est nécessaire d'installer le plugin comme indiqué [[:hplip|ici]] | [[:tutoriel:imprimante_pilote_foo2zjs|foo2zjs]] | [[:utilisateurs:l_africain|L'Africain]] |
+| Laserjet 1020 | 12.04 | {{icons:icon-ubuntu.png}} | Reconnue par défaut avec le pilote foo2zjs (recommandé) à partir d'hplip 3.12.6 sans aucune manipulation, pour utiliser hpcups il est nécessaire d'installer le plugin comme indiqué [[:hplip|ici]] | |
+| Laserjet 1022 | 12.04 | {{icons:icon-ubuntu.png}} | Reconnue par défaut avec le pilote foo2zjs (recommandé) à partir d'hplip 3.12.6 sans aucune manipulation, pour utiliser hpcups il est nécessaire d'installer le plugin comme indiqué [[:hplip|ici]] | |
+| Laserjet 1200 series | 7.04 à 14.04 | {{icons:icon-ubuntu.png}} | Impression parfaite. L'impression semble plus rapide avec Gutenprint ou lente, voire impossible avec Foomatic/pxlmono ou Postscript. A tester|  | [[:utilisateurs:joombuntu]] |
+| Laserjet 2100 M/TN | 8.04 sur 2.6.24-21-generic |  | pilote : CUPS+Gutenprint v5.0.2 |  |[[:utilisateurs:bruno sanchiz]] |
+| HP LaserJet 3320 | 9.04 | {{icons:icon-ubuntu.png}} | * Bonne impression  \\ * Scanner correct avec [[:Xsane]] | * installation automatique pour l'impression  \\ * installer hpoj pour le scanner \\ * [[:hplip]]  | [[:utilisateurs:graminou]] |
+| Laserjet 4100tn | 6.06 à 14.04 | {{icons:icon-ubuntu.png}} | Impression laser réseau NB parfaite |  Reconnue out of the box, fonctionnelle en réseau, en port parallèle, besoin d'installer HPLIP * Boite à outil de [[HPLIP]] pour la maintenance\\ * [[:hplip]] | [[:utilisateurs:bellegarde]] |
+| Laserjet 4250n | 10.04 à 10.10 | {{icons:icon-ubuntu.png}} | Impression parfaite |  * Boite à outil de [[HPLIP]] pour la maintenance\\ * **Attention** il faut cocher manuellement "Accessoire recto/verso" dans les propriétés de l'imprimante (partie extensions) pour pouvoir faire du recto/verso \\ * [[:hplip]] | [[:utilisateurs:forny]] |
+| LaserJet CP1025 color | 12.04 | {{icons:icon-ubuntu.png}} FIXME pas besoin d'installer le plugin? | Impression parfaite | détectée et installée directement avec [[HPLIP]]  - ''du grand bonheur, on se croirait sous w... silence le Troll!'' | [[:utilisateurs:kodiak]] |
+| Laserjet M1005 | 12.04 |  {{icons:important.png}} | Installation du plugin nécessaire comme indiqué [[:hplip|ici]] | | |
+| Laserjet M1005 MFP | 12.04 | {{icons:icon-ubuntu.png}} | Reconnue par défaut avec le pilote foo2zjs (recommandé) à partir d'hplip 3.12.6 sans aucune manipulation, pour utiliser hpcups il est nécessaire d'installer le plugin comme indiqué [[:hplip|ici]] | |
+| Laserjet M1120 MFP | 12.04 | {{icons:icon-ubuntu.png}} | Reconnue par défaut avec le pilote foo2zjs (recommandé) à partir d'hplip 3.12.6 sans aucune manipulation, pour utiliser hpcups il est nécessaire d'installer le plugin comme indiqué [[:hplip|ici]] | |
+| Laserjet M1120n MFP | 12.04 | {{icons:important.png}} | Installation du plugin nécessaire comme indiqué [[:hplip|ici]] | | |
+| Laserjet M1319 MFP | 12.04 | {{icons:icon-ubuntu.png}} | Reconnue par défaut avec le pilote foo2zjs (recommandé) à partir d'hplip 3.12.6 sans aucune manipulation, pour utiliser hpcups il est nécessaire d'installer le plugin comme indiqué [[:hplip|ici]] | |
+| Laserjet M1319f MFP | 12.04 | {{icons:important.png}} | Installation du plugin nécessaire comme indiqué [[:hplip|ici]] | | |
+| Laserjet P1005 | 12.04 | {{icons:icon-ubuntu.png}} | Reconnue par défaut avec le pilote foo2zjs (recommandé) à partir d'hplip 3.12.6 sans aucune manipulation, pour utiliser hpcups il est nécessaire d'installer le plugin comme indiqué [[:hplip|ici]] | |
+| Laserjet P1006 | 12.04 | {{icons:icon-ubuntu.png}} | Reconnue par défaut avec le pilote foo2zjs (recommandé) à partir d'hplip 3.12.6 sans aucune manipulation, pour utiliser hpcups il est nécessaire d'installer le plugin comme indiqué [[:hplip|ici]] | |
+| Laserjet P1007 | 12.04 | {{icons:icon-ubuntu.png}} | Reconnue par défaut avec le pilote foo2zjs (recommandé) à partir d'hplip 3.12.6 sans aucune manipulation, pour utiliser hpcups il est nécessaire d'installer le plugin comme indiqué [[:hplip|ici]] | |
+| Laserjet P1008 | 12.04 | {{icons:icon-ubuntu.png}} | Reconnue par défaut avec le pilote foo2zjs (recommandé) à partir d'hplip 3.12.6 sans aucune manipulation, pour utiliser hpcups il est nécessaire d'installer le plugin comme indiqué [[:hplip|ici]] | |
+| Laserjet p1009 | 12.04 | {{icons:important.png}} | Installation du plugin nécessaire comme indiqué [[:hplip|ici]] | | |
+| Laserjet P1505 | 12.04 | {{icons:icon-ubuntu.png}} | Reconnue par défaut avec le pilote foo2zjs (recommandé) à partir d'hplip 3.12.6 sans aucune manipulation, pour utiliser hpcups il est nécessaire d'installer le plugin comme indiqué [[:hplip|ici]] | |
+| Laserjet P2014 | 12.04 | {{icons:icon-ubuntu.png}} | Reconnue par défaut avec le pilote foo2zjs (recommandé) à partir d'hplip 3.12.6 sans aucune manipulation, pour utiliser hpcups il est nécessaire d'installer le plugin comme indiqué [[:hplip|ici]] | |
+| HP LaserJet P2015n | 10.04 - 10.10 | {{icons:icon-ubuntu.png}} | * Bonne impression \\ * Détection immédiate sur le réseau | * Boîte à outils 'Web' (192.168.1.nn)| [[utilisateurs:MR]] |
+| Laserjet P2035 | 12.04 | {{icons:icon-ubuntu.png}} | Reconnue par défaut avec le pilote foo2zjs (recommandé) à partir d'hplip 3.12.6 sans aucune manipulation, pour utiliser hpcups il est nécessaire d'installer le plugin comme indiqué [[:hplip|ici]] | |
+| Laserjet P3015n | 13.10 | {{icons:icon-ubuntu.png}} | Impression laser réseau NB parfaite | | [[:utilisateurs:fb40]] |
+| Laserjet Pro MFP M225dn | linuxmint 17.2 | {{icons:icon-ubuntu.png}} | Branchée en réseau, l'impression est parfaite mais pour faire fonctionner le scanner, il faut installer le plug-in lié à HPLIP, [[:hplip|là]]|  | [[:utilisateurs:joombuntu]] |
+| Laserjet Pro MFP M277dw | Ubuntu 16.04.1 LTS  |  {{icons:important.png}}| Réponse dès que je l'aurais reçue (dans une petite semaine...) |  | [[:utilisateurs:bastoun]] |
+| Laserjet Pro P1102 | 12.04 |  {{icons:icon-ubuntu.png}} | Reconnue par défaut avec le pilote foo2zjs (recommandé) à partir d'hplip 3.12.6 sans aucune manipulation, pour utiliser hpcups il est nécessaire d'installer le plugin comme indiqué [[:hplip|ici]] | | |
+| Laserjet Pro P1102W | 10.10 | {{icons:icon-ubuntu.png}} | CUPS + Foomatic/foo2zjs-z2 (Pilote proposé) via routeur D-Link DI-524up (serveur d'impression sur liaison usb) ok, accès wifi non configuré par défaut | | [[:utilisateur:Amargein]] |
+| Laserjet Professional m1132 MFP | 13.10 | {{icons:important.png}} | * Bonne impression \\ * Boite à outil de [[HPLIP]] pour la maintenance\\ * Détection immédiateInstallation du plugin nécessaire comme indiqué [[:hplip|ici]] | | [[utilisateurs:jimbo]]|
+| Color Laserjet Professional mfp177fw MFP | 12.04 | {{icons:important.png}} | Reconnue out of the box, Très belle impression, scanner très rapide. HPLIP 3.12.2 insuffisant, 3.13.x minimum| , Installation de HPLIP dernière version et du plugin nécessaire comme indiqué [[:hplip|ici]] . Impression, scanner, fax, wifi fonctionnel.|[[:utilisateurs:bellegarde]] |
+| Laserjet Professional m1136 MFP | 12.04 | {{icons:important.png}} | Installation du plugin nécessaire comme indiqué [[:hplip|ici]] | | |
+| Laserjet Professional m1137 MFP | 12.04 | {{icons:important.png}} | Installation du plugin nécessaire comme indiqué [[:hplip|ici]] | | |
+| Laserjet Professional m1138 MFP | 12.04 | {{icons:important.png}} | Installation du plugin nécessaire comme indiqué [[:hplip|ici]] | | |
+| Laserjet Professional m1139 MFP | 12.04 | {{icons:important.png}} | Installation du plugin nécessaire comme indiqué [[:hplip|ici]] | | |
+| Laserjet Professional m1212nf MFP | 12.04 | {{icons:important.png}} | Installation du plugin nécessaire comme indiqué [[:hplip|ici]] | | |
+| Laserjet Professional m1214nf MFP | 12.04 | {{icons:important.png}} | Installation du plugin nécessaire comme indiqué [[:hplip|ici]] | | |
+| Laserjet Professional m1216nf MFP | 12.04 | {{icons:important.png}} | Installation du plugin nécessaire comme indiqué [[:hplip|ici]] | | |
+| Laserjet Professional m1217nf MFP | 12.04 | {{icons:important.png}} | Installation du plugin nécessaire comme indiqué [[:hplip|ici]] | | |
+| Laserjet Professional m1219nf MFP | 12.04 | {{icons:important.png}} | Installation du plugin nécessaire comme indiqué [[:hplip|ici]] | | |
+| Laserjet Professional p1102 | 12.04 | {{icons:important.png}} | Installation du plugin nécessaire comme indiqué [[:hplip|ici]] | | |
+| Laserjet Professional p1106 | 12.04 | {{icons:important.png}} | Installation du plugin nécessaire comme indiqué [[:hplip|ici]] | | |
+| Laserjet Professional p1107 | 12.04 | {{icons:important.png}} | Installation du plugin nécessaire comme indiqué [[:hplip|ici]] | | |
+| Laserjet Professional p1108 | 12.04 | {{icons:important.png}} | Installation du plugin nécessaire comme indiqué [[:hplip|ici]] | | |
+| Laserjet Professional p1109 | 12.04 | {{icons:important.png}} | Installation du plugin nécessaire comme indiqué [[:hplip|ici]] | | |
+| Laserjet Professional p1566 | 12.04 | {{icons:important.png}} | Installation du plugin nécessaire comme indiqué [[:hplip|ici]] | | |
+| Laserjet Professional p1567 | 12.04 | {{icons:important.png}} | Installation du plugin nécessaire comme indiqué [[:hplip|ici]] | | |
+| Laserjet Professional p1568 | 12.04 | {{icons:important.png}} | Installation du plugin nécessaire comme indiqué [[:hplip|ici]] | | |
+| Laserjet Professional p1569 | 12.04 | {{icons:important.png}} | Installation du plugin nécessaire comme indiqué [[:hplip|ici]] | | |
+| Laserjet Professional p1606dn | 12.04 | {{icons:important.png}} | Installation du plugin nécessaire comme indiqué [[:hplip|ici]] | | |
+| Laserjet Professional p1607dn | 12.04 | {{icons:important.png}} | Installation du plugin nécessaire comme indiqué [[:hplip|ici]] | | |
+| Laserjet Professional p1608dn | 12.04 | {{icons:important.png}} | Installation du plugin nécessaire comme indiqué [[:hplip|ici]] | | |
+| Laserjet Professional p1609dn | 12.04 | {{icons:important.png}} | Installation du plugin nécessaire comme indiqué [[:hplip|ici]] | | |
+
+
+===== Série Deskjet =====
+^ Modèle ^ Version d'Ubuntu ^ Niveau de Support ^ Remarques ^ Page(s) de documentation pouvant aider ^ Membres possédant cette imprimante ^
+| Deskjet 840C | 10.04 | {{icons:icon-ubuntu.png}} | Fonctionne correctement. Sans réglages préalables depuis la 10.04 ! | | [[:utilisateurs:Krevan]] |
+| Deskjet 920C | 12.04 | {{icons:icon-ubuntu.png}} | Fonctionne correctement au redémarrage du PC. Branché sur port parallèle  | * Boite à outil de [[HPLIP]] pour la maintenance\\ * [[:hplip]]  | [[:utilisateurs:catal13]] |
+| Deskjet D2660 | 9.10 | {{icons:ion-ubuntu.png}} | Installation Boite à outil de [[HPLIP]] pour la maintenance, tout OK |  | [[:utilisateurs: perco]] |
+| Deskjet 3630 | 7.10 à 9.04 \\ 16.04 | {{icons:icon-ubuntu.png}} | Impression parfaite\\ Sur la 16.04, installer le paquet [[HPLIP]] |  | [[:utilisateurs:frosch74 perco]] \\ [[:utilisateurs:DarKent]] |
+| Deskjet 2514 | 16.04 | {{icons:ion-ubuntu.png}} | Fonctionne correctement et immédiatement | | [[:utilisateurs :oscar14]] |
+
+
+===== Série All-in-one =====
+
+^ Modèle ^ Version d'Ubuntu ^ Niveau de Support ^ Remarques ^ Page(s) de documentation pouvant aider ^ Membres possédant cette imprimante ^
+| Deskjet 1050 \\ (J410- séries)| 12.04 \\ 32 et 64 bits | {{icons:icon-ubuntu.png}} | * Bonne impression \\ * Scanner impeccable [[:simple-scan]] |  * Boite à outil de [[HPLIP]] pour la maintenance\\ * Détectée et installée automatiquement (impression et scanner)  | [[:utilisateurs:Netmaxd]] |
+| HP Deskjet 3520 Series| 12.04 |{{icons:important.png|Pour la 12.04}} {{icons:icon-ubuntu.png|Pour les versions supérieures à 12.04}} |  | Pour 12.04 suivez la procédure d'installation du .run, comme indiqué [[:hplip#Installer la dernière version d'hplip|ici]] | [[:utilisateurs:hadware]] |
+| Deskjet 2510| 12.04  | {{icons:icon-ubuntu.png}} | * Bonne impression \\ * Scanner impeccable [[:simple-scan]] |  * Installer la dernière version de [[HPLIP]] (fonctionne avec 3.13.7) \\ * ou installer la dernière version de Ubuntu (à confirmer)  | [[:utilisateurs:Michoo]] |
+| Deskjet 2540| 14.04 LTS  | {{icons:important.png}} | *Bonne impression mais nécessite l'utilisation du client graphique [[HPLIP]] + Installation dans CUPS (client graphique) \\ * Scanner marche impeccable [[:simple-scan]]  après quelques manipulations | * Installer la dernière version de [[HPLIP]] \\ * Voir doc : [[scanner_en_wifi_avec_hp-photosmart_plus_b210]] \\ (indispensable pour faire marcher le scanner en wifi) | [[:utilisateurs:edrin17]] |
+| Deskjet C4280 | 8.10 | {{icons:icon-ubuntu.png}} | * Bonne impression \\ * Scanner impeccable avec [[:Xsane]] |  * Boite à outil de [[HPLIP]] pour la maintenance\\ * Détectée et installée automatiquement (impression et scanner)  | [[:utilisateurs:benoit747]] |
+| Deskjet F4180 | 8.04 & 10.04-64bits | {{icons:icon-ubuntu.png}} | * Bonne impression \\ * Scanner impeccable avec [[:Xsane]] |  * Boite à outil de [[HPLIP]] pour la maintenance\\ * Détectée et installée automatiquement (impression et scanner)  | [[:utilisateurs:_Enchained]]-[[:utilisateurs:yano1966]] |
+| Deskjet F2420 | 17.04 | {{icons:icon-ubuntu.png}} | * Bonne impression \\ * Scanner pas testé |  * Boite à outil de [[HPLIP]] pour la maintenance\\ * Détectée et installée automatiquement \\ *  |  |
+| Deskjet F2480 | 10.04 | {{icons:icon-ubuntu.png}} | * Bonne impression \\ * Scanner impeccable avec [[:Xsane]] |  * Boite à outil de [[HPLIP]] pour la maintenance\\ * Détectée et installée automatiquement (impression einstallation automatique pour l'impression  \\ * installer HPLIP 3.9;10 ou sup. pour le scanner et la boite à outil HPt scanner)  | [[:utilisateurs:=ô=]] |
+| PSC 1215 | 8.10 | {{icons:icon-ubuntu.png}} | * Bonne impression \\ * Scanner impeccable avec [[:Xsane]] |  * Boite à outil de [[HPLIP]] pour la maintenance\\ * Détectée et installée automatiquement (impression et scanner)  | [[:utilisateurs:_Enchained]] |
+| PSC 1410 | 8.04 | {{icons:icon-ubuntu.png}} | l'impression est bonne. |  * Boite à outil de [[HPLIP]] pour la maintenance\\ * [[hplip#Installer le scanner des multifonctions|pour scanner]]\\ * [[:hplip]]  | [[:utilisateurs:dyp]] |
+| PSC 1510 | 7.10 | {{icons:icon-ubuntu.png}} | * Bonne impression \\ * Scanner impeccable avec [[:Xsane]] |  * Boite à outil de [[HPLIP]] pour la maintenance\\ * [[:hplip]]  | [[:utilisateurs:poupoul2]] |
+| OfficeJet G55 |  | {{icons:icon-ubuntu.png}} | Aller dans Paramètres système  → Impression, cliquer avec le bouton droit sur l'imprimante concernée puis choisir "Propriétés". Il faut ensuite spécifier le port à utiliser et choisir dans la liste l'élément qui contient le mot "PTAL". Dans ce cas particulier, elle ne fonctionne qu'en sélectionnant dans les port la ligne "hp/usb…". |   |  |
+| OfficeJet 6315 | 7.10 & 8.04 & 8.10 | {{icons:icon-ubuntu.png}} | * Bonne impression en réseau \\ * Scanner impeccable avec [[:Xsane]] |  * Boite à outil de [[HPLIP]] pour la maintenance\\ * [[:hplip]]  | [[:utilisateurs:pyromarc]] |
+| Photosmart C4680 | 10.10 | {{icons:icon-ubuntu.png}} | * Bonne impression \\ * Scanner impeccable avec [[:Xsane]] |  * pour 10.04, installer Hplip, la dernière version, suivre le tuto de [[http://forum.ubuntu-fr.org/viewtopic.php?id=343745|ce post du forum]] \\ * pour 10.10 et suivante détectéet installée automatiquement | [[:utilisateurs:Michoo]]  |
+| Photosmart C5180 | 8.04 | {{icons:icon-ubuntu.png}} | * Bonne impression \\ * Scanner impeccable avec [[:Xsane]] |  * Boite à outil de [[HPLIP]] pour la maintenance\\ * [[:hplip]]  | [[:utilisateurs:Brain Bug, ralman]] |
+| Photosmart C5280 | 8.10 | {{icons:icon-ubuntu.png}} | * Bonne impression \\ * Scanner impeccable avec [[:Xsane]] |  * Boite à outil de [[HPLIP]] pour la maintenance\\ * [[:hplip]]  | [[:utilisateurs:poupoul2]] |
+| Photosmart C6180 | 6.06 & 8.04 LTS | {{icons:icon-ubuntu.png}} | * Bonne impression en réseau, Cartouches pucées :-\ \\ * Scanner impeccable avec [[:Xsane]] |  * Boite à outil de [[HPLIP]] pour la maintenance\\ * [[:hplip]]  | [[:utilisateurs:denis56]] |
+| Photosmart 6525 | 10.13 & 14.04 LTS | {{icons:icon-ubuntu.png}} | * Bonne impression \\ * Scanner impeccable avec [[:Xsane]] \\ *Partie imprimante Installé avec hplip toolbox |  * Boite à outil de [[HPLIP]] pour la maintenance\\ * [[:hplip]]  | [[:utilisateurs:Lek1]] |
+| Photosmart 7260 | 9.10 | {{icons:icon-ubuntu.png}} |   * mauvaise détection usb au départ *  |  * [[:hplip]]  | [[:utilisateurs:jcl693]] |
+| Photosmart C7280 | 9.10, 10.04 | {{icons:icon-ubuntu.png}} |   * Bonne impression photo, mais couleurs un peu ternes \\ * Scanner impeccable avec [[:Xsane]]  |  * [[:hplip]] \\ * Utilisation du pilote [[HPLIP]] des dépôts  | [[:utilisateurs:Gemnoc]] |
+| HP 4380 | 8.04 LTS | {{icons:icon-ubuntu.png}} | * Bonne impression  \\ * Scanner correct avec [[:Xsane]] |  * Boite à outil de [[HPLIP]] pour la maintenance\\ * [[:hplip]]  | [[:utilisateurs:mikedafunk]] |
+| HP DeskJet 460 | 10.04 - 10.10 | {{icons:icon-ubuntu.png}} | * Impression sans problème \\ * Détection immédiate en USB | *Logiciel HPLIP donnant accès boîte à outils| [[utilisateurs:MR]] |
+| Photosmart B 109 a | 9.10 | {{icons:icon-ubuntu.png}}  | * Bonne impression  \\ * Scanner correct avec [[:Xsane]] | * installation automatique pour l'impression  \\ * installer HPLIP 3.9;10 ou sup. pour le scanner et la boite à outil HP \\ * [[:hplip]]  | [[:utilisateurs:maboutoune]] |
+| Photosmart B 110 | 10.10 | {{icons:icon-ubuntu.png}}  | * Bonne impression  \\ * Scanner correct avec [[:simple-scan]] | * Fonctionne sans problème en USB ; sur neufbox ou en wifi avec HPLIP \\ * [[:hplip]]  | [[:utilisateurs:G-Tux]] |
+| Photosmart B 110a | 11.10 | {{icons:icon-ubuntu.png}}  | * Bonne impression  \\ * Scanner correct avec [[:simple-scan]] | * Fonctionne sans problème en USB ; pas testé en Wifi \\ * [[:hplip]]  | [[:utilisateurs:judas56]] |
+
+===== Série OfficeJet =====
+
+^ Modèle ^ Version d'Ubuntu ^ Niveau de Support ^ Remarques ^ Page(s) de documentation pouvant aider ^ Membres possédant cette imprimante ^
+| Officejet 4630 series | 14.04.2 (64 bits) - 15.10 (32bits) | {{icons:icon-ubuntu.png}} | * Bonne impression \\ * Scanner impeccable avec [[:simple-scan]] |  * Fonctionne sans problème en USB et en Wifi \\ * Installation, voir [[:hplip]]  | opi |
+| Officejet Pro 6830 series | 14.04.2 (64 bits)  | {{icons:icon-ubuntu.png}} | Installer le paquet [[apt>hpijs-ppds]] et utiliser le pilote pour la hp-officejet-pro-l7700 |  |
+| Officejet Pro 8718 | 16.04 (64 bits)  | {{icons:important.png}} | Imprimante et scanner fonctionne après avoir installer HPLIP mais depuis de site d'HP [[http://hplipopensource.com/hplip-web/downloads.html|HPLIP]] | [[http://tutorialforlinux.com/2016/06/24/how-to-install-hp-officejet-pro-8710-driver-on-ubuntu-linux-easy-guide/|Guide d'installation manuel d'HPLIP]] | Julientux |
+----
+
+//Contributeurs : cf. le contenu de cette page.//

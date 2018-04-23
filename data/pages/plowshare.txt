@@ -1,0 +1,78 @@
+{{tag>gestionnaire_de_téléchargements internet}}
+----
+
+====== Plowshare ======
+**Plowshare** est un gestionnaire de téléchargements en ligne de commande (CLI) pour hébergeurs de fichiers comme Rapidshare, Hotfile, Depositfiles ou Uploaded.to. Une cinquantaine de sites sont supportés. Vous pouvez consulter la liste complète <del>[[http://code.google.com/p/plowshare/wiki/Readme4|ici]]</del>. FIXME Lien brisé.
+
+Le logiciel est écrit 100% en [[:Bash:]] et reproduit le comportement d'un navigateur web, y compris la gestion des captchas. Il est basé sur **[[apt>Curl]]**, et certains modules requièrent un interpréteur [[wpfr>JavaScript]] (**[[apt>Rhino]]**).
+
+**Plowshare** se décompose en 5 scripts:
+  * ''plowdown'' : permet de télécharger des liens (URLs).
+  * ''plowup'' : permet d'uploader des fichiers (locaux vers hébergeur en HTTP)
+  * ''plowdel'' : permet l'effacement de certains liens.
+  * ''plowlist'' : permet de lister des liens de répertoire distant (i.e. //shared folder//).
+  * ''plowprobe'' : permet de vérifier si les liens sont invalides ou morts.
+
+
+
+
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * [[:tutoriel:comment_installer_un_paquet|Avoir installé]] les dépendances **[[apt>bash,curl,recode,rhino,imagemagick|bash curl recode rhino imagemagick]]**.
+
+===== Installation =====
+
+==== Depuis un PPA ====
+
+<note warning>La maintenance a été abandonnée début janvier 2013 :-(.</note>
+
+  * [[:PPA|Ajoutez le PPA]] **ppa:plowsharepackagers/daily** ((https://launchpad.net/~plowsharepackagers)) dans vos sources de logiciels ;
+<code>sudo add-apt-repository ppa:plowsharepackagers/daily</code>
+  * [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste des paquets]] ;
+<code>sudo apt-get update</code>
+  * [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>plowshare4|plowshare4]]**.
+<code>sudo apt-get install plowshare4</code>
+
+Notez que vous pouvez simplement mettre à jour vos paquets si vous les aviez précédemment installés depuis les dépôts officiels.
+
+==== Depuis GitHub ====
+Le repository sur GoogleCode n'étant plus accessible, il a été migré sur GitHub : [[https://github.com/mcrapet/plowshare|repository git]].
+
+La doc d'installation depuis les sources se situe [[https://github.com/mcrapet/plowshare/blob/master/INSTALL|ici]].
+
+===== Utilisation =====
+
+==== Télécharger une liste de liens ====
+
+Il suffit de copier les liens dans un fichier texte. Par exemple (''maliste.txt''):
+
+<file>
+# Ceci est un commentaire!
+http://netload.in/datei7hUMqlP5ou/foo.part1.rar.htm
+http://netload.in/dateix0z9tz3qkQ/foo.part2.rar.htm
+http://rapidshare.com/files/130403982/Bridge_Tutorial.rar
+http://www.mediafire.com/?qorncpzfe74s9
+</file>
+
+On lance ensuite le téléchargement via la commande :
+<code>
+plowdown -m maliste.txt
+</code>
+
+Chaque lien va être téléchargé séquentiellement (l'un après l'autre). L'option ''-m'' demande à **plowshare** de marquer (en commentant la ligne du lien avec un caractère ''#'') dans le fichier ''maliste.txt'', les liens déjà téléchargés.
+
+Pour avoir plus d'infos sur les fonctionnalités lire la [[http://code.google.com/p/plowshare/wiki/Readme4|documentation officielle]].
+
+FIXME
+===== Désinstallation =====
+ 
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+ 
+===== Voir aussi =====
+ 
+  * **(en)** [[https://github.com/mcrapet/plowshare|Site officiel du logiciel]]
+
+----
+//Contributeurs principaux : ...//

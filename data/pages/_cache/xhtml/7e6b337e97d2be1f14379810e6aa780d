@@ -1,0 +1,220 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#environnement_de_developpement_integre_edi_eclipse" class="toc"> Environnement de Développement Intégré (EDI) ECLIPSE </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#eclipse_sous_breezy" class="toc"> Eclipse sous Breezy </a></span></li>
+<li class="level2"><span class="li"><a href="#telecharger_eclipse" class="toc"> Télécharger Eclipse </a></span></li>
+<li class="level2"><span class="li"><a href="#installer_eclipse" class="toc"> Installer Eclipse </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#installation_globale" class="toc"> Installation globale </a></span></li>
+<li class="level3"><span class="li"><a href="#installation_utilisateur" class="toc"> Installation utilisateur </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#ressources" class="toc"> Ressources </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Breezy
+</pre>
+
+<p>
+ <a href="https://wiki.ubuntu.com/EclipseIDE" class="urlextern" title="https://wiki.ubuntu.com/EclipseIDE" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Traduit</a>, complété par <a href="/utilisateurs/gauthier" class="wikilink1" title="utilisateurs:gauthier" onclick="return svchk()" onkeypress="return svchk()">Gauthier</a> et <a href="/utilisateurs/keyes" class="wikilink1" title="utilisateurs:keyes" onclick="return svchk()" onkeypress="return svchk()">keyes</a>.
+</p>
+
+<a name="environnement_de_developpement_integre_edi_eclipse"></a><h1> Environnement de Développement Intégré (EDI) ECLIPSE </h1>
+<div class="level1">
+
+</div>
+<!-- SECTION [158-228] -->
+<a name="eclipse_sous_breezy"></a><h2> Eclipse sous Breezy </h2>
+<div class="level2">
+
+<p>
+ Eclipse 3.0.1 vient d&rsquo;être mis à jour pour Breezy. Enfin ! Vous devriez pouvoir facilement récupérer les paquets via apt-get et les installer ensuite.
+</p>
+
+<p>
+Normalement les paquets Breezy devraient pouvoir être compilés sans erreur par Hoary également. Il vous faut pour cela mettre à jour les sources apt-get et lancer l&rsquo;installation.
+</p>
+
+<p>
+À noter que le système d&rsquo;aide a été complètement désactivé puisque nous n&rsquo;avons pas encore de Tomcat libre. Mais nous y travaillons et nous vous souhaitons dès à présent une bonne utilisation d&rsquo;Eclipse. 
+</p>
+<pre class="code">apt-get install eclipse-jdt</pre>
+
+</div>
+<!-- SECTION [229-846] -->
+<a name="telecharger_eclipse"></a><h2> Télécharger Eclipse </h2>
+<div class="level2">
+
+<p>
+ Rendez-vous sur le <a href="http://www.eclipse.org/downloads/index.php" class="urlextern" title="http://www.eclipse.org/downloads/index.php" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">site-miroir</a> le plus proche de chez vous et téléchargez l&rsquo;archive <em>eclipse-platform-3.0.2-linux-gtk.zip</em>. Si vous souhaitez programmer en Java, il vous faut plutôt télécharger plutôt l&rsquo;archive <em>eclipse-<acronym title="Software Development Kit">SDK</acronym>-3.0.2-linux-gtk.zip</em> ou alors l&rsquo;installer juste après.
+</p>
+
+</div>
+<!-- SECTION [847-1219] -->
+<a name="installer_eclipse"></a><h2> Installer Eclipse </h2>
+<div class="level2">
+
+</div>
+<!-- SECTION [1220-1250] -->
+<a name="installation_globale"></a><h3> Installation globale </h3>
+<div class="level3">
+
+<p>
+ Utilisez cette méthode si vous voulez qu&rsquo;Eclipse soit utilisable par tous les utilisateurs de votre système, ou si vous êtes vous-même un utilisateur sans les droits administrateur sur la machine.
+</p>
+
+</div>
+
+<a name="eclipse"></a><h4> Eclipse </h4>
+<div class="level4">
+<ul>
+<li class="level1"><span class="li">      Décompresser eclipse dans le répertoire /opt:</span>
+</li>
+</ul>
+<pre class="code">$ sudo unzip eclipse-SDK-3.0.2-linux-gtk.zip -d /opt</pre>
+<ul>
+<li class="level1"><span class="li">      Modifier le propriétaire du fichier en root:</span>
+</li>
+</ul>
+<pre class="code">$ sudo chown -R root:root /opt/eclipse/</pre>
+<ul>
+<li class="level1"><span class="li">      Créer le fichier /usr/bin/eclipse avec votre éditeur texte favori (par ex. en utilisant la commande sudo vi /usr/bin/eclipse) et y ajouter les lignes suivantes :</span>
+</li>
+</ul>
+<pre class="code">#!/bin/sh
+export MOZILLA_FIVE_HOME=&quot;/usr/lib/mozilla/&quot;
+export ECLIPSE_HOME=&quot;/opt/eclipse&quot;
+
+$ECLIPSE_HOME/eclipse $*</pre>
+<ul>
+<li class="level1"><span class="li">      Pour terminer, modifier les propriétés du fichier pour en faire un script exécutable :</span>
+</li>
+</ul>
+<pre class="code">$ sudo chmod +x /usr/bin/eclipse</pre>
+
+</div>
+
+<a name="icone_gnome"></a><h4> Icone Gnome </h4>
+<div class="level4">
+<ul>
+<li class="level1"><span class="li">      Créer un nouveau lanceur sur le bureau (clic droit sur le bureau puis &rarr; Créer un lanceur) ou sur un tableau de bord (clic droit sur un tableau de bord &rarr; Ajouter au tableau de bord... &rarr; Lanceur d&rsquo;application personnalisé) et ajouter les informations suivantes :</span>
+</li>
+</ul>
+<pre class="code">Nom: Plateforme Eclipse
+Commande: eclipse
+Icone: /opt/eclipse/icon.xpm</pre>
+
+<p>
+ Si vous souhaitez avoir une icone dans le menu Applications : 
+</p>
+<ul>
+<li class="level1"><span class="li">      Créer un nouveau lanceur appelé eclipse.desktop dans le répertoire /usr/share/applications avec votre éditeur de texte favori (par ex. via la commande : sudo vi /usr/share/applications/eclipse.desktop) et ajouter les lignes suivantes :</span>
+</li>
+</ul>
+<pre class="code">[Desktop Entry]
+Encoding=UTF-8
+Name=Eclipse Platform
+Comment=Eclipse IDE
+Exec=eclipse
+Icon=/opt/eclipse/icon.xpm
+Terminal=false
+Type=Application
+Categories=GNOME;Application;Development;
+StartupNotify=true</pre>
+
+</div>
+
+<a name="traduction_francaise"></a><h4> Traduction française </h4>
+<div class="level4">
+
+<p>
+ Attention, la traduction d&rsquo;Eclipse 3.1 n&rsquo;est pas disponible alors ou j&rsquo;écris ses lignes (keyes), nous installerons donc la traduction pour la version 3.0. Certains items resteront en anglais mais beaucoup d&rsquo;autres seront en français ce qui est tout de même fort apréciable. 
+</p>
+<ul>
+<li class="level1"><span class="li"> Téléchargez le <a href="http://download.eclipse.org/eclipse/downloads/drops/L-3.0.1_Translations-200409161125/NLpack-eclipse-SDK-3.0.x-linux-gtk.zip" class="urlextern" title="http://download.eclipse.org/eclipse/downloads/drops/L-3.0.1_Translations-200409161125/NLpack-eclipse-SDK-3.0.x-linux-gtk.zip" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">&quot;language pack&quot; pour Eclipse</a></span>
+</li>
+</ul>
+<pre class="code">$ wget http://download.eclipse.org/eclipse/downloads/drops/L-3.0.1_Translations-200409161125/NLpack-eclipse-SDK-3.0.x-linux-gtk.zip</pre>
+<ul>
+<li class="level1"><span class="li"> Décompressez l&rsquo;archive</span>
+</li>
+</ul>
+<pre class="code">$ sudo unzip NLpack-eclipse-SDK-3.0.x-linux-gtk.zip -d /opt</pre>
+
+<p>
+ Voilà votre éditeur favori est (en parti) en français !
+</p>
+
+</div>
+<!-- SECTION [1251-3861] -->
+<a name="installation_utilisateur"></a><h3> Installation utilisateur </h3>
+<div class="level3">
+
+<p>
+ Cette méthode est recommandée si vous voulez qu&rsquo;Eclipse ne soit utilisable que par vous-même, à l&rsquo;exclusion des autres utilisateurs, ou si vous n&rsquo;avez pas les droits d&rsquo;administrateur.
+</p>
+
+</div>
+
+<a name="eclipse"></a><h4> Eclipse </h4>
+<div class="level4">
+<ul>
+<li class="level1"><span class="li">      Créer un dossier opt dans votre répertoire personnel :</span>
+</li>
+</ul>
+<pre class="code">$ mkdir ~/opt</pre>
+<ul>
+<li class="level1"><span class="li">      Décompresser Eclipse dans le dossier opt :</span>
+</li>
+</ul>
+<pre class="code">$ unzip eclipse-platform-3.0.2-linux-gtk.zip -d ~/opt</pre>
+<ul>
+<li class="level1"><span class="li">      Créer un dossier bin dans votre répertoire personnel, qui servira pour le script de lancement :</span>
+</li>
+</ul>
+<pre class="code">$ mkdir ~/bin</pre>
+<ul>
+<li class="level1"><span class="li">      Créer un fichier ~/bin/eclipse avec votre éditeur de texte favori (par ex. vi ~/bin/eclipse) et ajouter le contenu suivant :</span>
+</li>
+</ul>
+<pre class="code">#!/bin/sh
+export MOZILLA_FIVE_HOME=&quot;/usr/lib/mozilla/&quot;
+export ECLIPSE_HOME=&quot;$HOME/opt/eclipse&quot;
+
+$ECLIPSE_HOME/eclipse $*</pre>
+<ul>
+<li class="level1"><span class="li">      Et pour terminer, modifier les propriétés du fichier pour le rendre exécutable :</span>
+</li>
+</ul>
+<pre class="code">$ chmod +x ~/bin/eclipse</pre>
+
+</div>
+
+<a name="icone_gnome"></a><h4> Icone Gnome </h4>
+<div class="level4">
+<ul>
+<li class="level1"><span class="li">      Créer un nouveau lanceur sur le bureau (clic droit sur le bureau &rarr; Créer un lanceur) ou dans un tableau de bord (clic droit sur un tableau de bord &rarr; Ajouter au tableau de bord... &rarr; Ajouter un lanceur personnalisé)</span>
+</li>
+</ul>
+<pre class="code">Nom: Plateforme Eclipse
+Commande: /home/&lt;votre nom d'utilisateur&gt;/bin/eclipse
+Icone: /home/&lt;votre nom d'utilisateur&gt;/opt/eclipse/icon.xpm</pre>
+
+</div>
+<!-- SECTION [3862-5224] -->
+<a name="ressources"></a><h2> Ressources </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> Le <a href="http://www.eclipse.org" class="urlextern" title="http://www.eclipse.org" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">site officiel du projet Eclipse</a></span>
+</li>
+<li class="level2"><span class="li"> Le site francophone consacré au projet Eclipse : <a href="http://www.eclipsetotale.com/index.html" class="urlextern" title="http://www.eclipsetotale.com/index.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Eclipse Totale</a></span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [5225-] -->

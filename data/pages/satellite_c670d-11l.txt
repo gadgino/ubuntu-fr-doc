@@ -1,0 +1,112 @@
+{{tag>Trusty À_RECYCLER}}
+
+----
+
+
+====== satellite C670D-11L  ======
+
+
+Le tableau suivant récapitule la prise en charge du matériel de ce portable par les différentes versions d'Ubuntu.
+Il utilise les notations suivantes :
+
+  * {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} : **Fonctionne immédiatement**
+  * {{wiki:modeles:laptop_work.png|Fonctionne après config}} : **Fonctionne après quelques manipulations**
+  * {{icons:icon-support.png?32|Pas testé}} : **Pas d'informations disponibles**
+  * {{icons:process-stop.png?32|Ne fonctionne pas}} : **Ne fonctionne pas**
+
+^ Version ^ Installation ^ Carte graphique ^ Son ^ Ethernet ^ Wifi ^ Webcam ^ Touchpad ^ Raccourcis multimédia ^ Autres ^
+| [[:precise | 12.04 (Precise Pangolin)]] |  {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}}  |  {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{icons:icon-support.png?32|Pas testé}} |
+| [[:quantal | 12.10 (Quantal Quetzal)]] |  {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}}  |  {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{icons:icon-support.png?32|Pas testé}} |
+| [[:raring | 13.04 (Raring Ringtail)]] |  {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}}  |  {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{icons:icon-support.png?32|Pas testé}} |
+| [[:raring | 13.10 (Saucy Salamander)]] |  {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}}  |  {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{icons:icon-support.png?32|Pas testé}} |
+| [[:trusty | 14.04 (Trusty Tahr)]] |  {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}}  |  {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{wiki:modeles:laptop_ok.png|Fonctionne immédiatement}} | {{icons:icon-support.png?32|Pas testé}} |
+
+**Cet ordinateur portable n'est pas [[:pc_tatoué|tatoué]].**
+
+===== Résolution des problèmes =====
+
+
+==== Accélération matérielle ====
+installation du pilote propriétaire fglrx est recommandé
+
+
+==== Mise en veille ====
+[[:tutoriel:comment_modifier_un_fichier|Éditez le fichier]] **''/etc/pm/sleep.d/20_custom-ehci_hcd ''** (s'il n'existe pas, créez le) et  remplacer son contenu par celui-ci :
+<code>
+#!/bin/sh
+#inspired by http://art.ubuntuforums.org/showpost.php?p=9744970&postcount=19
+#...and http://thecodecentral.com/2011/01/18/fix-ubuntu-10-10-suspendhibernate-not-working-bug    
+# tidied by tqzzaa :)
+
+VERSION=1.1
+DEV_LIST=/tmp/usb-dev-list
+DRIVERS_DIR=/sys/bus/pci/drivers
+DRIVERS="ehci xhci" # ehci_hcd, xhci_hcd
+HEX="[[:xdigit:]]"
+MAX_BIND_ATTEMPTS=2
+BIND_WAIT=0.1
+
+unbindDev() {
+  echo -n > $DEV_LIST 2>/dev/null
+  for driver in $DRIVERS; do
+    DDIR=$DRIVERS_DIR/${driver}_hcd
+    for dev in `ls $DDIR 2>/dev/null | egrep "^$HEX+:$HEX+:$HEX"`; do
+      echo -n "$dev" > $DDIR/unbind
+      echo "$driver $dev" >> $DEV_LIST
+    done
+  done
+}
+
+bindDev() {
+  if [ -s $DEV_LIST ]; then
+    while read driver dev; do
+      DDIR=$DRIVERS_DIR/${driver}_hcd
+      while [ $((MAX_BIND_ATTEMPTS)) -gt 0 ]; do
+          echo -n "$dev" > $DDIR/bind
+          if [ ! -L "$DDIR/$dev" ]; then
+            sleep $BIND_WAIT
+          else
+            break
+          fi
+          MAX_BIND_ATTEMPTS=$((MAX_BIND_ATTEMPTS-1))
+      done  
+    done < $DEV_LIST
+  fi
+  rm $DEV_LIST 2>/dev/null
+}
+
+case "$1" in
+  hibernate|suspend) unbindDev;;
+  resume|thaw)       bindDev;;
+esac
+</code>
+  
+Puis, donnez les droits d'exécution au fichier en tapant, dans un terminal :
+  sudo chmod 755 /etc/pm/sleep.d/20_custom-ehci_hcd
+  
+==== Redémarrage après extinction ====
+Lorsque l'ordinateur portable est branché sur le courant, le fait de l'éteindre provoque un redémarrage. Cette manipulation permet de régler ce problème :
+[[:tutoriel:comment_modifier_un_fichier|Éditez le fichier]] **''/etc/rc.local''**, et  rajoutez, avant "exit 0" (ou à la fin du fichier si vous ne trouvez pas "exit 0") :
+
+   echo "LID" > /proc/acpi/wakeup
+
+Il faudra redémarrer pour que la modification soit prise en compte.
+
+
+==== Blocage du pavé tactile et du clavier ====
+
+Le clavier et le pavé tactile se bloquent au démarrage de façon aléatoire, sur environ un démarrage sur 20. Pour régler ce problème,  [[:tutoriel:comment_modifier_un_fichier|Éditez le fichier]] **''/etc/default/grub ''**  et remplacez la ligne GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
+
+Par
+<code>
+#GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash i8042.reset i8042.nomux"
+</code>
+
+effectuez ensuite 
+
+<code>
+sudo update-grub
+</code>
+
+[[https://bugs.launchpad.net/ubuntu/+bug/1014240|(Source : bug#1014240)|]]

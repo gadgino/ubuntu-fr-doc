@@ -1,0 +1,67 @@
+{{tag>Xenial Trusty lecteur_audio}}
+----
+
+====== Musique ======
+
+**[[http://flavio.tordini.org/musique|Musique]]** (ex-Minitunes) est un [[:lecteur_audio|lecteur de musique]] multi-plateforme (%%GNU/Linux%%®, Windows®, Apple®) distribuée sous [[wpfr>Licence_publique_générale_GNU|licence publique générale V3]] visuellement très attractif qui souhaite révolutionner la manière de naviguer dans sa musique.
+Ce lecteur se concentre principalement sur la mise en forme des informations qu'il va chercher sur [[http://www.lastfm.fr/|Last FM]].
+
+<note important> Le créateur de cette application Flavio Tordini est à la recherche de développeurs pour l'aider à développer **Musique** plus rapidement. Il prévient cependant qu'il est assez obnubilé par l'ergonomie et le style de l'application.</note>
+{{http://flavio.tordini.org/files/minitunes/minitunes.png}}
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+====Via les dépôts officiels====
+Pour installer **Musique**, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>musique]]** \\
+====Via un dépôt PPA====
+<note important>Les [[:PPA|dépôts PPA]] sont des [[:dépôts]] non-officiels. Installer un paquet hors des [[:dépôts]] officiels peut présenter un risque d'instabilité pour votre système. </note>
+
+Une version plus récente de **Musique** peut être installée à partir d'un [[:ppa|dépôt PPA]]. Pour cela il suffit:
+  - d'[[:ppa|ajouter le PPA]] **ppa:nilarimogard/webupd8 **((https://launchpad.net/~nilarimogard/+archive/webupd8/+index)) à vos sources de logiciels;
+  - [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|recharger la liste de vos paquets]];
+  - puis [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>musique|musique]]**. 
+  - :!: __Attention__: Ce [[:PPA]] contient de très nombreux autres paquets de versions supérieures. Si vous ne voulez pas avoir des mises à jour non souhaitées d'autres paquets vers des versions supérieures non prévues pour votre [[:versions|version d'Ubuntu]], [[:ppa#suppression_d_un_ppa|retirer ce PPA]] de vos sources de logiciels.  
+Ou dans un [[:terminal]], saisir les [[:commande_shell|commandes]] suivantes: <code>sudo add-apt-repository ppa:nilarimogard/webupd8
+sudo apt-get update
+sudo apt-get install musique</code> Puis pour retirer le PPA de vos sources de logiciels: <code>sudo add-apt-repository --remove ppa:nilarimogard/webupd8</code>
+====Via le site officiel====
+<note important> Installer un paquet hors des [[:depots|dépôts officiels]] peut présenter un risque d'instabilité du système.</note>
+Vous souhaitez utiliser la dernière version stable de **Musique**? Elle est disponible au téléchargement pour Ubuntu sous forme d'un paquet .deb depuis le [[http://flavio.tordini.org/minitunes|site officiel]].
+  - Depuis le [[http://flavio.tordini.org/musique|site officiel]], télécharger le paquet disponible pour Debian&Ubuntu selon votre [[:architecture materielle|architecture matérielle 32bits ou 64bits]];
+  - [[:tutoriel/comment_installer_un_paquet#installer_un_paquet_hors_depots_non_recommande|Installer ce paquet .deb isolé]].
+ 
+===== Configuration =====
+Il suffit de préciser, lors du premier lancement, le dossier de vos fichiers musicaux à scanner. Cette étape peux prendre un peu de temps car **Musique** va récupérer des informations sur votre musique via [[http://www.lastfm.fr/|Last FM]].\\
+Vous pouvez toujours refaire cette base de données musicale depuis le menu //"Applications -> Changer le répertoire de la collection". //
+
+=====Lancement=====
+Lancez l'application depuis le [[:unity#tableau_de_bord_dash|tableau de bord d'Unity]] ou pour les menus classiques, //Multimedia - > Musique//. \\
+Ou dans un [[:terminal]] pour toutes [[:variantes]] en saisissant la [[ :commande_shell|commande]] suivante: <code>musique</code>
+
+===== Utilisation=====
+<note important>Les captures d'écran sont obsolètes, se référer au site officiel du projet.</note>
+
+L'utilisation est simple et intuitive.
+
+{{http://lh5.ggpht.com/_BOa2X-ZrGso/S_r9wGTKcFI/AAAAAAAAAC0/kZrV82UbQww/s800/info-view.png}}
+
+En cliquant sur le petit casque, on accède aux informations du morceau de musique. Celui-ci permet d'avoir des informations sur l'artiste, sur l'album ainsi que les paroles de la chanson jouée. 
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]].
+Selon la méthode choisie, le configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+La base de donnée ''musique.db'' est conservée dans le [[:fichier caché|dossier caché]] ''.local/share/data/Flavio Tordini/Musique/'' de votre dossier personnel.\\
+Il peut-être utile de la supprimer en cas de modification majeure de la collection musicale, puis de laisser **Musique** la reconstruire.
+
+===== Voir aussi =====
+
+  * **(en)** [[http://flavio.tordini.org/musique|Site officiel]]
+
+----
+
+//Contributeurs principaux : [[:utilisateurs:Samoth]].//

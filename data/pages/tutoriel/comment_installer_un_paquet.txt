@@ -1,0 +1,169 @@
+{{tag>Precise Trusty installation_logiciel tutoriel dépôts apt}}
+
+----
+
+====== Comment installer un paquet ? ======
+
+Sous Ubuntu, les logiciels se composent d'un ou plusieurs **[[wpfr>Paquet_(logiciel)|paquets]]**. Ce didacticiel résume les différentes manières d'installer un paquet sous Ubuntu, Kubuntu et Xubuntu. Pour Edubuntu, suivez les mêmes procédures qu'Ubuntu.
+  * L'installation d'un paquet (applications, bibliothèques, etc.) est une tâche d'administration qui s'effectue avec les [[:sudo|droits d'administration]]. Votre **mot de passe** vous sera demandé. Si vous utilisez le compte utilisateur créé lors de l'installation d'Ubuntu, il n'y a pas de problème. Sinon l'utilisateur concerné sera obligatoirement administreur du système. Consultez la page concernant [[:users-admin|la gestion des utilisateurs]].
+  * **Type de paquet à préférer**, dans l'ordre, selon leur disponibilité (de la plus sûre à la plus incertaine) :
+    - paquet dans un [[:depots|dépôt]] Ubuntu officiel ;
+    - paquet dans un [[:depots|dépôt PPA]];
+    - paquet Ubuntu isolé ;
+    - paquet Debian isolé (peut poser des problèmes techniques) ;
+    - paquet dans un dépôt tiers (peut poser des problèmes de confiance).
+
+===== Installer un paquet présent dans les dépôts officiels =====
+
+==== Depuis votre navigateur Web ====
+Vous trouverez sur internet des liens du style **[[apt>nom_du_paquet]]** avec lequel installer le paquet en question.\\
+Sur cette documentation, vous trouverez une icône sur laquelle vous pourrez cliquer pour installer divers logiciels ou paquets, se présentant sous cette forme :{{:apt.png?30}}.
+En cliquant sur le nom du paquet une fenêtre s'ouvrira et vous proposera de l'installer depuis la [[:software-center|Logithèque Ubuntu]] par défaut.\\
+<note>Une alternative légère à la Logithèque est l'application [[:apturl]]. \\
+ {{:applications:apturl_lucid2.png?250|apt-url}} \\
+Pour changer le gestionnaire utilisé lors d'un clic sur un lien apt, consulter la section de page :  [[:gestionnaire_de_paquets#choisir_quel_gestionnaire_de_paquet_se_lance_avec_les_liens_apt |choisir quel gestionnaire de paquet se lance avec les liens apt]].</note>
+
+{{ :software-center_logo.png?80&nolink|Logo de la logithèque}}
+==== Depuis Logiciels ====
+A partir de la version 16.04 Ubuntu Xenial la logithèque est remplacée par Logiciels.
+<note tip>Les paquets suggérés ne sont pas proposés, installer la logithèque ou un autre gestionnaire de paquets pour y avoir accès.</note>
+
+==== Depuis la Logithèque Ubuntu ====
+
+  - Ouvrir la [[:software-center|Logithèque Ubuntu]] en cliquant sur son icône dans la [[:unity_launcher|barre de lancement]] ou depuis le [[:unity#tableau_de_bord_dash|tableau de bord]] d'[[:Unity]] (Pour les menus classiques :  //Applications -> Logithèque Ubuntu//.) 
+  - Entrer le //nom du paquet à rechercher// dans le champ de recherche.
+  - Puis cliquez sur la flèche correspondante.
+  - Cliquer sur « Installer » pour installer le paquet.
+  - Vous pouvez ajouter d'autres paquets pendant que le premier paquet s'installe ; une file d'attente sera créée.
+
+====Depuis le tableau de bord d'Unity====
+Sur les dernières [[:versions]] d'Ubuntu, il est possible d'installer une application directement depuis le [[:unity#tableau_de_bord_dash|tableau de bord]] d'[[:Unity]]. (Exemple pour [[:Vlc]])
+  - Sélectionnez la [[:unity-lens|loupe]] « Application » {{:tutoriel:installer_un_paquet:installer_un_paquet_13.10_21.png?60|}};
+  - Tapez « Vlc » dans la zone de saisie. L'application apparaîtra dans la zone « Plus de suggestions » ; {{ :tutoriel:installer_un_paquet:installer_un_paquet_13.10_22.png?600 |}}
+  - Cliquer sur l’application choisie (Dans notre exemple : Vlc).{{ :tutoriel:installer_un_paquet:installer_un_paquet_13.10_23.png?600 |}}
+  -Cliquez sur "Téléchargement gratuit" et suivez les instructions. L’icône de l'application en cours d'installation apparaîtra dans la [[:unity_launcher|barre de lancement d'Unity]] avec une barre de progression.\\
+{{:tutoriel:installer_un_paquet:installer_un_paquet_13.10_24.png?60|}}
+
+<note important>
+La [[:software-center|Logithèque]] ainsi que le [[:unity#tableau_de_bord_dash|tableau de bord]] d'Unity ne contiennent pas tous les paquets disponibles dans Ubuntu.\\
+Si vous deviez installer une « application système », préférez la méthode « [[#Via une interface graphique complète (gestionnaire de paquets)|Gestionnaire de paquets]] » ci-dessous.
+</note>
+==== Depuis une interface graphique complète (gestionnaire de paquets) ====
+Pour plus d'informations, voir la [[:gestionnaire_de_paquets|page sur les gestionnaires de paquets]].
+
+=== Synaptic ===
+[[:Synaptic]] est une interface graphique "complète" pour [[:APT]].  Elle permet l'installation de paquets depuis des [[:depots|dépôts APT]], de même que leur désinstallation.\\
+[[:Synaptic]] n'est pas installé par défaut dans Ubuntu. Pour plus d'informations et son installation, voir la [[:synaptic|page dédiée pour Synaptic]].
+<note>Les utilisateurs de [[:Kubuntu]] utilisent par défaut [[:Muon]], mais [[:Synaptic]] peut tout à fait être utilisée sous [[:Kubuntu]]. (Ainsi que les autres [[:variantes]] !)</note>
+
+==== En ligne de commande ====
+Ouvrir un terminal :
+^ Ubuntu     |depuis le [[:unity#tableau_de_bord_dash|tableau de bord]] d'Unity (ou Ctrl−Alt−T).|
+^ Edubuntu    | //Applications → Accessoires → Terminal// ou Alt−F2 et tapez **gnome-terminal** |
+^ Kubuntu               | //K → Système → Konsole// ou Alt−F2 et tapez **konsole** |
+^ Xubuntu               | //Applications → Accessoires → Terminal// ou Alt−F2 et tapez **xfterm4** |
+^ toutes les variantes  | depuis une console (Ctrl−Alt−F1…F6 ; Ctrl−Alt−F7 pour revenir à votre session graphique) |
+
+<note>**[[:apt|Apt-get]]** et **[[:Aptitude]]**, (et par conséquent aussi les interfaces graphiques qui les utilisent, par ex **Synaptic** et la **Logithèque Ubuntu**), partagent les mêmes informations. L'utilisation alternée de l'un ou l'autre ne présente donc pas de risque. [[http://raphaelhertzog.com/2011/06/20/apt-get-aptitude-%E2%80%A6-pick-the-right-debian-package-manager-for-you|Source]] **(en)**</note>
+
+Dans les commandes ci-dessous, remplacez « mon_paquet » par le nom de votre paquet. Si vous voulez installer plusieurs paquets en même temps, remplacez « mon_paquet » par la liste des paquets à installer, séparés par une espace.
+
+=== Avec apt (16.04 et supérieur) ===
+
+<code>sudo apt install mon_paquet</code>
+Plus d'informations sur APT, apt et leurs outils voir la [[:apt|page dédiée à Apt]].
+
+=== Avec apt-get ===
+
+<code>sudo apt-get install mon_paquet</code>
+Plus d'informations sur APT, apt-get et leurs outils voir la [[:apt|page dédiée à Apt]].
+
+=== Avec Aptitude ===
+<code>sudo aptitude install mon_paquet</code>
+Pour plus d'informations, voir la [[:aptitude|page dédiée à Aptitude]].
+
+====Installer un paquet depuis un PPA=====
+Pour plus d'informations, voir la [[:PPA|page dédiée aux dépôts PPA]].
+
+===== Installer un paquet hors dépôts (non recommandé) =====
+<note important>Cette méthode ne permet pas les mises à jour automatiques.</note>
+
+N'utilisez les paquets hors dépôts que :
+  * si vous n'avez pas accès à internet ;
+  * si le paquet n'est pas disponible dans les dépôts Ubuntu. Ce qui arrive dans deux cas : soit le logiciel n'est pas référencé par Ubuntu, soit une nouvelle version d'un logiciel référencé existe, mais n'est pas disponible dans les dépôts Ubuntu de votre version.
+<note important>Ces paquets ne bénéficient ni de la validation officielle Ubuntu, ni du support des développeurs des équipes officielles Ubuntu. Ils peuvent rendre le système instable. Vous les installez à vos risques et périls.</note>
+
+<note>
+Rappel : même si des paquets ne se trouvent pas dans les [[:dépôts]] Ubuntu, il est possible de rajouter des dépôts officiels de projets ([[:Wine]], [[:Cairo-Dock]], etc.), ou des dépôts officieux, dans votre [[:gestionnaire de paquets]] ([[:Synaptic]], [[:Apper]]). Cela ne réduit pas les risques d'instabilité évoqués ci-dessous, mais évite d'avoir à installer à la main ces paquets, et permet une mise à jour automatique des logiciels (si celle-ci est gérée par le dépôt supplémentaire paramétré). Le présent chapitre traite de l'installation de paquets lorsque l'installation de ces dépôts supplémentaires n'a pas été possible ou n'a pas été souhaitée. Pour en savoir plus, voir la page [[:dépôts]].
+</note>
+
+Les paquets au format .deb ([[:debian_ubuntu_comparaison|Debian]]) peuvent se trouver sur divers sites :
+  * les sites officiels des logiciels qui vous intéressent ;
+  * des sites tiers non officiels ([[http://www.getdeb.net/]], [[http://www.UbuntuUpdates.org]], etc.).
+
+Il existe deux démarches possibles : installer un paquet isolé sans dépendance, ou installer un groupe de paquets ayant des relations de dépendance entre eux.
+
+==== Installer un paquet isolé ====
+
+Dans certains cas, un seul paquet .deb est proposé au téléchargement. Il n'a pas de dépendance (ou celles-ci sont déjà installées sur Ubuntu).
+
+=== Si le paquet est proposé directement au format .deb (non compressé) ===
+Lors du téléchargement, Ubuntu propose soit de sauver le paquet sur votre disque dur, soit de l'ouvrir avec la [[:software-center|Logithèque]], l'installateur par défaut de Ubuntu.
+Le plus simple est d'accepter l'ouverture directe, et la [[:software-center|Logithèque]] installe votre paquet sans aucune ligne de commande. \\
+Si vous avez d'abord sauvegardé le paquet sur votre ordinateur, vous pouvez encore l'installer en mode graphique avec la [[:software-center|Logithèque]], simplement en double-cliquant dessus. \\
+Vous pouvez aussi utiliser [[:gdebi]], gestionnaire de paquets .deb isolés.
+
+=== Si le paquet est proposé dans un format compressé ===
+
+Il faut d'abord le décompresser. Lors du téléchargement, Ubuntu vous propose d'ouvrir le fichier compressé avec un gestionnaire d'archive, ou de le sauver sur votre ordinateur. 
+Le plus simple est d'accepter l'ouverture directe du fichier compressé par un gestionnaire d'archive, puis de décompresser le .deb, en le sauvant sur votre ordinateur.
+
+Vous pouvez alors revenir à l'étape d'installation précédemment exposée, c'est à dire double-cliquer sur le .deb, ce qui lance la [[:software-center|Logithèque]].
+
+Après installation, supprimez le fichier .deb, il ne sert plus à rien.
+
+==== Installer un paquet avec des dépendances ====
+
+Il faut alors installer plusieurs paquets .deb. Cette phase est parfois délicate, parce que [[:gdebi]] exige que l'installation se fasse dans un certain ordre, lequel n'est pas toujours connu ou indiqué.
+
+=== Récupération des paquets ===
+
+Le plus simple est d'abord de récupérer tous les .deb à installer, et de les sauver dans un répertoire commun, par exemple placé sur le bureau (l'emplacement est sans importance, pas plus que le nom donné à ce répertoire).
+  * La récupération des paquets .deb peut se faire directement au format .deb (non compressé), un par un. 
+  * Elle peut aussi (selon la présentation donnée par le site de téléchargement) se faire avec un seul fichier comprimé regroupant tout les .deb, fichier qu'il faudra alors décompresser sur votre ordinateur avant installation.
+
+=== Installation graphique ===
+
+Vous pouvez installer tous les paquets un par un avec [[:gdebi]], simplement en cliquant dessus (méthode graphique), mais cela peut poser deux problèmes : le nombre de .deb peut-être très grand ([[:OpenOffice.org]], par exemple), et surtout, l'ordre d'installation doit être strictement respecté, donc doit être connu. À défaut, [[:gdebi]] refuse l'installation. Il faut en effet d'abord installer les paquets listés en dépendances avant de pouvoir installer le paquet principal. C'est-à-dire que si vous voulez installer le paquet XYZ et que ce paquet dépend du paquet ABC, il faudra installer ABC avant de pouvoir installer XYZ. Si ABC est disponible dans les dépôts Ubuntu, Gdebi essayera de l'installer automatiquement, mais nous sommes ici dans l'hypothèse d'une installation hors dépôts, donc il ne trouvera pas. Problème courant avec les jeux : il faut installer un paquet « exemple-data.deb » avant « exemple.deb ».
+
+En bref, l'installation graphique de paquets multiples hors dépôts est compliquée et difficile à mettre en œuvre. D'où le recours à l'[[#Installation manuelle (en ligne de commande)|installation manuelle]].
+
+=== Installation manuelle (en ligne de commande) ===
+
+C'est la plus simple lorsqu'il faut installer plusieurs paquets, car il n'est pas nécessaire de connaître la hiérarchie des dépendances. 
+  - Placez-vous dans le répertoire ou se trouvent les paquets .deb (décompressés).
+  - Ouvrez un [[:terminal]] et vérifier que vous êtes bien dans le répertoire (le terminal affiche par exemple un « ''votre-compte@votre-ordinateur:~/Bureau/rep$'' » si vous avez installé vos .deb dans un répertoire ''rep'' créé pour l'occasion sur le bureau).
+  - Tapez alors le code ci-dessous et tous vos paquets .deb seront installés : <code>sudo dpkg -i *.deb</code>
+    * Cas particulier : si certains .deb sont dans des sous-répertoires (ce qui est le cas dans certaines archives une fois décompressées), descendez dans ce sous-répertoire et relancer la commande ci-dessus.
+    * //Astuce// : la commande suivante traite en une seule passe les .deb du répertoire où est lancée la commande ainsi que ceux des sous-répertoires : <code>sudo dpkg -i `find . -type f -name '*.deb'`</code>
+  - Ressortez du [[:terminal]] par ''exit'' ou en cliquant sur la croix en haut à droite.
+  - Effacer le répertoire de téléchargement des paquets .deb, il ne sert plus à rien.
+
+=== Installation sans les dépendances (manuelle ou graphique) ===
+
+Vous pouvez en théorie installer un paquet principal sans avoir ses dépendances sur votre disque dur, soit en lançant ce paquet dans [[:gdebi]], soit en tapant après le **''sudo dpkg -i *.deb''** un **''sudo apt-get -f install''**. Dans les deux cas, il y a recherche des dépendances dans les dépôts installés sur votre version d'Ubuntu, mais nous sommes ici dans l'hypothèse d'une installation hors dépôts, donc rien ne sera trouvé.
+
+===== Si vous n'avez pas accès à Internet =====
+
+Si vous n'avez pas accès à Internet, vous pouvez toujours télécharger vos paquets //via// le site [[http://packages.ubuntu.com/]] à partir d'un autre ordinateur en vérifiant les dépendances. Il ne vous restera plus qu'à les copier sur votre ordinateur et à les installer selon la méthode ci-dessus. Vous pouvez également consulter le tutoriel « [[:installation_paquet_hors_ligne|Comment ajouter des paquets sans internet ?]] » qui vous expliquera la procédure à suivre.
+
+===== Voir aussi =====
+  * [[:apt-key|Signature des dépôts]]
+  * [[:terminal|Plus d'informations sur comment ouvrir un terminal]]
+  * [[:dpkg|Plus d'informations sur dpkg]]
+  * [[http://www.tutoriels-video.fr/installer-des-logiciels-sur-ubuntu/|Tutoriel vidéo : 3 méthodes pour installer ses logiciels]]
+  * [[http://www.tutoriels-video.fr/mettre-a-jour-ces-logiciels-sur-ubuntu|Tutoriel vidéo : 3 méthodes pour mettre à jour ses logiciels]]
+
+----
+
+//Contributeurs principaux : [[:utilisateurs:Ner0lph]], [[:utilisateurs:_Enchained]], [[:utilisateurs:Grummfy]], [[utilisateurs:Fabien26]], [[utilisateurs:YannUbuntu]], Contributeurs : //

@@ -1,0 +1,98 @@
+{{tag>Precise Xenial disquette vétuste}}
+
+----
+
+
+
+====== Comment faire fonctionner le lecteur de disquette ? ======
+
+
+
+Ce tutoriel décrit comment rendre fonctionnel de façon simple le lecteur de disquette.
+
+<note tip>**Sous Ubuntu 16.04 mon lecteur fonctionne sans ajout de mount ou umount**</note>
+
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]], ce qui est le cas si vous utilisez Ubuntu ou Xubuntu.
+
+===== Solution pour Ubuntu 12.04 =====
+
+* Ouvrir une fenêtre terminal et saisir les commandes suivantes  : <code>udisks --mount /dev/sdb</code>
+
+__Petite explication__ :
+
+udisks --mount /dev/sdb (monter le lecteur de disquette : sdb sera peut-être à aujster -> sbc etc ...)
+
+
+===== Solution pour Xubuntu 11.10 =====
+
+[[:tutoriel:comment_modifier_un_fichier|Créez le fichier]] ''monter_disquette.sh'' avec le contenu qui suit : <file bash>umount /dev/fd0
+killall -15 thunar
+killall -15 Thunar
+udisks ''-''''-''mount /dev/fd0
+thunar /media/floppy0</file>
+  * Rendez-le [[:tutoriel:script_shell#executer_un_script|exécutable]],
+  * Faire un clic droit dans la barre du tableau de bord en haut de l'écran.
+  * Sélectionner « ajouter des greffons », puis choisir « lanceur de programme avec menu facultatif ».
+  * Cliquer sur « ajouter » et fermer.
+  * Effectuer un clic droit sur le lanceur, sélectionner « propriétés ».
+  * Cliquer sur « ajouter un nouveau item vide ».
+
+
+__Petite explication__ :
+
+umount /dev/fd0 (démonter le lecteur de disquette afin de permettre le rafraîchissement lorsque vous changez la disquette)
+
+killall -15 thunar (arrêter tous les processus thunar en cours)
+
+killall -15 Thunar (arrêter tous les processus Thunar en cours)
+
+Les deux commandes « killall... » avec minuscle et majuscule sont nécessaires dans cette version de Xubuntu pour garantir la fermeture de thunar.
+
+udisks ''-''''-''mount /dev/fd0 (monter le lecteur de disquette)
+
+thunar /media/floppy0 (ouvrir thunar et lire le contenu de la disquette)
+
+===== Solution pour Lubuntu 11.04  =====
+[[:tutoriel:comment_modifier_un_fichier|Créez le fichier]] ''monter_disquette.sh'' avec le contenu qui suit : <file bash>umount /dev/fd0
+killall -15 pcmanfm
+udisks ''-''''-''mount /dev/fd0
+pcmanfm /media/floppy0
+</file>
+  * Rendez-le [[:tutoriel:script_shell#executer_un_script|exécutable]],
+__Petite explication__ :
+
+umount /dev/fd0 (démonter le lecteur de disquette afin de permettre le rafraichissement lorsque vous changez la disquette)
+
+killall -15 pcmanfm (arrêter tous les processus pcmanfm en cours)
+
+udisks --mount /dev/fd0 (monter le lecteur de disquette)
+
+pcmanfm /media/floppy0 (ouvrir pcmanfm et lire le contenu de la disquette)
+
+  * Enregistrer le fichier en le nommant « monter_disquette » dans le dossier « bureau ».
+  * Ouvrir le répertoire « bureau », effectuer un clic droit sur le fichier et choisir « propriétés ».
+  * Aller dans l'onglet « permissions » et cocher « rendre le fichier exécutable », puis valider.
+
+
+===== Solution automatisée =====
+
+Vous pouvez également télécharger un script pour automatiser le tout ([[https://dl.dropboxusercontent.com/u/89136646/bash/Disquettes/disquette.sh|cliquez ici]]). Ce script utilise un logiciel nommé Udisks (32 ou 64 bits).
+Le script téléchargé, il vous suffit de le lancer en administrateur (sudo sh /chemin/du/script.sh)
+
+Pour le moment, ce script a été testé sur Ubuntu 12.04 32Bits, il est totalement fonctionnel sur cette version. Pour ceux qui veulent apprendre le Bash, chaque fonction est expliquée.
+===== Conclusion =====
+
+Vous savez maintenant comment réaliser des commandes simplement, avec (X)(L)Ubuntu !
+
+
+===== Voir aussi =====
+
+    * **(fr)** [[http://doc.ubuntu-fr.org/raccourci-lanceur|Créer des raccourcis avec les lanceurs]]
+  
+----
+
+
+//Contributeurs principaux : [[:utilisateurs:votre_identifiant|eb3pas]]

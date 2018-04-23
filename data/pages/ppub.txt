@@ -1,0 +1,55 @@
+{{tag>epub}}
+----
+ 
+====== pPub ======
+ 
+pPub est un lecteur de livres numériques au format [[ePub]], basique et léger. Il est écrit en [[Python]] et utilise GTK3 et WebKit. 
+ 
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+ 
+===== Installation =====
+ 
+==== Via le paquet DEB ====
+
+Téléchargez le paquet en suivant le lien ci-dessous puis [[tutoriel/comment_installer_un_paquet#installer_un_paquet_isole|installez-le]].
+
+[[https://app.box.com/s/gg9xii9f6mtq08g4qkv4|Télécharger pPub]]
+
+==== Méthode manuelle ====
+
+  * Installez le paquet **[[apt>build-essential]]**
+  * [[https://github.com/sakisds/pPub/archive/master.zip|Téléchargez les sources sur GitHub]].
+  * Extrayez le contenu de l'archive dans votre répertoire personnel (Clic droit -> Extraire ici).
+  * Ouvrez un [[terminal]] et tapez les commandes suivantes : 
+  
+<code>cd pPub-master 
+sudo make install</code>
+ 
+===== Utilisation =====
+ 
+  * Lancez l'application via le [[:unity#tableau_de_bord_dash|dash]] (Ubuntu 11.04 et ultérieures) ou via le [[:terminal]] (toutes versions d'Ubuntu) avec la [[:commande_shell|commande]] suivante :
+<code>ppub</code>
+ 
+  * Pour ouvrir un livre : //File->Ouvrir//
+  * Pour passer au chapitre suivant : //Go->Next Chapter// ou appuyer sur la flèche droite du clavier. 
+  * Ajouter un marque-page : //Bookmarks->Add Bookmark//
+===== Désinstallation =====
+ 
+==== Si installé via le DEB ====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+==== Si installé par la méthode manuelle ====
+
+<code>cd pPub-master 
+sudo make uninstall</code>
+ 
+===== Voir aussi =====
+ 
+  * **(en)** [[https://github.com/sakisds/pPub|Accueil du projet sur GitHub]]
+
+----
+//Contributeurs principaux : rocherd

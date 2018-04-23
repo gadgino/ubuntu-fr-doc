@@ -1,0 +1,153 @@
+{{tag>Precise Trusty archivage}}
+
+----
+
+======p7zip ======
+
+ 
+**p7zip** est un logiciel libre d’archivage de fichiers avec un fort taux de compression. C'est un portage sous Linux du logiciel libre **7-Zip**. **p7zip** permet notamment de décompresser les archives au format : RAR, CAB, ISO, ARJ, LZH, CHM, Z, CPIO, RPM,  DEB et NSIS.\\
+Le format 7-zip est un format d'[[:archivage]] et non de [[:Sauvegarde]] : il n'enregistre pas les méta-données des fichiers (tel que l'heure de création, le groupe). Voyez la page [[:Sauvegarde]] pour plus de détail.
+
+===== Pré-requis ===== 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée,
+===== Installation =====
+
+
+[[:tutoriel:comment_installer_un_paquet|Installez]] un des paquets suivants selon les fonctionnalités désirées:
+  * **[[apt>p7zip|p7zip]]** fournit **7zr**, une version minimale de 7za qui gère seulement les archives 7z. Il fournit aussi le paquet p7zip qui n'est qu'une enveloppe "wrapper" de 7zr.
+  * **[[apt>p7zip-full|p7zip-full]]** fournit **7za** et **7z** qui gèrent non seulement les archives 7z mais aussi les archives ZIP, Zip64, CAB, ARJ, GZIP, BZIP2, TAR, CPIO, RPM, ISO, DEB et RAR (si le paquet non-libre p7zip-rar est installé). Ce paquet est également nécessaire pour une bonne gestion des mots de passes (creation et extraction)
+   * **[[apt>p7zip-rar|p7zip-rar]]** est une extension de p7zip pour le rendre capable d'extraire les archives RAR (version 2 et 3).
+
+===Tableau récapitulatif===
+
+^ Le paquet ^ contient ^ et gère ^
+| p7zip | p7zip, 7zr | 7z |
+| p7zip-full | 7z, 7za | 7z, zip, Zip64, cab, arj, gz, bz2, tar, cpio, rpm, iso (image disque), deb |
+| p7zip-rar | | rar |
+
+===== Utilisation =====
+
+==== Lignes de commande ====
+
+[[man>7z]], la liste de toutes les [[:commande_shell|commandes]] de 7-Zip disponibles. Les options sont les mêmes pour les exécutables 7zr,7za,7z.\\
+Avec p7zip, seules les options -d (décompression) et -h (aide) sont disponibles.
+
+
+Quelques exemples :
+  * Lister le contenu d'une archive : <code>7z l <archive></code>
+  * Décompresser une archive sans respecter l'arborescence des fichiers extraits : <code>7z e <archive></code>
+  * Décompresser une archive en respectant l'arborescence des fichiers (crée un fichier du nom de l'archive contenant les fichiers extraits) : <code>7z x <archive></code>
+  * Créer une nouvelle archive au format 7-Zip : <code>7z a <archive> <fichiers></code>
+  * Créer des archives de taille voulue au format 7-Zip : <code>7z a -v(taille)(unités:b,k,m,g) <archive> <fichiers>   ex : pour des fichiers de 2 Mo : 7z a -v2m <archive> <fichiers></code>
+  * Créer une archive 7-Zip avec un mot de passe (le mot de passe est demandé pour extraire les fichiers) : <code>7z a -pMot_De_Passe <archive> <fichiers> </code>
+  * Créer une archive 7-Zip avec un mot de passe et le cryptage des noms de fichiers (le mot de passe est demandé pour afficher les fichiers contenu dans l'archive) : <code>7z a -mhe=on -pMot_De_Passe <archive> <fichiers> </code>
+
+
+<note tip>Les fichiers extraits sont placés là où vous vous trouvez. À la racine de votre home par exemple. Pour éviter de rechercher les fichiers extraits, pensez à vous déplacer dans le dossier contenant l'archive à extraire.</note>
+
+
+==== Utilisation graphique ====
+
+Il existe bien sûr différentes manières d'utiliser p7zip graphiquement. Cette section explique les manières suivantes:
+  - Ark et menu contextuel sous Kde (Kde4)
+  - Q7z (Kde4)
+  - peazip (Linux/Windows)
+
+
+== Ark et menu contextuel sous Kde pour créer des archives 7z  ==
+
+Si le paquet Ubuntu installant 7zip est installé, le logiciel Ark, gestionnaire d'archives par défault sous KDE, est capable de gérer les archives 7z et ainsi on peut utiliser cette fonctionnalité pour archiver et désarchiver du 7z.
+
+On peut aussi adapter le menu contextuel de Konqueror ou Dolphin et faire en sorte que le clic droit sur un fichier -> "compresser" -> "compresser en tant que 7zip" existe. (testé avec Kde 4.3.4, et Kde 4.4.0). Pour ce faire, rien de plus simple, il suffit d'[[:tutoriel:comment_modifier_un_fichier|éditer le fichier]] **/usr/share/kde4/services/ServiceMenus/ark_addtoservicemenu.desktop** , en y remplacer la ligne :
+
+<file>Actions=compressHere;compressAsZip;compressAsRar;compressAsTar;compressTo;</file>
+
+par celle-ci :
+
+<file>Actions=compressHere;compressAs7zip;compressAsZip;compressAsRar;compressAsTar;compressTo;</file>
+
+Après le bloc de code <file>[Desktop Action compressHere]
+[...]
+Exec=ark --changetofirstpath --add --autofilename tar.gz %F</file>
+
+On ajoute le bloc de code suivant :
+
+<file>[Desktop Action compressAs7zip]
+Name=As 7zip Archive
+Name[ar]=ك أرشيف 7zip
+Name[ca]=Com a arxiu 7zip
+Name[cs]=Jako 7zip archív
+Name[da]=Som 7zip-arkiv
+Name[de]=Als 7zip-Archiv
+Name[el]=Αρχειοθήκη 7zip
+Name[en_GB]=As 7zip Archive
+Name[es]=Como archivo comprimido 7zip
+Name[et]=7zip-arhiivina
+Name[fr]=En tant qu'archive 7zip
+Name[hr]=Kao 7zip-arhiva
+Name[hu]=7zip archívumként
+Name[is]=Sem 7zip safnskrá
+Name[it]=Come archivio 7zip
+Name[ja]=7zip アーカイブに
+Name[km]=ជា​ប័័ណ្ណសារ 7zip
+Name[lv]=Kā 7zip arhīvu
+Name[nb]=Som 7zip-arkiv
+Name[nds]=As Zip-Archiev
+Name[nl]=Als 7zip-archief
+Name[nn]=Som 7zip-arkiv
+Name[pa]=7zip ਅਕਾਇਵ ਵਾਂਗ
+Name[pl]=Jako archiwum 7zip
+Name[pt]=Como Pacote 7zip
+Name[pt_BR]=Como arquivo 7zip
+Name[ro]=Ca arhivă 7zip
+Name[ru]=Как архив 7zip
+Name[sk]=Do 7zip archívu
+Name[sl]=Kot arhiv 7zip
+Name[sr]=као ЗИП архиву
+Name[sr@latin]=kao 7zip arhivu
+Name[sv]=Som 7zip-arkiv
+Name[tr]=7zip Arşivi Olarak
+Name[uk]=Як архів 7zip
+Name[x-test]=xxAs 7zip Archivexx
+Name[zh_CN]=为 7zip 归档
+Name[zh_TW]=成 7zip 壓縮檔
+Icon=utilities-file-archiver
+Exec=ark --changetofirstpath --add --autofilename 7z %F </file>
+
+- On sauve le fichier et on redémarre Konqueror ou Dolphin (ou n'importe quel programme utilisant ce service menu).
+
+== Q7Z (KDE 4) ==
+
+<note important>Vous allez installer un paquet non officiel. En outre, du fait que Ark gère les archives 7z, il n'est pas forcément nécessaire d'utiliser Q7z.
+</note>
+
+{{ application:applications:capture-q7z.png?300|}}\\
+
+Télécharger le fichier [[http://sourceforge.net/project/showfiles.php?group_id=177755&package_id=204816|.deb]] de la dernière version disponible de Q7Z sur [[http://k7z.sourceforge.net/7Z/Q7Z/]].
+Double-cliquez sur le .deb et l'installateur de paquet [[:Gdebi]] fera le reste. Ce paquet apparaîtra désormais dans la rubrique : //installés (locaux ou obsolètes)// de [[:Synaptic]].\\
+
+La compilation du paquet n'a pas inclus de fichier .desktop compatible avec les spécifications freedesktop utilisées par Ubuntu. Il faut donc créer une entrée dans le menu principal pour disposer d'un [[:raccourci-lanceur|raccourci]]. Pour cela, allez dans le menu //Système// puis //Préférences// puis //Menu principal//. Dans la colonne //Menus//, choisissez un menu pour rajouter le raccourci, puis cliquez sur //Nouvel Element// et complétez par les informations :\\
+
+  * Chemin de l'icône : /usr/share/icons/hicolor/32x32/apps/Q7Z.png\\
+  * Commande : /usr/bin/Q7Z.pyw\\
+
+{{application:applications:q7z.png|}}
+
+Site officiel : [[http://k7z.sourceforge.net/7Z/Q7Z/|Q7Z]]
+
+==PeaZip==
+
+  *Voir [[PeaZip]] 
+
+
+===== Voir aussi =====
+
+
+  * [[http://p7zip.sourceforge.net/|Site officiel de P7Zip]].
+  * **(en,fr)** [[http://www.7-zip.org/|Site officiel de 7-Zip]].
+  * Portail [[Archivage]]
+
+----
+
+//Contributeurs : [[utilisateurs:Id2ndR]], [[utilisateurs:Sploutch]], [[utilisateurs:Vicks]], [[utilisateurs:Mr_Djez]] , [[utilisateurs:Bob Philomene]]//

@@ -1,0 +1,147 @@
+{{tag>Xenial multimédia montage_vidéo}}
+
+----
+====== KDEnLive ======
+
+{{ :kdenlive_15-12.png?direct&300|}}
+
+**KDEnLive** (prononcez Ka-Dé-Euh-N'-Laïve, comme vous le feriez pour //Rock-N'-Roll//.) est un logiciel intermédiaire de **[[montage vidéo]]**. Il est capable d'édition non linéaire de vidéo et utilise le framework vidéo **[[http://www.mltframework.org|MLT]]** comme base. \\
+Il gère aussi de nombreuses pistes audio / vidéo, permet l'utilisation de transitions, d'effets vidéo et audio avec une interface claire et intuitive. \\
+Permet une très bonne utilisation du canal Alpha pour superposer des vidéos les unes sur les autres et ainsi faire du **[[wpfr>compositing]]**. \\
+Il a la particularité depuis sa version 0.7 d'accepter le format haute définition **[[wpfr>AVCHD]]**. C'est un logiciel libre sous licence **[[wpfr>Licence_publique_générale_GNU|GNU GPL]]**.
+
+<note help>
+La version stable de KDEnLive en 2013 est la version 0.9.10 (pour les versions d'Ubuntu jusqu'à la 14.04)
+Elle est par défaut dans la 14.04.
+Pour les versions 14.10 et plus récentes, la dernière version stable est la 15.12.1 (janvier 2016)
+La version stable sur Ubuntu 16.04 est la 16.12.1 (janvier 2017) 
+</note>
+
+===== Installation =====
+
+<note tip>Le support de KDEnLive (rapport de bug, par exemple) est seulement réalisé sur la version recommandée (KDEnLive 0.9.10 & MLT 0.9.x en février 2015). Le site officiel recommande fortement d'installer KDEnLive depuis le **[[ppa|dépôt PPA]]** "kdenlive/kdenlive-stable". **https://kdenlive.org/download**
+</note>
+<note importante>
+Sur les dernières versions de Kdenlive, l'**installation du paquet //libavcodec-extra//** semble résoudre pas mal de problèmes (dont des plantages)
+</note>
+<note importante>
+Le 19 janvier 2016: Avis aux utilisateurs de **Linux Mint 17** venant chercher des informations ici, la version incluse dans les dépôts Linux Mint 17 risque très fortement de ne pas fonctionner correctement, veuillez **installer la version du ppa:sunab/kdenlive-release**, pour résoudre le problème! 
+</note>
+
+==== Depuis les dépôts officiels ====
+
+Il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>kdenlive|kdenlive]]**.
+
+Les développeurs de KDEnLive recommandent fortement ((https://kdenlive.org/download-ubuntu)) d'utiliser la version stable ci-dessous pour les utilisateurs d'Ubuntu en version inférieure ou égale à 14.10.
+
+==== Depuis le dépôt PPA stable (Ubuntu 10.04 et suivants) ====
+
+Ce dépôt PPA non-officiel offre une version plus récente que celle des dépôts d'Ubuntu, qui est recommandée par les développeurs.
+[[ppa|Ajoutez à vos sources de logiciels un des dépôts PPA suivants]] : ''ppa:kdenlive/kdenlive-stable''((https://launchpad.net/~kdenlive/+archive/ubuntu/kdenlive-stable)) ou ''ppa:sunab/kdenlive-release''((https://launchpad.net/~sunab/+archive/kdenlive-release)), [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]], puis [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>kdenlive|kdenlive]]**.
+
+En clair, kdenlive + éléments de KDE pour les non-kubuntu :
+<code>sudo add-apt-repository -y ppa:kdenlive/kdenlive-stable && sudo apt update && sudo apt install -y kdenlive kde-runtime</code>
+===== Configuration =====
+
+==== Activer l'exportation aux formats XVid, MPEG4, MPEG2, Flash, etc. ====
+
+Pour pouvoir exporter vos vidéos aux formats XVid, MPEG4, MPEG2, Flash et autres, vous aurez besoin d'installer le paquet **[[apt>libavformat-extra-53|libavformat-extra-53]]** (Pour la 14.04 faire : **[[apt>libavformat-extra-54|libavformat-extra-54]]**).
+
+Une fois ce paquet installé, ces formats sont toujours grisés dans l'assistant de rendu de KDEnLive. Pour pouvoir les utiliser, il vous faudra relancer le logiciel, puis lancer l'assistant de configuration se trouvant dans le menu "Settings ou Configuration > Lancer l'assistant de configuration". Ensuite un nouveau redémarrage de KDEnLive s'impose pour pouvoir accéder à tous les formats.
+
+====Ajouter des plugins vidéo====
+
+Certains plugins vidéo ne sont pas installés par défaut (le flou rectangulaire, par exemple). Vous pouvez les installer depuis les dépôts officiels en installant le paquet **[[apt>frei0r-plugins|frei0r-plugins]]**.
+
+====Ajouter des plugins audio====
+
+Certains plugins audio ne sont pas installés par défaut. Vous pouvez les installer depuis les dépôts officiels en installant le paquet **[[apt>swh-plugins|swh-plugins]]**.
+
+====Installer le framework le plus récent====
+
+Ouvrez un terminal et copier/coller :
+
+   sudo apt-get install libmlt++3 libmlt-data libmlt6 php-mlt6
+
+
+=====Utilisation=====
+
+Lancez l'application depuis le menu Applications > Son et vidéo > KDEnLive ou via la commande ''kdenlive''.
+
+===== Problèmes connus =====
+
+==== KDEnLive à moitié en français, à moitié en anglais ====
+
+Quand vous ouvrez KDEnLive, si vous voyez que les menus Fichier et Edition sont en anglais, il suffit [[:tutoriel:comment_installer_un_paquet|d'installer le paquet]] **[[apt>kde-l10n-fr]]** \\
+ou d'ouvrir l'utilitaire de Prise en charge des langues pour résoudre ce problème.
+
+==== Pas d'acquisition V4l2 avec la version 0.7.8 de KDEnLive et Ubuntu 10.10 ====
+
+Dans la fenêtre du moniteur d'acquisition, la caméra **[[wpfr>Super VHS]]** n'est jamais reconnue (toujours déconnectée).
+Le périphérique audio par défaut est **/dev/dsp** et le format, **OSS**. Il faut changer le périphérique audio par la valeur **default** (à la place de **/dev/dsp**) et le format par ALSA. Si cela ne fonctionne pas essayez **hw:0,0** ou **hw:0,1**.
+En effet, le fichier dsp n'existe plus. Ceci engendre une erreur, le logiciel ne trouvant pas le périphérique d'acquisition.
+
+==== Pas de son ====
+
+  * Si le son ne marche pas, [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>libsdl1.2debian-all|libsdl1.2debian-all]]** (Attention, ceci désinstalle le paquet libsdl1.2debian-alsa). 
+  * Si le son ne marche toujours pas, allez dans la configuration de KDEnLive et choisissez le pilote audio **ALSA**.
+  * Pour une utilisation dans un environnement **[[GNOME]]**, voir la page **[[gstreamer#utilisation avec Kde4|GStreamer]]**.
+
+==== Problèmes avec le DV ====
+
+Si vous rencontrez des problèmes d'accès au **[[wpfr>Digital Video|DV]]**, utilisez la commande suivante dans un terminal :
+
+  sudo modprobe raw1394''
+
+et / ou
+
+  sudo chmod 777 /dev/raw1394
+
+====Problèmes en tout genre après une mise à jour de KDEnLive====
+
+Si KDEnLive fonctionne mal après une mise à jour, fermez-le et essayez de supprimer le [[fichier caché]] suivant :
+
+''/home/(votre nom)/.kde/share/config/kdenliverc''
+
+puis relancez KDEnLive.
+
+====Problème d'affichage====
+
+Sous Ubuntu **[[Lucid|10.04 LTS]]**, KDEnLive 0.7.8 fait des caprices d'affichage lorsque l'on détache une fenêtre (clip, projet, arborescence) et que les boutons de celle-ci disparaissent. [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>systemsettings|systemsettings]]** (il s'agit de l'outil de configuration du système de **[[KDE]]**).
+
+Lancez ensuite **System Settings** depuis le menu //Système > Préférences//. S'il ne s'y trouve pas ((sous Ubuntu, certains lanceurs d'applications KDE ne sont affichés dans les menus qu'après un redémarrage.)), ouvrez-le avec la commande :
+
+  systemsettings
+
+Dans **Apparence (appearance)**, rubrique **Style des éléments graphiques (Widget style)**, choisissez **GTK+** et appliquez.
+
+
+----
+
+**Sous Ubuntu 16.04**, si les thèmes ne passent pas, il peut vous manquer des éléments KDE. 
+  * Installez le dépôt **[[apt>kde-runtime|kde-runtime]]**
+  * **Vidéo**: [[https://www.youtube.com/watch?v=HqTJauWE9Eo|kdenlive : icones manquantes et thèmes KDE]] 
+==== Rendu partiel  avec les Clips intermédiaires activés====
+
+J'ai été confronté à un bug aléatoire dans le rendu de certains effets mixant plusieurs clips. Les effets étaient correctement prévisualisés, mais ils étaient absents du fichier vidéo exporté. Le simple fait de désactiver l'utilisation des clips intermédiaires dans les préférences du projet a permis un export correct du montage.
+
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leur dossier personnel sont toujours conservés.
+
+===== Voir aussi =====
+
+  * **(en)** **[[http://kdenlive.org/|Site officiel]]**
+  * **(fr)** Discussion **[[http://forum.ubuntu-fr.org/viewtopic.php?id=227141|Installation de Kdenlive]]** sur le forum Ubuntu-FR
+  * **(fr)** Un [[http://www.funix.org/fr/linuxdoc/video/tutorial-kdenlive.pdf|tutoriel complet de 31 pages en PDF sur le site de Funix]]
+  * **(fr)** **[[http://fr.lprod.org/wiki/doku.php?id=video:kdenlive|LProd.org]]**, site de vidéo 100% libre sous **[[GNU]]** / **[[Linux]]**, section KDEnLive
+  * **(fr)** **[[http://fr.wikibooks.org/wiki/Kdenlive|WikiBook consacré à KDEnLive]]**
+  <del>* **(fr)** **[[http://www.cyrille-borne.com/index.php?post/2008/05/17/kdenlive-tutoriel-dutilisation-partie-1|Tutoriel français d'initiation à KDEnLive]]**. Attention, il y a 4 articles à la suite.</del>
+  * **[[http://www.lprod.org/wiki/doku.php/association:livre_eyrolles|Livre "montage audio-vidéo libre" Editions Eyrolles - Ecrit par lprod.org]]**
+  * **Vidéo**: [[https://www.youtube.com/watch?v=Os6JOqVXzJ0|Kdenlive : Montage Vidéo / Présentation et Bases]]
+  * **Vidéo**: [[https://www.youtube.com/watch?v=fR_k-1Nc33g|Kdenlive : Fond vert | bleu | Chroma Key | Incrustation.]]
+
+----
+
+//Contributeurs : [[utilisateurs:olabomba]] (légère simplification), [[utilisateurs:juolive|juolive]], [[utilisateurs:laurentb|L. Bellegarde]]//    [[utilisateurs:Thebloodlife]] (Correction)

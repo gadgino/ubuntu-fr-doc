@@ -1,0 +1,167 @@
+{{tag>Precise Trusty Xenial diaporama montage_vidéo}}
+----
+ {{ :logoffdiaporama.png?150|}}
+====== ffDiaporama : Créateur de film ======
+ 
+
+Disponible sous %%GNU/Linux%% en licence libre ([[http://www.gnu.org/licenses/old-licenses/gpl-2.0.html|LGPL v2.0]]), **ffDiaporama** est une application pour monter et transformer ses films et photos de vacances en film pouvant être visualisés sur smartphone, tablette, TV, iPod, etc. ou être publiés sur le Web.
+
+Le principe de fonctionnement de ffDiaporama repose sur des diapositives qui sont affichées les unes après les autres.
+  * Chaque diapositive possède une transition entrante. Chaque transition possède sa propre durée.
+  * Chaque diapositive possède une durée qui lui est propre. Certaines peuvent ne durer que quelques secondes alors que d'autres peuvent durer plusieurs minutes.
+  * Chaque diapositive est une composition. C’est-à-dire un assemblage de un ou plusieurs éléments multimédia qui sont animés dans le temps.
+  * Chaque diapositive peut définir un nouvel arrière-plan (fond d’écran) ou une nouvelle liste de lecture de fichiers musicaux. 
+  * Chaque diapositive est définie avec de 1 à plusieurs plans. Chaque plan possède sa propre durée (Certains plans peuvent ne durer que quelques secondes alors que d'autres peuvent durer plusieurs minutes et que certains peuvent avoir une durée égale à 0).
+  * Les plans peuvent contenir plusieurs objets multimédia. Les objets multimédia sont intégrés dans des blocs qui peuvent être de type titre (ne contenir que du texte), de type image (ou photo) ou de type vidéo.
+  * Les plans sont transparents. C'est à dire que si l’image obtenue ne remplit pas tout l'écran, l'arrière-plan (fond d’écran) apparaîtra.
+  * La définition des objets de chaque bloc peut varier d’un plan à l’autre. (Les plans définissent l’organisation des blocs (objets multimédia) à un instant donné. Les animations de plans sont générées par la transformation des organisations d’un plan à un autre. Concrètement, si dans un premier plan, une photo occupe tout l’écran, puis n’occupe qu’une petite partie de l’écran dans le plan suivant, alors l’animation consistera en la transformation de la photo de tout l’écran (plan précédent) vers la petite partie de l’écran  au plan suivant).
+
+{{:imageanimation.png?470|}} {{:imagecorrection.png?300|}}
+
+<note>
+  * ffDiaporama peut gérer jusqu'à plusieurs centaines de diapositives dans un seul montage.
+  * Chaque diapositive peut être composée de plusieurs (dizaines) de plans.
+  * Chaque diapositive peut contenir plusieurs (dizaines) de blocs. Les blocs peuvent être visibles sur certains plans et invisibles sur d’autres plans.
+  * ffDiaporama permet de régler tous les paramètres de génération de vidéo (codec, bitrate, etc.) et contient également une base de données d'équipements avec plus de 50 profils pré-définis (iPod, iPhone, tablette Android, etc.)
+</note>
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+ 
+
+===== Installation =====
+
+==== Depuis les dépôts Ubuntu ====
+
+Pour l'installer la version présente dans les dépôts, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>ffdiaporama|ffdiaporama]]**
+
+----
+
+
+
+==== Installer la version 2 sur Ubuntu 16.04 Xenial ====
+
+<note><note important>Sous Ubuntu 16.4 Xenial il n'y a que la version 1.5 qui est disponible dans les dépôts.
+
+Les ppa ne diposent pas de la version 2 pour Xenial !</note></note>
+
+Pour installer la version 2 stable sur Ubuntu 16.04 par la compilation suivre les indications ci dessous données sur le forum : [[https://forum.ubuntu-fr.org/viewtopic.php?pid=21578487#p21578487]]
+
+
+----
+
+
+**Pour la compilation étapes à suivre (traduction du site)**
+
+Aller ici [[https://github.com/JonasCz/ffdiaporama-1604-builds]] cliquer sur Clone or download (les fichier sont patchés)
+
+Décompresser l'archive dans ce dossier seul le dossier ffDiaporama-source nous concerne.
+Installer le dépendances nécéssaires à la compilation.
+
+
+<code>sudo apt-get install libqt5multimedia5-plugins libtag1-dev libssh-dev libssl-dev libcurl4-openssl-dev libcurlpp-dev libcurlpp0 libqgsttools-p1 libqt5multimediaquick-p5 qtmultimedia5-dev build-essential libavcodec-dev libavdevice-dev libavfilter-dev libavformat-dev libavresample-dev libexiv2-dev libflac-dev libswscale-dev qt5-image-formats-plugins qt5-qmake libqt5quickwidgets5 libsdl-image1.2-dev libsdl-mixer1.2-dev qt5-default qttools5-dev-tools qttools5-dev libqt5svg5-dev libqt5help5 libqt5sql5-sqlite</code>
+
+Pour la compilation aller dans le dossier **.../ffdiaporama-1604-builds-master/ffDiaporama-source/ffDiaporama/src/ffDiaporama**
+   
+
+<code>qmake ffDiaporama.pro /PREFIX=/usr
+make</code>
+
+Installation:
+
+<code>sudo make install</code>
+
+
+----
+
+
+Pour les ressources **/ffDiaporama-source/ffDiaporama_rsc**
+   
+
+<code>qmake ffDiaporama_rsc.pro /PREFIX=/usr
+make install</code>
+
+
+
+Une autre possibilité pour installer la version 2 stable sur Ubuntu 16.04 aller : [[http://ffdiaporama.tuxfamily.org/Forum/viewtopic.php?pid=4557#p4557]]
+voir le topic de phd21
+
+télécharger
+
+ffdiaporama_2.2-1_amd64.deb
+https://docs.google.com/uc?id=0B7SC-EcWrCpacGJyVGEzRHN1VE0&export=download
+
+ffdiaporama-rsc_2.2-1_amd64.deb
+https://docs.google.com/uc?id=0B7SC-EcWrCpaNFdVZGRRd2RXOWM&export=download
+
+installer le fichier deb rsc en premier
+
+
+----
+
+
+==== Depuis un PPA pour Ubuntu 12.04 et 14.04 ====
+<note important>Installer un paquet hors des dépôts officiels peut présenter un risque d'instabilité de votre système.</note>
+
+Pour installer la **ffdiaporama version 2** sur [[:trusty|Trusty 14.04]] utiliser le ppa ci dessous.
+
+**ffdiaporama** n'est pas disponible dans les dépôts officiels pour [[:precise|Precise 12.04]]. Dans ce cas, utiliser le [[#Depuis un PPA|PPA ci-dessous]]
+
+=== Version stable ===
+Ce [[ppa|dépôt PPA]] vous propose la  dernière version stable de **ffdiaporama**.
+  * [[:PPA|Ajoutez le PPA]] **ppa:ffdiaporamateam/stable**((https://launchpad.net/~ffdiaporamateam/+archive/stable)) dans vos sources de logiciels.
+  * [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste des paquets]].
+  * [[:tutoriel/comment_installer_un_paquet|Installez le paquet]] **[[apt>ffdiaporama]]**
+
+
+Ou dans un [[:terminal]], saisir les [[:commande_shell|commandes]] suivantes :
+<code>sudo add-apt-repository ppa:ffdiaporamateam/stable
+sudo apt-get update
+sudo apt-get install ffdiaporama</code>
+==Extensions==
+Des [[http://ffdiaporama.tuxfamily.org/?page_id=9273&lang=fr|extensions (Texturemate et Openclipart)]] pour cette version sont disponibles depuis ce PPA. 
+  * Pour utiliser Texturemate, [[:tutoriel/comment_installer_un_paquet|installez le paquet]] **[[apt>ffdiaporama-texturemate]]**
+  * Pour utiliser Openclipart, [[:tutoriel/comment_installer_un_paquet|installez le paquet]] **[[apt>ffdiaporama-openclipart]]**
+
+
+----
+
+=== Version en développement ===
+
+<note warning>Les versions en développement peuvent rendre instable votre système. Elles doivent être réservées aux utilisateurs avertis. Utiliser une version en développement permet de faire remonter les bugs rencontrés.</note>
+
+  - [[:ppa#ajout_d_un_ppa_a_vos_sources_logicielles|Ajoutez à vos sources de logiciels le PPA]] suivant : **ppa:ffdiaporamateam/daily**((https://launchpad.net/~ffdiaporamateam/+archive/daily)),
+  - [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]]
+  - [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>ffdiaporama]]**. \\
+Ou dans un [[terminal]], saisir les [[:commande_shell|commandes]] suivantes :
+ <code>sudo add-apt-repository ppa:ffdiaporamateam/daily
+sudo apt-get update
+sudo apt-get install ffdiaporama</code>
+
+
+===== Utilisation=====
+Lancer l'application depuis le [[:unity#tableau_de_bord_dash|tableau de bord]] d'Unity. 
+Via la [[:unity-lens|loupe]] //application -> filtrer les résultats → Multimédia//. \\
+Vous trouverez dans la rubrique "aide" du [[http://ffdiaporama.tuxfamily.org/?lang=fr|site officiel]] un excellent wiki pour vous aider dans vos premiers pas.
+=====Problèmes connus=====
+====ffdiaporama en anglais====
+Si votre interface se retrouve en anglais, lancez l'application avec la commande : <code>ffDiaporama -lang=fr</code> le prochain démarrage sera normalement en français.
+Autre possibilité, il est possible que lors de l'installation vous n'étiez pas connecté à internet, ce qui a empêché ffdiaporama de télécharger le fichier le langue. Essayer de le réinstaller avec une connexion internet.
+
+====Décalage audio/image====
+Après l'exportation il est possible que vous ayez un décalage entre l'audio et la vidéo, surtout si vous avez inséré des vidéos. Pour éviter cela à la fin de votre montage exporter uniquement la bande son et réintégrez cette bande son dans votre diaporama.
+
+===== Désinstallation =====
+ 
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+ 
+===== Voir aussi =====
+ 
+  * **(fr/en)** [[http://ffdiaporama.tuxfamily.org/?lang=fr|Site officiel]]
+   * **(fr)** [[http://tvb2016.pagesperso-orange.fr/ff/co/siteWeb.html|« ffDiaporama, point de vue utilisateur »]], le blogue d'un utilisateur avec une section tutoriels
+   * **(fr)** [[http://download.tuxfamily.org/ffdiaporama/TutoBook/ffDiaporama_tuto_fr.pdf|« tuto au format pdf »]], un tutoriel
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=458091|discussion « Transformer vos photos et vidéos de vacances en film »]] sur le forum Ubuntu-fr
+
+----
+//Contributeurs principaux : domledom.

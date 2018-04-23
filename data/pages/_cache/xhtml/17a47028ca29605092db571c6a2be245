@@ -1,0 +1,98 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#introduction" class="toc"> Introduction </a></span></li>
+<li class="level1"><span class="li"><a href="#installation" class="toc"> Installation </a></span></li>
+<li class="level1"><span class="li"><a href="#post_installation" class="toc"> Post installation </a></span></li>
+</ul>
+</div>
+</div>
+<pre class="code"> 
+Version Warty et Hoary
+</pre>
+
+<a name="introduction"></a><h1> Introduction </h1>
+<div class="level1">
+
+<p>
+ <strong>Virtual PC</strong> est un emulateur de machine x86 qui existe pour les <acronym title="Operating System">OS</acronym> windows et Mac Os 9.x et 10.x . Actuellement est disponible Virtual PC 2004 pour les windows et Virtual PC 7 pour les Mac Os 10 (capable de fonctionner sur G5): <a href="http://www.microsoft.com/france/windows/xp/virtualpc/default.mspx" class="urlextern" title="http://www.microsoft.com/france/windows/xp/virtualpc/default.mspx" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">site de microsoft</a>
+</p>
+
+</div>
+<!-- SECTION [41-388] -->
+<a name="installation"></a><h1> Installation </h1>
+<div class="level1">
+
+<p>
+ Pour l&rsquo;installation d&rsquo;Ubuntu dans l&rsquo;environnement virtuel, booter sur le CD d&rsquo;installation via la procédure de Virtual PC. Puis suivre les instructions de la page <a href="/installation/accueil" class="wikilink1" title="installation:accueil" onclick="return svchk()" onkeypress="return svchk()">Installation</a>.
+</p>
+
+</div>
+<!-- SECTION [389-621] -->
+<a name="post_installation"></a><h1> Post installation </h1>
+<div class="level1">
+
+<p>
+ Pour faire fonctionner <strong>Ubuntu</strong> sur <strong>VirtualPC</strong>, vous devez faire quelques changements manuellement.
+</p>
+
+<p>
+La configuration automatique d<strong>&rsquo;XFree86</strong> d&rsquo;Ubuntu, pendant l&rsquo;installation, demande à l&rsquo;utilisateur quelles résolutions il voudrait pour l&rsquo;écran par défaut. <strong>Xfree86</strong> est automatiquement placées à <strong>24-bpp</strong>, et le  virtualPC 2004 ne soutient pas l&rsquo;intensité de la couleur 24-bpp.
+</p>
+
+<p>
+Dans la pratique, ceci a comme conséquence que l&rsquo;affichage de l&rsquo;ecran est déformés quand le <strong>serveur X </strong>démarre .  Pour fixer ce problème, vous pouvez manuellement changer l&rsquo;intensité de la couleur de défaut paramêtrée dans le fichier de configuration du serveur X (Warty &rArr; XFree86 ; Hoary &rArr; Xorg ).
+</p>
+
+<p>
+Ces instructions supposent que vous avez installé Ubuntu comme système d&rsquo;exploitation  normalement, puis rebooter, et  vu les déformations graphiques.
+</p>
+<ol>
+<li class="level1"><span class="li"> Dans Microsoft Virtual PC, selectionner <strong>Action&ndash;&gt;Reboot the virtual machine</strong>.</span>
+</li>
+<li class="level1"><span class="li"> Au prompt GRUB , appuyez sur ESC .</span>
+</li>
+<li class="level1"><span class="li"> Choisissez l&rsquo;option dans GRUB pour le mode <strong>recovery</strong> , et attendre qu&rsquo;Ubuntu est booter sur un shell. </span>
+</li>
+<li class="level1"><span class="li"> Tapez: su root (tapez le mot de passe root, puis les commandes suivantes).</span>
+</li>
+</ol>
+
+<p>
+<br/>
+ <br/>
+ Bien sur utilisez l&rsquo;éditeur de texte que vous connaissez, pour nano voir <a href="/applications/nano" class="wikilink1" title="applications:nano" onclick="return svchk()" onkeypress="return svchk()">nano</a>: 
+</p>
+<pre class="code">
+      cd /etc/X11
+      nano -w XF86Config-4      ### pour Warty
+      nano -w xorg.conf         ### pour Hoary
+</pre>
+
+<p>
+Attention au majuscules minuscules !!!
+</p>
+
+<p>
+Maintenant, dans le fichier ouvert avec emacs cherchez la section &ldquo;Screen&rdquo;  et trouvez l&rsquo;entrée appelé &ldquo;DefaultDepth&rdquo;.  Changez les paramètres que vous trouvez là de 24 à 16. 
+</p>
+<ul>
+<li class="level1"><span class="li"> Tapez ctrl-O pour sauvegarder les modifications</span>
+</li>
+<li class="level1"><span class="li"> Tapez ctrl-X pour sortir de nano</span>
+</li>
+<li class="level1"><span class="li"> Redémarrez VirtualPC encore comme décrit dans l&rsquo;étape 1.</span>
+</li>
+</ul>
+
+<p>
+ La machine virtuelle devrait maintenant démarrer, avec succès, sur l&rsquo;écran d&rsquo;ouverture d&rsquo;Ubuntu.
+</p>
+
+<p>
+ Création/Adaptation <a href="/utilisateurs/manu" class="wikilink1" title="utilisateurs:manu" onclick="return svchk()" onkeypress="return svchk()">Manu</a> 
+</p>
+
+</div>
+<!-- SECTION [622-] -->

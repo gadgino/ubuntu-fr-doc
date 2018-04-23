@@ -1,0 +1,109 @@
+{{tag>portail}}
+
+----
+
+====== Infonuagique ======
+
+{{http://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Cloud_computing.svg/300px-Cloud_computing.svg.png  |Représentation de l'informatique en nuage: l'usager accède aux divers services maintenus par des organisations externes.}}
+
+Le concept d'(//[[wpfr>cloud computing|infonuagique]]//)((Les noms officiels en français sont **infonuagique**, **informatique dans le nuage**, **informatique en nuage**, ou encore **informatique dématérialisée**)) consiste en la déportation sur des serveurs distants des traitements informatiques ou du stockage des informations traditionnellement localisés sur les postes des utilisateurs. Dans les schémas conceptuels informatiques, le symbole du nuage est généralement utilisé pour représenter Internet ; le nom de ce concept évoque donc que les services clients sont externalisés vers le nuage (Internet).
+
+Ce qui différencie principalement le modèle d'infonuagique d'autres modèles précédemment établis est que le traitement ne s'effectue pas en un endroit géolocalisé précis. Par exemple, une boîte de courriel pourrait être physiquement stockée en partie dans des serveurs à Paris, en partie dans des serveurs à New York, en partie dans des serveurs à Tombouctou... mais lorsqu'un usager accède à cette boîte, il la voit en intégralité exactement comme si elle était physiquement contenue dans une seule machine.
+
+Pour le particulier, il est donc difficile d'implanter sa propre architecture d'infonuagique, puisqu'il ne dispose généralement pas des ressources (matérielles et financières) pour maintenir plusieurs serveurs connectés à de nombreux endroits différents à travers le monde. Les utilisateurs finaux sont davantage des clients de plus grandes organisations fournissant des services d'infonuagique. Pour cette raison, ce concept est vu comme une évolution majeure par certains analystes et est crainte par d'autres.(([[http://www.guardian.co.uk/technology/2008/sep/29/cloud.computing.richard.stallman|Cloud computing is a trap, warns GNU founder Richard Stallman]]))
+
+Les entreprises disposant de moyens suffisants peuvent, en revanche, monter leur propre "nuage", afin d'offrir une architecture évolutive à leurs employés et leurs clients. Ce nuage peut alors être public (accessible à l'extérieur de l'entreprise) ou privé (restreint aux limites de l'entreprise).
+
+
+===== Services disponibles en infonuagique =====
+Outre les services cités ci-dessous, on peut citer des espaces de travail collaboratifs, tels qu'[[http://agora-project.net|Agora]]. Plus simplement, les Wiki ou les CMS, bien qu'orientés vers la diffusion d'information plus que vers le stockage et l'échange, constituent parfois des alternatives à considérer.
+==== Stockage de fichier ====
+Le stockage de fichiers est probablement l'un des services les plus connus déporté dans le nuage. Les services de stockage disposent de fermes de serveurs à plusieurs endroits dans le monde et enregistrent vos fichiers à plusieurs endroits, de manière à ce que vous y ayez accès de n'importe quel ordinateur, n'importe où sur la planète. Tout ce dont vous avez besoin, c'est d'un logiciel pour accéder à votre espace de stockage ou d'un navigateur Web.
+
+//Afin que la liste suivante ne devienne pas une vitrine publicitaire, nous nous limiterons à lister des services qui disposent d'un client particulier installable dans Ubuntu. Pour une liste plus complète de services de stockage en ligne, [[wp>Comparison_of_file_hosting_services|consultez Wikipedia]].//
+
+  * [[DropBox]]
+  * [[http://mega.co.nz|MEGA]], un nouveau service de stockage de fichier proposant une capacité de 50Go gratuit et illimité dans le temps. Disposant également d'un soft convivial  ainsi que des addons pour firefox et chrome/chromium et nautilus. Vous pouvez également mettre vos fichier dans un dossier de partage (auto?).
+  * [[Owncloud]] : [[http://owncloud.org/|Site]], Service de stockage et de partage de fichiers sur son propre serveur. Projet officiel de KDE, faisant partie du [[http://www.socialdesktop.org/|social desktop]].
+  * [[ubuntuone|Ubuntu One]] -> le service a fermé définitivement le 31 juillet 2014
+  * [[Sparkleshare]]
+  * [[spideroak|SpiderOak]] - service de stockage et de partage de fichier entièrement crypté, sans possibilité pour un tiers de récupérer la clé de chiffrement. 
+  * [[hubic|hubiC]] Service de stockage de fichier proposé par OVH.
+  * [[http://seafile.com/en/download/|Seafile]] - Serveur de sauvegarde de données (Dropbox-like) avec synchronisation sur plusieurs machines, création de groupes de collaboration - client disponible pour Linux, Windows, OSX, Android et iOS
+  * [[http://dmeloni.github.io/picloud/|PiCloud]] - Service de stockage et de synchronisation qui se veut le plus simple possible.
+
+
+=== Stockage de fichiers distribué ===
+Certains systèmes de stockage de fichiers fonctionnent selon [[p2p|le modèle pair-à-pair]], ce qui a pour avantage de vous affranchir du contrôle d'une entreprise. Plutôt que de confier vos données à une seule entreprise qui gère un ensemble de fermes de stockage, celles-ci se retrouvent enregistrées en petites parties sur des milliers d'ordinateurs comme vous. Vos fichiers, toujours chiffrés, se retrouvent répliqués sur de très nombreux ordinateurs, ce qui garantit une accessibilité proche de 100%. Ce modèle est économique et avantageux : plus il y a de gens qui participent au stockage distribué, plus il y a d'espace disponible pour l'ensemble des usagers et moins il est nécessaire de maintenir d'énormes fermes de serveurs énergivores.
+
+Quelques exemples de systèmes de stockage de fichiers distribués installables et utilisables dans Ubuntu :
+  * [[Tahoe-LAFS]] ([[http://tahoe-lafs.org/trac/tahoe-lafs|site]])
+  * [[Freenet]]
+  * [[GNUnet]]
+  * [[http://offload.sourceforge.net/|OFF Load]]
+  * Voir aussi [[http://en.wikipedia.org/wiki/Distributed_data_store|Distributed data store]] et [[http://en.wikipedia.org/wiki/List_of_file_systems#Distributed_file_systems|Distributed file systems]]
+  * [[BitTorrentSync|BitTorrent Sync]] : Synchroniser des répertoires entre plusieurs machines (Multi OS & Mobile) en local & Internet, Crypté AES-256
+=== Stockage temporaire ===
+Les systèmes de dépôts de fichiers, comme ceux d'[[http://demo.ovh.eu|OVH]] ou de [[http://dl.free.fr|Free]], peuvent aussi être considéré comme des espaces de stockage en ligne. Leur principe est d'être limité dans le temps (typiquement 1 mois), et le contrôle d'accès se fait par l'utilisation d'une URL complexe qui doit être communiquée aux personnes autorisées à accéder au contenu.
+
+Certains sites proposent d'ailleurs de basculer de ce type d'espace, volatile, vers un espace de stockage traditionnel.
+==== Réseaux sociaux en nuage ====
+Les [[réseau social|réseaux sociaux]] sont extrêmement populaires de nos jours. Cependant, ceux-ci sont généralement contrôlés par une seule entreprise, qui réutilise vos informations personnelles afin de se financer (par la publicité ciblée, par la personnalisation d'applications Web, etc.). Les réseaux sociaux en nuage fonctionnent plutôt, tout comme pour le stockage de fichiers distribué, en petites parties sur des milliers d'ordinateurs comme vous. Vos informations sont sous votre contrôle unique : elles sont accessibles à ceux que vous autorisez, mais demeurent stockées dans votre propre ordinateur. Ce modèle est aussi économique et avantageux : il n'est plus nécessaire de maintenir d'énormes fermes de serveurs énergivores.
+   * [[https://wiki.diasporafoundation.org/Installation/Ubuntu/Trusty|Diaspora]]
+
+
+==== Bases de données dans le nuage ====
+Les bases de données stockées en nuage ont comme caractéristiques de se répliquer entre plusieurs serveurs, mais de pouvoir fonctionner de manière individuelle lorsque celles-ci sont coupées des autres serveurs. Lorsqu'un accès aux autres serveurs est restaurée, la base de données envoie et reçoit les modifications apportées depuis la coupure de contact précédente.
+  * [[CouchDB]]
+
+
+====Systèmes d'exploitation et systèmes de jeux dans le nuage ====
+  * **eyeOS*** : un bureau virtuel sur votre navigateur
+  * **OpenVirtualDesktop** : le bureau virtuel en source libre d'Ulteo Linux sur votre navigateur 
+  * **phpvirtualbox**
+  * Voir aussi [[programmation#transformation_cc_ou_autres_vers_javascript_html|Transformation C/C++ (ou autres ) vers javascript / html]] et [[developpement_de_jeux_video#html_5_javascript]]
+
+==== Systèmes de calculs dans le nuage ====
+
+Voir aussi [[calcul collaboratif]]
+
+==== Informatique décisionnelle et veille informatique ====
+   * [[http://code.google.com/intl/fr/apis/predict/|Google Prediction API]]
+   * [[https://www.recordedfuture.com/|Recorded future]]
+  
+===== Licences libres adaptées à l'infonuagique et aux applications Web =====
+Les licences libres ne sont pas toutes adaptées au contexte relativement récent de l'infonuagique. La licence GNU GPL, par exemple, permet de mettre en place un service sur une base de logiciels libres, mais autorise à effectuer des modifications au code des logiciels sans avoir à les reverser à qui souhaite avoir accès à ces modifications tant que les logiciels modifiés ne sont pas téléchargeables. En effet, la licence GNU GPL oblige à divulguer les modifications uniquement si les logiciels modifiés sont redistribués ; dans l'infonuagique, les logiciels utilisés par les services sont rarement redistribués : ils ne sont que proposés en utilisation aux clients. Cette pratique est malheureusement courante, en parfaite contradiction avec l'esprit du logiciel libre, mais absolument légale.
+
+Certaines licences libres ont été adaptées aux nouvelles réalités de l'infonuagique. **[[http://en.wikipedia.org/wiki/Affero_General_Public_License|La licence Affero General Public License (AGPL)]]**, par exemple, est une adaptation de la licence GNU GPL tenant compte du cas de figure des services en ligne construits sur la base de logiciels libres. Ainsi, si un service dans le nuage utilise un logiciel libre publié sous licence AGPL, si le service est public, alors les modifications apportées au logiciel en question doivent être accessibles et redistribuées sous une même licence AGPL compatible.
+  * [[wpen>List_of_AGPL_web_applications|Liste des applications web sous licence agpl]]  
+
+
+=====Voir aussi=====
+  * [[entreprise#solutions_logiciels_pre-installees|Les solutions logiciels pré-installées : pour faire de la virtualisation, sur vos propres serveurs]] : installation ultra rapide.
+  * [[http://www.framablog.org/index.php/post/2009/04/14/stallman-le-piege-javascript|Le piège JavaScript par Richard Stallman]] (framablog)
+  * [[Virtualisation]], [[streaming]]
+  * Les [[dns]] distribués
+  * [[liste_de_services_web_libres]]
+  * [[http://www.gnu.org/philosophy/who-does-that-server-really-serve.html|Who does that server really serve?]] Richard Stalman : sur Internet, les logiciels propriétaires ne sont pas la seule façon de perdre votre liberté. Le nuage et le logiciel-service (SAAS) est une autre façon de laisser quelqu'un d'autre avoir le pouvoir de votre informatique.
+  * [[http://www.opencloudmanifesto.org/|Open cloud manifesto]]
+  * [[http://philippe.scoffoni.net/red-hat-citrix-cloud-computing-open-source-annonces-rentree/|Red Hat, Citrix et cloud computing open source, les annonces de la rentrée]]
+
+
+=== À ranger : ===
+  * [[OwnCloud]] (kde) ([[http://owncloud.org/index.php/Main_Page|site]]) projet officiel de kde, faisant partie de [[http://www.socialdesktop.org/|social desktop]]
+
+À ranger ( solutions professionnelles ) :
+  * [[OpenStack]] ([[http://www.openstack.org/|site]]) (nasa, dell, intel ).
+  * [[http://www.ubuntu.com/cloud|Offre Canonical]]
+    * [[http://www.canonical.com/enterprise-services/ubuntu-advantage/landscape/cloud-management|Landscape]]
+    * [[https://help.ubuntu.com/community/UEC|Eucalyptus]]: un outil permettant de construire des infrastructures d'infonuagique sur la base de serveurs en grappe
+  * **Compatible One**: vise à développer une solution complète de nuagiciel sous licence libre, en intégrant et adaptant différents logiciels des partenaires du projet, entre autres. Compatible One a l'ambition de permettre à chacun, de créer, déployer et administrer des nuages privés, publics ou hybrides à faible coût offrant des services de tous types (infrastructure-service, plateforme-service et logiciel-service)
+  * **Easy SOA**: vise à concevoir et fournir une plate forme d'intégration AOS libre et des outils associés d'administration et de supervision permettant de répondre aux attentes des utilisateurs métiers, des développeurs et des exploitants dans le respect des standards d'interopérabilité et en se reposant sur des composants libres largement diffusés.
+  * **Joyent/Reasonably Smart** : Joyent a fait l'acquisition de Reasonably Smart une plate-forme basée sur JavaScript et Git. Les applications sont développées en HTML pour l'interface et en javasccript pour la partie serveur et disposent d'outils pour stocker les données. Des cadres d'applications peuvent être clonés pour permettre la mise au point rapide de blog ou de wiki par exemple. Une fois développée l'application n'a plus qu'à être déployée sans ce soucier de l'infrastructure nécessaire à son fonctionnement.
+**[Globus Nimbus** : une boite à outils en code libre permettant de transformer une grappe de serveurs en nuage. Nimbus vient de libérer une nouvelle version. Cet outil s'appuie sur l'hyperviseur XEN et une version supportant KVM est en cours de développement.
+  * **Reservoir**. Selon Ignacio Martin Llorente, Reservoir est la principale initiative européenne de recherche sur les infrastructures virtualisées et l'infonuagique. Il ajoute :  "L'objectif principal de ce projet est de développer une technologie open source pour permettre le déploiement et la gestion de services IT complexes. Son approche open source doit permettre la définition de standards ouverts afin de casser les verrous imposés par les offres actuelles et ainsi offrir à n'importe quelle société la possibilité de déployer une infrastructure d'infonuagique privée ou public."
+  * [[open-nebula]]  OpenNebula 1.2 supporte les plate-formes de virtualisation Xen et KVM ainsi que le service sur demande d'Amazon EC2. Parmi ses fonctionnalités : gestion centralisée des machines virtuelles et des ressources physique, répartition de charges, extension des capacités par ajout de serveurs physique.
+
+----
+
+//Contributeurs :  [[:utilisateurs:psychederic|Psychederic]]//.

@@ -1,0 +1,40 @@
+{{tag>vidéo webtv tv}}
+
+----
+
+====== Livestation ======
+Livestation est un programme sous licence propriétaire mais gratuit qui permet d'avoir accès à de très nombreuses webtv mondiales.
+
+===== Pré-requis =====
+Avoir l'accélération 3D activée.
+
+Fonctionne mieux avec les cartes graphiques nvidia. Avec les cartes ATI ou Intel, on risque d'avoir une dégradation de l'affichage. Il est alors recommandé de désactiver les effets visuels/compiz (clic droit sur le bureau -> changer l'arrière plan -> Effets visuels). De manière générale, fonctionne mieux sans compiz, quelle que soit sa carte graphique !
+
+Avoir les codecs pour les principaux flux multimédia (cf : [[:gstreamer]] pour ubuntu ou [[:xine]] pour kubuntu).
+
+===== Installation =====
+<note>Des packages pour Ubuntu (au format .deb) sont désormais disponibles sur le site de Livestation : [[http://www.livestation.com/downloads|http://www.livestation.com/downloads]]
+</note>
+  * Télécharger le fichier binaire [[http://www.livestation.com/downloads?tracker=top_nav|sur cette page]].
+  * Dans un terminal, 
+<code>cd DossierOùEstLeFichierTéléchargé
+chmod +x ./Livestation* # le "*" est pour éviter de taper Livestation-2.7.0.run
+sudo ./Livestation*</code>
+  * q pour éviter d'afficher tout le contrat de licence
+  * y pour accepter la licence
+  * puis "Entrée" pour tous les choix proposés (le dossier d'installation et le lien symbolique).
+
+===== Utilisation =====
+  
+Lancer Livestation en tapant: 
+
+  livestation
+
+Vous pouvez ensuite, [[raccourci-lanceur|créer un lanceur]] contenant cette commande.
+
+A la première utilisation, on vous demandera un email et un mot de passe qui permettra de sauvegarder vos préférences (Vos canaux TV préférés). Si vous cochez : mémoriser mon mot de passe et se connecter automatiquement, il ne vous sera plus demandé.
+
+{{:livestation.png|}}
+
+===== Lien =====
+[[http://www.livestation.com/|Site officiel de Livestation (en)]]

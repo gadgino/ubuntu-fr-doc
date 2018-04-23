@@ -1,0 +1,229 @@
+{{tag>Maverick matériel audio vidéo baladeur}}
+----
+
+
+
+====== Creative Zen ======
+
+Ubuntu marche bien avec tous les Creative Zen.
+
+==== Lancement automatique ====
+
+Depuis Ubuntu Jaunty, le creative zen est __automatiquement__ monté avec fuse qui le traite comme une somme de fichiers gphoto2.
+
+Un utilitaire de lancement automatique propose, à la connexion du baladeur, le lancement automatique des lecteurs de musique prenant en charge ce baladeur mtp si ceux-ci sont déjà pré-installés : Rhythmbox (par défaut), Banshee.
+Cependant certains lecteurs (comme Exaile, dont la prise en charge du mtp est déficiente depuis un certain temps déjà), Amarok, Qlix et Gnomad2 ne sont pas par défaut proposés au lancement automatique pour le moment.
+
+
+Du fait du montage automatique, l'utilisation d'un logiciel tiers devrait être relativement inutile : la gestion de la musique, des vidéos et des données devrait désormais se faire simplement par copiés-collés par le biais du gestionnaire de fichiers.
+
+Malheureusement, bien que le transfert de données soit possible (bien que excessivement lente concernant la vidéo), le lecteur ne reconnait ni les vidéos ni les morceaux ainsi transférés!
+
+La suite de ce wiki reste donc d'actualité.
+
+
+//Testé sur Creative zen vision m,et pour le Zen 4 et 8GB, à confirmer pour les autres produits de la marque //
+
+==== Monter le Créative Zen avec mtpfs sur Ubuntu Maverick====
+
+<note tip>
+Pour bénéficier du transfert de fichier sur ce baladeur (dans les deux sens ) et que les données transmises soient lisibles par le lecteur on peut utiliser le paquet **mtpfs** et créer quelques lanceurs dans le menu de gnome pour automatiser un peu la procédure décrite à la page mtp de la documentation [[:mtp]].
+</note>
+
+<note important>Cette manipulation permet de retrouver sur Ubuntu les possibilités présentes sur Windows avec ses inconvénients : le transfert de fichier ne permet pas le transfert des pochettes d'album et est quelque peu lent, mais fonctionnel.</note>
+
+**1. Installer mtpfs et créer le dossier mtp qui contiendra les documents de votre baladeur**
+
+Entrer dans une console:
+
+<code>
+sudo apt-get install mtpfs</code>
+
+<code>
+sudo mkdir /media/mtp</code>
+
+<code>
+sudo chmod 777 -R /media/mtp</code>
+
+
+**2. Créer un menu dans "Application" de votre menu gnome**
+
+1. __clic droit sur le menu application, puis__:
+
+   * dans **menu principal/application**, cliquer sur "nouveau menu".
+   * nom "Zen".
+   * cliquer sur l'icône par défaut pour en mettre une jolie en navigant jusqu'à l'icône voulue.
+   * valider
+
+//Pour plus de cohérence dans les menus, il est possible de créer ce nouveau menu __à l'intérieur__ du menu "son et vidéo"://
+   * //dans// **//menu principal/application/son et vidéo//**, //cliquer sur "nouveau menu".//
+   * //nom "Zen".//
+   * //cliquer sur l'icône par défaut pour en mettre une jolie en navigant jusqu'à l'icône voulue.//
+   * //valider//
+   * //un nouveau sous menu "zen" apparait alors dans "son et video"//
+
+2. __dans le nouveau menu ou sous menu "zen" ainsi créé, cliquer sur "nouvel élément"__
+choisir :
+  * type = "application".
+(Ou "application dans un terminal" si on veut voir d'éventuelles erreurs, mais on a alors droit à une rapide fenêtre pas forcement esthétique).
+  * nom = "Monter Zen".
+  * commande = "mtpfs /media/mtp".(enlevez les guillemets)
+  * mettre une jolie icône 
+  * valider
+
+3. __cliquer de nouveau sur "nouvel élément"__
+choisir :
+  * type = "application".
+(Ou "application dans un terminal").
+  * nom = "Démonter Zen".
+  * commande = "fusermount -u /media/mtp".(enlevez les guillemets)
+  * mettre une jolie icône.
+  * valider.
+
+4. __Résultat__
+
+{{http://doc.ubuntu-fr.org/_media/zen.png?w=120&h=75}}
+
+5. __Utilisation__ :
+
+  * lorsque l'on branche le baladeur sur jaunty, une fenêtre apparait : cliquer sur "démonter " directement.
+<note important>
+Si cette fenêtre n'apparait pas, c'est qu'une application se lance déjà par défaut. Dans ce cas ouvrer Nautilus cliquer sur le menu édition, une fenêtre des "préférences du gestionnaire de fichier" va s'ouvrir.
+Dans cette fenêtre, à l'onglet "support", il faut choisir l'option "demander ce qu'il faut faire" dans le menu déroulant de "baladeur audio" et valider.</note>
+
+  * puis aller dans application/Zen/ cliquer sur "Monter Zen", le montage du baladeur met quelques secondes, utiliser le copié /collé dans votre navigateur pour transférer des fichiers.
+
+<note important>Il ne faut pas que le lecteur soit déjà monté avec Amarok ou un autre logiciel.</note>
+<note important>Attention à ne pas confondre votre baladeur "Créative zen" et le dossier "mtp" qui doit apparaitre sous la forme d'un disque dur.</note>
+<note important>__**Le transfert de données de - et vers - votre baladeur DOIT se faire avec le disque dur "mtp" et non avec le baladeur "Créative zen"**__</note>
+
+<note important>
+Une fois le transfert de fichiers effectué, penser à démonter le zen avec  "Démonter Zen" créé dans votre menu "Application" ou le sous menu "son et vidéo"</note>
+
+
+<note tip>
+On ne peut pas créer de répertoires dans ce lecteur mp3, ou plutôt ils ne seront pas pris en compte.
+Alors pour organiser sa musique, on peut utiliser les tags mp3 (ou étiquettes ID3, en français) : pour regrouper des morceaux, on met le même nom dans le champ "Album".
+EasyTAG est un utilitaire, présent dans les dépôts officiels, très simple et intuitif d'utilisation (et à la fois très complet), pour faire ça par exemple. 
+De plus, le tri par "Albums" peut même s'afficher en premier dans le menu du Creative Zen.
+</note>
+<note tip>
+Si on rencontre des soucis avec le "copier/coller", on peut préférer sélectionner les fichiers mp3 à transférer (pas les répertoires, juste des fichiers), et faire un "glisser/déposer" directement sur l'icone "mtp" apparue sur le bureau.
+</note>
+
+
+===== Creative Zen et Vidéos=====
+
+==== Introduction ====
+
+
+Le Creative Zen permet de lire des videos, et même des films de façon à peu près satisfaisante bien que l'écran soit un peu petit. Le problème est qu'il faut d'abord convertir ces vidéos au format 320x240. Plusieurs solutions sont possibles : la plus simple est l'utilisation du logiciel Arista, mais vous pouvez aussi utilisez des scripts avec des rendus graphiques [[zenity]].
+
+==== Arista ====
+
+Depuis peu, un logiciel simple et efficace est apparu pour l'environnement gnome : [[:Arista]]\\
+Un [[https://launchpad.net/arista|dépôt launchpad]] permet de l'installer pour la 9.04.\\
+Les conversions video se font en douceur et sans prise de tête grâce à un système de presets par lecteur mp4.
+
+<note tip>Si les presets pour le Creative Zen ne sont pas déjà installés, il sont disponibles à [[http://github.com/danielgtaylor/arista/tree/master/presets/|cette adresse]]
+il faut ensuite les placer dans le répertoire /usr/share/arista/presets
+</note>
+
+==== Scripts zenity ====
+
+<note important>**[[mencoder]] n'est plus compilé avec le codec mp3 dans le paquet proposé par les dépôts ubuntu. Les commandes ci-dessous ne fonctionnent donc plus sans compiler soi-même [[mencoder]]**</note>
+
+Il faut d'abord [[:tutoriel:comment_installer_un_paquet|installer les paquets]] [[:mencoder|mencoder]] : [[apt://mencoder|mencoder]] et [[apt://gawk|gawk]]
+
+Ensuite, 
+
+1ère option : voici un petit script qui permet de faire graphiquement ce travail, grâce à zenity
+<code>#!/bin/sh
+video=`zenity --file-selection --title="Veuillez sélectionner une vidéo à convertir"`
+mencoder "${video}" -oac mp3lame -lameopts abr:br=128 -ovc xvid -xvidencopts bitrate=200:chroma_opt:vhq=4:bvhq=1:quant_type=mpeg -vf pp=de,scale=320:-2,expand=320:240 -o "${video}.zen.avi" 2>&1 | gawk -vRS='\r' '$1 ~ /Pos/ {gsub(/Pos:/,"  ");gsub(/%)/," ");gsub(/ \(/," ");if ($3>0)print $3; fflush();}' | zenity --progress --auto-close --text="Conversion de <span color=\"blue\">${video}</span> en cours" --title="Progression de la conversion"</code>
+1ère option bis : une adaptation du script précédent pour pouvoir incruster des sous-titres à la vidéo (vous pouvez trouver [[http://forum.ubuntu-fr.org/viewtopic.php?pid=2670179#p2670179|ici]] une version pour les mkv)
+<code>#!/bin/sh
+video=`zenity --file-selection --title="Veuillez sélectionner une vidéo à convertir"`
+subtitle=`zenity --file-selection --title="Veuillez sélectionner un sous-titre"`
+mencoder -sub "${subtitle}" -fontconfig -font Arial -subcp latin1 -subfont-text-scale 4 "${video}" -oac mp3lame -lameopts abr:br=128 -ovc xvid -xvidencopts bitrate=200:chroma_opt:vhq=4:bvhq=1:quant_type=mpeg -vf pp=de,scale=320:-2,expand=320:240,scale=320:240 -o "${video}.ZEN.avi" 2>&1 | gawk -vRS='\r' '$1 ~ /Pos/ {gsub(/Pos:/,"  ");gsub(/%)/," ");gsub(/ \(/," ");if ($3>0)print $3; fflush();}' | zenity --progress --auto-close --text="Conversion de <span color=\"blue\">${video}</span> en cours" --title="Progression de la conversion"</code>
+Copier ce code dans un fichier convertirZen.sh par exemple, le rendre éxécutable, et [[:raccourci-lanceur|Créez un raccourci]] pointant sur ce fichier et le tour est joué.
+Les vidéos converties auront le nom nom_origine.zen.avi
+Il faudra ensuite utiliser gnomad2 pour transférer la vidéo obtenue.
+
+2ème option : créer une [[apt://nautilus-actions|nautilus-actions]] pointant vers ce script
+<code>#!/bin/bash
+filename=`basename "$1"`
+mencoder "${1}" -oac mp3lame -lameopts abr:br=128 -ovc xvid -xvidencopts bitrate=200:chroma_opt:vhq=4:bvhq=1:quant_type=mpeg -vf pp=de,scale=320:-2,expand=320:240 -o "${1}.zen.avi" 2>&1 | gawk -vRS='\r' '$1 ~ /Pos/ {gsub(/Pos:/,"  ");gsub(/%)/," ");gsub(/ \(/," ");if ($3>0)print $3; fflush();}' | zenity --progress --auto-close --text="Conversion de <span color=\"blue\">${filename}</span> en cours" --title="Progression de la conversion" --width="100"
+</code>
+<note>Ces scripts convertissent les vidéos au format 320x240 avec les codecs video XVID et audio MP3</note>
+
+===== Creative Zen Mosaic =====
+
+
+Le lecteur **Creative Zen Mosaic** n'est au départ accessible qu'en tant que super utilisateur.
+
+Pour remédier à ça, il faut créer une règle [[:udev|udev]] :
+
+[[:tutoriel:comment_editer_un_fichier|Editez le fichier]] /etc/udev/rules.d/*libmtp8.rules en tant qu'utilisateur root.
+<code>gksudo gedit /etc/udev/rules.d/*libmtp8.rules</code>
+<note warning>sur Jaunty, le fichier à éditer s'édite de la manière suivante:
+<code>gksudo gedit /lib/udev/rules.d/*libmtp8.rules</code>
+</note>
+Coller ces lignes dans le fichier, au dessus des autres règles : 
+<code># Creative ZEN Mozaic
+ATTR{idVendor}=="041e", ATTR{idProduct}=="4161", SYMLINK+="libmtp-%k", MODE="666", GROUP="audio"</code>
+Il faut ensuite [[:gestion_compte|créer le groupe]] "audio", dans "Administration -> Utilisateurs et groupes" et en devenir membre.
+
+Puis redémarrer l'ordinateur et tester l'installation en console :
+<code>mtp-detect</code> qui doit renvoyer un résultat.
+
+== Videos ==
+
+Pour encoder vos vidéos de manière à les rendre compatibles avec ce lecteur, il faut d'abord [[:tutoriel:comment_installer_un_paquet|installer le paquet]] [[:mencoder|mencoder]] : [[apt://mencoder|mencoder]]
+
+<code> sudo apt-get install mencoder </code>
+
+Ensuite, il suffit de ré-encoder la vidéo qu'on veut transférer sur le baladeur en précisant que l'encodage est du mjpeg (motion jpeg) et que la taille de l'écran est de 160x128:
+
+<code> mencoder /chemin_entree/video.avi* -ovc lavc -lavcopts vcodec=mjpeg -oac mp3lame -lameopts cbr:br=64 -vf scale=160:-2,crop=160:128,expand=160:128 -o /chemin_sortie/nom_video.avi* </code>
+
+*(en remplaçant "/chemin_entree/video.avi" et "/chemin_sortie/nom_video.avi" avec les chemins et noms désirés)
+
+Ensuite, pour transférer la vidéo sur le baladeur, il suffit d'utiliser gnomad2 comme expliqué plus haut.
+
+
+===== Creative Zen X-Fi 32 Gb =====
+
+
+Comme ci-dessus, le lecteur **Creative Zen X-Fi** n'est au départ accessible qu'en tant que super utilisateur.
+
+Pour remédier à ça, il faut créer une règle [[:udev|udev]] :
+
+[[:tutoriel:comment_editer_un_fichier|Editez le fichier]] /etc/udev/rules.d/*libmtp8.rules en tant qu'utilisateur root.
+<code>gksudo gedit /etc/udev/rules.d/*libmtp8.rules</code> 
+Coller ces lignes dans le fichier, au dessus des autres règles : 
+<code># Creative ZEN X-Fi
+ATTR{idVendor}=="041e", ATTR{idProduct}=="4162", SYMLINK+="libmtp-%k", MODE="660", GROUP="audio"</code>
+Attention ! Il y a deux endroits où coller ces lignes :
+  * <code>LABEL="libmtp_usb_rules"</code> 
+  * <code>LABEL="libmtp_usb_device_rules"</code> 
+
+Editer ensuite le [[:tutoriel:comment_editer_un_fichier|Editez le fichier]] fichier /etc/udev/rules.d/45-libnjb.rules
+<code>gksudo gedit /etc/udev/rules.d/45-libnjb.rules</code>
+Coller ces lignes dans le fichier, au-dessus des autres règles :
+<code># Creative Zen X-fi
+SYSFS{idVendor}=="041e", SYSFS{idProduct}=="4162", GROUP="plugdev", MODE="660"</code>
+
+Il faut ensuite [[:gestion_compte|créer le groupe]] "audio", dans "Administration -> Utilisateurs et groupes" et en devenir membre.
+
+Puis redémarrer l'ordinateur et tester l'installation en console :
+<code>mtp-detect</code>
+qui doit renvoyer un résultat.
+
+([[http://www.mossroot.com/worlds/2008/11/22/connecting-the-creative-zen-x-fi-to-linux/|source pour ce modèle de lecteur mp3]] en anglais)
+
+Le transfert de musique se fait ensuite sans problème avec Gnomad2 par exemple.
+
+
+----
+//Contributeurs: [[utilisateurs:Johndescs]],[[utilisateurs:hizoka|hizoka]],[[utilisateurs:Exzemat]],  [[utilisateurs:kwakosaure]].//

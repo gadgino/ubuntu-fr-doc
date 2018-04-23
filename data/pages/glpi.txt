@@ -1,0 +1,108 @@
+{{tag>serveur inventaire gestion_de_parc}}
+----
+
+====== GLPI - Gestion libre de parc informatique ======
+**[[wpfr>GLPI]]** (Gestionnaire libre de parc informatique) est un logiciel de gestion de parc informatique et de gestion des services d'assistance distribué sous licence GPL. Le projet a été lancé en 2003.
+
+
+===== Pré-requis =====
+
+==== Dépendances ====
+
+ à partir d'Ubuntu 16.04 :
+apache2, php, mysql-server, libapache2-mod-php, php-mysql
+
+<code>sudo apt-get install apache2 php mysql-server libapache2-mod-php php-mysql php-curl php-mbstring  php-gd</code>
+
+pour les versions précédentes :
+apache2, php5, mysql-server, libapache2-mod-php5, php5-mysql
+
+<code>sudo apt-get install apache2 php5 mysql-server libapache2-mod-php5 php5-mysql</code>
+
+==== Version Ubuntu ====
+<code>
+sudo apt-get install glpi (cette version est ancienne, à mettre à jour !!!!!!!
+</code>
+ ==== Version 9.1  ====
+<code>
+cd /tmp
+wget https://github.com/glpi-project/glpi/releases/download/9.1/glpi-9.1.tar.gz
+cd /opt/
+sudo tar -xvzf /tmp/glpi-9.1.tar.gz 
+</code>
+=== Configuration d'apache ===
+
+[[:tutoriel:comment_modifier_un_fichier|Créer un fichier glpi.conf]] **"/etc/apache2/conf-available/glpi.conf"**
+
+Puis ajouter ce code dans le fichier glpi.conf
+<code>
+Alias /glpi /opt/glpi
+
+<Directory /opt/glpi>
+  DirectoryIndex index.php
+  Options FollowSymLinks
+  AllowOverride Limit Options FileInfo
+  Require all granted
+</Directory>
+</code>
+
+Activer la config glpi
+<code>
+cd /etc/apache2/conf-enabled
+sudo ln -s ../conf-available/glpi.conf
+</code>
+
+Puis redémarrer le serveur apache
+<code>sudo service apache2 restart</code>
+
+=== Quelques permissions à donner aux dossiers de GLPI ===
+<code>
+chmod -R 777 /opt/glpi/files
+chmod -R 777 /opt/glpi/config
+</code>
+
+===== Installation =====
+<note tip>On pourra se référencer à la page d'installation sur le site officiel:\\
+[[http://www.glpi-project.org/spip.php?article31]]</note>
+Lancez votre navigateur puis tapez
+
+[[http://localhost/glpi]]
+
+  - Choisir votre langue
+  - Accèpter la licence
+  - Installation
+  - Continue
+  - Remplir les champs (serveur = localhost ; user = root ; pass = *********)
+  - Sélectionner **"Create a new ....."** et taper dans la zone **glpi**
+  - Continue
+  - Terminer
+
+===== Utilisation =====
+
+Dans le navigateur taper [[http://localhost/glpi]]
+\\ **Login:** glpi
+\\ **Pass:** glpi
+
+===== Désinstallation =====
+
+Supprimer la configuration
+<file>rm /etc/apache2/conf.d/glpi.conf</file>
+
+Supprimer glpi
+<file>rm -rf /opt/glpi</file>
+
+Supprimer la base de données
+
+<file>
+mysql -u root -p
+
+drop database glpi
+</file>
+
+===== Voir aussi =====
+  * [[http://www.glpi-project.org/|Le site officiel]]
+  * [[wpfr>FusionInventory|fusion inventory]]
+  * [[:ouapi|OUAPI (autre solution d'inventaire libre)]]
+
+----
+//Contributeurs : ouardisoft , root75//

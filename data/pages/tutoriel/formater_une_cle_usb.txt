@@ -1,0 +1,53 @@
+{{tag>Xenial Trusty  système usb tutoriel}}
+
+----
+
+====== Comment formater une clé USB ? ======
+
+Cette page rassemble les diverses méthodes permettant de formater une clé usb ou une carte sd.
+===== Avec une interface graphique =====
+
+====Raccourci dans Nautilus====
+Avec [[:Nautilus]] vous pouvez accéder dans certains cas, par un clic droit sur votre périphérique à un raccourci **Formater**. Avant cela il faut quelques fois **démonter** et non **éjecter** votre disque :
+
+{{:nautilus:Formater_xenial.png?200}}
+
+L'option, absente sous [[:trusty|Ubuntu 14.04]], est de retour sous [[:Xenial|Ubuntu 16.04]].
+
+====Gnome-disks====
+Avec Unity le plus simple est d'utiliser **[[apt>gnome-disks]]** installé par défaut. Pour lancer l'application, cliquez sur [[:unity#tableau_de_bord_dash|le tableau de bord Unity]] et tapez 'disque'. Apparaît une application 'Disques'.
+
+Dans cette application, sélectionnez à gauche votre clé USB. puis à droite sélectionnez le volume sur lequel vous voulez travailler. 
+Cliquez alors sur le bouton avec le carré **Démonter le système de fichiers**, puis cliquez sur le bouton avec les 2 engrenages **Autres actions** puis dans le menu qui apparaît cliquez sur **Formater**. 
+
+{{ :tutoriel:formater_une_cle_usb_13.10_01.png.png?400 |}}
+
+====Gparted====
+Une autre possibilité est l'utilisation de [[:GParted]], que vous soyez sous Ubuntu, Xubuntu ou Lubuntu. Pour cela [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>gparted]]**.
+Si vous êtes sous Kubuntu, **[[apt>partitionmanager]]** s'intègre mieux au bureau KDE.
+
+Ces programmes permettent de formater, créer et supprimer n'importe quelle partition, linux (ext2, ext3, reiserfs, etc.), NTFS et FAT, quels que soient leurs emplacements (IDE, SATA, USB). Voir l'article sur [[:repartitionner|le repartionnement]] pour plus de détails.
+
+Reportez-vous à la documentation de [[:Gparted]] pour les informations d'utilisation.
+
+Pour accéder à Partitionmanager sous Kubuntu allez dans le menu //K ->Applications → Système → Éditeur de partitions//. Laissez-vous guider par l'interface. Vous devriez reconnaître la clef à sa taille, avec souvent un nom de type sdXX.
+
+===== En ligne de commande =====
+
+Le paquet qui permet de formater ses disques, est normalement installé par défaut. Dans le cas contraire vous pouvez [[:tutoriel:comment_installer_un_paquet|instals]].
+
+<note warning>
+Pour la suite identifiez bien le périphérique correspondant à votre clé. Il sera sûrement de la forme /dev/sda ou /dev/sdaX (X=chiffre). Si vous vous trompez de périphérique, vous risquez d'effacer les données sur une partition erronée.
+</note>
+
+Pour lancer le formatage:
+  * Démontez d'abord la clé avec cette commande pour [[:Precise]]: <code>umount /media/votre_disque</code> et celle-ci pour [[:Trusty]] et versions plus récentes: <code>umount /media/$USER/votre_disque</code>
+  * Identifiez d'abord le périphérique clé USB avec la commande <code>ls -l /dev/disk/by-id/*usb*</code>
+  * Supposons que le périphérique concerné est ///dev/sda7//, lancez dans un [[:terminal]] : <code>sudo mkfs.vfat /dev/sda7</code> et le type des tables 12 ou 16 bits sera sélectionné automatiquement. Si l'on veut du FAT32, il faudra le préciser et la commande sera : <code>sudo mkfs.vfat -F 32 /dev/sda7</code> Ne pas utiliser ''mkdosfs'' si l'on doit rendre la clé bootable. 
+  * Il est possible de donner un nom a la clef USB avec l'option **-n** (évitez les espaces) avec cette commande: <code>sudo mkfs.vfat -F 32 -n ma_clef_usb /dev/sda7</code>
+
+
+----
+
+
+Contributeurs : [[utilisateurs:Sploutch]], [[utilisateurs:Yannis.B]], [[:utilisateurs:l_africain|L'Africain]].

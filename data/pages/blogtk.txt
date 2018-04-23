@@ -1,0 +1,59 @@
+{{tag>VÉTUSTE}}
+----
+
+{{ http://img20.imageshack.us/img20/4744/blogtklogoif1.png|BloGTK }}
+
+====== BloGTK ======
+
+<note warning>Ne fonctionne pas sous Lucid Lynx</note> 
+
+[[http://blogtk.sourceforge.net/|BloGTK]] est un client weblog qui permet de publier des articles sur vos blogs utilisant Blogger, MovableType ou Wordpress.
+
+Il est écrit en Python et PyGTK, publié sous licence BSD.
+
+La version 2.0 est actuellement en cours de développement, le code source est disponible sur [[http://launchpad.net/blogtk|Launchpad]].
+
+===== Installer BloGTK =====
+
+==== Dépôt officiel ====
+
+Pour pouvoir lancer le logiciel depuis le menu //Applications → Internet → BloGTK! Weblog Client//, suivez la procédure décrite ci-dessous.
+
+=== Intredpid Ibex ===
+
+La version 1.1 (en anglais) est disponible dans les [[:depots#universe_et_multiverse|dépôts Universe]].
+Il suffit d’[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt://blogtk|blogtk]]**.
+
+== En ligne de commande ==
+
+<code>sudo apt-get install blogtk</code>
+
+===== Utilisation avec Wordpress =====
+
+=== Paramétrage du compte ===
+
+Allez dans le menu //Edit → Account and Settings//.
+
+Remplissez les champs :
+
+  * **Server URL** : "//l'url de votre blog//"/xmlrpc.php
+  * **Username** : votre identifiant
+  * **Password** : votre mot de passe
+  * **Blogging system** : [[http://www.movabletype.org/|MovableType]]
+
+Cliquez le bouton Save et Ok
+
+=== Utilisation ===
+
+Dans l'interface principale, Cliquez //File → Connect//.
+Si tout se passe bien, dans la barre d'état s'affiche Connected to server at "url/xmlrpc.php"
+
+Vous pouvez maintenant créer votre post et le publier en cochant **Publish** et en cliquant **Post Entry**.
+
+Si **Publish** n'est pas coché, le post sera envoyé en tant que brouillon.
+
+===== Liens =====
+
+  * [[http://blogtk.sourceforge.net/|BloGTK Sourceforge]]
+  * [[http://launchpad.net/blogtk|BloGTK Launchpad]]
+  * [[http://codex.wordpress.org/Weblog_Client|Liste d'autres clients weblog]]

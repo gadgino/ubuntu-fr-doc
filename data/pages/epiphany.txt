@@ -1,0 +1,94 @@
+{{tag>Xenial Zesty Artful navigateur Gnome web}}
+----
+
+====== Navigateur Gnome Web (Epiphany) ======
+
+[[http://www.gnome.org/projects/epiphany/|Gnome Web]] est le navigateur Internet du projet [[:Gnome]]. Il s'y intègre donc très bien en tirant profit des autres outils Gnome pour afficher les images, gérer les archives... Il dispose en plus d'une  interface épurée et simple d'utilisation.
+
+Léger et rapide, il utilise actuellement WebKit, le moteur de Safari. Jadis, ce projet s'appelait "Epiphany" et utilisait Gecko, le moteur de rendu de [[:firefox|Mozilla Firefox]]. Le nom "Epiphany" est toujours utilisé, pour des raisons pratiques, l'application apparaîtra en revanche sous le nom "Web" dans la liste des applications.
+
+{{ http://i.imgur.com/SCuKFXG.png?500 }}
+
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+===== Installation =====
+Pour utiliser ce logiciel, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>epiphany-browser]]**.
+
+===== Utilisation =====
+Lancez l'application via le [[:unity#tableau_de_bord_dash|tableau de bord Unity]], la recherche [[gnome-shell|Gnome Shell]] ou via le [[:terminal]] (toutes versions d'Ubuntu) avec la [[:commande_shell|commande]] suivante :
+<code>epiphany-browser</code>
+
+==== Navigation par onglets ====
+Les onglets vous permettent d'ouvrir plusieurs pages web dans la même fenêtre. Pour ouvrir une page dans un **nouvel onglet**, cliquez avec le **bouton du milieu** sur un lien.
+
+**CTRL + T** vous permettra d'ouvrir un **nouvel onglet** où  chargera votre page d'accueil, vous pouvez faire la même chose avec un **clic de la molette** sur le bouton **Accueil** de la barre des menus.
+
+Lorsque vous tapez une adresse dans la **barre d'adresse**, un menu déroulant vous indique les adresses commençant par les mêmes lettres que vous avez déjà visitées, vous pouvez en ouvrir une dans un nouvel onglet en la mettant en surbrillance et en appuyant sur **CTRL + Entrée**.
+
+Si plusieurs onglets sont ouverts, vous pouvez les réorganiser par glisser-déposer pour les mettre dans l'ordre que vous voulez.
+
+Pour **fermer un onglet**, vous pouvez cliquer sur la petite croix sur celui-ci, ou utiliser le raccourci **CTRL + W**.
+
+==== Sécurité/Publicités ====
+Pour bloquer les //popups//, ouvrez le menu //Web → Préférences// et décochez **Autoriser les fenêtres popups**. De même pour bloquer les publicités, décochez la case **Autoriser les publicités** (déjà par défaut).
+
+Dans cette même fenêtre, vous pouvez régler le comportement d'**Epiphany** vis à vis des **cookies** et la sauvegarde des mots de passe.
+
+Pour voir les informations personnelles collectées, allez dans l'onglet //Confidentialité//, vous pourrez voir les cookies et mots de passe enregistrés et les supprimer.
+
+==== Navigation privée ====
+Gnome Web propose un mode "navigation incognito" où aucune trace de votre navigation n'est conservée par le navigateur.
+
+==== Signets ====
+<note>à partir d'Ubuntu 17.10 (Artful Aardvark), la gestion des signets sera simplifiée dans Gnome Web, songez à mettre cette section à jour</note>
+
+{{ :internet:epiphany-signets_xenial.png?200}}
+
+=== Gestion ===
+Les signets correspondent à ce qui est aussi appelé marque-pages ou favoris, leur gestion est cependant différente. En effet vous pouvez classer vos signets par sujets, et affecter un même signet à plusieurs sujets. Cela permet de s'y retrouver rapidement quand on en a beaucoup, plus besoin de se demander dans quelle catégorie il est classé !
+
+Pour ajouter un signet, rendez-vous sur la page à marquer et dans le menu **Signets** , choisissez **Ajouter un signet...**. 
+
+Si des sujets existent déjà, vous n'avez qu'à cocher les cases qui vont bien ou à taper le début du nom du sujet dans le champ "Sujet" et un menu déroulant vous montrera automatiquement les sujets qui commencent par ces lettres. Vous pouvez créer des sujets avec ce même champ : lorsque le nom de sujet que vous tapez n'existe pas encore, une option du menu déroulant vous propose de le créer.
+
+Pour les modifier ou les supprimer allez dans l'appmenu : //Web → Signets//, ou utilisez le raccourci Ctrl+B.
+
+=== Moteurs de recherche ===
+
+Pour modifier le moteur de recherche par défaut, il faut passer par l'//Éditeur de configuration// du bureau Gnome en ligne de commande.
+Par défaut c'est google qui est le moteur de recherche par défaut, si vous souhaitez changer, ici pour duckduckgo entrez la commande suivante dans un [[:terminal]] : <code>gsettings set org.gnome.Epiphany keyword-search-url https://www.duckduckgo.com/?q=%s</code>
+
+Pour afficher un moteur avec un champ de recherche sur le coté ajoutez simplement le signet du moteur dans votre barre de signets.
+
+Pour créer un nouveau signet malin :
+  - Lancez une recherche sur le moteur avec un mot simple (//ab// par exemple). 
+  - Relevez l'adresse de la page obtenue.
+  - Remplacez le mot (//ab//) par //%s//.
+  - Ajoutez la page ainsi obtenu à vos signets.
+
+Quelques exemples que vous pouvez directement ajouter à vos signets (bouton droit sur le lien -> Créer un signet avec ce lien) :
+
+//Moteurs et métamoteurs généralistes//
+
+  * Duck Duck Go((//Duck Duck Go// : moteur de recherche américain utilisant des informations de crowdsourcing issues d'autres sites et mettant l'accent sur le respect de la vie privée. [[wpfr>Duck_Duck_Go|Plus de détails sur Wikipédia]].)) (page fr) : https://duckduckgo.com/?l=fr-fr&q=%s
+  * Exalead((//Exalead// : moteur de recherche concurrent au trop célèbre Google.)) : http://www.exalead.fr/search/web/
+  * Google ssl (page fr) : https://encrypted.google.com/webhp?hl=fr
+  * Ixquick((//Ixquick// : [[wpfr>métamoteur]] de recherche affichant une [[http://eu.ixquick.com/fra/protect_privacy.html|politique de confidentialité et de respect de la vie privée]].)) : https://eu.ixquick.com/do/metasearch.pl?language=francais&cat=web&query=%s
+
+//Outils de recherche plus ciblés//
+
+  * Documentation Ubuntu-fr : http://doc.ubuntu-fr.org/doku.php?do=search&id=%s
+  * Forum Ubuntu-fr : http://www.google.fr/search?q=%s+site%3Aforum.ubuntu-fr.org
+  * Wikipédia france : http://fr.wikipedia.org/wiki/%s
+  * Wiktionnaire((//Wiktionnaire// : La version française du dictionnaire multilingue de Wikimedia Foundation.)) : http://fr.wiktionary.org/wiki/%s
+
+===== Liens =====
+
+  * [[http://www.gnome.org/projects/epiphany/|Site officiel d'Epiphany]]
+  * [[http://live.gnome.org/Epiphany|Wiki Gnome sur Epiphany]]
+ 
+----
+
+//Contributeurs : [[:utilisateurs:qazer|jeromeg]], [[:utilisateurs:Jonas]], [[:utilisateurs:Roschan]]//

@@ -1,0 +1,105 @@
+======Chiffrement de fichiers et de partitions avec VeraCrypt======
+=====Historique=====
+VeraCrypt est un logiciel de chiffrement de fichiers et de partitions qui reprend la suite de [[truecrypt|TrueCrypt]].\\
+Ce fork, principalement développé par le Français Mounir Idrassi, a débuté quelques mois avant la fermeture brutale de son prédécesseur.
+=====Concept=====
+VeraCrypt est un programme gratuit de chiffrement de partition qui fonctionne sous GNU/Linux, MacOS et Windows. Son code source est disponible, mais pour autant il ne s'agit pas d'un logiciel libre.
+<note important>
+A compléter
+</note>
+Veracrypt chiffre des volumes (fichers, partitions) ou des systèmes d'exploitation entier, à la volé. C'est à dire qu'il monte un volume chiffré, dans lequel vous mettez ce que vous voulez. Il est possible de cacher ces fichiers/partition/OS chiffré. 
+Les algorithme de chiffrement proposé sont nombreux et utilisable en cascade. 
+Evidemment, Veracrypt est open-source, multi-plateforme et utilisable en mode portable (sur une clef-usb).
+
+=====Installation=====
+Il y a plusieurs méthodes d'installation.
+
+-La première consiste à télécharger et décompresser Veracrypt sur le site officiel. Certaines dépendances, selon les versions d'ubuntu et de veracrypt, sont requise. L'installation est parfois plus complexe pour machine tournant sous une architecture ARM. Auquel cas, l'installation par PPA peut être plus facile.
+
+-La seconde consiste à ajouter un PPA. Cette solution est efficace lorsqu'il y a un problème de comptabilité (avec les Chromebook notamment, et les architecture ARM), et facilite la mise à jour.
+
+
+====Installation en passant par le site officiel====
+Pour installer VeraCrypt, il faut d'abord récupérer la dernière version disponible sur le site officiel.
+===a) Vérification des fichiers téléchargés===
+Cette étape (optionnelle, mais importante pour un logiciel de ce type) consiste à vérifier que les fichiers téléchargés sont bien ceux mis en ligne par [[https://veracrypt.codeplex.com|VeraCrypt]]
+
+Les commandes sont bien décrites [[http://www.mattnworb.com/post/16019918033/how-to-verify-a-pgp-signature-with-gnupg|ici]].
+
+Les étapes sont:
+  * créer votre propres signature (si ce n'est déjà fait)
+  * télécharger la clé publique de truecrypt.org
+  * télécharger la signature numérique (fichier gpg) de l'archive
+  * autoriser la clé publique
+  * authentifier la signature du paquet
+===b) Installation===
+Décompresser l'archive dans le dossier de votre choix.\\
+Puis lancer le [[terminal|terminal]] dans ce dossier (clique droit sur le dossier, puis "ouvrir dans un terminal")\\
+Ensuite lancer le fichier voulu, suivant votre architecture (32 ou 64 bits) et le type d'interface voulu (graphique (gui) ou par console)\\
+\\
+Voici l'exemple pour une architecture 64 bits avec le mode graphique, de la version 1.18 de VeraCrypt :
+<code>
+./veracrypt-1.18-setup-gui-x64
+</code>
+<note>(A modifier selon le nom du fichier, bien sûre)</note>
+<note important>
+**NB** : nul besoin d'être root, vous pouvez l'utiliser sans l'installer. Nous allons dévelloper ce point ci dessous dans __utilisation portable__
+</note>
+===c) Ménage===
+Il reste à suivre la démarche, puis vous pourrez supprimer l'archive téléchargée ainsi que les fichiers décompressés dans votre dossier.
+==== Installation par PPA ====
+<note tip>Le PPA peut fonctionner quand l'installation initiale en passant par le site officiel ne fonctionne pas. Notamment sur les chromebook.</note>
+<note warning>Attention: Les PPA ne sont pas vérifié par canonical. Prenez soin de vérifier (signature, clé pgp) que le paquet téléchargé n'est pas infecté</note>
+
+===a) Installer: ===
+
+<code>
+$ sudo add-apt-repository ppa:unit193/encryption
+
+$ sudo apt-get update
+
+$ sudo apt-get install veracrypt </code>
+
+===b) Supprimer===
+<code>  $ sudo apt-get remove veracrypt</code>
+====Mode portable==== 
+  * Reprenez les étapes d'installation 3.1: Téléchargement sur le site officiel, vérification des paquet, décompressage de l'archive
+
+  * Puisque c'est pour un usage portable, télécharger les version pour tout les différents type de système d'exploitation que vous pouvez rencontrer. Pour windows, vous pouvez installer un executable sur une clé usb qui ne necessitera pas une élevation (admin) des privilège. Ici, c'est un tuto pour utiliser veracrypt en mode portable sous linux. L'installation ne necessite pas non plus de privilège root, mais pour monter une partition ou un volume la plupart des systèmex linux demande une élevation des privilèges.
+
+Lorsque vous executez le script de l'archive décompressé, vous avez deux options: Avec installation ou sans. Selectionné sans.
+
+Veracrypt est placé sous forme compressé dans /tmp
+
+Rendez-y vous et décompressé l'archive
+
+<note important>NB: Jusque là, être root n'est pas necessaire, ce qui vous permet de l'utiliser sur une machine autre que la vôtre</note>
+
+<note>Une fois le dossier décompressé, vous pouvez supprimer l'archive</note>
+
+Cherchez le fichier veracrypt dans le dossier de l'archive décompressé dans /tmp
+
+Rendez le executable
+
+Executez le
+
+Enjoy ;) 
+
+<note important>
+Selon les autorisation du système, vous pouvez avoir besoin des privilèges administrateur pour monter un volume (et pas pour le déchiffrer)
+</note>
+
+<note tip>Pour éviter d'avoir à réaliser cette procédure à chaque usage de veracrypt en mode portable (les fichiers ainsi placé dans /tmp sont supprimé à chaque redémarrage de la machine), copier/coller les fichier obtenu à la fin de cette opération (en sommes, le dossier de l'archive décompressé dans /tmp.) Vous n'aurez qu'à le copier/coller dans les machine hôte linux que vous visiterez dans le repertoire /tmp ;) Puis à cliquer sur l'executable</note>
+
+=====Utilisation=====
+<note important>A compléter.
+Noter qu'il existe de nombreux tuto sur le net. Voici quelque fonctionnalité: Créé des conteneur chiffré (fichiers, partitions), les caché, chiffrer un OS...</note>
+===creation de volume caché (hidden volume)===
+1)Suivez les instruction de veracrypt.
+2) Pour accéder au volume caché, sélectionner le volume non-caché, et rentrer la phrase de passe (mot de passe) du volume caché.
+
+
+=====5. Liens externes=====
+[[https://veracrypt.codeplex.com/|Site officiel]]
+
+Source (installation par PPA): http://linuxg.net/install-veracrypt-on-ubuntu/

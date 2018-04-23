@@ -1,0 +1,269 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#firestarter_le_pare-feu_en_tout_simplicite" class="toc"> Firestarter : le pare-feu en tout simplicité </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#qu_est-ce_que_firestarter" class="toc"> Qu'est-ce que Firestarter ? </a></span></li>
+<li class="level2"><span class="li"><a href="#un_parequoi" class="toc"> Un parequoi ? </a></span></li>
+<li class="level2"><span class="li"><a href="#installation" class="toc"> Installation </a></span></li>
+<li class="level2"><span class="li"><a href="#premier_lancement" class="toc"> Premier lancement </a></span></li>
+<li class="level2"><span class="li"><a href="#configuration" class="toc"> Configuration </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#l_onglet_etat" class="toc"> L'onglet Etat </a></span></li>
+<li class="level3"><span class="li"><a href="#l_onglet_evenements" class="toc"> L'onglet Evénements </a></span></li>
+<li class="level3"><span class="li"><a href="#onglet_politique" class="toc"> Onglet &quot;politique&quot; </a></span></li>
+<li class="level3"><span class="li"><a href="#les_preferences_edition_-_preferences" class="toc"> Les préférences (Edition -&gt; Préférences) </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#le_pare-feu_est-il_actif_lorsque_la_fenetre_de_firestarter_est_fermee" class="toc"> Le pare-feu est-il actif lorsque la fenêtre de firestarter est fermée </a></span></li>
+<li class="level2"><span class="li"><a href="#liens" class="toc"> Liens </a></span></li>
+<li class="level2"><span class="li"><a href="#exemple_de_configuration" class="toc"> Exemple de configuration </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/eks" class="wikilink1" title="utilisateurs:eks" onclick="return svchk()" onkeypress="return svchk()">eks</a>.
+</p>
+
+<a name="firestarter_le_pare-feu_en_tout_simplicite"></a><h1> Firestarter : le pare-feu en tout simplicité </h1>
+<div class="level1">
+
+</div>
+<!-- SECTION [67-127] -->
+<a name="qu_est-ce_que_firestarter"></a><h2> Qu'est-ce que Firestarter ? </h2>
+<div class="level2">
+
+<p>
+ Firestarter est une interface graphique qui vous aide à configurer facilement certains paramètres de votre machine. Et puisque c&rsquo;est une interface graphique de pare-feu, je vous laisse deviner ce qu&rsquo;il permet de configurer.
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=applications%3Areponse_firestarter.gif" class="media" title="applications:reponse_firestarter.gif" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=applications%3Areponse_firestarter.gif" class="media" alt="" /></a>
+</p>
+
+<p>
+Firestarter a pour objectif d&rsquo;être le plus simple possible tout en restant complet et efficace.
+</p>
+
+</div>
+<!-- SECTION [128-535] -->
+<a name="un_parequoi"></a><h2> Un parequoi ? </h2>
+<div class="level2">
+
+<p>
+ Un pare-feu (firewall pour les anglophones) est un programme (éxécuté généralement en arrière-plan, en tant que service) qui empêche les curieux de faire des vilaineries via le réseau sur votre ordinateur. Ce n&rsquo;est pas une sécurité absolue, loin s&rsquo;en faut, mais une sécurité de plus. En gros, tout ordinateur relié à un réseau (par exemple internet) possède des entrées et des sorties (un peu comme les portes d&rsquo;une maison), qui servent à faire transiter les données. Le pare-feu surveille ces &ldquo;portes&rdquo;, et évite qu&rsquo;un malotru vienne vous rendre visite à l&rsquo;improviste, tout en laissant passer ce que vous lui aurez dit de laisser passer.
+</p>
+
+</div>
+<!-- SECTION [536-1222] -->
+<a name="installation"></a><h2> Installation </h2>
+<div class="level2">
+
+<p>
+ Pour l&rsquo;installation, un classique <strong><code>$ sudo apt-get install firestarter</code></strong> ou une sélection du paquet <strong>firestarter</strong> dans synaptic suffira.
+</p>
+
+</div>
+<!-- SECTION [1223-1393] -->
+<a name="premier_lancement"></a><h2> Premier lancement </h2>
+<div class="level2">
+
+<p>
+ Au premier lancement, un assistant vous aide à configurer firestarter en choisissant l&rsquo;interface à surveiller (il a normalement détecté automatiquement l&rsquo;interface active). Si votre adresse IP vous est attribuée autmatiquement via DHCP, cochez l&rsquo;option correspondante. La seconde boîte de dialogue vous propose de partager votre connection et d&rsquo;utiliser votre machine comme serveur DHCP. Si vous êtes le pc directement relié à internet que vous partager avec d&rsquo;autre ordinateurs &ldquo;derrière vous&rdquo;, cochez les 2 cases, sinon cliquez sur Suivant pour terminer l&rsquo;assistant.
+</p>
+
+<p>
+Si vous ne faites pas tourner de serveur sur votre machine, que les logs ne vous intéressent pas, et que vous ne souhaitez pas vous plonger davantage dans la configuration de cet outils, vous pouvez vous arrêtez ici à la configuration par défaut, qui devrait vous satisfaire.
+</p>
+
+</div>
+<!-- SECTION [1394-2285] -->
+<a name="configuration"></a><h2> Configuration </h2>
+<div class="level2">
+
+</div>
+<!-- SECTION [2286-2312] -->
+<a name="l_onglet_etat"></a><h3> L'onglet Etat </h3>
+<div class="level3">
+
+<p>
+ Cet onglet montre et permet de contrôler l&rsquo;état général du pare-feu, qui peut être :
+</p>
+<ol>
+<li class="level1"><span class="li"> Actif : le pare-feu est en train de faire son travail</span>
+</li>
+<li class="level1"><span class="li"> Arrêté : le pare-feu est désactivé, il n&rsquo;agit en rien sur le traffic</span>
+</li>
+<li class="level1"><span class="li"> Bloqué : le pare-feu bloque complètement le trafic entrant et sortant : rien ne passe</span>
+</li>
+</ol>
+
+<p>
+Cette page propose également quelques statistiques sur le trafic internet telles que les connexion actives, le nombres d&rsquo;alertes et de paquets reçu, etc.
+</p>
+
+</div>
+<!-- SECTION [2313-2811] -->
+<a name="l_onglet_evenements"></a><h3> L'onglet Evénements </h3>
+<div class="level3">
+
+<p>
+ C&rsquo;est le coin des logs, où vous pouvez voir les tentatives de connexion bloquées avec leur degré de gravité :
+</p>
+<ol>
+<li class="level1"><span class="li"> Noir : tentative de connexion régulière sur un port, bloquée par le pare-feu, en règle générale pas de quoi fouetter un chat</span>
+</li>
+<li class="level1"><span class="li"> Rouge : possible tentative d&rsquo;intrusion, également bloquée</span>
+</li>
+<li class="level1"><span class="li"> Gris : connexions que firestarter juge &ldquo;non-dangereuses&rdquo;, en </span>
+</li>
+</ol>
+
+<p>
+règle générale du traffic &ldquo;broadcast&rdquo;
+</p>
+
+<p>
+<em>Todo : voire le degré des requètes d&rsquo;arpspoof (gris ?) </em>
+</p>
+
+</div>
+<!-- SECTION [2812-3327] -->
+<a name="onglet_politique"></a><h3> Onglet &quot;politique&quot; </h3>
+<div class="level3">
+
+<p>
+ Définissez ici vos règles pour le trafic entrant et sortant de votre machine. Pour le trafic sortant, je suggère l&rsquo;option par défaut. Pour le trafic entrant, si vous avez des serveurs tournant sur votre machine, ouvrez les ports correspondant :
+</p>
+<ol>
+<li class="level1"><span class="li"> Clic droit dans la zone en-dessous de &ldquo;Autoriser le service&rdquo;</span>
+</li>
+<li class="level1"><span class="li"> Ajouter une règle</span>
+</li>
+<li class="level1"><span class="li"> Sélectionnez dans la liste de nom le nom du service que vous faites tourner (par exemple &ldquo;<acronym title="Hyper Text Transfer Protocol">HTTP</acronym>&quot; pour un serveur web) ou, s&rsquo;il n&rsquo;y est pas, entrez le nom du service et le numéro du port</span>
+</li>
+<li class="level1"><span class="li"> Laisser l&rsquo;option par défaut (&rdquo;personne&rdquo;) dans le champ &ldquo;source&rdquo;, afin d&rsquo;ouvrir ce port pour tout le monde</span>
+</li>
+<li class="level1"><span class="li"> Validez</span>
+</li>
+</ol>
+
+</div>
+<!-- SECTION [3328-4009] -->
+<a name="les_preferences_edition_-_preferences"></a><h3> Les préférences (Edition -&gt; Préférences) </h3>
+<div class="level3">
+
+<p>
+ Les préférences par défaut conviennent à l&rsquo;utilisateur lambda. Ceux d&rsquo;entre vous qui connaissent déjà les protocoles réseau et le firewalling n&rsquo;auront aucune difficulté à s&rsquo;y retrouver, je renvoi les autres curieux aux documents facilement trouvables sur le sujet des protocoles réseau et du firewalling.
+</p>
+
+</div>
+<!-- SECTION [4010-4381] -->
+<a name="le_pare-feu_est-il_actif_lorsque_la_fenetre_de_firestarter_est_fermee"></a><h2> Le pare-feu est-il actif lorsque la fenêtre de firestarter est fermée </h2>
+<div class="level2">
+
+<p>
+ La fenêtre ne sert qu&rsquo;à la configuration. Le pare-feu est donc actif même quand elle est fermée, selon ce que vous avez défini dans les préférences &ldquo;Pare-feu&rdquo;. Par défaut le pare-feu (re)démarre au lancement d&rsquo;une connexion ET à l&rsquo;ouverture de l&rsquo;interface de configuration ET à l&rsquo;attribution d&rsquo;une nouvelle adresse via DHCP, ce qui vous assure la couverture de vos arrières.
+</p>
+
+</div>
+<!-- SECTION [4382-4854] -->
+<a name="liens"></a><h2> Liens </h2>
+<div class="level2">
+
+<p>
+ <a href="http://www.fs-security.com/" class="urlextern" title="http://www.fs-security.com/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.fs-security.com/</a>
+</p>
+
+<p>
+<a href="https://www.grc.com/x/ne.dll?bh0bkyd2" class="urlextern" title="https://www.grc.com/x/ne.dll?bh0bkyd2" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">https://www.grc.com/x/ne.dll?bh0bkyd2</a> Site qui vous permet de tester si votre protection est convenable (en anglais).
+</p>
+
+</div>
+<!-- SECTION [4855-5029] -->
+<a name="exemple_de_configuration"></a><h2> Exemple de configuration </h2>
+<div class="level2">
+
+<p>
+Section par : <a href="mailto:&#x6c;&#x61;&#x6d;&#x69;&#x40;&#x77;&#x65;&#x62;&#x65;&#x73;&#x74;&#x72;&#x69;&#x65;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x6c;&#x61;&#x6d;&#x69;&#x40;&#x77;&#x65;&#x62;&#x65;&#x73;&#x74;&#x72;&#x69;&#x65;&#x2e;&#x63;&#x6f;&#x6d;">&#x6c;&#x61;&#x6d;&#x69;&#x40;&#x77;&#x65;&#x62;&#x65;&#x73;&#x74;&#x72;&#x69;&#x65;&#x2e;&#x63;&#x6f;&#x6d;</a>
+</p>
+
+<p>
+J&rsquo;insère ici ma configuration car elle fut pour moi très longue à trouver !
+</p>
+
+<p>
+Voici mes préférences avec une carte réseau Ethernet et un modem ADSL, sans partage de connexion. (Je souhaiterais que les spécialistes dans le domaine, commante ma configuration et dans le cas ou elle ne serait pas bonne, me corriger)
+</p>
+
+<p>
+<strong> Légende : </strong>
+</p>
+
+<p>
+* = coché
+</p>
+
+<p>
+/ = décoché 
+</p>
+<pre class="code">Préférence :
+ * Liste libre
+ - Interface :
+  * Activer l'icone dans la barre des tâches
+  * Minimiser dans la barre des tâches sur fermeture de la fenêtre
+- Événements :
+ * Omettre les entrées redondantes
+ / Omettre les entrées quand la destination n'est pas le pare-feu
+- Politique :
+ * Appliquer les changements de politique immédiatement
+ - Pare-feu :
+  * Démarrer/Redémarrer le pare-feu au démarrage du programme
+  * Démarrer/Redémarrer le pare-feu lors d'une connexion par modem
+  * Démarrer/Redémarrer le pare-feu sur une nouvelle adresse DHCP
+  -Configuration du réseau :
+   - Périphérique réseau connecté à Internet :
+     - Périphériques détectés : [Périphérique Ethernet (eth0)]
+   - Périphérique connecté au réseau local :
+     - Périphériques détectés : [Périphérique Modem (ppp0)]
+      * Autoriser le partatge de la connexion Internet
+      * Autoriser le DHCP pour le réseau local
+  - Filtrage ICMP
+   * Autoriser le filtrage ICMP
+   - Autoriser le suivi des types de paquet ICMP
+    / Requête par écho (ping)
+    / Réponse par écho (pong)
+    / Marquage temporel
+ 
+    / MS Traceroute
+    / Traceroute
+    / Inaccessible
+ 
+    / Masquage d'adresse
+    / Redirection
+    / Extinction de la source
+  - Filtrage ToS :
+   * Autoriser le filtrage sur le Type de Service (ToS) :
+    - Mettre une priorité plus forte pour :
+     / Les stations de travail
+     / Les serveurs
+     / Le système X Windows
+    - Régler les priorités pour maximiser :
+     / le débit
+     * la sécurité de fonctionnement
+     / l'interactivité
+  - Options avancées :
+   - Méthode préférée de rejet des paquets
+    / Rejeter les paquets avec une erreur
+    * Rejeter silencieusement
+   - Trafic broadcast :
+    * Block broadcast from external network
+    / Block broadcast from internal network</pre>
+
+</div>
+<!-- SECTION [5030-] -->

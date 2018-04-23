@@ -1,0 +1,167 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="clear"><ul class="toc">
+<li class="level2"><span class="li"><a href="#introduction" class="toc"> Introduction </a></span></li>
+</ul>
+</li>
+<li class="level1"><span class="li"><a href="#warty" class="toc"> Warty </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#prerequis" class="toc"> Prerequis </a></span></li>
+<li class="level2"><span class="li"><a href="#madwifi_wpa_depuis_.tgz" class="toc"> Madwifi &amp; Wpa depuis .tgz </a></span></li>
+</ul>
+</li>
+<li class="level1"><span class="li"><a href="#hoary" class="toc"> Hoary </a></span></li>
+<li class="level1"><span class="li"><a href="#warty_hoary" class="toc"> Warty &amp; Hoary </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#configuration_de_l_interface" class="toc"> Configuration de l'interface </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Warty et Hoary
+</pre>
+
+<p>
+Rédigée par <a href="/utilisateurs/ju" class="wikilink1" title="utilisateurs:ju" onclick="return svchk()" onkeypress="return svchk()">Ju</a>
+</p>
+
+<a name="introduction"></a><h2> Introduction </h2>
+<div class="level2">
+
+<p>
+WPA (Wifi Protected Access) est une alternative au <a href="http://fr.wikipedia.org/wiki/Wired_equivalent_privacy" class="urlextern" title="http://fr.wikipedia.org/wiki/Wired_equivalent_privacy" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">WEP</a> (Wired equivalent privacy). WPA permet de s&rsquo;assurer que seules les personnes autorisées peuvent accéder à votre réseau.
+</p>
+
+</div>
+<!-- SECTION [75-339] -->
+<a name="warty"></a><h1> Warty </h1>
+<div class="level1">
+
+</div>
+<!-- SECTION [340-361] -->
+<a name="prerequis"></a><h2> Prerequis </h2>
+<div class="level2">
+
+<p>
+ Cvs et  gcc 
+</p>
+<pre class="code">sudo apt-get install cvs gcc &amp;&amp; cd /usr/local/src </pre>
+
+</div>
+<!-- SECTION [362-451] -->
+<a name="madwifi_wpa_depuis_.tgz"></a><h2> Madwifi &amp; Wpa depuis .tgz </h2>
+<div class="level2">
+
+<p>
+ On recupere les drivers madwifi, Ubuntu les gere en interne mais on en aura besoin par la suite :
+</p>
+<pre class="code">cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/madwifi co madwifi''
+cd madwifi/ &amp;&amp; cvs up -dP &amp;&amp; cd ..</pre>
+
+<p>
+ Voilà on a l&rsquo;arborescence qui va bien des drivers à jour.
+</p>
+
+<p>
+Il nous faut le client wpa, wpa_supplicant : 
+</p>
+<pre class="code">wget http://hostap.epitest.fi/releases/wpa_supplicant-0.2.5.tar.gz
+tar zxvf wpa_supplicant-0.2.5.tar.gz
+cd wpa_supplicant-0.2.5/
+make mkconfig
+vi .config</pre>
+
+<p>
+ C&rsquo;est là que c&rsquo;est un peu sioux, il faut lui dire que nous on veut wpa pour notre driver (note pas reussi à compiler la version 0.3.1)
+</p>
+
+<p>
+Dans .config il faut ajouter la ligne :
+</p>
+
+<p>
+<code>CONFIG_DRIVER_MADWIFI=y</code>
+</p>
+
+<p>
+Puis editons le Makefile afin d&rsquo;indiquer où sont les sources de madwifi (ToDo : ca serait plus malin de descendre le paquet qui va bien ?)
+</p>
+
+<p>
+Ligne 80 : <code>CFLAGS += -I../madwifi</code> 
+</p>
+<pre class="code">make &amp;&amp; cp -p wpa_cli wpa_passphrase wpa_supplicant  /usr/local/sbin</pre>
+
+<p>
+ Le make devrait bien se passer
+</p>
+
+</div>
+<!-- SECTION [452-1473] -->
+<a name="hoary"></a><h1> Hoary </h1>
+<div class="level1">
+
+<p>
+Hoary vient avec le paquet wpasupplicant, ce qui est bien <img src="/smileys/icon_wink.gif" align="middle" alt=";-)" /> 
+</p>
+<pre class="code">sudo apt-get install wpasupplicant</pre>
+
+</div>
+<!-- SECTION [1474-1596] -->
+<a name="warty_hoary"></a><h1> Warty &amp; Hoary </h1>
+<div class="level1">
+
+<p>
+ Editons /etc/wpa_supplicant.conf
+</p>
+<pre class="code">ctrl_interface=/var/run/wpa_supplicant
+eapol_version=1
+ap_scan=1
+fast_reauth=1
+
+network={
+      ssid=&quot;votre_ssid&quot;
+      proto=WPA RSN
+      key_mgmt=WPA-PSK
+      psk=&quot;votre_cle_en_clair&quot;
+}</pre>
+
+<p>
+ Il y  a deux endroits à editer, à adapter à votre environnement.
+</p>
+
+</div>
+<!-- SECTION [1597-1946] -->
+<a name="configuration_de_l_interface"></a><h2> Configuration de l'interface </h2>
+<div class="level2">
+
+<p>
+ Pour finir...
+</p>
+
+<p>
+Editons <code>/etc/network/interfaces</code> 
+</p>
+<pre class="code"># The Wifi network interface
+auto ath0
+iface ath0 inet dhcp</pre>
+
+<p>
+Ainsi que <code>/etc/default/wpasupplicant</code> 
+</p>
+<pre class="code">ENABLED=1
+OPTIONS=&quot;-w -D madwifi -i ath0 -c /etc/wpa_supplicant.conf&quot;</pre>
+
+<p>
+Avec Atheros comme chipset, ma carte est ath0 (vous pouvez verifier quelle est votre carte avec <code>iwconfig</code> pour peu que le module correspondant soit inséré dans le noyau.
+</p>
+<pre class="code">ifup ath0</pre>
+
+<p>
+ Et vous devriez etre connecté. 
+</p>
+
+</div>
+<!-- SECTION [1947-] -->

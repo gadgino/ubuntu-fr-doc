@@ -1,0 +1,438 @@
+{{tag>Xenial réseau sécurité BROUILLON}}
+
+----
+
+====== Surveiller le réseau avec Autoscan ======
+
+<note important>Le développement du logiciel semble arrêté depuis 2010 date de la version 1.5.</note>
+AutoScan est un outil entièrement en interface graphique d'exploration, de surveillance et de gestion de réseau. AutoScan est un outil d'exploration et de surveillance réseau offrant des services avancés (scripts, fingerprinting), et s'appuyant sur des outils évolués et aboutis (client Nessus, client SNMP, etc.).
+Le principe de clients distants, dans les futures versions, permettra d'étendre les capacités d'utilisation et les possibilités techniques d'investigations.
+
+Autoscan est un logiciel libre, sous licence GPLv2 et disponible pour Gnu/Linux. Basé sur une interface graphique de type GTK 2.0, il s'appuie sur 2 programmes :
+  * //AutoScan_Network// qui est en quelque sorte ''la partie visible'' (interface graphique),
+  * //AutoScan_Agent// qui est le ''cœur du système'', c'est lui qui réalise l'exploration et la surveillance du réseau.
+
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+Autoscan se présente sous la forme d'un exécutable compressé qui installe l'application. Téléchargez l'archive [[http://autoscan-network.com/|ici]].
+
+[[:archivage#graphiquement|Extrayez l'archive]] dans votre **Dossier Personnel**, puis exécutez le fichier ''AutoScan-Network-Linux-1.50.sh'' dans un terminal : <code>sudo ~./AutoScan-Network-Linux-1.50.sh</code>
+
+=====Utilisation=====
+Lancez l'application via le [[:unity#tableau_de_bord_dash|tableau de bord]] (Unity) ou via le [[:terminal]] (toutes versions d'Ubuntu) avec la [[:commande_shell|commande]] suivante :
+<code>/opt/AutoScan/bin/autoscan-network</code>
+
+==== Interface Générale ====
+
+{{:applications:autoscan1_xenial.png?400}}
+ \\
+
+Au lancement de l'application et après paramétrage (décrit au menu suivant), AutoScan scrute le réseau à la recherche d'équipements qu'il classe en fonction de leur type (stations, serveurs, switchs, routeurs, etc.). Lorsque le type d'équipement est inconnu, il est possible de l'intégrer manuellement dans la base d'empreintes systèmes (OS fingerprinting) intégrée à AutoScan.\\
+
+En fonction de l'identification réalisée, des icônes s'affichent pour faciliter la visualisation des équipements. Ces icônes sont personnalisables, il est possible d'en ajouter en les plaçant dans le répertoire d'icônes (par défaut sous ///opt/AutoScan/usr/share/pixmaps/autoscan-network/Equipment//).
+ \\
+Au fur et à mesure de la découverte, les équipements s'ajoutent dans la fenêtre de gauche. En cliquant sur l'une des stations, le programme affiche des informations complémentaires dans les deux zones de la partie droite. On peut voir notamment :
+  * l'adresse IP
+  * l'adresse MAC
+  * la marque de la carte réseau
+  * les ports ouverts
+  * des champs informations que l'on peut renseigner à la main (adresse mail, nom de la personne, précisions diverses)
+ \\
+
+
+Dans la barre du bas, on visualise en temps réel le volume de données en émission et en réception. On peut également suivre l'état d'avancement de la recherche. Elle indique :
+  * le nombre total d’équipements trouvés
+  * le nombre d’équipement en cours de scan
+  * le nombre d’équipement en attente de scan
+  * le pourcentage d’équipements totalement scannés et affichés dans l’interface
+ \\
+
+Il est possible de limiter le nombre de scans simultanés permettant l'économie des ressources réseau. Par défaut, ce nombre est fixé à 50, cette valeur peut être diminuée sur les réseaux en 10Mb/s. En revanche, il n’est pas conseillé d’augmenter cette valeur. Ce paramètre est accessible en exécutant le programme //''gconf-editor''// puis en modifiant la clé située dans ///apps/AutoScan/preference/network/thread_max//).
+ \\
+
+La visualisation du réseau dans la partie gauche est disponible de deux façons :
+  * par type d'équipement (routeur, switch, imprimante, serveur) et domaine Microsoft sous forme d'arborescence. C'est le mode par défaut.
+  * par adresses IP, qui sont listées dans l'ordre croissant.
+ \\
+
+Cette fonctionnalité est accessible simplement en effectuant un clic-droit sur la liste des équipements (zone de gauche).
+ \\
+
+AutoScan propose également un nombre de fonctionnalités :
+  * Affichage de la liste des ports ouverts. Il est possible d'associer un ou plusieurs programmes à exécuter en fonction du port découvert
+  * Client samba intégré qui permet de naviguer dans les partages de fichiers de type Microsoft
+  * Client Nessus intégré qui permet de se rattacher à un serveur nessus pour effectuer des tests de vulnérabilités sur les équipements
+  * Client Snmp intégré qui permet la récupération d'informations supplémentaires sur les équipements ayant le protocole snmp activé.
+  * Envoi de messages aux équipements disposant du service messagerie (commande //netsend//)
+  * Exécution de scripts pré-programmés (ping et nmap), mais également d'autres que l'on peut créer soi-même
+  * Connexion en telnet ou SSH sur les équipements en disposant
+  * Sauvegarde des résultats dans un fichier au format XML. Ce fichier peut être rechargé au démarrage d'AutoScan
+  * Compte root (super utilisateur) optionnel pour pouvoir exécuter l'application
+ \\
+
+==== Découverte du réseau ====
+
+
+Pour effectuer une découverte du réseau, il faut d'abord cliquer sur le bouton ''Add a network'' dans la barre de menus. On accède alors à un assistant de configuration dans lequel on peut renseigner différents paramètres optionels :
+  * le nom du réseau et une icône de représentation
+  * Le paramètre //private subnet// comporte par défaut les réseaux privées 10.0.0.0/8, 172.16.0.0/12 et 192.168.0.0/16 et les réseaux d'auto-configuration 169.254.0.0/16. Si on utilise donc une de ces plages d'adresses IP, il n'y a rien à configurer.
+  * le nom de communauté SNMP (par défaut //public//)
+
+
+{{applications:autoscan2_xenial.png?350}}
+
+
+On peut alors :
+  * Restaurer un réseau déjà découvert en indiquant le chemin du fichier de sauvegarde au format XML. La cartographie est alors restaurée dans l'interface.
+  * Créer une nouvelle découverte en validant ces paramètres par le bouton //Forward//. On accède à l'étape suivante qui permet de sélectionner l'agent AutoScan (programme //AutoScan_Agent//) qui sera appelé.
+ \\
+
+
+
+En validant par le bouton //Forward//, AutoScan va initialiser l'agent pendant quelques instants et récupérer la liste des interfaces réseau sur la machine.
+
+Il faut sélectionner l'interface et valider par le bouton //Forward// pour démarrer la découverte du réseau. Toutes les actions qu'AutoScan va effectuer se fera avec l'adresse IP de l'interface sélectionnée. AutoScan prend seulement en compte l'adresse IP et le masque de réseau au niveau de la configuration réseau du système. Ainsi la passerelle par défaut, les routes et le serveur DNS sont ignorés.
+ \\
+
+===== Configuration =====
+
+AutoScan intègre des fonctionnalités avancées et évolutives. Ces fonctions sont configurables par le menu //settings// dans la barre d'outils. Il est possible de paramétrer :
+  * l'interface générale
+  * les ports à tester
+  * la base d'empreintes systèmes des OS (Operating System)
+  * les scripts
+  * la fonction de restauration
+
+Ces différentes possibilités de paramétrage sont détaillées ci-après.
+ \\
+
+==== Général ====
+
+Le menu général permet de configurer :
+  * le mode de démarrage furtif (start minimized)
+  * l'activation de l'icône dans la barre d'état système (minimize to trayicon)
+  * l'adresse du serveur SMTP pour la fonction de notification
+  * la sélection du périphérique audio pour les alertes
+  * le type de raccordement, dans le cas d'une connexion à Internet
+
+{{applications:settings_general.png}}
+//Menu configuration General//
+ \\
+
+En validant les paramétres //minimize to trayicon// et //start minimized//, l'icône de l'application se trouve dans la barre d'état du système (systray). Si l'on réduit la fenêtre, celle-ci bascule en mode furtif et il est possible de la retrouver par un clic gauche sur cette icône.
+
+{{applications:notification.png}}
+//Visualisation de l'icône d'AutoSan dans le ''systray''//
+ \\
+
+==== Liste des ports ====
+
+AutoScan effectue son scan de ports en se référant au fichier //port// situé dans ///répertoire personnel utilisateur/.AutoScan/Conf/port.// Le fichier contient environ 75 ports par défaut. Il est possible de rajouter des ports à tester. On peut définir des règles d'affichage d'icône, de zone de texte en fonction du port rencontré.
+
+AutoScan offre la possibilité d'associer un ou plusieurs programmes à un port pour effectuer une connexion directe lorsque ce port est accessible. On peut par exemple associer le navigateur Mozilla lorsque le port TCP 80 (HTTP) est ouvert.
+
+{{applications:settings_ports.png}}
+//Menu Ports//
+ \\
+
+==== Base de données d'empreintes d'OS ====
+
+AutoScan identifie les matériels en se basant sur des signatures d'empreintes de systèmes (OS fingerprinting). Le procédé d'identification des systèmes est développé dans le chapitre II (//Principe de fonctionnement//). AutoScan reconnaît nativement quelques 250 empreintes de systèmes divers (stations de travail, imprimantes, routeurs, switchs, matériels wifi, etc...).
+
+{{applications:settings_fingerprinting_autoscan.png}}
+//Menu Fingerprinting//
+ \\
+
+Cette base est évolutive car si un équipement n'est pas reconnu, AutoScan le classe comme type //unknown equipment//. Il est possible, si on connaît l'équipement, d'augmenter les capacités de reconnaissance de la base de données d'identification. Pour cela, il faut sélectionner le matériel inconnu et se laisser guider par l'assistant détaillé dans la page suivante. Il est ainsi possible de définir :
+  * le nom de l'équipement
+  * son type
+  * son icône d'aide à la visualisation
+ \\
+
+Une fois les paramètres validés, l'équipement se classe en fonction des informations renseignées (modem, switch, routeur, imprimante, wifi).
+En cliquant sur l'équipement, on peut vérifier que celui-ci affiche les renseignements inscrits manuellement.
+ \\
+
+{{applications:unknown_equipment1.png}}
+//Assistant pour l'ajout d'une empreinte d'OS//
+
+{{applications:unknown_equipment2.png}}
+//Indication du nom de l'équipement, de son type et d'une d'icône//
+
+
+{{applications:unknown_equipment3.png}}
+//Possibilité d'envoi par Internet de l'identification pour alimenter la base d'empreintes//
+ \\
+
+Une fois validé, l'équipement se classe en fonction des paramètres (modem, switch, routeur, imprimante). En cliquant sur l'équipement, on peut vérifier que celui affiche les informations que l'on a renseignées précédemment.
+ \\
+
+==== Scripts ====
+
+AutoScan implémente par défaut 2 scripts, optionnels et indépendants du fonctionnement du programme, qui permettent d'effectuer :
+  * un scan de ports à l'aide du logiciel Nmap (doit être présent dans ///usr/bin///)
+  * un test de l'équipement par la commande //ping//
+ \\
+
+{{applications:settings_scripts.png}}
+//Menu Scripts//
+ \\
+
+Il est possible de créer et d'ajouter des scripts adaptés aux besoins par une syntaxe simple.
+ \\
+
+==== Fonction restauration ====
+
+AutoScan permet de sauvegarder les réseaux découverts dans un fichier au format XML. Dans ce menu, il est possible de sélectionner un schéma qui sera restauré à chaque lancement de l'application.
+
+{{applications:settings_restore.png}}
+//Menu Restore//
+ \\
+
+===== Fonctions implémentées =====
+
+Nativement, AutoScan propose plusieurs fonctionnalités très utiles, qui de plus, s'adaptent à la configuration des équipements découverts. Ces fonctionnalités sont :
+  * Affichage de la liste des ports ouverts. Il est possible d'associer un ou plusieurs programmes à exécuter en fonction du port découvert
+  * Client samba intégré qui permet de naviguer dans les partages de fichiers de type Windows ou Linux (Samba)
+  * Client Nessus intégré pour effectuer des tests de vulnérabilités sur les équipements
+  * Envoi de messages aux équipements disposant du service messagerie (commande //netsend//)
+  * Connexion en telnet ou SSH sur les équipements le permettant
+  * Execution de scripts
+  * Module de recherche multicritères
+  * Notification en cas d'événements
+  * Alertes de sécurité
+  * Champs d'informations
+
+Elles sont accessibles de différentes façons et disponibles en fonction de la configuration découverte sur les équipements. Ainsi, l'option d'accès Telnet ne sera disponible que sur les équipements ayant le port TCP 23 (Telnet) ouvert. Cela est valable sur la plupart des  services proposés. Les deux captures d'écrans ci-dessous illustrent bien ces disponibilités.
+ \\
+
+
+{{applications:options1.png}}
+//Imprimante dont le port Telnet est ouvert avec l'option d'accès Telnet disponible//
+
+
+{{applications:options2.png}}
+//Station de travail Microsoft avec le partage de fichiers activé, l'option client partage est disponible, mais pas le client Telnet//
+ \\
+
+==== Ports ouverts ====
+
+Dans un premier temps, AutoScan découvre sur le réseau les stations présentes, puis tente un balayage de ports (scan) pour découvrir les services ouverts (ports). Les ports ouverts apparaissent dans la zone en bas à droite. C'est l'affichage par défaut dans cette zone.
+ \\
+
+{{applications:activation_notification.png}}
+//Exemple de la découverte d'une imprimante avec la liste de ces ports TCP ouverts : FTP (port 21), Telnet (port 23), HTTP (port 80) et Printer (port 515)//
+ \\
+
+Comme cela a été décrit dans le paragraphe liste des ports, il est possible d'effectuer une connexion sur un équipement si une association entre un port et un ou plusieurs programmes a été paramétrée.
+
+{{applications:programme_associe.png}}
+//Possibilité d'accès en HTTP sur l'équipement, en cliquant sur le port, une fenêtre s'affiche en proposant l'accès par l'ouverture du navigateur web Firefox//
+ \\
+
+==== Client Samba (partage de fichiers type Microsoft Windows) ====
+
+AutoScan possède un client pour accéder au partage de réseau type Microsoft (SMB //server message block// ou CIFS //common internet file system//).
+
+{{applications:samba_connect_autoscan.png}}
+//Menu authentification pour l'accès au partage de fichiers//
+
+
+{{applications:samba_fichier_autoscan.png}}
+//Après authentification, l'accès sur le partage permet la visualisation des fichiers//
+
+==== Client Nessus ====
+
+AutoScan propose également de s'interfacer avec le scanner de vulnérabilités Nessus [[http://www.nessus.org|www.nessus.org]]. Cette option, disponible pour tous les équipements, est accessible sur la barre de menu située au centre. Pour se connecter, il faut renseigner des paramètres spécifiques au serveur Nessus ( le login, le mot de passe, et l'adresse du serveur Nessus).
+C'est le programme //AutoScan_Agent// qui se connecte sur le serveur Nessus. Le serveur peut être local ou distant. On valide en cliquant sur le bouton //start//.
+
+{{applications:nessus.png}}
+//Configuration du client Nessus//
+
+Pour son scan de vulnérabilités, le client va utiliser une configuration unique (générique et non dangereuse) en fonction des possibilités que le serveur Nessus offre. Ce paramètrage n'est pas forcément optimisé pour un type de matériels, mais il va permettre de couvrir l'ensemble des équipements du réseau.
+
+{{applications:screenshot_autoscan_nessus2.png}}
+//Visualisation d'un rapport de scan sur un équipement//
+ \\
+
+Une fois le scan effectué, le rapport s'affiche dans la zone gauche de l'interface. On peut choisir le menu qui nous intéresse et visualiser le détail de chaque vulnérabilités ou informations trouvées.
+AutoScan fonctionne parfaitement avec la dernière version en date de Nessus (version 2.2.7). Cette version est en téléchargement sur le site [[http://www.nessus.org/download|www.nessus.org/download]]
+ \\
+
+//Nota// : Lorsque les agents distants seront implémentés, il sera utile de disposer d'un serveur Nessus sur chaque site. Il pourra être installé sur la même station que l'agent AutoScan distant. Ce choix ne sera pas obligatoire mais il permettra d'éviter une surcharge de flux réseaux, lors du scan Nessus, sur le lien inter-sites. Seuls les résultats du scan seront transmis ce qui représente peu de données.
+ \\
+
+==== Connexion en telnet ou SSH ====
+
+Lorsqu'un équipement dispose d'un serveur Telnet (port TCP 23) ou d'un serveur SSH (port TCP 22), AutoScan propose la connexion sur ces ports.
+Ces deux services offrent une connexion directe sur l'équipement, utilisée en général pour de l'administration à distance. Le protocole Telnet transite en clair sur le réseau, il faut donc faire attention à la sécurité car le login et le mot de passe peuvent être visibles si quelqu'un ''écoute'' le réseau. SSH quant à lui est chiffré, son emploi est donc plus approprié sur des réseaux sensibles.
+
+{{applications:telnet_autoscan.png}}
+//Connexion par Telnet sur une station Linux avec présentation de la bannière//
+
+{{applications:ssh.png}}
+//Connexion en SSH sur une station//
+ \\
+
+==== Netsend (envoi de message) ====
+
+Pour les stations (Microsoft ou Linux utilisant Samba) utilisant le service de messagerie (netsend), AutoScan propose l'envoi direct de message. Pour bénéficier de cette option, il faut la choisir dans la barre de menu située au centre, écrire son message dans la fenêtre du bas, puis valider par le bouton //Send//.
+
+{{applications:netsend_autoscan.png}}
+//Préparation d'envoi de message par Netsend//
+ \\
+
+==== Exécution de scripts ====
+
+Par défaut, AutoScan propose l'accès à deux scripts basiques très utiles. Comme vu dans le chapitre ''configuration de scripts'', ces scripts permettent d'effectuer un scan de ports (par Nmap), et un test de présence de l'équipement par la commande //ping//. Ils sont disponibles sur tous les éléments découverts.
+
+{{applications:script_autoscan.png}}
+//Utilisation du scripts ''Ping'' sur une station//
+
+Le script //Ping// est un bon complément aux tests automatiques effectués par AutoScan.
+ \\
+
+==== Module de recherche multicritères ====
+
+AutoScan intègre un menu de recherche avancée qui permet de retrouver un ou plusieurs équipements :
+  * par adresse MAC
+  * par adresse IP
+  * par nom d'hôte
+  * par service (port ouvert)
+
+Cette option est disponible en cliquant sur le bouton //Search// dans la barre du menu principale. Une fenêtre s'affiche et permet de spécifier son type de recherche.
+
+{{applications:search.png}}
+//Exemple de recherche sur le service DHCP//
+
+Une fois validé, le ou les éléments concernés s'affichent en surbrillance.
+ \\
+
+==== Notification ====
+
+Cette option est détaillée dans le chapitre suivant.
+ \\
+
+==== Alertes ====
+
+Cette option est détaillée dans le chapitre suivant.
+ \\
+
+==== Champs d'informations et d'inventaires ====
+
+Ces champs sont disponibles dans la fenêtre de visualisation en haut à droite. Ils servent à renseigner manuellement des informations de toutes sortes comme par exemple :
+  * l'identification de la personne utilisant l'équipement
+  * son adresse mail, ses coordonnées téléphoniques
+  * sa localisation
+  * des numéros de série divers (systèmes, logiciels)
+  * des renseignements techniques
+
+
+{{applications:info_inventory.png}}
+//Visualisation des champs Info et Inventory à renseigner manuellement//
+ \\
+
+Ces informations sont bien entendues optionnelles, mais elles permettent d'enrichir les possibilités d'AutoScan qui peut être utilisé également comme un outil de gestion de parc informatique.
+ \\
+
+===== Principe de fonctionnement =====
+
+==== Investigation du réseau ====
+
+
+Pour découvrir le réseau, AutoScan scanne la plage d'adresses IP paramétrée au lancement de l'application. Ce scan s'effectue par l'envoi de 5 paquets "ARP request" dans l'ordre croissant de la plage d'adresses IP définie.
+Si un équipement répond à un "ARP request", AutoScan interroge cette machine en lui envoyant des paquets "SYN TCP" sur les ports inscrits dans le fichier //ports//. En parallèle, le logiciel continue les "ARP request" sur les adresses suivantes.
+ \\
+
+Dans la barre de progression située en bas à gauche, on peut suivre l'état d'avancement de la recherche. Elle indique :
+  * le nombre total d’équipements trouvés
+  * le nombre d’équipements en cours de scan
+  * le nombre d’équipements en attente de scan
+  * le pourcentage d’équipements totalement scannés et affichés dans l’interface
+ \\
+
+Au fur et à mesure des découvertes, AutoScan affiche ses résultats dans la colonne de gauche de l'interface. Cet affichage s'effectue, par défaut, en mode ''type d'équipement identifié'' (serveur, routeur, switch, imprimante, domaine ou groupe de travail Windows) comme cela a été décrit au chapitre 1.1 - Interface générale -.
+
+Une fois la découverte du réseau terminée, AutoScan passe en mode surveillance.
+ \\
+
+==== Surveillance du réseau ====
+
+
+Pour effectuer cette surveillance, AutoScan se met en mode écoute (mode promiscuous). Ainsi, il peut surveiller les machines déjà présentes mais également détecter un ou plusieurs équipements qui se connectent ultérieurement. Lorsque l'élément va émettre du trafic, il sera reconnu et ajouté dans la liste. Cela représente au moins un double avantage :
+  * meilleure sécurité du réseau pour repérer les équipements ''pirates'', ou ceux qui sont hors-plages d'adresses IP qui apparaissent en type firewall. Il faut bien entendu que ces adresses soient incluses dans les plages définies au niveau des //private subnet//
+  * découverte rapide d'un équipement dont on ne se souvient plus de l'adresse IP
+ \\
+
+AutoScan intègre également un système de ''test de présence'' (polling) à plusieurs niveaux :
+  * présence simple ( l'adresse IP X est-elle toujours présente ?)
+  * services disponibles (mes services ftp, web, etc. sont-ils encore disponibles ?)
+
+La présence simple est effectué environ toutes les 15 minutes. Si l'on dispose d'équipement nécessitant une attention particulière, le logiciel propose un système de //surveillance accrue//.
+En cliquant sur le bouton //Notification//, disponible dans la barre du menu principale, le temps des tests passe à environ 20s. Si l'adresse email est configurée sur l'équipement concerné dans le paramétre //Info / Admin Email//, on peut être prévenu par l'envoi d'un courriel en cas de problème de disponibilité de la machine mais également d'un ou plusieurs services.
+
+Cette option est disponible par équipement et s'effectue individuellement.
+
+{{applications:activation_notification.png}}
+//Activation de la notification par la sélection de l'équipement concerné, puis de la fonctionnalité dans le menu//
+ \\
+
+En cas de problème sur un des équipements ayant la notification activée, une fenêtre s'affiche en fonction du type de problème :
+  * l'équipement ne répond plus
+  * un service sur un équipement n'est plus disponible
+ \\ 
+
+{{applications:notification_equipment_autoscan.png}}
+//La station de travail ne répond plus//
+
+
+{{applications:notification_port_autoscan.png}}
+//Le port TCP 80 (HTTP) n'est plus disponible//
+ \\
+
+AutoScan intègre aussi un mode surveillance sécurisé du réseau. Ce mode permet de //figer// l'état de son réseau. Une fois la découverte réalisée, on peut activer l'option //Intrusion Alert//. Cela veut dire qu'une fois activée, cette option va afficher une fenêtre d'alerte en précisant l'adresse MAC et l'adresse IP de l'équipement qui sera découvert. Cette alerte va concerner les matériels se trouvant dans les plages d'adresses réseaux définis au paramètre //private subnet//.
+
+{{applications:intrusion_alert_autoscan.png}}
+//Découverte, après sécurisation du réseau, de l'adresse IP 192.168.55.22 avec l'adresse MAC 00:0E:35:85:02:EA//
+
+
+===== Problèmes connus =====
+
+La configuration du réseau n'est réalisable que sur des réseaux sans masques variables (subnetting). Sur un réseau utilisant le subnetting, AutoScan génére du flux sur des adresses IP hors de son réseau. L'exemple suivant explique la problématique :
+On prend l'adresse réseau 192.168.4.0 avec un masque de sous-réseau en 255.255.255.248 (ce qui peut s'écrire également 192.168.4.0/29). On obtient donc :
+  * 1er sous-réseau IP : 192.168.4.0 -> 192.168.4.8 qui se décompose en 8 adresses (1 réseau + 6 machines + 1 broadcast dirigé).
+  * 2eme sous-réseau IP : 192.168.4.9 -> 192.168.4.16 qui se décompose en 8 adresses (1 réseau + 6 machines + 1 broadcast dirigé).
+
+AutoScan commence son scan par l'adresse 192.168.4.0 et termine par 192.168.4.255. Le problème est qu'il scanne 256 adresses au lieu de 7. De plus, si il parvient à récupérer une adresse en dehors de son sous-réseau, il considère l'équipement comme étant un firewall.
+ \\
+
+===== Conseils =====
+
+Les fichiers de configuration d'AutoScan sont stockés dans le répertoire de l'utilisateur qui a installé l'application (home directory) ; Exemple si on le lance en tant que root, les fichiers sont sous : ///root/.AutoScan/Config// . Attention le répertoire AutoScan est caché. Dans ce répertoire, on retrouve notamment :
+  * //Subnet.xml// - sauvegarde des réseaux (paramètre //private subnet// de l'assistant de configuration pour la découverte du réseau)
+  * //Port.xml// - liste des ports à tester
+  * //Finger_Printing.xml// - base d'empreintes systèmes
+  * //Script.xml// – liste des scripts (par défaut ping et nmap)
+  * //Restore.xml// – fichier de sauvegarde pour la restaraution d'une découverte de réseau par défaut
+  * //Mac// – fichier contenant le champ constructeur identifiant les cartes réseaux sur les trois premiers octets
+ \\
+
+A chaque lancement du programme, AutoScan tente de mettre à jour le fichier d'empreintes systèmes sur le site Internet [[http://autoscan.free.fr]]. Aucune option ne permet de désactiver cette fonctionnalité. Dans le cas d'une utilisation sur un réseau fermé, le problème est que le fichier //Finger_Printing.xml// n'est pas présent sur la station au premier lancement d'AutoScan, il faut donc penser à utiliser un fichier sauvegardé précédemment ou à créer un fichier vide du même nom.
+ \\
+=====Désinstallation=====
+Pour désinstaller le logiciel, lancer un [[:terminal]] puis exécuter la commande : <code>sudo /opt/AutoScan/uninstall</code>
+
+
+===== Voir aussi =====
+
+  * [[http://autoscan-network.com]|Site Web]],
+  * [[http://autoscan-network.com/index.php?option=com_content&task=view&id=17&Itemid=31|Documentation]].
+
+----
+
+//Contributeur : [<fazer.sb@free.fr>]//

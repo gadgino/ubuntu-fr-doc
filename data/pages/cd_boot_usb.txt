@@ -1,0 +1,218 @@
+{{tag>live_usb}}
+----
+
+====== Création d'un CD d'amorçage pour booter sur un support USB ======
+
+
+===== Introduction =====
+
+La création d'un CD-ROM d'amorçage qui boote sur un support USB bootable est intéressant pour les BIOS qui ne sont pas capables de démarrer sur l'USB, mais aussi si vous n'avez pas accès au BIOS et que ce dernier démarre en priorité sur le lecteur CD.
+===== Méthode 1 : avec PLoP Boot Manager =====
+
+
+  - Téléchargez la dernière version de [[http://www.plop.at/en/bootmanager/download.html|PLoP Boot Manager]] (/!\ Licence privatrice /!\)
+  - Décompressez l'archive
+  - Insérez un CD vierge dans le lecteur-graveur
+  - Utilisez votre [[:gravure|logiciel de gravure]] habituel pour graver l'image ISO **plpbt.iso** (située à la racine du dossier décompressé)
+  - Insérez le support USB sur lequel il faut amorcer et redémarrez la machine.
+  - Tapez "plp" pour charger PLoP Boot Manager 
+  - Après le chargement de PLoP Boot Manager, sélectionner USB dans le menu.
+
+
+===== Méthode 2 : Avec GRUB Legacy =====
+
+==== Configuration initiale et pré-requis ====
+
+  - Avoir une clé USB avec une distribution Linux (Ici Ubuntu 8.10)
+  - Vous n'avez pas installé Grub sur votre disque dur, mais sur votre clé. (au §7 de l'installation dans **Avancé...**)
+  - Pour démarrer vous êtes obligé de modifier le 1er disque de Boot dans le BIOS.
+
+
+Avec le CD de BOOT, plus besoin de modifier le BIOS. \\
+__
+Convention, le nom de l'utilisateur principal est : manu__ \\
+
+**
+Prérequis :**
+Accès au terminal pour entrer des commandes en ligne de commande :
+APPLICATIONS>ACCESSOIRES>TERMINAL
+
+{{:ubuntu_acces_au_terminal.jpg}}
+
+Quelques commandes pour le terminal :
+
+//lshw// pour obtenir la liste du matériel \\
+//uname// pour vérifier votre noyau Linux \\
+//sudo bash// pour passer en SuperUtilisateur (root ), saisir votre mot de passe \\
+//gksu -u manu// pour ouvrir en Root une application en mode graphique. \\
+
+Saisir  dans la fenêtre : nautilus  ( l'explorateur de fichier Ubuntu) \\
+Saisir dans la fenêtre votre psw. \\
+
+Pour effectuer un copier coller dans le terminal : Shift+Ctrl+C et Shift+Ctrl+V
+
+Accès au logiciel de gravure Brasero
+APPLICATIONS>SON ET VIDEO>GRAVURE DE DISQUE BRASERO
+
+{{:ubuntu_acces_a_brasero.jpg|}}
+
+
+
+==== Recherche du Noyau et du nom de la clé USB ====
+
+Dans le terminal
+
+Noyau avec la commande uname
+<code>
+manu@manu-desktop:~$ uname -a 
+Linux manu-desktop 2.6.27-9-generic #1 SMP Thu Nov 20 21:57:00 UTC 2008 i686 GNU/Linux 
+</code>
+ou avec **-r** pour avoir uniquement la version du noyaux
+<code>
+manu@manu-desktop:~$ uname -r
+2.6.27-9-generic
+</code>
+
+=>  Relevez le nom du noyau (ici 2.6.27-9-generic)
+
+
+Commande lshw => La clé USB\\
+dans un terminal, lancer la commande: sudo lshw |grep -C5 "numéro de série:"\\
+grep permet de sélectionner les lignes à afficher (contenant "numéro de série:")
+<code>
+           *-disk 
+             description: SCSI Disk 
+             physical id: 0.0.0 
+             bus info: scsi@4:0.0.0 
+             logical name: /dev/sdc 
+             size: 7656MiB (8027MB) 
+             capabilities: partitioned partitioned:dos 
+             configuration: signature=04030201 
+           *-volume:0 
+                description: EXT3 volume 
+                vendor: Linux 
+                physical id: 1 
+                bus info: scsi@4:0.0.0,1 
+                logical name: /dev/sdc1 
+                logical name: / 
+                logical name: /dev/.static/dev 
+                version: 1.0 
+                serial: a8b5351c-69de-4494-b818-b5709d551fc2 
+                size: 7279MiB 
+                capacity: 7279MiB 
+                capabilities: primary bootable journaled extended_attributes large_files huge_files recover ext3 ext2 initialized 
+                configuration: created=2008-12-28 18:23:00 filesystem=ext3 modified=2009-01-10 10:21:15 mount.fstype=ext3 mount.options=ro,errors=remount-ro,data=ordered mounted=2009-01-10 10:05:09 state=mounted 
+           *-volume:1 
+                description: Extended partition 
+                physical id: 2 
+                bus info: scsi@4:0.0.0,2 
+                logical name: /dev/sdc2 
+                size: 376MiB 
+                capacity: 376MiB 
+                capabilities: primary extended partitioned partitioned:extended 
+              *-logicalvolume 
+                   description: Linux swap / Solaris partition 
+                   physical id: 5 
+                   logical name: /dev/sdc5 
+                   capacity: 376MiB 
+                   capabilities: nofs 
+</code>
+
+=> Cherchez dans votre liste de matériel la clé avec une information du type :  primary bootable et  description: Linux. \\
+=> Relevez le numéro de série (ici :  a8b5351c-69de-4494-b818-b5709d551fc2)
+
+Note : il est plus pratique de se servir du numéro de série (ou uuid) que du nom du disque ( ici hd(0,3) )
+
+Avec le noyau 2.6.27-9-generic et le numéro de série  a8b5351c-69de-4494-b818-b5709d551fc2 on est prêt.
+
+
+==== Création de la structure de répertoire et les fichiers. ====
+
+Ouvrir le terminal et taper : gksu -u manu \\
+Dans la fenêtre : nautilus \\
+{{:ubuntu_gksu_pour_acces_nautilus.jpg|}} \\
+Saisi du mot de passe. \\
+{{:ubuntu_gksu_saisir_mot_de_passe.jpg|}} \\
+
+L'explorateur de fichiers Nautilus s'ouvre.\\
+Dans /home/manu/documents, créer bootcd/boot/grub
+
+Dans /usr/lib/grub/i386-pc/ \\
+copier stage2_eltorito et le coller dans /home/manu/documents/bootcd/boot/grub
+
+Avec applications>accessoires>éditeur de texte \\
+créer menu.lst dans home/manu/documents/bootcd/boot/grub
+
+
+Ouvrez menu.lst et mettez le code suivant :
+Dans menu.lst on trouve le noyau et le numéro de la clé.
+
+<code>
+echo "default 0
+timeout 20
+color cyan/blue white/blue
+
+title           Ubuntu USB (ro quiet splash)  kernel 2.6.27-9-generic
+uuid		a8b5351c-69de-4494-b818-b5709d551fc2
+kernel		/boot/vmlinuz-2.6.27-9-generic root=UUID=a8b5351c-69de-4494-b818-b5709d551fc2 ro quiet splash 
+initrd		/boot/initrd.img-2.6.27-9-generic
+quiet
+
+title           Ubuntu USB (ro NO-quiet splash)  kernel 2.6.27-9-generic
+uuid		a8b5351c-69de-4494-b818-b5709d551fc2
+kernel		/boot/vmlinuz-2.6.27-9-generic root=UUID=a8b5351c-69de-4494-b818-b5709d551fc2 ro splash 
+initrd		/boot/initrd.img-2.6.27-9-generic
+quiet
+
+</code>
+
+<note tip>Note : vous pouvez vérifier que /boot/vmlinuz-2.6.27-9-generic et /boot/initrd.img-2.6.27-9-generic
+ existent bien.</note>
+
+==== Créer l'iso ====
+
+Fermer nautilus, le terminal et ouvrir le terminal à nouveau.
+Changer de répertoire avec cd Documents/
+Passer en super admin avec sudo bash
+Créer l'iso avec  mkisofs -R -b boot/grub/stage2_eltorito -no-emul-boot -boot-load-size 4 -boot-info-table -o grub.iso bootcd
+
+
+<code>
+manu@manu-desktop:~$ cd Documents/
+manu@manu-desktop:~/Documents$ sudo bash 
+[sudo] password for manu: 
+root@manu-desktop:~/Documents# mkisofs -R -b boot/grub/stage2_eltorito -no-emul-boot -boot-load-size 4 -boot-info-table -o grub.iso bootcd 
+I: -input-charset not specified, using utf-8 (detected in locale settings) 
+Using VMLIN000.27_;1 for  bootcd/boot/vmlinuz-usb-2.6.27-9-generic (vmlinuz-usb-2.6.27-7-generic) 
+Using INITR000.27_;1 for  bootcd/boot/initrd-usb.img-2.6.27-9-generic (initrd-usb.img-2.6.27-7-generic) 
+Using MENU000.LST;1 for  bootcd/boot/grub/menu.lst (menu.lst~) 
+Size of boot image is 4 sectors -> No emulation 
+ 47.93% done, estimate finish Tue Dec 30 21:30:27 2008 
+ 95.72% done, estimate finish Tue Dec 30 21:30:27 2008 
+Total translation table size: 2048 
+Total rockridge attributes bytes: 1420 
+Total directory bytes: 4576 
+Path table size(bytes): 34 
+Max brk space used 0 
+10456 extents written (20 MB)
+</code>
+ 
+
+<note tip>Vérifier que : manu/documents/bootcd/grub.iso existe</note>
+
+==== Graver le disque ====
+
+Ouvrir le logiciel de gravure : Applications>Son et Vidéo>Gravure de Disque Brasero
+Utilisez le bouton : Graver une image.
+
+
+Pour lancer Ubuntu sans modifier le bios, mettre le CD dans un lecteur, brancher votre clé et démarrez le PC.
+Un menu s'affichera, le 1er choix est silencieux (pas de visualisation des scripts) le second choix permet un visualisation des scripts de démarrage.
+
+__
+Pour résumer__ :
+trois répertoires à créer, un fichier à copier, un à créer puis réaliser une image iso et la graver.
+
+Note sur le mode **persistant** que vous trouverez dans certains menu.lst.
+Ce mode permet d'enregistrer des config perso sur un fichier alors que l'on utilise un LIVE_CD ou une LIVE_USB.
+Ce qui n'est pas notre cas, nous, nous avons une distribution Linux installée sur une clé.

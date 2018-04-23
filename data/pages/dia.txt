@@ -1,0 +1,61 @@
+{{tag>Precise Trusty cao diagramme mécanique}}
+----
+
+====== Dia, créateur de diagrammes ======
+
+**Dia** est un logiciel de dessin permettant de faire des plans et des schémas à la manière de Microsoft Visio. Il permet en standard de faire des schémas UML, des schémas électroniques, des chronogrammes, schémas SADT / IDEF0, etc. Il possède aussi les modèles //(templates)// pour le schéma du génie civil et bien d'autres.
+
+Dia permet de sauvegarder les schémas créés dans son propre format (.dia) mais également dans de nombreux autres comme en T<sub>E</sub>X (script pour reproduire le schéma), en DXF, en PNG, en EPS, et bien d'autres encore.
+
+{{applications:dia.png?500}}
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+==== Depuis les dépôts officiels (stable) ====
+
+Si vous utilisez l'environnement de bureau [[:gnome|GNOME]], [[:tutoriel:comment_installer_un_paquet|installez plutôt le paquet]] **[[apt>dia-gnome]]**.
+
+Pour les autres environnements, [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>dia]]**.
+
+==== Depuis un PPA (expérimental) ====
+
+Une version plus récente, construite à partir de la branche de développement, est disponible dans un dépôt [[:PPA]].
+
+ [[:PPA|Ajoutez le PPA]] **ppa:dreibh/ppa**((https://launchpad.net/~dreibh/+archive/ppa)) dans vos sources de logiciels,  [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]], et installez le paquet en fonction de votre [[:environnements|environnement de bureau]]:
+  * Sous Ubuntu ([[:GNOME]]), [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>/dia-gnome|dia-gnome]]**.
+  * Sous les autres environnements, [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>dia|dia]]**.
+
+===== Utilisation =====
+Pour lancer l'application faites une recherche dans [[unity#tableau_de_bord_dash|le tableau de bord Unity]] avec le mot clé **Dia**.
+
+
+===== Bug des commentaires =====
+
+Sur certaines versions, un bug empêche d'éditer les zones de commentaires (qui sont alors trop petites). Pour résoudre le problème, vous pouvez utiliser la commande suivante dans le terminal (//remarque// : vous pouvez utiliser un [[:alias]] pour simplifier la commande à entrer) :
+<code>env LIBOVERLAY_SCROLLBAR=0 dia</code>
+
+
+Pour "résoudre" le problème graphiquement, il faut alors adapter le fichier **dia.desktop**. Une solution sûre est de copier ce fichier pour l'utilisateur courant via la commande
+<code>cp /usr/share/applications/dia.desktop ~/.local/share/applications</code>
+Puis de changer la ligne d'exécution de Dia :
+<code>sed -i "s/Exec=dia/Exec=env LIBOVERLAY_SCROLLBAR=0 dia/" ~/.local/share/applications/dia.desktop</code>
+
+De cette manière, lorsque vous lancez Dia graphiquement depuis le menu, les zones de commentaires ont une taille normale. Cela permet également de lancer Dia correctement lorsque l'on double-clic sur un fichier Dia.
+
+<note>Ce bug est toujours présent sur Ubuntu 14.04.  La manipulation y a été testé avec succès.</note>
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+=====Voir aussi=====
+
+  * **(en)** [[http://live.gnome.org/Dia|Site officiel de Dia]]
+  * **(en)** [[http://openclipart.org/|openclipart.org]], source libre où vous trouverez des icônes ou autres images à ajouter à vos schémas.
+
+----
+//Contributeur principal : [[utilisateurs:OStaquet]].//

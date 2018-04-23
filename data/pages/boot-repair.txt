@@ -1,0 +1,147 @@
+{{tag>Precise Trusty Xenial système}}
+----
+ 
+{{ http://pix.toile-libre.org/upload/thumb/1312539033.png?80&nolink}}
+
+====== Réparateur de Démarrage ======
+
+Le **Réparateur de Démarrage** (//Boot-Repair// en anglais) est un petit outil qui propose :
+  * un bouton //Réparation recommandée// permettant de réparer la plupart des problèmes de démarrage (par exemple lorsque Ubuntu ne démarre plus suite à l'installation de Windows, lorsque le menu GRUB n’apparaît plus((par exemple si un [[https://bugs.launchpad.net/bugs/441941|logiciel Windows a écrit dans le MBR]])) ou lorsque vous avez une erreur //GRUB rescue>// ou //out-of-disk//) ;
+  * un deuxième bouton permettant de créer un [[:tutoriel:boot-info|rapport Boot-Info]] en un clic (pour obtenir de l’aide via email ou forum) ;
+  * les options avancées permettant, entre autres, de :
+    * mettre à jour le menu de démarrage GRUB ;
+    * reconfigurer GRUB (ajouter des options de kernel, etc.) ;
+    * purger et réinstaller GRUB2 ;
+    * restaurer un secteur d’amorçage compatible Windows (XP, Vista, Seven) ;
+    * restaurer un MBR permettant de démarrer Windows en mode Legacy.
+    * répare aussi bien les PCs récents (UEFI) que les PCs anciens.
+
+{{http://pix.toile-libre.org/upload/original/1416025783.png|Réparateur de Démarrage}}
+
+//Boot-Repair// est un logiciel libre (GNU-GPL).
+
+<note warning>//Boot-Repair// répare les problèmes de démarrage uniquement. Pas ceux d'affichage par exemple. Si vous ne savez pas quel type de problème vous avez, consultez la page [[:diagnostic|diagnostic]], et créez un //[[:tutoriel:boot-info|rapport Boot-Info]]// pour demander de l’aide sur le forum.</note>
+<note important>Boot-repair ne sait pas reconstruire  la structure complexe de boot de windows qui  doit se faire avec les outils windows (bcdedit /rebuild)</note>
+
+===== Installation =====
+
+Plusieurs possibilités :
+Attention ! La manipulation décrite au 1.1 n’est pas fiable, voir [[https://forum.ubuntu-fr.org/viewtopic.php?id=604011&p=14|ici]] les messages #329-330. Il vaut mieux procéder par la manipulation décrite en 1.2 ou 1.3
+
+
+==== Obtenir un disque avec Boot-Repair pré-installé ====
+
+Par commodité, ou si votre PC en panne n’a pas de connexion internet, vous pouvez télécharger un disque avec Boot-Repair pré-installé, par exemple [[http://forum.ubuntu-fr.org/viewtopic.php?pid=5745281#p5745281|Boot-Repair-Disk]] ([[wpfr>Live CD]] lançant automatiquement Boot-Repair au démarrage). A noter : la version datée du 2014-11-30 de Boot-Repair-Disk ne convient pas pour Ubuntu 16.10 (et variantes 16.10) : voir [[http://forum.ubuntu-fr.org/viewtopic.php?id=2004424|ICI]])
+
+Créez un [[:live_usb|liveUSB]] à partir de cette image ISO (attention, ne [[:gravure|gravez]] pas cette image sur DVD si votre PC a Windows 8 pré-installé, ou s'il démarre en mode [[EFI]]).
+Puis démarrez votre ordinateur dessus.
+
+==== Installer Boot-Repair depuis une session live (DVD ou liveUSB) de Ubuntu ====
+
+Si vous disposez d’un liveDVD (ou d'une [[:live_usb|liveUSB]]) de Ubuntu, et que votre PC en panne a une connexion internet, vous pouvez installer Boot-Repair temporairement :
+  - Démarrer l’ordinateur sur le [[:live CD]] (ou la [[:live_usb|liveUSB]]) Ubuntu ;
+  - Choisir //Essayer Ubuntu//;
+  - Si ce n'est pas déjà fait, connecter internet;
+  - Ouvrir un [[:terminal]] et saisir les [[:commande_shell|commandes]] suivantes (appuyer sur Entrée après chaque ligne) ;
+  -  [[:ppa#ajout_d_un_ppa_a_vos_sources_logicielles|Ajouter à vos sources de logiciels le PPA]] suivant((https://launchpad.net/~yannubuntu/+archive/ubuntu/boot-repair)): 
+<code>sudo add-apt-repository ppa:yannubuntu/boot-repair</code> 
+
+6.  [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Recharger la liste des paquets]]\\
+
+<code>sudo apt-get update</code>
+
+ 7. [[:tutoriel:comment_installer_un_paquet|Installer le paquet]] **[[apt>boot-repair]]**\\
+
+<note important>Dans une session Live USB les dépôts universe et multiverse ne sont pas installés, ce qui peut poser problème lors de l'installation de boot-repair. Voici la commande permettant d'installer ces dépôts (à adapter selon la version d'Ubuntu) :
+<code>	sudo add-apt-repository deb http://fr.archive.ubuntu.com/ubuntu/ xenial universe multiverse
+	sudo add-apt-repository deb deb http://security.ubuntu.com/ubuntu xenial-security universe multiverse
+	sudo add-apt-repository deb deb http://fr.archive.ubuntu.com/ubuntu/ xenial-updates universe multiverse
+	sudo apt-get update
+</code>
+</note>
+
+<code>sudo apt-get install boot-repair</code>
+
+ === Installation et lancement en une ligne===
+pour ubuntu 14.04 et suivants
+<code>sudo add-apt-repository -y ppa:yannubuntu/boot-repair && sudo apt update && sudo apt install -y boot-repair boot-info && sudo sed -i 's#-b http://#-b #' /usr/share/boot-sav/gui-actions.sh && boot-repair</code>
+==== Dans l'hypothèse où vous êtes sous Ubuntu (le menu n’est pas apparu mais l’ordinateur a démarré Ubuntu) ====
+Reprendre dans un [[:terminal]] les [[:commande_shell|commandes]] précédentes et [[#utilisation|lancer]] directement boot-repair.\\
+
+===== Utilisation=====
+
+====Démarrage====
+
+  * lancez le Réparateur de Démarrage via le tableau de bord (si vous utilisez [[Unity]], voir la capture ci-dessous), ou via la commande //boot-repair &2>1//.
+{{http://pix.toile-libre.org/upload/original/1341598432.png?500|Réparateur de Démarrage}}
+
+====Créer un rapport Boot-Info====
+
+  * cliquer sur //Créer un rapport BootInfo//, puis noter l’URL (adresse commençant par « http: » ) qui apparaît et indiquez cette URL sur une [[http://forum.ubuntu-fr.org/post.php?fid=10|nouvelle discussion du forum ubuntu-fr]] en expliquant votre problème. Cela permettra aux personnes qui vous aident à déterminer si le souci que vous rencontrez est bien lié au démarrage, et le cas échéant si l'option "Réparation recommandée" de Boot-Repair est adaptée ou non.
+
+====Réparation standard====
+
+  * cliquez sur //Réparation recommandée//
+
+{{http://pix.toile-libre.org/upload/original/1416025783.png|Réparateur de Démarrage}}
+
+  * une fois la réparation finie, redémarrez, et vérifiez si vous avez à nouveau accès à vos systèmes
+
+====Utilisation avancée====
+
+Le menu //Options avancées// propose de nombreuses options : sauvegarde de la table de partitions et du MBR sur clé USB, réinstallation de GRUB, réparation du système de fichier, restauration de MBR, etc.
+
+Important : les paramètres par défaut sont ceux de la //Réparation Recommandée//. **Les changer peut aggraver votre problème.** Ne les modifiez pas sans avoir au minimum créé un [[:tutoriel:boot-info|rapport BootInfo]] et demandé des avis sur [[http://forum.ubuntu-fr.org/viewtopic.php?pid=4726141|cette discussion]].
+
+{{http://pix.toile-libre.org/upload/original/1416027435.png?500|Réparateur de Démarrage}}
+
+Réinstallation de [[grub-pc]] : ci-dessous le BIOS est configuré pour booter sur le disque sda donc l’utilisateur choisit //Placer GRUB dans : sda//.) :
+
+{{http://pix.toile-libre.org/upload/original/1416027492.png?500|Réparateur de Démarrage}}
+
+Note : si vous avez 3 disques (ou plus) que vous souhaitez garder totalement indépendants, suivez [[http://forum.ubuntu-fr.org/viewtopic.php?pid=11770851#p11770851|cette procédure]].
+
+[[:kernel#modifier_les_parametres_du_noyau|Ajout d'options]] à GRUB, au noyau linux :
+
+{{http://pix.toile-libre.org/upload/original/1416027672.png?500|Réparateur de Démarrage}}
+
+L'option "Modifier le fichier de configuration du grub" n'est plus disponible.
+Les seules options ajoutables au noyau sont:
+  * nomodeset
+  * acpi=off
+  * acpi_osi=
+  * edd=on
+  * i815modeset=1
+  * i915modeset=0
+  * i915modeset=0 xforcevesa
+  * noapic
+  * nodmraid
+  * nolapic
+  * nomodeset radeon mode=0
+  * nomodeset radeon mode=1
+  * rootdelay=90
+  * vga=771
+  * xforcevesa
+
+
+Restauration d’un [[MBR]] Windows (pour démarrer directement sur Windows) :
+
+{{http://pix.toile-libre.org/upload/original/1416027716.png?500|Réparateur de Démarrage}}
+
+Création d’un rapport Boot-Info-Script, déplacement du drapeau de boot :
+
+{{http://pix.toile-libre.org/upload/original/1416027749.png?500|Réparateur de Démarrage}}
+
+===== Désinstallation =====
+ 
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer le paquet]] **boot-repair**. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+ 
+===== Voir aussi =====
+
+  * **(fr)** [[https://sourceforge.net/p/boot-repair/home/fr|Site officiel]]
+  * **(fr)** [[http://forum.ubuntu-fr.org/viewtopic.php?pid=4726141|Discussion "Boot-Repair : Réparer le démarrage du PC (GRUB, MBR) en 1 clic !"]] sur le forum Ubuntu-fr : pour toute remarque/question, etc.
+
+----
+
+//Contributeurs principaux : [[:utilisateurs:YannUbuntu]]//
+ 

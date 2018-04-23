@@ -1,0 +1,233 @@
+{{tag>Precise Trusty Supervision Entreprise BROUILLON}}
+----
+{{ :reseau:shinken_logo.png?100|}}
+<note important>Cette documentation n'est plus à jour (cf http://shinken.readthedocs.org/en/latest/)</note>
+
+====== Shinken ======
+Shinken (Katana authentique)  est un logiciel libre (GNU AGPL) de supervision écrit en python et pleinement compatible avec [[:nagios|Nagios]].
+
+<note important>Shinken est désormais considéré comme suffisamment stable et mature par ses développeurs pour être utilisé en production (version 1.2.x de Septembre 2012), cette version dépasse largement les capacités de [[:nagios|Nagios]].</note>
+
+
+Jean Gabès son développeur l'a développé à l'origine comme preuve de concept pour Nagios. Devant le manque d'ouverture des développeurs de Nagios et le risque de voir ce dernier devenir propriétaire, le projet Shinken devient pleinement autonome. A la différence de Nagios qui est monolithique, Shinken utilise cinq processus différent pour plus de flexibilité.
+
+Il maintient la compatibilité avec les modules d'Acquisition (plugins) de Nagios, mais évolue le coeur de la solution et propose un mode de fonctionnement très moderne et efficace.
+
+  * Architecture distribué grâce à Python, PYRO, JSON, MongoDB, memcached
+  * Interface aux données via l'API Livestatus
+  * Langage de programmation accessible et puissant, le Python
+  * Grande vélocité de développement et d'innovation
+  * Intégration complète des bases de données du projet Graphite
+  * "Scalabilité" incomparable par rapport aux solutions libres existantes
+  * et bien plus.
+
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+==== Ubuntu 14.04 ====
+<code bash>
+apt-get install python-pycurl python-setuptools nagios-plugins 
+adduser shinken
+wget http://www.shinken-monitoring.org/pub/shinken-2.0.4.tar.gz
+tar -xvzf shinken-2.0.4.tar.gz
+cd shinken-2.0.4
+python setup.py install
+</code>
+
+==== Ubuntu 12.04 ====
+
+<note important>
+Shinken fait partie des paquets officiels depuis [[:precise|Ubuntu 12.04]].
+L'installation peut donc se résumer à ceci :
+<code bash>apt-get install shinken</code>
+L'installation par les paquets aura pour effet d'installer tous les modules de Shinken :
+  * shinken
+  * shinken-arbiter
+  * shinken-broker
+  * shinken-core
+  * shinken-discovery
+  * shinken-poller
+  * shinken-reactionner
+  * shinken-receiver
+  * shinken-scheduler
+</note>
+
+  * Installation en un tour de main
+<code bash>curl -L http://install.shinken-monitoring.org | /bin/bash</code>
+  * Démarrer Shinken
+<code bash>/etc/init.d/shinken start</code>
+  * Lire la documentation ( voir les références et liens )
+  * Afin de corriger l'erreur suivante :
+<code bash>Permission denied: '/usr/local/shinken/var/arbiterd.log</code>
+  * Modifier l'appartenance du répertoire de travail de shinken
+<code bash>chown -R shinken:shinken /usr/local/shinken</code>
+=== Installation exhaustive ===
+
+Il faut tout d'abord créer un utilisateur shinken.
+<code bash>sudo adduser shinken --home /usr/local/shinken
+Ajout de l'utilisateur « shinken » ...
+Ajout du nouveau groupe « shinken » (1001) ...
+Ajout du nouvel utilisateur « shinken » (1001) avec le groupe « shinken » ...
+Création du répertoire personnel « /usr/local/shinken »...
+Copie des fichiers depuis « /etc/skel »...
+Mot de passe : 
+Retapez le nouveau mot de passe : 
+passwd : le mot de passe a été mis à jour avec succès
+Modification des informations relatives à l'utilisateur shinken
+Entrez la nouvelle valeur ou « Entrée » pour conserver la valeur proposée
+	Nom complet []: Utilisateur de Supervision SHINKEN
+	N° de bureau []: 
+	Téléphone professionnel []: 
+	Téléphone personnel []: 
+	Autre []: 
+Cette information est-elle correcte ? [O/n]O
+</code>
+
+Il suffit ensuite de récupérer les sources de Shinken (dernier version stable shinken-1.2.4 - 11-Feb-2013 15:25) :
+  cd ~
+  wget http://shinken-monitoring.org/pub/shinken-1.2.4.tar.gz
+  tar -xvzf shinken-1.2.4.tar.gz
+
+  cd ~/shinken-1.2.4
+  ./install -i
+  
+  ou pour une installation plus complète
+  
+  ./install -i &&\
+  ./install -p nagios-plugins &&\
+  ./install -p check_mem &&\
+  ./install -p manubulon &&\
+  ./install -a pnp4nagios &&\
+  ./install -a nagvis
+
+Shinken va s'installer dans les répertoires /usr/local/shinken/
+
+Démarrer Shinken
+   /etc/init.d/shinken start
+
+vous pouvez vérifier que les daemons sont bien lancés :
+ ps -u shinken
+  PID TTY          TIME CMD
+  4358 ?        00:00:09 shinken-schedul
+  4367 ?        00:00:10 shinken-poller
+  4372 ?        00:00:00 shinken-poller
+  4380 ?        00:00:09 shinken-reactio
+  4385 ?        00:00:00 shinken-reactio
+  4949 ?        00:00:13 shinken-broker
+  4989 ?        00:00:00 shinken-poller
+  4990 ?        00:00:00 shinken-poller
+  4993 ?        00:00:00 shinken-poller
+  4996 ?        00:00:18 shinken-broker
+  4997 ?        00:00:00 shinken-broker
+  5001 ?        00:00:00 shinken-reactio
+  5004 ?        00:00:00 shinken-poller
+  5018 ?        00:00:10 shinken-arbiter
+
+Et vérifier que le port d'écoute de l'API Livestatus de l'application est bien accessible :
+  sudo netstat -laputen | grep 50000 | grep LISTEN
+  
+La configuration est sous /usr/local/shinken/etc
+
+  nagios.cfg est le fichier de configuration principal en ce qui attrait à la supervision
+  shinken-specific.cfg contient toutes les informations concernant Shinken et ses modules (ie. daemons, realms, modules, etc.)
+
+Prochaine étape, lire la documentation sur le wiki de Shinken, dans la section [[http://www.shinken-monitoring.org/wiki/start|getting started]].
+
+===== Configuration =====
+==== Ubuntu 14.04 ====
+=== Interface WebUI ===
+<code bash>
+
+chmod u+s /usr/lib/nagios/plugins/check_icmp
+ln -s /usr/lib/nagios/plugins/utils.pm /usr/share/perl5
+
+
+su - shinken
+
+shinken --init
+shinken install webui
+shinken install auth-cfg-password
+shinken install sqlitedb
+</code>
+
+<code bash>vi /etc/shinken/modules/webui.cfg</code>
+
+
+<file bash webui.cfg>
+modules		auth-cfg-password,SQLitedb
+</file>
+
+<code bash>vi /etc/shinken/brokers/broker-master.cfg</code>
+
+<file bash broker-master.cfg>
+modules		webui
+</file>
+
+<code bash>/etc/init.d/shinken start</code>
+
+[[http://ip_serveur:7767]]
+
+=== Superviser via SNMP ===
+
+
+<code bash>shinken install linux-snmp</code>
+
+<code bash>vi /etc/shinken/hosts<nom_du_serveur_a_superviser.cfg</code>
+
+<file bash ubuntu14.cfg>
+define host{
+         use                     linux-snmp
+         host_name               nom_du_serveur_a_superviser
+         address                 adresse_IP_du_serveur_a_superviser
+         }
+</file>
+
+
+
+Sur la machine à superviser
+<code bash>apt-get install snmpd</code>
+<code bash>vi /etc/snmp/snmpd.conf</code>
+
+<file bash snmpd.conf>
+#  Listen for connections from the local system only
+#agentAddress udp:127.0.0.1:161
+#  Listen for connections on all interfaces (both IPv4 *and* IPv6)
+agentAddress udp:161,udp6:[::1]:161
+
+[...]
+
+# rocommunity public defaut -V systemonly
+rocommunity public
+</file>
+
+<code bash>/etc/init.d/snmpd restart</code>
+
+
+==== Ubuntu 12.04 ====
+=== Configuration de l'interface de Shinken, WebUI ===
+
+Shinken est un daemon de supervision qui possède sa propre interface de visualisation des statuts, nommé WebUI. Elle est inclue et installée par défaut.
+
+Le WebUI de Shinken permet l'intégration et la visualisation de séries de données stocké sous des bases de données RRDtool et Graphite. La WebUI de Shinken s'intégre avec
+PNP4Nagios (RRDTool) ou nativement avec Graphite. Graphite est une bases de donnée similaire à RRDTool mais beaucoup plus moderne, flexible et distribuée. Elle aussi est en Python comme Shinken, son API et certains de ses modules d'acquisition haute performance.
+
+[[http://www.shinken-monitoring.org/wiki/use_with_webui|Guide d'installation de la WebUI]] (anglais).
+
+De la documentation détaillée en français est disponible sur www.monitoring.fr, mais elle n'est malheureusement pas aussi à jour. 
+
+Ce que nous tentons de remédier. Merci de votre compréhension.
+
+===== Références =====
+  * Guide d'installation officiel (anglais) : [[http://www.shinken-monitoring.org/wiki/shinken_10min_start]]
+  * Nouvelles sur le projet (anglais) : [[http://www.shinken-monitoring.org/category/news/]]
+  * Tutorial de mise en place :  [[http://lesaventuresdeyannigdanslemondeit.blogspot.com/2010/12/installation-de-shinken-et.html]]
+  * Tutoriaux complet de mise en place et d'administration : [[http://wiki.monitoring-fr.org/shinken/start]]
+===== Liens =====
+  * **en** [[http://www.shinken-monitoring.org/|Site officiel]]
+  * **en** [[http://www.shinken-monitoring.org/wiki/start|Wiki officiel]]
+  * **en** [[http://fr.wikipedia.org/wiki/Shinken_%28informatique%29|Fiche Wikipedia]]
+----
+//Contributeurs principaux : [[:utilisateurs:Herrleiche]] [[:utilisateurs:Boss-IT]].//

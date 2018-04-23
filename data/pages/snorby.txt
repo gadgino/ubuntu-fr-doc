@@ -1,0 +1,105 @@
+{{tag>sécurité pare-feu ips}}
+----
+
+====== Snorby  ======
+snorby est une application Ruby qui est utilisé pour afficher / rendre compte des résultats de détection des logiciels de détection d'intrusion tels que [[Snort]], [[Sagan]], et [[suricata]]
+
+
+=====Installation=====
+
+====Dépendances====
+<code>
+sudo apt-get install git-core apache2-prefork-dev libapr1-dev libaprutil1-dev libopenssl-ruby ruby ruby1.8-dev rubygems mysql-server apache2 rake build-essential
+
+</code>
+
+====Ruby====
+<code>
+
+sudo gem install prawn
+sudo gem install mysql
+sudo gem install passenger
+sudo gem install -v=2.3.2 rails
+
+</code>
+
+====Simlink====
+<code>sudo ln -s /var/lib/gems/1.8/bin/pass* /usr/bin
+</code>
+
+====Base de données====
+<code>
+
+mysqladmin -u root -p create snorby
+mysql> CREATE USER 'snorby'@'localhost' IDENTIFIED BY 'password';
+mysql> GRANT ALL PRIVILEGES ON snorby.* TO 'snorby'@'localhost' WITH GRANT OPTION;
+
+</code>
+
+====Snorby====
+<code>
+git clone git://github.com/mephux/Snorby.git
+sudo mv Snorby/* /var/www/
+
+sudo cp /var/www/config/database.yml.example /var/www/config/database.yml
+sudo vim /var/www/config/database.yml
+
+sudo cp /var/www/config/email.yml.example /var/www/config/email.yml
+sudo vim /var/www/config/email.yml
+
+sudo cd /var/www/
+
+echo " build" 
+
+sudo rake snorby:setup RAILS_ENV=production
+</code>
+
+====Passenger pour Apache====
+<code>
+sudo passenger-install-apache2-module
+
+sudo vim /etc/apache2/apache2.conf
+Add the following lines:
+LoadModule passenger_module /var/lib/gems/1.8/gems/passenger-2.2.15/ext/apache2/mod_passenger.so
+PassengerRoot /var/lib/gems/1.8/gems/passenger-2.2.15
+PassengerRuby /usr/bin/ruby1.8
+</code>
+
+====Apache config pour le support Passenger et applications Rails ====
+
+<code>
+gedit /etc/apache2/sites-available/default
+</code>
+Modifier le site pour que cela ressemble à ceci:
+
+<code>
+ServerAdmin webmaster@localhost
+DocumentRoot /var/www/public
+
+Options FollowSymLinks
+AllowOverride None
+
+
+PassengerAppRoot /var/www/
+RailsBaseURI /
+Options Indexes FollowSymLinks
+AllowOverride all
+Options -Multiviews
+Order allow,deny
+allow from all
+</code>
+
+
+====Log in ====
+Allez sur http://localhost
+
+Username: Snorby
+Password: Admin 
+=====Voir aussi=====
+   * [[http://snorby.org/|Site officiel]]
+   * [[http://blog.andrewkrug.com/2010/09/how-to-install-snorby-on-ubuntu-1004.html|How to install Snorby on Ubuntu 10.04 ]]
+   * [[http://caleudum.com/snorby-installation-on-ubuntu-11-04/|Snorby Installation on Ubuntu 11.04]]
+
+
+----
+**Contributeurs principaux :** //[[:utilisateurs:psychederic|Psychederic]]//

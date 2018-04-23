@@ -1,0 +1,98 @@
+{{tag>Netflix}}
+
+----
+====== Netflix sous Ubuntu =====
+
+===== Configuration minimum =====
+**Quelles versions de Ubuntu sont compatibles avec Netflix ?**
+  * Ubuntu 14.04 LTS avec toutes les mises à jour de sécurité
+  * Ubuntu 14.10
+  * Ubuntu 16.04 LTS
+  * Ubuntu 16.10
+
+**Quel navigateurs sont compatibles avec Netflix ?**
+  * Chrome (version 37 et ultérieure) : compatible
+  * Opera (version 33 ou ultérieure) : compatible
+  * Chromium : non compatible avec Netflix
+  * Firefox : non compatible avec Netflix (sauf avec un user agent modifié et uniquement pour les versions entre 47 et 52)
+  * Arora : non compatible avec Netflix
+  * Epiphany : non compatible avec Netflix
+  * Midori : non compatible avec Netflix
+
+**Quelle résolution maximale va afficher le navigateur ?**
+  * Chrome : 720p
+  * Opera : 720p
+  * Firefox jusqu'à 720p
+
+**Quel débit est nécessaire pour Netflix ?**
+  * SD : 2 Mb/s
+  * HD : 5 Mb/s
+
+===== Mettre à jour Ubuntu avec les dernières mis à jour =====
+Pour Ubuntu 14.04, il est impératif de mettre à jour NSS (Network Security Services) en version 3.16.2 ou supérieure pour Netflix.
+Ubuntu propose depuis le 22 septembre LibNSS 3.17 : 
+
+{{:201409_ubuntu_maj_libnss3_compatible_netflix.png?direct&300|}}
+
+=====Installer Chrome =====
+
+NB : Il n'est pas nécessaire d'installer Chrome. Cela fonctionne aussi avec Firefox
+
+[[https://www.google.fr/chrome/browser/|Télécharger Google Chrome]] (la version stable fonctionne très bien, pas besoin de prendre la version bêta) :
+
+{{:201409_netflix_sous_ubuntu_en_html5_1.png[?direct&450|}}
+
+Double cliquez sur le fichier téléchargé pour démarrer la logithèque Ubuntu qui vous demande votre mot de passe pour installer Chrome.
+
+===== Changer le user-agent =====
+
+**À partir de Google Chrome 37 le navigateur est reconnu directement avec le player HTML5.**
+
+Démarrez Google chrome et téléchargez le plug-in gratuit [[https://chrome.google.com/webstore/detail/user-agent-switcher-for-c/djflhoibgkdhkhhcedjiklpkjnoahfmg|User-Agent Switcher for Chrome]]
+
+{{:201409_netflix_sous_ubuntu_en_html5_2.png[?direct&450|}}
+
+Il rajoute une petite icône à droite de la barre d'adresse. Cliquez avec le bouton droit dessus pour aller dans les options afin de le configurer :
+
+{{:201409_netflix_sous_ubuntu_en_html5_3.png[?direct&900|}}
+
+**Créez un nouvel user-agent comme indiqué ci-dessous :**
+  * New User-agent name: **Netflix Linux**
+  * New User-agent String: **Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2114.2 Safari/537.36**
+  * Group: **Netflix**
+  * Append : Séléctionez **Replace**
+  * Flag: **Win**
+
+{{:201409_netflix_sous_ubuntu_en_html5_4.png[?direct&900|}}
+
+Dans le menu, cliquez sur **Netflix** puis **Netflix Linux** pour activer le user-agent créé :
+
+{{:201409_netflix_sous_ubuntu_en_html5_5.png[?direct&334|}}
+
+
+====Sous Firefox (pour les versions entre 47 et 51)====
+
+1) Télécharger  [[https://addons.mozilla.org/fr/firefox/addon/user-agent-overrider/|User Agent Overrider]] \\
+2) Cliquer sur l'icône User Agent Overrider, en haut à droite \\
+3) Cliquer sur Préférences \\
+4) Une fenêtre va s'ouvrir, vous pouvez ajouter ceci : \\
+''Linux / Chrome 53: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.21 Safari/537.36'' \\
+4) Fermer \\
+5) Cliquer sur l'icône \\
+6) Sélectionner "Windows/Firefox 38" ou "Linux / Chrome 53" selon l'étape 4) \\
+Vous pouvez aller sur Netflix.
+
+
+===== Connectez-vous à Netflix, cela fonctionne ! =====
+{{:201409_netflix_sous_ubuntu_en_html5_6.png[?direct&300|}}
+
+Le player HTML5 permet d'avoir accès aux pistes sonores (VF et VO généralement) et aux différents sous-titrage proposés :
+
+{{:201409_netflix_sous_ubuntu_en_html5_7.jpg[?direct&450|}}
+
+Pour les séries, en HTML5 on passe automatiquement à l'épisode suivant sans rien avoir a faire (et sans publicité) :
+
+{{:201409_netflix_sous_ubuntu_en_html5_8.jpg[?direct&450|}}
+
+Source : [[https://lafibre.info/tv-numerique-hd-3d/netflix-ubuntu/|LaFibre.info : Comment regarder simplement Netflix sous Ubuntu en HTML5 ?]] (CC BY-SA v3.0)
+Source :  [[http://ledru.be/divers/install_Netflix.htm|Netflix avec Firefox sous Ubuntu 14.04.4 LTS (64 bits)]] 

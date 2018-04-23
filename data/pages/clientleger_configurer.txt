@@ -1,0 +1,128 @@
+
+
+{{tag>edubuntu ltsp serveur}}
+
+
+====== Configurer le serveur de client léger : le fichier dhcpd.conf ======
+
+**Niveau :** technique
+
+Le serveur de clients légers installé par défaut dans Edubuntu peut fonctionner sans aucun réglage dans les cas simples.
+
+**Exemples :**
+
+  * un serveur Edubuntu, un **switch ethernet**, des clients légers, pas de connexion internet : tout fonctionne "out of the box" (mais c'est dommage d'en rester là).
+
+  * Même configuration avec en plus un **routeur ADSL** branché sur le switch. Le routeur a une adresse sur le sous-réseau ''192.168.0.0'' et on a choisi l'adresse "de base pour le serveur : ''192.168.0.1''. Au démarrage des clients légers, le serveur répond à leur demande dhcp. Les communications entre le serveur et les clients léger passant par un tunnel crypté ssh, la sécurité est assurée. Les communications vers l'internet sont relayées et éventuellement filtrées par le serveur.
+
+  * Même configuration mais **le routeur ADSL a aussi des fonctions dhcp** : au démarrage d'un client léger, le serveur peut répondre avant le routeur et tout peut se passer sans problèmes. Mais le dhcp du routeur peut aussi **interférer** et semer la zizanie dans le démarrage. **À déconseiller**.
+
+  * Configuration avec **deux cartes réseau**, l'une va vers le routeur (eth0) et l'autre (eth1) sert les clients légers : il faut juste donner à eth1 l'IP fixe ''192.168.0.1'' et tout se passe bien. Par défaut l'internet est accessible par tous les clients. En cas de soucis, on peut consulter [[https://help.ubuntu.com/community/UbuntuLTSP/ThinClientHowtoNAT|cet article]] (en anglais).
+
+  * Intégration dans un **réseau existant** : cette fois on est presque obligé de mettre le nez sous le capot si l'on veut éviter d'interférer avec les machines déjà en place.
+
+
+
+===== Configuration du "dhcpd.conf" du serveur Edubuntu =====
+
+Dans un terminal, tapez :
+
+  gksudo "gedit /etc/ltsp/dhcpd.conf"
+
+Vous obtiendrez ceci (sans les commentaires [#]) :
+
+# Cette ligne tente de donner la priorité sur un autre serveur dhcp
+>  authoritative;
+
+# Sous réseau autorisant les adresses 192.168.0.1 à 192.168.0.254
+>  subnet 192.168.0.0 netmask 255.255.255.0 {
+
+# plage d'adresses possibles pour les clients légers (affectation en décroissant)
+>  range 192.168.0.20 192.168.0.250;
+
+# Adresse de base du serveur : ''192.168.0.1''
+>  option domain-name "example.com";
+>  option domain-name-servers 192.168.0.1;
+>  option broadcast-address 192.168.0.255;
+>  option routers 192.168.0.1;
+>  option subnet-mask 255.255.255.0;
+
+# Emplacement du noyau dans le répertoire /var/lib/tftpboot. Selon le client, un noyau PXE ou Etherboot est fourni.
+>  if substring( option vendor-class-identifier, 0, 9 ) = "PXEClient" {
+>    filename "/ltsp/i386/pxelinux.0";
+>  }
+>  else{
+>    filename "/ltsp/i386/nbi.img";
+>  }
+
+# Emplacement du système alternatif spécial clients légers
+>    option root-path "/opt/ltsp/i386";
+>  }
+
+==== Modifications possibles ====
+
+  * Modification de l'adresse du serveur, si par exemple l'adresse 192.168.0.1 est déjà celle du routeur. Cette adresse doit être identique à celle que vous avez choisi dans "Système > Administration > Réseau".
+
+  * Modification du sous-réseau : recherchez "192.168.0" et remplacez-le par "192.168.1" (par exemple).
+
+  * Modification de la plage d'adresse des clients légers pour éviter un conflit avec une autre machine.
+
+Enregistrez les modifications puis tapez :
+
+  sudo /etc/init.d/dhcp3-server start
+
+pour relancer le serveur dhcp, puis 
+
+  sudo ltsp-update-sshkeys
+  sudo ltsp-update-image
+
+pour mettre à jour les clés de cryptage ssh qui permettent la communication entre le serveur et les clients légers.
+
+Il ne vous reste plus qu'à démarrer vos [[:clientleger_station|clients légers]].
+
+===== Configuration du dhcpd.conf sur un autre serveur =====
+
+Dans le cas où vous installez le serveur Edubuntu sur un réseau déjà équipé d'un serveur DHCP, vous ne pourrez pas utiliser celui d'Edubuntu sous peine de créer des conflits sur le réseau. Vous devez dans ce cas configurer le fichier ///etc/dhcpd.conf// ou ///etc/dhcp3/dhcpd.conf// en fonction du serveur. Attention, les paramètres ne sont valables que dans le cas du DHCP de l'ISC.
+Vous serez obligés d'utiliser le serveur DHCP en mode adressé ou statique, ce qui veut dire qu'il faudra entrer les adresses ethernet des clients et l'adresse IP correspondante dans le fichier //dhcpd.conf//.
+
+Sur le serveur Edubuntu, ne modifiez pas le fichier ///etc/ltsp/dhcpd.conf// installé par défaut ainsi le serveur ne se lancera pas. Éditez le fichier du serveur DHCP:
+
+  sudo gedit /etc/dhcpd.conf
+
+Créez un groupe pour gérer vos clients légers ensemble:
+
+<code>
+  group {
+          option root-path "/opt/ltsp/i386";  
+          next-server 192.0.0.1;
+          if substring( option vendor-class-identifier, 0, 9 ) = "PXEClient" {
+                       filename "/ltsp/i386/pxelinux.0";
+                       }
+                       else{
+                       filename "/ltsp/i386/nbi.img";
+                       };
+</code>
+La différence principale avec la configuration décrite plus haut est **next-server** qui donne l'adresse du serveur Edubuntu aux clients légers ainsi une fois qu'ils ont récupéré leurs adresse IP, ils savent qui contacter ensuite.
+
+La suite de votre fichier va concerner les machines incluses dans ce groupe, voici un exemple.
+
+<code>
+        # PC (Salle multimedia) eleve 1               ##c'est un champ commentaire
+	host lnt-d00050 {                             ##c'est le nom réseau ou DNS du client léger
+		hardware ethernet 00:1a:a0:34:44:af;  ##c'est l'adresse ethernet (ou adresse MAC) du client léger.  
+		fixed-address 192.0.0.10;             ##c'est l'adresse IP attribuée au client léger
+		}
+	# PC (Salle multimedia) eleve 2
+	host lnt-d00049 {
+	        hardware ethernet 00:1a:a0:34:45:97;
+		fixed-address 192.0.0.11;
+		}
+	# PC (Salle multimedia) eleve 3
+	host lnt-d00059 {
+		hardware ethernet 00:1a:a0:34:45:d1;
+		fixed-address 192.0.0.12;
+		}
+       }
+</code>
+
+Il faut faire attention à ne pas oublier une { ou }

@@ -1,0 +1,47 @@
+{{tag>Xenial Trusty Unity}}
+----
+ 
+====== Dconf-tools (Dconf-editor) ======
+ 
+Dconf est un utilitaire en ligne de commande développé par Gnome (en tant que successeur de Gconf) permettant de modifier directement les variables de configuration de l'environnement Gnome (à partir de la version 3.0). C'est également l'utilitaire permettant de configurer les variables de l'environnement sous [[Unity]]. Dconf utilise la bibliothèque GSettings pour gérer une base de données où les variables de configuration sont stockées dans un format binaire (là où Gconf utilisait des fichiers XML).
+
+De par son accès bas niveau, c'est un outil potentiellement dangereux à réserver aux initiés.
+
+L'utilitaire Dconf-editor, est une interface graphique développée par Canonical pour faciliter l'utilisation de Dconf.
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+ 
+===== Installation =====
+ 
+Pour installer ce logiciel, [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>dconf-tools]]**.
+
+===== Utilisation=====
+ 
+Lancez l'application via le [[:unity#tableau_de_bord_dash|dash]] (Unity) ou via le [[:terminal]] (toutes versions d'Ubuntu) avec la [[:commande_shell|commande]] suivante :
+<code>dconf-editor</code>
+
+{{:systeme:dconf_xenial.png?400|Dconf-editor}}
+
+Certaines modifications nécessitent le redémarrage d'Unity, soit en renouvelant la session, soit par la commande **%%unity --replace%%** (ne pas utiliser le [[:terminal]]).
+
+Un bouton **Set to defaults** pour chaque variable de configuration permet de ré-initialiser le réglage à sa valeur d'origine.
+
+Les variables desktop sont les seules connues actuellement, se trouvent dans com -> canonical -> unity puis :
+  * form-factor
+  *  devices
+  *  launcher → favorite-migration
+  *  launcher → favorites
+
+Une description détaillée pour chaque variable permet de choisir le bon paramètre.
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi =====
+
+  * **(en)** [[http://live.gnome.org/dconf|Site officiel du logiciel]]
+
+----
+//Contributeurs principaux : [[utilisateurs:J5012]].//

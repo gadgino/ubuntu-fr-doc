@@ -1,0 +1,80 @@
+{{tag>messagerie_instantanée À_RECYCLER}}
+
+----
+
+====== Mercury-Messenger ======
+
+Mercury-Messenger est un client MSN multiplate-forme, multilangue, écrit en Java et développé par un néerlandais: Danny. Il est gratuit, mais malheureusement non libre.
+
+<note important>Depuis mars 2010, les clients MSN linux (Mercury-Messenger, aMSN, Emesene..) ne gèrent plus les appels audio/vidéo. Les raisons sont expliquées [[http://kakaroto.homelinux.net/2010/03/amsn-0-98-2-to-be-released-without-audiovideo-support/|ici]] (en anglais). C'est lié à une modification du côté des serveurs Microsoft.</note>
+
+<note important>Pour réaliser des conversations audio+webcam sur Ubuntu, consultez la page "[[:Visioconférence]]".</note> 
+
+
+{{ http://thebachman.info/repertoire.png?200|Capture a mettre a jour avec le thème par défaut de Lucid}}
+
+===== Pré-requis =====
+
+Tout d'abord, [[:tutoriel:comment_installer_un_paquet|installez les paquets]] suivants: 
+**[[apt://sun-java6-jre,sun-java6-bin,sun-java6-jdk|sun-java6-jre, sun-java6-bin et sun-java6-jdk]]**
+
+
+
+
+===== Installation =====
+
+
+<note important>Attention, Mercury n'est pas dans les dépôts officiel d'Ubuntu. Son installation peut rendre votre système instable.</note>
+
+
+=== version stable===
+
+Il suffit de télécharger et installer le paquet DEB pour Ubuntu sur la [[http://mercury.im/#Download|page de téléchargement du site officiel]].
+
+=== version instable===
+
+[[:tutoriel:comment_modifier_sources_maj|Modifiez votre fichier sources.list]] pour y ajouter le dépôt suivant :
+<file>deb http://thebachman.info/debian/mercury-unstable ./</file>
+
+Rechargez la liste de vos paquets, puis [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt://mercury-messenger|mercury-messenger]]**. 
+
+
+=====Utilisation=====
+
+Ce logiciel se lance via le [[raccourci-lanceur]] qui se trouve dans le menu Applications->Internet->Mercury Messenger , ou via la commande ''mercury''
+
+===== Problèmes connus =====
+
+==== Le TrayIcon ====
+
+
+Sous architecture 64 bits, le trayicon ne fonctionne pas au 1er démarrage de Mercury-Messenger. Pour résoudre ce problème, suivez cette procédure:
+
+  * Aller dans le dossier usr/share/mercury/jni
+  * Supprimer le fichier //libtray.so//
+  * Renommer le fichier //libtray-x64-untested.so// en //libtray.so//
+  * Redémarrer Mercury-Messenger
+
+==== Les webcams ====
+
+Mercury-Messenger ne permet pas de réaliser des discussions audio+webcam. 
+Mercury-Messenger a une fonction pour enregistrer sa webcam mais la version stable ne détecte pas les webcams utilisant la librairie v4l2.
+
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, le configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+
+===== Voir aussi =====
+
+  *[[http://mercury.im|Site officiel]]
+  *[[http://forum.mercury.im/index.php|Forum officiel (avec section française)]]
+  *[[http://kiwi.petitpanda.info/Mercury_Messenger|Wiki français]]
+
+
+----
+
+//Contributeurs : [[utilisateurs:Thebachman|Thebachman]]// , [[utilisateurs:naoli|naoli]]//
+
+// Basé sur [[http://kiwi.petitpanda.info/Mercury_Messenger|« WikiWi Mercury-Messenger »]] par CloudStrife.

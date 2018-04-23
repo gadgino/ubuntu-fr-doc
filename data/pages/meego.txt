@@ -1,0 +1,86 @@
+{{tag> vetuste téléphonie matériel programmation BROUILLON}}
+----
+<note warning>Le projet Meego a été arrêté ... et repris par [[http://www.tizen.org|Tizen]]((https://fr.wikipedia.org/wiki/Tizen))</note>
+
+====== Meego - du libre dans un smartphone ======
+{{ http://coderazzi.net/images/meego.png}}
+
+**[[http://meego.com/|MeeGo]]** est un système d'exploitation libre basée sur GNU/Linux, visant les appareils mobiles ainsi que les [[:netbook|netbooks]]. 
+
+MeeGo est la fusion de deux projets : [[http://maemo.org/|Maemo]] de Nokia et [[wpfr>Moblin]] d'Intel.
+
+MeeGo se distingue des autres systèmes d'exploitation pour appareils mobiles :
+  * En offrant un modèle de développement participatif (il s'agit d'une des critiques à l'endroit du système [[:Android]] de Google(([[http://www.toolinux.com/lininfo/toolinux-information/developpement/article/et-si-la-veritable-alternative|Et si la véritable alternative libre à Android, c’était MeeGo ?]]))), invitant les fabricants de téléphones mobiles et tablettes tactiles, ainsi que les développeurs à participer en amont au développement. Le projet MeeGo est soutenu par la [[wpfr>Linux Foundation]](([[http://www.numerama.com/magazine/16520-avec-meego-nokia-et-intel-veulent-seduire-la-communaute-linux.html|Linux Foundation soutient MeeGo]])), qui héberge d'ailleurs le projet.
+   * En permettant la distribution des applications tournant sous MeeGo sur une multitude de plateformes, alors qu'Apple réserve la distribution des applications pour iOS à son seul App Store, et que Google tente de privilégier son Android Market. Les industriels, opérateurs ou fabricants d'appareils mobiles, seront encouragés à développer leurs propres « app stores », tandis que les éditeurs pourront bien sûr diffuser eux-mêmes les applications sur leurs sites. ( Dans la même vision que les dépôts des différentes distributions Linux)
+
+
+
+[[http://www.youtube.com/watch?v=EW5wpg5epMs|Video de MeeGo pour smartphone]]
+
+{{ http://www.tux-planet.fr/public/images/screenshots/mobiles/meego/meego-screenshot-4-mini.png?500 }}
+
+=====Installation=====
+====Pré-requis====
+
+Meego est décliné pour Handset - Smartphone, "In-Vehicle" système dans la voiture, Connected TV, Media phone - téléphone multimédia ou visiophone, et netbook.
+
+Vous pouvez voir [[http://wiki.meego.com/Devices|les matériels compatibles sur le site officiel]].
+
+====Installation pour smartphone====
+   * [[http://meego.com/downloads|Allez sur la page de téléchargement]] et [[http://meego.com/downloads/releases/1.0.80.8/meego-handset-day1-developer-preview|télécharger la dernière version]]
+   * Cette installation est [[http://meego.com/devices/handset/installing-aava-device|pour smartphone (type aava)]] mais s'applique aux autres smartphones.
+   * Extraction : <code>tar –xvjf meego-handset-ia32-aava-mtf-*-mrstnand.tar.bz2</code>
+   * Après avoir inséré la carte Micro SDHC dans votre lecteur de carte, vous devrez déterminer la désignation de périphérique approprié pour votre carte. Si votre système ne démarre pas automatiquement reconnaître votre carte Micro SDHC, vous pouvez manuellement le trouver en exécutant fdisk.<code> sudo fdisk-l</code>
+   * La carte devrait être "/dev/sdb" 
+   * Une fois que vous avez déterminé votre carte Micro SD, il suffit de lancer dd pour copier le fichier image sur votre carte Micro SDHC : <code>sudo dd if=meeGo-handset-aava-mtf-*mrstnand-sda.bin of=/dev/sd*</code>
+   * ou <code>sudo dd if=meeGo-handset-aava-mtf-*mrstnand-boot.bin of=/dev/sd*</code>
+   * Selon la taille de l'image, cela peut prendre dd jusqu'à 20 min pour effectuer cette opération.
+
+Voir également l'[[http://wiki.meego.com/ARM/N900|installation pour le Nokia N900 (ARM)]], et le tutoriel 
+[[http://thenokiablog.com/2010/07/02/nokia-n900-meego-preview/|How to Install Meego Dev Preview on Nokia N900]]
+
+=====Développement d'applications=====
+
+====Technologie====
+
+MeeGo est aussi une plate-forme de développement pour les appareils mobiles. Il reprend le framework d'interface utilisateur [[wpfr>Qt]] issu de Maemo, ainsi que la plate-forme logicielle utilisée par le projet Moblin.
+
+Celui-ci est open source et est basé sur Linux.
+
+Il est prévu de supporter les plates-formes basées tant sur architecture matérielle ARM que sur x86.
+
+Nokia, qui a annoncé la commercialisation d'un premier appareil MeeGo cette année, souhaite par ailleurs encourager le développement d'applications en ligne basées sur les standards HTML5, CSS et autres Javascript. Le constructeur travaille à cet effet sur une bibliothèque de développement qu'il devrait bientôt rendre disponible, et qui assurera l'interopérabilité des applications entre tous les mobiles, qu'ils soient sous MeeGo ou un autre mobile.
+==== Pré-requis ====
+FIXME
+====Installation de l'environnement de développement====
+FIXME
+====Concevoir les applications====
+FIXME
+=====Connecter vos appareils Meego à Ubuntu=====
+FIXME
+
+=====Voir aussi=====
+====Liens internes====
+   * [[Téléphonie]], [[Voip]], [[SIP]]
+
+====Informations====
+   * [[http://www.yoannsculo.fr/meego-ne-serait-elle-pas-la-vraie-alternative-libre-a-android/|MeeGo ne serait-elle pas la vraie alternative Libre à Android ?]]
+   *  [[http://blog.nalis.fr/index.php?post/2010/08/22/t%C3%A9l%C3%A9phone-mobile-%3A-Meego-smartphone_libre|Smartphone: quel avenir pour Meego et les mobiles libre ?]]
+
+==== Liens externes====
+
+   * **(en)** [[http://meego.com|Le site officiel]]
+   * **(en) [[http://meego.com/about/about-linux-foundation|The Linux Foundation and the MeeGo Project]]**
+      * Accélérer l'adoption de Linux
+      * Promouvoir la collaboration entre les acteurs de l'industrie et la communauté open source
+      * Unifier les efforts divergents au bénéfice d'une plate-forme Linux robuste
+      * Promouvoir une véritable plate-forme ouverte Linux et son amélioration technique
+      * Encourager les entreprises à communiquer leurs contributions et leur travail technique en amont
+   * **(en)** [[http://meego.com/about/faq|Meego faq]]
+   * **(en)** [[http://repo.meego.com/MeeGo/builds/|Dépôt MeeGo]]
+
+
+
+----
+
+Contributeurs : [[:utilisateurs:psychederic|Psychederic]], ...//

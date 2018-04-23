@@ -1,0 +1,51 @@
+<pre class="code">
+Version Warty et Hoary
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/eks" class="wikilink1" title="utilisateurs:eks" onclick="return svchk()" onkeypress="return svchk()">eks</a>.
+</p>
+
+<a name="detruire_efficacement_un_fichier"></a><h1> Détruire efficacement un fichier </h1>
+<div class="level1">
+
+<p>
+ <em>Source : man shred</em>
+</p>
+
+<p>
+Si vous supprimez un fichier, il n&rsquo;est pas totalement supprimé :
+</p>
+<ul>
+<li class="level1"><span class="li"> si vous êtes sous nautilus ou konqueror, il est juste envoyé à la corbeille (~/.Trash le plus souvent)</span>
+</li>
+<li class="level1"><span class="li"> si vous le supprimez sans passer par la corbeille (avec rm par exemple), il n&rsquo;est pas totalement supprimé : l&rsquo;espace disque correspondant est juste marqué comme étant &ldquo;libre&rdquo;, mais il existe des logiciels permettant de retrouver ces données</span>
+</li>
+</ul>
+
+<p>
+ Pour supprimer efficacement un fichier, vous pouvez utiliser shred (déchiquettage) : 
+</p>
+<pre class="code">$ shred -n <span class="nu0">35</span> -z -u nomDuFichier</pre>
+<p>
+ Ceci a pour effet de :
+</p>
+<ul>
+<li class="level1"><span class="li"> remplacer 35 fois les données du fichier par des déchets (-n 35)</span>
+</li>
+<li class="level1"><span class="li"> puis par des zéros (-z) pour masquer le déchiquettage</span>
+</li>
+<li class="level1"><span class="li"> enfin le fichier est tronqué et supprimé (-u)</span>
+</li>
+</ul>
+
+<p>
+ C&rsquo;est déjà plus efficace. Attention : il reste encore des informations sur le fichier permettant de le retrouver, notamment si vous utilisisez un système de fichier journalisé comme ext3, ReiserFS, XFS, JFS, etc ou un système d&rsquo;écriture, de compression ou de sauvegarde, sur disque (ex: <acronym title="Redundant Array of Inexpensive Disks">RAID</acronym>) ou via le réseau. Plus d&rsquo;info : 
+</p>
+<pre class="code">$ man shred</pre>
+<p>
+ ;) 
+</p>
+
+</div>
+<!-- SECTION [76-] -->

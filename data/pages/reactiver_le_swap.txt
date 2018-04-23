@@ -1,0 +1,48 @@
+====== Réactiver la swap ======
+Après l'installation d'une deuxième distribution Linux sur votre système vous pouvez avoir la mauvaise surprise de vous retrouver avec votre première distribution qui se met a ramer et qui va même jusqu'au plantage, //__Pourquoi ?__//
+Le problème vient de votre partition swap qui n'est pas activée au démarrage, vous pouvez vérifier en entrant la commande free
+<code>~$ free
+              total       used       free     shared    buffers     cached
+Mem:        499752     491600       8152          0       6456     177688
+-/+ buffers/cache:     307456     192296
+Swap:      0     0    0
+</code>  
+===== Réactivation provisoire =====
+Sans swap active votre système qui n'a peut être pas beaucoup de mémoire vive, va être beaucoup ralenti, il faut donc vite réactiver votre partition swap, pour cela lancez gparted (sous ubuntu) s'il n'est pas installé [[apt://gparted]] 
+<note tip>Vous devez le lancer en mode root :
+gksudo gparted</note>
+Ensuite faites un clic droit sur votre partition swap et cliquer sur "activer le swap"
+Ouf on est sauvé. :-D Mais bon on va pas faire ça à chaque démarrage.
+<note tip>Tant que vous êtes sur gparted, profitez-en pour noter l'UUID de la partition de swap (visible dans les propriétés de celle-ci).
+Ça pourrait vous servir pour la suite</note>
+===== Réactivation définitive =====
+ Il faut dire à linux d'activer la partition swap, si vous êtes toujours sur gparted, regarder le nom de votre partition swap (ex : /dev/sda7) puis nous allons éditer le fichier fstab :
+<code bash>sudo xdg-open /etc/fstab</code>
+Puis nous allons rajouter une ligne pour dire où se trouve la partition swap : 
+
+<code>#swap
+/dev/sda7	swap	swap	defaults	0	0	</code>
+Remplacez /dev/sda7 par l'adresse de votre partition swap.
+
+<note>**De nos jours le fichier fstab est sensé contenir les UUID au lieu du nom des partitions.** Il serait préférable de faire (remplacer /dev/sda6 par le nom de votre partition) :
+<code>~$ sudo vol_id -u /dev/sda6
+54a6d378-fa9a-4505-bd89-fd059f917946
+ </code>
+Depuis Ubuntu 10.04, utiliser le commande blkid au lieu de 'vol_id' :
+Faire 'sudo blkid -g' avant 'sudo blkid -p -u' pour mettre à jour le cache des UUID :
+<code>~$ sudo blkid -g
+$ sudo blkid -p -u filesystem /dev/sda6
+54a6d378-fa9a-4505-bd89-fd059f917946
+ </code>
+Noter l'UUID indiquée pour votre partition et modifier la ligne correspondant à la swap dans /etc/fstab par quelque chose comme ça (à adapter selon votre UUID) :
+<code># /dev/sda6
+UUID=54a6d378-fa9a-4505-bd89-fd059f917946   none   swap   sw   0   0
+ </code>
+La première ligne commentée n'est pas à négliger elle rend bien service quand on relit un fstab... ;-)
+</note>
+
+Redémarrez votre système, la swap devrait alors être activée.
+
+===== Liens =====
+
+Plus de documentation sur la partition [[:swap]]

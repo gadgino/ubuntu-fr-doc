@@ -1,0 +1,106 @@
+
+<p>
+Introduction au système de dépôts Introduction
+</p>
+
+<p>
+L&rsquo;article Introduction au gestionnaire de paquets Synaptic vous a présenté une manière d&rsquo;installer un logiciel à partir d&rsquo;un dépôt logiciel. Ce document complète cet article en décrivant brièvement ce qu&rsquo;est un paquet et l&rsquo;intérêt d&rsquo;installer un logiciel à partir d&rsquo;un dépôt. Il vous présentera également les différents dépôts logiciels disponibles pour Ubuntu. Qu&rsquo;est-ce qu&rsquo;un paquet ?
+</p>
+
+<p>
+Comme sur la plupart des systèmes GNU/Linux, l&rsquo;installation d&rsquo;un programme se fait par l&rsquo;intermédiaire d&rsquo;un paquet. Un paquet désigne en fait un fichier compressé qui rassemble des fichiers permettant l&rsquo;exécution d&rsquo;une fonction précise. Il existe deux sortes de paquets: les paquets binaires et les paquets sources. Les paquets binaires sont des paquets contenant des exécutables, des fichiers de configuration ainsi que des fichiers de documentations. L&rsquo;extension d&rsquo;un paquet binaire est .deb. Les paquets sources portent l&rsquo;extension .dsc et contiennent chacun le code source d&rsquo;un programme. Un paquet source rassemble généralement en son sein un fichier compressé contenant le code source original d&rsquo;un programme (dont l&rsquo;extension est .orig.tar.gz) ainsi qu&rsquo;un autre fichier compressé (dont l&rsquo;extension est .diff.gz) contenant des modifications apportées au code source original de ce programme. Lorsqu&rsquo;on installe un programme déjà compilé sur Ubuntu, on le fait donc à partir d&rsquo;un paquet binaire.
+</p>
+
+<p>
+Les paquets sont généralement stockés dans des dépôts qui peuvent prendre la forme d&rsquo;un support, par exemple un CD-ROM, ou celle d&rsquo;un noeud localisé sur un réseau comme, par exemple, internet.
+</p>
+
+<p>
+Pour terminer cette section, notons que certaines personnes utilisent plutôt le terme paquetage (en référence au mot anglais package ) pour désigner un paquet. Intérêts du système de paquets
+</p>
+
+<p>
+Certains d&rsquo;entre nous se posent peut-être des questions sur l&rsquo;intérêt d&rsquo;installer un logiciel à partir d&rsquo;un paquet se trouvant sur un dépôt alors qu&rsquo;il est bien souvent possible d&rsquo;installer ce logiciel à partir d&rsquo;un exécutable téléchargé sur un site internet.
+</p>
+
+<p>
+Un des arguments en faveur de l&rsquo;installation d&rsquo;un logiciel à partir du système de paquets est que ce type d&rsquo;installation gère les dépendances de ce logiciel vis-à-vis d&rsquo;autres logiciels. En effet, imaginons que l&rsquo;on souhaite installer un logiciel contenu dans un paquet A et que, pour pouvoir fonctionner, ce logiciel nécessite également l&rsquo;installation d&rsquo;un paquet B sur votre machine. Si vous installez le logiciel du paquet A via un gestionnaire de paquets (par exemple: via Synaptic), ce dernier tiendra compte de la dépendance de ce logiciel par rapport au paquet B. En d&rsquo;autres termes, l&rsquo;installation de ce logiciel à partir du paquet A entrainera automatiquement l&rsquo;installation du paquet B de manière à ce que le logiciel puisse fonctionner sur votre machine. Lors de l&rsquo;installation d&rsquo;un programmme, on a donc pas besoin de se soucier des éventuelles dépendances de celui-ci par rapport à d&rsquo;autres programme puisque le gestionnaire de paquet s&rsquo;en charge.
+</p>
+
+<p>
+Un autre argument en faveur de l&rsquo;installation par paquets est que si l&rsquo;on installe un programme à partir d&rsquo;un paquet binaire fourni par un dépôt dédié à Ubuntu, on est sûr que les fichiers binaires contenus dans ce paquet ont été compilés pour fonctionner sur une machine tournant sous Ubuntu et que ceux-ci s&rsquo;installeront correctement sur le système. Ce qui présente un gain de temps dans la mesure où il n&rsquo;est pas nécessaire de compiler soi-même des fichiers sources pour être sûr d&rsquo;avoir des fichiers exécutables fonctionnant sur Ubuntu.
+</p>
+
+<p>
+Enfin, un dernier argument en faveur de l&rsquo;installation d&rsquo;un programme à partir de paquets est qu&rsquo;elle permet de garder un système &ldquo;propre&rdquo;. En effet, avec le système de paquets, on pourra aisément gérer les mises à jour ou la désinstallation de ces programmes de paquet. Les différentes catégories de dépôts logiciels pour Ubuntu
+</p>
+
+<p>
+La liste des dépôts logiciels dont se sert votre machine pour l&rsquo;installation ou la mise à jour de programme se trouve dans le fichier /etc/apt/sources.list. Vous pouvez bien entendu modifier cette liste en ouvrant ce fichier dans un éditeur de texte. Une méthode moins directe mais plus facile pour modifier ce fichier est d&rsquo;utiliser Synaptic. Pour cela, lancez Synaptic (dans les menus: Système → Administration → Gestionnaire de paquets Synaptic). Ensuite, cliquez sur Dépôts dans le menu Catégories.
+</p>
+
+<p>
+Liste des dépôts
+</p>
+
+<p>
+Edition d&rsquo;un dépôt
+</p>
+
+<p>
+Pour le champs <acronym title="Uniform Resource Identifier">URI</acronym>, vous devez mettre l&rsquo;adresse d&rsquo;une archive Ubuntu. L&rsquo;<acronym title="Uniform Resource Identifier">URI</acronym> de l&rsquo;archive principale ainsi qu&rsquo;une liste des <acronym title="Uniform Resource Identifier">URI</acronym> de miroirs de cette archive sont repris sur le site officiel d&rsquo;Ubuntu.
+</p>
+
+<p>
+Concernant le champ Catégorie(s), il existe 4 catégories: main, restricted, universe et multiverse 
+</p>
+<ul>
+<li class="level1"><span class="li"></span>
+</li>
+</ul>
+
+<p>
+      main 
+</p>
+<pre class="code">    La catégorie main contient les applications qui sont des logiciels libres et dont le support est assuré par l'équipe développant Ubuntu.
+  *
+    restricted</pre>
+<pre class="code">    Comme dans main, les applications appartenant à la catégorie restricted font l'objet d'un support par l'équipe de développement d'Ubuntu. Mais à la différence de celles contenues dans main, ces applications ne font pas parties des logiciels libres. C'est par exemple dans cette catégorie que sont placés certains pilotes de périphériques. Dans la mesure du possible, Canonical fait en sorte que les logiciels fournis par cette catégorie soient open-source.
+  *
+    universe</pre>
+<pre class="code">    Cette catégorie contient les logiciels libres dont le support n'est pas assuré par l'équipe de développement d'Ubuntu. Vous y trouvez normalement tous les logiciels disponibles sous Debian qui ne sont pas dans main. Les fichiers binaires fournis par universe ont été compilés de sorte q'ils puissent être utilisés sans problème sur Ubuntu. Cependant Canonical n'en garanti pas le bon fonctionnement. L'utilisation de ces logiciels est donc faite à vos risques et périls . Cette catégorie n'est pas activée par défaut.
+  *
+    multiverse</pre>
+<pre class="code">    Dans cette catégorie on trouve des logiciels non-libres dont le support n'est pas assuré par Canonical. C'est par exemple dans cette catégorie qu'on peut trouver des applications comme MPlayer ou Adobe Acrobat Reader. Comme pour universe, cette catégorie n'est pas activée par défaut et l'utilisation de logiciels qu'elle fournit est à vos risques et périls .</pre>
+
+<p>
+ Modifier directement le fichier sources.list
+</p>
+
+<p>
+Comme indiqué plus haut dans cet article, la liste des dépôts utilisés par votre machine se trouve dans le fichier /etc/apt/soucres.list. C&rsquo;est cette liste qui indique aux gestionnaires de paquets les dépôts qu&rsquo;il peut utiliser pour installer et mettre à jour des paquets. Le rôle de ce fichier est donc essentiel à la gestion des paquets. Il faut donc être vigilant si vous prenez la décision d&rsquo;éditer vous-même ce fichier ! En effet, un fichier sources.list mal paramétré peut entrainer des modifications néfastes au bon fonctionnement de votre système et compromettre l&rsquo;installation est la mise à jour de programmes sur votre machine. Il est donc conseillé de ne pas éditer ce fichier si vous n&rsquo;êtes pas sûr de la validité des modifications que vous comptez apporter à ce fichier. Toutefois, si magré cet avertissement vous avez pris la décision de modifier vous-même le contenu de ce fichier à l&rsquo;aide d&rsquo;un éditeur de texte, veillez à vous assurez que les modifications que vous allez apporter ne risquent pas perturber le comportement normal de votre de votre système. De plus, avant de modifier votre fichier sources.list, il peut-être utile de faire une sauvegarde de votre sources.list (que vous pouvez par exemple nommer sources.list.bak). De cette manière si les modifications que vous avez effectuées s&rsquo;avèrent être une mauvaise idée, vous pourrez toujours rétablir le contenu de votre sources.list tel qu&rsquo;il était avant vos modifications...
+</p>
+
+<p>
+Enfin pour terminer, en guise de cadeau pour ceux qui auraient fait de grosses bêtises en modifiant leur sources.list et qui n&rsquo;auraient pas suivi le conseil du paragraphe précédent, voici un exemple type de sources.list à partir duquel vous pouvez vous inspirer pour regérer un sources.list valide:
+</p>
+
+<p>
+#deb cdrom:[Ubuntu 5.04 _Hoary Hedgehog_ - Preview i386 Binary-1 (20050310)]/ hoary main restricted
+</p>
+
+<p>
+## Uncomment the following two lines to fetch updated software from the network
+</p>
+
+<p>
+deb <a href="http://fr.archive.ubuntu.com/ubuntu" class="urlextern" title="http://fr.archive.ubuntu.com/ubuntu" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://fr.archive.ubuntu.com/ubuntu</a> hoary main restricted multiverse universe deb <a href="http://fr.archive.ubuntu.com/ubuntu" class="urlextern" title="http://fr.archive.ubuntu.com/ubuntu" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://fr.archive.ubuntu.com/ubuntu</a> hoary-updates main restricted multiverse universe
+</p>
+
+<p>
+deb <a href="http://security.ubuntu.com/ubuntu" class="urlextern" title="http://security.ubuntu.com/ubuntu" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://security.ubuntu.com/ubuntu</a> hoary-security main restricted multiverse universe
+</p>
+
+<p>
+deb <a href="ftp://ftp://ftp.nerim.net/debian-marillat" class="urlextern" title="ftp://ftp://ftp.nerim.net/debian-marillat" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">ftp://ftp.nerim.net/debian-marillat</a> testing main  ##gpg &ndash;keyserver wwwkeys.eu.pgp.net &ndash;recv-keys 1F41B90 &amp;&amp; gpg &ndash;armor &ndash;export 1F41B907 | sudo apt-key add -
+</p>

@@ -1,0 +1,55 @@
+
+<a name="tables_des_compatibilites_des_cartes_son_sous_ubuntu"></a><h1> Tables des compatibilités des cartes son sous Ubuntu </h1>
+<div class="level1">
+
+<p>
+ Ajoutez votre carte si elle n&rsquo;est pas dans la liste et que sa configuration demande une manipulation particulière. Ne parlez pas de comment vous configurez tel ou tel programme, juste des modules utilisé, et de la config alsa (aslamixer, .asound.conf) si besoin. 
+</p>
+<table class="inline">
+	<tr>
+		<th class="leftalign"> Constructeur      </th><th class="leftalign"> Modèle       </th><th class="leftalign"> Chipset/module   </th><th class="leftalign"> Détection automatique ?    </th><th class="leftalign"> Fonctionne ?    </th><th class="leftalign"> Commentaires     </th>
+	</tr>
+	<tr>
+		<td class="leftalign"> ALi                          </td><td class="leftalign"> M5451           </td><td class="leftalign"> ali5451                   </td><td class="leftalign"> Oui                </td><td class="leftalign"> Oui    </td><td> Muter tous les &ldquo;Jack Sense&rdquo; et External Amplifier dans alsamixer </td>
+	</tr>
+	<tr>
+		<td class="leftalign"> Apple                     </td><td class="leftalign"> G4 desktop audio  </td><td class="leftalign"> powermac  </td><td class="leftalign"> Oui                    </td><td class="leftalign"> Oui                                    </td><td> Le micro ne fonctionne pas sur iMac et powerbook </td>
+	</tr>
+	<tr>
+		<td class="leftalign"> ASrock                 </td><td class="leftalign"> K7VT4proA, K7VT4A+, K7S8X, K7S8XE...(et autres modèles intégrés ?)    </td><td class="centeralign">   C-Media CMI9761            </td><td class="leftalign"> Oui                      </td><td class="leftalign"> Oui                                  </td><td class="leftalign"> Muter (avec la touche m) “IEC958 Capture monitor” dans ALSAMIXER (Seul &ldquo;IEC958 C&rdquo; s&rsquo;affiche)   </td>
+	</tr>
+	<tr>
+		<td class="leftalign"> Creative Labs   </td><td class="leftalign"> Sound Blaster Awe 32/64   </td><td class="leftalign"> snd_sbawe    </td><td class="leftalign"> Non   </td><td class="leftalign"> Oui              </td><td> Il faut utiliser le bios ou les pnp tools pour régler la carte, puis ajouter a la fin de votre /etc/modules : snd_sbawe isapnp=1 </td>
+	</tr>
+	<tr>
+		<td class="leftalign"> Creative Labs    </td><td> Sound Blaster Live! 24 bits </td><td class="leftalign"> snd-ca0106  </td><td class="leftalign"> Non             </td><td class="leftalign"> Oui            </td><td> Il <a href="http://www.ubuntuforums.org/showthread.php?t=19307&amp;page=1" class="urlextern" title="http://www.ubuntuforums.org/showthread.php?t=19307&amp;page=1" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">faut compiler la dernière version d'alsa.</a></td>
+	</tr>
+	<tr>
+		<td class="leftalign"> Creative Labs   </td><td class="leftalign"> Sound Blaster Audigy ES   </td><td class="leftalign"> emuk10k1   </td><td class="leftalign"> Oui                  </td><td class="leftalign"> Oui                     </td><td class="leftalign"> Muter &ldquo;Audigy Analog&rdquo; et monter le son dans alsamixer    </td>
+	</tr>
+	<tr>
+		<td class="leftalign"> Creative Labs        </td><td> Sound Blaster Audigy 2 </td><td class="leftalign"> snd-??          </td><td class="leftalign"> Oui                  </td><td class="leftalign"> Oui                    </td><td> Il faut passer Audigy Analog/Digital sur Analog dans kmix ou équivalent (idem Audigy ES ?) </td>
+	</tr>
+	<tr>
+		<td class="leftalign"> Intel                       </td><td class="leftalign"> i915G chipset               </td><td class="leftalign"> hda-intel           </td><td class="leftalign"> Non               </td><td class="leftalign"> Oui                  </td><td class="leftalign"> Il faut la dernière version d&rsquo;alsa, voir <a href="http://www.ubuntulinux.org/wiki/HdaIntelSoundHowto" class="urlextern" title="http://www.ubuntulinux.org/wiki/HdaIntelSoundHowto" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">le wiki officiel Ubuntu</a>  </td>
+	</tr>
+	<tr>
+		<td class="leftalign"> Realtek                </td><td class="leftalign"> ACL650 AC&rsquo;97        </td><td class="leftalign"> snd_via82xx       </td><td class="leftalign"> Oui                 </td><td class="leftalign"> Oui                  </td><td class="leftalign"> Il faut parfois mettre manuellement snd_via82xx a la fin de son /etc/modules  </td>
+	</tr>
+	<tr>
+		<td class="leftalign"> VIA                      </td><td class="leftalign"> VT1720/24 (Envy24PT)    </td><td class="leftalign"> ice1724       </td><td class="leftalign"> Non              </td><td class="leftalign"> Oui (compliqué)        </td><td class="leftalign"> Il faut patcher le noyau : voir le <a href="http://www.ubuntuforums.org/showthread.php?p=133272" class="urlextern" title="http://www.ubuntuforums.org/showthread.php?p=133272" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">forum officiel Ubuntu</a><em>Le patch est peut-être intégré dans une mise a jour, a confirmer</em>  </td>
+	</tr>
+</table>
+<br />
+
+</div>
+<!-- SECTION [1-2675] -->
+<a name="liens"></a><h3> Liens </h3>
+<div class="level3">
+
+<p>
+ Cette page est basé sur la page identique du <a href="http://www.ubuntulinux.org/wiki/HardwareSupportComponentsSoundCards/" class="urlextern" title="http://www.ubuntulinux.org/wiki/HardwareSupportComponentsSoundCards/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">wiki officiel</a> 
+</p>
+
+</div>
+<!-- SECTION [2676-] -->

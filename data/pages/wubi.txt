@@ -1,0 +1,410 @@
+{{tag>Precise installation windows}}
+
+----
+
+====== Wubi : ancienne procédure pour installer Ubuntu comme un programme pour Windows ======
+
+<note warning>Le contenu de cette page est obsolète, Wubi est un projet qui n'est plus fonctionnel de nos jours.</note>
+
+{{wubi_logo.png  }}
+
+**Wubi** était un programme permettant d'installer et désinstaller Ubuntu (ou ses variantes) sous Microsoft(r) Windows(r), comme n'importe quel autre programme sous ce système d'exploitation. Ubuntu apparaissait ensuite dans l'utilitaire //Ajout et suppression de programmes// de Windows XP ou //Désinstaller un programme// de Windows Vista/7. Ubuntu était installé dans un fichier virtuel créé sous Windows, et une entrée de menu était ajoutée à l'amorceur de Windows pour vous permettre de charger l'un ou l'autre des systèmes d'exploitation.
+
+<note warning>Le développement de Wubi s'est arrêté à la [[:versions|version d'Ubuntu]] [[:precise|Precise 12.04]] (non maintenue). [[https://wiki.ubuntu.com/RaringRingtail/TechnicalOverview#Ubuntu_downloader_for_Windows_discontinued|Canonical en déconseille l'utilisation]]. Wubi n'est désormais plus une méthode recommandée pour installer ni pour tester Ubuntu. \\ \\
+De plus, Wubi n'était __**PAS COMPATIBLE**__ avec les ordinateurs ayant l'une des caractéristiques suivantes :
+  * **Micrologiciel (firmware) de type [[:UEFI]]** : les ordinateurs dont le micrologiciel est de type UEFI ne sont pas pris en charge par Wubi. L'ordinateur doit avoir un micrologiciel de type BIOS ou dont le micrologiciel UEFI fonctionne en mode //legacy//. (//[[http://forum.ubuntu-fr.org/viewtopic.php?pid=9714181#p9714181 |Mon ordinateur fonctionne-t-il en mode UEFI ?]]//)
+  * **Partitionnement de type GPT** : les disques durs ayant une table de partitions de type GPT ne sont pas pris en charge par Wubi. Wubi ne peut être utilisé que pour installer Ubuntu dans un disque dur de démarrage dont la table de partitions est de type MBR.
+  * **Windows à partir de Windows 8 avec le démarrage hybride** : dans sa configuration par défaut, les nouveaux Windows fonctionnent en mode de démarrage hybride. Dû à une mise en hibernation -- même dans le cas d'un arrêt de Windows --, le mode de démarrage hybride est incompatible avec Wubi. Vous devez [[http://blogs.technet.com/b/windowsfr/archive/2013/01/03/windows-8-le-d-233-marrage-hybride.aspx|désactiver le démarrage hybride]] dans Windows. 
+  * **RAID et volumes chiffrés** : Wubi doit être utilisé pour installer Ubuntu dans un volume standard non-chiffré. Il est incompatible avec les volumes RAID logiciels et les volumes chiffrés.
+</note>
+
+<note tip>À partir de 2017, Ubuntu devient disponible sous la forme d'un sous-système de Windows 10.
+Il ne saura pas accéder aux partitions en EXT4 https://forum.ubuntu-fr.org/viewtopic.php?id=1992255 mais pourra lancer les logiciels Ubuntu, que ce soit graphiquement ou dans un terminal avec un interpréteur [[:bash]].</note>
+
+<note tip>Si vous aimez l'aventure, ou que votre machine ne semble pas capable de suivre une procédure d'installation classique, des développeurs indépendants entretiennent une version moderne nommée [[https://github.com/hakuna-m/wubiuefi/wiki|WubiEFI]], mais ce n'est pas approuvé par Canonical ni Microsoft, et la procédure et les problèmes rencontrés sont très différents de ce que décrivait l'article ci-dessous.</note>
+
+<note>Ce document est très long et présenté sous la forme de questions/réponses. Utilisez la table des matières ci-contre afin de vous repérer et d'atteindre les sections qui vous intéressent dans ce document.
+
+**Wubi __ne vous permet pas__ :**
+  * de charger Ubuntu et Windows en même temps : Ubuntu n'est pas [[:virtualisation|virtualisé]]. Il fonctionne nativement comme système d'exploitation principal, mais doit obligatoirement être "accompagné" de Windows pour fonctionner
+  * de faire fonctionner vos programmes pour Windows sous Ubuntu : le système Windows n'étant pas exécuté, vous ne pouvez pas faire fonctionner vos programmes écrits pour Windows ;
+  * de remplacer Windows : en installant Ubuntu par Wubi, vous devrez conserver Windows.
+</note>
+
+===== Avantages et inconvénients =====
+Ce mode d'installation d'Ubuntu pouvait être très pratique pour tester Ubuntu sur du court à moyen terme quand vous désirez garder un système Windows en multi-amorçage :
+  * contrairement à une [[:livecd|session live]], les modifications que vous apportiez dans votre système Ubuntu étaient conservées après un redémarrage de votre ordinateur ; Cependant il existe des sessions live  'persistante' lorsque le support d'installation est une clé USB et non un CD-ROM.
+  * contrairement à une [[:tutoriel:amorcer_sur_cd_ubuntu|installation classique]], Wubi ne nécessite pas de repartitionner vos disque durs.
+
+<note tip>De nos jours, sur des ordinateurs puissants, installer une variante légère d'Ubuntu en machine virtuelle fait généralement l'affaire.</note>
+
+Néanmoins, l'installation d'Ubuntu par l'intermédiaire de Wubi causait plusieurs inconvénients par rapport à une installation classique :
+  * elle obligeait la conservation de Windows dans votre ordinateur ;
+  * les fichiers de l'installation d'Ubuntu étaient visibles par Windows : des éléments de son installation peuvent être écrasés accidentellement ou atteints par un malware ; 
+  * Ubuntu installé via Wubi était légèrement plus lent (avec un temps de démarrage plus long, dû à son principe de fonctionnement) et pose parfois [[wubi#problemes_frequents|des soucis]] que l'on ne rencontrait pas avec l'installation standard.
+  * Windows 7 (32 bits et 64 bits) devait être __installés en mode Legacy__ (voir avertissement ci-dessous)
+
+Votre ordinateur devait aussi rencontrer les même exigences minimales que celles nécessaires pour faire fonctionner une installation standard d'Ubuntu. **[[:exigences_minimales|Consultez les exigences minimales]].**
+
+
+===== Télécharger l'installateur Wubi =====
+
+<note important> Depuis le 28 Avril 2017, la dernière version installable par Wubi qui était Ubuntu 12.04.5 n'est plus soutenue. C'est complètement terminé pour Wubi : plus aucune version de Ubuntu n'est installable par Wubi.</note>
+<del>L'installateur Wubi se récupère depuis les serveurs de téléchargement d'Ubuntu. L'installateur, léger, vous permettra par la suite de télécharger les fichiers d'installation de la variante d'Ubuntu de votre choix. Vous devrez être connecté à Internet durant toute la procédure d'installation d'Ubuntu.
+  - téléchargez et enregistrez le fichier d'installation sur le bureau de Windows **(Rappel : ne convient pas pour Windows 8 pré-installé)** : [[http://people.canonical.com/~evand/wubi/precise/wubi-r272-signed.exe|Téléchargez Wubi pour Ubuntu 12.04.5]] (quels que soient les messages pendant l'installation, c'est toujours la version la plus récente de 12.04 qui sera installée : 12.04.5 à partir du 7 Août 2014)  
+  - Exécutez l'installateur Wubi en double-cliquant sur le fichier téléchargé wubi-r272-signed.exe sauf sous XP (détails ci-dessous)
+            
+Sous Windows XP, clic droit sur l'installateur wubi.exe, Exécuter en tant que, cocher "L'utilisateur actuel" (il doit avoir les pouvoirs d'administrateur) et décocher la case "Protéger mon ordinateur et mes données des programmes non autorisés". Il peut arriver également qu'une protection du PC bloque le mode serveur et empêche le téléchargement automatique. Sous Win7, une fenêtre "Alerte de sécurité Windows" apparaît : elle précise que le Pare-feu Windows a bloqué un processus pyrun.exe. Il est alors indispensable de cliquer sur "Autoriser l'accès" sinon le téléchargement est bloqué. 
+</del>
+
+<note warning>Inutile de lire ce document qui est totalement obsolète.</note>
+
+===== Procédure d'installation =====
+<del>
+L'installation d'Ubuntu à l'aide de Wubi se fait très simplement :
+
+{{ wubi-installation.png |L'installation en 3 étapes}}
+
+Sommairement, voici les autres options de Wubi :
+  * **Disque d'installation** : choisissez le lecteur virtuel (partition) dans lequel Ubuntu devra être installé. Par défaut, Ubuntu sera installé dans votre lecteur système (''C:''). Si vous disposez d'une partition de votre disque dur dédiée au stockage de documents (disque D: portant souvent le label "DATA" sur certains PC préinstallés), sélectionnez cette partition de stockage de préférence. //Vous devez disposer d'au moins 5 Go d'espace libre dans ce lecteur// ;
+  * **Espace occupé par** : choisissez l'espace que vous souhaitez dédier à Ubuntu. Vous devez dédier au moins 4 Go à Ubuntu ; votre système se sentira mieux sur un espace d'au moins 8 Go. //La taille que vous choisissez sera dédiée totalement à Ubuntu ; vous ne pourrez pas utiliser cet espace sous Windows ;// astuce pour espace réduit (par exemple 5 Go dédié à Ubuntu) : [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3100472#p3100472|stocker sur /host]].
+  * **Environnement de** : sélectionnez l'[[:environnements|environnement de bureau]] que vous souhaitez utiliser par défaut. Wubi ne vous permet d'installer qu'un seul environnement ; vous pourrez en installer d'autres une fois l'installation terminée.
+    * Si vous exécutez Wubi depuis un //Desktop CD//, vous n'avez qu'un seul choix d'environnement (celui de la variante contenue dans votre //Desktop CD//) ;
+    * Si vous exécutez une copie de Wubi récupérée dans Internet, vous pouvez choisir l'environnement de votre choix parmi toutes les variantes d'Ubuntu. Wubi ira télécharger depuis Internet les fichiers d'installation pour la variante correspondante d'Ubuntu que vous aurez choisie. Vous devrez être connecté à Internet durant tout le temps du téléchargement (celui-ci peut être arrêté puis repris ultérieurement).
+  * **Langue** : sélectionnez la langue que vous souhaitez paramétrer par défaut sous Ubuntu. Pour la langue française, choisissez ''French''. Vous pourrez télécharger et paramétrer des langues supplémentaires une fois l'installation d'Ubuntu terminée ;
+  * **Nom d'utilisateur** : saisissez un nom d'utilisateur. Ce sera votre identifiant sous Ubuntu.
+    * Votre identifiant ne doit contenir que des caractères alphanumériques (et aucun caractère accentué) ;
+    * Il ne doit pas commencer par un chiffre ;
+    * Il ne doit pas contenir d'espace ;
+    * Il doit être entièrement écrit en lettres minuscules.
+  * **Mot de passe** : saisissez deux fois le même mot de passe. Celui-ci sera associé à votre compte d'utilisateur. Il est vivement conseillé d'utiliser au moins huit (8) caractères et d'alterner majuscules, minuscules, chiffres et caractères accentués.
+  * **Accessibilité** : choisissez des options d'accessibilité, pour palier les handicaps.
+
+Cliquez sur le bouton **Installer** pour démarrer l'installation. Si vous utilisez une copie de Wubi récupérée sur Internet, les fichiers d'Ubuntu (ou de la variante de votre choix) sont téléchargés. La procédure d'installation démarre et s'exécute automatiquement et est totalement automatisée.
+
+<note important>Attention : dans le cas d'une installation par internet, le pare-feu de Windows doit ouvrir une fenêtre avec le message "Voulez-vous continuer à bloquer ce programme", nom : pyrun. Évidemment, il faudra cliquer sur "Débloquer" (si vous avez un autre pare-feu, prenez vos dispositions pour que le programme pyrun.exe soit autorisé en mode serveur) sinon l'installation échoue.
+</note>
+
+À la fin de cette étape, il vous sera demandé de redémarrer votre ordinateur. Un menu d'amorçage vous permet de charger Windows ou Ubuntu. Le choix par défaut à l'amorçage est Windows ; vous devez donc rester près de votre ordinateur pour choisir de charger Ubuntu.
+
+Une fois la procédure d'installation terminée, Ubuntu est installé dans le répertoire ''C:\ubuntu'' (ou un autre endroit que vous aurez spécifié, si vous choisissez de ne pas utiliser les paramètres par défaut).
+
+
+
+===== FAQ =====
+
+==== Quelles sont les limitations imposées par Wubi, comparativement à une installation normale ? ====
+
+  * Wubi n'est conseillé qu'à des fins de tests. En effet, des baisses de performances ont été constatées, dues à la fragmentation du système de fichiers de la partition hôte. En particulier, un taux d'iowait (Input Output Wait) élevé est fréquemment observé lors de l'utilisation des données stockées hors de l'espace dédié à Ubuntu.
+  * Les fichiers d'Ubuntu étant sous Windows, votre installation est vulnérable aux virus et problèmes pour Windows.
+  * Vous ne devez pas supprimer le dossier ''C:\ubuntu'' (ou tout autre emplacement que vous avez défini à l'installation d'Ubuntu). Vous perdriez votre système Ubuntu et vos fichiers personnels mais le menu d’amorçage restera la, avec un Ubuntu "H.S".
+  * Si vous désinstallez Windows, votre système Ubuntu sera effacé aussi, car celui-ci réside sur la partition de Windows.
+  * Ubuntu installé via Wubi pose parfois [[wubi#problemes_frequents|des soucis]] que l'on ne rencontre pas avec l'[[:tutoriel:amorcer_sur_cd_ubuntu|installation standard]].
+
+==== Quels avantages a donc Wubi ? ====
+
+Tout d'abord, sa simplicité : pas besoin de créer de partitions, pas d'installation de grub (le choix au démarrage se fait avec l'assistant de démarrage de Windows).
+
+ Mais aussi, Wubi possède un avantage non négligeable : sous Windows, Ubuntu est visible comme un dossier ''C:\ubuntu'' qui contient vraisemblablement un fichier, trois sous dossiers.
+ Dans ''C:\ubuntu\disks'' le fichier ''root.disk'' correspond à l'espace alloué pour Ubuntu : il agit //presque// comme une partition virtuelle.
+
+ **L'intérêt évident est la facilité de sauvegarde et de restauration** de votre Ubuntu par ce fichier là : il est facile de le sauvegarder (en entier !) sur un disque externe, et de le restaurer.
+ La copie, sous Windows, d'un unique fichier de 10 ou 15 GigaOctets, est infiniment plus rapide que la copie (sous Ubuntu) du contenu entier de la partition dans le cas d'une installation sur une partition dédiée à Ubuntu.
+==== J'ai installé Wubi, mais je ne le trouve pas dans mon menu Démarrer. Où est-il ? ====
+
+Vous n'installez pas Wubi : celui-ci est un installateur. Il installe Ubuntu. Et Ubuntu est un système d'exploitation. Pour charger Ubuntu, vous devez éteindre votre ordinateur, puis choisir Ubuntu dans un menu au prochain démarrage de votre ordinateur.
+
+
+
+
+
+
+
+==== Comment choisir de charger Ubuntu plutôt que Windows ? ====
+Au chargement de votre ordinateur, un menu d'amorçage vous permet de choisir quel système d'exploitation utiliser.
+
+{{ boot-screen.jpg |Le menu de chargement}}
+
+==== Wubi est-elle désormais la seule méthode d'installation ? ====
+Non, vous pouvez toujours installer Ubuntu dans des partitions dédiées à l'aide d'un //Desktop CD//, d'un //[[:installation_alternate|Alternate CD]]//, d'un DVD d'installation ou d'Internet/d'un réseau.
+
+
+
+==== Puis-je utiliser Wubi pour installer Ubuntu si je n'ai pas de connexion à Internet ? ====
+Non, l'installation par Wubi sans connexion internet est impossible.
+
+
+
+==== Pourquoi la version AMD64 bits d'Ubuntu est-elle téléchargée ? Puis-je forcer l'installation d'une version 32 bits ? ====
+
+Vous disposez probablement d'un ordinateur gérant les instructions 64 bits. Dans les ordinateurs gérant ce type d'instructions (AMD64 de AMD et EM64T d'Intel), c'est la version 64 bits qui est automatiquement chargée et installée. Dans ce cas, il n'est pas possible de forcer l'installation d'une version 32 bits. 
+==== Comment installer plus d'une variante d'Ubuntu avec Wubi ? ====
+Seul Ubuntu peut être installé par Wubi. Une fois l'installation terminée, vous pourrez installer d'autres variantes de Ubuntu en installant les méta-paquets correspondant à celles de votre choix.
+
+
+==== Quels systèmes Windows peuvent faire fonctionner Wubi ? ====
+Wubi a été testé sous Windows 2000, Windows XP, Windows Vista et Windows 7 (à condition qu'il soit installé en mode Bios classique, pas en mode EFI). Il devrait aussi fonctionner sous Windows 98. Windows ME n'est pas géré. 
+
+==== Comment désinstaller/réinstaller Ubuntu ? ====
+Exécutez Wubi à nouveau. Celui-ci détectera une installation existante d'Ubuntu et vous en proposera la désinstallation. Pour réinstaller Ubuntu, vous devrez exécuter à nouveau Wubi. Les partitions virtuelles d'Ubuntu sont remises à zéro.
+Vous devez entrer dans boot.ini pour supprimer totalement Ubuntu. Supprimer la ligner où il y a écrit "Ubuntu".
+
+==== Quelle taille devrais-je allouer à Ubuntu ? ====
+Le minimum recommandé est 5 Go. L'espace qui sera automatiquement choisi est calculé en fonction de l'espace libre dans votre partition hôte. Vous pouvez toujours forcer par la suite moins ou plus d'espace à allouer à Ubuntu. Notez que les 5 Go ne sont pas totalement utilisées par Ubuntu : de l'espace libre est conservé pour emmagasiner vos fichiers. (Sur une partition FAT32, Wubi créera plus de partitions virtuelles, car les fichiers ne peuvent peser plus de 4 Go.)
+
+
+
+==== Puis-je mettre à niveau Ubuntu ?====
+
+Non : il est impossible de faire la mise à niveau vers Ubuntu 14.04 de la version Ubuntu 12.04.5 installée par Wubi (ou d'une version précédente : 12.04.4 ; 12.04.3 ; etc...) : l'opération de mise à niveau en elle-même se passe bien mais au redémarrage, Ubuntu ne fonctionne plus. La seule opération qui fonctionne quand l'installation de Ubuntu 12.04 est un peu ancienne, c'est d'accepter la proposition "New hardware support is available" dans le Gestionnaire de mises à jour. Par contre, il ne faut jamais accepter la proposition "La nouvelle version "14.04.1 LTS" d'Ubuntu est disponible". 
+
+
+==== Quelles sont les options d'accessibilité que me propose Wubi ? ====
+  * {{  wubi-accessibilite.png?200}}Cliquez sur le bouton **Accessibilité** pour avoir accès à une liste d'option d'accessibilité pour votre environnement bureautique :
+    * **Aides de visibilité** vous permet de choisir des options de visibilité utiles pour des gens ayant des déficiences visuelles. Il peut paramétrer des //contrastes élevés//, installer une //loupe//, installer un //lecteur d'écran// ou configurer un //terminal Braille// ;
+    * **Aides de mobilité** vous permet de choisir des paramètres d'accessibilité utiles aux gens ayant des difficultés motrices. Un //modificateur de clavier// peut être installé, pour paramétrer des touches de raccourcis, ou encore un //clavier visuel// (//on-screen keyboard//).
+    * Par défaut, le profil **Aucun** est sélectionné. Aucun paramètre spécifique à l'accessibilité ne sera configuré.
+  * Cliquez sur le bouton **Suivant >** pour revenir au menu d'installation de Wubi.
+
+==== J'ai installé Ubuntu à l'aide de Wubi, et j'aimerais accéder aux fichiers de Windows à partir d'Ubuntu. Où sont-ils situés ? ====
+Les fichiers de la partition dans laquelle Ubuntu a été installé sont disponibles à partir de l'emplacement ///host// de l'arborescence d'Ubuntu. Les éventuelles autres partitions de Windows sont accessibles depuis divers dossiers de l'emplacement ///media//.
+
+
+
+==== Je suis satisfait d'Ubuntu et je veux migrer vers une installation normale ====
+
+Une procédure simple (mais en anglais) est proposée dans ce Tuto : https://help.ubuntu.com/community/MigrateWubi
+La partie délicate qui n'est pas détaillée dans ce Tuto est la création des partitions Linux destinées à recevoir l'installation classique. Très clairement, le risque est de perdre ses données - aussi bien celles stockées dans Windows que celles stockées dans Ubuntu installé par Wubi - et de perdre Windows. Il conviendra donc de prendre ses précautions avant de se lancer dans cette entreprise, comme pour toute installation en cohabitation Windows/Ubuntu : [[:cohabitation_ubuntu_windows#precautions]]
+===== Problèmes fréquents =====
+<note important>Pour Ubuntu 12.04 installé par Wubi dans Windows 8 (Windows 8 doit être installé en mode Bios classique ; Wubi ne fonctionne pas si Windows 8 est pré-installé) : il peut arriver que Ubuntu ne démarre pas juste après l'installation (et même après). Un redémarrage sur Windows 8 puis quitter Windows 8 par "Arrêter" (au lieu de "Redémarrer) résout le problème. Voir ce post pour les explications et une solution plus radicale : http://forum.ubuntu-fr.org/viewtopic.php?pid=10756131#p10756131</note>
+Certains problèmes sont rencontrés fréquemment par des utilisateurs de Wubi. Nous vous rappelons certains éléments-clé afin de voir si ceux-ci ne sont pas la cause de votre problème :
+  - Rappelez-vous que le RAID logiciel et les volumes chiffrés (cryptés) ne sont pas gérés par Wubi. Vous devez installer Ubuntu dans une partition ordinaire ;
+  - Si vous rencontrez une erreur "Turning on fate A20" ou "...upper memory...", référez-vous à [[http://ubuntuforums.org/showpost.php?p=4831315&postcount=30|ce message dans les forums anglophones d'Ubuntu]] ;
+  - Si vous possédez plus d'un disque dur dans votre ordinateur et rencontrez des problèmes lors du chargement d'Ubuntu, référez-vous à la section [[#problemes_de_chargement_:_erreur_21|"Problèmes de chargement : Erreur 21"]] ;
+  - Si vous disposez de Windows Vista et que Wubi se bloque lors de l'éjection du CD-ROM d'Ubuntu, référez-vous à la section [[#wubi_se_bloque_apres_l_ejection_du_cd_sous_windows_vista|"Wubi se bloque après l'éjection du CD sous Windows Vista"]];
+  - Si vous possédez une version française de Windows ou que le nom de votre version de Windows comprend des caractères spéciaux/accentués (ex : //Windows Vista **__É__**dition Familiale Premium//), et que l'installation se bloque à 88%, lisez la section correspondante ci-dessous ;
+  - Si l'installation échoue lors du formatage de la partition virtuelle swap, cela signifie que la partition virtuelle swap est fragmentée. Désinstallez Wubi, réinstallez Ubuntu et exécutez [[http://www.kessels.com/JkDefrag/|jkdefrag]] sur ''C:\ubuntu\disks\swap.disk'' avant de redémarrer votre ordinateur ;
+
+
+===== Dépannage =====
+
+==== Le mauvais fuseau horaire ou pays est paramétré ====
+Un des messages d'erreur caractéristique de ce problème peut être "writelines() argument must be a sequence of strings".
+
+Assurez-vous que votre pays est correctement configuré dans Windows. Wubi détecte automatiquement le pays paramétré dans la base de registre de Windows. La clé correspondante est : ''HKCU\Control Panel\International''.
+
+Pour modifier le pays, aller dans Panneau de Configuration>Options régionales et linguistiques.
+
+
+==== Problèmes de chargement : blocage à Enebling gateway A20... ====
+Ceci signifie que votre ordinateur ou la version de votre BIOS n'est pas géré par grub4dos (un composant important de Wubi). Mais une nouvelle version de grub4dos (wubildr) a été préparée. [[http://ubuntuforums.org/showpost.php?p=4831315&postcount=30|Vous pouvez l'essayer]] et [[http://ubuntuforums.org/showthread.php?t=766776|faire part des résultats observés]].
+
+==== Problèmes de chargement : blocage à ...upper memory... ====
+Ceci signifie que votre ordinateur ou la version de votre BIOS n'est pas géré par grub4dos (un composant important de Wubi). Mais une nouvelle version de grub4dos (wubildr) a été préparée. [[http://ubuntuforums.org/showpost.php?p=4831315&postcount=30|Vous pouvez l'essayer]] et [[http://ubuntuforums.org/showthread.php?t=766776|faire part des résultats observés]].
+
+==== Problèmes de chargement : Erreur 15, fichier introuvable (File not found) ====
+Une cause fréquente de ce problème est que Wubi ne gère pas le RAID logiciel (ou //fakeraid//). Vous devez installer Ubuntu dans une partition hors du RAID logiciel. Néanmoins, le RAID matériel devrait être bien géré. De même, vous ne pouvez pas installer Ubuntu dans une partition chiffrée (cryptée).
+Si votre partition est corrompue ou fragmentée, ceci peut aussi causer des problèmes de chargement. Exécutez la commande ''chkdsk /r'' dans une invite de commande sous Windows pour le volume dans lequel Ubuntu est installé. Installer Ubuntu dans une autre partition peut aussi régler le problème.
+
+
+==== Problèmes de chargement : gel durant le chargement, ou écran noir ====
+Parfois, l'ACPI n'est pas totalement géré et peut geler le processus de chargement ou afficher un écran noir. Dans de tels cas, après avoir sélectionné "Ubuntu" au menu de chargement, appuyez sur [ESC] ou [Échap] sur votre clavier et choisissez une autre option de chargement.
+
+==== Problèmes de chargement : partitions chiffrées (cryptées) ====
+
+Les partitions chiffrées ne sont pas gérées.
+
+
+
+==== L'installation se bloque lors du formatage de swap.disk ====
+Ceci apparaît lorsque le fichier ''C:\ubuntu\disks\swap.disk'' est fragmenté. Vous pouvez utiliser le logiciel [[http://www.kessels.com/JkDefrag/|JkDefrag]] sous Windows pour le défragmenter. [[https://bugs.launchpad.net/wubi/+bug/222546|Voyez le rapport de bogue.]]
+
+
+
+
+==== Problèmes vidéo au premier amorçage ====
+Après avoir sélectionné "Ubuntu" au menu d'amorçage, appuyez sur la touche [ESC] ou [Échap] de votre clavier. Sélectionnez ensuite de charger "Safe graphics mode".
+
+==== Problèmes vidéo au second amorçage ====
+Si vous rencontrez des problèmes après l'installation, appuyez sur les touches [CTRL]+[ALT]+[F2] et exécutez les commandes suivantes : <code>sudo cp /etc/X11/xorg.conf /etc/X11/xorg.conf.bak
+sudo X -configure
+sudo cp ./xorg.conf.new /etc/X11/xorg.conf
+</code>Sélectionnez le pilote graphique Vesa et laissez les autres options par défaut. Réamorcez votre ordinateur. Ceci vous permet de charger un mode graphique de secours, mais aux performances limitées. Ceci devrait néanmoins vous permettre de charger et installer des pilotes appropriés ou de trouver une autre solution permanente.
+
+==== Partition NTFS corrompue ====
+Tous les cas rapportés de problèmes de ce genre proviennent de personnes ayant effectué un arrêt d'urgence de leur ordinateur (ex : débranchement à chaud de l'ordinateur, ou pression du bouton "Reset" ou "Power" de la tour).
+
+Lorsque vous faites un redémarrage à chaud de votre ordinateur, vous pouvez toujours endommager le système de fichiers, que vous utilisiez Wubi ou non. Ce qui se produit est que des nouveaux utilisateurs, lorsqu'ils rencontrent un problème avec Wubi/Ubuntu, ne sachant que faire, coupent le courant dans leur ordinateur bien plus souvent que nécessaire. Parfois, ces utilisateurs sont chanceux, d'autres fois non. Puisque Ubuntu est installé dans une partition de Windows (NTFS ou FAT32), lorsque la chance n'est pas là, il se produit une corruption de la partition. Le problème est dû à la coupure de courant brusque, pas à l'utilisation de Wubi ou de ntfs-3g.
+
+Si la partition NTFS devient corrompue, vous devrez exécuter ''chkdsk /r'' dans une console de récupération du CD-ROM d'installation de Windows (ou d'un autre moyen fourni par votre revendeur, ou une autre solution de défragmentation trouvée dans Internet). Il n'existe malheureusement aucun moyen de défragmenter une partition NTFS ou FAT32 sous Linux à l'heure actuelle.
+
+Sous Ubuntu ou non, évitez toujours un réamorçage à chaud de votre ordinateur.
+
+
+==== Je peux voir le bureau d'Ubuntu, mais je ne peux pas enregistrer mes modifications et paramètres ====
+Ceci est probablement dû à une installation interrompue, et que vous ne vous trouvez pas sous Ubuntu installé par Wubi, mais plutôt dans un environnement de démonstration de type session live. Vous devrez exécuter à nouveau Wubi dans Windows.
+
+
+
+==== L'écran de chargement d'Ubuntu s'affiche un court instant, puis s'interrompt et affiche une console BusyBox/(initramfs) ====
+Redémarrez votre ordinateur, validez l'entrée "Ubuntu" au menu d'amorçage et appuyez ensuite sur la touche [ESC] ou [Échap] de votre clavier. Appuyez sur 'e' pour modifier la première entrée. Ensuite, sélectionnez la seconde ligne et appuyez sur 'e'. À la fin de la ligne, inscrivez l'instruction:
+''irqpoll''
+ Enfin, appuyez sur les deux touches CTRL+X pour charger Ubuntu.
+
+==== Impossible de désinstaller Wubi ====
+
+Si vous avez choisi un autre disque que C au moment de l'installation, il se peut que rien ne se produise lorsque vous tentez de désinstaller Wubi. Il s'agit d'un bug de la rev 505 de Wubi. Téléchargez et exécutez le désinstallateur [[https://wiki.ubuntu.com/WubiGuide?action=AttachFile&do=view&target=Uninstall-Ubuntu.exe|Uninstall-Ubuntu.exe]].
+
+===== Rapporter un bogue =====
+Si aucune des solutions présentées ci-haut ne vous permet de régler les problèmes que vous rencontrez, pensez à rapporter le bogue. N'oubliez pas que vous pouvez utiliser Wubi en mode verbeux afin que des rapports d'erreurs soient plus complets.
+  * Les journaux (logs) de l'installation pour la partie Windows se trouvent dans votre dossier temporaire utilisateur (%temp%) ;
+  * Les journaux contenant les erreurs de chargement ou apparues dans une console BusyBox se trouvent dans le fichier ''/casper.log'' ;
+  * Les journaux d'installation sont disponibles dans ''/var/log/syslog'' et ''/var/log/installer'' sous Ubuntu, ou dans ''C:\ubuntu\installation-logs.zip'' sous Windows. Si aucun journal n'est créé sous Windows, lorsque une erreur se produit durant l'installation d'Ubuntu, appuyez sur [CTRL]+[ALT]+[F2] et exécutez :<code>sudo sh /custom-installation/hooks/failure-command.sh</code>Vous pouvez alors redémarrer votre ordinateur sous Windows, et les journaux devraient se trouver à l'endroit désigné ;
+  * Les journaux post-installation se trouvent dans ''/tmp'' et ''/var/log/syslog''.
+
+Les bogues sont recensés dans [[https://bugs.launchpad.net/wubi|LaunchPad]].
+
+
+
+===== Divers =====
+==== Comment rendre par défaut le choix "Ubuntu" au menu d'amorçage ? ====
+Ubuntu n'est pas configuré comme étant le choix par défaut de système d'exploitation au démarrage de l'ordinateur, vous devez manuellement le sélectionner au menu d'amorçage de Windows. Pour changer ce comportement :
+  * sous Windows XP, allez dans //Panneau de configuration -> Système -> Avancé -> **Démarrage et récupération**// et modifiez le choix par défaut 
+  * ou toujours sous XP (non testé sur vista), démarrer, exécuté, taper msconfig, aller dans l'onglet BOOT.INI, sélectionner  wubi dans les choix et cliquer sur "par défaut".
+  * sous Windows Vista/7, utilisez le logiciel [[http://neosmart.net/dl.php?id=1|NeoSmart EasyBCD]] pour modifier le menu d'amorçage de BootMgr.
+
+==== Peut-on faire une copie de sauvegarde des fichiers d'installation ? ====
+Oui. Copiez simplement ''C:\wubi\disks\*.virtual.disk''. Les anciens fichiers d'installation peuvent être montés dans Ubuntu afin de récupérer les fichiers importants.
+
+
+=== Augmenter les performances des disques ===
+
+Une mauvaise performance du disque dur est souvent due à une fragmentation du système de fichiers dans lequel Ubuntu est installé ou bien à une quantité de mémoire vive (RAM) trop faible (ce qui oblige Ubuntu à utiliser plus souvent l'extension à la mémoire vive [swap]).
+
+Vous pouvez utiliser le logiciel **JkDefrag** à partir de Windows pour défragmenter la partition de Windows dans laquelle Ubuntu est installé :
+  - Téléchargez [[http://www.kessels.com/JkDefrag/|JkDefrag]] ;
+  - Décompressez l'archive ;
+  - Exécutez JkDefrag afin qu'il défragmente ''C:\wubi''
+
+==== Que se passe-t-il si j'ai d'autres amorceurs ? ====
+
+Wubi ne modifie que l'amorceur de Windows (NTLDR ou BootMgr) afin d'y ajouter une entrée de menu pour charger son propre amorceur. Il y a de fortes chances que votre amorceur actuel puisse chaîner //(chainload)// vers celui de Windows. Par exemple, si vous avez déjà GRUB installé comme amorceur principal, pour charger Ubuntu, vous devrez d'abord sélectionner l'entrée de Windows dans GRUB, puis l'entrée d'Ubuntu dans le menu de Windows. La chaîne des évènements serait celle-ci : \\ GRUB -> NTLDR/BootMgr -> GRUB4DOS -> Noyau Linux //(Ubuntu)//
+
+==== Comment créer une partition virtuelle supplémentaire pour Ubuntu à partir d'Ubuntu ? ====
+
+Sous Ubuntu, ouvrez un terminal //(Applications -> Accessoires -> **Terminal**)// et exécutez les commandes suivantes (elles créeront une partition virtuelle supplémentaire ''extra.disk'' de 10 Go ; ajustez le paramètre ''seek'' de la ligne 2 pour préciser une autre taille) :
+<code>~$ cd /host/ubuntu/disks
+~$ sudo dd if=/dev/zero of=extra.disk bs=1MB count=1 seek=10000
+~$ sudo mkfs.ext3 -F extra.disk</code>
+<note>Profitons-en pour donner quelques explications sur comment se correspondent les fichiers Windows et les partitions Ubuntu dans une installation Wubi.
+Dans votre disque Windows, vous trouverez un dossier c:\ubuntu\ dans lequel sont rangés un certain nombre de programmes, fichiers et dossiers. Chaque disque Ubuntu est un gros fichier(*) dans le dossier c:\ubuntu\disks\. Ainsi, vous aurez par défaut deux fichiers, root.disk et swap.disk, correspondants à la partition principale et celle de swap de Ubuntu.
+
+L'autre chose à savoir est que Ubuntu "voit" la totalité du disque Windows, via le chemin /host. On peut donc créer de nouveaux fichiers, destinés à de nouvelles partitions virtuelles, directement à partir de Ubuntu. C'est ce que font les trois commandes ci-dessus. Dans le détail:
+  * On va dans le répertoire /host/ubuntu/disks (c'est à dire c:\ubuntu\disks)
+  * On crée un fichier rempli de zéros en copiant grâce à la commande "dd" depuis le device bidon /dev/zero dans le fichier "extra.disk", par blocs de 1Mo, et ce 10000 fois.
+  * On formate ensuite le fichier "extra.disk" au format Linux ext3
+Il faudra ensuite monter automatiquement ce fichier en tant que partition virtuelle et l'accrocher dans la hiérarchie, ce qui est expliqué [[#comment_modifier_manuellement_la_taille_des_partitions_virtuelles|un peu plus bas]]. 
+
+(*) Il faut aussi savoir que certaines configurations Windows étant limités à 4 Go pour la taille d'un fichier (FAT32 par exemple), les partitions virtuelles seront de fait limitées elles aussi à 4 Go. Il faudra donc créer plusieurs partitions virtuelles de 4 Go et les monter à différents endroits de votre hiérarchie Ubuntu si vous avez besoin de place. Si vous êtes sous NTFS, il n'y a pas de limite, donc pas de problème.
+</note>
+
+ 
+
+==== Comment créer une partition virtuelle supplémentaire pour Ubuntu à partir de Windows ? ====
+Sous Windows, vous pouvez utiliser l'utilitaire en ligne de commande ''fsutil''. Il s'utilise de la façon suivante :<code>fsutil file createnew nom_du_fichier taille</code>où ''nom_du_fichier'' est le nom à donner au nom de la partition virtuelle et ''taille'' est la taille de la partition virtuelle, exprimée en octets. Une fois cela fait, toutefois, vous devrez formater cette partition virtuelle à l'aide des outils appropriés dans Ubuntu.
+
+==== Comment redimensionner les partitions virtuelles ? ====
+
+Vous pouvez utiliser cette procédure "In place Resize of root.disk" : http://ubuntuforums.org/showpost.php?p=10590851&postcount=2
+
+
+==== Comment modifier manuellement la taille des partitions virtuelles ? ====
+Une petite astuce consiste à vérifier quel répertoire prend le plus de place (habituellement /usr ou /home). Et de déplacer ce dossier dans un disque virtuel consacré. Supposons que vous souhaitiez déplacer /home dans un disque virtuel dédié. 
+Démarrez en "Recovery mode" (appuyez sur Echap après avoir sélectionné "Ubuntu" et aller directement sur la deuxième option) et exécutez les commandes suivantes (astuce : vous pouvez les enregistrer dans un fichier et lancez le fichier à l'aide de la commande "sh nom du fichier"):
+
+<code>
+cd /host/ubuntu/disks
+# Créez un nouveau home.disk virtuel de 15000 MB
+dd if=/dev/zero of=home.disk bs=1MB count=1 seek=15000
+mkfs.ext3 -F home.disk
+# Sauvegardez le dossier original, et créez un nouveau dossier avec le même nom
+mv /home /home.backup
+mkdir /home
+# Assurez-vous que le nouveau fichier est monté au démarrage
+echo "/host/ubuntu/disks/home.disk    /home    ext3    loop    0    0" >>  /etc/fstab
+mount /home
+# Copiez les anciens fichiers
+cp -a /home.backup/* /home
+# Redémarrez
+reboot
+</code>
+
+Si vous êtes content du résultat, vous pouvez maintenant supprimer /home.backup
+
+
+==== Comment accéder aux partitions/disques Windows? ====
+La partition Windows sur laquelle vous avez installé Wubi est disponible dans /host. Toutes les autres partitions sont disponibles dans Raccourcis > Poste de travail
+
+==== Comment se débarrasser des disques virtuels et passer à de véritables partitions, et/ou se débarrasser entièrement de Windows? ====
+
+Une installation toute neuve de Ubuntu réalisée de façon classique est préférable (après sauvegarde de ses doc précieux) afin de réoccuper au mieux le disque dur débarrassé de Windows. 
+Si toutefois, vous préférez récupérer votre installation faite par Wubi, vous pouvez utiliser cette procédure :  
+[[wubi#je_suis_satisfait_d_ubuntu_et_je_veux_migrer_vers_une_installation_normale|Je suis satisfait d'Ubuntu et je veux migrer vers une installation normale]] puis supprimer la (ou les) partition occupées par Windows pour récupérer la place. Cela donne un partitionnement moins propre que l'installation toute neuve.
+==== Comment puis-je accéder à mon Wubi après installation et le réparer s'il ne démarre pas? ====
+
+  * Via l'option "Réparer les systèmes de fichier Wubi" de [[:Boot-Repair]]
+
+{{http://pix.toile-libre.org/upload/original/1416016621.png?}}
+
+  * ou manuellement :
+
+Démarrer avec le LiveCD d'Ubuntu, puis monter la partition contenant le dossier nommé "ubuntu":
+
+<code>
+sudo mkdir /win
+sudo mount /dev/sda1 /win
+</code>
+
+Par défaut, Ubuntu est installé dans sda1 (disque repéré C: dans Windows) mais si vous avez choisi une autre partition au moment de l'installation de Ubuntu, il faut remplacer sda1 par l'identifiant de la partition choisie (c'est la partition qui contient le dossier nommé "ubuntu").
+ Puis monter le disque virtuel :
+
+<code>
+sudo mkdir /vdisk
+sudo mount -o loop /win/ubuntu/disks/root.disk /vdisk
+</code>
+
+Maintenant le contenu du disque virtuel sera visible sous /vdisk. Faites-en une sauvegarde sur un disque externe (ou DVD..).
+
+Pour vérifier le système de fichiers vous pouvez utiliser :
+
+<code>
+sudo fsck /win/ubuntu/disks/root.disk
+</code>
+Et avec les options -f et -y pour forcer la réparation (attention, [[http://forum.ubuntu-fr.org/viewtopic.php?pid=7157201#p7157201|ne fonctionne pas toujours]]) : 
+<code>
+sudo fsck -f -y /win/ubuntu/disks/root.disk
+</code>
+
+S'il n'y a plus de disque virtuel (pas de root.disk), voir [[http://ubuntu-with-wubi.blogspot.ca/2011/08/missing-rootdisk.html|cet article]] (en).
+
+====Comment redémarrer proprement, même lorsque le clavier/souris sont gelés ?====
+
+Il y a normalement plusieurs moyens de redémarrer proprement en utilisant des combinaisons de [[touches magiques]] telles que :
+
+  * Alt Gr + SysRq + K (tue la session graphique)
+  * CTRL + ALT + SUPPR
+  * ALT + SysRq + R puis CTRL + ALT + SUPPR
+  * Cet enchaînement de combinaisons qui fait redémarrer le PC : [ ALT + SysRq + R ] puis [ ALT + SysRq + S ] puis [ ALT + SysRq + U ] puis [ ALT + SysRq + B ]
+
+
+===== Voir aussi =====
+ 
+  * **[[http://wubi-installer.org|Site officiel du projet Wubi]]**  
+   * [[unetbootin]] : un installateur ayant les mêmes principes que Wubi.
+  * [[http://diddy.boot-land.net/grub4dos/files/install_windows.htm|Grub4Dos]] : utilitaire qui permet de démarrer en live à partir du disque dur (//vmlinuz// et //initrd// se trouvent dans le répertoire //casper// dans l'image iso ou dans le CD d'Ubuntu).
+  *  [[https://wiki.ubuntu.com/WubiGuide]] : Wiki de Wubi 
+---- </del>
+//Contributeurs : [[utilisateurs:Fabien26]], [[:utilisateurs:_Enchained]].//
+
+===== Pour remplacer wubi =====
+Voir le contenu de ce site https://github.com/hakuna-m/wubiuefi/wiki

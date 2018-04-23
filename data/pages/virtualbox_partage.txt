@@ -1,0 +1,119 @@
+{{tag>virtualisation BROUILLON}}
+
+{{ :applications:virtualbox.png?70|}}
+====== VirtualBox et le partage Réseau ======
+
+Cette page n'est qu'une annexe destinée à alléger la page principale VirtualBox.
+ 
+===== Solution "clic" pour partager rapidement des fichiers entre système d'exploitation hôte et invité : =====
+
+
+Si le système invité dans virtualbox est windows, accéder à des dossiers du système hôte est simple.
+  - Tout d'abord, avoir installé les "Additions invité" (Menu de la fenêtre du SE invité, menu périphériques, et installer les pilotes)
+  - Ensuite, toujours dans le menu de la fenêtre du SE invité, sélectionner dans la boîte de dialogue périphériques>dossiers partagés les dossiers du système hôte que vous souhaitez partager
+  - Puis on peut y accéder comme dossiers partagés en réseau dans Windows, par exemple faire clic droit explorer sur un dossier pour lancer l'explorateur windows, et développer l'arborescence dans favoris réseau pour avoir les dossiers partagés Virtualbox et \\Vboxsvr, qui contient tous vos dossiers précédemment définis comme dossiers partagés. Il n'y a plus qu'à définir des raccourcis pour éviter toute cette navigation à chaque fois.
+Les dossiers partagés sont alors accessibles très facilement depuis les deux systèmes.
+
+===== Trouver les adresses IP =====
+
+Il vous faudra connaître l'une et/ou l'autre de ces adresses pour réaliser le partage Samba.
+
+Vous recherchez l'adresse IP de l'invité?
+
+  * Windows : Démarrer -> Exécuter -> cmd puis **ipconfig**
+  * Linux : Applications -> Accessoires -> Terminal puis **ifconfig**
+
+Vous recherchez l'adresse IP de l'hôte?
+  * Windows : Démarrer -> Exécuter -> cmd puis **tracert %%www.google.fr%%** ou bien **route PRINT**
+  * Linux : Applications -> Accessoires -> Terminal puis **route**
+
+
+
+
+
+
+===== Exemple pour un invité Windows.  =====
+
+Mise en place d'un lecteur réseau Samba chez un invité Windows
+
+Pour redemarer :
+sudo service smbd restart 
+
+
+
+
+
+==== Pré-requis pour l'hôte Ubuntu: ====
+ 
+=== Rappel sur l'installation de samba : ===
+
+
+  sudo apt-get install samba
+  sudo smbpasswd -a <UnPseudo>
+  <UnPassword>
+  <UnPassword>
+  sudo smbpasswd -e <UnPseudo> (pour valider l'utilisateur)
+  sudo /etc/init.d/samba restart  (pour être sûr que les modifs soient prises en compte)
+
+Le compte <UnPseudo> avec le mot de passe <UnPassword> peut maintenant utiliser SAMBA.
+
+=== Petite modification de la configuration samba ===
+
+Par sécurité seuls les hotes du réseau local sont autorisés à se connecter au partage, il faut donc donner les droits à la machine virtuelle si vous n'arrivez pas à vous connecter (en supposant que son addresse ip est bien 10.0.2.? )
+
+  gksudo gedit /etc/samba/smb.conf
+
+changez la ligne :
+  hosts allow = 127. 192.168.0.
+en :
+  hosts allow = 127. 192.168.0. 10.0.2.
+ou bien créez la si elle n'y est pas !
+
+  sudo /etc/init.d/samba restart (pour recharger la configuration)
+
+=== Partage du dossier commun à l'hôte et à l'invité ===
+
+  * Avec Nautilus, faites un clic droit sur le dossier à partager -> Dossier partagé
+  * Renseignez le type Partage Windows (SMB) et le nom du dossier
+{{image:partagevbox.png|}}
+  * Votre dossier partagé apparaît dans Système > Administration > Dossier partagé
+  * Lancer VirtualBox.
+
+
+
+
+
+
+
+
+
+
+
+==== A faire sur l'invité Windows ====
+
+
+1. Trouver l'adresse IP de l'hôte Ubuntu :
+  * Démarrer -> Exécuter -> cmd, Entrée.
+  * Taper dans le simili terminal: tracert %%www.google.fr.%%
+  * La première adresse IP récupérée est celle du Host. C'est normalement 10.0.2.2 par défaut.
+
+2. Créer le lecteur réseau
+
+  * Poste de Travail, Outils -> Connecter un lecteur réseau > une fenêtre s'ouvre.
+  * Renseigner \\10.0.2.2\<DossierPartagé>
+  * Cliquer sur //Utiliser un nom d'utilisateur différent// et renseigner en utilisant le nom de connexion et le mot de passe utilisé pour samba.
+{{image:winxpvbox.png|}}
+
+Votre nouveau lecteur réseau apparaît sur le poste de travail.
+
+Pour ceux qui comme moi n'arrivent pas à créer un lecteur réseau pour partager des données, vous pouvez toujours brancher un disque dur externe.
+
+Attention que le disque dur ne soit pas activé dans les deux OS ! 
+
+Pour arriver à me connecter j'ai du créer dans connexion réseau de windows une connexion entrante avec permission à admin et à utilisateur linux.
+Et j'ai activé la connexion réseau, désactivé le pare-feu et ça a marché ...
+pmdzlineur 16/03/2008
+
+----
+
+//Contributeurs : Solution fournie par [[utilisateurs:iuchiban]], complétée par [[:contributeurs|Les contributeurs d'Ubuntu-fr]]//

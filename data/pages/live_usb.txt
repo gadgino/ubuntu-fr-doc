@@ -1,0 +1,205 @@
+{{tag>portail installation usb}}
+----
+
+====== Live USB ======
+
+Si vous êtes à la recherche d'une clé USB toute faite, l'association Ubuntu-fr en propose sur sa [[http://www.enventelibre.org/ubuntu-fr/83-cle-usb-ubuntu-1604-lts.html|boutique en ligne]].
+
+À l'instar des [[Live CD]], on dénomme "live-USB Ubuntu" un support USB (clef ou carte-mémoire) sur lequel on peut démarrer une **image compressée** (.iso) d'Ubuntu (comme installer le logiciel d'affichage répandu windows ou linux sur un nouvel ordinateur).
+
+--Tout comme un live CD ou DVD, une image live USB permet, si on le désire, d'utiliser un pc dépourvu de disque dur, ou de ne pas toucher au(x) disque(s) dur(s) de la machine, et peut aussi être utilisée pour lancer une installation d'un disque.
+
+
+===== Principe =====
+
+====Mode non-persistant ou persistant?====
+Il existe deux modes :
+  * "**mode live simple, non persistant**" : même en usb, il se comporte comme un live CD/DVD, vous aurez accès à *Ubuntu mais, à la fermeture, il ne sauvegardera ni les logiciels installés pendant la session ni vos données. 
+  * "**mode live persistant**" : c'est un mode qui n'existe pas avec un live CD/DVD. A l'inverse du mode live simple, le mode persistant va sauvegarder sur le support USB, //dans la mesure de l'espace disponible//, vos logiciels nouvellement installés, vos réglages et vos données enregistrées durant la session.\\   Cependant, il ne s'agit pas d'une installation classique : d'une part, l'image compressée (.iso) de départ ne changera pas et donc le noyau non plus; d'autre part, vos documents enregistrés dans la session live seront difficilement accessibles si vous ne démarrez pas sur votre live usb *Ubuntu.\\ \\ 
+<note importante>
+En session live persistante, ne **jamais** faire de "full-upgrade" ni de "dist-upgrade", sous peine de casser définitivement le live usb.\\ 
+Il est en revanche conseillé, avant d'installer un paquet, de faire un "update", simple actualisation de la liste des paquets disponibles.
+</note>
+
+==== Avantages et inconvénients ====
+
+Avantages par rapport à une installation classique :
+  * Un live-USB non-persistant peut être utilisé sur n'importe quel PC ;
+  * Pas de complications avec [[Grub]] ;
+  * Pas d'installation, ni de configuration.
+
+Inconvénients par rapport à une installation classique :
+  * Démarrage du système moins rapide car commençant par la décompression du système entier. Par contre, une fois démarré, le système est rapide ;
+  * Impossible de créer de nouveaux utilisateurs en mode non-persistant ;
+  * Impossible de restreindre les actions (usage de //sudo// ouvert à tous, sans mot de passe) ;
+  * Très sensible à certaines mises à jour (noyau ou bibliothèques).
+
+
+====Fonctionnement théorique ====
+  * fonctionnement d'un Live CD ou Live USB : les données du système d'exploitation qui sont sur le CD sont compressées et ne sont accessibles qu'en lecture, or le système d'exploitation a besoin d'écrire. Pour cela au démarrage un ramdrive (disque virtuel dans la RAM) est monté. et avec le système de [[wp>UnionFS|UnionFS (en)]] on assemble les 2 systèmes de fichiers : les lectures se feront sur le CD et les écritures dans le ramdrive. Côté utilisation tout est transparent.
+  * avec le mode persistant au lieu d'utiliser un ramdrive on utilise un système de fichiers sur un disque dur ou une clé USB. Du coup ces données pourront être retrouvées après le redémarrage de la machine.
+
+Pour plus d'information sur les Live USB, vous pouvez consulter [[http://fr.wikipedia.org/wiki/Live_USB|cette page de Wikipedia]].
+
+===== Pré-requis =====
+
+  *La clé USB doit avoir une partition [[wpfr>FAT32]] (une partition [[wpfr>New_Technology_File_System|NTFS]] ne convient pas),
+  * Vous devez disposer d'un espace libre d'au moins 3 Go minimum en mode persistant, ((car l'installation en elle-même prend environ 1,1Gio)) sur votre support USB. 
+  * Vous devrez également disposer d'une image CD valide((soit une image standard que vous pourrez récupérer sur la [[http://www.ubuntu-fr.org/telechargement|page téléchargement]], soit une image modifiée en suivant les instructions sur la page [[personnaliser_livecd|personnalisation de Live CD]] ou à l'aide de logiciels comme [[remastersys]] ou [[UCK]])) (au format ISO, ou IMG).
+
+<note important>Les anciens BIOS sont incapables de démarrer avec une clé de plus 2 Go formatée en FAT32. Vous obtiendrez l'erreur suivante :
+  No configuration file found. No DEFAULT or UI configuration directive found
+ Dans ce cas utiliser [[:Gparted]] afin d’obtenir une partition de 2 Go (maximum) en FAT16.
+ </note>
+===== Création d'un live-USB depuis Windows =====
+
+<note tip>Remarque historique : Linux Live USB Creator "Lili" n'est plus développé, et ne fonctionne pas avec les versions ultérieures à Ubuntu 15.04. Il est préférable d'utiliser Rufus.</note>
+  * [[http://rufus.akeo.ie/?locale=fr_FR/| Rufus]] : logiciel libre (GPL) et gratuit pour Windows, très facile à utiliser et fiable, permet aussi de formater et vérifier la clé, supporte EFI, crée un log de ses actions...
+    * Insérez votre clé USB puis lancez Rufus : lorsque la fenêtre s'ouvre, **cliquez sur l'icône en forme de CD** situé à droite de "Créer un disque de démarrage" et **sélectionnez le fichier Ubuntu-...iso** à l'emplacement où vous venez de le télécharger. Cliquez ensuite sur Démarrer.
+    * Explications en anglais avec images : https://www.ubuntu.com/download/desktop/create-a-usb-stick-on-windows
+  * [[unetbootin#depuis_windows|Unetbootin]] (attention: crée un menu de boot non-standard   ===> Pourtant cela marche parfaitement en EFI ...)
+
+===== Création d'un live-USB depuis MacOS =====
+
+  * [[unetbootin#depuis_windows|Unetbootin]]
+  * En ligne de commande :
+Sur le terminal, pour identifier votre clé, utilisez la commande :
+  $ diskutil list
+Vous devriez voir apparaitre les périphériques présents.
+  /dev/disk0 (internal, physical):
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:      GUID_partition_scheme                        *2.0 TB     disk0
+   1:                        EFI EFI                     209.7 MB   disk0s1
+   2:                  Apple_HFS Macintosh HD            2.0 TB     disk0s2
+   3:                 Apple_Boot Recovery HD             650.0 MB   disk0s3
+  /dev/disk1
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:     FDisk_partition_scheme                        *4.0 GB     disk1
+   1:                 DOS_FAT_32 CLE USB                 4.0 GB     disk1s1
+Vous devez retrouver votre clé parmi les différents périphériques.
+
+Dans l'exemple ci-dessus la clé se nomme CLE USB. Notez les informations suivantes : 
+  * l'identifiant du support : disk1 
+  * l'identifiant de sa partition : disk1s1 \\ \\
+
+
+Tapez la commande suivante pour démonter votre clé :
+   $ sudo diskutil unmount /dev/disk1s1
+Si votre clé a plusieurs partitions : disk1s1, disk1s2, répétez la commande précédente pour chaque partitions. \\ \\
+
+
+Tapez la commande suivante en corrigeant le numéro de version si il n'est pas correct.
+   $ sudo dd bs=4m if=Downloads/ubuntu-16.04-desktop-amd64.iso of=/dev/disk1
+    
+Remplacez bs=4m par bs=32130b qui est beaucoup plus rapide en duplication (dd data dupe)
+
+<note>
+Si votre fichier .iso ne se trouve pas dans le dossier Téléchargement vous devez modifier le Downloads/ dans la commande précédente par l'emplacement de votre fichier. 
+
+Exemple si votre fichier est sur le bureau remplacez Downloads/ par Desktop/.
+</note>
+
+Terminez par :
+   $ sudo diskutil eject /dev/disk1s1
+
+Voila votre clé est prête à être utilisée.
+===== Création d'un live-USB depuis Ubuntu =====
+
+Il existe deux types d'installation : la méthode graphique est recommandée dans la plupart des cas, mais si vous avez un système plus ancien ou vous voulez utiliser un système plus personnalisable choisissez l'installation en ligne de commandes.
+==== Avec des outils graphiques ====
+
+  * [[Usb-creator|Usb-creator]] : C'est l'outil par défaut dans Ubuntu. Fonctionne correctement avec tous les dérivés de Debian (et ubuntu) 
+  * [[multiSystem|MultiSystem]] : GPL-V3, pour créer un LiveUSB MultiBoot facilement. Compatible avec de nombreuses distributions (**WinXP**, 7).
+  * [[unetbootin#depuis_ubuntu|Unetbootin]] : compatible avec de nombreuses distributions. Attention: crée un menu de boot non-standard.
+  * [[:mkusb]] : interface graphique à [[:dd]].
+  *  [[http://en.congelli.eu/prog_info_winusb.html|WinUSB]] : permet de créer une clé USB démarrable Windows __7 & 8__ depuis Ubuntu (attention, lors de l'installation de Windows 7 & 8 sur la clé, le logiciel la formate sans vous demander). WinUSB n'est plus maintenu depuis 2012.
+  * [[https://github.com/slacka/WinUSB/|Fork de WinUSB]] [[http://www.rootandadmin.com/index.php/2016/06/15/english-make-a-bootable-windows-10-usb-install-stick-on-linux-with-winusb-fork|Tutoriel d'installation et d'utilisation]] pour Windows 10.
+==== En ligne de commandes ====
+
+=== Live USB entièrement dédiée à Ubuntu ===
+Insérez votre clé USB <del>et ouvrez le gestionnaire de fichier</del>.
+
+<del>Sélectionnez la clé USB dans la liste de gauche et notez la partition qui a été montée : comme par exemple : /dev/sdc1.</del>
+
+Pour savoir quel "device" (dans le dossier /dev)  est associé à la clé USB, utilisez la commande :
+  lsblk
+<del>b
+Démontez cette clé : clic droit sur la clé, puis "démonter" ou "éjecter".</del>jh,nb
+
+Dans le terminal, placez-vous **dans le dossier qui contient l'image iso à utiliser** puis écrivez :
+
+  sudo dd bs=4M if=nom.iso of=/dev/"device"     Bien sûr, il est nécessaire de remplacer "device" par les trois lettres trouvées à la commande précédente.
+
+Exemple<del> (__sans__ le N° de la partitition - juste sa lettre)</del> :
+
+  sudo dd bs=4M if=ubuntu-16.04.2-desktop-amd64.iso of=/dev/sdc
+
+<del>Montez la clé avant exécution de la commande autrement il y a un message d'erreur disant que le répertoire n'est pas reconnu.</del>
+Une fois la commande terminée, <del>vous pouvez vérifier que l'écriture est bel et bien achevée en écrivant</del> forcez les buffers à  finir de se vider sur la clé avec la commande : 
+
+  sync 
+
+puis en validant.
+
+L'opération terminée, vous bénéficiez d'une clé Live USB.
+
+==== Installer Ubuntu depuis un support USB :====
+  * [[:tutoriel:live_usb_install1 | Méthode]]
+  * [[:tutoriel:installation_sur_disque_usb | Installer Ubuntu sur un support USB]]
+  * [[:tutoriel:live_usb_disque|Copier un système déjà installé, sur un support USB]]
+  * [[:tutoriel:installer_ubuntu_par_internet|Démarrer Ubuntu Netboot depuis un support USB]]
+
+=== Live USB avec Ubuntu et logiciel libre pour Windows ===
+
+En suivant la recommandation précédente, et si vous disposez d'un support USB de 4 Go ou plus, vous pouvez installer des logiciels libres sur la première partition FAT32 sur le modèle de la Framakey.
+
+  * [[:framakey_ubuntu_remix|Créer une Framakey Ubuntu-fr Remix (FUR)]].
+
+===== Vérifier qu'un live-USB ne contient pas d'erreurs =====
+
+Voir [[:tutoriel:verifier_un_disque_ubuntu|ce tutoriel]].
+
+===== Si votre ordinateur ne démarre pas sur le live-USB =====
+
+Si votre ordinateur ne démarre pas sur le live-USB :
+  - Commencez par [[:tutoriel:modifier_ordre_amorcage_du_bios|modifier l'ordre d’amorçage de votre BIOS]] afin de mettre le démarrage sur USB en premier (s'il n'y a pas d'option "USB" il faut sélectionner "Harddisk" pour voir apparaître l'option "USB")
+  - Si cela ne fonctionne toujours pas, vous pouvez essayer une de ces 2 solutions :
+    * [[:cd_boot_usb|Création d'un CD d'amorçage pour démarrer sur un support USB]]
+    * [[:disquette_boot_usb|Création d'une disquette d'amorçage pour démarrer sur un support USB]]
+
+====Cas des UEFI en 32 bits====
+Sur certains ordinateurs (cas rares, principalement des netbooks ou des PC convertibles bas de gamme avec des processeurs "Atom BayTrail"), le [[:tutoriel:modifier_ordre_amorcage_du_bios|bios]] uefi a besoin d'un exécutable en 32 bits sur la clé pour démarrer, or par défaut Ubuntu le propose en 64 bits. Pour résoudre ce problème :
+  * Téléchargez le fichier [[https://github.com/jfwells/linux-asus-t100ta/blob/master/boot/bootia32.efi|suivant]],
+  * Créez votre clé USB grâce à [[:Unetbootin]] ou **Rufus** si vous êtes sous Windows,
+  * Copiez le fichier téléchargé **bootia32.efi** dans le dossier **/EFI/BOOT** de la clé,
+  * Démarrez normalement sur la clé, ou bien naviguez jusqu'au fichier **bootia32.efi**
+
+Il est également possible d'utiliser [[:multisystem]] pour cette opération, dans ce cas il vous suffit de mettre le fichier **bootia32.efi** dans le dossier EFI/BOOT de la clé.
+===== Cas particulier de l'installation Ubuntu Server =====
+Comme c'est souvent le cas sur un serveur, il n'y a pas de lecteur CD pour procéder à l’installation. Il est possible que vous rencontriez un souci en démarrant sur un live usb Ubuntu Server (vérifié avec la LTS 10.04.4), réclamant la présence d'un CD contenant les sources pour l'installation. Vous devez alors préciser à l'installateur Ubuntu Server que les fichiers se trouvent sur votre clef usb, en personnalisant la commande de démarrage de GRUB  (touche TAB), en ajoutant :
+
+''cdrom-detect/try-usb=true''
+
+Par exemple avec unetbootin cela donne:
+
+''unetbootindefault cdrom-detect/try-usb=true''
+
+
+Source [[https://help.ubuntu.com/community/Installation/FromUSBStick]] [en] 
+
+
+===== Voir aussi =====
+
+  * Wiki anglais : 
+    * [[https://wiki.ubuntu.com/LiveUsbPendrivePersistent|LiveUSBpersistent]]
+    * [[https://help.ubuntu.com/community/Installation/FromUSBStick|LiveUSB]]
+    * [[https://help.ubuntu.com/community/Installation/FromCForUSBStick|LiveUSB avec GRUB]]
+    * [[https://help.ubuntu.com/community/BootFromUSB|Boot from USB]]
+  * Discussion sur le forum ubuntu-fr : 
+    * [[http://forum.ubuntu-fr.org/viewtopic.php?id=427605|MultiSystem, Créez votre LiveUSB MultiBoot simplement!]]
+    * [[http://forum.ubuntu-fr.org/viewtopic.php?pid=2821215#p2821215|Jaunty sur clé USB : conserver la personnalisation]]
+    * [[http://forum.ubuntu-fr.org/viewtopic.php?pid=2981054#p2981054|Autre discussion]]
+  * [[http://www.pendrivelinux.com | Pendrivelinux : Tutoriels en anglais pour démarrer et lancer Linux sur support USB]]
+
+----
+//Contributeurs : [[utilisateurs:sylvainvh]], [[utilisateurs:thedamocles|Damocles]], Guyms; kcdtv//

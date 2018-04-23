@@ -1,0 +1,22 @@
+{{tag>wine vidéo encodage flv}}
+
+----
+====== xv2flv ======
+
+**xv2flv** est un script utilisant XVE.exe, un utilitaire windows qui permet de retirer les DRM des fichiers vidéos issus de l'utilisation du service chinois Xunlei/Kankan.
+Il permet de convertir des fichiers au format .xv en un fichier conteneur .flv.
+
+L'inconvénient est que cet outil ne fonctionne que sous Windows. De plus, à cause d'un bug lié au support des jeux de caractères, ce logiciel plante lorsque les noms de fichiers contiennent des caractères issus d'encodages exotiques, ce qui est souvent le cas avec ces fichiers .xv.
+
+===== Pré-requis =====
+  * Installer [[:wine]]
+  * Télécharger l'archive comprenant le logiciel XVE.exe et le script **xv2flv** : http://db.tt/CwBIJXXf
+
+===== Utilisation =====
+
+  * Lancer le script bash **xv2flv** dans un [[:terminal]], avec les chemins vers les fichiers .xv à convertir
+<code> ./xv2flv *.xv </code>
+Les fichiers convertis seront placés au même endroit que les fichiers .xv.
+----
+
+//Contributeurs principaux : [[utilisateurs:marcspitz|MarcSpitz]]//

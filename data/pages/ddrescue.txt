@@ -1,0 +1,220 @@
+{{tag>récupérer système sauvegarde}}
+
+----
+
+====== ddrescue ======
+
+**GNU ddrescue** (abrégé ici en ddrescue) est un outil de récupération de données sous licence GNU GPL.
+
+ddrescue copie les données d'un fichier ou disque (disque dur, SSD, CD-ROM, etc.) vers un autre. À la différence de [[dd]] qui lit les données séquentiellement, **ddrescue saute les zones endommagées** dont la lecture est lente afin de récupérer rapidement un maximum de données. **Il revient ensuite récupérer** ce qui peut l'être dans les **zones endommagées**. Il est donc **particulièrement adapté pour sauvegarder un disque dur en fin de vie**, qui peut cesser de fonctionner avant la fin de la récupération.
+
+ddrescue dispose notamment une **intéressante fonction de "fusion" **qui permet d'obtenir **une copie saine** d'un disque ou fichier **à partir de plusieurs copies endommagées** dudit disque ou fichier.
+
+Son interface en ligne de commande et ses nombreuses options en font un outil à destination des utilisateurs avertis.
+
+===== Préparation du système =====
+
+==== Préparation du matériel ====
+
+Vérifiez votre matériel. Un disque est parfois endommagé à cause d'un contrôleur de disque défectueux, vous risquez d'aggraver la situation en continuant à l'utiliser pour la récupération. De la mémoire vive défectueuse peut avoir endommagé les données du disque à sauvegarder puis corrompre des données encore valides qui seront copiées sur le nouveau disque.
+
+Vérifiez que le disque sur lequel vous enregistrez le fichier cible et le fichier journal soit en bon état ! 
+
+  smartctl -a /dev/partition
+
+Vérifiez que l'espace libre soit supérieur à la taille du périphérique à sauver !
+
+  df -h
+
+
+==== Installation  de ddrescue ====
+
+Pour installer ce logiciel, il suffit d'[[:tutoriel:comment_installer_un_paquet#paquet_present_dans_les_depots|installer le paquet]] **[[apt://gddrescue|gddrescue]]** présent dans le dépôt Ubuntu Universe.
+ou de frapper la commande **ddrescue**  (version 16.04.0)
+
+<note important>
+Il existe un paquet nommé ''ddrescue'' **qu'il ne faut pas installer**. Le paquet ''ddrescue'' contient un logiciel nommé //dd_rescue//, plus ancien que celui présenté ici.
+</note>
+<note tip>
+**__[EDIT UBUNTU 15.04 du 17.05.2015]__** \\ Le paquet n'est plus présent dans les dépôts.
+</note>
+<note tip>
+**__[EDIT UBUNTU 15.04 du 17.05.2015]__** \\ Il existe le paquet gddrescue et le paquet gddrescue:i386 dans les dépôts.
+</note>
+<note tip>
+**__[EDIT UBUNTU 15.04 du 26.07.2015]__**\\  Le paquet gddrescue est présent dans le dépôt  Universe.  Mais ce dépôt n'est pas positionné  par défaut dans "logiciels & mises à jour".
+</note>                                                          
+                                                           
+
+
+==== Configuration du système ====
+
+Désactivez le //montage// automatique des partitions, afin d'éviter que le système n'essaye de réparer une partition endommagée, risquant ainsi de l'endommager encore plus.
+
+  gsettings set org.gnome.desktop.media-handling automount false
+  
+Évitez d'utiliser une partition NTFS pour accueillir une image disque de taille importante (plus de quelques Go). Plusieurs personnes ont rapporté que la récupération ralentit au fur et à mesure de la récupération, à telle point qu'il est impossible de finir la récupération.
+
+
+==== Installation des utilitaires associés ====
+
+=== ddrescueview ===
+
+Vous pouvez utiliser //ddrescueview// pour suivre l'avancement de la sauvegarde de façon graphique. Le résultat est présenté sous la forme d'une grille de couleur à la manière des outils de défragmentation sous Windows.
+
+Il n'existe pas de paquet pour ce logiciel. Vous pouvez le télécharger depuis http://sourceforge.net/projects/ddrescueview/. Une fois décompressé, activez les droits d'exécution (clic droit, Propriétés, Permissions, cocher la case Exécution), lancez le logiciel (double-clic). Lancez la sauvegarde en ligne de commande avec //ddrescue// puis ouvrez le journal ainsi créé avec //ddrescueview// et activez la relecture automatique du journal (Options, Automatic updates, 30 sec).
+
+Dans ce contexte, le fichier de suivi de ddrescue doit avoir une terminaison .log
+
+Sur Ubuntu 16.04 le paquet existe, tapez simplement
+
+  sudo apt-get install ddrescueview
+
+=== ddr_utils ===
+
+Cette suite d'utilitaires va vous permettre de connaître la liste des fichiers affectés par les secteurs défectueux.
+<note help>Il serait bon d'en dire un peu plus ou de ne rien dire.....</note>
+
+
+=====Utilisation=====
+
+====Fonctionnement de base====
+L'application est lancée depuis une [[console]] ou un [[terminal]] :
+
+  sudo ddrescue <nom_fichier_source> <nom_fichier_cible> <nom_fichier_journal>
+  
+Avec:\\
+''<nom_fichier_source>'' = le nom du fichier ou du périphérique à tenter de sauver, par exemple machin.ext, /media/disk, /dev/sda, etc. (Pour un CD ou un DVD, rentrer le chemin du périphérique, par exemple /dev/dvd ). N'essayez pas de monter le disque endommagé ! Pour connaître le nom du périphérique, vous pouvez utiliser la commande ''dmesg | tail'' lorsque vous le branchez. \\ 
+''<nom_fichier_cible>'' = le nom du fichier où sauver le résultat. Si le nom du fichier n'est pas spécifié et que le fichier cible est simplement un disque dur ou une partition, le contenu sera écrasé par la sauvegarde.  \\
+''<nom_fichier_journal>'' = le nom du fichier de log comportant la liste des secteurs récupérés et de ceux à relire. Très fortement recommandé, voir ci-dessous.
+
+Pour obtenir une liste exhaustives des fonctions du logiciel se reporter au site officiel ou à sa documentation:
+
+  man ddrescue
+ou encore
+  info ddrescue
+
+  
+ ====Utiliser un fichier log====
+
+Il est vivement conseillé d'utiliser un fichier de log, soit pour pouvoir l'exploiter ultérieurement et analyser l'état matériel du disque, soit pour pouvoir interrompre puis reprendre une récupération.
+
+  sudo ddrescue <nom_fichier_source> <nom_fichier_cible> <chemin_fichier_log>
+  
+ Avec:\\
+<chemin_fichier_log> = chemin absolu ou relatif vers l'endroit où vous désirez enregistrer le log. Attention, il peut atteindre une taille conséquente pour une récup d'un support très endommagé.
+
+====Support endommagé====
+
+Si vous savez que votre support est fortement endommagé, considérez avant tout l'option de faire appel à un professionnel. Le taux de réussite d'une récupération sur support très malade est très supérieur lors de la première tentative. Si vous avez des données vitales, réfléchissez à deux fois avant de vouloir agir seul.
+
+ddrescue intègre un certain nombre d'options intéressantes pour traiter des cas de supports partiellement endommagés, dont "l'état de santé est stable". Les principales sont citées ci-dessous, mais il y en a d'autres à envisager, consultez le man avant d'agir :
+
+=== Option -n ===
+
+ sudo ddrescue <source> <cible> <log> -n
+
+permet de s'occuper en priorité des zones non endommagées et de revenir traiter celles-ci après.
+
+=== Option -T ===
+
+ sudo ddrescue <source> <cible> <log> -T
+
+permet de reprendre une copie qui a été interrompue du fait de la disparition du matériel (déconnexion brutale, matériel instable qui "disparaît"). En fait, reprend toutes les zones qui n'ont pas encore été explorées.
+Dans le cas général, pour interrompre une copie il faut utiliser Ctrl+C et reprendre avec la même ligne que celle utilisée pour lancer la première copie, avec le fichier de log bien sûr.
+
+=== Option -r ===
+
+ sudo ddrescue <source> <cible> <log> -r1
+
+Reprend la copie en se concentrant sur les zones considérées comme erronées en première lecture : le chiffre derrière r est un paramètre qui spécifie combien de tentative d'accès doivent être effectuées à chaque erreur rencontrée.    
+==== ddrescue par des exemples ====
+Ce sous-chapitre est écrit par un 'débutant' de ddrescue le 31/12/2015. Merci à ceux qui connaissent bien l'outil de faire les corrections qu'ils jugeront nécessaire. 
+=== Sauvegarde du disque interne "sda" sur un disque externe "sde" avec une liveusb__PERSISTANTE__ ===
+La taille du secteur est de 512 bytes.
+== Faire la copie des secteurs de bonne qualité ==
+  - sudo mkdir /home/ubuntu/dd
+  - sudo ddrescue             -f  -N    -n        -b512        /dev/sda     /dev/sde   /home/ubuntu/dd/suivi
+  - sudo ddrescue             -f  -c1      -b512       /dev/sda     /dev/sde   /home/ubuntu/dd/suivi
+ATTENTION  : Si la cible est un disque dur, toutes les données de ce disque dur (ici /dev/sde) seront écrasées donc perdues. Pour que ce ne soit pas le cas il faut que la cible soit un fichier par exemple /dev/sde/chemin/fichier_de_recup.img
+== Faire la copie des secteurs endommagés ==
+  - sudo ddrescue       -d  -f  -R  -r27   -b512  -c1          /dev/sda    /dev/sde    /home/ubuntu/dd/suivi
+  ==Fabriquer les secteurs qui n'ont pas été copiés ==
+J'ai pensé à cette action afin de récupérer 'facilement' les fichiers qui sont en mauvais état suite à certains blocs manquants. C'est possible pas les outils de gestions des mauvais blocks ou la recherche dans les fichiers.
+  - sudo -i
+  - ddrescuelog -l- -b512 /home/ubuntu/dd/suivi >/home/ubuntu/dd/badblocs
+  - echo "SECTEUR ILLISIBLE On va marquer au fer rouge  tous ces secteurs faussement  défectueux  afin de rechercher dans les fichiers ceux qui sont impactés par SECTEUR ILLISIBLE" >/home/ubuntu/dd/marque
+  - sudo sed 's|^|sudo dd if=/home/ubuntu/dd/marque of=/dev/sde bs=512 count=1 seek=|' /home/ubuntu/dd/badblocs>/home/ubuntu/dd/ecrire
+  - pg /home/ubuntu/dd/ecrire
+  -  exécuter le contenu du fichier /home/ubuntu/dd/ecrire
+=== Sauvegarde d'une partition dans une partition avec un livecdrom ===
+La taille du secteur est de 4096 bytes.
+La partition est celle contenant les données de l'utilisateur (sda6). 
+Le disque externe a été formaté avec au moins deux partitions;  sde1 pour le suivi du processus (taille 1 Go) et sde2 pour recevoir la duplication (la taille étant au moins égale à sda6).
+== Faire la copie des secteurs de bonne qualité ==
+      - sudo mount /dev/sde1 /media/ubuntu
+      - sudo mkdir /home/ubuntu/dd
+      - sudo ddrescue -f -N -n        -b4096  /dev/sda6 /dev/sde2 /media/ubuntu/dd/suivi6
+      - sudo ddrescue -f -c1  -b4096  /dev/sda6 /dev/sde2 /media/ubuntu/dd/suivi6
+== Faire la copie des secteurs endommagés ==
+      - sudo ddrescue -d -f -R -r27 -b4096 -c1 /dev/sda6 /dev/sde2 /media/ubuntu/dd/suivi6
+== Fabriquer les secteurs qui n'ont pas été copiés ==
+J'ai pensé à cette action afin de récupérer 'facilement' les fichiers qui sont en mauvais état suite à certains blocs manquants. C'est possible pas les outils de gestions des mauvais blocks ou la recherche dans les fichiers.
+      - sudo -i
+      - ddrescuelog -l- -b4096 /media/ubuntu/dd/suivi >/media/ubuntu/dd/badblocs
+      - echo "SECTEUR ILLISIBLE On va marquer au fer rouge tous ces secteurs faussement défectueux afin de rechercher dans les fichiers ceux qui sont impactés par SECTEUR ILLISIBLE" >/media/ubuntu/dd/marque
+      - sed 's|^|sudo dd if=/media/ubuntu/dd/marque of=/dev/sde bs=4096 count=1 seek=|' /media/ubuntu/dd/badblocs>/media/ubuntu/dd/ecrire
+      - pg /media/ubuntu/dd/ecrire
+      - exécuter le contenu du fichier /media/ubuntu/dd/ecrire
+
+==== Connaître les fichiers stockés dans une partition EXT4 impactés par les blocs défectueux. ====
+Le fichier **badblocs** qui a été généré contient les adresses des blocs illisibles par rapport au début soit du disque soit de la partition.
+Il est intéressant de connaître préventivement les fichiers qui vont être perturbés.
+Nous avons vu que le produit **DDR_UTILS** le fait.    Mais il n'est pas facile à installer me semble-t-il!
+Il existe quelques solutions avec des  outils. Pas de chance, ils vont dépendre de la nature des partitions.  Ce n'est pas le même outil à utiliser pour les  partitions NTFS,   FAT,  EXTn, RAIDS, BTRFS   etc...... voici au moins un exemple pour le type de partition EXT4 assez répandu chez les particuliers.
+
+a) Le fichier badblocs a été généré   par une duplication de la partition.   Les adresses indiquées font directement référence à la partition.  Il est donc possible d'utiliser  par exemple les commandes suivantes pour obtenir la liste des fichiers.   C'est toujours un exemple. Il faut donc mettre le bon nom de la partition. 
+  * ### Ajouter la commande testb
+  * sed 's|^|testb |' sdb2.badblocks > sdb2.testb.in
+  * sudo debugfs  -f sdb2.testb.in  /dev/sda16 > sdb2.testb.out
+  * ### Mettre la commande icheck
+  * grep "marked in use" sdb2.testb.out | cut -d  ' ' -f 2 | sed 's|^|icheck |' > sdb2.icheck.in
+  * sudo debugfs   -f sdb2.icheck.in  /dev/sdb2 > sdb2.icheck.out
+  * ### Ajout de la commande inode
+  * sed '/ck/d' sdb2.icheck.out | cut -d  $'\t' -f 2 | sed 's|^|ncheck |' > sdb2.ncheck.in
+  * sudo debugfs   -f sdb2.ncheck.in  /dev/sdb2 > sdb2.ncheck.out
+  * ### Sélection des fichiers
+  * grep "/" sdb2.ncheck.out | cut -d  $'\t' -f 2 | sort | uniq >sdb2.files
+  * cat sdb2.files
+  * wc sdb2.files
+
+===== Pour continuer la récupération avec d'autres outils =====
+
+Une fois les données récupérées depuis le ou les supports endommagés, il est conseillé de faire une copie de la récupération et de travailler sur cette copie. Les outils suivants peuvent vous être utiles :
+
+  * [[dd]] pour faire la copie de travail ;
+  * [[kpartx]] pour monter une partition de l'image d'un disque comprenant plusieurs partitions ;
+  * [[fsck]] pour réparer le système de fichier ;
+  * [[testdisk]] pour récupérer des partitions disparues ;
+  * [[photorec]] pour récupérer les fichiers qui n'apparaissent plus dans le système de fichiers ;
+  * [[mount]] et [[umount]] pour accéder au contenu des partitions ;
+  * [[convmv]] pour convertir les noms de fichiers en UTF8 ;
+
+
+===== Désinstallation =====
+
+Pour supprimer ddrescue, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer le paquet]] **gddrescue**.
+
+===== Voir aussi =====
+
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=92840&p=1|Discussion « Bilan : comment récupérer des données perdues » sur le forum Ubuntu-fr]], très utile pour la récupération de données sur un disque dur endommagé
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=447877|Discussion « Topic unique récupération de données » sur le forum Ubuntu-fr]], à consulter pour y soumettre votre cas et trouver de l'aide
+  * **(en)** [[http://www.gnu.org/software/ddrescue/ddrescue.html|page officielle de GNU ddrescue]]
+  * **(en)** [[http://www.gnu.org/software/ddrescue/manual/ddrescue_manual.html|Aide en ligne de GNU ddrescue]]
+  * [[safecopy]] Limite les Erreur I/O
+  * **TestDisk** [[testdisk#realiser_l_image_disque_bit_par_bit]]
+
+----
+//Contributeurs principaux : ...//
+
+//basé sur [[http://www.gnu.org/software/ddrescue/ddrescue.html|la page officielle]].//

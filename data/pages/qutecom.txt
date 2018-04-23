@@ -1,0 +1,117 @@
+{{tag>Xenial voip sip visioconférence}}
+
+----
+{{ :qutecom1.png?150|Qutecom}}
+====== QuteCom ======
+
+**QuteCom** est le nouveau nom de l'ancien Wengophone, suite à l'abandon du soutien au projet de la firme Wengo (on notera que la numérotation des versions est conservée malgré le changement de nom).
+
+QuteCom est un logiciel open-source de VOIP (téléphonie par internet) et [[visioconférence]] (webcam+audio). Il est développé en Qt/C. On notera qu'il est également disponible pour Windows et Mac/OSX.
+
+QuteCom suit le standard [[:SIP]] pour l'audio seulement (pas la vidéo ni la messagerie instantanée), mais est compatible [[:Jabber]] pour la M.I.
+Ces fonctionnalités sont entre autres :
+  * Voix sur IP
+  * Vidéo 
+  * Messagerie instantanée (fonctions de base) grâce à la bibliothèque libpurple de [[Pidgin]].
+
+
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+[[:tutoriel:comment_installer_un_paquet|Installez]] le paquet **[[apt>qutecom]].**
+ 
+
+===== Utilisation =====
+ 
+Lancez l'application via le [[:unity#tableau_de_bord_dash|tableau de bord]] (Unity) ou via le [[:terminal]] (toutes versions d'Ubuntu) avec la [[:commande_shell|commande]] suivante : <code>quelcom</code>
+
+===== Configuration =====
+En essayant de configurer Wengophone, il peut être très utile de tester en appellant le 333.
+
+====Changer la langue de l'interface====
+
+Pour commencer nous allons changer la langue de l'interface, vous allez dans //Tools -> Configuration... -> Language -> Français//.
+
+
+====Ouverture des ports====
+
+<note tip>A ne faire que si ça ne fonctionne pas. Wengo marche aussi avec une configuration automatique.</note>
+
+En règle générale, il vaut mieux ouvrir certains ports pour pouvoir être appelé par un autre utilisateur Wengo.
+
+Il faut donc configurer le firewall d'ubuntu, avec firestarter par exemple, pour autoriser les ports 5060, 10600 et 10601 en entrée (protocole transport utilisé UDP).
+
+De plus, si vous êtes derrière un routeur, il ne faut pas oublier de configurer votre routeur et rediriger ces ports vers votre adresse IP locale.
+
+
+==== Mise en place d'un tunnel ====
+
+<note warning>Si vous êtes derrière un pare-feu uniquement</note>
+
+Dans la dernière version il est possible d'utiliser un tunnel qui permet de transférer les données sur le port 80 ce qui permet de ne plus avoir besoin d'ouvrir de port au niveau de votre pare-feu. (il est possible que la qualité du son et de la vidéo diminue)
+
+Vous devez aller dans //Outils -> Panneau de configuration -> Avancé -> Fenêtre de configuration avancée//, vous allez obtenir la fenêtre suivante :
+
+{{:applications:wengophone:capture-wengophone_-_configuration_avancee.png|}}
+
+Vous devez modifier les valeurs pour obtenir la même chose que les cases entourées en rouge.
+
+  network.tunnel.needed    true
+  network.tunnel.ssl       true
+
+
+
+==== Son ====
+
+Si vous n'entendez rien en appelant le 333, changez vos paramètres audio.
+
+Dans Outils -> Panneau de configuration -> Audio, changez les paramètres.
+
+ALSA ne semble pas marcher sur certaines configurations.
+
+Si rien n'y fait, télécharger "l'archive binaire" dispo sur [[http://www.wengophone.fr/index.php/mp_download_wp_lin|le site de wengophone]], décompressez la et lancez le fichier wengophone.sh.
+
+
+
+
+===== Problèmes divers (et solutions) =====
+
+  * Le seul périphérique vidéo autorisé pour le moment est << /dev/video0 >>. Si votre webcam est sur << /dev/video1 >>, il faut modifier le code source et compiler wengo vous meme ou bien (plus simple) modifier avec un editeur hexa (tel que << ghex >> en mode insertion) libwebcam.so et wengophone dans /usr/lib/wengophone et remplacer /dev/video0 par /dev/video1 (une seule occurence par fichier)... 
+  * Appel du 333 pour tester l'audio
+  * **"Please Check that : your soundcard is configured properly and no other program is blocking the soundcard"** (version 0.9x ?)
+Dans ce cas, c'est ESD sous gnome (ou ARTSD sous kde) qui monopolise la carte son. Soit on fait un "sudo killall -9 esd" (brutal), soit on configure le système pour que le serveur de son ne démarre pas avec le window manager. Pour cela, //Systeme -> Preferences -> Son// : décocher la case << Activer le serveur de son au démarrage >>. Ensuite, sous wengo, aller dans le panneau de configuration, et à << Audio Settings >>, mettre les input, output et ringing devices sur "hw:0,0".
+
+À ce sujet, voir également la discussion sur l'audio dans [[:skype]]
+
+  * Certains comptes Wengo créés il y a plus d'un an sont curieusement désactivés : Wengophone tente de se connecter indéfiniment. N'hésitez pas à demander la réactivation du compte sur le forum Wengo, ou créez-vous un nouveau compte.
+
+  * Si vous n'avez pas le raccourci WengoPhone dans Applications -> Internet, exécutez la commande suivante :
+<code>$ cp /usr/share/applications/wengophone.desktop ~/.local/share/applications/</code>
+
+  * Le compte ne s'enregistre pas, icône du milieu avec les deux ordinateurs en bas à droite qui indique 'déconnecté' (points qui clignotent), c'est un problème qui m'est arrivé en lançant par mégarde l'ancienne version (2.0 au lieu de 2.1.2): supprimer l'intégralité des fichiers de configurations avec
+<code>rm -rf ~/.wengophone/*</code>
+(la suppression seule du fichier config.xml n'a pas suffi dans mon cas à résoudre mon problème...)
+
+
+
+
+=====Problèmes connus=====
+
+====Bips pendant la conversation=====
+
+Voir [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3534311#p3534311|cette discussion]] sur le forum.
+
+===== Liens =====
+
+  * (en) [[http://www.qutecom.org//|Site du projet]] 
+  * [[:visioconference|Comparaison entre les différents logiciels de vidéoconférence]]
+
+
+
+----
+
+//Contributeur : [[utilisateurs:mavosaure]]//

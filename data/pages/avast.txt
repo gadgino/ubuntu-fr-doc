@@ -1,0 +1,185 @@
+{{tag>antivirus sécurité VÉTUSTE}}
+
+----
+
+====== Avast! 4 Linux Édition Familiale ======
+
+<note warning> Seule la version pour les serveurs sous Linux d'Avast semble encore exister. </note>
+
+**Avast!** est un antivirus propriétaire, et gratuit pour une utilisation personnelle. Il est très réputé sous Microsoft Windows. Mais il existe aussi pour GNU/Linux en tarball ((fichiers d'extension « tar.gz »)), paquet Debian et paquet RPM.
+
+Il peut être pratique d'avoir sous la main un antivirus pour les environnements Microsoft Windows et leurs données qui transite sur votre ordinateur ou en périphérie. Sous Linux vous ne courrez pas de danger ! Par exemple, si vous branchez des périphériques à votre ordinateur, tel que disque dur, clé mémoire ou si vous avez un lecteur de CD ou DVD ou toute autre unité de stockage, vous pourrez rendre le service de les vérifier et éventuellement de les réparer ou de les décontaminer !
+
+Un autre cas de figure, ce sont les installations en double ou multiple amorçage (dual-boot) Microsoft et Linux. Pourquoi redémarrer l'ordinateur sous Windows pour les vérifications périodiques des partitions fat16 ou fat32 ou NTFS, si on peut le faire depuis Linux dans nos temps morts ? Vérifier les partitions Microsoft depuis Linux est même plus sécuritaire et a plus de chance de bien réparer les problèmes que de le faire sous Windows, on n'a pas à scier la branche sur laquelle on est assis !
+
+>Les logiciels antivirus fonctionnent classiquement en se basant sur l'exploitation de bases de données de virus, complétée par des méthodes de détection diverses. __Les logiciels tels que Avast ou AVG, bien que disponibles sous Linux, utilisent une base de données de virus développés pour Windows.
+
+FAUX: allez faire un tour sur ce site => [[https://www.av-test.org/fr/nouvelles/news-single-view/linux-test-de-16-suites-de-protection-contre-les-programmes-malveillants-specifiques-a-windows-e/]]
+
+Or ces virus sont inoffensifs sous Linux__, aussi ces logiciels n'apportent aucune protection autre que l'éventuelle détection de comportements suspects.(([[antivirus]]))\\ En revanche, **Avast!** peut être utile pour une analyse antivirale, lors d'un transfert de fichier sous Windows. 
+**Attention !L'installation d'Avast! n'est pas recommandée pour Ubuntu 13.04 comme le dit la logithèque : [...]Le paquet est de mauvaise qualité et peut endommager votre ordinateur[...]** 
+***De plus Avast n'est plus disponible sous Linux. En gratuit pour un Desktop familiale il y a Sophos AV, mais en ligne de commande.***
+
+===== Installation =====
+
+<note warning>L'adresse [[http://files.avast.com/files/linux/avast4workstation_1.3.0-2_i386.deb]], de la commande ci-dessous, renvoie vers une erreur 404 !</note>
+
+Vous pouvez télécharger et installer Avast! sur cette [[http://avast-linux-home-edition.fr.uptodown.com/ubuntu/telecharger|page]]
+
+==== Obtention de la clé ====
+Pour l'utiliser, il vous faudra vous procurer une clé Avast!. Mais ne vous inquiétez pas, c'est gratuit ;-). Il vous suffit d'aller sur la 
+[[http://www.avast.com/registration-free-antivirus.php|page d'enregistrement]] et de suivre les instructions.
+
+==== Installation du paquet ====
+
+[[:tutoriel:comment_installer_un_paquet#paquet_.deb_telecharge|Installez le paquet]] que vous avez téléchargé via la méthode des paquets téléchargés sur internet individuellement.
+
+===== Utilisation =====
+
+==== Avec l'interface graphique ====
+
+=== Sous Ubuntu ===
+
+Allez dans le menu Applications → Accessoires → Avast.
+
+=== Sous Kubuntu ===
+
+Aller dans le menu KDE → Utilitaires → Avast! Antivirus.
+
+==== En ligne de commande ====
+
+Vous pouvez aussi faire un scan sous console :
+
+  sudo avast
+
+Mais Avast! est aussi une commande :
+
+Syntaxe :
+
+  avast [option] <chemin du balayage>
+
+^ Option ^^ Signification ^
+| -_ | %%--console%% | Lance  l'application en mode console |
+| -a | %%--all%% | Teste tous les fichiers (option par défaut) |
+| -b | %%--blockdevices%% | Teste les périphériques de stockage (disquette, CD-ROM, disque dur, ...) |
+| -c | %%--testfull%% | Teste l'intégralité des fichiers |
+| -d | %%--directory%% | Teste seulement le contenu du répertoire |
+| -i | %%--ignoretype%% | Ignore l'ensemble des virus |
+| -n | %%--nostats%% | Pas de statistique en fin de test antiviral |
+| -p | %%--continue=134%% | Action automatique avec les fichiers infectés\\ 1: Supprimer\\ 3: Réparer\\ 4: Arrêter |
+| -r | %%--report[=adresse fichier]%% | Crée un fichier de rapport pour les résultats "OK" |
+| -t | %%--archive[=ZGBTIJRXOQHFVPYD6UWAN]%% | Teste les archives :\\ Z: ZIP ( par défaut)\\ G: GZ (par défaut)\\ B: BZIP2 (par défaut)\\ T: TAR (par défaut)\\ I: MIME\\ J:ARJ\\ R:RAR\\ X: Exec (par défaut)\\ O: ZOO\\ Q: ARC\\ H: LHA\\ F: TNEF\\ V: CPIO\\ P: RPM\\ Y:ISO\\ D: DBX\\ 6: SIS\\ U:OLE\\ W: WINEXEC (par défaut)\\ A: Toutes\\ N: Aucune |
+| -v | %%--viruslist[=masque]%% | Affiche la liste de tous les virus spécifiés |
+| -h | %%--help%% | Affiche la liste d'aide |
+| | %%--usage%% | Affiche la syntaxe |
+| -V | %%--version%% | Affiche la version du programme |
+
+Pour mettre à jour Avast!, utilisez la commande suivante :
+
+  avast-update
+==== Scanner une clé USB ou une partition  avec Avast! ====
+Pour plus d'efficacité, je vous conseille de lancer ce scan en mode super utilisateur __(Mode non-conseillé pour une partition Windows)__ :
+  sudo avastgui     
+0) __Pour les partitions__: Il faut d'abord "Monter" la partition à scanner à l'aide de "Nautilus" (gestionnaire de fichiers par défaut sous Ubuntu). Il suffit juste de cliquer sur le nom de la partition sur la partie supérieure gauche de "Nautilus"
+
+1) Choisir "dossiers sélectionnés" dans la fenêtre principale et cliquer sur le "+" présent.
+
+2) Se rendre sur l'icône de l'ordinateur et cliquer sur le petit triangle.
+
+3) Ouvrir le dossier "media" et choisir son périphérique ou la partition  à scanner.
+
+4) Lancer le scan.
+
+<note important>Dans le cas d'un scan d'une partition Windows, Avast! peut entrer en conflits avec des fichiers de d'autres antivirus présents sous Windows, vous devez donc placer les dossiers de ces antivirus dans la liste blanche Avast!</note>
+==== Pourquoi le mode super utilisateur ? ====
+
+Je vous conseille d'utiliser Avast! en mode super utilisateur pour qu'il ait accès à tous les fichiers.
+Voici la commande à lancer dans un terminal pour lancer Avast! en mode super utilisateur:
+   sudo avastgui
+<note important>En mode super utilisateur, Avast! peut porter préjudice à des fichiers importants du système, mode à utiliser avec beaucoup de précaution.</note>
+==== Problèmes connus et [Résolus] ====
+
+Dans cette sous-section vous trouverez la solution pour des problèmes connus !
+
+=== Message « An error occured in avast! engine: Argument invalide » ===
+
+Vous pouvez obtenir le message d'avertissement « An error occured in avast! engine: Argument invalide » au redémarrage d'Avast, après la mise à jour des données des signatures des virus.
+
+La raison est que les noyaux Linux ont une limite artificielle qui dicte la taille maximale d'un bloc SHM en bits. Et une des bases de signatures de virus d'Avast dépasse cette taille. On a donc simplement à augmenter la limite supérieure de taille de fichier pour corriger le problème. 
+
+Pour connaître les valeurs actuelles, exécutez dans une console, la commande suivante, qui nous renvoie trois valeurs (mni, all, max) :
+
+  sysctl -a | grep shm
+
+Cette commande devrait vous retourner des valeurs qui ressemblent à :
+
+<code>
+kernel.shmmni = 4096
+kernel.shmall = 2097152
+kernel.shmmax = 33554432
+</code>
+
+Ce qui nous intéresse, c'est la valeur « kernel.shmmax = 33554432 », qui est devenu trop faible dernièrement. En date du 19 juillet 2012, le fait de tripler cette valeur pour « **104857600** », devrait corriger le problème pour quelques années !
+
+Dans une console, exécutez la commande suivante :
+
+  sudo sysctl -w kernel.shmmax=104857600
+
+Démarrez maintenant Avast et procédez à la mise à jour des données virus et redémarrez Avast et tout est rentré dans l'ordre, avec toutes les signatures de virus disponibles !
+
+Pour que cette valeur soit permanente, il vous faut ajouter cette commande à votre fichier de configuration de Linux.
+
+Pour éditer le fichier par une ligne de commande dans la console, chez moi je suis sous Kubuntu avec KDE, alors :
+
+  sudo kwrite /etc/init.d/rcS
+
+Ou :
+
+  sudo kate /etc/init.d/rcS
+
+Si vous êtes sous Ubuntu avec Gnome, alors :
+
+  sudo gedit /etc/init.d/rcS
+
+ [[:tutoriel:comment_modifier_un_fichier|Modifiez le fichier avec les droits d'administration]] **/etc/init.d/rcS**, et ajoutez la ligne suivante au début du fichier, après la première série de ligne qui commence par le caractère « # » :
+
+  sysctl -w kernel.shmmax=104857600
+
+Cela devrait ressembler à :
+
+  #! /bin/sh
+  #
+  # rcS
+  #
+  # Call all S??* scripts in /etc/rcS.d/ in numerical/alphabetical order
+  #
+  sysctl -w kernel.shmmax=104857600
+  ...
+
+Enregistrez le fichier et le tour est joué de manière permanente !
+
+Un très grand merci à [[utilisateur:Fake]], pour  [[http://forum.ubuntu-fr.org/viewtopic.php?id=389430&p=2#16|les détails de cette solution]] !
+
+==== Les fausses alertes ====
+
+=== Les « bombe de décompression » ===
+
+Tiré du lien qui suit :
+
+« En cherchant sur Internet, on tombe, sur tout et n'importe quoi, avec une préférence pour les liens vers les sites qui expliquent ce que sont les "vraies" bombes de décompressions, qui elles sont dangereuses...
+
+Seulement, voilà, la plupart du temps, ce que trouve Avast n'est qu'un fichier zippé qui ne contient rien de grave. C'est que Avast n'est pas par défaut paramétré pour décompresser ce type de fichiers, par exemple parce que la taille du fichier décompressé risque d'entraîner une analyse trop longue... »
+
+Dans les faits, il n'y a pas de danger et il n'y a rien à corriger ! 
+
+Pour des explications détaillées, lire jusqu'à la fin, ce fil de discussion du forum Comment ça marche : [[http://www.commentcamarche.net/forum/affich-2424524-analyse-avast-bombe-de-decompression-zip|Analyse AVAST / bombe de décompression + ZIP [Résolu]]] !
+
+
+===== Liens =====
+
+  * **(fr)** [[http://www.avast.com/fr-fr/|Site officiel du logiciel]]
+  * **(en)** [[http://forum.avast.com/index.php|Forum officiel des utilisateurs]]
+
+----
+
+//Contributeur(e)s : Metallica_POTTER (L'auteur), [[utilisateurs:Ner0lph]], ostaquet, taico, [[utilisateurs:fabien26]], frosch74, [[utilisateurs:YannUbuntu]], [[utilisateurs: richard973]], [[utilisateurs:lami|L'ami René]] (ajout mineur)+(Mise en page)+(Problèmes connus et [Résolus])+(Les fausses alertes), [[utilisateurs:Beastie]] (installation amd64 - test shmmax 2012).//

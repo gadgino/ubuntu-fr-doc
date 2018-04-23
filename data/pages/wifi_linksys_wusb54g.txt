@@ -1,0 +1,188 @@
+{{tag>matériel wifi gutsy}}
+----
+
+
+
+
+====== Linksys WUSB54G ======
+
+[[#|{{http://rnaudi.free.fr/blog/images/Linksys%20WUSB54G.jpg}}]] \\ 
+**Linksys WUSB54G** ( Adaptateur Wifi 54 MBps (802.11g (compatible 802.11b) - USB 2.0) **Rev. 4**\\ 
+
+<note important>Il existe plusieurs révisions de cet adaptateur WiFi. Cette méthode ne s'applique que pour la révision 4, la révision 1 n'utilisant pas le même chipset (chipset "prism"). Il est possible de vérifier la version de l'adaptateur en regardant sur l'étiquette située sous le module à côté du numéro de série. En absence de toute précision, il s'agira de la Rev. 1.</note>
+
+===== Installation sur Gutsy 7.10 =====
+
+Ce tuto est la traduction de ce [[http://ubuntuforums.org/showthread.php?t=588045|sujet]] en anglais.
+
+<note important>Pour faire cette manipulation, vous devrez avoir les droits [[:sudo|root]]</note>
+
+
+
+
+==== Paquets nécessaires ====
+Pour commencer, vous devez [[:tutoriel:comment_installer_un_paquet|installer les paquets suivants]] :
+  sudo apt-get install build-essential linux-headers-$(uname -r)
+
+Créez vous un dossier temporaire dans votre répertoire personnel :
+  cd ~ | mkdir rt25_tmp | cd rt25_tmp
+
+Il vous faut récupérer le pilote [[http://rt2x00.serialmonkey.com/rt2570-cvs-daily.tar.gz|http://rt2x00.serialmonkey.com/rt2570-cvs-daily.tar.gz]] pour votre carte wifi :
+  wget http://rt2x00.serialmonkey.com/rt2570-cvs-daily.tar.gz
+
+Ensuite vous désarchivez le paquet que vous venez de télécharger :
+  tar xvzf rt2570-cvs-daily.tar.gz
+
+Entrez dans le nouveau répertoire :
+  cd rt2570-cvs-xxxxxxx
+Remplacez les **xxxxx** par la date du désarchivage du paquet.
+
+Entrez dans le répertoire **Module** :
+  cd Module
+
+
+==== Compilation ====
+Vous devez compiler les sources :
+  make
+
+Si tout c'est bien passé, vous devrez installer le pilote :
+  sudo make install
+
+Maintenant, si tout va bien vous aurez besoin de la liste noire par défaut, qui se trouve dans Gutsy :
+  sudo xdg-open /etc/modprobe.d/blacklist
+
+Vous devrez y insérer à la fin du fichier la ligne suivante
+  blacklist rt2500usb
+
+
+==== Configuration ====
+Ensuite, redémarrez et configurer manuellement votre réseau en cliquant sur le moniteur de réseau et choisissez **configuration manuelle**. 
+
+Sélectionnez votre connexion sans fil et cliquez sur **propriétés**.
+
+Déselectionnez **Mode itinérant** et remplissez les champs nécessaires puis cliquez sur OK.
+
+Normalement, une fenêtre de modification du réseau devrait s'ouvrir pour vous indiquer qu'il remet à jour votre connexion.
+
+Pour vérifier votre connexion, tapez ceci dans une console :
+  ifconfig
+
+Si vous n'êtes pas connecté, redémarrez de nouveau et vérifier si vous êtes connecté.
+
+Si vous n'êtes toujours pas connecté, ouvrez le fichier de configuration des interfaces réseau :
+  sudo xdg-open /etc/network/interfaces
+
+Modifiez, si besoin est, le nom de votre connection de "//rausb1//" à "//rausb0//".
+  * Vérifiez que votre clef d'identification est bien entrée et est correcte.
+  * Que votre ESSID est correct. (Le nom de votre réseau)
+  * Que vous êtes bien en attribution automatique d'adresse IP.
+
+__Exemple de configuration :__ \\
+> auto rausb0 \\ iface rausb0 inet dhcp \\ wireless_mode managed \\ wireless-essid **le nom de votre réseau** \\ wireless-key **la clef d'accès à votre réseau** \\
+
+Traducteur : [[utilisateurs:Azema]]
+
+===== Installation sur Breezy =====
+
+Rédigée par [[utilisateurs:plutonium]]
+
+Pour installer un Linksys WUSB54G sur Breezy, suivez la procédure : \\ 
+
+
+
+**Pré-requis**\\  Tout d'abord, j'ai installé Breezy, activé les dépôts et mis à jour tous les paquetages - \\  
+
+\\  Désactivez le pilote ACX : \\  
+    gksudo gedit /etc/hotplug/blacklist
+
+Et ajouter à la fin du fichier la ligne :
+    acx_pci
+
+Au démarrage suivant, le module noyau acx ne sera pas utilisé par le système Hotplug et ainsi, le module ndiswrapper pourra prendre le contrôle de la carte réseau wifi.
+
+A partir de là , [[http://sourceforge.net/projects/ndiswrapper/|Télécharger le dernier ndiswrapper]] dans votre répertoire personnel ($HOME ou ~ ou encore /home/toto) . \\  Personnellement, j'ai pu télécharger et installer le ndiswrapper 1.5 - Je ne prends que les versions stables. \\  
+
+** Astuce** : Pour éviter de taper toutes les commandes citées avec sudo devant (comme il vous faudra les droits root), tapez :
+
+  sudo -s
+
+suivi de votre mot de passe. Cela vous permettra d'avoir un shell avec les droits root, ça simplifiera grandement les choses. \\  
+Ensuite on va installer tous les outils nécessaires, avec notamment le compilateur C le plus connu au monde : gcc. \\ 
+Donc soit vous installer ça via Synaptic (Système > Administration > Synaptic) \\  soit en ligne de commande via apt-get : \\ 
+
+  apt-get install debhelper build-essential fakeroot linux-headers-$(uname -r)
+
+**gcc** (installez le 3.4 de préférence) , **g++**, **make** (ou le paquetage **Build Essientials** qui contient tous les outils nécessaire) \\ 
+Les **Kernel Headers** (- //ce sont les sources du noyau// - tapez uname -r pour voir quel noyau vous utilisez) \\ 
+Les **sources ndiswrapper** (que vous avez téléchargé avant) \\
+
+Avec ça, \\
+
+  cd /usr/src
+  tar -xzvf ~/ndiswrapper-1.5.tar.gz
+
+Par défaut, le fichier des règles qui est responsable des paramères de spécification Debian spécifie un répertoire d'installation différent de celui d'Ubuntu. Ajustez le fichier des règles pour installer à la bonne place comme suit : \\ 
+
+  cd /usr/src/ndiswrapper-1.5/
+  sed -e "s/misc/kernel\/drivers\/net\/ndiswrapper/g" debian/rules > debian/temp
+  mv debian/temp debian/rules
+
+Entrez dans le répertoire des sources et faites : \\ 
+
+  cd /usr/src/ndiswrapper-1.5/
+  make deb
+
+S'il y a eu une erreur essayez de voir à quoi correspond l'erreur et renseignez-vous (Google, Google Groups, Channel irc #ubuntu-fr sur Serveur Freenode (irc.freenode.net:6667), ... ). Mon erreur n'était qu'un problème du choix du compilateur C gcc. J'ai pu la fixé grâce à cette ligne de commande : 
+
+  export CC='gcc-3.4'
+
+Cela lui précise qu'il faut utiliser le compilateur c Gcc version 3.4. (il doit être préalablement installé) \\  Par contre, si tout s'est bien déroulé, vous devriez obtenir 2 paquetages .deb !! \\  installez comme suit : \\
+
+  cd /usr/src
+  dpkg -i --force-overwrite ndiswrapper-utils_1.5-1_i386.deb
+  dpkg -i --force-overwrite ndiswrapper-modules-$(`uname -r`)_1.5-1_i386.deb
+
+//où uname -r représente la version de votre kernel.//\\  Pour moi c'est : \\
+
+  dpkg -i --force-overwrite ndiswrapper-modules-2.6.12-10-386_1.5-1_i386.deb
+
+Voilà , votre ndiswrapper est installé !! \\  Il ne vous reste plus qu'à installer les pilotes de votre matos. Tout d'abord, copiez les pilotes Windows depuis le CD de votre matériel vers votre Bureau (par exemple). Moi je l'ai fait avec Nautilus - en insérant le CD, il monte automatiquement et un copier / coller du répertoire Drivers vers le bureau. \\  Sinon, en ligne de commande ça peut vous donner un truc dans le genre : \\
+
+  cp -R /media/cdrom/Drivers/ ~/Desktop/
+
+\\  une fois les pilotes windows copiés, installez les simplement avec ndiswrapper : \\
+
+  ndiswrapper -i ~/Desktop/Drivers/WUSB54G.INF
+
+\\  Ensuite, on crée un alias pour wlan0 dans le fichier de configuration des modules Comme ça ce module est utilisé tant que l'interface sans-fil est démarré. \\
+
+  ndiswrapper -m
+
+\\  Avant de configurer votre connexion sans fil, charger votre nouveau module dans le noyau que vous utilisez \\
+
+  modprobe ndiswrapper
+
+\\  Vous devriez être capable de vérifier si le pilote a été chargé avec succès maintenant et si le périphérique a été detecté ou non. \\
+
+  ndiswrapper -l
+  Installed ndis drivers:
+  wusb54g         driver present, hardware present
+
+\\  Vous avez aussi besoin d'ajouter le module ndiswrapper au démarrage des modules, Ubuntu pourra alors paramétrer le périphérique quand votre machine démarrera. Vous devez ajouter ndiswrapper à la fin du fichier /etc/modules. Vous devez donc éditer ce fichier comme suit : \\
+
+  gksudo gedit /etc/modules
+
+Si vous êtes bon en linux, peut-être préfereriez vous utilisez vi ?? ;o) \\  Configuration de votrecarte Wifi (en ligne de commande) \\  sinon essayez d'utiliser l'outil graphique Système > Administration > Réseau \\  il devrait détecté votre carte Wifi \\  Editer le fichier des interfaces réseau ( /etc/network/interfaces ) \\  Comme avant utilisez vi (en ligne de commande) ou gedit pour l'éditeur graphique : \\
+
+  sudo vi /etc/network/interfaces
+
+\\  ou \\
+
+  gksudo gedit /etc/network/interfaces
+
+\\
+
+> # This file describes the network interfaces available on your system \\  # and how to activate them. For more information, see interfaces(5). \\  # The loopback network interface \\  auto lo \\  iface lo inet loopback \\  # This is a list of hotpluggable network interfaces. \\  # They will be activated automatically by the hotplug subsystem. \\  mapping hotplug \\  script grep \\  map eth0 \\  # The primary network interface \\  mapping hotplug \\  script grep \\  map wlan0 \\  # The primary network interface \\  iface wlan0 inet static \\  # wireless-* options are implemented by the wireless-tools package \\  wireless_keymode open \\  wireless_mode managed \\  wireless_nick LE_NOM_DE_VOTRE_MACHINE \\  address VOTRE_IP \\  netmask 255.255.255.0 \\  network VOTRE_IP \\  broadcast VOTRE_IP \\  gateway IP_DE_VOTRE_PASSERELLE \\  # dns-* options are implemented by the resolvconf package, if installed \\  dns-nameservers IP_DE_VOTRE_DNS_OU_ROUTEUR \\  wireless-essid LE_NOM_DE_VOTRE_RESEAU \\  wireless-key VOTRE_CLE_WEP_EN_HEXADECIMAL \\  auto wlan0
+
+Directement reconnue sous Feisty \\
+ --- //[[utilisateurs:plutonium]] 2005/11/24 09:27//

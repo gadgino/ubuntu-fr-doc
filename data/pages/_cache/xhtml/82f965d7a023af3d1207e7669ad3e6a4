@@ -1,0 +1,120 @@
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+Rédigé par Yann - Basé sur <a href="/materiel/imprimantes_canon_ixxx" class="wikilink1" title="materiel:imprimantes_canon_ixxx" onclick="return svchk()" onkeypress="return svchk()">imprimantes_canon_ixxx</a>
+</p>
+
+<a name="installer_une_imprimante_i250"></a><h2> Installer une imprimante i250 </h2>
+<div class="level2">
+
+<p>
+ J&rsquo;ai passé de nombreuses heures à essayer de faire marcher cette imprimante sous Ubuntu... Grâce à l&rsquo;article <a href="/materiel/imprimantes_canon_ixxx" class="wikilink1" title="materiel:imprimantes_canon_ixxx" onclick="return svchk()" onkeypress="return svchk()">imprimantes_canon_ixxx</a> et à quelques recherches sur Internet, ca fonctionne. La procédure est presque la même que pour les autres imprimantes Canon ixxx.
+</p>
+
+</div>
+
+<a name="telechargement_et_installation_des_drivers"></a><h4> Téléchargement et installation des drivers: </h4>
+<div class="level4">
+
+<p>
+ Créez un répertoire i250 dans votre HOME. Téléchargez-y les 2 fichiers suivants:
+</p>
+<pre class="code">http://download.canon.com.au/bj/i250linux/bjfilteri250-2.3-0.i386.rpm
+http://download.canon.com.au/bj/i250linux/bjfiltercups-2.3-0.i386.rpm</pre>
+
+<p>
+ Le premier contient les drivers pour l&rsquo;imprimante, le second permet de l&rsquo;interfacer avec le serveur d&rsquo;impression CUPS. Ces 2 fichiers sont des packages RPM, utilisés notamment par Mandriva ou Redhat... Ubuntu se basant sur des fichiers DEB, nous ne pouvons les installer directement. Un outil permet de faire la conversion de RPM vers DEB, il s&rsquo;agit de Alien. Si ce n&rsquo;est pas déjà fait, installez le. Le nom du paquet est alien, je vous renvoie à <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">synaptic</a> si vous ne savez pas comment faire.
+</p>
+
+<p>
+Lancez ensuite un terminal, et rendez vous dans le répertoire où vous avez téléchargé les fichiers, ~/i250 .
+</p>
+<pre class="code">sudo alien -c bjfilteri250-2.3-0.i386.rpm
+sudo alien -c bjfiltercups-2.3-0.i386.rpm</pre>
+
+<p>
+Alien vous génère un fichier DEB pour chaque RPM: bjfilteri250_2.3-1_i386.deb et bjfiltercups_2.3-1_i386.deb. Il nous faut maintenant installer ces 2 paquets:
+</p>
+<pre class="code">sudo dpkg -i bjfilteri250_2.3-1_i386.deb
+sudo dpkg -i bjfiltercups_2.3-1_i386.deb</pre>
+
+<p>
+Enfin, relancez Cups afin que les modifications soient prises en compte: 
+</p>
+<pre class="code">sudo /etc/init.d/cupsys restart</pre>
+
+<p>
+Vous aurez également besoin des librairies suivantes:  libtiff3g et libpng2 , que vous pouvez installer avec Synaptic. Je n&rsquo;ai pas bien compris pourquoi les versions de libpng et libtiff installées avec Ubuntu ne suffisaient pas; en tout cas sans ces dernières cela ne fonctionne pas.
+</p>
+
+</div>
+
+<a name="configuration_de_l_imprimante_dans_gnome"></a><h4> Configuration de l'imprimante dans Gnome </h4>
+<div class="level4">
+
+<p>
+ Lancez le gestionnaire d&rsquo;imprimantes Gnome en allant dans Système &gt; Administration &gt; Impression . Votre imprimante devrait apparaitre (désolé pour les captures d&rsquo;écran en anglais):
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=materiel%3Acanon_ixxx_etape1.png" class="media" title="materiel:canon_ixxx_etape1.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=materiel%3Acanon_ixxx_etape1.png" class="media" alt="" /></a>
+</p>
+
+<p>
+Sélectionnez la, et clickez sur suivant. Sélectionnez ensuite le driver i250 dans la liste:
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=materiel%3Acanon_ixxx_etape2.png" class="media" title="materiel:canon_ixxx_etape2.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=materiel%3Acanon_ixxx_etape2.png" class="media" alt="" /></a> 
+</p>
+
+<p>
+Et clickez sur suivant. Si votre driver n&rsquo;apparait pas dans la liste, sélectionnez le bouton &ldquo;Installer driver&rdquo;, et allez sélectionner le fichier /usr/share/cups/model/canoni250.ppd . 
+</p>
+
+</div>
+
+<a name="le_mot_de_la_fin"></a><h4> Le mot de la fin </h4>
+<div class="level4">
+
+<p>
+ Votre imprimante devrait maintenant apparaitre dans le gestionnaire d&rsquo;imprimantes Gnome:
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=materiel%3Acanon_ixxx_etape3.png" class="media" title="materiel:canon_ixxx_etape3.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=materiel%3Acanon_ixxx_etape3.png" class="media" alt="" /></a>
+</p>
+
+<p>
+En faisant un click droit sur l&rsquo;imprimante, vous devriez pouvoir imprimer une page test pour vous assurer que tout s&rsquo;est bien passé.
+</p>
+
+</div>
+
+<a name="differentes_erreurs"></a><h4> Différentes erreurs </h4>
+<div class="level4">
+
+<p>
+ Le redémarrage de cupsys renvoie un code d&rsquo;erreur 13: 
+</p>
+<pre class="code"> * Restarting Common Unix Printing System: cupsd
+cupsd: Child exited with status 13!
+zsh: exit 2     /etc/init.d/cupsys restart
+</pre>
+
+<p>
+ Vous avez oublié le &ldquo;sudo&rdquo;! Il faut les droits root pour redémarrer cupsys.
+</p>
+
+<p>
+ L&rsquo;imprimante apparait bien dans le Gestionnaire d&rsquo;imprimantes, mais l&rsquo;impression de la page de test ne fonctionne pas, et vous n&rsquo;obtenez pas de message d&rsquo;erreurs: vérifiez que vous avez bien installé libpng2 et libtiff3g . J&rsquo;ai également remarqué que après l&rsquo;annulation d&rsquo;une impression, et éjection de la feuille, l&rsquo;imprimante ne répondait plus... une fois éteinte puis rallumée, tout marchait à nouveau.
+</p>
+
+<p>
+ Autre erreur quelconque: Jetez un oeil dans le log d&rsquo;erreur de cups: /var/log/cups/error_log , vous en apprendrez peut-être plus sur ce qui ne fonctionne pas. 
+</p>
+
+</div>
+<!-- SECTION [100-] -->

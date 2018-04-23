@@ -1,0 +1,44 @@
+{{tag>Karmic freebox}}
+----
+
+====== Freego ======
+
+**Freego** est un outil qui permet aux clients de l'opérateur Free (Iliad) de contrôler rapidement tous les éléments importants figurant sur la page de [[https://subscribes.free.fr/login/|leur compte chez celui-ci]].
+
+On y retrouve par exemple :
+  * les factures, 
+  * la configuration du routeur, du wifi, ...
+  * ou encore la possibilité de programmer ses enregistrements à distance.
+
+Autre avantage de ce petit outil : il est disponible aussi pour iPhone.
+
+===== Prérequis =====
+
+  * Être client Free.
+  * Avoir une connexion internet opérationnelle.
+  * Avoir les droits d'administration
+
+===== Installation =====
+
+Pour installer FreeGo 4.5.8 sur Ubuntu Raring 13.04 64 bits (ce doit être la même chose en 32 bits) :
+
+  * Installer les paquets libqt4-dev et build-essential, s'il ne le sont pas déjà.
+  * Télécharger [[http://www.free-go.net/logiciel/linux/sources/FreeGo4.5.8.zip]]
+  * Dans une fenêtre Terminal, exécuter les commandes suivantes :
+    * cd <répertoire_de_téléchargement>
+    * mkdir FreeGo4.5.8
+    * cd FreeGo4.5.8
+    * unzip ../FreeGo4.5.8.zip
+    * qmake-qt4 FreeGo4.pro
+    * make
+    * sudo make install
+    * sudo ln -s /usr/local/share/applications/FreeGo.desktop /usr/share/applications/FreeGo.desktop
+
+
+===== Utilisation =====
+  * Lancer l'application à partir du lanceur Unity, en tapant freego dans le champ de recherche, ou exécuter le fichier FreeGo situé à la racine répertoire précédemment créé, ici FreeGo4.5.8
+  * A la première connexion, l'application demande les identifiant free. Les renseigner et fermer la fenêtre (croix en haut à droite).
+  * Le menu principal permet ensuite d'accéder à toutes les fonctions.
+
+<note warning>au 27 01 2014, freego ne semble pas prendre en compte les réglages de baux dhcp, redirections de ports et config wifi antérieurs à son installation</note>
+<note warning>au 17 05 2016, ce projet semble ne plus exister. Le site officiel n'existe plus à cette adresse.</note>

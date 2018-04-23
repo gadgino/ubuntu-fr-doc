@@ -1,0 +1,475 @@
+{{tag>kubuntu réseau comptabilité tutoriel}}
+
+----
+
+====== Installer Laurux pas à pas ======
+
+<note tip>Cette page ne fait-elle pas doublon avec celle-ci : [[:laurux]].</note>
+
+
+
+
+===== Présentation =====
+
+Page principale de Laurux sur la documentation Ubuntu : [[:Laurux]]
+
+**Laurux** est un logiciel de gestion d’entreprise (ERP) permettant d’effectuer l’essentiel des tâches afin de gérer d’une façon optimale votre comptabilité, votre facturation et votre stock.
+
+**Laurux** vous offre l’essentiel :
+
+  * une comptabilité ;
+  * la gestion des clients (facturation avec passage automatique des écritures en comptabilité, historiques) ;
+  * la gestion des fournisseurs (commandes, réception de marchandises, historiques) ;
+  * une tenue de stock ;
+  * la gestion des codes barres ;
+  * des statistiques.
+
+**Laurux** est visuellement agréable, utilise les bibliothèques graphiques QT et a été développé avec un souci esthétique permanent. Il est ergonomique et d’une utilisation simple.
+
+
+
+
+===== Méthode =====
+
+Je suis gérant d’une société d’informatique sur La Ciotat (BdR) et depuis le début de mon activité, j’utilise ce logiciel fabuleux développé par une personne formidable qui a su le faire évoluer pour l’adapter aux spécificités de mon entreprise.
+
+Pour le remercier de son dévouement à ma cause, je vais vous indiquer la procédure pour installer Laurux sur Kubuntu qui est la dérivée d’Ubuntu que je préfère. Les inconditionnels de Gnome n’auront qu'à adapter la procédure à cet environnement.
+
+J’espère ainsi aider tous ceux qui, comme moi, n’ont pas le budget pour une solution propriétaire et qui trouveront en Laurux, la perle rare qui fera leur bonheur.
+
+Ayant moi-même plusieurs cordes informatiques à mon arc, dont celle de formateur, vous trouverez la procédure qui suit particulièrement explicite. En effet, elle reprend un de mes principes pédagogiques fondamentaux où l’image n’a pas pour seule vocation d’illustrer les propos, mais participe activement au processus de formation.
+
+Chacune des actions à réaliser est donc illustrée par une copie d'écran. Le but recherché est que vous soyez en mesure d’installer le logiciel quel que soit votre niveau de compétence. Les plus avertis d’entre vous comprendront pourquoi j’ai privilégié une méthode essentiellement graphique pour atteindre mes objectifs.
+
+===== Pré-requis =====
+
+  * Avoir une version de Gambas2 opérationnelle.
+  * Disposer d'un serveur [[:MySQL]] (en local ou non) et d'un compte utilisateur MySQL ayant les droits pour créer et manipuler des tables dans une base de données.
+  * Disposer des bibliothèques Kdeprint et Kghostview.
+
+===== Étape 1 : Installer Gambas 3, maintenant! =====
+
+==== Méthode 1 : Installation via les dépôts ====
+
+Lancer Adept à partir du menu système de KDE.
+
+{{laurux:step_oo70_1.png|}}
+
+La page principale du gestionnaire de paquetages s’ouvre.
+
+{{laurux:step_oo1.png|}}
+
+Les dépôts d’Ubuntu ne sont malheureusement pas à jour et Laurux a besoin de la toute dernière version stable de Gambas pour fonctionner. Dans le menu « Adept », cliquez sur « Gérer les dépôts ».
+
+{{laurux:step-oo2.png|}}
+
+Dans la fenêtre qui apparaît, allez dans l’onglet « Third-Party Software » puis cliquez sur le bouton « Ajouter ».
+
+{{laurux:step_oo3.png|}}
+
+Ensuite, selon votre version de kubuntu, tapez le lien du dépôt et validez avec « OK ».
+
+  * Pour Gutsy : ''%%deb http://azores.linex.org/gambas-other/ gutsy main%%''
+  * Pour Feisty : ''%%deb http://azores.linex.org/gambas-other/ feisty main%%''
+  * Pour Edgy : ''%%deb http://azores.linex.org/gambas-other/ edgy main%%''
+
+{{laurux:step_oo4.png|}}
+
+Dans la fenêtre qui suit, cliquez sur « Actualiser"
+
+{{laurux:step_oo5.png|}}
+
+Dans la zone de recherche d’Adept, tapez « Gambas ». Sélectionnez ensuite tous les paquets dont le nom commence par « Gambas2 » et demandez leur installation en cliquant avec le bouton droit de la souris sur votre sélection.
+
+{{laurux:step_oo6.png|}} 
+
+
+Passez ensuite directement à l'étape n°2.
+
+
+==== Méthode 2 : Télécharger, Compiler et Installer Gambas 2 ====
+
+Ouvrez votre navigateur et tapez l'adresse suivante :
+
+http://gambas.sourceforge.net
+
+Sur la page d'accueil, cliquez ensuite sur le lien pour télécharger la dernière version stable.
+
+{{laurux:gambas_02.png|}}
+
+Une seconde page vous propose de télécharger les sources de différentes versions de //Gambas//. Cliquez sur la version stable la plus récente. Dans notre exemple, il s'agit de la version 2-2.3.0 :
+
+{{laurux:gambas_03.png|}}
+
+Une fenêtre vous propose d'ouvrir ou télécharger le fichier. Choisissez "Enregistrer sur le disque".
+
+{{laurux:gambas_04.png|}}
+
+Un sélecteur de fichier vous permet de choisir l'emplacement où sera téléchargée l'archive. Choisissez votre répertoire Utilisateur.
+
+{{laurux:gambas_05.png|}}
+
+Le téléchargement s'effectue.
+
+{{laurux:gambas_06.png|}}
+
+Rendez-vous ensuite dans votre répertoire Utilisateur. Vous y trouverez l'archive téléchargée. Dans le volet de droite du navigateur, cliquez sur "Ouvrir un terminal ici".
+
+{{laurux:gambas_0068.png|}}
+
+Dans le terminal, tapez la commande suivante pour vous positionner dans le répertoire qui va accueillir les sources que nous allons compiler.
+
+   cd /usr/src
+
+{{laurux:gambas_08.png|}}
+
+Pour extraire les fichiers de l'archive téléchargée dans le répertoire, tapez la commande suivante en prenant soin de remplacer "Répertoire_Utilisateur" par votre votre répertoire et "gambas2-2.3.0" par le nom exact de l'archive que vous avez récupérée sur le site de Gambas.
+
+   sudo tar xvfj /home/Repertoire_Utilisateur/gambas2-2.3.0.tar.bz2
+
+{{laurux:gambas_042.png|}}
+
+L'extraction va prendre quelques secondes. 
+
+{{laurux:gambas_040.png|}}
+
+Entrez ensuite la commande suivante pour effacer l'archive téléchargée dont on n'a plus besoin.
+
+  sudo rm /home/Repertoire_Utilisateur/gambas2-2.3.0.tar.bz2
+   
+{{laurux:gambas_051.png}}
+
+Avant d'aller plus loin, il faut installer un certain nombre de bibliothèques nécessaires à la compilation avec la commande suivante. Faites un copier-coller de la ligne suivante dans la fenêtre du terminal :
+
+   sudo apt-get install build-essential g++ automake autoconf libbz2-dev libgnorba-dev libfbclient1 libmysqlclient15-dev unixodbc-dev libpq-dev libsqlite0-dev libsqlite3-dev libgtk2.0-dev libldap2-dev libcurl3-dev libgtkglext1-dev libqt3-mt-dev kdebase-dev libpcre3-dev libsdl-sound1.2-dev libsdl-mixer1.2-dev libsdl-image1.2-dev libsage-dev libxml2-dev libxslt1-dev build-essential libbonobo2-dev libcos4-dev libomniorb4-dev firebird2-dev librsvg2-dev libpoppler-dev libpoppler-dev libpoppler-glib-dev libasound2-dev libartsc0-dev libesd0-dev libesd-alsa0 libdirectfb-dev libaa1-dev libarts1-dev kdelibs4-dev libffi4-dev libxtst-dev
+
+{{laurux:gambas_014.png|}}
+
+Répondez "Oui" à la question suivante en tapant "O" puis "Entrée" pour valider l'installation des paquets.
+
+{{laurux:gambas_15.png|}}
+
+Répondez "Oui" à la question suivante en tapant "O" puis "Entrée" pour poursuivre l'installation des librairies.
+
+{{laurux:gambas_016.png|}}
+
+Après quelques minutes, le téléchargement et l'installation des paquets nécessaires à la compilation de //Gambas// s'achèvent.
+
+{{laurux:gambas_017.png|}}
+
+Tapez ensuite la commande suivante pour entrer dans le répertoire des sources de //Gambas// :
+
+   cd gambas2-2.3.0
+
+{{laurux:gambas_018.png|}}
+
+Tapez ensuite la commande suivante pour préparer la compilation :
+
+   ./configure -C
+
+{{laurux:gambas_019.png|}}
+
+Si tout se passe comme prévu, un message vous informera que le composant "gb.qte" est désactivé. Je n'ai toujours pas trouvé le moyen d'activer ce composant qui est inutile pour le fonctionnement de Laurux.
+
+Tapez ensuite la commande suivante pour lancer la compilation de //Gambas// (cette étape va prendre quelques minutes) :
+
+   make
+
+{{laurux:gambas_020.png|}}
+
+Pour terminer, tapez la commande suivante pour lancer l'installation :
+
+   sudo make install
+
+{{laurux:gambas_021.png|}}
+
+Entrez votre mot de passe Utilisateur...
+
+{{laurux:gambas_022.png|}}
+
+L'installation est à présent terminée.
+
+{{laurux:gambas_023.png|}}
+
+Nous allons à présent créer un raccourci sur le bureau pour lancer //Gambas// et vérifier que la procédure d'installation s'est bien déroulée. Effectuez un clic droit sur le bureau et sélectionnez "Créez un nouveau..." puis "Lien vers une application..."
+
+{{laurux:gambas_024.png|}}
+
+La fenêtre suivante apparaît :
+
+{{laurux:gambas_025.png|}}
+
+Changez le nom proposé par défaut par //Gambas 2// puis cliquez ensuite sur l'icône en forme de roue dentée :
+
+{{laurux:gambas_026.png|}}
+
+Cliquez ensuite sur le bouton "Parcourir" :
+
+{{laurux:gambas_027.png|}}
+
+Utilisez le sélecteur de fichier pour vous placer dans le répertoire où se trouve le fichier de l'icône :
+
+   /usr/src/gambas2-2.3.0/app/src/gambas2/img/logo
+
+Sélectionnez le fichier "new-logo.png" et valider avec "Ouvrir" et terminez avec "OK".
+
+{{laurux:gambas_028.png|}}
+
+Vous devriez trouver l'icône de //Gambas// sur votre bureau.
+
+{{laurux:gambas_030.png|}}
+
+Cliquez sur cette icône pour lancer //Gambas//. Si tout s'est déroulé comme prévu, vous devez voir apparaître la fenêtre suivante :
+
+{{laurux:gambas_029.png|}}
+
+Vous pouvez fermer la fenêtre de //Gambas//. Lancer //Adept// à partir du menu système de KDE.
+
+{{laurux:step_oo70_1.png|}}
+
+La page principale du gestionnaire de paquetages s’ouvre.
+
+{{laurux:step_oo1.png|}}
+
+
+===== Étape 2 : Installer MySQL =====
+
+Dans la zone de recherche d’//Adept//, tapez à présent « mysql » et sélectionnez les paquets "mysql-server-5.0" et "mysql-client-5.0".  Effectuez un clic droit sur chaque paquet sélectionné et dans le menu contextuel, cliquez sur "Request Install" ou "Demander l'installation". Le paquet « mysql-common » sera installé d’office. 
+
+{{laurux:step_oo7.png|}}
+
+
+
+
+
+
+
+
+===== Étape 3 : Télécharger Laurux =====
+
+Rendez-vous sur le site www.laurux.fr et cliquez sur l’onglet « Téléchargement ».
+
+{{laurux:step_oo14.png|}}
+
+Cliquez sur le lien de l’exécutable du logiciel.
+
+{{laurux:step_oo15.png|}}
+
+Choisissez l’option « Enregistrer sur le disque ».
+
+{{laurux:step_oo16.png|}}
+
+Choisissez ensuite votre répertoire utilisateur comme emplacement et validez en cliquant sur « Save ».
+
+{{laurux:step_oo17.png|}}
+
+
+
+
+===== Étape 4 : Installer Laurux =====
+
+Allez dans votre répertoire où l’archive a été enregistrée et cliquez avec le bouton droit de la souris sur cette dernière. Dans le menu, choisissez « Extraire » puis « Extraire ici » dans le sous menu.
+
+{{laurux:step_oo20.png|}}
+
+Une fois l’archive extraite, vous pouvez l’effacer (bouton droit de la souris et « Mettre à la corbeille »).
+
+{{laurux:step_oo22.png|}}
+
+Nous allons à présent créer un raccourci sur le bureau pour lancer l’application. Pour ce faire, cliquez avec le bouton droit de la souris sur le bureau et dans le menu, sélectionner « Créer un nouveau... » puis « Lien vers une application ».
+
+{{laurux:step_oo34.png|}}
+
+Dans la fenêtre suivante, entrez le nom du raccourci (Laurux) puis cliquez sur l’icône proposée par défaut (roue dentelée).
+
+{{laurux:step_oo35.png|}}
+
+Dans le formulaire suivant, cliquez sur « Autres icônes » puis « Parcourir ».
+
+{{laurux:step_oo36.png|}}
+
+À l’aide du sélecteur de fichiers, entrez dans le répertoire de Laurux et ouvrez le fichier « Logo.png ».
+
+{{laurux:step_oo37.png|}}
+
+Cliquez ensuite sur l’onglet « Application ».
+
+{{laurux:step_oo38.png|}}
+
+Cliquez sur le bouton « Parcourir » pour sélectionner l’exécutable de Laurux (laurux.gambas) qui se trouve dans le répertoire « Laurux ».
+
+{{laurux:step_oo39.png|}}
+
+Pour terminer, validez la création du raccourci en cliquant sur « OK ».
+
+{{laurux:step_oo40.png|}}
+
+Si tout s’est bien déroulé, l’icône de Laurux doit figurer sur votre bureau.
+
+{{laurux:step_oo42.png|}}
+
+Il faut à présent installer la police de caractère livrée avec le logiciel. Entrez dans le répertoire Laurux puis le sous-répertoire « Install ». À l’intérieur se trouve le fichier de la police « flubber.ttf ». Cliquez sur ce fichier avec le bouton droit de la souris. Dans le menu, choisissez « Action » puis « Installer ».
+
+{{laurux:step_oo68_1.png|}}
+
+Une boîte d’alerte vous propose une installation pour le compte Administrateur (System) ou Utilisateur (Personnel). Cliquez sur « Personnel ».
+
+{{laurux:step_oo69.png|}}
+
+Pour terminer les préparatifs au lancement de Laurux, il faut changer la taille des caractères du bureau, qui est de 9 par défaut, à 10. Pour ce faire, ouvrez le menu système de KDE et cliquez sur l’élément « Paramètres du système ».
+
+{{laurux:step_oo45_1.png|}}
+
+Dans l'écran suivant, cliquez sur « Apparence ».
+
+{{laurux:step_oo46_1.png|}}
+
+Changez ensuite la taille des caractères comme illustré ci-après en cliquant sur les boutons intitulés « Choisir... » puis cliquez sur « Appliquer ». Vous pouvez ensuite fermer la fenêtre.
+
+{{laurux:step_oo44_1.png|}}
+
+===== Étape 5 : Créer un compte MySQL =====
+
+Avant de pouvoir exécuter **Laurux**, il reste une dernière étape : la création d’un compte //MySQL//. Ouvrez un terminal à partir du menu système de KDE (//Système -> Konsole-Terminal//).
+
+{{laurux:step_oo19_1.png|}}
+
+Entrez la commande suivante pour ouvrir le module d’administration de //MySQL// :
+
+ il faut utiliser le paramètre -p avec l'outil mysql en ligne de command afin qu'il demande ce mot de passe. Lorsque vous n'utilisez pas ce paramètre, //MYSQL// vous renvoie une erreur vous indiquant que l'accès vous est refusé sans mot de passe:
+ERROR 1045: Access denied for user: 'root@localhost' (Using password:NO).
+
+  mysql -p --user=root mysql
+
+{{laurux:step_oo23.png|}}
+
+Tapez ensuite la ligne suivante en prenant soin de remplacer d’une part USER_NAME par le nom d’utilisateur de votre choix et d’autre part, PASSWORD par votre mot de passe qui sera utilisé par **Laurux** pour accéder à //MySQL//.
+
+<code SQL>
+GRANT ALL PRIVILEGES ON *.* TO USER_NAME@localhost IDENTIFIED BY 'PASSWORD' WITH GRANT OPTION;
+</code>
+
+Attention: N'oubliez pas les apostrophes qui entourent votre mot de passe ni le point virgule qui termine la commande SQL.
+
+{{laurux:step_oo24_2.png|}}
+
+ Après avoir validé la ligne avec la touche « Entrée » du clavier, vous devriez avoir le message « Query OK, 0 rows affected ». L’exemple ci-après illustre la création d’un compte pour l’utilisateur « master » et le mot de passe « epsilon ». Lorsque cette phase est terminée, tapez « exit » pour quitter //MySQL//.
+
+{{laurux:step_oo27_1.png|}}
+
+Vous pouvez fermer le terminal, **Laurux** est prêt !
+
+
+
+===== Étape 6 : Premier lancement =====
+
+Cliquez sur l’icône **Laurux** qui se trouve sur votre bureau. Le premier écran de **Laurux** s’affiche. C’est ici que vous devez entrer le nom d’utilisateur défini précédemment dans //MySQL// avec le mot de passe associé.
+
+{{laurux:step_oo47.png|}}
+
+Validez votre saisie en cliquant sur le bouton « Valider ». **Laurux** vous propose alors de créer la base de données sur le serveur //MySQL//. Cliquez sur « ok ».
+
+{{laurux:step_oo48.png|}}
+
+Laurux vous informe que la base de travail vierge a bien été créée et invite ensuite à redémarrer le programme. Cliquez sur « OK! ».
+
+{{laurux:step_oo49.png|}}
+
+Relancez le logiciel. Une fenêtre vous présentant les astuces du jour s’affiche. Cliquez sur « Fermer » pour accéder à l’interface du programme.
+
+{{laurux:step_oo50.png|}}
+
+Voici l'écran principal de **Laurux**.
+
+{{laurux:step_oo51_1.png|}}
+
+Avant de pouvoir commencer à travailler, il vous faut restaurer la base de démonstration livrée avec **Laurux**. Pour ce faire, ouvrez le menu « Base » et cliquez sur « Restauration ».
+
+{{laurux:step_oo53_2.png|}}
+
+La fenêtre suivante vous permet de sélectionner l’emplacement de la base à restaurer. Cliquez sur le bouton « Choisir ».
+
+{{laurux:step_oo54.png|}}
+
+À l’aide du sélecteur de fichiers, sélectionnez le répertoire de **Laurux** et cliquez sur « OK ».
+
+{{laurux:step_oo55.png|}}
+
+Cliquez ensuite sur le bouton « Restaurer ».
+
+{{laurux:step_oo57.png|}}
+
+Si tout se passe bien, **Laurux** vous informe que la restauration a réussi.
+
+{{laurux:step_oo58.png|}}
+
+À présent, **Laurux** est pleinement opérationnel. Vous pouvez commencer votre exploration.
+
+
+
+
+===== Étape 7 : Laurux en réseau =====
+
+**Laurux** permet une utilisation en réseau et offre la possibilité à plusieurs postes de travailler sur la même base de données. Ainsi, pendant qu’un utilisateur se charge de la facturation, un autre peut rentrer les commandes et une troisième personne peut se charger de les réceptionner. La base de données unique et commune à tous les postes est stockée sur un poste serveur. les autres ordinateurs sont les postes clients.
+
+<note important>Le réseau est un métier à part entière de la branche informatique. Cette partie s’adresse donc à un public averti.</note>
+
+Pour utiliser **Laurux** sur plusieurs postes, il convient d’utiliser un adressage en IP fixe. Les heureux possesseurs d’une Freebox pourront conserver un adressage dynamique en utilisant les baux DHCP qui leur permettront d’attribuer une adresse fixe sur les postes exécutant **Laurux** grâce à l’adresse MAC de chacune des cartes réseau qui équipe les machines.
+
+Sur le poste serveur ou est stockée la base de **Laurux**, il faut éditer le fichier de configuration de //MySQL// qui, par défaut, n’autorise que les connexions locales. Pour ce faire, ouvrez un terminal et tapez la commande suivante : 
+
+  sudo nano /etc/mysql/my.cnf
+
+{{laurux:step_oo61.png|}}
+
+Repérez la ligne commençant par « bind-address ».
+
+{{laurux:step_oo62.png|}}
+
+Changez la valeur 127.0.0.1 par la valeur 0.0.0.0 puis effectuez la combinaison de touches « Ctrl--o » pour enregistrer la modification.
+
+{{laurux:step_oo63.png|}}
+
+Validez avec « Entrée » et effectuez la combinaison de touches « Ctrl--x » pour quitter le programme d'édition.
+
+{{laurux:step_oo64.png|}}
+
+Une fois le fichier édité, il est nécessaire de redémarrer le serveur //MySQL// avec la commande suivante :
+
+  sudo /etc/init.d/mysql restart
+
+{{laurux:step_oo66.png|}}
+
+Il faut à présent créer un compte utilisateur pour chaque poste client. Pour cela, il est impératif de connaître l’adresse de chaque poste en exécutant la commande ifconfig dans une console par exemple.
+
+La syntaxe est identique à la création d’un compte utilisateur //MySQL// classique comme nous l’avons abordé plus haut à la différence qu’il faut remplacer « localhost » par l’adresse IP de la machine.
+
+Dans un premier temps, on lance //MySQL// dans un terminal.
+
+{{laurux:step_oo23.png|}}
+
+Ensuite on entre la commande qui permet de créer un compte utilisateur avec le nom de l’utilisateur à la place de « USER_NAME », l’adresse IP du poste client à la place de « localhost » (généralement 192.168.0.X avec une valeur de X différente pour chaque poste) et le mot de passe à la place de « PASSWORD ».
+
+{{laurux:step_oo25.png|}}
+
+Pour les postes clients, il faut procéder à l’installation de **Laurux** comme nous l’avons abordée plus haut à la seule différence qu’au premier lancement de laurux, dans le formulaire de création de la base, il faut remplacer « localhost » par l’adresse IP du serveur.
+
+{{laurux:step_oo52.png|}}
+
+
+===== Épilogue =====
+
+Certes, l’installation de **Laurux** est bien plus complexe qu’un simple clic sur « Setup.exe » dans l’environnement Windows. Cependant, je considère les concessions à faire pour utiliser ce logiciel bien maigres par rapport à tous les atouts qu’offre **Laurux** en comparaison de ses concurrents : 
+
+  * Une ergonomie sans pareille avec une prise en main très intuitive.
+  * Le cumul des articles lors du scan des codes barre (plusieurs articles scannés de façon non continue génèrent une seule ligne en facture où seules les quantités sont mises à jour) ce qui évite de longues factures inutiles.
+  * Un seul logiciel pour le module facturation et comptabilité. L’utilisateur décide dans les préférences de travailler avec l’un des modules au choix ou les deux en même temps sans que cela nécessite une installation complémentaire.
+  * La fiabilité des données enregistrées dans une base //MySQL// à toute épreuve.
+
+... pour ne citer que quelques-uns des points forts de ce logiciel.
+
+Alors laissez-vous tenter par l’aventure **Laurux** !
+
+----
+
+//Contributeurs : [[:utilisateurs:Magellan]].//

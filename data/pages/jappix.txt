@@ -1,0 +1,71 @@
+{{tag>internet réseau_social}}
+
+----
+====== Jappix - Réseau social libre ======
+{{ http://upload.wikimedia.org/wikipedia/commons/d/d9/Jappix.png}}
+[[wpfr>Jappix]] est un réseau social, et un client [[wpfr>XMPP]] libre ((il est développé grâce aux librairies JavaScript JSJaC et jQuery ainsi que le moteur PHP, avec l'utilisation du HTML 5)), basé sur une architecture totalement décentralisée.\\
+
+===== Solution complète =====
+
+==== Installation ====
+
+Télécharger l'archive suivante [[https://project.jappix.com/downloads]] \\
+[[:archivage#graphiquement|Extraire]] les fichiers dans un répertoire, par exemple à la racine de votre serveur web.
+
+==== Configuration ====
+
+Rendez-vous à l'adresse correspondant au répertoire dans lequel l'archive a été extraite, par exemple si vous avez créer un [[:tutoriel/virtualhosts_avec_apache2|vhost]] spécifique :\\
+%%http://jappix.<mondomaine.tld>/%% \\
+Répondez aux questions. Le champ //Verrouiller l'hôte// signifie autoriser ou non la connexion d'utilisateurs d'autres serveurs. Les serveurs [[http://fr.wikipedia.org/wiki/BOSH|BOSH]] fournis par les serveurs jabber ne permettent pas les connexions depuis d'autres serveurs. Il faut donc cocher cette case à moins d'utiliser un serveur BOSH indépendant. \\
+Pour les noms d'hôtes spécifiques à un serveur [[:OpenFire]], en supposant que le nom de domaine XMPP est votre_domaine.tld et que vous n'avez pas changer les sous domaines par défaut \\
+//Hôte principal// : <mondomaine.tld> \\
+//Hôte de salons// : conference.<mondomaine.tld> \\
+//Hôte Pubsub// : pubsub.<mondomaine.tld> \\
+//Hôte anonyme// : <mondomaine.tld> \\
+//Hôte d'annuaire// : search.<mondomaine.tld> \\
+//Hôte BOSH// : https://<mondomaine.tld>:7443/http-bind/ ou http://<mondomaine.tld>:7070/http-bind/ mais avant cela, vous devez activer le HTTP Binding via le panneau de configuration de OpenFire, onglet Serveur, Paramètres du Serveur, partie HTTP Binding, choisir Enable pour les deux choix.
+
+<note>Vous remplacerez <mondomaine.tld> par l'adresse de votre serveur jabber</note>
+
+==== Désinstallation ====
+
+En supprimant les fichiers.
+
+===== Avec un plugin OpenFire =====
+
+==== Installation ====
+
+Si vous disposez déjà d'un serveur [[:OpenFire]], l'installation de Jappix est très simplifiée par un plugin téléchargeable [[http://code.google.com/p/openfire-jappix/downloads/list|ici]].\\
+Après avoir [[:archivage#graphiquement|extrait]] le fichier **jappix.war** de l'archive **openfire-jappixXXX-X.X.X.zip**((XXX-X.X.X étant une suite numérique représentant la version du logiciel. Choisir de préférence la version la plus élevée)) dans votre Dossier Personnel, arrêtez le [[:services|service]] //openfire// en saisissant dans un [[:terminal]] la [[:commande_shell|commande]] suivante:
+<code>sudo service openfire stop</code>
+Placez le fichier **jappix.war** dans le dossier **/usr/share/openfire/plugins/**: 
+<code>sudo cp ~/jappix.war /usr/share/openfire/plugins/</code>
+Puis relancez le service //openfire//:
+<code>sudo service openfire start</code>
+
+Jappix est désormais accessible :
+  * en http via le port 7070 : %%http://<mondomaine.tld>:7070/jappix/%%
+  * en https via le port 7443 : %%https://<mondomaine.tld>:7443/jappix/%%
+<note>Vous remplacerez <mondomaine.tld> par l'adresse de votre serveur [[:openfire]]</note>
+
+==== Configuration ====
+
+Ce plugin ne demande aucune configuration. Cependant, les inscriptions sont fermées et l'hôte est verrouillé, ne permettant pas à des utilisateurs d'un autre serveur à se connecter.\\
+Le compte administrateur étant désactivé, aucune modification n'est possible via l'interface web.\\
+Il est tout de même possible de changer certains paramètres en [[:tutoriel:comment_editer_un_fichier|éditant les fichiers]] avec les droits d’administrateur **/usr/share/openfire/plugins/jappix/read-main.php** et **/usr/share/openfire/plugins/jappix/read-hosts.php**.
+
+==== Désinstallation ====
+
+Se connecter au panneau de configuration de openfire et désinstaller Jappix via l'onglet Plugins.
+
+===== Voir aussi =====
+
+  * [[http://www.jappix.com/|Site officiel]]
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3735430|Sujet du forum ubuntu-fr.org]]
+  * [[http://community.igniterealtime.org/docs/DOC-2195|Source]] pour le plugin Openfire
+  * [[http://community.igniterealtime.org/docs/DOC-2195#comment-6758|Information concernant le port 7443]] du plugin Openfire.
+  * [[http://www.lemonde.fr/technologies/article/2010/05/05/reseaux-sociaux-une-autre-vie-numerique-est-possible_1347059_651865.html|Réseaux sociaux : une autre vie numérique est possible]] (le monde)
+  * [[http://blog.adminrezo.fr/2012/04/reseau-social-et-chat-libre-jabber-xmpp-openfire-jappix-debian/|Serveur de réseau social et chat avec OpenFire et Jappix]] (adminrezo)
+
+----
+//Contributeurs:[[:utilisateurs/clement.analogue|clement.analogue]]//

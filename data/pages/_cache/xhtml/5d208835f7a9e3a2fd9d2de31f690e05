@@ -1,0 +1,522 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#comment_installer_l_acceleration_3d_sur_une_carte_ati" class="toc"> Comment installer l'accélération 3D sur une carte ATI ? </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#verification_de_la_carte" class="toc"> Vérification de la carte </a></span></li>
+<li class="level2"><span class="li"><a href="#installation_pour_warty" class="toc"> Installation pour Warty </a></span></li>
+<li class="level2"><span class="li"><a href="#installation_pour_hoary" class="toc"> Installation pour Hoary </a></span></li>
+<li class="level2"><span class="li"><a href="#notes" class="toc"> Notes </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#compilation_d_applications_3d" class="toc"> Compilation d'applications 3D </a></span></li>
+<li class="level3"><span class="li"><a href="#pour_faire_quelques_reglages_supplementaires" class="toc"> Pour faire quelques réglages supplémentaires </a></span></li>
+<li class="level3"><span class="li"><a href="#problemes_lies_au_dri_ou_a_l_acceleration_3d" class="toc"> Problèmes liés au DRI ou à l'accélération 3D </a></span></li>
+<li class="level3"><span class="li"><a href="#problemes_lies_a_l_agp" class="toc"> Problèmes liés à l'AGP </a></span></li>
+<li class="level3"><span class="li"><a href="#ca_ne_marche_toujours_pas" class="toc"> Ca ne marche toujours pas </a></span></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level1"><span class="li"><a href="#autre_possibilite_installation_du_driver_libre_radeon" class="toc"> Autre possibilité : Installation du driver libre &quot;radeon&quot; </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#preambule" class="toc"> Préambule </a></span></li>
+<li class="level2"><span class="li"><a href="#cartes_supportant_la_3d" class="toc"> Cartes supportant la 3D </a></span></li>
+<li class="level2"><span class="li"><a href="#cartes_ne_supportant_que_la_2d" class="toc"> Cartes ne supportant que la 2D </a></span></li>
+<li class="level2"><span class="li"><a href="#installation" class="toc"> Installation </a></span></li>
+<li class="level2"><span class="li"><a href="#liens_et_documentation" class="toc"> Liens et Documentation </a></span></li>
+</ul>
+</li>
+<li class="level1"><span class="li"><a href="#autre_possibiliteinstallation_de_la_derniere_version_des_pilotes_proprietaires" class="toc"> Autre possibilité: installation de la dernière version des pilotes propriétaires </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#pre-requis" class="toc">Pré-requis</a></span></li>
+<li class="level2"><span class="li"><a href="#installer_la_chose" class="toc">Installer la chose</a></span></li>
+<li class="level2"><span class="li"><a href="#enfin" class="toc">Enfin</a></span></li>
+<li class="level2"><span class="li"><a href="#liens_et_documentation" class="toc"> Liens et Documentation </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Versions : Warty &amp; Hoary
+A faire : expliquer clairement que certaines cartes ATI ont l'accélération 3D avec le driver radeon,
+mais avec de moins bonnes performances que fglrx et sans la sortie télé.
+</pre>
+
+<a name="comment_installer_l_acceleration_3d_sur_une_carte_ati"></a><h1> Comment installer l'accélération 3D sur une carte ATI ? </h1>
+<div class="level1">
+
+<p>
+ Ubuntu fournit le pilote ATI pour les cartes graphiques embarquant ce chipset. Par défaut, vous tournez sous le pilote générique &ldquo;ati&rdquo; et ne pouvez bénéficier de l&rsquo;accélération 3D, utilisée par certains jeux et applications. 
+</p>
+
+<p>
+Vous pouvez installer le pilote propriétaire ATI en mode console. Veuillez vous référer aux sections ci-dessous.
+</p>
+
+<p>
+Cependant, avant d&rsquo;installer le pilote, assurez vous que votre carte graphique est bien une ATI. Si vous installez le pilote ATI sur une carte qui n&rsquo;est pas prévue pour cela, il vous faudra reconfigurer votre serveur X.
+</p>
+
+</div>
+<!-- SECTION [220-866] -->
+<a name="verification_de_la_carte"></a><h2> Vérification de la carte </h2>
+<div class="level2">
+
+<p>
+ Installez le pilote ATI si toutes les lignes ci-dessous sont vraies : 
+</p>
+<ul>
+<li class="level1"><span class="li"> Vous savez que vous possédez une carte ATI (Radeon).</span>
+</li>
+<li class="level1"><span class="li"> Votre modèle de carte est un nombre entier dans la série 9xxx et est supérieur ou égal à 9500 (par exemple : 9500, 9550, 9600, 9700, 9800); ou votre modèle de carte commence par un &ldquo;X&rdquo; (par exemple : X300, X600, X700, X800).</span>
+</li>
+<li class="level1"><span class="li"> La commande <pre class="code">lspci</pre>
+
+<p>
+ indique que vous avez une carte &ldquo;ATI&rdquo;.</span>
+
+</p>
+</li>
+<li class="level1"><span class="li"> Vous avez besoin du support 3D accéléré; gardez à l&rsquo;esprit que le pilote standard fonctionne bien en 2D. Si vous possédez une carte ATI qui n&rsquo;est pas dans cette liste, vous avez déjà l&rsquo;accélération 3D.</span>
+</li>
+</ul>
+
+<p>
+ <em>Note de <a href="/utilisateurs/eric_p" class="wikilink1" title="utilisateurs:eric_p" onclick="return svchk()" onkeypress="return svchk()">Eric P</a>: &ldquo;au moins une de ces lignes&rdquo; a été remplacé par &ldquo;toutes les lignes&rdquo; le 2-08-2005. Ce n&rsquo;est pas tout-à-fait correct car on peut installer les drivers propriétaires avec les cartes de modèle inférieur (radeon &lt; 9500), si on veut la sortie TV par exemple. Il faudrait présenter en introduction quels drivers gèrent la 2D et la 3D pour chaque carte.</em>
+</p>
+
+<p>
+<em>Réponse de celui qui a changé la ligne: en fait, il y a quelques jours en installant ubuntu avec une radeon 9200, la 3D a été prête à l&rsquo;emploi directement (avec le paquet &ldquo;linux-restricted-modules&rdquo;... qui contient fglrx) Alors que pour l&rsquo;installation avec une radeon 9600, il a fallu que je fasse les modifications ici indiquées... Bon, je pensais bien faire... voyons l&rsquo;évolution de la chose :o)</em>
+</p>
+
+</div>
+<!-- SECTION [867-2362] -->
+<a name="installation_pour_warty"></a><h2> Installation pour Warty </h2>
+<div class="level2">
+
+<p>
+ <em>Remarque :</em> les pilotes ATI pour AMD64 sont disponibles uniquement sous Hoary. 
+</p>
+<ul>
+<li class="level1"><span class="li"> Ouvrez un terminal.</span>
+</li>
+<li class="level1"><span class="li"> Installez le paquet <code>fglrx-driver</code> (via le gestionnaire de paquets <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a> ou via la commande suivante) :</span>
+</li>
+</ul>
+<pre class="code">
+sudo apt-get install fglrx-driver
+</pre>
+<ul>
+<li class="level1"><span class="li"> Lancez la commande suivante dans le terminal</span>
+</li>
+</ul>
+<pre class="code">
+echo fglrx | sudo tee -a /etc/modules
+</pre>
+<ul>
+<li class="level1"><span class="li"> La commande précédente n&rsquo;a d&rsquo;effet qu&rsquo;au prochain redémarrage de la machine. </span>
+</li>
+<li class="level1"><span class="li"> Vous devez reconfigurer le serveur XFree. Vous pouvez le faire avec la commande suivante et en sélectionnant &ldquo;fglrx&rdquo; à la place de &ldquo;ati&rdquo;.</span>
+</li>
+</ul>
+<pre class="code">
+sudo dpkg-reconfigure xserver-xfree86
+</pre>
+<ul>
+<li class="level1"><span class="li"> Redémarrer la machine.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [2363-3100] -->
+<a name="installation_pour_hoary"></a><h2> Installation pour Hoary </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> Ouvrez un terminal</span>
+</li>
+<li class="level1"><span class="li"> Installez le paquet <code>xorg-driver-fglrx</code> via le gestionnaire de paquets <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a> ou via la commande suivante :</span>
+</li>
+</ul>
+<pre class="code">
+sudo apt-get install xorg-driver-fglrx
+</pre>
+<ul>
+<li class="level1"><span class="li"> Lancez la commande suivante dans le terminal</span>
+</li>
+</ul>
+<pre class="code">
+echo fglrx | sudo tee -a /etc/modules
+</pre>
+<ul>
+<li class="level1"><span class="li"> La commande précédente n&rsquo;a d&rsquo;effet qu&rsquo;au prochain redémarrage de la machine. </span>
+</li>
+<li class="level1"><span class="li"> Vous devez reconfigurer le serveur X.org. Il y a deux méthodes pour le faire :</span>
+</li>
+</ul>
+
+</div>
+
+<a name="1._en_utilisant_dpkg"></a><h5> 1. En utilisant dpkg </h5>
+<div class="level5">
+
+<p>
+Vous pouvez utiliser la commande suivante en sélectionnant &ldquo;fglrx&rdquo; à la place de &ldquo;ati&rdquo;. 
+</p>
+<pre class="code">
+sudo dpkg-reconfigure xserver-xorg
+</pre>
+
+</div>
+
+<a name="2._en_editant_votre_fichier_de_x.org_a_la_main"></a><h5> 2. En éditant votre fichier de X.org à la main </h5>
+<div class="level5">
+<pre class="code">sudo gedit /etc/X11/xorg.conf</pre>
+
+<p>
+ Repérez la section <code>[Device]</code> et remplacez la ligne 
+</p>
+<pre class="code">      Driver      &quot;ati&quot;</pre>
+
+<p>
+ par 
+</p>
+<pre class="code">      Driver      &quot;fglrx&quot;</pre>
+
+<p>
+ Dans la section <code>[Module]</code> Commentez &ldquo;Load &ldquo;extmod&rdquo; &quot; et rajoutez des lignes afin d&rsquo;avoir ceci: 
+</p>
+<pre class="code">#    Load    &quot;extmod&quot;
+    SubSection &quot;extmod&quot;
+        Option    &quot;omit xfree86-dga&quot;
+    EndSubSection
+</pre>
+
+<p>
+ Cela vous donne accès à xrandr, qui permet de changer la taille de l&rsquo;écran sans redémarrer.
+</p>
+<ul>
+<li class="level1"><span class="li"> Redémarrez la machine.</span>
+</li>
+</ul>
+
+<p>
+Si tout s&rsquo;est bien passé, vous pouvez essayer glxgears et à fgl_glxgears et vérifier que vos scores sont bien meilleurs qu&rsquo;avant. Si X ne se charge pas, re-éditez le fichier xorg.conf et remettez &ldquo;ati&rdquo; ce qui vous permettra de revenir à X. (éditeurs disponibles en mode console : vi, vim, nano etc...)
+</p>
+
+</div>
+<!-- SECTION [3101-4670] -->
+<a name="notes"></a><h2> Notes </h2>
+<div class="level2">
+
+</div>
+<!-- SECTION [4671-4689] -->
+<a name="compilation_d_applications_3d"></a><h3> Compilation d'applications 3D </h3>
+<div class="level3">
+
+<p>
+ <em>Optionnel</em>
+</p>
+
+<p>
+Si vous voulez compiler des applications 3D, vous devrez installer le paquet <code>fglrx-driver-dev</code>.
+</p>
+
+</div>
+<!-- SECTION [4690-4845] -->
+<a name="pour_faire_quelques_reglages_supplementaires"></a><h3> Pour faire quelques réglages supplémentaires </h3>
+<div class="level3">
+
+<p>
+ <em> Optionnel </em>
+</p>
+
+<p>
+Vous pouvez installer le paquet <code>fglrx-control</code> pour configurer les options de la carte graphique comme l&rsquo;affichage sur deux moniteurs.
+</p>
+
+</div>
+<!-- SECTION [4846-5059] -->
+<a name="problemes_lies_au_dri_ou_a_l_acceleration_3d"></a><h3> Problèmes liés au DRI ou à l'accélération 3D </h3>
+<div class="level3">
+
+<p>
+ Si vous avez des problèmes relatifs au DRI ou à l&rsquo;accélération 3D et que les lignes suivantes apparaissent dans votre fichier <code>/var/log/Xorg.0.log</code>.
+</p>
+<pre class="code">
+(WW) fglrx(0): Kernel Module version does *not* match driver.
+(EE) fglrx(0): incompatible kernel module detected - HW accelerated OpenGL will not work
+</pre>
+
+<p>
+Alors, vérifiez que le paquet <code>linux-restricted-modules</code> contenant les modules non libres est bien installé pour votre noyau. Pour l&rsquo;installer, vous pouvez utiliser la commande suivante : 
+</p>
+<pre class="code">
+sudo apt-get install linux-restricted-modules-$(uname -r)
+</pre>
+
+<p>
+ <strong><u>Note:</u></strong> La commande <code>uname -r</code> renvoie le numéro de version de votre noyau. Par défaut, il se peut que vous ayez une version de votre noyau qui ne soit pas optimisée, il est possible en ce cas d&rsquo;installer un noyau mieux optimisé.
+</p>
+
+</div>
+<!-- SECTION [5060-5951] -->
+<a name="problemes_lies_a_l_agp"></a><h3> Problèmes liés à l'AGP </h3>
+<div class="level3">
+
+<p>
+ Si votre fichier <code>/var/log/Xorg.0.log</code> révèle des problèmes à l&rsquo;initialisation de l&rsquo;AGP:
+</p>
+<ul>
+<li class="level1"><span class="li"> Editez votre fichier <code>/etc/modules</code> et mettez ceci en premier:</span>
+</li>
+</ul>
+<pre class="code">agpgart
+nvidia-agp # Ou bien le module selon votre chipset : intel-agp / via-agp / sis-agp
+fglrx</pre>
+
+<p>
+ en supprimant la ligne fglrx si vous l&rsquo;aviez ajoutée en fin de fichier.
+</p>
+<ul>
+<li class="level1"><span class="li"> Ensuite dans votre fichier <code>/etc/X11/xorg.conf</code>, ajoutez l&rsquo;option <code>UseInternalAGPGART</code> dans la section <code>[Device]</code>, ou si elle est existante mettez la à <code>&ldquo;no&rdquo;</code>:</span>
+</li>
+</ul>
+<pre class="code">
+Driver    &quot;fglrx&quot;
+Option    &quot;UseInternalAGPGART&quot; &quot;no&quot;</pre>
+<ul>
+<li class="level1"><span class="li"> <strong>EXTREMEMENT IMPORTANT : REDEMARREZ LA MACHINE !!!</strong></span>
+</li>
+</ul>
+
+<p>
+ Le pilote ATI version 8.12.10 est disponible dans Breezy, il devrait résoudre ce problème et permettre une amélioration des performances.
+</p>
+
+</div>
+<!-- SECTION [5952-6778] -->
+<a name="ca_ne_marche_toujours_pas"></a><h3> Ca ne marche toujours pas </h3>
+<div class="level3">
+
+<p>
+ Demandez de l&rsquo;aide sur le forum, en indiquant le type de votre carte ATI, sa mémoire, votre processeur et sa RAM, ainsi que la version des pilotes ATi en utilisant fireglcontrol. Un utilitaire de configuration est disponible : fireglcontrol.
+</p>
+
+</div>
+<!-- SECTION [6779-7060] -->
+<a name="autre_possibilite_installation_du_driver_libre_radeon"></a><h1> Autre possibilité : Installation du driver libre &quot;radeon&quot; </h1>
+<div class="level1">
+
+</div>
+<!-- SECTION [7061-7134] -->
+<a name="preambule"></a><h2> Préambule </h2>
+<div class="level2">
+
+<p>
+Ceci est une copie du message posté sur le forum Ubuntu-fr.
+</p>
+
+<p>
+Pour me contacter : <a href="http://wiki.ubuntu-fr.org/utilisateurs/stemp" class="urlextern" title="http://wiki.ubuntu-fr.org/utilisateurs/stemp" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Stemp</a>
+</p>
+
+<p>
+Certaines personnes ayant des problèmes avec l&rsquo;installation des drivers propriétaires ATI fglrx, je me suis décidé à écrire cette page. <br/>
+ Par défaut, il semblerait que l&rsquo;installation xorg d&rsquo;une carte ATI Radeon utilise le driver &ldquo;ati&rdquo;, dans certains cas c&rsquo;est une mauvaise idée, sauf si on veut des scores glxgears faisant rire les copains (241 fps dans mon cas).
+</p>
+
+<p>
+Concernant l&rsquo;installation des drivers fglrx voir plus haut.
+</p>
+
+</div>
+<!-- SECTION [7135-7730] -->
+<a name="cartes_supportant_la_3d"></a><h2> Cartes supportant la 3D </h2>
+<div class="level2">
+
+<p>
+ <strong>R100</strong>  : Radeon 7200 <br/>
+ <strong>RV100</strong> : Radeon 7000(VE), M6 <br/>
+ <strong>RS100</strong> : Radeon IGP320(M) <br/>
+ <strong>RV200</strong> : Radeon 7500, M7, FireGL 7800 <br/>
+ <strong>RS200</strong> : Radeon IGP330(M)/IGP340(M) <br/>
+ <strong>RS250</strong> : Radeon Mobility 7000 IGP <br/>
+ <strong>R200</strong>  : Radeon 8500, 9100, FireGL 8800/8700 <br/>
+ <strong>RV250</strong> : Radeon 9000PRO/9000, M9 <br/>
+ <strong>RS300</strong> : Radeon 9100 IGP <br/>
+ <strong>RS350</strong> : Radeon 9200 IGP <br/>
+ <strong>RV280</strong> : Radeon 9200PRO/9200/9200SE, M9+ <br/>
+
+</p>
+
+</div>
+<!-- SECTION [7731-8187] -->
+<a name="cartes_ne_supportant_que_la_2d"></a><h2> Cartes ne supportant que la 2D </h2>
+<div class="level2">
+
+<p>
+ <strong>R300</strong> : Radeon 9700PRO/9700/9500PRO/9500/9600TX, FireGL X1/Z1 (le driver 3d est en devellopement:<a href="http://r300.sourceforge.net/R300.php" class="urlextern" title="http://r300.sourceforge.net/R300.php" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://r300.sourceforge.net/R300.php</a>) <br/>
+ <strong>R350</strong> : Radeon 9800PRO/9800SE/9800, FireGL X2 <br/>
+ <strong>R360</strong> : Radeon 9800XT <br/>
+ <strong>RV350</strong> : Radeon 9600PRO/9600SE/9600, M10/M11, FireGL T2 <br/>
+ <strong>RV360</strong> : Radeon 9600XT <br/>
+ <strong>RV370</strong> : Radeon X300, M22 <br/>
+ <strong>RV380</strong> : Radeon X600, M24 <br/>
+ <strong>R420</strong> : Radeon X800 <br/>
+ <strong>R423</strong> : Radeon X800 PCIE <br/>
+
+</p>
+
+</div>
+<!-- SECTION [8188-8665] -->
+<a name="installation"></a><h2> Installation </h2>
+<div class="level2">
+
+<p>
+ Si vous avez installé ou tenté d&rsquo;installer les drivers fglrx, il faut tout d&rsquo;abord les supprimer.<br/>
+ Donc, via Synaptic, il faut rechercher <em>fglrx</em> et supprimer les paquets <em>fglrx-control</em> et <em>xorg-driver-fglrx</em>.
+</p>
+
+<p>
+On sauvegarde son fichier de configuration xorg : 
+</p>
+<pre class="code">sudo cp /etc/X11/xorg.conf /etc/X11/xorg.bak</pre>
+
+<p>
+ On édite son fichier de configuration : 
+</p>
+<pre class="code">sudo gedit /etc/X11/xorg.conf</pre>
+
+<p>
+ Après la section <em>Module</em> on ajoute : 
+</p>
+<pre class="code">Section &quot;Extensions&quot;
+   Option &quot;RENDER&quot; &quot;Enable&quot;
+EndSection</pre>
+
+<p>
+ Dans la section <em>Device</em>, on remplace le driver &ldquo;ati&rdquo; : 
+</p>
+<pre class="code">Driver         &quot;ati&quot;</pre>
+
+<p>
+ par 
+</p>
+<pre class="code">Driver         &quot;radeon&quot;</pre>
+
+<p>
+ On peut aussi (toujours dans la section <em>Device</em>) ajouter ou modifier les options qui boostent (celles-ci étant pour une Radeon 9200 SE) : 
+</p>
+<pre class="code">Option         &quot;AGPMode&quot; &quot;4&quot;
+Option         &quot;AGPSize&quot; &quot;64&quot; # default: 8
+Option         &quot;RingSize&quot; &quot;8&quot;
+Option         &quot;BufferSize&quot; &quot;2&quot;
+Option         &quot;EnablePageFlip&quot; &quot;true&quot;
+Option         &quot;EnableDepthMoves&quot; &quot;true&quot;*
+Option         &quot;RenderAccel&quot; &quot;true&quot;</pre>
+
+<p>
+ Et c&rsquo;est tout.
+</p>
+
+</div>
+<!-- SECTION [8666-9735] -->
+<a name="liens_et_documentation"></a><h2> Liens et Documentation </h2>
+<div class="level2">
+
+<p>
+ <a href="http://www.x.org/X11R6.8.2/doc/radeon.4.html" class="urlextern" title="http://www.x.org/X11R6.8.2/doc/radeon.4.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.x.org/X11R6.8.2/doc/radeon.4.html</a>
+</p>
+
+</div>
+<!-- SECTION [9736-9818] -->
+<a name="autre_possibiliteinstallation_de_la_derniere_version_des_pilotes_proprietaires"></a><h1> Autre possibilité: installation de la dernière version des pilotes propriétaires </h1>
+<div class="level1">
+
+<p>
+ A la date de dernière mise à jour, en juillet 2005, la dernière version est la 8.14.13.
+</p>
+
+<p>
+Méthode pour installer la dernière version des drivers de ATI, pour les cartes ATI Radeon (et FireGL) sous Hoary (Ubuntu 5.04), avec recompilation du module <code>fglrx</code>. Attention, vous pourrez avoir des problèmes dès qu&rsquo;il s&rsquo;agira de mettre à jour xorg ou linux-restricted.
+</p>
+
+<p>
+Non testé sous Warty
+</p>
+
+</div>
+<!-- SECTION [9819-10311] -->
+<a name="pre-requis"></a><h2>Pré-requis</h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> Supprimer les versions Ubuntu éventuelles</span>
+</li>
+</ul>
+<pre class="code"> sudo apt-get remove xorg-driver-fglrx fglrx-control </pre>
+<ul>
+<li class="level1"><span class="li"> Installer les fichiers d&rsquo;en têtes et les outils de compilation nécessaires</span>
+</li>
+</ul>
+<pre class="code"> sudo apt-get install linux-headers-$(uname -r) build-essential </pre>
+<ul>
+<li class="level1"><span class="li"> Récupérer l&rsquo;installeur sur le site ATI </span>
+</li>
+</ul>
+
+<p>
+- version x86 
+</p>
+<pre class="code"> wget http://www2.ati.com/drivers/linux/ati-driver-installer-8.14.13.run </pre>
+
+<p>
+  - version x86-64 
+</p>
+<pre class="code"> wget http://www2.ati.com/drivers/linux/64bit/ati-driver-installer-8.14.13.run </pre>
+
+</div>
+<!-- SECTION [10312-10867] -->
+<a name="installer_la_chose"></a><h2>Installer la chose</h2>
+<div class="level2">
+<pre class="code"> chmod 777 ati-driver-installer-8.14.13.run
+ sudo ./ati-driver-installer-8.14.13.run </pre>
+<ul>
+<li class="level1"><span class="li"> Répondre Oui à tout ;)</span>
+</li>
+<li class="level1"><span class="li"> Croiser les doigts, si tout va bien les pilotes sont générés et installés dans /lib/modules/fglrx/</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [10868-11133] -->
+<a name="enfin"></a><h2>Enfin</h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> utiliser flgrxconfig pour générer un fichier xorg.conf aux petits oignons (surtout pour la configuration du double écran)</span>
+</li>
+</ul>
+<pre class="code"> sudo fglrxconfig </pre>
+<ul>
+<li class="level1"><span class="li"> enfin controlez l&rsquo;existence de vielle version du driver <strong>fglrx.ko</strong> (surtout dans <em>/lib/modules/$(uname -r)/kernel/driver/video</em>/) et écraser la !</span>
+</li>
+</ul>
+<pre class="code"> sudo cp /lib/modules/fglrx/fglrx.$(uname -r).ko /lib/modules/$(uname -r)/kernel/drivers/video/fglrx.ko  </pre>
+<ul>
+<li class="level1"><span class="li"> rebootez et enjoyez les performances de glxgears et fgl_glxgears</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [11134-11655] -->
+<a name="liens_et_documentation"></a><h2> Liens et Documentation </h2>
+<div class="level2">
+
+<p>
+ <a href="http://www2.ati.com/drivers/linux/linux_8.14.13.html" class="urlextern" title="http://www2.ati.com/drivers/linux/linux_8.14.13.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www2.ati.com/drivers/linux/linux_8.14.13.html</a> 
+</p>
+<hr noshade="noshade" size="1" />
+
+<p>
+ Page restructurée par <a href="/utilisateurs/eric_p" class="wikilink1" title="utilisateurs:eric_p" onclick="return svchk()" onkeypress="return svchk()">Eric Pignet</a> le 26-07-2005. 
+</p>
+
+</div>
+<!-- SECTION [11656-] -->

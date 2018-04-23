@@ -1,0 +1,175 @@
+{{tag>Trusty sécurité}}
+
+----
+
+====== Désactiver les mots de passe ======
+
+{{ seahorse.png?100}}
+
+**Ubuntu** par défaut assure une bonne sécurité et confidentialité des données, mais certains sont ennuyés d'avoir à taper leur mot de passe trop souvent, alors qu'ils sont les seuls à utiliser leur ordinateur.
+
+Cette page décrit comment désactiver certains mots de passe, et indique quels sont **ceux à ne surtout pas désactiver**.
+
+===== Désactiver mot de passe au démarrage de la session =====
+
+==== Connexion automatique ====
+Au démarrage de la session, votre nom d'utilisateur et votre mot de passe vous sont demandés.
+
+Vous pouvez configurer **Ubuntu** pour qu'il se connecte automatiquement avec un utilisateur prédéfini.
+Pour cela, allez dans **Paramètres système → Comptes utilisateur**, déverrouillez la fenêtre en cliquant sur le cadenas en haut à droite, et activez la case **Connexion automatique** :
+{{ :systeme:connexion_automatique_trusty.png?400 |Connexion automatique}}
+
+==== Liste d'utilisateurs ====
+Si vous souhaitez permettre à plusieurs utilisateurs de se connecter sans mot de passe vous pouvez en créer une liste pour les autoriser. Il est **TRÈS FORTEMENT** déconseillé d'inscrire des utilisateurs disposant de droits d'administration dans cette liste !!
+
+**Méthode générale**: pour permettre leur authentification ajoutez la ligne suivante dans le fichier **/etc/pam.d/gdm** au dessus du premier **@** (ceci nécessite les droits **administrateur**).
+
+<code>auth sufficient pam_listfile.so item=user sense=allow file=/etc/gdm/nopassusers.txt onerr=fail</code>
+
+Puis ajouter la liste de vos utilisateurs dans **/etc/gdm/nopassusers.txt**
+
+Remarque : cette méthode ne fonctionne plus à partir de [[:oneiric|Ubuntu 11.10 "The Oneiric Ocelot"]] puisque le gestionnaire de connexion gdm est remplacé par lightdm.\\
+
+**Autre méthode :** à partir de [[Lucid|Ubuntu 10.04 LTS]]  (nom de code: The Lucid Lynx), il suffit d'ajouter les utilisateurs pouvant se connecter sans mot de passe dans le groupe nopasswdlogin:
+
+<code>sudo usermod -a -G nopasswdlogin utilisateur</code>
+
+Remarque : cette méthode fonctionne au moins jusqu'a la version [[quantal|Ubuntu 12.10 "The Quantal Quetzal"]]. L'ouverture de session s'effectue sans mot de passe mais lorsque l'on bascule d'une session à une autre session un mot de passe est demandé. Il suffit alors de cliquer sur changer d'utilisateur et l'on retombe sur la sélection des session utilisateurs qui ne nécessite pas la saisie de mot de passe.
+
+===== Mot de passe en sortie de veille =====
+
+Dans Paramètres systèmes, cliquer sur l'icône **Luminosité et verrouillage**.
+
+Décocher **Demander mon mot de passe lors de la sortie de veille**
+
+
+===== Mot de passe du trousseau de clés =====
+
+Afin de ne pas stocker les mots de passe des différentes applications en clair (facilement accessible par n'importe quel logiciel), **Ubuntu** utilise un //[[seahorse|trousseau de clés]]// : c'est une sorte de coffre sécurisé qui contient tous les mots de passe.
+
+<note tip>Typiquement, il contient les mots de passe de vos comptes e-mails, de vos comptes de messagerie instantanée…et connexion wifi ...</note>
+
+Mais, pour être sécurisé, ce "coffre" a évidemment besoin lui-même d'un mot de passe et celui-ci ne doit être écrit nulle part sur le système. C'est pourquoi il est nécessaire à chaque redémarrage de taper ce mot de passe.
+
+Pour éviter ceci, deux solutions existent. Elles nécessitent toutes deux de modifier le mot de passe du trousseau de clés.
+
+<note tip>Si vous voulez désactiver le trousseau de clés de manière permanente, il vous suffira d'entrer ces lignes de commande dans un terminal
+<code>sudo chmod a-x /usr/bin/gnome-keyring*
+sudo  killall gnome-keyring-daemon</code>
+Cela évitera à Chromium et autres navigateurs basés sur Chromium tel que Google Chrome et Opera de demander le mot de passe du trousseau comme indiqué [[https://forum.ubuntu-fr.org/viewtopic.php?id=1997844|dans ce sujet du forum (post #9)]]
+</note>
+
+==== Solution sans perte de sécurité ====
+
+Si lors du démarrage de votre session vous tapez votre mot de passe (autrement dit, si la connexion automatique n'est pas activée), il est possible de déverrouiller le trousseau de clés en même temps. Pour cela, il suffit de définir comme mot de passe du trousseau de clés **le même mot de passe que celui de votre utilisateur**.
+
+<note>Cette solution n'est envisageable que si la connexion automatique n'est pas activée.</note>
+
+
+==== Solution avec perte de sécurité ====
+
+Si la connexion automatique est activée, le trousseau de clés ne peut pas être déverrouillé (aucun mot de passe n'étant renseigné au démarrage).
+
+Il est dans ce cas possible de désactiver ce mot de passe. Pour cela, il suffit de définir comme mot de passe du trousseau de clés **un mot de passe vide**.
+
+Tous les mots de passe de vos applications seront alors stockés **en clair** (ils se trouvent alors dans un "coffre" dont la porte est "ouverte").
+
+<note important>Si des programmes malveillants parviennent à s'exécuter, ils pourraient récupérer ces mots de passe.</note>
+
+Cette perte de sécurité peut être acceptable pour un particulier, unique utilisateur de son ordinateur, qui ne souhaite pas avoir à déverrouiller le trousseau de clés lors de chaque session.
+==== Changer le mot de passe du trousseau de clés ====
+// Pour [[Precise|Ubuntu Precise 12.04]] et au delà, voir [[:seahorse#changer_le_mot_de_passe_du_trousseau_de_cles|ce chapitre de la page Seahorse]]//
+
+Pour changer le mot de passe du trousseau de clés, allez dans Système → Préférences → Mots de passe et clés de chiffrement.
+ (sous [[lucid]] allez dans Applications → Accessoires → Mots de passe et clés de chiffrement).
+
+Dans l'onglet Mots de passe vous devez avoir "Mots de passe : login" cliquez dessus avec le bouton droit de votre souris et choisissez "Modifier le mot de passe".
+Le mot de passe par défaut devrait-être le mot de passe de votre compte. (Sinon voyez ci-dessous)
+
+**Anciennes versions d'ubuntu (avant [[lucid]]) :**
+
+Edit → Preferences.
+
+Dans le premier onglet se trouve la liste des trousseaux de mots de passe. Vous pouvez changer le mot de passe en cliquant sur **Modifier le mot de passe de déverrouillage** :
+
+{{ seahorse_password.png?400 |Trousseaux de mots de passe}}
+
+Si la modification d'un mot de passe de déverrouillage échoue (par exemple après avoir choisi un mot de passe vide), il est possible de restaurer le comportement par défaut d'Ubuntu en supprimant le contenu du dossier **~/.gnome2/keyrings**. Toutefois l'ensemble des mots de passe que vous auriez stocké sera perdu…
+
+Attention modification de l'interface dans Jaunty et Karmic Koala : j'ai trouvé la fonction modifier le mot de passe de déverrouillage sur l'onglet "mots de passe" dans la fenêtre principale de l'application "mots de passe et clés de chiffrement" (pas dans le menu préférence de cette application) puis clic droit sur le trousseau puis choix "modifier le mot de passe"
+
+Pour Karmic : Pour changer le mot de passe du trousseau de clés, allez dans Applications → Accessoires → Mots de passe et clés de chiffrement
+puis clic droit sur Mots de passe : login
+
+Lors de la 1er utilisation comme on ne connaît pas le mot de passe par défaut il est impossible de le changer. Pour créer un nouveau mot de passe il faut supprimer l'entrée login, (Applications >> accessoires >> mot de passe et chiffrement >> onglet mots de passe>> clic droit sur login >> supprimer) puis créer une nouvelle entrée login et donner le nouveau mot de passe. (Fichier >> nouveau >> trousseau de mot de passe >> lui donner login comme nom, puis entrer le nouveau mot de passe). Redémarrer l'ordinateur le nouveau mot de passe doit fonctionner. 
+<note tip>A partir des versions utilisant l'interface Unity, pour accéder au changement de mot de passe du trouseau, il faut faire <ALT><F2>seahorse.
+Ensuite (clic-droit) sur 'Mot de passe:Login' et 'modifier le mot de passe'.</note>
+<note tip>Pour Ubuntu 13.04, ouvrez seahorse comme précédemment et changez l'affichage pour celui 'par trousseau'. Puis "clic-droit" sur le trousseau 'Connexion' qui doit posséder un cadenas en icône et 'changer le mot de passe'.</note>
+===== Mot de passe administrateur =====
+Un mot de passe vous est demandé à chaque fois que vous effectuez une action qui nécessite les droits d'administrateur (comme l'installation/suppression d'un logiciel ou encore la modification de certains paramètres sensibles pouvant entraîner un dysfonctionnement de votre ordinateur…)
+
+<note important>**CHANGER CE COMPORTEMENT PRÉSENTE DE GRAVES RISQUE DE SÉCURITÉ !**
+
+En effet, n'importe qui ayant accès à votre ordinateur pourra en faire ce qu'il veut, récupérer toutes les données personnelles, installer des logiciels non voulus... etc.
+N’effectuez cette action que si vous savez ce que vous faites!
+</note>
+==== Sudo ====
+
+Il faut voir le fait de devoir taper son mot de passe comme un avertissement sérieux plutôt que comme une contrainte : celui-ci a pour but de vous faire prendre conscience du risque potentiel que court votre système.
+
+De plus, c'est une parade essentielle contre les virus et autres logiciels espions.
+\\
+
+Si malgré l'avertissement ci-dessus on souhaite neutraliser le mot de passe administrateur, il suffit dans un Terminal:
+<code/> sudo visudo </code> puis touche **Entrée** -> écrire le mot de passe et touche **Entrée**.
+Dans le Terminal rechercher la ligne:
+<code/> %admin ALL=(ALL) ALL </code>
+la modifier pour obtenir:
+<code/> %admin ALL=(ALL) NOPASSWD: ALL </code>
+Pour terminer appuyer sur **Ctrl**+**o** pour enregistrer les modifications et sur la touche **Entrée** et enfin sur **Ctrl**+**x** pour quitter.
+
+Depuis 14.04 cette manipulation ne neutralisait plus le mot de passe, il faut modifier dans un Terminal :
+<code/> sudo visudo </code> puis touche **Entrée** -> écrire le mot de passe et touche **Entrée**.
+
+Rechercher les lignes et les transformer pour obtenir:
+<code/> root    ALL=(ALL:ALL) NOPASSWD: ALL </code>
+<code/> %admin ALL=(ALL) NOPASSWD: ALL </code>
+<code/> %sudo   ALL=(ALL:ALL) NOPASSWD: ALL </code>
+
+Pour terminer appuyer sur **Ctrl**+**o** pour enregistrer les modifications et sur la touche **Entrée** et enfin sur **Ctrl**+**x** pour quitter.
+Cependant certains programmes persistaient à demander un mot de passe, j'ai donc aussi appliqué la modification **PolicyKit** ci-dessous.
+ 
+
+==== PolicyKit ====
+Policykit est un utilitaire autre que sudo.
+il demande le mot de passe graphiquement (exemple: lors du lancement de gparted, synaptic...)
+
+Vous devez être **administrateur** de l'ordinateur. C'est-à-dire que votre utilisateur doit être dans le groupe unix "**sudo**" (//versions ≥ 12.04//) ou "**admin**" (//versions < 12.04//).
+
+Vous pouvez vérifier vos groupes par la commande "**groups**" (sans les guillemets évidement).
+
+Si vous n'êtes pas dans le groupe adéquat, exécuter la commande suivante en remplaçant "votrenomdutilisateur" par...votre nom d'utilisateur :
+<code>usermod -aG admin votrenomdutilisateur</code>
+ou, pour 14.04:
+<code>usermod -aG adm votrenomdutilisateur</code>
+Puis créer une nouvelle règle:
+<code>sudo gedit /var/lib/polkit-1/localauthority/50-local.d/disable-passwords.pkla</code>
+Ajouter ceci comme contenu du fichier:
+<code>[Install package file]
+Identity=unix-group:admin
+Action=*
+ResultActive=yes</code>
+ou, pour 14.04:
+<code>[Install package file]
+Identity=unix-group:adm
+Action=*
+ResultActive=yes</code>
+
+Sauvegarder et redémarrer. 
+
+====== Sources & Contributeurs ======
+[[http://askubuntu.com/questions/98006/how-do-i-prevent-policykit-from-asking-for-a-password]]
+
+----
+
+//Contributeurs : ®om malabarth//

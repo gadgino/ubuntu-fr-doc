@@ -1,0 +1,54 @@
+{{tag>programmation IDE kde }}
+----
+
+{{ http://upload.wikimedia.org/wikipedia/commons/thumb/archive/e/ef/20070123222655!Crystal_Clear_app_kdevelop.png/120px-Crystal_Clear_app_kdevelop.png|kdevelop }}
+
+
+
+====== KDevelop ======
+
+[[http://www.kdevelop.org/|KDevelop]] est un environnement de développement intégré (EDI/IDE) pour l'environnement [[KDE]] sous licence GPL.
+
+Son principal intérêt est la gestion complète des projets avec le générateur de makefile, la création de la documentation automatique, l'édition des interfaces utilisateurs, le débogage intégré, l'auto-complétion et le support de CVS et subversion.
+
+Il prend en charge plusieurs langages tels que C/C++,Java,Python,Ruby,Perl,Fortran,ADA,PHP.
+
+===== Installation =====
+
+[[apt://kdevelop|{{apt.png|Installation automatique}}]] [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt://kdevelop|kdevelop]]**
+<note important>A partir de kubuntu 10.04, il faut activer les [[:depots#backports|mises à jour non prises en charge]].</note>
+Après l'installation, vous pouvez créer un nouveau projet avec : Menu Project->New project.
+
+Il est préférable [[:tutoriel:comment_installer_un_paquet|d'installer aussi]] **[[apt://konsole|konsole]]** pour ceux qui travaillent avec Gnome
+<note warning>Il n'est pas indispensable d'installer konsole, cela ne sert qu'aux tests</note>
+
+=== KDevelop en français ===
+
+Pour activer KDevelop en français il faut installer les fichiers de langue de base pour l'environnement KDE : **[[apt://kde-i18n-fr|kde-i18n-fr]]**
+<code>sudo apt-get install kde-i18n-fr</code>
+
+<note important> Dans la version 10.04, ce paquet n'existe plus.</note>
+
+=== Librairies ===
+
+Le linker est dans "Project" -> "Project options"-> "Configure options" puis dans la zone de texte "linker flags". \\ Par exemple pour opengl, il faut mettre -lGLU ou pour la sdl mettre -lSDL.
+
+=== Configuration ===
+
+Kdevelop peut demander à un moment le chemin relatif de qmake et de QtDesigner, il y a de grandes chances que ce dernier soit /usr/bin et pour ceux qui programment avec qt4 c'est /usr/share/qt4/bin/
+
+===== Problèmes de compilation =====
+
+== Erreur 127 / Aclocal ==
+Si, à la compilation, apparaît un message d'erreur de type 127, avec aclocal par exemple, vérifiez que vous avez [[:tutoriel:comment_installer_un_paquet|installé les paquets]] **[[apt://automake|automake]] [[apt://autoconf|autoconf]] [[apt://build-essential|build-essential]] [[apt://libtool|libtool]]** 
+
+== Erreur libtool ==
+Si vous avez une erreur avec au début de la ligne ./libtool: line ***
+Il suffit de downgrader votre version de libtool, pour cela désinstallez tout d'abord la version actuelle (2.2.6a à la date du 24/05/2009)
+
+<code>sudo apt-get remove libtool</code>
+
+Puis installer l'ancienne ; 
+
+[[http://packages.ubuntu.com/fr/hardy/libtool]]
+

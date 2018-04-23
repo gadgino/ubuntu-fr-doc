@@ -1,0 +1,181 @@
+{{tag>Trusty multimédia télécommande BROUILLON}}
+
+----
+
+====== Remuco ======
+<note importante>Remuco ne semble plus fonctionner correctement depuis Ubuntu 16.04, essayer [[anyremote]].</note>
+**Remuco** est un petit programme permettant de contrôler depuis un terminal mobile (téléphone bluetooth...) vos lecteurs multimédias favoris.
+
+L'application est en plusieurs parties :
+  * les adaptateurs aux lecteurs ;
+  * le client.
+
+Vous pouvez soit utiliser une connectivité Bluetooth, soit une connectivité réseau et dans ce cas ouvrir dans le pare-feu un port pour chaque adaptateur-lecteur.
+
+Si vous utilisez un terminal Windows Mobile, vous ne pourrez pas utiliser le Bluetooth (la pile Bluetooth ne fournit pas la socket nécessaire), et devrez donc vous rabattre sur une connexion //via// votre wifi familial, ou alors passer par la 3G (ça passe avec les forfait web illimité Orange).
+
+Il existe des adaptateurs pour divers lecteurs multimédias, dont :
+
+  * [[Amarok]] (version 2.x.y)
+  * [[VLC]]
+  * [[Totem]]
+  * [[XMMS]] (version 2)
+  * [[TVTime]]
+  * [[MPd]]
+  * [[Audacious]]
+  * [[Banshee]]
+  * [[RhythmBox]]
+
+
+===== Installation =====
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>remuco-base]]**.
+==== Adaptateurs ====
+
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>remuco-vlc]]** ou **[[apt>remuco-amarok]]** ou n'importe quel autre adaptateur.
+
+Chaque adaptateur doit être démarré lorsque vous lancez votre logiciel multimédia. Le mieux (suggestion de l'auteur du logiciel) et de le démarrer à la connexion session. L'adaptateur sera présent en permanence mais consommera peu de ressources. Il se comportera comme un démon en fait.
+
+On crée donc un lien logique dans le dossier de démarrage :
+
+  ln -s /usr/bin/remuco-VOTRE-LECTEUR-MEDIA ~/.kde4/Autostart/
+
+Les utilisateurs de gnome adapteront leur cas bien sûr.
+
+==== Le client ====
+
+Les fichiers Java natifs sont dans « /usr/share/remuco/client » ou dans l'archive tar du programme si vous l'avez téléchargé.
+
+=== Sans Bluetooth ===
+
+Si encore une fois vous ne pouvez pas utiliser le Bluetooth (cas de Windows Mobile), il vous faut utiliser le client sans Bluetooth.
+
+<note important>L'auteur de Remuco a promis une option sans Bluetooth dans la prochaine version officielle du client.</note>
+
+En attendant la version sans Bluetooth, vous pouvez récupérer les fichiers java sur mon site web (section //Downloads//) :
+[[http://www.22decembre.eu/downloads/remuco.jad|jad]]
+[[http://www.22decembre.eu/downloads/remuco.jar|jar]]
+
+Installez le client java sur votre téléphone (télécharger le dessus et lancer le programme).
+Une fois le client installé avec java, vous avez à créer les profils de connexion.
+
+À l'entrée du programme, ajouter un profil avec « add », rentrez les informations de connexion (adresse, numéro de port) et un nom évocateur, le nom de votre PC suivi de celui du lecteur devrait faire l'affaire.
+
+Encore une fois, refaites cette opération pour chaque lecteur souhaité.
+
+=== Avec Bluetooth ===
+
+FIXME
+
+===== Utilisation =====
+
+Remuco est très bien structuré (assez exceptionnel pour un logiciel Open Source qui démarre). La configuration se fait dans le répertoire « ~/.config/remuco ». Et le logiciel va stocker des informations dans le répertoire « ~/.cache/remuco » :
+
+Il va créer un fichier « ''Devices'' » qui contiendra les informations de votre terminal mobile. Vous pouvez les envoyer avec la commande suivante :
+
+  remuco-report
+
+Celle-ci permet à l'auteur de maintenir une base de données « terminaux compatibles ». Si vous ne le souhaitez pas, ne la lancez pas.
+
+Chaque lecteur multimédia dispose dans le cache d'un dossier où sera stocké le log.
+
+===== Configuration =====
+
+==== Wi-Fi ====
+
+Si vous fonctionnez avec le Wi-Fi (ou simplement internet mobile 3G, c'est pareil pour le logiciel), un port réseau sera utilisé pour chaque logiciel.
+
+[[:tutoriel:comment_modifier_un_fichier|Créez le fichier]] **~/.config/remuco/vlc/remuco.cfg**((Exemple pour VLC.)) et mettez y l'indication du port à utiliser :
+<file>wifi-port = xxxx</code>
+Par défaut c'est le port 34271 qui est proposé.
+Ce port doit être ouvert pour le [[pare-feu]] en TCP.
+
+Faites ceci pour chaque lecteur multimédia que vous souhaitez coupler avec Remuco, avec bien sûr un port différent à chaque fois.
+
+<note importante>
+Si vous passez par une connexion 3G (et non par un réseau wifi local), il vous faudra aussi bien sûr rediriger le port de votre routeur (Freebox, Livebox ou autre).
+
+La connexion est très efficace, même en 3G, donc n'hésitez pas à en profiter si vous le pouvez (je pense notamment aux iPhone qui ont généralement un forfait web illimité ou Windows Mobile qui ne peuvent passer par le Bluetooth).
+Lorsque IPv6 sera en place sur la 3G, cette redirection de port sera inutile.</note>
+==== Bluetooth ====
+
+Coté pc, rien de spécial à faire, la détection se passe comme pour n'importe quel autres périphériques bluetooth. je vous renvoi donc vers cette page pour ce qui est de ubuntu > [[bluetooth|Utilisation du Bluetooth sous Ubuntu]].
+
+Coté mobile, commencer par démarrer l'application puis choisissez "bluetooth".
+
+**Address**
+  * Scan for
+  * Set manually
+  * Manual Address: 000111AAABBBCCC
+
+Dans la plupart des cas un simple "scan" fera l'affaire. Sinon vous avez la possibilité par l'option "set manually" d'entrer (en-dessous) l'adresse bluetooth du pc.
+
+**Channel**
+  * Search for
+  * search for (failsafe)
+  * Set manually
+  * Manual channel: 1
+
+La encore laisser l'option par défaut, à moins d'être obligé de configurer un canal spécifique, si besoin...
+
+**Security**
+  * Authenticate
+  * Encrypt
+
+Si l'option "Authenticate" est coché, vous devrez entrer un code sur le téléphone, puis sur le pc, pour vous connecter. "encrypt" permet de crypter les données envoié/reçu.
+
+**Name (optional):**
+
+Pour donner un nom personnalisé...
+
+
+==== Configuration spécifique ====
+
+Parfois, les lecteurs nécessitent une configuration spécifique. Ajoutez ici tous les détails et améliorations découverts.
+
+=== VLC ===
+
+VLC a besoin de l'interface D-Bus activée. Ceci ce fait dans //Outils → Préférences// → case « tous paramètres » cochée en bas à gauche → //Interface → Interface de contrôle → Interface de contrôle D-Bus//.
+
+N'oubliez pas d'enregistrer les préférences, ainsi VLC se lancera toujours avec D-Bus et vous pourrez le commander à distance… et épater les amis (quelques tests seront quand même bienvenus, comme d'habitude) !
+
+=== Rythmbox ===
+
+Pour piloter rythmbox il vous faut installer l'adapteur correspondant :
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt://remuco-rythmbox|remuco-rythmbox]]**
+Pour activer cet adapteur, il suffit ensuite d'activer le greffon rythmbox nommé "remuco". Ceci ce fait dans //Edition → Greffon// → case « remuco » à cocher.
+
+<note importante>
+**Suite à un changement d'interface des plugins depuis la version 2.95.5 du player, ce plugin est à ce jour (6 Nov 2012 - remuco 0.9.6) cassé.**
+
+**[[http://code.google.com/p/remuco/issues/detail?id=187]]**
+</note>
+==== Shutdown ====
+
+Cerise sur le gâteau, vous pouvez éteindre votre PC à distance avec Remuco (utile pour ceux qui veulent écouter de la musique au lit).
+
+Pour ce faire, vous devez [[:tutoriel:comment_modifier_un_fichier|créer un fichier]] **~/.config/remuco/shutdown-system** dans le répertoire de configuration de Remuco et y écrire la commande //ad hoc// :
+
+<code>
+#!/bin/bash
+
+# shutdown
+# la commande a été installé avec le paquet kshutdown
+kshutdown -h
+
+exit
+</code>
+
+Rendez ensuite ce script exécutable avec la commande:
+  chmod +x ~/.config/remuco/shutdown-system
+
+<note tip>J'ai utilisé la commande ''kshutdown'' (issue du paquet [[apt://kshutdown|kshutdown]]) qui permet d'éteindre l'ordinateur en tant que simple utilisateur. Toutefois on devrait pouvoir le faire autrement, puisqu'on peut tous éteindre notre machine //via// le bouton de notre bureau (KDE, GNOME, XFCE ou autre). Ceux qui connaissent la marche à suivre peuvent la décrire.</note>
+
+Lorsque vous utiliserez le client Remuco sur votre portable, une option « shutdown host » apparaitra dans les menus.
+
+===== Liens =====
+
+  * Site web : [[http://code.google.com/p/remuco/|Remuco sur Google Code]]
+
+----
+
+//Contributeurs principaux : [[utilisateurs:stephaneguedon|Stéphane Guedon]].//

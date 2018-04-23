@@ -1,0 +1,164 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#how_to_-_installation_d_ubuntu_dans_the_qemu_emulator" class="toc"> How To - Installation d'Ubuntu dans &quot;the Qemu emulator&quot; </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#preparation" class="toc"> Preparation </a></span></li>
+<li class="level2"><span class="li"><a href="#installation" class="toc"> Installation </a></span></li>
+<li class="level2"><span class="li"><a href="#usage" class="toc"> Usage </a></span></li>
+<li class="level2"><span class="li"><a href="#note" class="toc"> Note </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Traduction libre du How To installation-qemu.
+Version Warty
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/manu" class="wikilink1" title="utilisateurs:manu" onclick="return svchk()" onkeypress="return svchk()">manu</a>.
+</p>
+
+<a name="how_to_-_installation_d_ubuntu_dans_the_qemu_emulator"></a><h1> How To - Installation d'Ubuntu dans &quot;the Qemu emulator&quot; </h1>
+<div class="level1">
+
+<p>
+ <a href="http://fabrice.bellard.free.fr/qemu" class="urlextern" title="http://fabrice.bellard.free.fr/qemu" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Qemu</a> est un émulateur hardware, capable d&rsquo;émuler l&rsquo;architecture x86 et partiellement les architectures PPC, Arm et SPARC. 
+</p>
+
+<p>
+<strong>Qemu</strong> émule tout, y compris le CPU, aussi est il  beaucoup plus lent que le système hôte.  Vous n&rsquo;obtiendrez pas plus d&rsquo;avantage de la majeure partie de votre matériel.  Mais c&rsquo;est une très bonne manière d&rsquo;examiner une distribution sans devoir réinstaller ou partitionner.  C&rsquo;est tout à fait amusement, dans une sorte de <em>geeky</em> <img src="/smileys/icon_smile.gif" align="middle" alt=":-)" /> .
+</p>
+
+</div>
+<!-- SECTION [114-699] -->
+<a name="preparation"></a><h2> Preparation </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> D&rsquo;abord, naturellement, vous devez obtenir et installer <strong>qemu</strong>. Heureusement, c&rsquo;est tout à fait facile. Pour FC2 (L&rsquo;<acronym title="Operating System">OS</acronym> que j&rsquo;utilise), il y a un paquet <em>apt-getable</em> dans le dépôt de <em>Dag Wieers</em>. Le site de <strong>qemu</strong> a un paquet binaire. </span>
+</li>
+</ul>
+
+<p>
+ À la différence de quelques autres systèmes de virtualisation, comme <em>VMware</em>, il n&rsquo;y a aucun besoin de modules pour le kernel;  il tourne dans l&rsquo;environnement de l&rsquo;utilisateur. 
+</p>
+<ul>
+<li class="level1"><span class="li"> Téléchargez <a href="http://www.ubuntulinux.org/download" class="urlextern" title="http://www.ubuntulinux.org/download" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow"> l'image iso d'Ubuntu</a>  - pas besoin de graver réellement un CD.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Pour obtenir la gestion de réseau pour votre système émulé, vous devez le déclarer. <a href="http://fabrice.bellard.free.fr/qemu/qemu-doc.html#SEC22" class="urlextern" title="http://fabrice.bellard.free.fr/qemu/qemu-doc.html#SEC22" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow"> Le linux-test-xxx...</a>  , sur le site de <strong>qemu</strong>, est un script à mettre parmi vos scripts réseaux.; c&rsquo;est juste plus facile que de taper  manuellement avant de lancer l&rsquo;émulateur:</span>
+</li>
+</ul>
+<pre class="code">
+    sudo /sbin/ifconfig eth0 172.20.0.1
+</pre>
+<ul>
+<li class="level1"><span class="li"> Nous avons besoin également d&rsquo;un disque virtuel pour notre système. Faites un disque simplement en créant un dossier de la taille que vous voulez, quelque chose comme ceci:</span>
+</li>
+</ul>
+<pre class="code">
+    dd of=ubuntuimage bs=1024 seek=10485760 count=0
+</pre>
+
+<p>
+Ceci créera un <em>dossier de 10Gb</em> qui deviendra un disque virtuel. C&rsquo;est réellement <em>overkill</em> si vous voulez juste essayer la distribution, une installation basique prend au environ de 1.5Go et comptez 3 à 4 Go pour le reste des fichiers.
+</p>
+
+</div>
+<!-- SECTION [700-2177] -->
+<a name="installation"></a><h2> Installation </h2>
+<div class="level2">
+
+<p>
+  Vous étes prêts à faire l&rsquo;installation. Lancez la commande suivante:
+</p>
+<pre class="code">
+qemu -hda ubuntuimage -cdrom warty-i386.iso -m 192 -boot d
+</pre>
+<ul>
+<li class="level1"><span class="li"> Placez le <strong>hda</strong> pour être votre disque (avec le fichier créé ), selectionnez <em>l&rsquo;image iso</em> d&rsquo;Ubuntu comme cdrom, choisissez la quantité de mémoire de votre machine virtuelle (là 192Mb), et dites-lui de démarrer (booter) sur le cdrom (l&rsquo;image iso en fait).</span>
+</li>
+</ul>
+
+<p>
+ <u>Attention</u>: donner trop de mémoire au système virtuel fera que votre vraie machine deviendra instable, elle sera lente. D&rsquo;autre part, lui donner trop peu de mémoire fera l&rsquo;inverse, la machine virtuelle sera lente et instable.
+</p>
+
+<p>
+<u>Morale</u>: ayez beaucoup de mémoire sur votre système hôte.
+</p>
+
+<p>
+<strong>L&rsquo;installeur</strong> devrait booter en ce moment. Regardez les messages du démarrage et choisissez les options par défaut. <strong>L&rsquo;installeur</strong> détecte le réseau virtuel correctement et l&rsquo;installation devrait aller au bout. 
+</p>
+<ul>
+<li class="level1"><span class="li"> A la fin, il essayera de redémarrer la machine virtuelle. <u>Ceci échouera</u>. </span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Sortir de l&rsquo;émulateur (tapez <strong>quit</strong> dans <em>the emulator console</em>),et relancer:</span>
+</li>
+</ul>
+<pre class="code">
+    qemu -hda ubuntuimage -cdrom warty-i386.iso -m 192
+</pre>
+
+<p>
+Notez que nous avons enlevé le paramètre de boot, ainsi il démarrera sur l&rsquo;Ubuntu de la machine virtuelle. 
+</p>
+<ul>
+<li class="level1"><span class="li"> Suivez les directions de l&rsquo;installeur et créez un utilisateur. L&rsquo;installeur d&rsquo;Ubuntu cherchera alors des mises à jour et ajoutera les paquets additionnels. Ceci prend un bon moment.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> À un moment, il enregistrera toute la documentation pour le système d&rsquo;aide.</span>
+</li>
+</ul>
+
+<p>
+ Ceci prendra un temps excessif; dans mon cas une heure. Aussi ne vous inquiétez pas, l&rsquo;installation n&rsquo;a pas mal tourné <img src="/smileys/icon_wink.gif" align="middle" alt=";-)" />. Détendez vous, prenez un café, surfez .... 
+</p>
+<ul>
+<li class="level1"><span class="li"> La configuration de X est trés facile; la seule question est le choix de la résolution vidéo. Laissez les par défauts; la vidéovirtuel ne soutient pas des résolutions plus élevées que ceux déjà réglés.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [2178-4161] -->
+<a name="usage"></a><h2> Usage </h2>
+<div class="level2">
+
+<p>
+ Tout d&rsquo;abord, faire tourner un <acronym title="Operating System">OS</acronym> sur un émulateur matériel n&rsquo;est pas le rêve, simplement lent. Ne comptez pas faire des exploits seulement avoir un systeme pour des essais. Ma machine est un portable Pentium 1.7Ghz, et Ubuntu fonctionne - ou flâne - plutôt donner des sédatifs.<img src="/smileys/icon_wink.gif" align="middle" alt=";-)" />
+</p>
+
+<p>
+Que dire, même sur un systeme réduit au niveau matériel, il est cependant assez rapide pour examiner la distribution, peut-être installer quelques paquets, voir comment elle va dans l&rsquo;ensemble.
+</p>
+
+<p>
+C&rsquo;est également un bon outil pour la gestion de système paranoïaque. <strong>Qemu</strong> peut avoir une image inaltérable de disque avec un dossier séparé de secours, au cas où vous voulez tester l&rsquo;installation de packages intrusifs (ou examinez vos propres paquets pour s&rsquo;assurer qu&rsquo;ils ne cassent pas le système) sans toucher réellement votre vrai système.  
+</p>
+
+<p>
+Si votre systeme virtuel est cassé, récupérer le fichier de secours pour redémarrer comme si rien n&rsquo;était arrivé.
+</p>
+
+</div>
+<!-- SECTION [4162-5150] -->
+<a name="note"></a><h2> Note </h2>
+<div class="level2">
+
+<p>
+ J&rsquo;ai testé Qemu pour installer Ubuntu, cela fonctionne bien mais c&rsquo;est trés lent. Apparament Fabrice Bellard a créé un module additionnel, pour les plateformes hôte x86, qui accélérerait le système virtuel.(<a href="/utilisateurs/manu" class="wikilink1" title="utilisateurs:manu" onclick="return svchk()" onkeypress="return svchk()">manu</a>)
+</p>
+
+<p>
+Contributed by Dr. Jan Morén from Lund,Sweden <a href="http://lucs.lu.se/people/jan.moren" class="urlextern" title="http://lucs.lu.se/people/jan.moren" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://lucs.lu.se/people/jan.moren</a> 
+</p>
+
+</div>
+<!-- SECTION [5151-] -->

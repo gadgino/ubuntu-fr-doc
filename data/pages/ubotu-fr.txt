@@ -1,0 +1,43 @@
+{{tag> groupe messagerie_instantanée}}
+====== uBOTu-fr & uBOTu|search ======
+
+[[https://wiki.ubuntu.com/IRC/Bots?action=show&redirect=UbuntuBots|uBOTu-fr]] et [[https://wiki.ubuntu.com/IRC/Bots?action=show&redirect=UbuntuBots|uBOTu|search]] sont des [[http://supybot.com/|supybot]] de modération et d'aide, ils sont présents sur les canaux IRC #ubuntu-fr* : [[http://www.ubuntu-fr.org/webchat|webchat]].
+
+<note warning>Les bots [[https://wiki.ubuntu.com/IRC/Bots?action=show&redirect=UbuntuBots|uBOTu-fr]] et [[https://wiki.ubuntu.com/IRC/Bots?actRetournera la date EOL de la version Ubuntu citée.
+ion=show&redirect=UbuntuBots|uBOTu|search]] sont des bots pour la modération et l'entraide, **tout abus sera sévèrement puni.**</note>
+
+----
+
+^ Les commandes	^ Les explications	^         
+|<code>!ping</code> | S'assurer que l'on peut envoyer et recevoir les messages du canal (plus joli que "y a quelqu'un?!.") | 
+|<code>!ot</code> | Retournera : Pour discuter d'autres choses que du support, merci de taper <code>/join #ubuntu-fr-offtopic</code>.|
+|<code>!ops</code> | Cette commande avertit les opérateurs qu'il y a un soucis sur le canal.|
+|<code>!paste</code> | Retournera : Utilisez http://paste.ubuntu-fr-secours.org/ pour les copiés/collés, mettez votre pseudonyme dans le champ idoine, merci.|
+|<code>@wiki mots clefs</code> | Permet d'effectuer une recherche sur ce wiki. |
+|<code>@adduser</code> | Retournera : Pour ajouter un utilisateur a un groupe veuillez utiliser cette syntaxe : adduser <user> <group> |
+|<code>@usermod</code> | Retournera : Pour ajouter un utilisateur a un groupe veuillez utiliser cette syntaxe : usermod -aG groupe user |
+|<code>@wikix mots clefs</code> | Permet d'effectuer une recherche sur ce wiki et de retourner que le premier résultat. |
+|<code>@ask</code> | Retournera un message concernant "la bonne manière de poser les questions, ou comment poser les questions de façon intelligente".|
+|@NumeroVersionUbuntu((Exemple @1404)) | Retournera la date EOL de la version Ubuntu citée.|
+|<code>@info <package> <nom_de_distribution></code> | Donne des informations sur le package en question pour la distribution indiquée((si aucune release n'est donnée, c'est la release courante qui est utilisée)).|
+|<code>@offline</code> | Retournera : Si vous souhaitez telecharger des packages Ubuntu, pour pouvoir les utiliser sur une machine ne disposant pas de Internet (par exemple), veuillez ouvrir Synaptic, selectionner les packages souhaites, ensuite : Fichier -> Creer un script de telechargement de paquets. Veuillez maintenant voir @aptoncd.|
+|<code>@universe</code> | Retournera : Canonical ne fournit aucune mises à jour régulières de sécurité pour les logiciels dans Universe, ce dernier est principalement géré par la Communauté.|
+|<code>@aptoncd</code> | Retournera : APTonCD est un logiciel avec une interface graphique, permettant de sauvegarder sur CD ou DVD les  paquets .deb que vous avez telecharges.|
+|<code>@find <package> <nom_de_distribution></code> | Liste les occurrences pour le <package> dans la distribution donnée((si aucune release n'est donnée, c'est la release courante qui est utilisée)).|
+|<code>@eol</code> | Retournera une définition du terme EOL.|
+|<code>@rules</code> | Retournera : Veuillez s'il vous plait respecter le code de conduite en vigueur sur les canaux : #ubuntu-fr/#ubuntu-fr-offtopic/#ubuntu-fr-testing -> https://doc.ubuntu-fr.org/conduiteirc.|
+|<code>@gpu</code> | Retournera : Pour connaitre la liste des drivers disponibles pour votre materiel, veuillez saisir dans un terminal : <code>ubuntu-drivers list</code>.|
+|<code>@arch</code> | Retournera : Pour connaitre votre architecture principale, veuillez ouvrir un terminal et taper : dpkg  --print-architecture, pour connaitre les autres architectures activees : dpkg --print-foreign-architectures |
+|<code>@cloak</code> | Retournera : Un cloak, c'est un manteau qui permet de masquer votre IP, pour en faire une demande, vous devez impérativement avoir enregistre votre pseudonyme via la commande /msg nickserv register <password> <email-adress>. Veuillez ensuite joindre le channel #freenode avec votre demande, une demande de cloak peut prendre jusqu’à deux semaines avant d’être effective.|
+|<code>@hdd</code> | Retournera : Si vous voulez diagnostiquer une defaillance sur votre hdd/ssd, veuillez saisir dans votre terminal : <code>sudo smartctl -all /dev/sdX</code> (des valeurs faibles dans la colonne Value est un signe de mort imminente (base : < 50)).|
+|<code>@alis</code> | Retournera : alis est un robot permettant de lister les canaux presents sur Freenode, pour plus d'informations, veuillez saisir dans votre client IRC ou dans votre webchat la commande : <code>/msg alis help list</code>.|
+|<code>@eolupgrade</code> | Retourne une définition du terme EOL, avec une procédure d'upgrade.|
+|<code>@version <package> <nom_de_distribution></code> | Retourne la version pour le <package> dans la distribution donnée((si aucune release n'est donnée, c'est la release courante qui est utilisée)).|
+|<code>@testing</code> | Retournera : Veuillez joindre le channel #ubuntu-fr-testing pour toutes questions concernant un logiciel ou un o/s en cours de développement.|
+|<code>@mintsupport</code> | Retournera : Linux Mint n'est pas une variante officielle de Ubuntu. Vous trouverez un support sur le channel : #linuxmint-help sur irc.spotchat.org.|
+|<code>@variantes</code> | Retournera la liste des variantes supportées par les canaux #ubuntu*.|
+|<code>@debutant</code> | Retournera : Vous trouverez ici le manuel en Français « Premier pas avec Ubuntu » : http://ubuntu-manual.org/downloads.|
+|<code>@hwe</code> | Retournera : LTS Enablement Stack permet d'installer une distribution Ubuntu LTS en beneficiant pendant deux ans, de la prise en charge de nouveaux materiels integree dans un noyau ainsi qu'un Xorg (sauf pour l'edition Serveur) plus recents.|
+|<code>@nmcli</code> | Retournera : Pour lister vos hostspots en CLI, veuillez ouvrir un terminal, et y indiquer: <code>nmcli dev wifi list</code>, pour vous connecter a un hotspot en CLI vous taperez: <code>nmcli dev wifi con VOTRE_SSID password MOT_DE_PASSE</code>.|
+|<code>@DE</code> | Retournera : Pour connaitre le nom de votre environnement de bureau, veuillez ouvrir un terminal avec pour contenu : <code>echo $DESKTOP_SESSION</code>.|
+|<code>@sondage</code> | Retournera : Veuillez s'il vous plaît éviter les sondages inutiles, poser directement votre question, si quelqu'un peut/veut y répondre, il/elle le fera.|

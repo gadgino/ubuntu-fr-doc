@@ -1,0 +1,186 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#amarok_c_est_quoi" class="toc"> Amarok, c'est quoi ? </a></span></li>
+<li class="level1"><span class="li"><a href="#installation" class="toc"> Installation </a></span></li>
+<li class="level1"><span class="li"><a href="#configuration" class="toc"> Configuration </a></span></li>
+<li class="level1"><span class="li"><a href="#utilisation" class="toc"> Utilisation </a></span></li>
+<li class="level1"><span class="li"><a href="#astuces" class="toc"> Astuces </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#pochettes_scannees" class="toc"> Pochettes scannées </a></span></li>
+<li class="level2"><span class="li"><a href="#amarok_comme_reveil" class="toc"> amaroK comme réveil </a></span></li>
+</ul>
+</li>
+<li class="level1"><span class="li"><a href="#liens" class="toc"> Liens </a></span></li>
+</ul>
+</div>
+</div>
+<pre class="code"> Version Hoary (Kubuntu)</pre>
+ Rédigé par <a href="/utilisateurs/herbie" class="wikilink1" title="utilisateurs:herbie" onclick="return svchk()" onkeypress="return svchk()">Herbie</a> <br/>
+ Article provenant de <a href="http://debuntu.tuxfamily.org" class="urlextern" title="http://debuntu.tuxfamily.org" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://debuntu.tuxfamily.org</a> <br/>
+ Merci à <a href="/utilisateurs/antoine" class="wikilink1" title="utilisateurs:antoine" onclick="return svchk()" onkeypress="return svchk()">Antoine</a> pour sa relecture
+<p>
+<em>Remarque :</em> Sous <strong>Ubuntu</strong>, l&rsquo;équivalent d&rsquo;Amarok est Rhythmbox (menu <em>Applications &rArr; Son et Video &rArr; Lecteur de musique</em>.
+</p>
+
+<a name="amarok_c_est_quoi"></a><h1> Amarok, c'est quoi ? </h1>
+<div class="level1">
+
+<p>
+Comme une image vaut mieux qu&rsquo;un long discours, voici à quoi peut ressembler Amarok :
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=wiki%3Acapture-amarok.600x500.png" class="media" title="wiki:capture-amarok.600x500.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=wiki%3Acapture-amarok.600x500.png" class="media" alt="" /></a>
+</p>
+
+<p>
+Amarok est un lecteur de contenu audio qui s&rsquo;avère très agréable à l&rsquo;usage et vraiment bien pensé.
+</p>
+
+</div>
+<!-- SECTION [311-575] -->
+<a name="installation"></a><h1> Installation </h1>
+<div class="level1">
+
+<p>
+Via <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">synaptic</a> ou bien un simple : 
+</p>
+<pre class="code">apt-get install amarok</pre>
+
+</div>
+<!-- SECTION [576-666] -->
+<a name="configuration"></a><h1> Configuration </h1>
+<div class="level1">
+
+<p>
+ Amarok est écrit en Qt, la librairie graphique de <a href="/applications/kde" class="wikilink2" title="applications:kde" onclick="return svchk()" onkeypress="return svchk()">KDE</a> et <em>gstreamer</em> est le moteur de rendu de <a href="/applications/gnome" class="wikilink2" title="applications:gnome" onclick="return svchk()" onkeypress="return svchk()">Gnome</a>. Donc quand on est sous Gnome, il est préférable de se servir de <em>gstreamer</em> pour toutes les applications, ça évite de lancer deux moteurs de rendus et donc de risquer des conflits en plus de consommer des ressources inutilement.
+</p>
+
+<p>
+Par défaut, amarok fonctionne avec <em>arts</em>, on peut installer deux autres moteurs qui sont xine et surtout gstreamer.
+</p>
+
+<p>
+Pour configurer amarok correctement avec gstreamer, il faut installer tous les plugins gstreamer. Il y a un paquet <em>gstreamer-plugins</em> qui en installe pas mal, n&rsquo;oubliez pas <em>gstreamer-ffmpeg</em> pour lire les différents codecs.
+</p>
+
+<p>
+Une fois les plugins installés, la configuration se fait dans <em>Settings/configure Amarok/Engines</em>
+</p>
+
+<p>
+Vous pouvez alors choisir le moteur de rendu à utiliser, vous devez désormais voir <em>arts</em>, <em>xine</em> et <em>gstreamer</em>.
+</p>
+
+<p>
+Si vous ne voyez pas gstreamer, voici la manipulation pour qu&rsquo;il marche définitivement. Taper en console :
+</p>
+<pre class="code">gst-register-0.8</pre>
+
+<p>
+ Voilà maintenant vous pouvez gérer gstreamer avec Amarok.
+</p>
+
+</div>
+<!-- SECTION [667-1811] -->
+<a name="utilisation"></a><h1> Utilisation </h1>
+<div class="level1">
+
+<p>
+ Voici quelques petits trucs à savoir sur Amarok : Quand Amarok est iconifié, on peut agir directement dessus avec le bouton du milieu de la souris :
+</p>
+<ul>
+<li class="level1"><span class="li"> un clic avec le bouton du milieu met Amarok en Pause ou au contraire relance la lecture.</span>
+</li>
+<li class="level1"><span class="li"> CTRL + ROULETTE VERS LE HAUT/BAS permet d&rsquo;avancer/reculer dans la chanson</span>
+</li>
+<li class="level1"><span class="li"> SHIFT + ROULETTE VERS LE HAUT/BAS permet d&rsquo;avancer/reculer dans la playliste</span>
+</li>
+</ul>
+
+<p>
+ Vous pouvez également, à partir d&rsquo;un explorateur de fichiers, sélectionner des fichiers et les placer directement sur l&rsquo;icône, Amarok vous proposera alors ce que vous voulez faire :
+</p>
+<ul>
+<li class="level1"><span class="li"> ajouter à la playlist et jouer</span>
+</li>
+<li class="level1"><span class="li"> ajouter à la suite de la playlist en cours</span>
+</li>
+<li class="level1"><span class="li"> etc. </span>
+</li>
+</ul>
+
+<p>
+Amarok peut directement aller chercher l&rsquo;image de votre album en cours sur Internet, clic droit sur l&rsquo;image et Rechercher l&rsquo;image sur Internet.
+</p>
+
+<p>
+Vous pouvez également avoir les paroles de la chanson en cours en cliquant sur lyrics.
+</p>
+
+</div>
+<!-- SECTION [1812-2758] -->
+<a name="astuces"></a><h1> Astuces </h1>
+<div class="level1">
+
+</div>
+<!-- SECTION [2759-2781] -->
+<a name="pochettes_scannees"></a><h2> Pochettes scannées </h2>
+<div class="level2">
+
+<p>
+ Si vous placez les images des pochettes de vos albums dans le répertoire de chaque album, amaroK prendra cette image par défaut (il faut cependant reconstruire la collection : Tools&rarr;Rescan Collection)
+</p>
+
+<p>
+Note : les pochettes téléchargées sur Amazon sont stockées au format <acronym title="Portable Network Graphics">PNG</acronym> dans le répertoire ~/.kde/share/apps/amarok/albumcovers/large/
+</p>
+
+</div>
+<!-- SECTION [2782-3162] -->
+<a name="amarok_comme_reveil"></a><h2> amaroK comme réveil </h2>
+<div class="level2">
+
+<p>
+ Pour vous endormir avec de la musique douce, et vous réveiller avec de la musique plus forte 
+</p>
+<ul>
+<li class="level1"><span class="li"> créer un fichier reveil.sh que vous rendrez exécutable (clic droit, Propriétés, Droits d&rsquo;accès, est exécutable) contenant les lignes suivantes :</span>
+</li>
+</ul>
+<pre class="code">#!/bin/bash
+DCOPSERVER=`cat ~/.DCOPserver__:0 | grep local`
+export DCOPSERVER
+dcop kmix Mixer0 setVolume 0 30
+dcop amarok player play</pre>
+<ul>
+<li class="level1"><span class="li"> Changer 30 par le volume que vous voulez pour vous réveiller (Note, Mixer0 peut être Mixer1 si vous avez plusieurs cartes son).</span>
+</li>
+<li class="level1"><span class="li"> Régler l&rsquo;heure de l&rsquo;exécution du script avec Kalarm (dans le menu K&rarr;Utilitaires). </span>
+</li>
+<li class="level1"><span class="li"> Créez une liste de lecture avec au début la musique du réveil, et à la fin, la musique pour s&rsquo;endormir</span>
+</li>
+<li class="level1"><span class="li"> Lancer la liste vers le milieu (première musique pour s&rsquo;endormir)</span>
+</li>
+<li class="level1"><span class="li"> Bonne nuit</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [3163-4016] -->
+<a name="liens"></a><h1> Liens </h1>
+<div class="level1">
+
+<p>
+ <a href="http://amarok.kde.org/" class="urlextern" title="http://amarok.kde.org/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Le site officiel</a>
+</p>
+
+<p>
+Amarok est un excellent logiciel, avec plein d&rsquo;options sympatiques, vous pouvez le skinner et lui rajouter des plugins (comme l&rsquo;extinction automatique à la fin d&rsquo;une playlist, conversion automatique d&rsquo;un format à un autre, etc.)<br/>
+  <a href="http://amarok.kde.org/wiki/index.php/Scripts" class="urlextern" title="http://amarok.kde.org/wiki/index.php/Scripts" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Les plugins</a><br/>
+  <a href="http://amarok.kde.org/wiki/index.php/Themes" class="urlextern" title="http://amarok.kde.org/wiki/index.php/Themes" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Les thèmes</a>
+</p>
+
+</div>
+<!-- SECTION [4017-] -->

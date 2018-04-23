@@ -1,0 +1,21 @@
+====== Works ======
+
+Works est une suite bureautique limitée et propriétaire produite et commercialisée par Microsoft jusqu'en 2007. L'extension du document se reconnaît par le .wps
+
+Très rarement utilisé, très peu de logiciels arrivent aujourd'hui à le lire.
+
+Toutefois il est possible d'ouvrir, de lire et de convertir un document Works en HTML, [[RAW]] ou simplement en mode text via la librairie libwps créée par Andrew Ziem.
+
+<note tip>Libre Office, installé par défaut, permet de lire les fichiers WPS. 
+
+Il suffit de lancer Libre Office Writer et avec le bouton "Ouvrir", rechercher les fichiers WPS dans le dossier personnel pour ouvrir le fichier WPS en question. 
+
+ATTENTION : Ne pas ouvrir les fichiers WPS directement sous peine d'avoir un message d'erreur</note>
+===== Installer via les dépôts =====
+[apt://libwps-tools]]
+<code>sudo apt-get install libwps-tools</code>
+==== Exemple pour convertir et enregister un document .wps en .txt : ====
+<code>wps2text ~/Documents/CV.wps > ~/Documents/CV.txt</code>
+==== Convertir en HTML ====
+<code>wps2html ~/Documents/CV.wps > ~/Documents/CV.html</code>
+--- //[[:utilisateurs:david96|david96]] Le 07/04/2010, 23:38//

@@ -1,0 +1,256 @@
+{{tag>Trusty Xenial matériel pda baladeur BROUILLON}}
+
+====== MTP : transfert de fichiers multimédias sur des périphériques ======
+
+
+//**[[wp>Media Transfer Protocol]]**// (**MTP**) est un protocole de transfert de fichiers destiné au monde du multimédia. Créé récemment (depuis 2004 environ), il s'agit d'un ensemble d'ajouts au //[[wp>Picture Transfer Protocol]]// déjà existant utilisé par les appareils photos numériques. Les ajouts apportés à ce protocole permettent de gérer les spécificités des divers appareils multimédia : baladeurs, appareils de photographie numérique, caméras vidéo, téléphones portables, etc. Il est de plus en plus utilisé par les périphériques mobiles.
+
+Originalement créé par Microsoft(r), le protocole MTP est désormais développé par le USB Implementers Forum et est en cours de normalisation.
+
+Sous Ubuntu, le protocole MTP est géré nativement. Ainsi, vos baladeurs sont pris en charge par votre lecteur audio préféré ([[:Banshee]], [[:Rhythmbox]], [[:Amarok]], etc.).
+
+Récemment, MTP est devenu le protocole recommandé par Google pour l'accès aux mémoires des téléphones Android.
+
+<note important>Si lorsque vous branchez votre appareil Android, celui-ci est reconnu mais est vide sous l'explorateur,  c'est que vous avez sans doute configuré un verrouillage par code, modèle ou signature. Déverrouillez-le et vous aurez alors accès à vos fichiers. Il s'agit d'une sécurité implémentée dans le protocole MTP.</note>
+
+
+===== Utilisation =====
+À partir d'[[:trusty|Ubuntu 14.04]]  les périphériques mtp "sont" nativement gérés.
+Il peut cependant y avoir des problèmes de reconnaissance et de droit d'accès aux fichiers.
+
+Certains utilisateurs rapportent que des problèmes subsistent selon l'explorateur de fichier utilisé : par exemple [[:Nautilus]] permet d'accéder sans problème à un Galaxy S3 alors qu'avec [[:Dolphin]] c'est impossible (voir la solution [[#avec DOlphin|plus bas]]). Il est a noter que ce problème avec Dolphin peut se résoudre
+en utilisant un port USB 3 (si votre ordinateur en est equipé) au lieu d'un port USB 2. Il faut alors chercher dans le dossier 
+"reseau" (network) pour y trouver les dossiers du smartphone.
+
+
+==== Utilisation de jmtpfs (pour périphériques MTP >= Android 4) ====
+
+Installer le paquet **[[apt>jmtpfs]]**.
+
+Pour garder une cohérence avec le reste de Linux, taper la commande suivante (facultatif) :
+  sudo ln -s /usr/bin/jmtpfs /sbin/mount.jmtpfs
+Taper la commande suivante pour créer le point de montage s'il n'existe pas déjà :
+  mkdir ~/mtp
+Et enfin, taper la commande suivante pour monter le filesystem mtp dans le répertoire choisi précédemment :
+  jmtpfs ~/mtp
+Si le périphérique MTP n'est pas connu par libmtp, alors le message suivant s'affichera :
+<code>Device 0 (VID=2931 and PID=0a05) is UNKNOWN.
+Please report this VID/PID and the device model to the libmtp development team</code>
+Il faut alors faire une mise à jour de libmtp via le PPA de libmtp ((https://launchpad.net/~fossfreedom/+archive/ubuntu/libmtp)).
+
+On peut le faire en tapant la commande suivante :
+<code>sudo add-apt-repository -y ppa:fossfreedom/libmtp && sudo apt-get update -q && sudo apt-get upgrade</code>
+On peut alors relancer le montage du périphérique MTP :
+<code>$ jmtpfs ~/mtp
+Device 0 (VID=2931 and PID=0a05) is a Jolla Sailfish (ID2).
+</code>
+==== Démontage du repertoire ====
+Pour démonter le périphérique dans les deux cas ci-dessus :
+<code>fusermount -u /media/mtp</code>
+===== Sous Ubuntu 12.04 =====
+Le plus simple, faites [[:migration|une mise à niveau de version]].
+==== Méthode 1 : Avec un ppa====
+
+
+Pour les appareils Android (4.0 et supérieur) ou tout autre appareil utilisant le protocole MTP, il existe un PPA sur Unity. Pour l'utiliser :
+  * [[:ppa#ajout_d_un_ppa_a_vos_sources_logicielles|Ajoutez le PPA]] **ppa:<webupd8team/unstable>**((https://launchpad.net/~webupd8team/unstable/+archive/ppa)) dans vos sources de logiciels.
+  * puis [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]],
+  * [[:tutoriel:comment_installer_un_paquet|Installez les paquets]] **[[apt>go-mtpfs,go-mtpfs-unity]]**.
+<note>**Les trois méthodes proposées ci-dessous nécessitent l'utilisation de la bibliothèque [[Fuse]]**</note>
+
+=== Utilisation de mtpfs ===
+
+Vous pouvez utiliser aussi Mtpfs.
+
+Installez le paquet **[[apt>mtpfs]]**.
+
+Taper la commande suivante pour créer le point de montage si il n'existe pas déjà :
+  mkdir ~/mtp
+puis pour monter un périphérique en tapant la commande suivante :
+  mtpfs ~/mtp
+
+
+
+====  Méthode 3 : En test, mais semble être la méthode la plus simple et la plus efficace ====
+
+<note>Notez cependant que la version de GVFS proposée ici provient du dépôt personnel (PPA) de Philip Langdale, le développeur du greffon MTP pour GVFS; bien qu’étant testé, elle pourrait néanmoins rendre votre système instable ou entrer en conflit avec des futures mises à jour d’Ubuntu.</note>
+
+L’intérêt de GVFS est qu’il s’agit d’une composante de base d’Ubuntu, bien intégrée dans le système. Ainsi, l’appareil mobile est reconnu par le gestionnaire de fichiers, mais aussi les lecteurs de musique Rhythmbox et Banshee pour synchroniser sa médiathèque, et le gestionnaire de photos Shotwell pour synchroniser sa photothèque.
+
+Pour procéder à la mise à jour de GVFS, suivez les instructions suivantes:
+
+Ouvrez un terminal et exécutez les commandes suivantes:
+
+<file>sudo add-apt-repository ppa:langdalepl/gvfs-mtp</file>
+<file>sudo apt-get update</file>
+
+Ouvrez ensuite le gestionnaire de mises à jour, puis appliquez l’ensemble des mises à jour proposées;
+
+Enfin, lorsque les mises à jour sont installées, redémarrez votre système.
+
+Merci à [[http://www.ubuntuser.com/2013/02/05/mise-a-jour-de-gvfs-pour-une-meilleure-prise-en-charge-des-smartphones-android|ubuntuser.com]] pour cette méthode.
+
+
+==== Méthode 4 : Android (4.0 et supérieur) ====
+Faire l'installation en 1.1.
+
+=== Personnalisation du launcher ===
+
+Chercher le launcher en utilisant le mot clé Android, puis conservez-le dans la barre des tâches.
+
+Nous allons le personnaliser comme suit :
+
+{{:launcher-go-mtpfs-unity.png}}
+
+\\
+Ouvrir le fichier :
+
+    gksudo gedit /usr/share/applications/go-mtpfs-unity.desktop
+
+Puis remplacer le contenu par cela : 
+
+<file go-mtpfs-unity.desktop>
+[Desktop Entry]
+Name=Branchement de ma tablette Android
+GenericName=Branchement de ma tablette Android
+Comment=Mount an Android device filesystem using Go-mtpfs
+Keywords=Android; mount; unmount; go-mtpfs; mtpfs; nexus; tablette
+Exec=notify-send --icon=go-mtpfs-android "Go-mtpfs" "Ceci est destiné à être utilisé comme une icône de Unity Launcher - ajouter le à la barre de lancement Unity, puis cliquez droit sur l'icône pour voir les options disponibles"
+Icon=go-mtpfs-android
+Type=Application
+Categories=System;
+OnlyShowIn=Unity;
+X-Ayatana-Desktop-Shortcuts=Mount;Unmount;
+TargetEnvironment=Unity
+
+[Mount Shortcut Group]
+Name=Branche ma Tablette Android
+Exec=go-mtpfs-unity mount
+TargetEnvironment=Unity
+
+[Unmount Shortcut Group]
+Name=Débranche ma Tablette Android
+Exec=go-mtpfs-unity unmount
+TargetEnvironment=Unity
+</file>
+
+Enregistrer puis fermer Gedit.
+
+<note warning>
+Cette méthode fonctionne pour mon cas (12.04 LTS avec tablette ASUS Android 4.2) à condition de lancer les commandes en étant root :
+
+Pour monter : sudo go-mtpfs-unity mount
+
+Seul root a accès à /media/MyAndroid
+
+Pour démonter : sudo go-mtpfs-unity unmount
+</note>
+
+=== Fonctionnement ===
+
+Une fois branchée en USB, la tablette se monte dans le dossier /media/MyAndroid. Apparaît alors un dossier dans Nautilus, sur lequel on peut cliquer et accéder au contenu de la carte SD de la tablette.
+Le transfert terminé, on peut démonter la tablette et attendre la notification avant de totalement la débrancher du PC.
+
+<note>Une fois connecté en USB deux dossiers "SAMSUNG_Android" sont montés mais les sous dossiers sont vides.
+Lorsqu'on fait un clic droit sur l’icône Android puis sur "Branche ma Tablette Android" le dossier "/media/MyAndroid" est monté et il contient les sous dossiers à utiliser.
+**NB** : Il est conseillé de démonter proprement la partition /media/MyAndroid en faisant un clic droit sur l’icône Android puis sur "Débranche ma Tablette Android"</note>
+
+==== Méthode 6 : pour les appareils Android (4.0 et supérieur) et un PPA sur gnome-shell ====
+
+<note>Cette méthode a été mise en place pour Ubuntu 12.04 avec gnome-shell.</note>
+
+=== Installation ===
+
+Même installation que pour unity (méthode 4)
+
+=== Création de shells pour se connecter et se déconnecter ===
+
+Tout d'abord, en mode sudo créez le dossier qui accueillera la connexion :
+<file>
+sudo mkdir /media/MyAndroid
+</file>
+
+Ensuite créez deux shells qui vous permettront de vous connecter et de vous déconnecter.
+
+**Connexion :**
+<file monter-android>
+#!/bin/bash
+go-mtpfs /media/MyAndroid
+</file>
+
+**Déconnexion :**
+<file demonter-android>
+#!/bin/bash
+sudo nautilus /media
+exit
+</file>
+
+Si vous voulez que ces fonctionnalités soient accessibles par tous les comptes ubuntu, en plus de leur donner les droits à exécution :
+<file>
+chmod +x *-Android
+</file>
+Déplacez-les dans le dossier qui va bien :
+<file>
+sudo mv *-Android /usr/local/bin
+</file>
+
+Pour une question de simplicité, ajoutez-les dans les menus. Par exemple dans Accessoires, ajoutez un dossier :
+Clic-droit sur le menu Applications => Éditer les menus
+Clic-gauche sur Accessoires (dans la liste à gauche)
+Nouveau menu => Android
+Déplier Accessoires et cliquer sur Android
+Nouvel élément
+     => Nom : Monter Android
+     => Commande : /usr/local/bin/monter-Android
+     Cliquer sur l'icone pour la changer
+     Dans la liste de gauche => icons
+     Dans la liste de droite => Humanity => devices => 48 => music-player.svg => Ouvrir
+     Valider le lanceur
+     
+Recommencer avec le démontage :
+Nouvel élément
+     => Nom : Démonter Android
+     => Commande : /usr/local/bin/demonter-Android
+     Cliquer sur l'icone pour la changer
+     Dans la liste de gauche => icons
+     Dans la liste de droite => Humanity => devices => 48 => music-player.svg => Ouvrir
+     Valider le lanceur
+     
+=== Fonctionnement ===
+
+**Connexion :**
+
+Lors de l'insertion, Ubuntu vous ouvrira un périphérique nommé Android. Vous y verrez tous les dossiers, mais rien dedans.
+Fermez-le et connectez-vous avec le shell :
+
+Applications => Accessoires => Android => Monter Android
+
+Vous aurez alors accès à MyAndroid et à tous les dossiers et fichiers du périphérique, et vous pourrez copier, déplacer, ... les fichiers que vous voulez traiter.
+
+**Déconnexion :**
+
+Comme tout périphérique, celui-ci doit être démonté, notamment si une écriture a été effectuée sur le périphérique.
+Ici, le fonctionnement est curieux. La seule façon est de retirer le périphérique en sudo sous nautilus. D'où le shell vous demandant votre mot de passe, et ouvrant ensuite nautilus dans le dossier /media.
+Vous pourrez alors démonter MyAndroid en utilisant le panneau latéral gauche et en cliquant sur l'icône d'éjection.
+Personnellement, je préfère avoir le dossier ouvert dans nautilus en arrière-plan pour voir visuellement la déconnexion (la fenêtre de nautilus se fermant lors de l'éjection).
+
+<note warning>Je n'ai pas été en mesure de monter le périphérique (il s'agissait d'un smartphone) quand dans celui-ci était installé avec une carte SD. Si quelqu'un a la solution ...
+</note>
+
+=====Problèmes connus=====
+====Avec Dolphin====
+
+Si [[:Dolphin]] gère mal votre Android, [[:tutoriel:comment_installer_un_paquet|installez les paquets]] **[[apt>mtpfs,mtp-tools]]**, puis lancez la commande suivante dans un [[:terminal] : <code bash>sudo mtp-detect</code>
+
+modification du fichier de configuration ''/etc/udev/rules.d/69-libmtp.rules''
+voir [[https://wiki.ubuntuusers.de/MTP/|ici]] et [[https://askubuntu.com/questions/505932/ubuntu-14-04-mtp-error/|là]] pour plus d'informations.
+      
+===== Liens =====
+  * **(fr)** [[http://korben.info/installer-nexus-7-android-4-0-ubuntu.html|Connecter une tablette ou un téléphone Android 4.0 ou supérieur sous Ubuntu]]. La page de Korben
+  * **(en)** [[http://ubuntu.mylifeunix.org/2012/05/29/how-to-connect-android-smartphone-ice-cream-sandwich-to-ubuntu-to-browse-files-and-for-file-access/|how to connect android smartphone ice-cream sandwich to ubuntu to browse-files and for file access]]
+
+----
+
+//Autres contributeurs : [[:utilisateurs:eagle08|René Stoecklin]] : mise en page//.\\
+
+//Page mise à jour le 3 juillet 2016//.

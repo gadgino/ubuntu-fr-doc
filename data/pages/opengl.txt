@@ -1,0 +1,81 @@
+{{tag>système BROUILLON vétuste}}
+----
+
+====== OpenGL et GLX ======
+
+===== Définitions =====
+Voici quelques explications sur le monde d'OpenGL et ce qui l'entoure.
+
+Ici, l'article vise le noyau Linux 2.6.x.
+
+  * **[[http://fr.wikipedia.org/wiki/OpenGL|OpenGL]]** :  (Open Graphic Library) est une spécification de graphique en 3D (trois dimensions) de SGI (Silicon Graphics, Inc.), descendant du produit anciennement nommé IRIS GL, compétiteur de Direct3D et QuickDraw3D (dépassé).  Fréquemment abrégé "GL", particulièrement sous Linux, depuis que "OpenGL" est une marque déposée, et que l'utilisation de cette marque requiert d'être dans une zone (non-libre).
+  * **[[http://fr.wikipedia.org/wiki/GLX|GLX]]** :  GL est un langage pour le graphique, non un système de fenêtre.  "GLX" réfère à une extension qui permet la communication de GL avec le système de gestion de fenêtre dans le but de permettre le rendu 3D dans X.  GLX est une extension au protocole X.  Il y a des extensions similaires pour d'autres systèmes de fenêtres comme - WGL sous Windows, AGL sous MacOS.  Dans X, la librairie du côté client pour GLX se nomme libGL, et du côté serveur libglx.
+  * **Direct rendering (rendu direct)** :  Un logiciel utilisant le langage GL peut être rendu à l'écran de deux manières différentes.  Soit le client exécute lui-même le-dit rendu, soit la requête est passée au serveur et celui-ci s'occupe du rendu. Le rendu côté serveur se nomme "indirect rendering" (rendu indirect), et côté client "direct rendering".  Le rendu direct est habituellement plus rapide.  Cela est particulièrement vrai avec Xorg, où le rendu côté serveur est entièrement fait logiciellement.
+  * **[[http://fr.wikipedia.org/wiki/Direct_Rendering_Infrastructure|DRI]]** :  Le Direct Rendering Infrastructure est un procédé de XFree86 4.x / X.Org permettant aux applications Mesa 3D (implémentation libre d'OpenGL) de gagner du temps en accédant directement au processeur graphique sans passer par le serveur X. La plupart des pilotes libres de cartes graphiques implémentent ce procédé aujourd'hui.
+  * **[[http://fr.wikipedia.org/wiki/Mesa_3D|Mesa]]** :  Mesa 3D est une bibliothèque graphique libre, initialement développée par Brian Paul en août 1993, qui fournit une implémentation générique d'OpenGL pour réaliser des rendus graphiques tridimensionnels en temps réel, et ce sur de multiples plates-formes. Une mise à jour importante a vu le jour en juillet 2009 car elle incorpore le travail réalisé sur Gallium3D : voir l'[[http://www.x.org/wiki/GalliumStatus|état d'avancement de gallium3D]].
+  * **Pilote DRI** : Le pilote DRI est responsable de la programmation du matériel 3D.  Habituellement les pilotes DRI utilisent la bibliothèque graphique de Mesa.  Dans le DRI, la librairie GLX du côté client charge un pilote, nommé 'quelque_chose_dri.so'.
+  * **Pilote DRM** : Le Direct Rendering Manager est un module du noyau permettant de charger l'accélération vidéo. Le DRM est responsable de la sécurité et la gestion des ressources. Il n'est pas particulièrement intéressant mais essentiel.  Il y est nommé 'quelque_chose.ko' dans Linux 2.6.
+  * **Pilote DDX** :  Ceci est la partie serveur X responsable des autres types de rendu  comme Render et Xv.  Le DDX doit être capable de fonctionner avec DRI, sinon il y a peu de relation avec GL.
+  * **AGP** :  AGP est une version rapide du bus PCI , avec des fonctionnalités supplémentaires pour le matériel graphique. La base de AGP est dans le module du noyau nommé 'agpgart.ko'.
+  * **Chipset AGP** :  Différentes cartes mères ont différents chipsets et ceux-ci nécessitent des implémentations de fonctionnalités AGP différentes. Vous devez avoir celui correspondant à votre matériel et ce n'est pas toujours la même chose que pour votre chipset de carte graphique. Exemple : Le chipset Via a besoin de 'via-agp.ko', etc.
+
+=== Installer OpenGL pour faire fonctionner des applications comme Google Earth ou divers jeux ===
+Il arrive que OpenGL ne soit pas déjà installé de base. Soyez-en certain en [[dpkg#verifier_la_presence_d_un_paquet| vérifiant si un des paquets]] de OpenGL est en place ou non. Essayez d'installer  [[:tutoriel:comment_installer_un_paquet|mesa-utils]] : si le moyen utilisé pour installer mesa-utils vous dit que vous l'avez déjà installé, alors OpenGL est bien installé sur votre PC. Sinon, suivez les étapes qui suivent.
+
+Il y aurait besoin de quelqu'un pour traduire ce tutoriel : http://www.larsen-b.com/Article/231.html .
+FIXME
+
+Pour installer OpenGL, via un terminal :
+<code bash>sudo apt-get install freeglut3</code>
+Et pour installer la version de développement :
+<code bash>sudo apt-get install freeglut3-dev</code>
+
+<note important>Les versions de développement d'OpenGL sont instables, vous les installez à vos risques et périls!</note>
+
+===== Configuration =====
+Je n'arrive pas à installer openGL, comment dois-je faire ? À compléter.
+==== Pour le noyau ====
+  * Un pilote DRM correspondant à votre carte vidéo
+  * Du support AGP
+  * Du chipset AGP correspondant à votre carte-mère
+
+Pour la plupart des cartes les plus utilisées, les pilotes DRM sont disponibles et déjà installés à l'exception de 2.6.9-ish sur mach64 et savage.  Pour ceux-ci vous devez les construire à partir du CVS : http://dri.freedesktop.org/wiki/Building .
+
+Tous les noyaux possèdent le support AGP.
+
+Assurez- vous que /dev/dri/card0 existe et qu'il est possible d'y écrire.
+
+
+==== Pour l'utilisateur ====
+
+Le pilote DRI
+Un DDX
+La librairie libGL
+
+Mises à part les exceptions précédentes vous avez la partie utilisateur fonctionnelle.  
+
+Vous devez avoir les lignes suivantes dans Xorg.conf : 
+
+<code>
+Load "dri" 
+Load "glx"
+</code>
+
+Assurez-vous que vous utilisez le pilote DDX compatible avec DRI et non pas vesa ou fbdev. 
+
+Pour savoir si ça fonctionne tapez la commande :
+
+<code>
+grep -i Direct /var/log/Xorg.0.log 
+</code>
+
+"Direct rendering enabled" devrait être affiché ainsi que "direct rendering: Yes" dans la commande :
+
+<code>
+glxinfo | grep -i direct
+</code>
+
+----
+//Contributeur principal : [[:utilisateurs/phetu]].//
+
+//Traduction de: http://people.freedesktop.org/~ajax/dri-explanation.txt //

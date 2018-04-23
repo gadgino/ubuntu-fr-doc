@@ -1,0 +1,26 @@
+{{tag>matériel imprimante réseau Dell}}
+----
+
+====== Installer une imprimante laser Dell GDI ======
+Reportez-vous en premier lieu à la [[:liste imprimantes Dell]] pour voir le niveau de prise en charge.
+
+Les imprimantes lasers Dell telles que la 3010cn ne sont pas utilisables directement sous Linux du fait qu'elles utilisent le langage [[wpfr>GDI]] spécifique à Windows. Pour une utilisation sous Linux, il est nécessaire de disposer d'un modèle d'imprimante intégrant le langage PCL ou PostScript.
+
+Cette page indique la procédure à suivre pour installer une imprimante laser Dell réseau intégrant le support PCL / PostScript, c'est à dire les modèles GDI.
+
+Il faut malgré tout être conscient que cette page est très ancienne, et beaucoup de travail a été fait depuis pour rendre les imprimantes GDI compatible avec Linux, ne désespérez donc pas si vous en avez déjà une.
+
+===== Installation =====
+Pour les imprimantes GDI suivez la procédure des [[:system-config-printer|pilotes pré-installés]].
+La détection des imprimantes Dell devrait être automatique. 
+
+===== Installation  sur le réseau =====
+Ici nous prendrons l'exemple de l'imprimante M5200\\
+Commencez par suivre la procédure des [[:system-config-printer#Cas d'une imprimante avec interface réseau (Wi-fi, RJ45,...)|pilotes pré-installés]], choisissez l'option :
+  * Dans le champ ''Hôte'' saisissez l'adresse IP de l'imprimante (par exemple 192.168.1.4) et laissez le champ ''File d'impression'' vide.
+  * Choisissez le pilote **M5200**.
+
+
+----
+
+//Rédigé par [[utilisateurs:pdrouot|pdrouot]]// contribution [[utilisateurs:L_Africain|L'Africain]]

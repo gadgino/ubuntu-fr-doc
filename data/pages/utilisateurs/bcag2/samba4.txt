@@ -1,0 +1,214 @@
+====== samba (4) - le  contrôleur de domaine Active Directory ======
+Cette page est le brouillon de la page [[:samba-active-directory]]\\
+et n'a plus lieu d'être modifiée
+ce documents a été rédigé à partir de plusieurs sources parmi :
+  * wiki Samba : [[http://wiki.samba.org/index.php/Samba_AD_DC_HOWTO]]
+  * articles dans linux pratique n°79 de sept/oct 2013 (pages 68 à 73) et linux pratique n°80 de nov/déc (pages 70 à 76)
+<note> ajoutez vos retours d'expérience, notamment chapitre 5 </note>
+
+===== Introduction =====
+Le projet Samba est surtout connut pour le partage de fichier.\\
+Samba 4 est une ré-écriture complète initiée en 2003 dans l'objectif de créer, en plus du partage de fichier, d'un contrôle de domaine libre.\\ Il est agrémenté, en natif, d'un serveur [[:dns|DNS]], [[:openldap-server|LDAP]], [[http://fr.wikipedia.org/wiki/Kerberos_%28protocole%29|Kerberos]], [[http://fr.wikipedia.org/wiki/Remote_procedure_call|RPC]] et [[http://fr.wikipedia.org/wiki/Server_Message_Block|SMB 3.0]]. 
+<note importante>Cette documentation s'adresse principalement à des administrateurs réseau pour la mise en place d'un serveur de contrôle de domaine et requiert notamment de bonnes notions sur le DNS</note>
+Ce document explique comment configurer Samba comme contrôleur de domaine (DC) compatible avec l'Active Directory (AD) de Microsoft (c), notamment pour l'utilisation de connexion de domaine de machines clientes tournants sous Microsoft Windows. En abréviation, nous utiliserons AD DC (Active Directory Domain Controler)
+Si vous réalisez une mise à niveau de votre AD DC, merci de consulter la procédure de mise à niveau de votre distribution ou reportez vous au guide mise à niveau d'une version source.
+
+===== Versions =====
+Samba 4, depuis sa version 4.1 sortie fin 2013, est la version stable actuelle.
+Retrouver la liste des versions est leur support sur [[https://wiki.samba.org/index.php/Samba_Release_Planning#Current_Stable_Release|Planing (roadmap) Versions Stables]]\\
+Samba est développé en continu. Ce guide est fréquemment mis à jour pour correspondre aux évolutions. Merci de vous référer [[http://www.samba.org/samba/history/|à l'historique des versions stables de Samba]] pour plus d'informations.
+Prenez connaissance de la release notes de la version que vous avez installée. Elle peut contenir des informations importantes non contenues dans ce guide.
+Vous pouvez vérifier d'éventuelle installation précédente de samba en tapant :
+<code>
+dpkg -l samba
+</code> se reporter à la page [[:dpkg|dpkg]] pour plus d'informations
+
+===== Installation de Samba=====
+==== Différentes possibilités d'installation====
+Avant d'installer Samba 4, il est nécessaire de disposer d'autres paquets.
+Voici la ligne proposée sur [[https://wiki.samba.org/index.php/Samba_4/OS_Requirements#Debian_or_Ubuntu|wiki.samba.org/index.php/Samba_4/OS_Requirements]]
+<code>sudo apt-get install build-essential libacl1-dev libattr1-dev \
+   libblkid-dev libgnutls-dev libreadline-dev python-dev \
+   python-dnspython gdb pkg-config libpopt-dev libldap2-dev \
+   dnsutils libbsd-dev attr krb5-user docbook-xsl libcups2-dev acl
+</code>
+Par ailleurs, il est nécessaire d'activer les [[:acl|ACL]] et les attributs étendus (usr_xattr), exemple de [[:mount_fstab|fstab]] :
+<code>
+UUID=243eb5b....... / ext4 default,acl,user_xattr,barrier=1   0   1
+</code>
+
+Vous disposez de deux possibilités pour installer Samba :
+=== Installation avec votre gestionnaire de paquet ===
+Cette solution, si elle a l'avantage d'être très simple, a l'inconvénient d'installer une version qui peut être ancienne, ce qui peut être gênant alors que le logiciel évolue rapidement. Ainsi, pour Precise (LTS 12.04), seule une version alpha est proposée pour test. \\
+A partir de Trusty (LTS 14.04), l'installation de Samba correspondra à la version stable 4.1.3 en lieu et place de la version 3.x actuelle.
+=== Compiler Samba vous-même à partir des sources ===
+Cette solution est préconisée pour disposer de la dernière version de Samba4, notamment si vous souhaitez mettre en place un serveur en production sous Precise (LTS12.04). 
+N'hésitez pas à vous reporter à la page suivante : [[https://wiki.samba.org/index.php/Build_Samba]]
+<code>wget http://www.samba.org/samba/stable/samba-4.1.4.tar.gz
+tar xvzf samba-4.1.4.tar.gz
+cd samba-4.1.4
+./configure
+make && make install
+
+</code>
+en résumé, les lignes ci-dessus permettent de télécharger, décompresser, compiler puis lancer l'installation.\\
+Nota : utiliser la dernière version si correction de sécurité, sinon, n'hésitez pas à prendre la version n-1 si la dernière version est trop fraîche !
+\\
+Il peut être utile (voir indispensable) d'installer les "samba-tool" :
+<code> sudo apt-get install samba4-common-bin </code>
+
+==== Chemins (path)====
+Soyez prudent quand vous exécutez une commande Samba si vous avez déjà une version antérieure de Samba installée. Pour éviter d'exécuter une mauvaise version, vous devez définir les chemins des répertoires /usr/local/samba/bin/ et /usr/local/samba/sbin/ au tout début de votre [[:variables_d_environnement|variable]] $PATH !\\
+<code> export PATH=/usr/local/samba/bin:/usr/local/samba/sbin:$PATH</code>
+Vous pouvez voir la version de Samba que vous utilisez en exécutant :
+<code> samba -V</code>
+
+==== Informations du serveur====
+Pour le reste de ce guide, nous utiliserons les paramètres suivants pour le serveur\\
+répertoire d'installation: /usr/local/samba/ \\
+nom du serveur:        DC1 \\
+nom de domaine DNS:        samdom.example.com\\
+nom de "royaume" ou realm: SANDOM.EXAMPLE.COM (comme le nom de domaine, mais en MAJUSCULE)\\
+nom de domaine NT4 :       samdom \\
+adresse IP :             192.168.1.1 \\
+rôle du serveur :            DC (contrôleur de domaine) \\
+
+==== Initialisation de Samba (configurer un nouveau domaine)====
+Cette initialisation crée une base de donnée. Cette opération est nécessaire lors de la configuration d'un nouveau contrôleur de domaine. Si vous souhaitez configurer le serveur Samba comme un contrôleur de domaine additionnel dans un domaine existant, référez-vous au guide [[https://wiki.samba.org/index.php/Samba4/HOWTO/Join_a_domain_as_a_DC|Joining a Windows Domain Controller as an additional DC in a Domain]].\\
+Cette étape doit être réalisée par un utilisateur ayant les droits d'écriture sur le répertoire d'installation. Dans le cas contraire, cela générera des erreurs de permissions.
+Pour lancer cette configuration, exécuter :
+<code> sudo /usr/local/samba/bin/ samba-tool domain provision --use-rfc2307 --interactive</code>
+Cela lance l'outil de configuration qui est interactif. Cette interactivité n'étant pas vrai pour certain paramètres, il est recommandé d'exécuter <code>samba-tool domain provision --help </code>afin d'avoir un aperçu des options complémentaires.
+L'option --use-rfc2307 active les attributs posix de l'AD de Samba. Cela crée aussi les informations NIS dans l'AD, ce qui vous permet d'administrer les UIDs/GIDs et autres paramètres UNIX (dans la table "Unix attributes" de l'ADUC...Active Directory Users and Computers). Il est plus simple de l'activer durant cette initialisation (Provisioning), plutôt que par la suite. De plus, même si vous n'en avez pas (encore) besoin, ça n'impacte pas votre installation.
+Notes importantes sur cette initialisation :
+  * La commande d'initialisation utilise le serveur DNS interne de Samba par défaut. Si vous souhaitez utiliser Bind comme serveur DNS d'arrière-plan, ajouter --dns-backend=BIND9_DLZ dans les options de commande. Cette décision est réversible. Vous pouvez changer de serveur arrière-plan à tout moment.
+  * Si vous ré-exécutez cette initialisation (provisioning), il est nécessaire de supprimer le fichier : <code>/usr/local/samba/etc/smb.conf </code> et éventuellement la base si elle a été généré, par : <code>rm -rf /usr/local/samba/private/*</code>
+  * Le mot de passe d'administration doit correspondre aux règles établies, à savoir : au moins une majuscule, un chiffre et 8 caractères de long. Si vous ne spécifiez pas un mot de passe correspondant à ces critères, le script de configuration échouera et vous devrez recommencer avec un mot de passe correcte après avoir supprimé le contenu des répertoires suivants: <code>remove /usr/local/samba/private/ et /usr/local/samba/etc/</code>
+  * Si votre site web est exemple.fr, le domaine de votre AD devrait être un sous-domaine, tel que sousdomain.exemple.fr (ou ad.exemple.fr...). Évitez d'utiliser exemple.fr en interne.
+
+==== Mise à jour depuis un domaine Samba de type NT4 vers un AD====
+Si vous prévoyez la migration depuis un domain Samba NT4 existant vers un domaine Samba AD, reportez-vous à Classicupgrade HowTo ([[http://wiki.samba.org/index.php/Samba4/samba-tool/domain/classicupgrade/HOWTO]])
+
+==== Démarrer votre AD DC Samba====
+Note: si vous des services smbd, nmbd ou winbind d'une précédente installation, il est nécessaire de les arrêter avant de démarrer samba
+Si vous prévoyez d'utiliser samba comme serveur de production, tapez simplement :
+<code> /usr/local/samba/sbin/samba</code>
+Cela démarre samba en mode 'standard', ce qui est préconise en mode production.\\
+Pour le démarrage automatique au démarrage du serveur, Samba ne dispose pas encore de scripts d'initialisation pour ubuntu, mais il y a des exemples de scripts sur la [[https://wiki.samba.org/index.php/Samba4/InitScript | page Init-Script]] de Samba4.
+Si vous exécutez samba a des fin de développement, exécuter :
+<code> /usr/local/samba/sbin/samba -i -M single</code>
+Cela démarrera Samba avec tous les messages log vers stdout, limite a un seul processus. Ce mode permet un débogage de Samba avec gdb :
+<code> gdb --args /usr/local/samba/sbin/samba -i -M single</code>
+
+==== Test de connexion a votre contrôleur de domaine AD Samba====
+Vérifiez tout d'abord que vous avez la bonne version de smbclient en tapant :
+<code> /usr/local/samba/bin/smbclient --version</code>
+Cela doit retourner un version commençant par "Version 4.x"
+Exécutez ensuite la ligne suivante pour lister les partages définis sur votre serveur:
+<code> /usr/local/samba/bin/smbclient -L localhost -U%
+
+       Sharename       Type      Comment
+       ---------       ----      -------
+       netlogon        Disk
+       sysvol          Disk
+       IPC$            IPC       IPC Service (Samba 4.x.y)</code>
+le retour doit être similaire aux informations ci-dessus. Les partages netlogon et sysvol sont par défaut sur un serveur Active Directory et crée dans votre fichier de configuration smb.conf lors de la configuration initiale (provisioning) ou mise a jour.
+Si la commande échoue, redémarrer samba :
+<code> killall samba
+ /usr/local/samba/sbin/samba</code>
+Pour vérifier que l'authentification fonctionne, vous devez essayer de vous connecter au partage netlogon en utilisant le compte Administrateur crée durant le configuration initial (provisioning). Le retour doit être similaire aux informations ci-dessous:
+<code> smbclient //localhost/netlogon -UAdministrator% -c 'ls'
+
+Domain=[SAMDOM] OS=[Unix] Server=[Samba 4.x.y]
+  .                                   D        0  Tue Dec 11 20:00:00 2012
+  ..                                  D        0  Tue Dec 11 20:00:00 2012
+</code>
+
+==== Configuration du serveur DNS====
+Une configuration fonctionnelle du [[:dns|DNS]] est essentielle pour assurer le bon fonctionnement de Samba et de l'AD. Sans les bons paramètres, Kerberos ne fonctionnera pas, entraînant le non-fonctionnement de services de base! Une configuration hâtive, non fonctionnelle, vous fera perdre du temps pour définir la cause des dysfonctionnement du DNS. Pour gérer les paramètres DNS, vous pouvez utilisez l'utilitaire samba-tool (voire l'outil MMC DNS de Windows). Pour plus d'information, consulter [[https://wiki.samba.org/index.php/DNS_Administration|DNS Administration ]] et [[https://wiki.samba.org/index.php/Samba_AD_management_from_windows | administrer Samba AD depuis windows ]]
+
+=== DNS Backends ===
+Pour plus d'information sur la configuration du serveur DNS et trouver celle qui répond à vos besoins, consultez la page [[https://wiki.samba.org/index.php/DNS#Which_DNS_backend_should_I_choose.3F | DNS]]\\
+Lors de l'initialisation, il vous est proposé quatre choix comme "DNS Backend" : SAMBA_INTERNAL (par défaut), BIND9_FLATFILE (obsolète?), BIND9_DLZ (si vous mettez en place un serveur DNS avec BIND), NONE (si, c'est possible!).
+
+== Serveur DNS interne à samba (SAMBA_INTERNAL) ==
+Par défaut, Samba utilise son propre serveur DNS interne et aucune configuration supplémentaire n'est nécessaire.\\
+Il est souvent nécessaire de définir le serveur DNS vers lequel renvoyer les demandes qui ne sont pas du ressort du DNS interne, pour cela ajouter :
+<code> dns forwarder = {adresse IP du serveur DNS vers lequel transmettre}</code> dans votre fichier smb.con puis redémarrer Samba.\\
+Nota : cette ligne peut avoir été renseignée durant l'initialisation (provisioning) !
+
+Pour que le serveur DNS interne puisse fonctionner, le port 53 udp/tcp ne doit pas être utilisé par d'autres programmes (tel qu'un autre serveur DNS, Dnsmasq, etc...). Vous aurez des erreurs dans le logfile si Samba ne peut utiliser le port 53, telle que :
+<code> Failed to bind to 0.0.0.0:53 TCP - NT_STATUS_ADDRESS_ALREADY_ASSOCIATED </code>
+Pour vérifier quel programme est sur le port 53, exécuter avec les droit d'administrateur :
+<code> netstat -tunpe | grep ":53" </code>
+
+== Interfaçage avec un serveur BIND (BIND9_DLZ) ==
+Si vous choisissez [[http://bind-dlz.sourceforge.net/|BIND9_DLZ]] lors de votre initialisation (provisioning), référez-vous au wiki [[http://wiki.samba.org/index.php/Samba_AD_DC_HOWTO#BIND_as_DNS_backend|the Bind as DNS backend HowTo]] pour connaître les instructions à suivre. Vous trouverez aussi plus d'informations sur le wiki pour la configuration de BIND en général et comment le configurer pour l'utiliser avec Samba AD. Si vous avez initialiser avec le DNS interne, vous pouvez [[http://wiki.samba.org/index.php/DNS#Changing_from_Internal_DNS_to_BIND|basculer vers BIND]] lorsque cela est nécessaire. 
+=== Configuration du fichier /etc/resolv.conf ===
+Pour résoudre les recherches local de DNS, il est nécessaire de modifier le fichier /etc/resolv.conf. L'exemple suivant doit être suffisant pour résoudre le DNS correctement (adapter au domaine et adresse IP dans votre environnement): 
+<code>domain samdom.example.com
+nameserver 192.168.1.1</code>
+=== Tests du serveur DNS ===
+
+==== Configuration de Kerberos ====
+Si vous ne connaissez pas le fonctionnement de Kerberos, voici un lien pour vous éclairer :\\ [[http://irp.nain-t.net/doku.php/320kerberos:start]]\\
+La configuration de Kerberos se trouve dans le fichier krb5.conf. Ce fichier doit être déposé dans le répertoire /etc\\
+Lors de l'initialisation, ce fichier est créé et déposé dans /usr/loca/samba/share/setup/krb5.conf. Son contenu par défaut est :
+<code>[libdefaults]
+        default_realm = ${REALM}
+        dns_lookup_realm = false
+        dns_lookup_kdc = true
+</code>        
+Note : si vous avez oublié votre nom de "royaume", exécutez 
+<code>/usr/local/samba/bin/samba-tool testparm --suppress-prompt | grep realm</code>
+=== Tests de Kerberos ===
+Le test le plus simple est d'utiliser la commande //kinit// comme cela:
+
+<code> kinit administrateur@SAMDOM.EXAMPLE.COM </code>
+
+Note: vous devez saisir le nom de "royaume" en **lettres majuscules !**
+
+Note: selon la distribution, kinit peut juste retourner un prompt, mais sous certaines distributions le retour est du type 
+<code>Warning: Your password will expire in x days on ...  </code>(Attention: votre mot de passe expirera dans x jours, le... )
+
+Pour vérifier quelle version de Kerberos est utilisée, et qu'elle vous retourne un ticket, taper :
+
+<code>klist
+Ticket cache: FILE:/tmp/krb5cc_1000
+Default principal: administrator@SAMDOM.EXAMPLE.COM
+ 
+Valid starting     Expires            Service principal
+02/10/13 19:39:48  02/11/13 19:39:46  krbtgt/SAMDOM.EXAMPLE.COM@SAMDOM.EXAMPLE.COM
+</code>
+Si ni //kinit// ni //klist// n'existe sur votre système, référez-vous à la page [[http://wiki.samba.org/index.php/Samba_4_OS_Requirements|Samba_4_OS_Requirements]] ou au début de ce document.
+
+Vous pouvez aussi tester Kerberos à partir d'un poste client, mais vous devez tout d'abord configurer le fichier krb5.conf and resolve.conf du poste client comme illustré ci-dessus.
+
+Note: Si vous utilisez un poste client derrière un serveur NAT vous devez ajouter la ligne suivante dans le fichier krb5.conf du contrôleur de domaine: 
+
+<code>[kdc]
+        check-ticket-addresses = false</code>
+
+Note: Si l'initialisation (provisionning) génère un mot de passe et que vous le perdez, vous pouvez utilisez //samba-tool user setpassword administrator// en administrateur pour le réinitialiser.
+==== Configuration NTP ====
+Active Directory nécessite une synchronisation de temps précise entre les postes clients et le(s) DC(s). Il est vivement recommandé de mettre en œuvre le protocole [[:ntp|NTP]] ou tout autre solution de synchronisation. La page [[https://wiki.samba.org/index.php/Configure_NTP|Configure NTP]] donne les indications de configuration du NTP avec la stratégie (policy) [[https://fr.wikipedia.org/wiki/SELinux|SELinux]]. 
+===== Informations optionnelles et complémentaires =====
+Le wiki Samba (en anglais) met à disposition de nombreuses documentations complémentaires \\
+pour l'administration de votre DC : 
+[[https://wiki.samba.org/index.php/Backup_and_Recovery|Sauvegarde et restauration]]
+[[https://wiki.samba.org/index.php/Setup_and_configure_file_shares|Configuration des partages de fichiers]]
+...\\
+pour les tâches "quotidiennes" :
+[[https://wiki.samba.org/index.php/Configuring_a_windows_client_for_AD| Configurer un client windows]]
+[[https://wiki.samba.org/index.php/Samba_AD_management_from_windows| Gérer Samba AD depuis windows]]
+...\\
+et aussi
+[[https://wiki.samba.org/index.php/Authenticating_other_services_against_AD| Authentifier d'autres services avec l'AD]] notamment Apache, SSH,...
+
+Des réflexions sur [[https://fr.wikipedia.org/wiki/SELinux| SELinux]] et les permissions de contrôle d'accès pouvant prévenir des connexions utilisant l'AD, sont disponibles sur la page [[https://wiki.samba.org/index.php/Samba_AD_DC_access_control_settings | Paramétrages contrôle d'accès Samba AD DC]].
+
+Reportez-vous la [[https://wiki.samba.org/index.php/Samba | documentations utilisateur du wiki samba]] pour plus d'informations et tutoriels.
+===== Remonter vos succès/échecs =====
+
+
+//Contributeur principal :// [[utilisateurs:bcag2|bcag2]]

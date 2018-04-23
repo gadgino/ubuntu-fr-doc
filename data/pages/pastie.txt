@@ -1,0 +1,58 @@
+{{tag>Precise Trusty presse-papier}}
+
+----
+====== Pastie ======
+
+**Pastie** est un gestionnaire de [[presse-papier]]. Pastie se place dans l'applet de notification et collecte l'historique de tout ce que vous copiez vers le presse-papier. Pastie gère aussi bien les textes que les images.
+
+<note warning>Pastie n'est plus développé depuis fin 2011.</note>
+
+{{http://www.omgubuntu.co.uk/wp-content/uploads/2010/10/pastie.png|Pastie avec une icône modifiée}}
+
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+
+
+[[ppa|Ajoutez à vos sources de logiciels le PPA]] **ppa:hel-sheep/pastie**((https://launchpad.net/~hel-sheep/+archive/pastie)) , puis rechargez la liste de vos paquets, et [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt://pastie|pastie]]**.
+
+<note help>Sous [[Trusty]] ajouter cette ligne à vos sources de logiciels:
+<code>deb http://ppa.launchpad.net/hel-sheep/pastie/ubuntu raring main</code>
+Mais l'application ne semble plus fonctionner.
+</note>
+=====Configuration=====
+
+====Modifier l'icône de Pastie====
+
+{{http://fc01.deviantart.net/fs70/i/2010/107/c/2/Ubuntu_Mono_Parcellite_Icon_by_Ramzea.png|}}
+
+Pour modifier l'icône de Pastie, il suffit de modifier (avec les [[sudo|droits administrateur]]) le fichier **/usr/share/icons/Humanity/actions/22/gtk-paste.svg** , puis redémarrer sa session.
+À partir de Ubuntu 11.04 Natty, c'est **/usr/share/icons/Humanity/actions/22/edit-paste.svg** qu'il faut modifier.
+
+Vous pourrez par exemple trouver 2 icônes monochromes sur [[http://ramzea.deviantart.com/art/Ubuntu-Mono-Parcellite-Icon-161002817|cette page]] ([[http://www.deviantart.com/download/161002817/Ubuntu_Mono_Parcellite_Icon_by_Ramzea.7z|lien direct de téléchargement]]).
+
+
+===== Utilisation =====
+
+ Pastie se lance avec [[:unity#dash|le tableau de bord Unity]].
+
+Les réglages se font dans Préférences (bouton gauche > Préférences). 
+
+
+=====Problèmes connus=====
+====Pastie ne mémorise plus====
+Si cela vous arrive, essayez [[Glipper]] qui semble une alternative plus fiable.
+
+===== Voir aussi =====
+
+  * (en) [[http://github.com/fmoralesc/pastie/|Site officiel de Pastie]]
+  * (en) [[http://www.omgubuntu.co.uk/2010/10/pastie-handy-clipboard-manager-indicator-applet/|Pastie]] : article sur OMG Ubuntu
+
+----
+
+//Contributeurs : [[:utilisateurs:YannUbuntu]]//

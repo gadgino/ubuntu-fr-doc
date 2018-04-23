@@ -1,0 +1,48 @@
+{{tag>matériel multimédia hardy }}
+
+----
+
+====== Boîtier externe multimédia LC Power EH-35B-MPS ======
+
+{{http://www.lc-power.com/images/upload/medium/ig_m_162.jpg?200  }}
+
+Le **EH-35B-MPS de LC Power** est un boîtier externe multimédia permettant d'afficher des photos et images, présenter des vidéos et jouer de la musique à partir d'un téléviseur. Les fichiers copiés dans le boîtier depuis votre ordinateur sont facilement échangeables et vous évitent la gravure de nombreux CD audio et DVD. Contenant un disque dur, celui-ci vous permet aussi d'amener vos données avec vous lors de vos déplacements ou de conserver des copies de sauvegarde de vos fichiers importants.
+
+Le boîtier (15x20x6cm) propose un espace pouvant loger un disque dur 3.5" //(à acheter séparément)//((Il est aussi possible de brancher un lecteur de CD-ROM ou de DVD-ROM en tant périphérique, mais des problèmes de compatibilité des fichiers peuvent être constatés.)). Multinormes (PAL/NTSC), il se relie au téléviseur à l'aide de prises composantes standards, une sortie S-Video ou un câble VGA ; il se contrôle alors à l'aide d'une télécommande. Le transfert des données entre le disque dur contenu dans le boîtier et l'ordinateur se fait à l'aide d'un raccordement USB.
+
+Le boîtier coûte environ 75€ TTC, auquel il faut ajouter le prix d'un disque dur (S-ATA ou IDE)((Il est aussi possible de brancher un lecteur de CD-ROM ou de DVD-ROM en tant périphérique, mais des problèmes de compatibilité des fichiers peuvent être constatés.)).
+
+
+===== Compatibilité =====
+== Formats de données ==
+  * //Audio :// WAV, MP3
+  * //Vidéo :// MPEG 1/2/4 (AVI, VOB, MPG, DivX 4.x-5.x, Xvid), AC3
+  * //Photographie :// JPEG
+
+== Matériel - téléviseur ==
+Le boîtier utilisant des technologies standards, celui-ci fonctionne sur tout téléviseur PAL ou NTSC possédant une entrée composante (RCA) ou une entrée S-Video, ainsi qu'avec les écrans d'ordinateurs dotés d'une entrée VGA.
+
+== Matériel - ordinateur ==
+La compatibilité avec les systèmes Microsoft(r) Windows(r) et Apple(r) Mac OS(r) est assurée par le constructeur. Le boîtier a été testé par nos soins avec la version [[hardy|8.04 d'Ubuntu]].
+
+Par défaut, lorsque le boîtier est branché à l'ordinateur fonctionnant sous Ubuntu, le périphérique est reconnu comme un disque dur externe. Celui-ci est monté automatiquement et permet l'accès au contenu du disque en lecture seulement //(impossibilité d'ajouter, de modifier ou de retirer des fichiers dans le disque dur du boîtier)//.
+
+===== Configuration sous Ubuntu =====
+
+Voici comment j'ai fait :
+**Avant toute chose**, il faut installer sur son système un éditeur de partition, un outil très utile nommé Gparted. Pour l'installer le plus simple est d'utiliser le gestionnaire de paquets Synaptic, c'est l'installateur des logiciels sur Ubuntu.
+
+Une fois cette installation faite, il ne reste plus qu'à lancer Gparted et à lui faire **formater le nouveau disque** comme on peut le faire pour une clé USB.
+Un article dans OpenSource Magazine n°12 janvier-février 2008 p46 donne la recette de cette initialisation d'une clé USB sous Linux.
+
+**Conseil :** En choisissant le format FAT32 pour le formatage du disque on le rend compatible avec Linux, Microsoft et Mac.
+Il ne faut pas oublier d'ajouter un drapeau "boot" à la partition qui vient d'être formatée.
+Si l'accès au disque n'est pas obtenu après ce formatage c'est que celui-ci n'est pas parfait, il suffit de le refaire.
+
+
+===== Ressources =====
+  * **[[http://www.lc-power.com/htm/products_detail.php?lang=3&h_id=2&u_id=34&a_id=162|Fiche du produit]]** (de)
+  * [[http://www.lc-power.com|Site officiel de LC Power]]
+
+------
+//Contributeurs : [[utilisateurs:Kavlan]]//

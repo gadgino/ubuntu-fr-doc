@@ -1,0 +1,110 @@
+{{tag>portail animation format}}
+----
+
+====== Le format ShockWave Flash (SWF) ======
+<note warning>Même si le format flash est encore très utilisé sur Internet, **cette technique est obsolète** et est progressivement remplacée par l'utilisation de l'HTML5.\\
+Les navigateurs vont progressivement arrêter le support. </note>
+
+Le [[wpfr>Small_Web_Format|format SWF]], originellement nommé //ShockWave Flash//, généralement appelé « fichiers Flash » ou « animations Flash », est un format de fichiers privateur présentant des animations multimédia, des graphiques vectoriels et des programmes conçus avec le langage ActionScript. Il est maintenant distinct du format Shockwave. Son utilisation la plus commune est les mini-jeux en ligne, des animations dans des pages sur la toile et le rendu de vidéos dans des sites tels YouTube et DailyMotion.
+
+Bien que certains éléments du format SWF soient désormais publics, de nombreuses informations restent fermées et uniquement accessibles au propriétaire du format, Adobe Systems. Les fichiers Flash se reconnaissent facilement à leur extension généralement utilisée ''.swf''((Internet media type: ''application/x-shockwave-flash'')). Ils se rencontrent le plus souvent inclus dans une page sur la toile et lus par un [[#lecteurs_flash|lecteur]] s'intégrant au navigateur ; toutefois, ils peuvent aussi exister de manière indépendante, hors d'une page sur la toile, et peuvent alors être interprétés dans un lecteur d'animations Flash indépendant.
+
+Adobe a arrêté de sortir de nouvelles versions pour le système GNU-Linux depuis Adobe Flash Player 11.2 . Adobe continue le rétroportage concernant la sécurité pour Flash Player 11.2 pour GNU-Linux. (( http://get.adobe.com/fr/flashplayer/ )) Il est toutefois possible d'obtenir la dernière version comme précisé plus bas.
+
+===== Lecteurs Flash =====
+Un lecteur Flash est un logiciel qui interprète les fichiers Flash. De manière générale, le lecteur Flash s'installe et s'intègre de lui-même à l'intérieur de votre navigateur, en tant que module d'extension (appelé aussi greffon mais à ne pas confondre avec additif, appelé aussi module complémentaire) ; son utilisation devient alors transparente pour vous, votre navigateur se chargeant d'appeler le lecteur Flash lorsque des animations doivent être lues. Des versions indépendantes du navigateur sont aussi disponibles pour quelques lecteurs Flash, afin que vous puissiez lire vos fichiers Flash hors du navigateur.
+
+^ lecteur flash ^ Libre ^ Version de flash supportée  ^ date de dernière\\  mise à jour ^ version ^ navigateurs supportés ^ Remarques ^
+| [[:flashplayer|Adobe Flash Player]] | non | 24 | 2016 | 24 | [[:firefox|Firefox]], [[:chromium-browser|Chromium]], Chrome | Fonctionne parfaitement sous chrome et chromium, quelques problèmes de lecture sous firefox (vidéos illisibles, son décalé) |
+| [[:flashplayer#pour_chromium_et_opera|pepperflash]] | non | dernière version | 2016 | 17 | [[:chromium-browser|Chromium]] uniquement | Fonctionne parfaitement |
+| [[:flashplayer#pour_firefox|freshplayerplugin]] | non | dernière version | 2016 | 17 | [[:firefox|Firefox]] | Fonctionne parfaitement (mais tearing en plein écran) (fait planter tous les navigateurs si le processeur ne supporte pas sse2)|
+| [[:flash#choisir_une_solution_de_remplacement_libre_ou_installer_le_lecteur_officiel_proprietaire | ViewTube et Viewtube+]] | oui | uniquement pour regarder des vidéos | 2016 | 2016 | [[:firefox|Firefox]], [[:chromium-browser|Chromium]], [[:midori|Midori]], [[:konqueror|Konkeror]], Chrome | Voir la liste des sites supportés dans la  [[:flash#choisir_une_solution_de_remplacement_libre_ou_installer_le_lecteur_officiel_proprietaire |section 2]] |
+| [[:pipelight|Pipelight]] | en partie | dernière version | 2016 | 0.2.8.1 | [[:firefox|Firefox]], [[:midori|Midori]]| Fonctionne très bien (pas sur tous les sites: Pluzz, p.ex) |
+| [[:shumway|Shumway]] | oui | dernière version (expérimental) | 2016 |  0.11  | [[:firefox|Firefox]] | Expérimental | 
+| [[:lightspark|Lightspark]] | oui | 10 et suppérieur (ActionScript 3) | 2013 | 0.7.2 | [[:firefox|Firefox]], [[:chromium-browser|Chromium]], Chrome | doit être considéré comme un complément à **Gnash**, fonctionne en partie |
+| [[:gnash|Gnash]] | oui | 9 et anterieur (ActionScript 2) | 2011 | 0.8.11 | [[:firefox|Firefox]], [[:chromium-browser|Chromium]], Chrome | doit être considéré comme un complément à **Lightspark**, fonctionne en partie |
+| [[:swfdec|Swfdec]] | oui | 4 | 2008 | 0.8.4 |  | Développement arrêté depuis 2008, fonctionne très mal |
+
+  * **[[flashplayer|Adobe Flash Player]]** \\ Le lecteur d'animations vectorielles interactives Flash Player d'Adobe Systems est disponible sous Ubuntu. Ce document vous indique comment l'installer et l'intégrer à votre navigateur préféré. Trois installations existent :
+    * L'installation classique fonctionnant pour tous les navigateurs.
+    * L'installation de [[:flashplayer#pour_chromium|pepperflash]] ne fonctionnant que sous Chromium qui est mise à jour.
+    * L'installation de [[:flashplayer#pour_firefox_et_opera|freshplayerplugin]] fonctionnant sous [[:firefox|Firefox]] qui est mise à jour. \\ \\
+  * **[[gnash|GNU Gnash]]** \\ Lecteur libre (GNU GPL v3) d'animations vectorielles interactives et de vidéo au format Flash. Son développement semble arrêté depuis 2011. Développé par rétro-ingénierie du format Flash, ce lecteur sait lire de nombreuses animations, dont les vidéos de YouTube, pour le plus grand plaisir des amateurs de logiciels libres. Gérant les animations Flash 8 et antérieures, il doit être considéré comme un complément à Lightspark. Ce document vous indique comment l'installer et l'intégrer à votre navigateur favori. \\ \\
+  * **[[Lightspark]]** \\ Ce nouveau lecteur libre (GNU GPL v3) est en plein développement, s'appuyant sur la documentation du format SWF mise à disposition par Adobe, mais il semble déjà très prometteur et progresse rapidement. Gérant les animations Flash 9 et ultérieures, il doit être considéré comme un complément à GNU Gnash. Ce document vous indique comment l'installer et l'intégrer à votre navigateur favori.  \\ \\
+  * **[[Shumway]]((Lien vers le GitHub du projet: [[https://github.com/mozilla/shumway]]))** //([[Firefox]] uniquement)// \\ « Shumway est une expérimentation de la technique HTML5 qui étudie la construction d'un rendu fidèle et efficace pour le format de fichier SWF sans l'aide du code natif. » (Traduit de la page GitHub de Shumway) Autrement dit, un flash, sans module d'extension, dans Firefox. Shumway est actuellement (06/2015) en version expérimentale, et peut être installé en tant que module complémentaire à cette addresse: [[http://mozilla.github.io/shumway/extension/firefox/shumway.xpi]]. \\ \\
+  * **[[Swfdec]]** \\ Swfdec (prononcez //« swift deck »// !) est un lecteur libre sous licence GNU LGPL v2.1 soutenu par FreeDesktop.org. Son développement semble arrêté depuis 2010. Ce document vous indique comment l'installer et l'intégrer à votre navigateur préféré.
+
+===== Choisir une solution de remplacement libre ou installer le lecteur officiel propriétaire ? =====
+ 
+Il faut savoir que dans l'ensemble les lecteurs libres ne fonctionnent pas vraiment et que le lecteur officiel est truffé de bogues... Donc bonne chance... Le développement proprement dit du lecteur officiel, après un arrêt temporaire, semble avoir repris sur GNU-Linux avec la prise en charge de la version 24 du lecteur. à suivre, donc.
+
+Le choix vous revient. Puisque les techniques Flash sont propriétaires et partiellement fermées, seul le lecteur officiel en offre une prise en charge complète. De plus, les performances globales de Flash Player peuvent être meilleures que les solutions de remplacement libres. Pour certaines architectures, vous serez obligé d'utiliser une solution de remplacement libre.
+
+__**ViewTube/ViewTube +** :__  est une application JavaScript qui permet de visualiser les vidéos de sites de partages de vidéos sans avoir à installer Adobe Flash Player. ViewTube enlève le contenue Flash intégré, et ensuite cherche la vidéo dans la page avant de l'ajouter grâce a une méthode plus classique. Les vidéos peuvent être vues avec un module d'extension vidéo ou avec le lecteur HTML5.
+
+ViewTube supporte ces sites : youtube.com, dailymotion.com, vimeo.com, metacafe.com, break.com, funnyordie.com, videojug.com, blip.tv, veoh.com, crackle.com, viki.com, imdb.com, facebook.com, screen.yahoo.com.
+
+ViewTube + supporte ces sites : rai.tv, video.repubblica.it, canalplus.fr, wat.tv, videos.tf1.fr, ina.fr, nicovideo.jp, buni.tv, youku.com, iqiyi.com, jpopsuki.tv, vplay.ro, vhd.ro, trilulilu.ro, veehd.com, svtplay.se, euronews.com, ifeng.com, 56.com, telemadrid.es, vk.com, twitch.tv, justin.tv, rutube.ru, vevo.com.
+
+<note>Viewtube par rapport à Flash ne garde pas en mémoire la position de lecture d'une vidéo, n'a pas de fonctionnalités interactives et ne peut afficher des émissions en direct.
+
+</note>
+Mode d'emploi : installer le module complémentaire [[https://addons.mozilla.org/addon/greasemonkey/|Greasemonkey]] ou [[https://addons.mozilla.org/addon/scriptish|Scriptish]], puis télécharger **ViewTube** ou/et **ViewTube+** sur cette page : [[http://isebaro.com/viewtube/?ln=fr]].
+Ouvrez Firefox, cliquer en haut à droite sur l’icône de greasemonkey pour l'activer.
+Allez sur un site compatible.
+La barre d'outils vous propose entre autres :  Play ou Get (jouer ou enregistrer); un menu déroulant en haut à gauche pour choisir la définition de la vidéo ; Cliquez sur Play, le chargement commence. Lorsque la barre du bas s'affiche, cliquez sur le triangle « lecture » classique, attendez que la mise en tampon se fasse pour regarder la vidéo.
+En cliquant sur le bouton droit de la souris dans la vidéo, vous avez accès aux préférences du module d'extension vidéo.
+
+__Si problèmes :__
+  *Lire les dernières infos du développeur : [[http://contact.isebaro.com/?ln=fr&sb=viewtube]] ainsi que le fichier « Readme » sur cette page : [[http://isebaro.com/viewtube/?ln=fr]].
+===== Enregistrer du flash =====
+==== Enregistrer vidéo ====
+Voir la page consacrée au [[:telecharger_streaming|téléchargement de flux vidéo en flash]].
+====Autre application :====
+    * Wallaby, [[http://www.korben.info/wallaby-convertir-du-flash-en-html5.html|un convertisseur de flash vers HTML5]]
+
+====Site :====
+  * [[http://tinyogg.com/|tinyogg.com]] Regarder des videos flash en Ogg/HTML
+  * [[http://tinyvid.tv/|tinyvid.tv]] Regarder des vidéos HTML5 en Ogg/MP4. Similaire au défunt  [[http://itheora.org/node/160|TheoraSea]], mais avec un plus large choix de contenus.
+===== Création et modification d'animations flash =====
+  * [[Ella]] : logiciel libre de création d'animations SWF et SVG
+  * [[:pencil|Pencil]] : logiciel libre de création d'animations simples (voir [[http://forum.ubuntu-fr.org/viewtopic.php?id=193617|cette discussion]]).
+  *[[http://antimatter15.110mb.com/ajaxanimator|AjaxAnimator]] : application en ligne pour créer des animations Flash (voir [[http://forum.ubuntu-fr.org/viewtopic.php?pid=2646417#p2646417|cette discussion]])
+  * **Adobe Flash (anciennement Macromedia Flash)** : outil de [[:programmation|développement]] d'animations flash, s'installe avec [[:Wine]].
+  *[[E-anim]] : logiciel gratuit et en partie libre pour créer des animations Flash. Malheureusement, la version GNU-Linux a été retirée pour le moment par le développeur, en attendant de résoudre certains problèmes liés à java.
+  * [[http://f4l.sourceforge.net/|f4l]] : « Flash 4 Linux » - Logiciel de création flash
+  *[[http://sourceforge.net/projects/uira/|UIRA]] : Projet malheureusement arrêté début 2008. Avait comme ambition de produire des swf et svg interactifs.
+  *[[wpfr>Adobe_Flash#Compilateurs_et_environnements_de_d.C3.A9veloppement_alternatifs|Wikipedia - « Compilateurs et environnements de développement alternatifs »]]
+  *[[http://forum.ubuntu-fr.org/viewtopic.php?pid=2641893|Discussion « Édition des SWF sous GNU-Linux » sur le forum]]
+  *[[http://forum.ubuntu-fr.org/viewtopic.php?pid=2639149|Discussion "Générateur d'animations flash à partir de photos" sur le forum]] (et [[http://forum.ubuntu-fr.org/viewtopic.php?id=325946|celle-ci]] )
+  * [[:MTASC]] - Compilateur Flash pour Actionscript 2
+  * [[http://haxe.org|HaXe]] - Haxe est un un langage orienté objet similaire à Java/C++, qui permet de créer des applications Flash.
+  * SWFMILL - Swfmill permet de créer un SWF à partir d'un fichier XML et vice versa.
+  * Flex 2 SDK - trousse de développement logiciel ouverte pour créer des applications RIA Flex (Flash 9)
+  * RED 5 - Serveur de diffusion de flux vidéo et des applications multimédia, solution de remplacement ouverte de Flash Media Server
+  * flasm ( http://www.nowrap.de/flasm ) permet de décompiler les fichiers flash en byte code, puis de ré-assembler le fichier après modification
+  * Certains logiciels (comme Imagination) permettent de créer des diaporamas de photos en flash : voir [[:gestionnaire_de_photos#creation_de_diaporama]]
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3313507#p3313507|Discussion "Sous-titres dans vidéo .flv" sur le forum]]
+
+
+//
+Voir aussi le portail "[[Programmation]]".//
+
+
+
+=====Solutions de remplacement du format Flash=====
+
+  *[[SVG]] : Solution de remplacement libre, mais [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3693908#p3693908|ayant certains inconvénients]].
+  * L' [[wpfr>HTML5]] : voir [[https://doc.ubuntu-fr.org/firefox?&#lire_les_videos_en_html5_sans_flashplayer|Lire les vidéos en HTML5 sans flash]].
+  * Wallaby, [[http://www.korben.info/wallaby-convertir-du-flash-en-html5.html|un convertisseur de flash vers HTML5]]
+  * Le format Flash peut aisément être remplacé par les balises <audio> et <video> du HTML5.
+  * Vimeo propose aussi une version bêta en HTML5 (http://vimeo.com/blog:268)
+  * En revanche, il n'existe pas de version HTML5 pour Deezer.  
+  * [[http://processingjs.org/|Processing JS]] : pour programmer du graphisme interactif en langage [[http://processing.org/|« Processing »]]. Le code est interprété en JavaScript.
+  * [[https://doc.ubuntu-fr.org/flash?&#choisir_une_solution_de_remplacement_libre_ou_installer_le_lecteur_officiel_proprietaire|Viewtube]] : pour remplacer flash sur les plus grands sites de vidéos.
+===== Voir aussi =====
+  *[[streaming|Diffusion en flux]], [[developpement_de_jeux_video|développement de jeux vidéo]]
+  *[[:multimedia#streaming|Documentation Ubuntu-fr : multimédia/diffusion en flux]]
+  *[[:animation#animation_2d|Documentation Ubuntu-fr : animation 2D]]
+  *[[wpfr>Adobe_Flash|Adobe Flash sur Wikipédia]]
+  *[[http://forum.ubuntu-fr.org/viewtopic.php?pid=2624829|Discussion « Animation sous GNU-Linux : que choisir ? » sur le forum]]

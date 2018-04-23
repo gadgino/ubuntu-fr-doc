@@ -1,0 +1,183 @@
+{{tag>Precise Trusty Xenial environnements GNOME GnomeShell extensions}}
+
+----
+{{ :variantes:gnome_shell:gnome-icon.png?80|Icone}}
+====== GNOME Shell ======
+**GNOME Shell** est l'interface (//shell//) par défaut conçue pour l'[[environnements|environnement de bureau]] [[gnome|GNOME 3]]. Il est pré-installé sur la variante [[:Ubuntu GNOME]], et deviendra l'interface par défaut d'Ubuntu à partir de la version 17.10 (Artful Aardvark).
+
+GNOME Shell a pour but de fournir les fonctions centrales d'interface entre l'ordinateur et l'utilisateur, comme le chargement d'applications et la gestion des fenêtres. GNOME Shell prend avantage des dernières avancées technologiques des nouvelles cartes graphiques modernes et introduit des concepts d'interface utilisateur novateurs afin de produire une expérience simple, moderne, épurée et plaisante.
+
+Il est possible de voir une description plus complète de l'interface en anglais **[[https://www.gnome.org/gnome-3//Tour|sur le site officiel]]**, ou sur [[:tutoriel/personnaliser_gnome|cette page consacrée à la personnalisation de Gnome Shell]].
+| {{https://4.bp.blogspot.com/-T4A1d0zhZoQ/WQB8auwhe2I/AAAAAAAAIRk/qEKMYd9ufGklyWLIKETrBWGtc5XtMgrwQCLcB/s1920/united-gnome-3.jpg?350|bureau personnalisé}} {{https://www.gnome.org/wp-content/uploads/2010/09/activities-overview.jpg?350|Activités}} {{https://lh3.googleusercontent.com/-1MJNED1g7d4/WQAwPRqxicI/AAAAAAAAA94/_MOwWHhETgIgw7s02Hw4NzUR1GcrCDOIQCJoC/w800-h800/Ubuntu%2BGnome%2BShell%2B2.jpg?350|Bureau personnalisé}} {{https://cn.pling.com/img/4/f/f/e/9d58ed01cd0bfc828efc09bc260fcd102f77.png?350|Application}} |
+^  GNOME Shell 3.22  ^
+
+===== Pré-requis =====
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir activé l'[[accélération graphique]].
+
+===== Installation ====
+
+Si vous souhaitez bénéficier d'une installation propre et complète ou plus simplement essayer Ubuntu avec GNOME Shell dans un environnement Live (CD, USB...), allez voir du côté de **[[:ubuntu gnome|Ubuntu-GNOME]]**
+
+À partir de la version 17.10, Gnome Shell sera l'environnement par défaut d'Ubuntu, et sera donc disponible sur les images ISO par défaut.
+
+====Ubuntu 14.04 et suivants====
+Installez le paquet gnome-shell (on peut conserver le gestionnaire de session LightDM) :
+
+<code>
+sudo apt-get update
+sudo apt-get install gnome-shell
+</code>
+
+Vous pouvez ensuite (et c'est recommandé pour retrouver toutes ses fonctions habituelles) compléter votre installation avec les [[:extensions-gnome|extensionsl]] pour GNOME Shell.
+
+===== Utilisation=====
+
+==== Interface de base ====
+Par défaut, GNOME Shell se veut minimaliste et épuré : le seul élément visible de l'interface est la barre supérieure (//topbar//).
+
+| {{ https://www.gnome.org/wp-content/uploads/2016/09/files-1.png?500|L'interface par défaut }} |
+
+De droite à gauche, on y trouve :
+  * Le **menu système** : gérer le son, la luminosité, le micro, la connexion internet, le bluetooth, la batterie, la session (quitter la session, verrouiller, éteindre, redémarrer, etc.) et un accès aux paramètres système essentiels.
+  * Au centre, **l'horloge** : cliquer dessus donne accès au calendrier, aux notifications (depuis Ubuntu 15.10) et aux commandes multimédia (lecture/pause/suivant/précédent ; depuis Ubuntu 17.04)
+  * Le **menu de l'application** (//AppMenu//). Pour la plupart des applications du projet Gnome, ce menu contient au moins //Raccourcis Claviers, Aide, À propos, Quitter//. Il peut aussi contenir les préférences globales de l'application. Pour les applications mal intégrées au projet GNOME, seul //Quitter// sera proposé.
+  * Tout à gauche, la **vue des activités** : en cliquant sur //Activités//, ou en "cognant" la souris dans ce coin de l'écran, on ouvre la vue des activités :
+
+| {{ https://www.gnome.org/wp-content/uploads/2010/09/activities-overview.jpg?500|La vue activités }} |
+
+Dans la vue activités, on distingue :
+  * En haut, une entrée de **recherche**. Dès que la vue activités s'ouvre, ce que l'on tape au clavier va dans cette entrée et est recherché.
+<note tip>On peut rechercher des applications pour y accéder de manière rapide, mais aussi des fichiers, des contacts, des caractères unicode, des documents, des photos, des notes, etc. (les diverses recherches disponibles sont paramétrables mais dépendent aussi de la version utilisée)</note>
+  * Au centre, les fenêtres ouvertes, accessibles ou fermables en un clic.
+  * À droite, les **espaces de travail** ("bureaux virtuels"). Il suffit d'utiliser la molette de la souris dans la vue activités pour passer d'un espace à l'autre.
+  * À gauche, le "**dash**" où sont épinglés les programmes favoris
+  * En bas du dash, le bouton d'accès à la **vue des applications** :
+
+| {{ https://gnome.org/wp-content/uploads/2010/09/activities-overview-applications-420x236.png?500|Les applications }} |
+
+<note>Dans les versions antérieures d'Ubuntu à 15.10, les notifications s'affichent en bas de l'écran, dans un volet caché (visible depuis la vue activités ou accessible en tapant Super+M)</note>
+
+==== Raccourcis claviers ====
+  * Alt+F1 ou Super (la touche avec le logo Windows...) : Ouvrir la vue activités (ou retourner à la fenêtre en cours si on y est déjà).
+  * Alt+F2: saisir une commande (fonction exécuter).
+  * Alt+Tab: passer d'une fenêtre à une autre.
+  * Alt+Shift+Tab: idem, mais dans l'autre sens.
+  * Alt+²: idem mais entre les fenêtre d'une même application.
+  * Ctrl+Shift+Alt+R: commencer ou finir un enregistrement d'écran.
+  * Ctrl+Alt+D (sur 12.04 : Ctrl+Super+D) (sur 14.04 : Super+D) (sur 16.04 : Ctrl+Super+D) : montrer le bureau
+  * Ctrl+Alt+flèche haut/bas: passer d'un espace de travail à l'autre.
+  * Ctrl+Alt+Shift+flèche haut/bas : déplacer la fenêtre active d'un espace de travail à l'autre.
+  * Ctrl+Super+flèche gauche/droite/haut/bas: dimensionner et placer la fenêtre (demi-écran / maximisée / retour)
+  * Super+M : Afficher la zone de notification.
+  * Super+A : Afficher la vue des applications
+
+===== Personnalisation =====
+
+L'Outil de Personnalisation Gnome (//gnome-tweak-tool//) est l'utilitaire graphique le plus avancé pour vous permettre de configurer GNOME Shell.
+Pour l'installer **[[apt>gnome-tweak-tool]]** (il est normalement installé par défaut sur Ubuntu Gnome).
+
+Cherchez ensuite le programme ("tweak tool" ou "outil de personnalisation") pour y accéder.
+
+Voir aussi : **cette page [[:tutoriel/personnaliser_gnome|dédiée]] à la personnalisation de Gnome Shell**.
+
+<note important>[[ubuntu_tweak|Ubuntu Tweak]] ne fonctionne pas avec GNOME Shell (utilisation de metacity et clutter plutôt que compiz), et risque même de rendre votre système instable. À éviter donc :-)</note>
+
+==== Installer des extensions ====
+
+**Page dédiée : [[:extensions-gnome|Extensions GNOME Shell]]**
+
+La **SEULE** source d'installation recommandée par les développeurs de Gnome Shell est le site officiel [[https://extensions.gnome.org|extensions.gnome.org]] : un vaste catalogue d'extension y est disponible (ci-contre), vous pouvez également y constater quelles sont les extensions les plus populaires, et y accéder à la liste des extensions présentes sur votre système.
+
+Grâce à de petits interrupteurs, on peut installer, mettre à jour, activer ou désactiver les extensions proposées directement depuis le site (compatible avec les navigateurs [[:Epiphany]] (Gnome Web), Firefox, et aussi Chromium/Vivaldi/Chrome si ils disposent de [[https://chrome.google.com/webstore/detail/gnome-shell-integration/gphhapmejobijbbhgpjhcjognlahblep?hl=fr |l'extension pour navigateur appropriée]]).
+
+<note important>Pensez à y rechercher des extensions **compatibles avec votre version** de Gnome Shell grâce aux paramètres de recherche du site.</note>
+
+Le but du site officiel extensions.gnome.org est de proposer des extensions dont le code a été lu et compris par des responsables liés à la fondation GNOME : les extensions proposées présentent donc rarement des bugs majeurs, et sont normalement dignes de confiance. Ces extensions sont normalement installables via la [[:gnome-software|logithèque GNOME]].
+
+==== Petite sélection arbitraire d'extensions ====
+
+Il existe près de 220 extensions disponibles pour Gnome Shell en version 3.22 en ce jour (28 avril 2017), et environ 800 toutes versions confondues !
+Il est parfois dur de s'y retrouver. Aussi  je vous propose un petit florilège de celles qui me paraissent les plus intéressantes, que vous pouvez bien sûr compléter.
+
+  * **[[https://extensions.gnome.org/extension/307/dash-to-dock/|Dash to dock]]** \\ Transforme le //dash// de la vue activités en un dock disponible directement depuis le bureau, et richement paramétrable (taille, transparence, position, comportement, etc.).
+  * **[[https://extensions.gnome.org/extension/358/activities-configurator/|Activities Configurator]]** \\ Permet de richement personnaliser la barre supérieure (couleur, transparence), le bouton "Activités" (texte, icône, etc.), le "hot corner", etc.
+  * **[[https://extensions.gnome.org/extension/779/clipboard-indicator/|Clipboard Indicator]]** \\ Un gestionnaire de presse-papier assez avancé.
+  * **[[https://extensions.gnome.org/extension/327/axe-menu/|Axe Menu]]** ou **[[https://extensions.gnome.org/extension/6/applications-menu/|Applications Menu (extension officielle)]]** \\ un menu classique pour ceux qui n'aiment pas la vue des applications ni la recherche au clavier.
+  * **[[https://extensions.gnome.org/extension/8/places-status-indicator/|Places Status Indicator]]** (extension officielle) mais diverses alternatives existent.
+  * **[[https://extensions.gnome.org/extension/36/lock-keys/|Lock Keys]]** \\ Affiche des indicateurs dans la barre supérieure pour indiquer si le verrouillage numérique ou le verrouillage majuscule sont activés.
+  * **[[https://extensions.gnome.org/extension/570/todotxt/|Todo.txt]]** \\ Pense-bête et gestion avancée des tâches, hautement paramétrable.
+  * **[[https://extensions.gnome.org/extension/1031/topicons/|Topicon plus]]** \\ Les applications comme Skype, Discord ou Steam qui mettent un icône dans la zone de statut des barres de tâches des environnements habituels sont assez dérangeantes avec Gnome Shell, et dépassent généralement en bas de l'écran. Cette extension les envoie dans la barre supérieure.
+  * **[[https://extensions.gnome.org/extension/800/remove-dropdown-arrows/|Remove Dropdown Arrows]]** \\ Supprime les petites flèches irritantes qui indiquent que les extensions sont des menus.
+  * **[[https://extensions.gnome.org/extension/97/coverflow-alt-tab/|Coverflow AltTab]]** \\ Remplace le banal sélecteur AltTab par défaut par un défilement en 3D des fenêtres.
+  * **[[https://extensions.gnome.org/extension/1160/dash-to-panel/|Dash to panel]]** \\ Fusionne le dash et la barre supérieure en une unique "barre de tâches" moderne et élégante, avec miniatures de fenêtres au survol, qui vous rappellera peut-être des interfaces comme Windows 7 ou 10.
+  * **[[https://extensions.gnome.org/extension/517/caffeine/|Caffeine]]** \\ Empêche la session de se verrouiller ou l'ordi de se mettre en veille si cette extension est activé.
+  * **[[https://extensions.gnome.org/extension/750/openweather/|Open Weather]]** \\ Affiche la météo dans le panneau supérieur, avec un menu qui montre les prévisions sur plusieurs jours.
+  * **[[https://extensions.gnome.org/extension/7/removable-drive-menu/|Removable Drive Menu]]** (extension officielle) \\ Indispensable si vous avez réglé le système pour qu'il ne fasse rien par défaut, et surtout pour qu'il n'ouvre pas à la fois Nautilus ET un pop-up quand un média amovible est inséré.
+  * **[[https://extensions.gnome.org/extension/19/user-themes/|User Themes]]** (extension officielle). \\ Permet de changer le thème de Gnome Shell (et **NON** cette extension n'est **pas du tout** nécessaire pour changer le thème des fenêtres !).
+
+====Passer les boutons de contrôle des fenêtres de droite à gauche ====
+Le bouton "fermer" est présent par défaut, et Gnome Tweak-Tool permet de définir (onglet "Fenêtres") si on affiche les 3 boutons (minimiser, agrandir), ou seulement certains.
+
+Par contre, il ne permet pas de les passer de droite à gauche. Pour cela, dans [[dconf-tools|dconf-editor]], il faut aller dans org > gnome > desktop > wm > preferences > button-layout, et mettre par exemple "close,minimize,maximize:appmenu", où ":" est le corps de la barre de titre (les boutons se placent donc par rapport à lui). Ici, "appmenu" désigne le menu qui s'affiche normalement dans la barre supérieure, mais dconf propose un réglage pour que ce menu s'affiche dans la barre de fenêtre, il est donc préférable qu'une position soit renseignée pour cet élément.
+
+La commande suivante est équivalente :
+<code>gsettings set org.gnome.desktop.wm.preferences button-layout "close,minimize,maximize:appmenu"</code>
+
+===== Problèmes connus =====
+
+<note important>section à mettre à jour, les informations présentées ici sont peut-être obsolètes, et sont certainement plus nombreuses</note>
+==== Saccades et manque de fluidité les derniers pilotes ATI Catalyst 12.1====
+
+Les derniers pilotes ATI/AMD 12.1 sont beaucoup plus stables que les précédents, ils résolvent les bugs d'affichage qui pouvaient être présents. Mais un nouveau problème d'affichage concernant la fluidité peut apparaître, même avec une carte graphique très puissante. (On a l'impression qu'il n'y a que 15 images par seconde à l'écran.)
+
+Il faut faire une modification du fichier: **/etc/environment** (fonctionne également avec d'autres distributions comme Linux Mint, etc...)
+
+<code>sudo gedit /etc/environment</code>
+et ajouter cette ligne en début de fichier:
+
+**export CLUTTER_VBLANK=none**
+
+Sauvegarder et redémarrer le système. Après cela vous devriez énormément gagner en fluidité.
+
+==== Saccades et problèmes de synchronisation verticale sous NVIDIA====
+
+Il peut y avoir certains soucis de synchronisation verticale. Sous VLC, Totem... ex:[[http://i.stack.imgur.com/qIXX3.jpg]]
+  - Aller dans l'outil de configuration de compiz **[[apt>ccsm]]**:
+    * Dans les paramètres de composition, désactiver la détection automatique de fréquence et définissez la valeur manuellement
+    * Dans les paramètres d'OpenGL, définir les filtres de texture en qualité maximum
+    * Et activer Sync vers Vblank
+  - Dans les paramètres Nvidia:
+    * Dans l'onglet OpenGL: activer Sync vers Vblank
+    * Et définir les paramètres de qualité au maximum
+    * Dans l'onglet de configuration de l'écran (X Server Display Configuration) définir la résolution et la fréquence manuellement
+  - En super utilisateur rajoutez les deux lignes suivantes à la fin du fichier /etc/environment
+    * CLUTTER_PAINT=disable-clipped-redraws:disable-culling
+    * CLUTTER_VBLANK=True 
+    * Ou en ligne de code:
+    * <code>sudo -s
+echo CLUTTER_PAINT=disable-clipped-redraws:disable-culling >> /etc/environment
+echo CLUTTER_VBLANK=True >> /etc/environment</code>
+  - Redemarrez
+=====Voir aussi=====
+
+  * (fr) [[http://forum.ubuntu-fr.org/viewforum.php?id=121|La section du forum dédiée à GNOME 3]]
+  * (en) [[https://extensions.gnome.org|Site officiel des extensions pour GNOME Shell]]
+  * (en) [[https://www.gnome.org/gnome-3/|Site officiel de GNOME Shell]]
+  * (fr) [[http://major.grubert.free.fr/index.php?|Le merveilleux site]] du Major Grubert [[http://forum.ubuntu-fr.org/profile.php?id=120473|du forum Ubuntu-fr]] sur GNOME Shell (et autres) Pas mis à jour depuis 2014.
+  * (fr) [[http://la-vache-libre.org/?s=gnome|Le site de la vache libre]] (qui traite aussi d'autres sujets)
+  * (en) [[http://worldofgnome.org|World of GNOME]], le site de références pour toutes les actualités liées à GNOME Shell
+  * (fr) [[http://www.tux-planet.fr/toutes-les-astuces-pour-gnome-shell/]]
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?pid=4109101#p4109101]] (relatif à la désinstallation)
+  * (en) [[http://www.webupd8.org/search/label/gnome%20shell%20extensions]]
+  * (en) [[http://www.webupd8.org/2011/10/things-to-tweak-after-installing-ubuntu.html]] (relatif à la 11.10)
+  * (en) [[http://mandriver.users.sourceforge.net/classic-gnome-guide.html|Guide pour Gnome Classic]] (relatif à la 11.10)
+  * [[comparatif_interface_precise|Comparatif des interfaces utilisateur de la distribution Ubuntu 12.04 LTS]]
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=951091]]
+  * (fr) [[http://www.hybryde.org/wiki/doku.php/gnome:sommaire|Le wiki d'Hybryde]]
+
+
+----
+
+//Contributeurs : [[utilisateurs:bsaleil|bsaleil]], [[utilisateurs:Isayama]] (pour Ubuntu GNOME Remix et la partie sur Ubuntu 12.10), [[utilisateur:Roschan]] (pour la mise à jour complète des 4 premiers points qui n'avaient pas bougé depuis 5 ans)// 

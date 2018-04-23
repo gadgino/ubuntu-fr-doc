@@ -1,0 +1,136 @@
+{{tag>comptabilité kde}}
+
+----
+
+====== KmyMoney ======
+
+**KmyMoney** est destiné aussi bien aux particuliers qu'aux associations qui souhaitent gérer leurs comptes sur un ordinateur avec un logiciel puissant mais simple.
+
+Développé pour [[KDE]], il tourne très bien sur d'autre environnement de bureau tels [[GNOME]] ou [[Xfce]]. Il est partiellement francisé.
+
+{{ kmymoney.png?250}}
+
+===== Fonctionnalités =====
+
+Ce que KmyMoney sait faire (liste non exhaustive) :
+
+    * interface simple et intuitive ;
+    * gestion multi-comptes ;
+    * comptes bancaires, de caisse, d'actif et de passif, gestion d'un portefeuille de valeurs mobilières (actions, SICAV, FCP, etc.) ;
+    * gestion des comptes d'emprunt ;
+    * gestion multi-devises ;
+    * possibilité de virements entre comptes ;
+    * description des opérations avec : date, tiers, montant, devise, catégorie et sous-catégorie, notes, références bancaires, etc. ;
+    * opérations planifiées avec validation automatique ou manuelle ;
+    * surveillance des échéances ;
+    * Création de budgets;
+    * Prévisionnel de trésorerie; 
+    * analyse et rapports financiers (graphiques) ;
+    * impression des états ;
+    * import de fichiers au format QIF, OFX, [[GnuCash]] ;
+    * export de fichiers au format QIF.
+    * le rapprochement par Internet.
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]] ;
+  * Disposer d'une connexion à Internet configurée et activée ;
+  * Avoir activé l'accès aux [[:depots#universe_et_multiverse|dépôts Universe et Multiverse]].
+
+
+
+===== Installation =====
+
+[[apt://kmymoney|{{ :apt.png|Installer en 1 clic.}}]]
+
+Il vous suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt://kmymoney|kmymoney]]**.
+
+Pour cela, entrez dans un terminal : 
+sudo apt-get install kmymoney 
+
+
+
+Pour faire fonctionner les cotations en ligne, [[:tutoriel:comment_installer_un_paquet|le paquet]] [[apt://libfinance-quote-perl|libfinance-quote-perl]] est aussi nécessaire.
+===== Utilisation=====
+
+L'utilisation de KmyMoney ne nécessite pas de connaissance particulière ; il est extrêmement simple d'utilisation. Laissez-vous guider par la page d'accueil de l'application !
+
+Lancement de l'application : //Applications → Bureautique → KmyMoney//.
+
+===== Installation dernière version =====
+
+La version installée sous Ubuntu The Xenial Xerus (16.04) est la version 4.6.6.
+Pour installer la dernière version, il faut ajouter avant installation les sources de logiciels suivantes à votre gestionnaire de paquets :
+<code>
+deb http://ppa.launchpad.net/claydoh/kmymoney2-kde4/ubuntu precise main 
+deb-src http://ppa.launchpad.net/claydoh/kmymoney2-kde4/ubuntu precise main 
+</code>
+Sous un terminal lancer la commande suivante pour mettre à jour la liste des paquets
+<code>
+sudo apt-get update
+</code>
+Ensuite procéder à l'installation classique, Ubuntu choisira la version la plus récente.
+
+ FIXME : En attente du gestionnaire du package pour un fonctionnement sous Xenial Xerus.
+ En effet, la clé de signature du dépôt est produite par un trop faible algorithme de génération, ce qui donne l'erreur suivante à l'installation :
+ <code>
+ W: http://ppa.launchpad.net/claydoh/kmymoney2-kde4/ubuntu/dists/precise/Release.gpg: Signature by key FB24C90615749EE4DAD503EB10F09F7BD09DE175 uses weak digest algorithm (SHA1)
+ </code>
+ Pour l'instant (Aout/2016) cette solution ne fonctionne pas.
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. La configuration de l'application sera conservée ou supprimée selon la méthode de désinstallation que vous choisirez.
+
+
+===== Suivre vos actions, FCP, Sicav... =====
+
+Pour suivre l'évolution de votre portefeuille de valeurs mobilières et configurez kmymoney: consultez la page [[bourse]].
+
+
+===== Voir aussi =====
+  *Portail [[Comptabilité]]
+
+===== Bug =====
+  * Sous Ubuntu gnome 16.04, la version 4.6.6 par défaut, ses icônes de fonctionnalités ("registres", "catégories", etc...) sont cassés (absents), mais l'installation de la version 4.8.0 (à partir du PPA voir ci-dessus) règle le problème.
+  * problème d'affichage sur écran 1024 x 600 16:9 -->   Kmymoney déborde de l'écran, il semble mal codé en dur et ne s'ajuste pas: la seule solution est de cliquer droit sur la barre de fenêtre en haut et d'ajuster  en tirant du coté qui ne va pas l'icone de souris qui se modifie :-)
+  *L'importation des fichiers CSV fonctionne mal sous les versions 4.6.1 et 4.6.2 : les montants sont multiplié par 100 (cf : [[https://bugs.kde.org/show_bug.cgi?id=302181]] )
+  *A partir de la version 4.6.3 l'importation des fichiers CSV fonctionne correctement.
+  *Les commandes de configuration de Comptes → Rapport ne fonctionnent qu’en anglais : lancer KMyMoney par cette commande en mode Console :
+
+      kmymoney --lang=C
+===== Liens externes=====
+  * **(en)** [[http://kmymoney2.sourceforge.net/index-devel.html|Site officiel de KmyMoney]]
+  * **(en)** [[http://http://www.kmymoney.org| autre site officiel de KmyMoney]]
+  * **(en)** [[http://www.movingtofreedom.org/2008/01/09/moving-from-ms-money-to-kmymoney| Moving from MS Money to KMyMoney]]
+  * **(fr )**  [[http://docs.kde.org/stable/fr/extragear-office/kmymoney/index.html| Manuel de KMyMoney pour KMyMoney version 4.6]] via l'aide sous KDE.
+
+
+----
+
+//Contributeurs : [[:utilisateurs:Vigix]].//
+
+===== Version 0.9 =====
+
+Pour passer à la version 0.9 de KMyMoney depuis Kubuntu / Hardy Heron, il suffit d'ajouter le dépôt "claydoh" :
+
+Fermer l'application KMyMoney si elle est ouverte.
+Lancer le gestionnaire de paquets Adept.
+Commander ensuite "Adept" puis "Gérer les dépôts" puis "Third-Party Software" puis "Ajouter".
+Ecrire ou copier dans la zone de saisie toute la ligne suivante :
+      deb http://ppa.launchpad.net/claydoh/ubuntu hardy main
+Commander "OK" puis "Close" puis procéder à la mise à jour du paquet KMyMoney par la procédure Adept usuelle.
+
+
+Si problème de clé lors de l'update après le rajout du dépot, vous devez exécuter la commande suivante pour récupérer la clé et l'ajouter au trousseau d'apt (en remplaçant bien évidemment par le numéro de clé publique qu'il vous faut) :
+
+      sudo gpg --keyserver subkeys.pgp.net --recv 10F09F7BD09DE175
+      gpg -a --export 10F09F7BD09DE175 | sudo apt-key add -
+      sudo apt-get update
+
+
+===== Accents =====
+
+Pour convertir les accents des fichiers QIF issus de Windows/Money, une solution est rapportée dans ce forum : [[http://forum.ubuntu-fr.org/viewtopic.php?pid=2384768#p2384768]]
+
+Une autre solution qui a le mérite de conserver les accents lorsqu'on importe un fichier QIF (originant de Windows) dans KMyMoney est proposée par vdelab et disponible sur ce forum :
+[[http://forum.ubuntu-fr.org/viewtopic.php?pid=13896381#p13896381]]

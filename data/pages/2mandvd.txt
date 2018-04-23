@@ -1,0 +1,101 @@
+{{tag>multimédia}}
+----
+
+====== 2ManDVD : logiciel d'authoring DVD  ======
+
+2ManDVD est un programme de Stéphane Gibault permettant de réaliser d'une part un authoring complet pour un DVD, d'autre part la réalisation de diaporama vidéos particulièrement sophistiqués. 2ManDVD reprend de façon bien plus abouties les fonctionnalités de l'ancien ManDVD et de SMILE.
+
+2ManDVD est en cours de développement. Vous pouvez reporter les bugs par le biais du forum de Cyrille BORNE dans [[http://www.cyrille-borne.com/forum/forumdisplay.php?fid=6|la section dédiée]], par le site officiel de [[http://2mandvd.tuxfamily.org/|2ManDVD]], ou par courriel : gibault.stephane at wanadoo.fr.
+
+De plus, son auteur travaille seul et si vous aimez son travail vous pouvez peut être lui faire un don
+
+
+
+{{:2mandvd_-_creation_de_dvd_videos_006.png|}}   
+
+
+
+{{:2mandvd_-_creation_de_diaporamas_008.png?direct&300|}}  {{:2mandvd_-_creation_de_dvd_videos_009.png?direct&300|}}
+
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]] ;
+  * Disposer d'une connexion à Internet configurée et activée ;
+
+===== Installation de 2ManDVD =====
+
+
+==== Par compilation ====
+
+<note important>Tout au long de ce tutoriel, n'oubliez pas de remplacer /chemin/vers/2ManDVD par le chemin vers lequel vous avez installé 2ManDVD
+Par exemple, si vous avez installé 2ManDVD dans /opt, remplacez /chemin/vers/2ManDVD par /opt/2ManDVD.
+</note>
+
+
+
+  * [[:tutoriel:comment_installer_un_paquet|Installer les paquets]] nécessaires à la compilation : **[[apt>build-essential,fakeroot,checkinstall|build-essential fakeroot checkinstall]]**.
+  * Installation des bibliothèques qt4 nécessaires: [[:tutoriel:comment_installer_un_paquet|installer les paquets]] **[[apt>libqt4-opengl-dev,libqt4-dev|libqt4-opengl-dev libqt4-dev]]**.
+  * 2ManDVD est une interface graphique sur plusieurs logiciels qu'il faut avoir installés avant de pouvoir l'utiliser : [[:tutoriel:comment_installer_un_paquet|installer les paquets]] **[[apt>mjpegtools,netpbm,mkisofs,ffmpegthumbnailer,ffmpeg,sox,libsox-fmt-all,mplayer,mencoder,dvdauthor,xine-ui,g++,exif|mjpegtools netpbm mkisofs ffmpegthumbnailer ffmpeg sox libsox-fmt-all mplayer mencoder dvdauthor xine-ui g++ exif]]**. 
+  * Depuis la version 1.7, 2ManDVD nécessite ffmpeg developpement package, mais sur ubuntu il n'existe pas de paquet ffmpeg-dev, il faut donc [[:tutoriel:comment_installer_un_paquet|installer les paquets]] **[[apt>libavcodec-dev,libswscale-dev,libavformat-dev|libavcodec-dev libswscale-dev libavformat-dev]]**.
+  * 2ManDVD nécessite également la bibliothèque SDL, il vous faut donc [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>libsdl1.2-dev|libsdl1.2-dev]]**
+
+Ou en une seule ligne de commande :
+<code>$ sudo apt-get install build-essential fakeroot checkinstall libqt4-opengl-dev libqt4-dev mjpegtools netpbm mkisofs ffmpegthumbnailer ffmpeg sox libsox-fmt-all mplayer mencoder dvdauthor xine-ui g++ exif libavcodec-dev libswscale-dev libavformat-dev libsdl1.2-dev</code>
+
+  * Télécharger la dernière version de 2ManDVD **[[http://download.tuxfamily.org/2mandvd/|ici]]**
+  * Décompresser le fichier là ou vous voulez
+  * Se rendre en console dans le répertoire que vous venez de décompresser :<code>cd /chemin_vers_2ManDVD</code>
+  * Compiler 2ManDVD avec Qt4 :<code>$ /usr/bin/qmake-qt4 2ManDVD.pro && make && sudo make install</code>
+
+<note tip>Avec la version actuelle, la 1.8.4 en 32 bits vous risquez d'obtenir une erreur de segmentation au lancement de 2manDVD, en attendant que Stephane publie une nouvelle version vous pouvez appliquer le workaround suivant :
+Editez le fichier mainfrm.cpp 
+
+rendez-vous autour de la ligne 1876  et supprimer ceci :
+<code>
+// *** TODO TEST ***
+
+QPixmap pix_001(":/Interface/Interface/reload.png");
+pix_001.fill(QColor(0,0,0));
+mask_interface->setPixmap(pix_001);
+mask_interface->setAttribute(Qt::WA_TranslucentBackground, true);
+mask_interface->setGraphicsEffect(thread_ani->myeffect);
+thread_ani->hdlmsk = mask_interface;
+
+// *** FIN TODO TEST ***
+</code>
+recompilez puis make install
+</note>
+
+<note help>OBSOLETE :
+Avec une ancienne version de 2ManDVD, vous pouviez télécharger le script [[http://forum.ubuntu-fr.org/viewtopic.php?pid=5468901#p5468901|ci-joint]] qui automatise l'ensemble des tâches  crée un raccourci dans le menu Applications/Sons et vidéo sur la base de la version 1.5.5 (la dernière à la date du 22/07/2011).
+Si quelqu'un a envie de mettre à jour le script ;)
+</note>
+==== Par paquet DEB ====
+
+Ce logiciel n'est pas présent par défaut dans la logithèque d'Ubuntu.
+<note important>Avec la nouvelle version de 2ManDVD, la 1.8.x, cette procédure est désormais déconseillée, préférez la méthode par compilation</note>
+Par contre, si vous [[getdeb|rajoutez le dépôt de GetDeb]] à l'aide du paquet **[[http://archive.getdeb.net/install_deb/getdeb-repository_0.1-1~getdeb1_all.deb|getdeb-repository]]**, vous pouvez ensuite installer directement le paquet **[[apt>2mandvd]]** en cliquant sur le lien précédent.
+
+===== L'utilisation de 2ManDVD =====
+
+  * Le lanceur se trouve alors dans le menu //Applications -> Son et vidéo//.  Aussi trouvable dans le Dash.
+
+
+===== Désinstallation et mise à jour =====
+  * Pour metter à jour il suffit de télécharger la nouvelle version et de suivre la procédure de compilation, Le make install s'occupe d'écraser ce qui est nécessaire
+  * Pour désinstaller, rendez vous dans le répertoire d'installation et entrez les commande suivantes
+<code>$ sudo make uninstall && sudo make clean</code>
+Vous pouvez maintenant supprimer le répertoire d'installation 
+  * Si vous avez installé 2ManDVD via le paquet DEB : il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+ 
+
+===== Voir aussi =====
+
+  * **(fr)** [[http://2mandvd.tuxfamily.org/website/|Site officiel du projet 2manDVD]]
+  * **(fr)** [[http://www.lprod.org/wiki/doku.php/video:2mandvd|lprod.org, faire de la vidéo libre, section 2ManDVD]]
+  * [[:tutoriel:2mandvd_par_l_exemple|2ManDVD par l'exemple]] : La création d'un menu simple avec 4 boutons.
+
+----
+
+//Contributeurs : [[utilisateurs:vince06fr|vince06fr]], [[utilisateurs:laurentb|Laurent Bellegarde]]//.

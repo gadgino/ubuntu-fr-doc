@@ -1,0 +1,55 @@
+{{tag>Precise Trusty animation graphisme programmation flash}}
+----
+
+====== Ella, logiciel d'animation 2D======
+
+<note warning>À ce jour le projet Ella-Renaissance est en hibernation. Il n'y a plus de développement depuis 2 ans. Il reste possible de l'installer sous [[:precise|Ubuntu 12.04]], mais il ne fonctionne pas sous [[:trusty|Ubuntu 14.04]]. Il existe des alternatives, comme [[:Synfig]] et **[[apt>tupi]]**.</note>
+
+**Ella** (//Elegant Light Linux Animator//), rebaptisé Ella-Renaissance depuis quelques annéesn est un logiciel libre et **léger** destiné à produire des **animations 2D** autonomes aux formats **SWF-Flash** et/ou **SVG**. Il se veut donc un pendant libre à Adobe(r) Macromedia Flash, qui n'est pas disponible sous Linux. Ella est destiné avant tout aux //[[:programmation#le_developpement_web|concepteurs de sites Web]]// et de //Présentations Assistées par Ordinateur//. Ainsi, Ella sera complémentaire de  [[:Bluefish]] (création de sites Web) et de [[:LibreOffice]] (module Impress).
+
+Les animations sont créées en **mode graphique et [[wpfr>What_you_see_is_what_you_get|WYSIWYG]]**, de manière intuitive et conviviale. Pour le moment, Ella ne peut pas encore réaliser tout ce que fait le logiciel d'Adobe ; mais, tout ce qui existe dans Ella est //réellement// fonctionnel.
+
+{{:ella_9nov_2010.png|}}
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * [[:tutoriel:comment_installer_un_paquet|Installez les paquets]] **[[apt>swftools, goocanvas]]**.
+  * Pour les architecture 64 bits, télécharger et installer [[http://launchpadlibrarian.net/56565535/libzip1_0.9-3ubuntu0.1_amd64.deb|libzip1]] et [[http://old-releases.ubuntu.com/ubuntu/pool/universe/s/swfdec0.8/libswfdec-0.8-0_0.8.0-0ubuntu1_amd64.deb|libswfdec]].
+
+===== Installation =====
+
+Téléchargez le paquet **deb** en fonction de votre [[:architecture_materielle|architecture]] [[https://launchpad.net/ella-renaissance/+download|ici]]. Sur cette même page téléchargez et installez **libswfdec**.
+
+Voir [[http://ella.tuxfamily.org/wiki/Download|la page Download]].
+
+===== Utilisation=====
+
+Pour lancer l'application faites une recherche dans [[unity#tableau_de_bord_dash|le tableau de bord Unity]] avec le mot clé **Ella** ou //via// la [[:commande_shell|commande]] suivante : <code>ella</code>
+
+==== Principe de fonctionnement ====
+
+Ella, comme son «modèle» non-libre, est axée sur une double logique : c'est à la fois une **table de montage** et un **logiciel de dessin**. Le principe est simple : on dessine sur **l'éditeur**, et on **anime** nos dessins en utilisant la **table de montage**. Si vous connaissez déjà [[:Inkscape]] ou LibreOffice Draw, vous savez utiliser le module de dessin d'Ella. Si vous avez déjà manipulé un logiciel de montage vidéo, vous allez très vite prendre en main la table de montage d'Ella.
+
+Ella produit donc des animations sous forme de fichiers vidéo, mais c'est de la vidéo pour le web (Flash ou SVG) qui ne peut être lue dans votre salon ! Une différence avec un logiciel de montage vidéo : la table de montage est organisée en «**images**» (trames/frames) et non pas en durée. Ella, comme son modèle ou un logiciel comme [[:gimp|The Gimp]], utilise les «**calques**» : cela permet de superposer plusieurs niveaux d'animation, et de créer de la «profondeur» dans les animations 2D.
+
+Ella n'a pas encore de mode d'emploi : mais disons que si vous disposez d'un ouvrage consacré à Adobe(r) Flash, vous pourrez reprendre les tutoriels avec profit pour maîtriser Ella !
+
+Vous trouverez quelques tutoriels ici : 
+  * [[http://kevlar.voila.net/temp/introduction.pdf|Une présentation de l'interface]],
+  * [[http://kevlar.voila.net/temp/tuto1.pdf|La réalisation d'un texte animé]].
+  * Un ensemble de fichiers de démonstration, avec une copie d'écran, le fichier source au format **.ella**, l'animation produite au format Flash : [[http://ellarenaissance.voila.net/index.html|ici]] ; attention ces fichiers sont en anglais.
+===== Désinstallation =====
+ 
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+ 
+===== Voir aussi =====
+
+  * [[http://ella.tuxfamily.org/wiki/Main_Page|Site officiel du logiciel]]
+  * [[https://forum.ubuntu-fr.org/viewtopic.php?id=447981&p=1|Discussion « Ella : projet de logiciel d'animation Flash & SVG pour Linux »]] sur le forum Ubuntu-fr
+  * [[https://launchpad.net/ella-renaissance/+download|Page de téléchargement]] pour le projet **Ella-Renaissance**.
+
+
+----
+//Contributeur principal : [[:utilisateurs:kevlar]].//

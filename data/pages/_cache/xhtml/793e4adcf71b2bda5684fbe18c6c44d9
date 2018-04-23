@@ -1,0 +1,127 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="clear"><ul class="toc">
+<li class="level2"><span class="li"><a href="#mon_scanner_scsi_n_est_pas_detecte_par_xsane_analyse_du_probleme" class="toc"> Mon scanner SCSI n'est pas détecté par XSane : analyse du problème </a></span></li>
+<li class="level2"><span class="li"><a href="#charger_le_peripherique_sg_au_boot" class="toc"> Charger le périphérique sg au boot </a></span></li>
+<li class="level2"><span class="li"><a href="#rendre_accessible_ce_peripherique_a_tous_les_utilisateurs" class="toc"> Rendre accessible ce périphérique à tous les utilisateurs </a></span></li>
+<li class="level2"><span class="li"><a href="#j_ai_oublie_d_allumer_le_scanner_au_demarrage_de_l_ordinateur" class="toc"> J'ai oublié d'allumer le scanner au démarrage de l'ordinateur ! </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<p>
+Par Gilles T. <br/>
+ Article provenant de <a href="http://debuntu.tuxfamily.org" class="urlextern" title="http://debuntu.tuxfamily.org" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://debuntu.tuxfamily.org</a>
+</p>
+
+<a name="mon_scanner_scsi_n_est_pas_detecte_par_xsane_analyse_du_probleme"></a><h2> Mon scanner SCSI n'est pas détecté par XSane : analyse du problème </h2>
+<div class="level2">
+
+<p>
+ Sane ne parvient pas à trouver votre scanner scsi ? Peut-être le pilote scsi ne convient-il pas (par exemple, moi, j&rsquo;ai aic7xxx, qui ne détecte pas le scanner). On peut alors ajouter le pilote générique sg. Pour prendre en compte le scsi générique taper dans un terminal : 
+</p>
+<pre class="code">$sudo modprobe sg</pre>
+
+<p>
+ Cela devrait suffire à débloquer la situation.
+</p>
+
+<p>
+Pour vérifier ensuite si le scanner est bien reconnu, taper : 
+</p>
+<pre class="code">sudo scanimage -L</pre>
+
+<p>
+ qui doit retourner la valeur du scanner scsi détecté, par exemple, dans mon cas : 
+</p>
+<pre class="code">#device `epson:/dev/sg0' is a Epson GT-7000 flatbed scanner</pre>
+
+</div>
+<!-- SECTION [69-736] -->
+<a name="charger_le_peripherique_sg_au_boot"></a><h2> Charger le périphérique sg au boot </h2>
+<div class="level2">
+
+<p>
+Pour rendre ceci permanent, ajouter au fichier /etc/modules la ligne suivante à la fin du fichier : 
+</p>
+<pre class="code">sg</pre>
+
+<p>
+ Au prochain boot, udev crée le device sg0 correspondant au scanner (s&rsquo;il est allumé). Sane, XSane et The Gimp utilisent tous le scanner sans problème.
+</p>
+
+</div>
+<!-- SECTION [737-1050] -->
+<a name="rendre_accessible_ce_peripherique_a_tous_les_utilisateurs"></a><h2> Rendre accessible ce périphérique à tous les utilisateurs </h2>
+<div class="level2">
+
+<p>
+ Seulement voilà, seul root peut utiliser le scanner ! Il faut modifier les permissions du device, dont le propriétaire est root, et le groupe disk :
+</p>
+
+<p>
+Editer le fichier <code>/etc/udev/permissions.d</code> et remplacer : 
+</p>
+<pre class="code">s[gr][0-9]*:root:disk:0660</pre>
+
+<p>
+ par 
+</p>
+<pre class="code">s[gr][0-9]*:root:scanner:0660</pre>
+
+<p>
+ ou par : 
+</p>
+<pre class="code">s[gr][0-9]*:root:disk:0666</pre>
+
+<p>
+ On reboote, ou on force init à s&rsquo;exécuter d&rsquo;une façon ou d&rsquo;une autre, et on vérifie : 
+</p>
+<pre class="code">cd /dev
+ls -l sg*
+crw-rw---- 1 root scanner 21, 0 2005-07-08 08:20 sg0''</pre>
+
+<p>
+ Victoire ! ça marche : tous les utilisateurs peuvent se servir du scanner.
+</p>
+
+<p>
+Remarque : une autre solution serait d&rsquo;ajouter l&rsquo;utilisateur au groupe disk : 
+</p>
+<pre class="code">sudo usermod -G disk &lt;nom-de-l-utilisateur&gt;</pre>
+
+<p>
+ mais ceci donnerait des droits sur d&rsquo;autres périphériques que le scanner (tous les disques en fait) et introduirait des problèmes de sécurité ; en outre, il faudrait modifier la configuration de création des utilisateurs pour que tout nouvel ajout se fasse automatiquement, ce qui se règle dans le fichier /etc/adduser.conf (si j&rsquo;ai bien compris, je n&rsquo;ai pas essayé).
+</p>
+
+<p>
+Voilà, tout fonctionne.
+</p>
+
+</div>
+<!-- SECTION [1051-2223] -->
+<a name="j_ai_oublie_d_allumer_le_scanner_au_demarrage_de_l_ordinateur"></a><h2> J'ai oublié d'allumer le scanner au démarrage de l'ordinateur ! </h2>
+<div class="level2">
+
+<p>
+Evidemment, le périphérique /dev/sg0 n&rsquo;existe pas, et pas moyen de scanner. On ne va tout de même pas rebooter à chaque fois ? La manipulation suivante nous tire de ce mauvais pas. Elle n&rsquo;est pas parfaite, car seul root peut l&rsquo;accomplir. Elle consiste à décharger le pilote <acronym title="Small Computer System Interface">SCSI</acronym> (le vrai pas le générique) et à le recharger pour forcer le système à relire toute la chaine <acronym title="Small Computer System Interface">SCSI</acronym> des périphériques : 
+</p>
+<pre class="code">sudo modprobe -r aic7xxx
+sudo modprobe aic7xxx</pre>
+
+<p>
+ On attend un bon moment avec Ubuntu, mais après tout fonctionne : 
+</p>
+<pre class="code">ls -l /dev/sg*
+crw-rw---- 1 root scanner 21, 0 2005-07-09 08:24 /dev/sg0''</pre>
+
+<p>
+ Bon usage de votre scanner. 
+</p>
+
+</div>
+<!-- SECTION [2224-] -->

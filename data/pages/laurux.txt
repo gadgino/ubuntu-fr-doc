@@ -1,0 +1,223 @@
+{{tag>entreprise erp bureautique comptabilité}}
+
+----
+
+{{ laurux:logo.png}}
+
+====== Laurux ======
+
+**Laurux** est un logiciel de gestion d'entreprise permettant d'effectuer l'essentiel des tâches afin de gérer d'une façon optimale la comptabilité, la facturation et le stock. Il propose :
+
+  * Une comptabilité ;
+  * La gestion des clients (facturation avec passage automatique des écritures en comptabilité, historiques) ;
+  * La gestion des fournisseurs (commandes, réception de marchandises, historiques) ;
+  * Une tenue de stock ;
+  * La gestion des codes barres ;
+  * Des statistiques complètes.
+
+  * Gestion des remises clients évoluées.
+  * Gestion des promotions
+  * Etc...
+
+Destiné aux PME/PMI, c'est un logiciel intégrant une comptabilité et une gestion d'entreprise. Ce logiciel est très simple d'utilisation et possède une bonne ergonomie.
+
+{{ http://www.laurux.fr/client.png?250}}
+
+Voici quelques fonctions gérées par Laurux :
+  * gestion des code-barres  (multi-code-barres);
+  * gestion des décimales pour les quantités et les prix ;
+  * gestion de l'éco-taxe et de la taxe sur la copie privée ;
+  * gestion de la main d'œuvre ;
+  * gestion des arrondis du PV sur les produits et la MO ;
+  * un seul document pour saisir les devis, //proforma//, commande, bon de livraison et facture ;
+  * les factures restent accessibles via une table d'historiques et puisqu'elles ne sont jamais effacées peuvent être réimprimées à loisir.
+
+ <note tip>Pour **une installation pas à pas** sous Kubuntu, vous pouvez consulter le tutoriel « [[tutoriel:comment_installer_laurux|Comment installer Laurux pas à pas ?]] ».</note>
+
+===== Pré-requis =====
+
+  * Avoir une version de Gambas3 opérationnelle.
+  * Disposer d'un serveur [[MySQL]] (en local ou non) et d'un compte utilisateur MySQL ayant les droits pour créer et manipuler des tables dans une base de données.
+  * Disposer des bibliothèques wget et Evince ou autre visualiseur pdf.
+
+==== Installer Gambas 3 ====
+ 
+Laurux a besoin de la toute dernière version stable de Gambas pour fonctionner. En ligne de commande dans une console, utilisez le PPA ci-dessous pour installer Gambas3.\\ 
+<code bash>sudo add-apt-repository ppa:gambas-team/gambas3</code>.\\  Puis, il faudra faire :\\  <code bash>sudo apt-get update</code>\\  <code bash>sudo apt-get install gambas3</code>
+
+==== Installer MySQL ====
+
+[[:tutoriel:comment_installer_un_paquet|Installez les paquets]] **mysql-server-5.X** et **mysql-client-5.X**. Le paquet **mysql-common** est sélectionné et installé d'office.
+
+Coller dans un terminal :
+<code> sudo apt-get install mysql-server-5.7 mysql-client-5.7 </code>
+===== Installation =====
+
+==== Télécharger Laurux ====
+
+Rendez-vous sur le [[http://www.laurux.fr|site de Laurux]] et téléchargez-y le fichier « Laurux.tar.gz » depuis l'onglet « Téléchargement ». Vous le placerez dans votre dossier personnel.
+
+
+==== Installer Laurux ====
+
+=== Copie des fichiers ===
+
+Extrayez l'archive dans votre répertoire personnel. Vous avez normalement un nouveau répertoire nommé « Laurux3 » dans votre répertoire personnel.
+
+=== Lanceur ===
+
+[[:raccourci-lanceur|Créez un raccourci]] sur le bureau pour lancer l'application (le « ~ » représente votre répertoire personnel) :
+  * pour l'icône, utiliser le fichier « ~/Laurux3/Logo.png » ;
+  * pour l'exécutable, utiliser le chemin « ~/Laurux/Laurux3.gambas ».
+
+=== Police de caractères ===
+
+Il faut à présent installer la police de caractère livrée avec le logiciel. Elle est nommée « flubber.ttf » et est située dans le répertoire « ~/Laurux/Install/ ».
+
+== Pour KDE ==
+
+{{ laurux:step_oo69.png?250}}
+
+Cliquez sur ce fichier avec le bouton droit de la souris puis choisissez //Action → Installer//.
+
+Une boîte d'alerte vous propose une installation pour le compte Administrateur (System) ou Utilisateur (Personnel). Cliquez sur « Personnel ».
+
+== Pour Gnome ==
+
+Double clic sur le fichier.
+
+Une fenêtre s'ouvre, montrant la police, cliquer sur "install" en bas à droite.
+
+Une boîte d'alerte vous propose une installation pour le compte Administrateur (System) ou Utilisateur (Personnel). Choisissez vos préférences.
+
+=== Ajustements graphiques (pour KDE) ===
+
+{{ laurux:step_oo44_1.png?250}}
+
+Pour terminer les préparatifs au lancement de Laurux, il faut changer la taille des caractères du bureau, qui est de 9 par défaut, à 10.
+
+Pour ce faire :
+  * Ouvrez le menu système de KDE et cliquez sur l'élément « Paramètres du système ».
+  * Dans l'écran suivant, cliquez sur « Apparence ».
+  * Changez ensuite la taille des caractères comme illustré ci-après en cliquant sur les boutons intitulés « Choisir… » puis cliquez sur « Appliquer ».
+  * Vous pouvez ensuite fermer la fenêtre.
+
+===== Configuration =====
+
+==== Créer un compte MySQL ====
+
+Avant de pouvoir exécuter Laurux, il reste une dernière étape : la création d'un compte MySQL. Ouvrez un [[terminal]].
+
+Entrez la commande suivante pour ouvrir le module d'administration de MySQL :
+
+  mysql --user=root mysql
+<note important>si message d'erreur 
+Entrez : dpkg-reconfigure mysql-server-5.0  créer le mot de passe à utiliser avec laurux. pour lancer mysql Entrée : **mysql -u root -p**</note>
+
+Tapez ensuite la ligne suivante en prenant soin de remplacer d'une part « ''USER_NAME'' » par le nom d'utilisateur de votre choix et d'autre part, « ''PASSWORD'' » par votre mot de passe qui sera utilisé par Laurux pour accéder à MySQL.
+
+<code SQL>
+GRANT ALL PRIVILEGES ON *.* TO USER_NAME@localhost IDENTIFIED BY "PASSWORD";
+</code>
+Attention: N'oubliez pas les guillemets qui entourent votre mot de passe ni le point virgule qui termine la commande SQL.
+Parfois il faut mettre des apostrophes à la place des guillemets (cf site de Laurux)
+Après avoir validé la ligne avec la touche « Entrée » du clavier, vous devriez avoir le message suivant :
+
+> Query OK, 0 rows affected
+
+Lorsque cette phase est terminée, tapez exit; pour quitter la ligne de commande MySQL.
+
+Vous pouvez fermer le terminal, Laurux est prêt ! 8-)
+
+===== Utilisation =====
+
+==== Premier lancement ====
+
+Cliquez sur l'icône Laurux qui se trouve sur votre bureau. Le premier écran de Laurux s'affiche. C'est ici que vous devez entrer le nom d'utilisateur défini précédemment dans MySQL avec le mot de passe associé.
+
+Nota: Si rien ne se passe, installer les composants manquant de Gambas avec le gestionnaire de paquets.
+
+{{laurux:step_oo47.png}}
+
+Validez votre saisie en cliquant sur le bouton « Valider ». Laurux vous propose alors de créer la base de données sur le serveur MySQL. Acceptez.
+
+Laurux vous informe que la base de travail vierge a bien été créée et invite ensuite à redémarrer le programme.
+
+Relancez le logiciel. Une fenêtre vous présentant les astuces du jour s'affiche. Cliquez sur « Fermer » pour accéder à l'interface du programme.
+
+Vous voici devant l'écran principal de Laurux.
+
+{{laurux:step_oo51_1.png}}
+
+Avant de pouvoir commencer à travailler, il vous faut restaurer la base de démonstration livrée avec Laurux. Pour ce faire, ouvrez le menu « Base » et cliquez sur « Restauration ».
+
+La fenêtre suivante vous permet de sélectionner l'emplacement de la base à restaurer. Cliquez sur le bouton « Choisir ».
+
+À l'aide du sélecteur de fichiers, sélectionner le répertoire Laurux3 et cliquez sur « OK ».
+
+Cliquez ensuite sur le bouton « Restaurer ».
+
+Si tout se passe bien, Laurux vous informe que la restauration a réussi.
+
+À présent, Laurux est pleinement opérationnel. Vous pouvez commencer votre exploration.
+
+==== Laurux en réseau ====
+
+Laurux permet une utilisation en réseau et offre la possibilité à plusieurs postes de travailler sur la même base de données. Ainsi, pendant qu'un utilisateur se charge de la facturation, un autre peut rentrer les commandes et une troisième personne peut se charger de les réceptionner. La base de données unique et commune à tous les postes est stockée sur un poste serveur. les autres ordinateurs sont les postes clients.
+
+<note important>le forum sur **laurux.fr** est une mines d'informations, les questions sont traitées très rapidement, 
+laurux évolue en fonction des besoins de ses utilisateurs un conseil, participez !   </note>
+
+Pour utiliser Laurux sur plusieurs postes, il convient d'utiliser un adressage en IP fixe. Les heureux possesseurs d'une box pourront conserver un adressage dynamique en utilisant les baux DHCP qui leur permettront d'attribuer une adresse fixe sur les postes exécutant Laurux grâce à l'adresse MAC de chacune des cartes réseau qui équipe les machines.
+
+{{ laurux:step_oo62.png?250}}
+
+Sur le poste serveur ou est stockée la base de Laurux, il faut éditer le fichier de configuration de MySQL qui, par défaut, n'autorise que les connexions locales. Pour ce faire, [[:tutoriel:comment_installer_un_paquet|éditez le fichier]] **/etc/mysql/my.cnf** avec les droits administrateurs.
+Repérez la ligne commençant par « bind-address » et changez la valeur 127.0.0.1 par la valeur 0.0.0.0 puis enregistrez la modification et quittez le programme d'édition.
+
+Une fois le fichier édité, il est nécessaire de redémarrer le serveur MySQL avec la commande suivante :
+
+  sudo /etc/init.d/mysql restart
+
+Il faut à présent créer un compte utilisateur pour chaque poste client. Pour cela, il est impératif de connaitre l'adresse de chaque poste en exécutant la commande « ''ifconfig'' » dans une console par exemple.
+
+La syntaxe est identique à la création d'un compte utilisateur MySQL classique comme nous l'avons abordé plus haut à la différence qu'il faut remplacer « localhost » par l'adresse IP de la machine.
+
+Dans un premier temps, on lance MySQL dans un terminal.
+
+  mysql --user=root mysql
+
+Ensuite on entre la commande qui permet de créer un compte utilisateur avec le nom de l'utilisateur à la place de « USER_NAME », l'adresse IP du poste client à la place de « localhost » (généralement 192.168.0.X avec une valeur de X différente pour chaque poste) et le mot de passe à la place de « PASSWORD ».
+
+<code sql>
+GRANT ALL PRIVILEGES ON *.* TO 'USER_NAME'@'192.168.0.x' IDENTIFIED BY 'PASSWORD' WITH GRANT OPTION;
+</code>
+
+Pour les postes clients, il faut procéder l'installation de Laurux comme nous l'avons abordée plus haut à la seule différence qu'au premier lancement de Laurux, dans le formulaire de création de la base, il faut remplacer « localhost » par l'adresse IP du serveur.
+'
+
+<note tip>grant all privileges on Base.Table to 'User'@'machine' identified by 'password' ;
+
+
+
+La base est obligatoire.
+Table : indique la table ou * pout toutes
+
+User : nom d'utlisateur
+
+@ : comme pour les mails, indique que ce qui suit est la machine d'accès
+
+% : cas particulier pour la machine qui veut dire toute machine externe
+</note>
+
+===== Désinstallation =====
+
+Pour désinstaller Laurux il suffit de supprimer le répertoire Laurux.
+
+===== Voir aussi =====
+
+  * [[http://www.laurux.fr|Site officiel]]
+
+----
+
+//Contributeurs : [[utilisateurs:Magellan]], [[utilisateurs:ner0lph|Floriang]], [[utilisateurs:Laurux]].//

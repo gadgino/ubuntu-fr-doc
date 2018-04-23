@@ -1,0 +1,152 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#introduction" class="toc"> Introduction </a></span></li>
+<li class="level1"><span class="li"><a href="#installation" class="toc"> Installation </a></span></li>
+<li class="level1"><span class="li"><a href="#connexion_a_swat" class="toc"> Connexion à SWAT </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#connexion_en_tant_qu_utilisateur" class="toc"> Connexion en tant qu'utilisateur </a></span></li>
+<li class="level2"><span class="li"><a href="#connexion_en_tant_que_root" class="toc"> Connexion en tant que root </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+page en cours de création pour Hoary
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/manu" class="wikilink1" title="utilisateurs:manu" onclick="return svchk()" onkeypress="return svchk()">manu</a>.
+</p>
+
+<a name="introduction"></a><h1> Introduction </h1>
+<div class="level1">
+
+<p>
+ Pour administrer <strong>Samba</strong>, vous avez a votre disposition <strong>SWAT</strong> (Samba Web Administration Tool). Il est installé avec les paquets/dépendances de <em>samba</em>. Cet outil permet d&rsquo;administrer les partages SMB via un simple navigateur web. Particularité pour la distribution linux <strong>Ubuntu</strong>, l&rsquo;accés total pour cette administration doit se faire avec le compte <em>root</em> et par défaut ce compte est désactivé. Donc il vous faudra l&rsquo;activer (voir <a href="/installation/compte_root" class="wikilink1" title="installation:compte_root" onclick="return svchk()" onkeypress="return svchk()">Compte Root</a>).<br/>
+ <br/>
+ Cette page a pour but de vous donner les informations essentielles pour installer/configurer/utiliser <em>SWAT</em>, mais je ne peux détailler toutes les options car ce sont celles de <em>samba</em> est comme je vous l&rsquo;ai dit sur la page <a href="/applications/samba/avancee" class="wikilink1" title="applications:samba:avancee" onclick="return svchk()" onkeypress="return svchk()">avancée</a>, son fonctionnement est trés complet/complexe. Pour des utilisations plus poussés de <strong>samba/SWAT</strong> reportez vous aux pages du <em>man</em>.
+</p>
+
+</div>
+<!-- SECTION [92-994] -->
+<a name="installation"></a><h1> Installation </h1>
+<div class="level1">
+
+<p>
+ Une fois que <strong>SWAT</strong> a été installé avec <em>samba</em>, il vous faut paramétre le fichier <strong>/etc/services</strong>, pour rajouter une ligne concernant le port utilisé par <em>SWAT</em>. Avec votre éditeur préféré:(les exemples sont donnés avec <a href="/applications/nano" class="wikilink1" title="applications:nano" onclick="return svchk()" onkeypress="return svchk()">nano</a>)
+</p>
+<pre class="code">
+sudo nano -w /etc/services
+</pre>
+
+<p>
+ puis rajoutez à cette ligne au bon endroit (au niveau des ports): 
+</p>
+<pre class="code">
+swat                901/tcp                  #swat
+</pre>
+
+<p>
+Ensuite, il faut modifier le fichier <strong>/etc/inetd.conf</strong>: 
+</p>
+<pre class="code">
+sudo nano -w /etc/inetd.conf
+</pre>
+
+<p>
+ cherchez la ligne: 
+</p>
+<pre class="code">
+#&lt;off&gt;# swat    stream  tcp   nowait.400   root  /usr/sbin/tcpd  /usr/sbin/swat
+</pre>
+
+<p>
+ et enlevez <strong>#&lt;off&gt;#</strong> pour autoriser la connexion à <em>SWAT</em> via un navigateur web.
+</p>
+
+<p>
+<strong><u>Attention</u></strong> si vous gérez votre serveur <em>samba</em> de manière distante, pensez à configurer (si vous l&rsquo;utilisez ) les fichiers<em> /etc/hosts.allows </em>du serveur pour autoriser les connexions exterieures.<br/>
+
+</p>
+
+<p>
+Egalement pensez à votre <em>firewall</em> si vous en avez un d&rsquo;activé (exemple iptables).
+</p>
+
+</div>
+<!-- SECTION [995-2067] -->
+<a name="connexion_a_swat"></a><h1> Connexion à SWAT </h1>
+<div class="level1">
+
+<p>
+ Pour ce connecter à <em>SWAT</em>, lancez votre navigateur web et rentrez l&rsquo;adresse:<br/>
+ <strong><a href="http://mon_adresse_IP:901" class="urlextern" title="http://mon_adresse_IP:901" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://mon_adresse_IP:901</a></strong> <br/>
+ Voici un exemple de connexion via Firefox <a href="/fetch.php?cache=cache&amp;media=applications%3Asamba%3Aswat-connexion.png" class="media" title="applications:samba:swat-connexion.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=200&amp;h=150&amp;cache=cache&amp;media=applications%3Asamba%3Aswat-connexion.png" class="media" alt="" width="200" height="150" /></a>  
+</p>
+
+</div>
+<!-- SECTION [2068-2309] -->
+<a name="connexion_en_tant_qu_utilisateur"></a><h2> Connexion en tant qu'utilisateur </h2>
+<div class="level2">
+
+<p>
+ Il est possible de se connecter sur <em>SWAT</em> avec son compte utilisateur pour avoir accés à différent renseignement et pour pouvoir modifier son mot de passe.<br/>
+ <a href="/fetch.php?cache=cache&amp;media=applications%3Asamba%3Aswat-user1.png" class="media" title="applications:samba:swat-user1.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=600&amp;h=210&amp;cache=cache&amp;media=applications%3Asamba%3Aswat-user1.png" class="media" alt="" width="600" height="210" /></a> <a href="/fetch.php?cache=cache&amp;media=applications%3Asamba%3Aswat-user2.png" class="media" title="applications:samba:swat-user2.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=300&amp;h=329&amp;cache=cache&amp;media=applications%3Asamba%3Aswat-user2.png" class="mediaright" alt="" width="300" height="329" /></a><br/>
+ <br/>
+ <strong><u>HOME</u></strong>: cela correspond à la page d&rsquo;accueil de <em>SWAT</em>, pour avoir les documentations sur <em>samba</em> et tout ce qui y est intégré.<br/>
+ <br/>
+ <strong><u>STATUS</u></strong><br/>
+ <br/>
+ <em>Auto Refresh</em> pour rafraichir l&rsquo;affichage des informations de samba.<br/>
+ <br/>
+ <em>version</em> la version installée sur la machine<br/>
+ <em>smbd:running</em> le démon <strong>smbd</strong> est actif.<br/>
+ <em>nmbd:running</em> le démon <strong>nmbd</strong> est actif.<br/>
+ <em>winbindd:running</em> le démon <strong>winbindd</strong> est actif.<br/>
+ <br/>
+ <em>Active Connections</em> Donne la liste des machines connectées au serveur <em>samba</em>.<br/>
+ <em>Active Shares</em> Donne la liste des partages utilisés par machine avec le nom <em>netbios</em>.<br/>
+ <em>Open Files</em> Donne la liste des fichiers ouverts<br/>
+ <br/>
+ <strong><u>VIEW</u></strong><br/>
+ <br/>
+ Permet d&rsquo;afficher le comptenu du fichier <a href="/applications/samba/smb.conf" class="wikilink1" title="applications:samba:smb.conf" onclick="return svchk()" onkeypress="return svchk()">.smb.conf</a> pour lire les paramètres de <em>samba</em> [global] jusqu&rsquo;aux partages actifs sur le serveur.<br/>
+ [globale],[home],[printer] et des exemples de partage<br/>
+ <a href="/fetch.php?cache=cache&amp;media=applications%3Asamba%3Aswat-user3.png" class="media" title="applications:samba:swat-user3.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=250&amp;h=213&amp;cache=cache&amp;media=applications%3Asamba%3Aswat-user3.png" class="media" alt="" width="250" height="213" /></a><a href="/fetch.php?cache=cache&amp;media=applications%3Asamba%3Aswat-user4.png" class="media" title="applications:samba:swat-user4.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=250&amp;h=198&amp;cache=cache&amp;media=applications%3Asamba%3Aswat-user4.png" class="media" alt="" width="250" height="198" /></a><br/>
+ <br/>
+ <strong><u>PASSWORD</u></strong><br/>
+ <br/>
+ <a href="/fetch.php?cache=cache&amp;media=applications%3Asamba%3Aswat-user5.png" class="media" title="applications:samba:swat-user5.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=250&amp;h=218&amp;cache=cache&amp;media=applications%3Asamba%3Aswat-user5.png" class="mediaright" alt="" width="250" height="218" /></a> Permet de modifier votre mot de passe d&rsquo;accés au partage <em>samba</em>.<br/>
+ <br/>
+ <strong>Server Password Management</strong><br/>
+ Pour changer votre mot de passe d&rsquo;accés <em>samba</em> sur ce serveur.<br/>
+ <br/>
+ <strong>Client/Server Password Management</strong><br/>
+ Pour changer votre mot de passe d&rsquo;accés <em>samba</em> sur un autre serveur que celui où vous êtes actuellement connecter.<br/>
+ <em>User Name</em>&rArr;votre nom de connexion, <em>Old Password</em>&rArr;ancien mot de passe, <em>New Password</em>&rArr;nouveau mot de passe, <em>Re-type New Password</em>&rArr;retaper le nouveau mot de passe, <em>Remote Machine</em>&rArr;Machine distante (nom NetBios, ou IP)
+</p>
+
+</div>
+<!-- SECTION [2310-4270] -->
+<a name="connexion_en_tant_que_root"></a><h2> Connexion en tant que root </h2>
+<div class="level2">
+
+<p>
+ Si vous vous connectez en tant que <strong>root</strong> sur <em>SWAT</em>, vous aurez un affichage un peu plus fourni. <a href="/fetch.php?cache=cache&amp;media=applications%3Asamba%3Aswat-root1.png" class="media" title="applications:samba:swat-root1.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=600&amp;h=226&amp;cache=cache&amp;media=applications%3Asamba%3Aswat-root1.png" class="media" alt="" width="600" height="226" /></a><br/>
+ <br/>
+ Les boutons <strong>HOME</strong> et <strong>VIEW</strong> sont identiques à la connexion en tant qu&rsquo;utilisateur donc voyez au dessus.<br/>
+ <br/>
+ <strong><u>GLOBALS</u></strong><br/>
+ Les paramétrages dans la section <strong>GLOBALS</strong> servent à régler les options générales de <strong>samba</strong> (netbios...) et les paramétres de sécurités minimun des partages. Vous pouvez consulter l&rsquo;aide (page du man) pour chaque champ en utilisant le lien <strong>Help</strong> qui vous renverra dans la bonne section. Pour remettre les paramétres défauts, utilisez le bouton <strong>Set Default</strong>. <br/>
+ <a href="/fetch.php?cache=cache&amp;media=applications%3Asamba%3Aswat-root2.png" class="media" title="applications:samba:swat-root2.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=350&amp;h=403&amp;cache=cache&amp;media=applications%3Asamba%3Aswat-root2.png" class="medialeft" alt="" width="350" height="403" /></a> <em><u>workgroup</u></em>: groupe de travail NetBios<br/>
+ <em><u>netbios name</u></em>: nom netbios de votre machine<br/>
+ <em><u>netbios aliases</u></em>: pour donner des alias au nom netbios de la machine (peut utile pour la majorité des cas)<br/>
+ <em><u>server string</u></em>: affiche un message pour information quand on utilise <em>net view</em>.<br/>
+ <em><u>interfaces</u></em>: permet de spécifier, si besoin, par quelle interface réseau samba est utilisable. Par defaut il prend toutes les interfaces actives, donc exemple si vous avez du wifi et eth0, et que vous voulez que seul eth0 soit utilisé, indiquez dans le champ: eth0 ou son adresse IP.<br/>
+ <em><u>security</u></em>: Permet de spécifier le niveau de sécurité pour l&rsquo;accés aux partages. Par défaut c&rsquo;est <strong>USER</strong> pour que l&rsquo;authentification se fasse par <em>Utilisateur</em> couple Login/mot de passe. Les autres choix possible sont <em>share</em>&rArr; authentication au niveau du dossier (avec un compte générique connu par le serveur comme <em>guest user</em>), <em>server</em>&rArr;  
+</p>
+
+</div>
+<!-- SECTION [4271-] -->

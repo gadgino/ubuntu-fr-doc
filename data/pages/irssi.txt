@@ -1,0 +1,380 @@
+{{tag>console communication messagerie_instantanée off-the-record_messaging}}
+----
+
+====== Irssi ======
+
+
+Irssi est un programme de chat sur IRC en mode console. C'est une alternative à [[:Xchat]] et [[konversation]] et [[:weechat]] et [[http://www.bitchx.com/|BitchX]].
+
+
+===== Installation =====
+
+ [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>irssi|irssi]]**
+
+
+
+===== Configuration =====
+
+Comme la plupart des applications sous Linux irssi se configure via l'édition d'un fichier texte.
+
+[[:tutoriel:comment_editer_un_fichier|Éditez le fichier]] « ~/.irssi/config ».
+
+Note: le répertoire ~/.irssi sera créé lors du premier lancement d'irssi. 
+
+
+==== Serveurs ====
+<note warning>Il n'est pas conseillé de modifier le fichier ~/.irssi/config directement à partir du fichier de configuration, allez plutôt dans la section "Commandes équivalentes."</note>
+
+Ce fichier est découpé en plusieurs parties, les serveurs à joindre au démarrage :
+
+  servers = (
+    {
+      address = "irc.freenode.org";
+      chatnet = "freenode";
+      port = "6667";
+      autoconnect = "yes";
+      term_type = "utf-8";
+    }
+  );
+
+pour le ssl:
+
+  servers = (
+    {
+      address = "irc.freenode.org";
+      chatnet = "freenode";
+      port = "7000";
+      use_ssl = "yes";
+      ssl_verify = "yes";
+      ssl_capath = "/etc/ssl/certs";
+      autoconnect = "yes";
+      term_type = "utf-8";
+    }
+  );
+  
+==== Commandes équivalentes ====
+
+<note>Se connecter automatiquement au round robin irc.freenode.org sans SSL sur le port 6667:</note>
+
+<code>/server add -auto -network freenode -port 6667 irc.freenode.org</code>
+ 
+ <note>Se connecter automatiquement au round robin irc.freenode.org avec SSL sur le port 7000:</note>
+
+<code>/server add -auto -ssl_verify -ssl_capath /etc/ssl/certs -ssl -network freenode irc.freenode.net 7000</code>
+  
+<note>Se connecter automatiquement au round robin irc.freenode.org avec SASL et le support SSL sur le port 6697:
+
+<note warning>Attention votre mot de passe sera stocké en clair dans votre dossier ~/.irssi/</note>
+
+ 
+<note>le support SASL est disponible à partir de la version 0.8.18((https://github.com/irssi/irssi/releases/tag/0.8.18))</note>
+
+</note>
+
+<code>/server add -auto -ssl -ssl_verify -ssl_capath /etc/ssl/certs -network freenode -port 6697 irc.freenode.net</code>
+
+  /network add -sasl_mechanism plain -sasl_username <username> -sasl_password <password> freenode
+
+ <note>Utiliser le charset utf-8:</note>
+
+<code>/set term_charset utf-8</code>
+
+Voilà au lancement d'irssi, vous serez sur un serveur freenode en utf-8 ((les salles de discussion migrent petit à petit vers utf-8, #ubuntu-fr est en utf-8 par exemple))
+
+==== Salles de discussion ====
+
+<note warning>Il n'est pas conseillé de modifier le fichier ~/.irssi/config directement à partir du fichier de configuration, allez plutôt dans la section "Commandes équivalentes."</note>
+
+Les salles de discussion à joindre au lancement :
+
+  channels = (
+    { name = "#ubuntu-fr"; chatnet = "freenode"; autojoin = "Yes"; }
+  );
+
+La syntaxe est relativement simple :
+
+  channels = (
+    { name = "#ubuntu-fr"; chatnet = "freenode"; autojoin = "Yes"; },
+    { name = "#autre_chan"; chatnet = "freenode"; autojoin = "Yes"; },
+    { name = "#encore_un_autre"; chatnet = "freenode"; autojoin = "No"; }
+  );
+  
+  
+==== Commandes équivalentes ====
+  
+   /channel add -auto #ubuntu-fr freenode
+   /channel add -auto #autre_chan freenode
+   /channel add -auto #encore_un_autre freenode
+
+
+==== Identification ====
+<note warning>Il n'est pas conseillé de modifier le fichier ~/.irssi/config directement à partir du fichier de configuration, allez plutôt dans la section "Commandes équivalentes."</note>
+
+  freenode = {
+  
+  type = "IRC";
+  nick = "pseudonyme";
+  user_name= "nom_d'utilisateur_à_afficher";
+  real_name = "nom_réel_à_afficher";
+  autosendcmd = "/msg NickServ identify password;wait 8000"
+    };
+  };
+
+==== Commande équivalente ====
+ 
+<code>/network add -nick "pseudonyme" -user "nom_d_utilisateur_à_afficher" -realname "nom_réel_à_afficher" -autosendcmd "/msg NickServ  IDENTIFY password ;wait 8000" freenode</code>
+
+<note tip>Le wait 8000 permet d'attendre un laps de temps après l'identification auprès de NickServ avant de joindre un canal IRC.</note>
+
+===== Utilisation =====
+
+Irssi se lance dans un terminal, via la commande :
+
+  irssi
+
+La fenêtre se compose de trois parties :
+
+
+  * Tout au dessus : Le sujet de la salle de discussion où vous vous trouvez actuellement.
+  * L'écran de dialogue proprement dit.
+  * La barre de statut, tout en bas ((il y a, chez moi, une deuxième barre pour [[Screen]])).
+
+
+{{applications:irssi.png?736}}
+
+
+===== Thèmes et couleurs =====
+
+Le thème par défaut d'irssi ne concorde pas du tout avec le thème de gnome-terminal : il est prévu pour un terminal sur fond noir. En particulier, le pseudo utilisateur est en gras blanc sur blanc, et les notifications en gras jaune sur blanc.
+
+Pour y remédier, on peut simplement remplacer ces couleurs dans le thème par défaut. Par exemple, y remplacer toutes les occurrences de %W (blanc gras) par %B (bleu gras) et de %Y (jaune gras) par %R (rouge gras) :
+  cp /usr/share/irssi/themes/default.theme /usr/share/irssi/themes/default.theme.bak
+  sed -i 's/%W/%B/g' /usr/share/irssi/themes/default.theme
+  sed -i 's/%Y/%R/g' /usr/share/irssi/themes/default.theme
+
+Pour prendre en compte les changements, il faut soit charger un autre thème puis recharger le thème par défaut, soit relancer irssi.
+
+On peut également installer un nouveau thème, en copiant dans le répertoire **$HOME/.irssi** un fichier *.theme téléchargé par exemple [[http://www.irssi.org/themes|ici]]. Pour charger le nouveau thème, il suffit d'utiliser dans irssi la commande :
+  /set theme nomduthème
+Pour revenir au thème par défaut :
+  /set theme default
+
+Enfin, la méthode la plus radicale consiste à désactiver les couleurs :
+  /set colors off
+
+==== Désireux de lancer des scripts automatiquement à chaque démarrage de irssi ? ====
+  mkdir ~/.irssi/scripts/autorun/ 
+  ln -s ~/.irssi/scripts/script1.pl ~/.irssi/scripts/autorun/
+  ln -s ~/.irssi/scripts/script2.pl ~/.irssi/scripts/autorun/
+  etc...
+
+==== Comment puis-je exécuter des commandes automatiquement au démarrage de irssi ? ====
+  touch ~/.irssi/startup 
+ 
+ <note>il vous suffit alors de copier les commandes en question dans le fichier startup, '/' n'est pas nécessaire ;).</note>
+
+  
+
+===== IRC =====
+
+Pour afficher le 'Topic' (sujet de la salle où vous vous trouvez) :
+
+  /topic 
+
+
+Pour afficher les noms des personnes dans la salle ((il existe un script qui //tente// de faire une barre latérale pour irssi http://wouter.coekaerts.be/site/irssi/nicklist )) :
+
+  /names
+
+Pour se connecter à un autre channel :
+
+  /join #nom_du_channel
+
+Pour se connecter à un autre serveur ((vous restez connecté au premier)) :
+
+  /connect irc.autreserveur.org
+
+Note: une fois que vous êtes connecté à plusieurs serveurs, vous pouvez passer de l'un à l'autre en revenant sur la fenêtre « status » et en appuyant sur CTRL+X.
+
+Pour parler en privé à un utilisateur
+
+  /msg nom_d_utilisateur message
+
+Se déplacer dans les différentes fenétres : 
+
+  CTRL P  : pour Previous, précédent 
+  CTRL N : pour Next, suivant
+  ALT x : où x est le numéro de la fenetre que vous voulez afficher (ALT SHIFT & : pour revenir aux messages serveurs)
+
+Passer en 'non disponible' (away) ((les messages ou vous êtes nommés seront copiés dans la fenetre statut du serveur)) :
+
+  /away [raison]
+
+Redevenir 'disponible' :
+ 
+ <code>/back</code>
+
+
+== Via la formation Debian GNU/Linux d'Alexis de Lattre ==
+
+[[http://formation-debian.via.ecp.fr/irc.html|Un très bon guide pour Debian et toutes les distributions derivees]]
+
+     *  /nick  : permet d'attribuer un pseudonyme sur lequel vous serez connu sur le canal.
+     *  /ping  : permet de voir si la machine d'un utilisateur est connectée au serveur, par exemple celui de irc.freenode.org, et de voir son temps de réponse.
+     *  /whois : permet d'obtenir des renseignements sur x utilisateurs.
+     *  /query : permet de contacter une personne en privé.
+     *  /list : affiche la liste des channels de l'ircnet sélectionné,
+     *  /who #debian : affiche la liste des gens présents sur #debian,
+     *  /hilight mot : met en couleur le nick de la personne qui prononce le mot,
+     *  /dcc list : liste les fichiers disponibles par dcc,
+     *  /dcc get nick : pour récupérer un fichier envoyé par dcc,
+     *  /dcc send nick nom_du_fichier : pour envoyer un fichier par dcc,
+     *  /help pour avoir la liste des commandes,
+     *  /help nom_de_la_commande pour avoir de l'aide sur une commande particulière,
+     *  /quit pour quitter irssi.
+
+
+
+===== Plugins =====
+
+==== Irssi-proxy ====
+Irssi + screen est un duo redoutable, mais pas toujours efficace si vous êtes très loin du serveur (lag lorsque vous tapez) ou que vous voulez utiliser un autre client irc.
+
+C'est là qu'intervient le plugin proxy d'irssi.
+
+  /load proxy
+va charger le module de proxy.
+
+**Attention** : il n'y a pas encore de mot de passe donc mettez-en un en place
+  /set irssiproxy_password votre_mot_de_passe
+Il peut être different de votre mot de passe freenode (et c'est même conseillé -- c'est juste pour vous connecter au proxy).
+
+Ensuite vous devez definir un port sur lequel vous connecterez votre client IRC :
+
+  /set irssiproxy_ports freenode=XXXX
+où XXXX est un nombre pour le port TCP (assurez-vous que ce port est accessible de l'extérieur, i.e. qu'il n'est pas bloqué par un pare-feu).
+
+==== Proxy HTTP ====
+
+Pour utiliser Irssi derrière un proxy HTTP, les commandes suivantes sont nécessaires :
+
+<code>/set use_proxy ON</code>
+<code>/set proxy_address <Proxy host address></code>
+<code>/set proxy_port <Proxy port></code>
+<code>/set -clear proxy_string</code>
+<code>/set proxy_string_after conn %s %d</code>
+<code>/eval set proxy_string CONNECT %s:%d HTTP/1.0\n\n</code>
+
+<note>N'est pas compatible avec une configuration SSL.</note>
+
+==== Socks Proxy ====
+
+Pour utiliser un proxy socks, veuillez entrer ces commandes :
+
+<code>/set proxy_address <Proxy host address></code>
+
+<code>/set proxy_port <port></code>
+
+<code>/set use_proxy ON</code>
+
+==== Irssi-OTR (chiffrement) ====
+Chiffrer vos conversations avec [[off-the-record_messaging#irssi-otr|Irssi-OTR]].
+
+==== Avoir le bip système sur son pseudo ====
+ 
+<code>/set beep_when_window_active on</code>
+<code>/set beep_when_away on</code>
+<code>/set bell_beeps on</code>
+<code>/set beep_msg_level HILIGHT MSGS DCC DCCMSGS</code>
+<code>/hilight ton_nick</code>
+
+
+==== Astuces ====
+ 
+<note>Vous en avez marre de voir sur votre irssi des déconnexions intempestives ? :</note>
+<code>/ignore -channels #nom_channel1,#nom_du_channel2 * PARTS QUITS</code>
+
+<note>Vous pouvez également ignorer l'affichage des utilisateurs qui se connectent sur le channel :</note>
+ <code>/ignore -channels #nom_channel1,#nom_channel2 * JOINS</code>
+  
+<note>Évidemment vous pouvez ignorer l'affichage des connexions, et des déconnexions des utilisateurs :</note>
+<code>/ignore -channels #nom_channel1,#nom_channel2 * JOINS PARTS QUITS</code>
+  
+ <note>Ignorer les messages d'absence public :</note>
+ <code>/ignore -regexp -pattern "is (away|gone|back)" * ACTIONS</code>
+  
+===== Xirssi =====
+
+<note warning>Le projet semble être abandonné.</note>
+
+{{:xirssi.jpg?736}}
+
+Si vous suivez ce tutoriel, vous connaissez le client IRC en [[http://fr.wikipedia.org/wiki/Command-line_interface|CLI]] Irssi, ici, vous allez voir comment avoir Irssi mais en version [[http://fr.wikipedia.org/wiki/GTK%2B|GTK]], pour se faire on va devoir compiler Irssi et Xirssi.
+
+==== Compilation de Irssi ====
+
+
+<note>Nous installons les [[http://fr.wikipedia.org/wiki/D%C3%A9pendance_logicielle|dépendances logicielles]] pour Irssi.</note> 
+
+  sudo apt-get build-dep irssi 
+
+<note>Ensuite, nous récupérons le tar.gz de Irssi via le site officiel.</note>
+
+  wget http://www.irssi.org/files/irssi-0.8.17.tar.gz
+
+<note>Ensuite, nous décompressons le tar.gz irssi-0.8.17.tar.gz et on se place dans le dossier irssi-0.8.17.</note>
+
+  tar -xzvf irssi-0.8.17.tar.gz && cd irssi-0.8.17
+
+<note>Nous lançons la compilation de Irssi.</note>
+
+  ./configure --with-perl --with-glib2 ## L'option --with-glib2 n'est plus disponible, mais ce fut le cas à l'époque.
+  make
+  sudo make install
+  
+Nous vérifions notre version de Irssi via la commande suivante :
+
+  irssi --version
+
+Et on obtient ceci :
+
+  irssi 0.8.17 (20141011 1044)
+
+Notre Irssi est compilé, au tour de Xirssi.
+
+==== Compilation de Xirssi ====
+
+
+<note>On installe le paquet subversion et on récupère les sources de Xirssi.</note>
+
+  sudo apt-get install subversion
+  svn co http://svn.irssi.org:8080/repos/xirssi/trunk/ xirssi
+
+<note>On se place dans le dossier xirssi, et on lance la compilation :-D.</note>
+  cd xirssi
+  ./autogen.sh
+  ./configure --with-irssi=/patch/irssi
+  make
+  sudo make install
+
+Si tout est ok, vous devriez avoir votre binaire Xirssi :
+
+{{:xirssi1.jpg?736}}
+
+===== Aller plus loin =====
+
+Il y a beaucoup de commandes disponibles pour irc, encore quelques unes sur le site de [[http://fr.wikipedia.org/wiki/Internet_Relay_Chat|Wikipedia]]
+
+  - Lire la doc officielle, en anglais : http://www.irssi.org/documentation
+  - Si vous voulez utiliser de manière plus efficace irssi vous pouvez changer les raccourcis claviers pour les principales commandes (toujours dans //~/.irssi/config//)
+  - Vous pouvez utiliser un script, des tonnes ici : https://scripts.irssi.org/ Les scripts ''adv_windowlist'',  ''nickolor'', et ''urlgrab'' sont particulièrement utiles.
+  - Vous pouvez écrire votre propre script en Perl et le diffuser : http://juerd.nl/site.plp/irssiscripttut
+
+===== Liens =====
+
+  * http://totalement.geek.oupas.fr/article/2007/07/20/irssi-un-client-irssi-en-mode-texte
+  * http://blog.creaone.fr/post/2010/11/08/Proxy-IRC-pour-Ubuntu
+
+----
+
+//Contributeurs : Rédigée par Ju, peaufiné par [[:utilisateurs:beaver|BeAvEr]].//

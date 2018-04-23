@@ -1,0 +1,174 @@
+{{tag>tutoriel administration système}}
+----
+ 
+====== Ajouter une application au démarrage de sessions ======
+
+Ce tutoriel présente les méthodes pour  **lancer automatiquement des applications au démarrage** d'une [[:sessions|session]] graphique.
+La procédure s'applique à l'[[:utilisateur]] courant.
+
+===== Pour Unity =====
+
+Voir plus bas pour //Gnome// (la méthode s'applique aussi à //Unity//) ainsi que  //KDE// et les autres environnements de bureaux
+
+==== Ajouter une application dans le gestionnaire de démarrage ===
+Rechercher : "app" dans le dash pour obtenir : Applications au démarrage.
+
+=== Méthode graphique ===
+
+{{ tutoriel:application_demarrage_01.png }}
+
+Pour ajouter une application dans le gestionnaire de démarrage, cliquez sur le bouton //Ajouter//.\\
+La fenêtre qui s'ouvre comporte 3 champs : //Nom//, //Commande// et //Commentaire//.
+
+{{ tutoriel:application_demarrage_02.png }}
+
+  * Dans le champ //nom// entrez un nom évocateur pour vous, "//Traitement de texte//" ou simplement le nom de l'application par exemple : "//LibreOffice Writer//".
+  * Le second champ //Commande// est le seul réellement important, c'est lui qui indiquera à votre système l'application à lancer au démarrage. Entrez-y le nom de l'application **sans majuscule** et **tout attaché**, par exemple : **libreoffice-writer**. Ou cliquez sur parcourir et allez dans le répertoire : /usr/bin/nom_de_l'application.
+  * Le troisième champ //Commentaire// sert à ajouter un commentaire, par exemple : "//Traitement de texte de LibreOffice//".
+
+<note tip>
+Si vous n'êtes pas sûr de la **commande** qui lance un logiciel, vous pouvez facilement la retrouver, d'abord dans le "//À propos//" du logiciel" (Dans //Aide → À propos//).\\
+Si cela ne s’avère pas concluant, vous pouvez utiliser le [[:terminal]] où vous entrerez simplement le nom probable de ce logiciel, puis tapez sur //Entrée//. Si c'est la bonne **commande** l'interface du logiciel se lancera.\\
+Le nom de la **commande** est en général similaire au paquet installé (par exemple pour le paquet //vlc//, la commande est : **vlc**) et si besoin, vous pouvez vous aider de la [[:raccourci-lanceur#cas_general|commande which]].\\
+Si vous désirez lancer un script utiliser **sh -c "/chemin/complet/du/script"**</note>
+
+=== Méthode par ajout de lanceur (fichier texte) ===
+
+Pour chaque programme à ajouter, il suffit de créer son [[:raccourci-lanceur|lanceur]] ([[http://standards.freedesktop.org/desktop-entry-spec/latest/|*.desktop]]) dans le dossier ''~/.config/autostart/''
+
+Exemple minimal de fichier lanceur pour chromium (préchargement par l'option ''--no-startup-window'') : 
+<file>
+[Desktop Entry]
+Type=Application
+Exec=/usr/bin/chromium-browser --no-startup-window
+Name=Chromium
+</file>
+
+Exemple de script pour générer le lanceur (à inclure dans un [[script_shell|script]] ) :
+<code>
+cat << EOF >> ~/.config/autostart/nom_du_lanceur.desktop
+[Desktop Entry]
+Type=Application
+Exec=nom_du_programme_à_lancer
+Name=nom_qui_apparaîtra_dans_le_gestionnaire_de_démarrage
+Icon=icône_qui_apparaîtra_dans_le_gestionnaire_de_démarrage      #généralement le nom du programme
+Comment=commentaire_au_choix
+EOF
+</code>
+
+===== Pour Gnome =====
+
+Le gestionnaire d'application au démarrage de Gnome se nomme **''gnome-session-properties''** : 
+  * il peut être lancé via un [[:terminal]] avec son nom de commande : ''gnome-session-properties'' ;
+  * il peut également être trouvé via le [[:unity#tableau_de_bord_dash|dash]] en recherchant : **Applications au démarrage**.
+
+
+=====Pour KDE=====
+Allez dans "Configuration du système", section "Administration du système", puis "Démarrage et arrêt", et "Gestionnaire de services".
+
+=====Pour LXDE=====
+Voir [[:lxde#lancer_des_programmes_au_demarrage|Lxde lancer des programmes au démarrage]] et [[:lubuntu#rajouter_des_applications_au_demarrage|Lubuntu rajouter des applications au démarrage]] 
+
+=====Pour XFCE=====
+
+Dans Un terminal, entrez ** xfce4-session-settings ** (ouvre une fenêtre graphique)\\
+ou\\
+cliquez sur le bouton ** Applications Menu ** (en haut à gauche de l'écran), ouvrez le ** gestionnaire de paramètres ** et ouvrez ** Session et démarrage ** dans la partie ** système **.\\
+Sélectionnez le troisième onglet (**Démarrage automatique**) et cochez ou ajoutez votre application ou votre script.\\
+Pour ajouter une application qui n'est pas dans la liste, cliquez sous le bouton //Ajouter// à gauche sous la liste des applications pouvant être cochées.\\
+
+Pour lancer un script dans une fenetre du terminal xfce  :\\
+xfce4-terminal -x "**CHEMIN DU SCRIPT**"
+===== Utilisation avancée du gestionnaire de démarrage=====
+
+La section qui suit est destinée aux utilisateurs et utilisatrices avancé(e)s, prenez toutes les précautions qui s'imposent avant d'aller plus loin.
+
+==== Afficher l'ensemble des tâches au démarrage (Unity) ====
+
+Les tâches présentes dans le gestionnaire de démarrage ne s'affichent pas toutes par défaut.
+<note important>Ne faites pas ces modifs par simple curiosité parce que lors d'une mise à niveau par le gestionnaire de mise à jour vous serez interrogés sur remplacer ou conserver le fichier de configuration pour chacune des applications (c'est pénible).  Ou alors, n'oubliez pas de revenir à la configuration par défaut comme indiqué. </note>
+
+Il existe une manipulation pour faire apparaître l'ensemble des tâches, dans un terminal entrez :
+<code>sudo sed -i 's/NoDisplay=true/NoDisplay=false/g' /etc/xdg/autostart/*.desktop</code>
+Au prochain lancement, le gestionnaire de démarrage affichera toutes les tâches lancées.\\
+Pour revenir à la configuration par défaut, suivez le chemin inverse :
+<code>sudo sed -i 's/NoDisplay=false/NoDisplay=true/g' /etc/xdg/autostart/*.desktop</code>
+
+==== Lancer une application au démarrage avec une temporisation ====
+
+Vous pouvez avoir besoin de démarrer une application avec un délai d'attente. Si tel est votre cas, en lieu et place d'une simple commande (par exemple : firefox), il vous faudra ajouter dans le champ //commande// (voir image ci-dessus) l'entrée suivante :
+<code>sh -c "sleep 10 && (firefox &)"</code>
+Dans cet exemple le //10// après //sleep// est le nombre de secondes à attendre avant que la commande se lance, //firefox// est un exemple de commande, bien sûr remplacez ce mot par le nom de votre logiciel.
+
+==== Lancer sa propre séquence grâce à un script ====
+
+Voici un exemple de [[script_shell|script]] de démarrage pour lancer une séquence de programmes. 
+<code>
+  #!/bin/bash
+  clipit     #se lance dès l'ouverture de session
+  sleep 10     #attend 10 secondes
+  libreoffice-writer     
+  sleep 2     #attend 2 secondes
+  vlc
+  exit 0
+</code>
+
+=== pour exécuter ce script au démarrage, méthode graphique : ===
+dans le gestionnaire de démarrage, cliquez sur le bouton Ajouter.
+  * Dans le champ nom entrez un nom évocateur pour vous.
+  * Le second champ Commande entrez : sh -c "/chemin_complet_du_script/nom_du_script"
+<note>le script s'exécutera "en tâche de fond", il n'y aura pas d'affichage à l'écran.</note>
+<note>pour exécuter le script dans un terminal utilisez la commande : xterm -e  '/chemin_complet_du_script/nom_du_script;read
+( ";read" permet de ne pas refermer le terminal immédiatement après exécution du script, mais uniquement après appui sur une touche)
+<note important>[[:xterm|xterm]] doit être installé </note></note>
+===== Liste des applications démarrées par défaut (Unity) =====
+
+Cette liste permet de savoir à quoi sert chaque application. Vous pourrez ainsi désactiver celles qui vous sont inutiles.
+
+FIXME// Il serait bien de notifier entre parenthèse et en gras (comme c'est déjà fait pour : Mount Helper (**Assistant de montage**) ) le nom des applications en Français (comme on les trouve sur un système installé en Français). 
+//
+^ Programme ^ Description ^ Statut ^
+| AT SPI D-Bus Bus | "Assistive Technology Service Provider Interface" pour les fonctions d'accessibilité intégrée aux applications | Désactivable si vous n'avez pas besoin des fonctionnalités d'accessibilité |
+| Backup Monitor (**Moniteur de sauvegarde**) | Sauvegarde planifiée du système à intervalle régulier | |
+| Bluetooth manager | Gestionnaire de connexions aux périphériques Bluetooth | |
+| Certificate and key storage (**Stockage de certificats et de clés**) | Utilisé par le trousseau GNOME pour les applications nécessitant un certificat ou une clé de cryptage | Désactivable si vous n'utilisez pas de certificats de chiffrement |
+| Chat (**Discussion**) | Affichage les notifications du logiciel Telepathy | |
+| Check for new hardware drivers | Vérifie si il y a un nouveau composant matérielle installé (autre qu'une clé/disque USB) | |
+| Disk Notifications | Vous alerte de l'état de santé de votre disque dur (utile si votre disque dur est compatible avec la technologie SMART) | |
+| Evolution Alarm Notify | Notifications du calendrier et courriel | Inutile si vous n'utilisez pas les alarmes du calendrier d'[[:Evolution]] |
+| Files (**Fichiers**) | Permet à [[:Nautilus]] (GNOME) d'afficher des fichiers sur le bureau (inutile avec Unity) | |
+| GNOME Login Sound | Son joué après la connexion d'un utilisateur | |
+| GNOME Settings Daemon (**Service de paramètres GNOME**) | Prend en compte les réglages dans GNOME (thèmes, icônes, etc...) | Recommandé pour tous |
+| GPG Password Agent (**Agent de mot de passe GPG**) | [[:gnupg|Trousseau de clés GNOME : agent PGP]] | Inutile si vous n'utilisez pas de clés GPG pour signer ou chiffrer des données |
+| GSettings Data Conversion (**Conversion des données GSettings**) | Permet de convertir les anciens fichiers de configuration gnome  | |
+| Gwibber | [[:Gwibber]] est un client libre de micro blogging en GTK. Il permet aux utilisateurs de mettre à jour un statut public spontanément et de récupérer automatiquement les informations de contacts, mais aussi de voir les réponses  et d'aller voir directement des flux en particulier. | |
+| Mount Helper (**Assistant de montage**)| Après avoir branché un périphérique USB l'ouvre automatiquement (sinon vous devrez l'ouvrir vous même en cliquant sur le disque externe qui apparaît dans Nautilus). | |
+| Network (**Réseau**) | Gestion des interfaces réseaux (Wifi, ethernet, etc..) | |
+| NVDIA X Server Settings | pour les cartes graphiques [[:Nvidia]] | |
+| Onboard | [[:onboard|OnBoard]] est un clavier virtuel | |
+| Orca Screen Reader (**Orca screen reader**) | [[:orca|Orca]] permet aux utilisateurs non/mal-voyants d'utiliser Ubuntu | Désactivable si vous n'avez pas besoin des fonctionnalités d'accessibilité pour la vocalisation ou le braille |
+| Personal File Sharing (**Partage de fichiers personnels**)| [[:Partage]] de fichiers personnel en réseau | |
+| PolicyKit Authentication Agent | Permet aux applications de vous demander le mot de passe de l'administrateur si besoin | |
+| Power Manager | Gère la mise en veille du PC | |
+| Print Queue Applet |  |  |
+| PulseAudio Sound System (**Système de son PulseAudio**) | pour avoir du [[:son]] | |
+| Remote Desktop (**Partage de bureau**) | Permet de prendre le contrôle à distance au PC | |
+| Screensaver (**Économiseur d'écran**)| Effet dégradé progressif de la luminosité puis affichage de l'écran de veille | |
+| Secret Storage Service (**Service de stockage secret**)| [[:gnupg|Trousseau de clés GNOME : service secret]] | |
+| SSH Key Agent (**Agent de clés SSH**) | Agent GNOME qui charge vos clés [[wpfr>SSH]] pour permettre aux applications l'accès à ces clés  | Désactivable si vous n'utilisez pas de clés SSH |
+| Ubuntu One | Synchronisation automatique de vos fichiers dans le nuage [[:UbuntuOne]] | Désactivable si vous n'utilisez pas UbuntuOne |
+| Update Notifier (**Notificateur de mises à jour**)| Vérifie automatiquement la disponibilité de mises à jour | |
+| User folders update |  | |
+| Visual Assistance |  | |
+| Volume Control |  | |
+| [[:zeitgeist|Zeitgeist]] (**Zeitgeist Datahub**) | Enregistre dans un journal les activités de l'utilisateur et les événements de Gnome | |
+
+Sources : [[http://askubuntu.com/questions/11415/which-startup-applications-can-i-safely-turn-off|ici]] et [[http://gnomeshell.wordpress.com/2011/08/28/manage-the-startup-applications/|là]].
+===== Voir aussi =====
+
+   * Discussion [[http://forum.ubuntu-fr.org/viewtopic.php?id=820|Lancer un programme au démarrage d'Ubuntu]] sur le forum ubuntu-fr.
+   * La page de documentation sur les [[:services]] qui permet d'aller beaucoup plus loin et de gérer les services lancées avant même l'ouverture d'une session (utilisateurs avancés seulement).
+   * [[http://forum.ubuntu-fr.org/viewtopic.php?id=415701|Lancer application au démarrage avec une temporisation]]
+
+----
+//Contributeurs principaux : [[utilisateurs:mydjey]], [[utilisateurs:Vincent85]]//

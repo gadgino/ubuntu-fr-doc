@@ -1,0 +1,27 @@
+{{tag>android}}
+===== Présentation de Anbox =====
+<note important>Il s'agit d'une version pre-alpha comportant donc de nombreux bugs.</note>
+[[http://anbox.io|Anbox]] est un projet OpenSource qui utilise QEMU comme émulateur d’Android, permettant ainsi au système de faire tourner les applications de manière transparente. Le système permet d’utiliser les applications Android de la même manière que les programmes classiques et profitent des mêmes enrichissements ergonomiques.
+
+
+===== Installation de Anbox =====
+  - Installer [[snaps]]
+  - lancer la commande (testé sous [[zesty]] :
+
+  sudo apt-get install snapd
+  sudo snap install --classic anbox-installer && anbox-installer
+  
+Toutefois le script d'installation est bugué dans certains cas (problème signalé sur GitHub). Essayez :
+    snap install --classic anbox-installer
+    cd /snap/bin
+    sudo ./anbox-installer
+  
+Si l'installation fonctionne, il reste encore d'autres bugs à résoudre pour pouvoir lancer anbox. En particulier, il est possible qu'anbox ne démarre pas si vous avez une carte graphique Nvidia.
+
+Dans ce cas, essayez le dépôt (testé sous zesty) :
+
+https://ftp.ustclug.org/~zsj/anbox/
+
+===== Liens =====
+  * Source sur le [[http://anbox.io/#get-started|site de Anbox]]
+  * https://github.com/anbox/anbox

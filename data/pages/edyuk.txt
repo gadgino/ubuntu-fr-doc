@@ -1,0 +1,54 @@
+====== Edyuk IDE C++/QT4 ======
+
+Edyuk est un IDE spécialisé dans le développement d'application QT4, qui intègre parfaitement le designer de l'assistant de QT4, ainsi qu'un déboggueur, une auto-complétion (compatible out of the box avec QT4), et plein d'autre plugins.
+----
+
+
+===== Installation par les paquets =====
+
+<note important>Ce dépôt comprend la version 4.4 de QT</note>
+Actuellement, Edyuk n'est pas disponible dans les dépôts officiels, mais vous pouvez vous rabattre sur ce dépôt :
+<code>
+deb http://ppa.launchpad.net/e-stealth/ubuntu hardy main
+deb-src http://ppa.launchpad.net/e-stealth/ubuntu hardy main
+</code>
+ou
+<code>
+deb http://ppa.launchpad.net/cipher.16/ubuntu hardy main
+deb-src http://ppa.launchpad.net/cipher.16/ubuntu hardy main
+</code>
+et [[:tutoriel:comment_installer_un_paquet|installez les paquets]] [[apt://edyuk]] et si vous voulez développer des plugins pour edyuk, il vous faudra le paquet [[apt://edyuk-dev]].
+
+
+
+===== Installation par les sources =====
+Si vous préférez utiliser la dernière version, vous pouvez le faire grâce au SVN de edyuk, il vous faudra bien entendu installer qt4-dev-tools, libqt4-dev, et subversion.
+<code>svn co https://edyuk.svn.sourceforge.net/svnroot/edyuk/trunk edyuk </code>
+Allez dans le répertoire de edyuk et faites :
+<code>qmake && make && edyuk</code>
+Si la compilation a réussi, edyuk devrait ce lancer ;)
+
+===== Installation de la doc pour l'assistant de QT4 =====
+
+Il vous faudra installer le paquet [[apt://qt4-doc]] (cf. le dépôt plus haut si vous voulez la doc de QT 4.4)
+
+
+===== Screenshots =====
+
+version 1.0.1
+
+  * Un exemple d'autocomplétion sur un QTreeViewWidget
+
+  * {{application:edyuk:edyuk_autocompletion.png|L'autocomplétion a l'oeuvre}}
+
+  * L'assistant QT4 dans Edyuk
+
+  * {{application:edyuk:application:edyuk:assistant.png|L'intégration de l'assistant}}
+
+  * Débogguage d'une application et affichage du contenu de la variable
+
+  * {{application:edyuk:application:edyuk:edyuk_debug1.png|Un déboguage}}
+
+  * Le splash screen ... inutile ???
+
+  * {{application:edyuk:edyuk_splash_screen.png|Le splashScreen}}

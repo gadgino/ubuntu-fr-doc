@@ -1,0 +1,52 @@
+{{tag>système installation}}
+----
+
+====== Le partitionnement GPT ======
+
+Cette page regroupe toutes les informations concernant le partitionnement [[wpfr>GPT|GPT]] sous Ubuntu.
+
+===== Avantages du GPT =====
+
+Par rapport au partitionnement classique (MsDos), le GPT a 2 avantages :
+  * il prend en charge des **tailles** de partitions > **2.2 To**
+  * limite de 128 partitions primaires
+
+===== Identifier si un disque est partitionné en GPT =====
+
+Il suffit d'ouvrir un terminal (Ctrl+Alt+T), et saisir la commande suivante:
+  sudo parted -l
+  
+Pour chaque disque, vous verrez soit "Table de partitions : **msdos**" (partitionnement classique) ou "Table de partitions : **gpt**" (partitionnement GPT).
+
+Voir aussi [[http://forum.ubuntu-fr.org/viewtopic.php?id=735491|cette discussion]].
+
+===== Installer Ubuntu sur un disque GPT =====
+
+Pour installer Ubuntu sur un disque dur partitionné en GPT:
+  * si vous utilisez l'installateur automatique, il n'y a rien de spécial à faire.
+  * si vous utilisez le [[:tutoriel/partitionner_manuellement_avec_installateur_ubuntu|partitionnement manuel]], il vous faudra créer:
+    *  soit une [[:uefi|partition UEFI]] (si votre BIOS est en [[:uefi|mode UEFI]])
+    *  soit une partition BIOS-Boot (si votre BIOS est en mode classique).
+
+==== Créer une partition EFI ====
+
+Voir [[:uefi#creer_une_partition_efi|ce paragraphe]].
+
+==== Créer une partition BIOS-Boot ====
+<note help>Il est possible que cette action soit devenue inutile à partir de la version 16.04 [[https://forum.ubuntu-fr.org/viewtopic.php?pid=21643818#p21643818|Lien externe]]
+</note>
+
+Une partition BIOS-Boot peut être créée via une version récente de [[:gParted]], et doit posséder les caractéristiques suivantes:
+    * //Point de montage :// aucun
+    * // Taille : // 1Mo
+    * // Type : // non formaté
+    * // Autre : // doit être située en début((= n'importe quel emplacement entièrement inclus dans les 100 premiers Go du disque)) d'un disque partitionné en [[GPT]], et doit posséder un drapeau //bios_grub//
+
+
+===== Voir aussi =====
+
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=986671|Discussion "Installer Ubuntu en mode EFI ou en mode Bios"]] sur le forum ubuntu-fr
+
+
+----
+//Contributeurs principaux : [[:utilisateurs:YannUbuntu]].//

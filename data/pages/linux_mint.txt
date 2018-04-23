@@ -1,0 +1,116 @@
+{{tag>variante environnements}}
+
+====== Linux Mint ======
+
+
+**[[wpfr>Linux Mint]]**, distribution **non officielle** dérivée d'Ubuntu, en grande partie produite par un français vivant en Irlande, est disponible, par défaut, avec les environnements de bureau suivants :
+  * [[:Cinnamon]]
+  * [[:Mate]]
+  * [[:KDE]]
+  * [[:XFCE]]
+(il est toujours possible d'en ajouter d'autres)
+
+<note>Cinnamon et Mate sont les premiers à recevoir les mises à jours (passage de la version 18 à la 18.1 par exemple</note>
+Une autre version basée sur une Debian : LMDE pour **L**inux **M**int **D**ebian **E**dition est différenciable de la version "classique", par les points suivants :
+  * plus rapide,
+  * semi rolling, (maintenant au rythme proche de la version de Linux Mint basé sur [[:lts|Ubuntu LTS]]:),
+  * mises à jour importantes par services packs (environ tous les ans. Ceci risque de planter la distribution. Dans ce cas, soit on la répare, soit on a eu la précaution d'enregistrer une sauvegarde, avec Clonezilla ou autre,.soit on réinstalle complètement)
+
+ * LMDE 2 est basé sur Debian Jessie (pour se rapprocher des versions logiciels d'Ubuntu Trusty). Cette version a une politique de mise à jour différente des services packs, totalement irrégulière. Conséquence LMDE est souvent décriée pour ses problèmes de sécurité.
+
+<note important>Mint n'est supportée ni par Canonical ni par la communauté Ubuntu (Idem pour LMDE non supportée par Debian). Elle présente une philosophie légèrement différente, en intégrant nativement certains logiciels et codecs propriétaires (mp3, flash, etc.) 
+</note>
+
+|  {{linux_mint_14_-_cinnamon.png?300}}  |
+^  LinuxMint avec [[Cinnamon]]  ^
+
+=== Télécharger Linux Mint ===
+
+Les différentes versions de Linux Mint sont disponibles en mode navigateur [[https://linuxmint.com/download.php|ici]]
+
+Je vous conseille d'utiliser un client ftp, tel fillezila, afin de limiter l'impact des coupures lors du téléchargement et ne pas avoir à recommencer [[https://www.linuxmint.com/mirrors.php|mirrors]]
+===== Principales différences avec Ubuntu =====
+
+Bien que basée sur Ubuntu, la distribution Linux Mint se démarque d'Ubuntu notamment par les points suivants :
+  * Contient par défaut des éléments propriétaires et non libres: codecs (MP3, divX, win32), plugins etc. Il en résulte une configuration simplifiée, et un accès multimédia instantané ;
+  * Utilise des applications non-disponibles dans les dépôts officiels d'Ubuntu ;
+  * Depuis Linux Mint 10, on retrouve un thème « métal brossé » inspiré de MacOS;
+  * Avec les dernières versions, il y a un outil de migration intégré au gestionnaire de mise a jour de Mint (MintUpdate);
+  * A partir de la version 17, toutes les versions de Mint sont basé sur une LTS, il n'y a donc que des versions a long termes.
+  * Toujours à partir de la version 17, toutes les versions de Mint suivent les Updates d'Ubuntu LTS de quelques mois Ubuntu 16.04 -> Linux Mint 18 et Ubuntu 16.04.1 -> Linux Mint 18.1
+
+
+===== Dépôts et logiciels =====
+
+<note important>Attention, du fait des différences de plus en plus importantes entre Linux Mint et Ubuntu, l'installation des [[:depots|Dépot Sources]] de Mint sur Ubuntu est fortement déconseillée. Il est préférable d'installer les packages souhaités à partir de source prévu pour Ubuntu.
+</note>
+
+Linux Mint dispose de ses propres dépôts sur [[http://packages.linuxmint.com/|packages.linuxmint.com]]. Comme cette distribution est basée sur Ubuntu, les logiciels pour Linux Mint sont installables sur Ubuntu et vice versa, il suffit de [[:tutoriel:comment_modifier_sources_maj|modifier vos sources de mises à jour]] afin d'ajouter le dépôt Linux Mint et d'ensuite installer les logiciels spécifiques à Linux Mint. Exemple de dépôt Linux Mint dont le nom de la version doit être adapté, ici helena, selon vos besoins et surtout correspondre à votre version [[:LTS]] d'Ubuntu :
+
+<file>deb http://packages.linuxmint.com/ serena main upstream import backport community</file>
+
+Consulter le [[http://www.linuxmint.com/|Site officiel]] pour obtenir la description des paquets spécifiques à Linux Mint. 
+
+===== Mise à niveau de Linux Mint =====
+
+Linux Mint reçoit des correctifs fréquents qui correspondent aux versions LTS d'Ubuntu (Ubuntu 16.04 = Linux Mint 18 / Ubuntu 16.04.1 = Linux Mint 18.1 etc...). Deux gros avantages subsistent dans cette distributions que nous allons voir ici :
+
+==== Un outil de mise à jour pratique ====
+
+L'outil [[https://www.unixmen.com/mintupdate-the-default-update-manager-for-linuxmint/|MintUpdate]] est un outil très pratique qui se subdivise en 2 section : MintUpdate et MintUpgrade. Comme l'indique [[https://www.unixmen.com/mintupdate-the-default-update-manager-for-linuxmint/|ce site]], l'update manager de Mint divise les mises à jour en 5 niveaux.
+<note warning>ATTENTION ! Mettre à jour votre PC de cette manière peut être dangereux sur le long terme. Pour éviter que les mises à jour futures ne deviennent "casse-gueule", il vaut mieux choisir d'afficher et sélectionner les 5 niveaux de mises à jour ("Toujours tout mettre à jour"). </note>
+
+==== La mise à niveau très facile ====
+
+Outre le : <code>sudo apt-get dist-upgrade</code> Linux, Mint propose, en passant par le terminal, une manipulation de mise à niveau, reproductible sous Ubuntu. Pour ce faire :
+
+  - Ouvrez votre [[terminal|terminal]]
+  - Passez le terminal en mode ROOT : <code>sudo su</code>
+  - Rechargez la liste des paquets : <code>apt-get update</code>
+  - Mettez à jour le plus de paquets possible (pour éviter certains problèmes) <code> apt-get dist-upgrade</code>
+  - Rendez-vous dans le dossier /etc <code>cd /etc/</code>
+  - Sauvegardez vos sources <code>tar czvf apt.tar.gz apt</code>
+  - Rendez-vous dans le dossier des sources <code>cd apt</code>
+  - Modifiez les sources principales vers les nouvelles versions <code>sed -e 's/$oldUbuntu/$newUbuntu/g' -i sources.list sources.list.d/official-package-repositories.list
+sed -e 's/$oldMint/$newMint/g' -i sources.list sources.list.d/official-package-repositories.list</code> Où $oldUbuntu et $oldMint sont les noms de code de votre Mint actuelle et la version Ubuntu sur laquelle elle est basée et ou $newUbuntu et $newMint sont les noms de code de votre future Mint et la version Ubuntu sur laquelle elle est basée.
+  - Voici un tableau récapitulatif des versions de Mint, leur nom de code (et le code de la base Ubuntu) <code>Version     Codename     Package base 
+-------        --------    ------------ 
+18.1          serena         xenial
+18         sarah         xenial
+17.2         rafaela         trusty 
+17.1         rebecca         trusty 
+17         qiana         trusty 
+16         petra         saucy 
+15         olivia         raring 
+14         nadia         quantal 
+13         maya         precise (LTS) </code>
+
+Par exemple pour passer de Linux Mint 17.3 Rosa (Basé sur Ubuntu 14.04.4 Trusty Tahr) à la version 18.1 (Serena) basé sur Ubuntu 16.04.1 (Xenial Xerus) :<code> sed -e 's/trusty/xenial/g' -i sources.list sources.list.d/official-package-repositories.list
+sed -e 's/rosa/serena/g' -i sources.list sources.list.d/official-package-repositories.list</code>
+
+  - Ensuite, on met à jour les paquets : <code>sudo apt-get update</code>
+  - Et on met à niveau la base du système (Ubuntu) et le système (Linux Mint) : <code>apt-get dist-upgrade</code>
+  - On répond par Oui aux questions (en foction "y" pour "yes" ou "o" pour "Oui") et quand on à fini, on redémarre <code>reboot</code>
+  - Boone nouvelle, Linux Mint à été mis à jour. Si tout s'est bien passé, on supprime notre sauvegarde des dépôts <code>sudo rm /etc/apt.tar.gz</code>
+
+===== Bureau Mate un fork de Gnome 2=====
+
+MATE est un fork de GNOME2 (qui n'est maintenant plus maintenu) qui vous permet d'utiliser l'ancienne interface de GNOME. Il utilise des paquets renommés et des applications de sorte qu'il n'entre pas en conflit avec GNOME3, donc vous pouvez avoir à la fois MATE et GNOME3 installé dans le même temps, ce qui n'est pas possible avec la version de GNOME2 car cette dernière entre en conflit avec GNOME3.
+
+Comme MATE est un pur fork de GNOME2, en l'installant dans Ubuntu il ne prendra pas en charge "appindicators Ubuntu" : il n'y a pas de son Ubuntu ou de menu Messagerie, etc...
+
+Pour installer Mate sur Ubuntu reportez vous à l'article [[:Mate]] de la documentation.
+
+ ===== Installer le bureau Cinnamon sur Ubuntu =====
+Voir l'article [[:Cinnamon]].
+
+Il existe une variante non-officielle de Ubuntu qui propose Cinnamon et Unity pré-installés, c'est Cubuntu 16.04.1 LTS: http://cubuntu.fr/
+
+
+
+===== Liens =====
+  * [[http://www.linuxmint.com/|Site officiel]]
+  * [[http://www.forum-francophone-linuxmint.fr/|La nouvelle communauté francophone]]
+  *[[http://www.linuxtricks.fr/wiki/mettre-a-niveau-linux-mint-vers-une-nouvelle-version|LinuxTricks]]
+
+//Contributeurs : ek0892, ResuX, Rodix53, Robinwood, Robert DEDENON (Roberto Melomaniaque), evandib//

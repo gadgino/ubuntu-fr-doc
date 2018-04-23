@@ -1,0 +1,133 @@
+{{tag>application php mysql CMS}}
+----
+ 
+====== OUAPI ======
+ 
+OUAPI est une application web libre qui vous permet de faire l’inventaire des matériels, périphériques, logiciels, équipements réseaux, factures, contrats et utilisateurs d’un parc informatique.
+
+ {{:ouapi.jpg?400|}}
+===== Pré-requis =====
+Pour installer et utiliser [[:ouapi|OUAPI]], il vous faut un [[:lamp|serveur LAMP]] installé et fonctionnel.
+ 
+===== Installation de OUAPI =====
+Créez un répertoire pour votre application à la racine de votre serveur (par défaut /var/www ; ou dans le répertoire de [[:xampp|Xampp]] pour ceux qui utilisent [[:xampp|Xampp]].) :\\
+Par exemple : //app-ouapi// 
+  sudo mkdir /var/www/app-ouapi
+
+[[http://www.ouapi.org/telechargement/|Téléchargez OUAPI]] puis décompressez (avec les [[:sudo|droits administrateur]]) l'[[archivage|archive]] dans ce nouveau répertoire.\\
+Exemple avec le fichier //current_version.zip// :
+  cd /var/www/app-ouapi
+  sudo unzip current_version.zip
+
+==== Etape 1 ====
+
+Lancez votre [[:navigateur]] préféré et dans la barre d'adresse saisissez la ligne suivante :
+  http://localhost/app-ouapi/install/
+  
+Bien sûr, remplacez //app-ouapi// par le nom de votre dossier que vous venez de créer. Vous devez tomber sur une page similaire à celle ci-dessous.\\ \\
+{{:ouapi-3.jpg?400|}}
+ 
+==== Etape 2 : Création de la base de données Ouapi ====
+ Pour créer votre base de donnée OUAPI il faut accéder à cette adresse http://localhost/phpmyadmin. La page suivante va apparaitre :
+ 
+{{:ouapi-2.jpg?400|}}
+
+==== Etape 3 : Type d’installation====
+
+S’il s’agit de la première installation de OUAPI (ce que nous traitons dans ce guide) cliquez sur « Première installation ». Pour une mise à jour de OUAPI, consulter le guide « Mise à jour de OUAPI ».
+{{:ouapi-3.png?400|}}
+
+==== Etape 4 : Introduction à OUAPI====
+Cette étape présente le logiciel OUAPI. Cliquez sur « Etape suivante » pour commencer l’installation.
+{{:ouapi-4.png?400|}}
+
+==== Etape 5 : Acceptation de la licence====
+Lisez et acceptez la licence GNU/GPL.
+
+{{:ouapi-6.png?400|}}
+
+====Etape 6 : Adaptez Ouapi à votre cas====
+Répondez aux questions générales qui vous sont posées.\\ \\
+
+
+{{:ouapi-7.png?400|}}
+
+==== A. GEREZ VOUS PLUSIEURS SITES ? ====
+Si votre organisation est répartie sur plusieurs sites, Ouapi peut le gérer. Cela permet de dissocier complètement les matériels, logiciels, utilisateurs… entre chaque site. De plus, un site dit « général » est créé, permettant de référencer les éléments (matériels, logiciels, …) ne pouvant pas être associés à un site Ex : matériels mobiles, factures concernant plusieurs sites, etc…
+==== B. COMMENT SOUHAITEZ-VOUS VOUS CONNECTER ?====
+2 types de connexions sont disponibles. Choisissez soit d’utiliser la classique authentification par nom d’utilisateur/mot de passe. Soit sélectionnez l’option reverse DNS qui fonctionne de la manière suivante :
+  * L’utilisateur va sur la page d’accueil Ouapi (Ex : http://localhost/app-ouapi)
+  * Ouapi détecte l’adresse du poste qui se connecte
+  * Ouapi fait une requête DNS inverse pour obtenir le nom du poste
+  * Ouapi vérifie que le poste est référencé dans sa base et quel utilisateur y est associé
+  * Ouapi attribue les droits d’accès en fonction de l’utilisateur
+  * Si le poste n’existe pas ou si le poste existe mais sans utilisateur associé, Ouapi renvoi sur la page d’authentification classique par nom d’utilisateur / mot de passe
+  * Si vous vous connectez depuis le poste ou est installé Ouapi, vous aurez automatiquement les droits en Administrateur.
+
+<note help>Dans tous les cas, l’authentification « classique » par mot de passe sera possible et Ouapi vous demandera de saisir un nom d’utilisateur / mot de passe pour chaque nouvel utilisateur créé si vous le souhaitez.</note>
+<note important>Utilisez la seconde méthode avec précaution : le cache de votre DNS peut parfois vous jouer des tours. Dans le cas de l’utilisation d’un DHCP par exemple, le DNS peut vous renvoyer le nom de l’ancienne machine qui portait cette adresse IP. Si vous seul accédez à Ouapi par le localhost, dans ce cas par contre aucun problème !</note>
+
+====C. UTILISEZ-VOUS OCS INVENTORY ?====
+Si vous utilisez OCS Inventory pour référencer vos matériels, activez cette option. C’est là que Ouapi peut se révéler particulièrement intéressant : vous pourrez basculer de manière simple et rapide l’ensemble des matériels référencés dans OCS vers Ouapi et effectuer régulièrement la synchronisation entre les 2 bases.
+====D. UTILISEZ-VOUS LDAP ?====
+Si vous possédez un annuaire LDAP référençant vos utilisateurs, activez cette option. Cela vous permettra la création rapide de vos utilisateurs par synchronisation avec l’annuaire.
+
+====Etape 7 : Paramètre SQL /OCS / LDAP====
+Suivant vos réponses à l’étape précédente, le programme d’installation vous demande divers paramètres :
+====A. PARAMETRES SQL====
+Ils vous sont forcément demandés. Il s’agit des paramètres de connexion à votre base de données Ouapi (précédemment créée). Si vous avez suivi ce guide à la lettre, conservez les paramètres par défaut. Sinon :
+- Serveur Mysql : adresse IP ou nom d’hôte de votre serveur SQL
+- Login SQL : Login d’accès à votre serveur SQL
+- Mot de passe SQL : Mot de passe d’accès à votre serveur SQL
+- Nom de la base Mysql : Nom de la base de données crée pour Ouapi
+- Préfixe des tables (optionnel) : Utile si vous n’avez qu’une seule base pour plusieurs applicatifs. Les tables Ouapi commenceront toutes par ce préfixe.
+====B. PARAMETRES SQL POUR OCS====
+Ils vous sont demandés si vous avez répondu que vous utilisiez un serveur OCS à l’étape précédente. Il s’agit des paramètres de connexion à votre serveur et base de données OCS.
+- Serveur Mysql OCS: adresse IP ou nom d’hôte de votre serveur SQL
+- Login SQL OCS: Login d’accès à votre serveur SQL
+- Mot de passe SQL OCS: Mot de passe d’accès à votre serveur SQL
+- Nom de la base Mysql OCS: Nom de la base de données OCS
+====C. PARAMETRES LDAP====
+Ils vous sont demandés si vous avez répondu que vous utilisiez un annuaire LDAP à l’étape précédente. Il s’agit des paramètres de connexion à votre serveur LDAP.
+- Serveur LDAP: adresse IP ou nom d’hôte de votre serveur LDAP
+- Port Serveur LDAP: Port de connexion au serveur LDAP
+- Nom d’utilisateur LDAP: Login d’accès à votre serveur LDAP
+- Mot de passe LDAP: Mot de passe d’accès à votre serveur LDAP
+- Racine LDAP : Endroit de votre annuaire ou sont stockés les utilisateurs
+{{:ouapi-8.png?400|}}
+====Etape 7 Autres paramètres====
+Rentrez ici le login, mail et mot de passe de l’administrateur. Il vous est demandé même si vous avez choisi l’authentification par DNS. Conservez-le précieusement !\\ \\
+
+
+{{:ouapi-9.png?400|}}
+====Etape 8 : Vérification des paramètres====
+Cette étape vérifie que tous les paramètres saisis sont corrects. Si tel est le cas, le système vous invite à passer à l’étape finale en cliquant sur Etape suivante.
+Si ça n’est pas le cas, cliquez sur Etape précédente pour corriger vos paramètres ou Reset pour tout recommencer.\\ \\
+
+
+{{:ouapi-10.png?400|}}
+====Etape 9 : Fin d’installation====
+Ouapi est maintenant installé ! L’installateur vous propose alors de vous rendre à la page d’accueil.
+N’oubliez pas de supprimer le répertoire install/ de votre répertoire Ouapi pour des raisons de sécurité. Vous ne pourrez de toute façon pas accéder à Ouapi tant que ce répertoire sera présent.\\ \\
+
+
+{{:ouapi-11.png?400|}}
+===== Désinstallation =====
+Il suffit de supprimer d'une part le répertoire contenant le site et d'autre part la base de donnée ( via[[phpmyadmin| phpmyadmin]]).
+
+Rendez vous à la page d’accueil de Ouapi : http://localhost/app-ouapi/
+Saisissez votre login/password si vous avez choisi cette méthode d’authentification.
+
+Bien sûr, remplacez app-ouapi par le nom de votre dossier que vous venez de créer. Vous devez tomber sur une page similaire à celle ci-dessous.
+
+
+{{:ouapi-12.png?400|}}
+
+=====Voir aussi =====
+
+  * (fr) [[http://www.ouapi.org/|Site officiel]]
+  * (fr) [[http://http://www.ouapi.org/demonstration-en-ligne//|Démonstration en ligne]]
+  * (fr) [[http://www.ouapi.org/documentation-et-support//|Documentation et support]]
+
+----
+//Contributeur: [[:utilisateurs:summd5]]

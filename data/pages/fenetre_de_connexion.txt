@@ -1,0 +1,46 @@
+{{tag>portail personnalisation}}
+----
+====== Les gestionnaires de sessions (fenêtres de connexion) d'Ubuntu et de ses variantes ======
+
+**Le [[wpfr>X_display_manager|gestionnaire graphique de session]] vous permet de vous connecter à un //[[utilisateur|compte d’utilisateur]]// sur votre système d’exploitation. Il se matérialise à vous sous la forme d'une fenêtre de connexion où vous devez sélectionner le compte utilisateur à employer pour votre session, soit en le saisissant dans une liste multi-choix ou en inscrivant manuellement le nom du compte.**
+ 
+Ubuntu (comme les autres systèmes %%GNU/Linux%%) est un système d’exploitation multi-utilisateurs, c’est-à-dire qu’il peut être utilisé par plusieurs personnes. Chacune de ces personnes peut disposer de son propre [[:users-admin|compte d’utilisateur]] sur votre ordinateur, ce qui aura pour avantage que chacune pourra avoir son propre dossier personnel (inaccessible aux autres utilisateurs), son propre bureau, ses propres réglages... sans affecter les choix des autres utilisateurs de votre ordinateur.
+Durant la procédure d’installation, un premier compte d’utilisateur a été créé ; vous pouvez en créer d’autres à l’aide de l’outil de [[:users-admin|gestion de comptes d’utilisateurs]].
+
+===== Les différentes fenêtres de connexion =====
+Selon la [[:variante]] d'Ubuntu que vous utilisez, votre écran de connexion par défaut est généralement soit :
+  * **[[:LightDM]]** pour [[:ubuntu|Ubuntu]], [[lubuntu|Lubuntu]], [[xubuntu|Xubuntu]] , [[kubuntu|Kubuntu]] et [[:mate|Ubuntu-Mate]]
+  * **[[:GDM]]** (GNOME Display Manager) pour  [[:gnome-shell|Ubuntu GNOME-shell]]
+  * **KDM** (KDE Desktop Manager) pour les anciennes versions de [[kubuntu|Kubuntu]]
+  * **SDDM** (Simple Desktop Display Manager) pour les versions 16.04+ de [[kubuntu|Kubuntu]]
+  * **MDM** (Mxxxxx Display Manager) pour [[cubuntu|Cubuntu]]
+  * **[[:LXDM]]** (LXDE Display Manager) anciennement utilisé pour [[lubuntu|Lubuntu]].
+
+^ **[[LightDM]]** ^ **[[:GDM]]** ^
+| {{:themes:lightdm1.png?nolink&300}} | {{  :gdm.png?nolink&300  }} |
+^ **[[KDM]]** ^ **[[LXDM]]** ^
+| {{  :kdm.png?nolink&3X_display_manager00  }} | {{  :lxdm.png?nolink&300  }} |
+
+=====Changer de gestionnaire de session=====
+Un gestionnaire graphique de session est un programme qui permet de se connecter depuis le [[wpfr>X_Window_System|système X Window]].  Un seul gestionnaire graphique de session peut s'occuper d'un serveur X donné, bien que plusieurs gestionnaires puissent être installés simultanément. \\
+Plusieurs gestionnaires graphiques  de session peuvent être lancés en même temps, s'ils gèrent des serveurs X différents. Sachez ce que vous faites en installant un autre gestionnaire de session autre que celui prévue par défaut dans votre [[:variantes|variante d'Ubuntu]]. Dans ce cas, vous devrez:
+  * Configurer correctement chacun des gestionnaires graphiques, 
+  * modifier leurs scripts de lancement dans le fichier **/etc/init.d**, et 
+  * désactiver le lancement du gestionnaire graphique par défaut. 
+
+ou cette commande pour modifier (ou retrouver lightdm) un gestionnaire de session:
+<note>sudo dpkg-reconfigure lightdm</note>
+===== Se passer de la fenêtre de connexion=====
+====Méthode simplifiée====
+  - Se rendre dans les [[:gnome-control-center|paramètres système]]. Puis,
+  - Partie système -> Comptes utilisateur
+  - Avec les [[sudo|droits d'administration]], déverrouillez et dans "Options de connexion", basculez le bouton "connexion automatique".
+
+====À l'aide d'un outil====
+(Testé sous [[:precise|Ubuntu Precise 12.04]]).
+
+Il est possible de se passer d'un gestionnaire de connexion graphique si vous ne souhaitez pas changer d'utilisateur ou de bureau, ni avoir à taper un mot de passe.\\
+Pour ce faire, il faut installer et configurer [[:mingetty|Mingetty]].
+
+----
+//Contributeurs principaux : Rayman3640.//

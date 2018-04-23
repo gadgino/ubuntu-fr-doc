@@ -1,0 +1,153 @@
+{{tag>precise carte_graphique énergie}}
+----
+
+====== vga_switcheroo ======
+
+vga_switcheroo est un outil inclus dans le noyau Linux qui permet de basculer entre les différentes cartes graphiques d'un ordinateur. Cet outil est particulièrement utile si vous possédez un ordinateur portable avec plusieurs [[wpfr>Processeur_graphique|GPU]] (cartes graphiques).\\
+Vous trouverez plus d'informations sur [[http://linuxfr.org/news/nouvelle-version-2634-du-noyau-linux#switcheroo|cette publication sur linuxfr.org]] au sujet de la sortie du noyau Linux 2.6.34 incluant cette technologie.
+
+<note>Cette page est à utiliser avec [[:precise|Ubuntu 12.04]] ou supérieur.</note>
+<note>vga_switcheroo n'est pas la seule technique pour manipuler le graphique hybride. Vous trouverez des informations complémentaire sur la page [[:nvidia_optimus]] en attendant une harmonisation au niveau des documentations sur le sujet.</note>
+
+<note tip>Par défaut les ordinateurs alimentent en électricité les deux cartes graphiques bien qu'une seule ne soit utilisée à la fois. En effet la solution de graphique hybride a été pensé pour Microsoft Windows où les pilotes propriétaires pré-installés s'occupent ensuite de gérer l'alimentation des cartes. Sous Linux, les pilotes (libres ou propriétaires) ne savent pas encore le gérer directement.\\
+Aussi l'autonomie d'un ordinateur portable sous Linux avec une solution graphique hybride est très fortement réduite : **jusqu'à 3 fois moindre** !.</note>
+
+<note>Sur les noyaux récents, vga_switcheroo n'est plus disponible. En effet il n'est plus nécessaire d'allumer/éteindre sa carte graphique secondaire avec cette méthode, car cela est fait automatiquement lorsque la carte est utilisée ou non.</note>
+Si vous voulez constater la différence d'autonomie, saisissez dans un [[:terminal]] la [[:commande_shell|commande]] suivante:
+<code>acpi</code>
+devrait vous répondre par exemple
+<code>Battery 0: Discharging, 88%, 04:55:28 remaining</code>
+Ici l'autonomie annoncée est de 4h55 avec 88% de batterie.\\
+Saisissez maintenant
+<code>echo ON > switch ; sleep 30 ; acpi</code>
+Ce qui activera la carte graphique (ici une ATI) inutilisée avant de retester l'autonomie 30 secondes plus tard.
+La réponse sera par exemple
+<code>Battery 0: Discharging, 88%, 02:36:56 remaining</code>Ici, toujours avec 88% de batterie, il est annoncé 2h36 d'autonomie.
+
+Sur un Acer Aspire 4820TG, la puissance demandée par l'ordinateur passe de 25W avec l'installation par défaut d'Ubuntu 12.04 faire à 11W une fois le réglage effectuée, soit une autonomie multipliée par 2,5 (la carte AMD consommant 14W par le simple fait d'être alimentée).
+
+===== Manipulations préalables =====
+
+==== Le pilote graphique propriétaire a-t-il été désinstallé ? ====
+
+VGA Switcheroo ne fonctionne pas avec les pilotes graphiques propriétaires des cartes graphiques. Utiliser le [[:Gestionnaire de pilotes propriétaires]] pour vérifier si un pilote graphique propriétaire à été installé et le désinstaller si nécessaire.
+
+==== /sys/kernel/debug/vgaswitcheroo/switch existe-t-il ? ====
+
+Pour basculer entre les cartes graphiques, vga_switcheroo utilise le fichier **/sys/kernel/debug/vgaswitcheroo/switch**. Vérifiez son existence avant de pouvoir l'utiliser.
+<code>ls -l /sys/kernel/debug/vgaswitcheroo/switch</code>
+
+Si le fichier n'existe pas, vérifiez les points suivant ; sinon vous pouvez passer à l'[[:#Utilisation de vga_switcheroo]]. Si ça ne fonctionne toujours pas, il est possible que votre ordinateur n'utilise pas le switch MUX permettant cette bascule. Vérifiez sur la documentation si des informations existent pour [[:portable#classement_par_constructeurs|votre portable]] en la recherchant sur la documentation et/ou sur les forums.
+
+==== vga_switcheroo est-il disponible dans mon noyau ? ====
+
+<note tip>Cette manipulation est inutile sur Ubuntu 12.04 dans son installation par défaut.</note>
+
+Afin de vérifier que vga_switcheroo est disponible dans le noyau que vous utilisez actuellement, saisissez dans un [[:terminal]] la [[:commande_shell|commande]] suivante:
+<code>grep -i switcheroo /boot/config-`uname -r`</code>
+La réponse devra être 
+<code>CONFIG_VGA_SWITCHEROO=y</code>
+Si vous avez bien cette ligne, vga_switcheroo peut-être utilisé et vous pouvez continuer sans problème. Dans le cas contraire, vérifiez avec la commande 
+<code>uname -r</code>que votre noyau est au moins à la version 2.6.34. Dans [[:lucid|Ubuntu 10.04]] la version de base du noyau étant 2.6.32, vga_switcheroo n'est donc pas disponible. Vous pouvez alors soit:
+  * mettre à jour votre distribution
+  * vous diriger vers [[:kernel|la page consacrée au kernel sur le wiki]] pour trouver une autre solution.
+
+==== /sys/kernel/debug est-il bien monté ? ====
+
+<note tip>Cette manipulation est inutile sur Ubuntu 12.04 dans son installation par défaut.</note>
+
+Maintenant que vous savez que le noyau inclus vga_switcheroo, vérifiez que **/sys/kernel/debug** est bien monté (en principe sur Ubuntu, aucun problème) avec la commande suivante :
+<code>mount | grep /sys/kernel/debug</code>
+Qui doit vous renvoyer :
+<code>none on /sys/kernel/debug type debugfs (rw)</code>
+Si cette ligne s'affiche tout va bien, vous pouvez passer à la partie suivante ! :)
+Si ce n'est pas le cas (ça ne renvoie rien), [[:tutoriel:comment_modifier_un_fichier|éditez avec les droits d'administration]] le fichier **/etc/fstab** pour y insérer cette ligne:
+<file>none /sys/kernel/debug debugfs defaults 0 0</file>
+
+Ensuite, redémarrez votre ordinateur ou saisissez dans un [[:terminal]]:
+<code>sudo mount -a</code>.
+
+===== Utilisation de vga_switcheroo =====
+
+==== Un peu de vocabulaire =====
+
+Pour comprendre ce que vous allez faire, un peu de vocabulaire utilisé par vga_switcheroo :
+  * La **carte intégrée** correspond à votre chipset graphique (souvent un Intel), peu puissant mais très peu gourmand en énergie.
+  * La **carte discrète** correspond à votre carte graphique. Plus puissante que le chipset (utile pour jouer, décoder des vidéos HD, faire de l'infographie 3D,...), cette carte consomme beaucoup de ressources, et réduit donc l'autonomie de votre ordinateur.
+
+==== Désactivation de la carte discrète à chaque démarrage ====
+
+Vous pouvez ajouter "une règle par défaut" qui sera exécutée à chaque démarrage de l'ordinateur. Par exemple, pour désactiver directement votre carte graphique inutilisée, ajoutez dans le fichier **/etc/rc.local** :
+<code>echo OFF > /sys/kernel/debug/vgaswitcheroo/switch</code>
+Dans certains cas, il peut être utile de rajouter la ligne suivante avant cette ligne pour laisser le temps au noyau d'initialiser le matériel (Acer Aspire 4820TG) :
+<code>sleep 1</code>
+
+==== Optionnel : manipulation sans « sudo » ====
+
+Pour basculer entre les cartes graphiques, vga_switcheroo utilise le fichier **/sys/kernel/debug/vgaswitcheroo/switch**.
+
+Pour l'utiliser plus simplement et faciliter les modifications, attribuez-vous les droits sur ce fichier pour qu'il vous appartienne dès le démarrage. Pour faire cela, il suffit d' [[:tutoriel:comment_modifier_un_fichier|éditer avec les droits d'administration]] le fichier **/etc/rc.local** (juste avant le ''exit 0'') pour y ajouter cette ligne en modifiant //nom_utilisateur// par votre identifiant de session :
+<file>chown nom_utilisateur /sys/kernel/debug/vgaswitcheroo/switch</file>
+
+<note>Ceci n'est pas obligatoire. Si vous ne le faites pas, vous devrez utilisez "[[:sudo]]" pour modifier le fichier ce qui peut être gênant si vous souhaitez développer vos propres scripts par exemple.</note>
+
+==== Les commandes disponibles ====
+
+Éteindre la carte graphique non utilisée :
+<code>echo OFF > /sys/kernel/debug/vgaswitcheroo/switch</code>
+
+Allumer la carte graphique non utilisée :
+<code>echo ON > /sys/kernel/debug/vgaswitcheroo/switch</code>
+
+Active la carte graphique intégrée : (aucun effet si X est démarré)
+<code>echo IGD > /sys/kernel/debug/vgaswitcheroo/switch</code>
+
+Active la carte graphique discrète : (aucun effet si X est démarré)
+<code>echo DIS > /sys/kernel/debug/vgaswitcheroo/switch</code>
+
+Malheureusement, le serveur X ne gérant pas le changement de carte graphique "à chaud", il faut le redémarrer pour pouvoir changer de carte graphique. Les commandes suivantes permettent de le forcer à redémarrer sur une ou l'autre des cartes :
+
+Active la carte graphique intégrée au prochain démarrage de X :
+<code>echo DIGD > /sys/kernel/debug/vgaswitcheroo/switch</code>
+
+Active la carte graphique discrète au prochain démarrage de X :
+<code>echo DDIS > /sys/kernel/debug/vgaswitcheroo/switch</code>
+
+==== Utilisation ====
+Comme expliquée plus haut, les commandes ne fonctionnent pas lorsque le serveur graphique est en utilisation. Voici comment activer l'une ou l'autre carte graphique en mode console.
+
+Tout d'abord vous aurez besoin de fermer la session utilisateur. Vous reviendrez à l'écran de sélection des utilisateurs. 
+Appuyez à présent simultanément sur les touches CTRL + ALT + F1 pour passer sur le terminal mode console tty1. Vous devrez vous identifier.
+
+Passer en mode root
+<code>sudo -s</code>
+
+Allumer la carte graphique non utilisée :
+<code>echo ON > /sys/kernel/debug/vgaswitcheroo/switch</code>
+
+Active la carte graphique discrète :
+<code>echo DIS > /sys/kernel/debug/vgaswitcheroo/switch</code>
+
+Vous devriez alors recevoir le message suivant
+<code>i915 switched off</code>
+
+Vérifier que la carte discrète est bien allumée et utilisée
+<code># cat /sys/kernel/debug/vgaswitcheroo/switch 
+0:IGD: :Off:0000:00:02.0
+1:DIS:+:DynPwr:0000:01:00.0
+2:DIS-Audio: :Pwr:0000:01:00.1
+</code>
+
+Rédémarrer la session graphique
+<code> service lightdm start </code>
+
+Si cela ne fonctionne pas, appuyez sur CTRL + ALT + F7
+===== Ressources =====
+
+  * La page du wiki communautaire anglophone [[https://help.ubuntu.com/community/HybridGraphics|HybridGraphics]]
+  * Différents forums
+    * [[http://forums.gentoo.org/viewtopic-t-883902-start-0.html|gentoo-fr]]
+    * Ubuntu-fr
+
+----
+//Contributeurs: [[:utilisateurs:minishooter]], [[:utilisateurs:Id2ndR]]//

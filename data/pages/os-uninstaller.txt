@@ -1,0 +1,66 @@
+{{tag>Trusty Xenial système}}
+----
+ 
+====== Désinstallateur d’OS ======
+
+Le **Désinstallateur d’OS** (//OS‑Uninstaller// en anglais) est un petit outil qui permet de désinstaller proprement et facilement n’importe quel système d’exploitation (Windows, MacOS, Ubuntu, autre distribution Linux…) de votre ordinateur.
+
+Remarque : dans le cas (rare) où votre ordinateur est tatoué, la désinstallation de votre dernière distribution Linux ne sera possible que si vous avez installé des Linux disposant du système //Clean‑Ubiquity// ([[linux_secure_remix|Linux Secure]] par exemple (car les autres OS écrasent le MBR sans faire de sauvegarde adéquate)).
+
+{{http://pix.toile-libre.org/upload/original/1416038639.png|Désinstallateur d’OS}}
+ 
+===== Installation =====
+=== Disque avec OS‑Uninstaller pré‑installé ===
+
+Par commodité, ou si le PC où se trouve l’OS à désinstaller n’a pas de connexion internet, vous pouvez télécharger un disque avec OS‑Uninstaller pré‑installé : [[linux_secure_remix|Linux Secure]]. Démarrez l’ordinateur sur ce disque, choisissez //Essayer Ubuntu//, puis lancez OS-Uninstaller via le lanceur en bas à gauche.
+
+
+=== Installer OS‑Uninstaller dans un liveCD Ubuntu ===
+
+  * Démarrer l’ordinateur sur le CD (ou liveUSB) Ubuntu
+  * Choisir //Essayer Ubuntu//
+  * Connecter l’internet
+  * Ouvrir un [[:terminal]] (Ctrl+Alt+T), et saisir les commandes suivantes :
+
+<code>sudo add-apt-repository ppa:yannubuntu/boot-repair
+sudo apt-get update; sudo apt-get install -y os-uninstaller && os-uninstaller</code>
+
+  * Appuyer sur la touche [Entrée] à la fin de chacune de ces lignes de commande.
+===== Utilisation=====
+ 
+<note important>Ne lancez pas OS‑Uninstaller depuis le système que vous voulez désinstaller : lancez‑le depuis une [[:live_cd#session_livequ_est-ce_que_c_est|session live]], c'est‑à‑dire le PC étant démarré sur le liveCD (ou un liveUSB) Ubuntu avec le choix //Essayer Ubuntu//.</note>
+
+<note important>La partition de l’OS à supprimer sera formatée, donc sauvez vos documents auparavant. Les données se trouvant sur d’autres partitions (par exemple: /home séparé) ne seront pas affectées.</note>
+
+  * Lancez le Désinstallateur d’OS via le [[:unity#tableau_de_bord_dash|tableau de bord]], ou via la commande //os-uninstaller// ;
+  * choisissez le système à désinstaller, puis cliquez sur //Valider// ;
+{{http://pix.toile-libre.org/upload/original/1416042188.png|Désinstallateur d’OS}}
+  * une fenêtre de confirmation apparaîtra ;
+{{http://pix.toile-libre.org/upload/original/1416042281.png?500|Désinstallateur d’OS}}
+  * cliquez sur //Appliquer// pour commencer la désinstallation.
+
+===== Problèmes connus =====
+
+==== Blocage de la mise à jour de OS‑Uninstaller ====
+
+Il arrive que la mise à jour de OS‑Uninstaller bloque, si vous utilisez une version trop ancienne (v.3.03 et antérieures).
+Pour résoudre ce souci, il suffit de saisir dans un [[:terminal]] la commande suivante:
+<code>sudo apt-get purge -y os-uninstaller clean clean-gui clean-ubiquity-common boot-repair-common glade2script</code>
+puis :
+<code>sudo add-apt-repository ppa:yannubuntu/os-uninstaller && sudo apt-get update; sudo apt-get install -y os-uninstaller && os-uninstaller</code>
+==== Démarrage impossible après désinstallation d'Ubuntu  ====
+Quasi systématique lorsque Ubuntu est supprimé et que Windows est conservé. Cet outil ne reconstruit pas le secteur de démarrage des boots LEGACY.
+Vous devez prendre à votre charge [[:tutoriel/comment_reinstaller_un_mbr_compatible_windows]].
+===== Désinstallation =====
+ 
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer le paquet]] **os-uninstaller**. Selon la méthode choisie, la configuration globale de l’application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+ 
+===== Voir aussi =====
+
+  * **(fr)** [[https://sourceforge.net/p/os-uninstaller/wiki/fr/|Site officiel]]
+  * **(fr)** [[http://forum.ubuntu-fr.org/viewtopic.php?id=510121|Discussion "OS‑Uninstaller : pour désinstaller Ubuntu/Windows… en 1 clic !]] sur le forum Ubuntu-fr : pour toute remarque/question, etc.
+
+----
+
+//Contributeurs principaux : [[:utilisateurs:YannUbuntu]]//
+ 

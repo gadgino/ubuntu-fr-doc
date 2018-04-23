@@ -1,0 +1,135 @@
+{{tag>Precise Trusty apt gestionnaire_de_paquets dépôts installation_logiciel}}
+
+----
+ ====== Le gestionnaire de paquets Synaptic ======
+
+**Synaptic** est une interface graphique "complète" pour [[:APT]].  Il permet l'installation de paquets depuis des [[:depots|dépôts APT]], de même que leur désinstallation.  Les [[:sudo|droits d'administration]] sont nécessaires pour pouvoir utiliser ce programme.\\
+Concrètement il va vous permettre de chercher et ensuite d'installer automatiquement (presque) tous les programmes que vous souhaitez utiliser.
+**Notez que Synaptic gère des paquets ​//provenant de dépôts APT uniquement//**.  Il ne permet ​pas l'​installation d'un paquet téléchargé manuellement depuis un site Internet ou généré par vous-même. ​Si vous cherchez à effectuer cette manipulation, utilisez plutôt [[:gdebi]].
+
+===== Pré-requis =====
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+**Synaptic** n'est pas installé par défaut dans Ubuntu, mais il l'est dans la variante Lubuntu. Pour installer cette application, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>synaptic|synaptic]]**.
+
+<note important>Les utilisateurs de [[:Kubuntu]] utilisent par défaut [[:Muon]] sous KDE4, mais Synaptic peut tout à fait être utilisé sous Kubuntu.</note>
+
+===== Lancement=====
+
+^ Ubuntu | menu : **Applications->Système→Gestionnaire de paquets Synaptic**|
+^ Edubuntu | menu : **Applications->Système→Gestionnaire de paquets Synaptic**|
+^ Xubuntu | menu : **Applications->Système→Gestionnaire de paquets Synaptic**|
+^ Kubuntu | Utilisez Adept (K → Poste de travail → Adept Installer) |
+^ toutes les variantes | appuyez sur Alt–F2, et tapez **gksudo synaptic** |
+
+Votre mot de passe [[:sudo|d'administrateur]] vous sera demandé. Cette sécurité est nécessaire pour éviter que n'importe quel utilisateur installe (ou désinstalle) n'importe quoi sur votre machine.\\
+=====Utilisation====
+{{ applications:synaptic.png?500}}\\
+
+Lorsque vous ouvrez Synaptic, un écran similaire à celui présenté ci-contre s'affiche.  Dans cette fenêtre principale, vous retrouvez les actions exécutables dans la barre d'outils en haut.  Les catégories de logiciels, à gauche, et la liste des paquets //(applications et bibliothèques)// disponibles à l'installation depuis les [[depots|dépôts APT]] configurés, à droite, occupent la majeure partie de l'interface.
+
+Chaque application est précédée d'un carré indiquant le statut actuel du paquet :
+  * **vert** = installé
+  * **rouge** = cassé
+  * **blanc** = non installé
+On peut retrouver aussi certains symboles sur ces carrés :
+  * Une étoile indique la disponibilité d'une version plus à jour du paquet
+  * Une flèche note que le paquet sera installé ou mis à jour à l'application des modifications
+  * Un X rouge sur un paquet installé indique que le paquet sera désinstallé à l'application des mises à jour
+
+En cliquant sur cette case, vous obtiendrez les différentes opérations que vous pouvez effectuer sur le paquet. Les opérations possibles sont les suivantes (si l'opération n'est pas permise, elle est grisée) :
+  * Désélectionner : sert à désélectionner le paquet si il a été sélectionné précédemment pour une autre opération.
+  * Sélectionner pour installation.
+  * Sélectionner pour réinstallation.
+  * Sélectionner pour mise à jour.
+  * Sélectionner pour suppression.
+  * Sélectionner pour suppression complète (//supprime le paquet indiqué et ses fichiers configuration((ceux marqués comme "conffile", souvent placés dans /etc.)); les fichiers de préférences((dans les dossiers personnels)) et les logs((dans le /var)) ne sont pas supprimés).//
+
+===== Ce que Synaptic est capable de faire... =====
+
+Synaptic est capable de :
+  * [[#ajouter_ou_retirer_et_activer_ou_désactiver_des_dépôts|ajouter ou retirer et activer ou désactiver des dépôts]] ;
+  * [[#ajouter_réinstaller_ou_supprimer_des_programmes|ajouter, réinstaller ou supprimer des programmes]] ;
+  * [[#garder_votre_système_a_jour|garder votre système à jour]].
+  
+Dans la suite de ce document, nous allons voir en détail ces trois tâches qui ne ressemblent à rien du tout, mais très efficaces.
+
+==== Ajouter ou retirer et activer ou désactiver des dépôts ====
+Dans Synaptic, l'entrée du menu "//Configuration -> Dépôts//" lancera [[:tutoriel/comment_modifier_sources_maj#avec_une_interface_graphique|l'interface graphique "Logiciel & mises à jour"]], d'où vous pourrez depuis les onglets //Logiciels Ubuntu// et //Autres logiciels//, gérer les [[:dépôts]].
+
+====  Ajouter, réinstaller ou supprimer des programmes ====
+Pour faire une de ces opérations, il faut que vous soyez dans la fenêtre principale de Synaptic. \\
+Dans la partie droite de la fenêtre, vous avez une liste de programmes ainsi que leur version et une brève description. Chaque ligne de cette liste est précédée d'un petit carré. Cette case change de couleur suivant le statut du paquet (vert = installé, rouge = cassé, blanc = non installé).
+  * Pour installer, réinstaller ou supprimer un programme, il vous suffit de cliquer avec le bouton droit sur cette case et de choisir l'opération souhaitée.
+    * Lors de l'ajout d'un paquet, il se peut que Synaptic vous propose d'installer d'autres paquets qui sont nécessaires au fonctionnement de celui que vous avez demandé. Vous devez accepter d'installer les dépendances sinon le paquet sélectionné ne sera pas installé.
+    * Lors de la suppression d'un paquet, Synaptic peut vous signaler qu'il faut supprimer d'autres paquets car ils dépendent du paquet que vous venez de sélectionner. Vous devez accepter de supprimer ces autres paquets sinon le paquet sélectionné ne sera pas supprimé.
+  * Une fois vos opérations choisies, vous cliquez sur le bouton **Appliquer** pour appliquer les changements que vous avez demandés.
+
+==Rechercher un paquet==
+  * Pour rechercher un paquet dans la liste, vous avez plusieurs possibilités ; soit vous cherchez de manière précise, soit vous explorez l'arborescence.
+  * Pour rechercher un paquet précis, vous avez un bouton **Rechercher** dans le haut de la fenêtre. Une fois que vous avez cliqué dessus, une boîte de dialogue vous demande le mot clé à rechercher. En cliquant sur //Rechercher//, la liste des paquets affichés dans la fenêtre principale se limitera à ceux qui contiennent le mot clé indiqué.
+  * Pour explorer les paquets disponibles, dans la gauche de l'écran (en bas), vous avez 4 boutons. Ces boutons permettent d'afficher des catégories dans la gauche de l'écran (suivant les catégories proprement dites, les états des paquets, les précédentes recherches et des filtres personnalisés). 
+  * Si vous êtes en mode catégorie (comme sur la capture d'écran ci-dessus), vous pouvez filtrer la liste des paquets sur base de leurs catégorie (Multimédia, Traitement de texte,...). Ces catégories indiquent également si vous vous trouvez dans des paquets supportés par Ubuntu (sans annotations) ou non supportés par Ubuntu (Multiverse ou Universe).....
+
+En résumé :
+  * Cliquez sur le bouton **Rechercher** et entrez __Le nom du paquet à rechercher__ ; 
+  * Le paquet choisi s'affiche dans la liste ; 
+  * Vous pouvez alors cliquer sur la case à cocher et choisir **Installation** ;
+  * Vous pouvez choisir d'autres paquets à installer en recherchant un autre paquet puis quand vous avez fini ;
+  * Cliquez sur **Appliquer** pour installer le ou les paquets sélectionnés.
+
+Voir également le tutoriel <<[[:tutoriel:comment_installer_un_paquet|Comment installer un paquet]]>>.
+===Restaurer la barre de recherche===
+Dans des précédentes versions d'Ubuntu, il y avait une boîte de recherche rapide, très pratique pour rechercher des paquets. Elle a disparu au fil des versions. Pour la retrouver il suffit d'installer le paquet **apt-xapian-index** :
+
+<code>sudo apt-get install apt-xapian-index && sudo update-apt-xapian-index -vf</code>
+==== Installation par tâches ====
+
+Synaptic permet d'installer automatiquement tous les paquets correspondant à une tâche. \\
+La liste des tâches est accessible par le menu Édition/Sélectionner paquets par tâches.\\
+Pour activer cette possibilité il faut au préalable installer [[tasksel|Tasksel]] : **[[apt>tasksel]]**
+
+par exemple pour installer un « [[lamp|Serveur Web - LAMP]] » en une opération, il suffit de faire : 
+  * Édition/Sélectionner paquets par tâches
+  * sélectionner « serveur LAMP »
+  * valider puis de cliquer sur le bouton « Appliquer » pour installer les paquets nécessaires.
+
+==== Garder votre système à jour ====
+
+Pour garder votre système à jour, vous pouvez utiliser le **Gestionnaire de mises à jour d'Ubuntu** ou le gestionnaire Synaptic.
+
+Pour mettre votre système à jour via Synaptic, il vous suffit de suivre la procédure suivante dans la fenêtre principale :
+
+  * Demandez la recharge des listes des dépôts via le bouton **Recharger**.
+  * Cliquez sur le bouton **Tout mettre à jour**.
+  * Choisissez l'option **Mise à jour intelligente**.
+  * Cliquez sur le bouton **Appliquer** pour effectuer la mise à jour.
+
+==== Retrouver les paquets orphelins ====
+
+Les paquets orphelins sont des paquets qui ont été installés par d'autres paquets mais qui, suite à des désinstallations, ne sont plus utilisés actuellement. Même si ce n'est pas absolument nécessaire (votre système fonctionnera très bien comme cela), il est tout à fait possible de les retrouver pour les supprimer.
+
+Pour cela il faut :
+  * [[:tutoriel:comment_installer_un_paquet|Installer le paquet]] **[[apt>deborphan]]**
+  * Dans Synaptic, ouvrir la fenêtre des filtres de recherches grâce à la commande **filtre** du menu **catégorie** ; ou bien dans le menu **Configuration** => **Filtres** 
+  * Dans cette fenêtre cliquez sur le bouton **Nouveau** pour créer un nouveau filtre et le nommer « Paquets orphelins »
+  * Dans la partie droite de cette fenêtre ne garder cochée que la case **Orphelin**
+  * Cliquez sur **Valider**
+
+À partir de maintenant, quand vous sélectionnez les vues personnalisées, vous aurez un nouveau filtre nommé « Paquets orphelins » qui vous affichera tous les paquets inutilisés de votre système afin que vous puissiez les désinstaller. 
+
+===== Désinstallation =====
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi =====
+
+  * **(fr)** [[http://plfnicolarius.free.fr/tutoriel_logiciel_outils_gestion_paquets_debian.php|Outils de gestion des paquets sous Debian et Ubuntu]]
+  * **(fr)** [[http://www.tutoriels-video.fr/installer-des-logiciels-sur-ubuntu/|Tutoriel vidéo : Installer des logiciels sur Ubuntu]]
+  * **(fr)** [[http://www.tutoriels-video.fr/mettre-a-jour-ces-logiciels-sur-ubuntu|Tutoriel vidéo : Mettre à jour son système et ses logiciel]]
+
+
+----
+//Contributeurs ://

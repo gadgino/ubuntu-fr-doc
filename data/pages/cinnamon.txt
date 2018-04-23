@@ -1,0 +1,62 @@
+{{tag>Xenial Trusty personnalisation environnements gnome}}
+
+====== Cinnamon ======
+**Cinnamon** est un [[environnements|environnement de bureau]] initialement développé par/pour [[linux_mint|Linux Mint]]. Il s'agit d'un fork de [[gnome-shell|GNOME Shell]], qui se veut plus proche de la métaphore du bureau (avec par exemple un menu présentant les applications classées par catégories, plutôt qu'une liste d'icônes) délaissée par les dernières versions de [[gnome|GNOME]].
+
+Il est possible d'utiliser Cinnamon sur Ubuntu en l'installant depuis Ubuntu ou l'une de ses dérivées.
+
+===== Interface =====
+|  {{linux_mint_14_-_cinnamon.png?267}}  |  {{cinnamon-notification.png?200}} |  {{cinnamon-sound.png?100}}  |
+^  Cinnamon sur [[linux_mint|Linux Mint]]  ^  Les notifications de Cinnamon  ^  L'applet musique  ^
+
+===== Pré-requis =====
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+ 
+===== Installation =====
+À partir d'[[xenial|Ubuntu 16.04]] il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>cinnamon]]**.\\
+Avant [[xenial|Ubuntu 16.04]] il faut :
+  * [[:PPA|Ajouter le PPA]] **ppa:kranich/cinnamon**((https://launchpad.net/~kranich/+archive/ubuntu/cinnamon)) dans vos sources de logiciels; 
+  * [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|recharger la liste des paquets]];
+  * [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>cinnamon]]**. 
+
+<note important> Il arrive que Cinnamon ne fonctionne plus suite à une mise à jour. ASTUCE : il suffit de le désinstaller puis de le ré-installer : <code>sudo apt-get autoremove --yes --purge cinnamon; sudo apt-get install --yes cinnamon;</code>
+Si vous avez des problèmes avec la méthode ci-dessus vous pouvez vous tournez vers celle-ci, conseillée sur [[http://www.omgubuntu.co.uk/2014/07/new-cinnamon-ubuntu-14-04-ppa-stable|omgubuntu.co.uk]] valable pour la version stable 14.04 avec 
+[[https://launchpad.net/~lestcape/+archive/ubuntu/cinnamon|Lester Carballo Pérez]] ou en version nightly pour les Ubuntu14.04 avec [[https://launchpad.net/~gwendal-lebihan-dev/+archive/ubuntu/cinnamon-nightly|Gwendal LE BIHAN]] </note>
+
+
+==== Plantage Fond d’écran qui ralentit le démarrage ====
+
+Cinnamon n'arrivait pas aléatoirement à afficher le fond d'écran lors de son lancement. Cela variait selon le type d'image  Png/jpg et le format choisi étiré, Zoom.
+Ce bug a été partiellement corrigé. depuis le version 2.2.13.
+
+Cependant la lenteur au démarrage persiste (±10 secondes perdues) à cause toujours de cette difficulté à charger le background, (voir log: /var/log/lightdm/x-0-greeter.log)
+
+Différentes solutions de contournement possible :
+  - Ne pas utiliser de fond d'écran .
+  - Attendre les ±10 secondes de perdu au démarrage, après il n'y a plus de problème.
+  - Utiliser un autre gestionnaire de fond écran; Celui proposé dans Ubuntu-Tweak fonctionne très bien 
+==== Vsync ====
+Si vous observez des soucis de Vsync, il est conseillé d'ajouter la ligne suivante, à la fin du fichier /etc/environment
+<code>CLUTTER_PAINT=disable-clipped-redraws:disable-culling</code>
+ 
+==== Icônes manquantes dans le menu ===
+Après l'installation, notamment depuis la source moorkai, il peut manquer certaines icônes dans le menu. Installer les icônes de GNOME devrait résoudre le problème:
+<code>sudo apt-get install gnome-icon-theme-full</code>
+
+==== Duplication des icônes sur le bureau ===
+Il se peut parfois que les icônes du bureau apparaissent en double et génèrent en apparence un bug d'affichage. La commande suivante devrait résoudre immédiatement le problème:
+<code>gsettings set org.gnome.desktop.background show-desktop-icons false</code>
+
+==== Problème de mise en veille (depuis le bouton ou fermeture de l'écran) et boutons du menu "Eteindre" absents ===
+Si lorsque vous cliquez sur le bouton "Eteindre", apparaît seulement un bouton "Annuler" ou si lorsque vous fermez l'écran de l'ordinateur ou appuyez sur le bouton "Power" de l'ordinateur, la mise en veille n'a pas lieu, les 3 commandes suivantes + un redémarrage devraient résoudre le problème :
+<code>gsettings set org.cinnamon.desktop.session settings-daemon-uses-logind true
+gsettings set org.cinnamon.desktop.session session-manager-uses-logind true
+gsettings set org.cinnamon.desktop.session screensaver-uses-logind false </code>
+===== Voir aussi =====
+  * (en) [[http://cinnamon.linuxmint.com/ |Site officiel]],
+  * (en) [[http://linuxmint.com/|Site officiel de Linux Mint]],
+  * (fr)   [[:cubuntu|Cubuntu variante Ubuntu avec Cinnamon + Mate]].
+----
+
+//Contributeurs principaux : [[utilisateurs:binnette|Binnette]] //

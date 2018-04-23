@@ -1,0 +1,75 @@
+{{tag>Precise Trusty partage p2p bittorrent}}
+
+----
+====== Torrentflux ======
+[[http://sourceforge.net/projects/torrentflux|Torrentflux]] est une interface Web pour différents clients [[:BitTorrent]]. Écrite en PHP, elle vous permet de lancer des téléchargements BitTorrent depuis n'importe quel ordinateur connecté à Internet. C'est très utile si vous bougez beaucoup et que vous devez lancer des téléchargements BitTorrent fréquemment.
+<note important>
+L'utilisation de logiciels de téléchargement en "peer to peer" (P2P), comme les clients torrent, **est légale**, mais c'est l'utilisation que vous en faites qui est de votre responsabilité !</note>
+
+Torrentflux a le désavantage de nécessiter le serveur Apache et mysql ! Son installation nécessite des connaissances en administration Web. Si un autre [[:p2p|client torrent]] vous convient, utilisez plutôt ce dernier !
+
+
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir activé l'accès au [[:depots|dépôt Universe]].
+
+===== Installation =====
+==== Version des dépôts officiels ====
+<note>Cette méthode ne fonctionne que jusqu'à [[:Trusty|Ubuntu 14.04]] inclus, pour les versions suivantes, il est nécessaire de passer par les sources.</note>
+Il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>torrentflux]]**.
+Il vous faut ensuite créer un lien symbolique pour que votre navigateur web puisse accéder à Torrentflux. Pour cela entrez la [[:commande_shell|commande]] suivante dans un [[:terminal]]: <code>sudo ln -sf /usr/share/torrentflux/www/ /var/www/html/torrentflux</code>
+Lorsqu'il vous demande le nom de la base de donnée à créer choisissez un nom et un mot de passe, puis confirmez ce même mot de passe.\\
+Il devrait alors vous dire que l'installation a réussie. Si ce n'est pas le cas, reconfigurez le paquet torrentflux jusqu'à ce que ça marche (Un nettoyage et une purge des serveurs apache/mysql peuvent être nécessaires avant que ça fonctionne, assurez vous d'avoir ces deux serveurs fonctionnels !).
+
+==== A partir des sources : Torrentflux-b4rt ====
+La dernière version de Torrentflux s'appelle : [[http://sourceforge.net/projects/tf-b4rt.berlios/?source=recommended|Torrentflux-b4rt]]. 
+
+Les [[#pré-requis]] sont les mêmes que pour la [[#version des dépôts Ubuntu]], auquel il faut  rajouter **[[:LAMP]]**.
+
+Le moteur de base de données reste par défaut Mysql, mais il est possible d'utiliser [[:sqlite]] et [[:postgresql]].
+
+Si vous utilisez sqlite (c'est extrêmement léger, et il n'y a pas de configuration ni d'administration):\\
+[[:tutoriel:comment_installer_un_paquet|Installez les paquets]] **[[apt>php5-cli, python, perl, php5-sqlite, php-sqlite, php-sqlite3, libsqlite3, sqlite]]**.\\
+
+Téléchargez l'archive de la dernière version qui se trouve [[http://sourceforge.net/projects/tf-b4rt.berlios/?source=recommended|ici]]. Puis :
+  * [[:archivage|Décompressez]] l'archive,
+  * Déplacez le dossier décompressé **torrentflux-b4rt_1.0-beta2** dans le dossier du serveur avec la [[:commande_shell|commande]] suivante: <code>sudo mv torrentflux-b4rt_1.0-beta2  /var/www/html/torrentflux</code>
+
+=====Configuration=====
+
+
+====Version des dépôts Ubuntu====
+Lors de l'installation, **Torrentflux** va créer une base de données dans le serveur [[:mysql]], donnez alors un nom à cette base de données avec un mot de passe.
+
+Pour ce faire, il va vous demander le mot de passe de l'administrateur MySQL, que vous avez spécifié lors de l'installation de [[:MySQL]] !
+
+==== À partir des sources ====
+
+  * Changez le propriétaire du dossier avec la [[:commande_shell|commande]]: <code>sudo chown -R www-data:www-data /var/www/html/torrentflux</code> 
+  * Créer un utilisateur [[:mysql#utilisateurs|Mysql]] dédié pour Torrentflux. Ce n'est pas obligatoire, mais vivement conseillé pour des raisons de sécurité.
+  * Si vous utilisez **Mysql 5.5 ou supérieur**, il est nécessaire de modifier le fichier **/var/www/html/inc/install/queries.install.php** et remplacer la chaîne **TYPE=MYISAM** par **ENGINE=MyISAM** avec la fonction **"rechercher et remplacer"** de votre [[:editeur_de_texte|éditeur de texte préféré]].
+  * Lancez le setup : ''http://localhost/torrentflux/html/setup.php''. Cette page va vous permettre de configurer Torrentflux-b4rt.
+  * L'installateur va vous poser un certain nombre de question dont un utilisateur et un mot de passe pour le site et les paramètres de connexion à la base de données. Pour ces derniers, renseigner l'utilisateur créé précédemment.
+
+
+=====Utilisation====
+
+Ouvrez votre navigateur web, et allez à l'adresse ''http://localhost/torrentflux'' 
+Entrez le nom que vous aviez choisi lors de l'installation de Torrentflux et le mot de passe.
+
+{{ :applications:torrentflux:torrentflux-principal.png?600 |}}
+
+Tout est alors administrable dans cette page web. Vous pouvez créer de nouveaux utilisateurs/base de données, ce qui permet, par exemple de télécharger plusieurs choses sans que les téléchargements se gênent (et sans que chacun voit  se que télécharge l'autre)...
+
+Si les téléchargements ne se font pas, allez voir dans les logs (qui sont accessibles dans l'interface web !). Vous pouvez changer le programme de transfert (transmission ou bittornado...). Perso, j'utilise bittornado.
+
+===== Désinstallation =====
+ 
+Si vous avez installé la [[#version des dépôts Ubuntu]], il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+Si vous avez installé la dernière version, il faudra supprimer avec les [[:sudo|droits d'administration]] le dossier torrentflux dans le dossier **/var/www/html**.
+ 
+----
+
+//Contributeur(s) : [[utilisateurs:StephaneGuedon]] [[utilisateurs:darkjam]].//

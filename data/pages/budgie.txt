@@ -1,0 +1,100 @@
+{{tag>variantes environnements budgie}}
+
+{{ http://i.imgur.com/M4JqcZW.png?140|Logo de la variante}}
+====== Ubuntu Budgie ======
+
+**Ubuntu Budgie** est une [[:variantes|variante]] officielle d'Ubuntu depuis la version 17.04 (Zesty Zapus).
+Auparavant nommée "Budgie Remix", cette variante propose l'environnement de bureau Budgie, développé depuis 2013 par la distribution "Solus Project".
+
+Il s'agit d'allier des technologies avancées provenant de [[:gnome-shell|Gnome Shell]] avec une ergonomie plus traditionnelle et un design moderne et élégant, tout en proposant de meilleures performances.
+
+| {{ https://ubuntubudgie.org/storage/Budgiess/budgie-menu.png?350 |Budgie-Menu }} | {{ https://ubuntubudgie.org/storage/Budgiess/budgie-remix.png?400 |Plank et Raven }} | 
+^ Budgie-Menu \\ menu avec catégories et recherche intégrée ^ Le dock [[Plank]] (à droite) \\ Le panneau multifonction **Raven** (à gauche) ^
+
+===== Installation =====
+
+==== En tant que système complet ====
+**Ubuntu Budgie** est disponible  en tant que [[:variantes|variante officielle]]. Pour l'installer, la procédure est similaire aux autres variantes.
+  - [[http://cdimage.ubuntu.com/ubuntu-budgie/releases/|Télécharger l'image ISO UbuntuBudgie]];
+  - Rendez-vous sur [[:tutoriel/amorcer_sur_cd_ubuntu|le tutoriel d'installation d'Ubuntu]] et suivez les étapes.
+
+==== Depuis une autre variante d'Ubuntu ====
+=== Pré-requis ===
+  * Disposer des [[:sudo|droits d'administration]];
+  * Disposer d'une connexion à Internet configurée et activée.
+=== Installation complète ===
+Dans un terminal, saisir :
+<code>sudo apt-get install ubuntu-budgie-desktop</code>
+<note>Cela installera le bureau Budgie **et les logiciels qui l'accompagnent par défaut**, pour éviter les doublons de logiciels équivalents, vous préférerez sans doute suivre le paragraphe suivant !</note>
+
+=== Installation du bureau Budgie ===
+Dans un terminal, saisir :
+<code>sudo apt-get install budgie-desktop</code>
+
+=== Installation minimale ===
+Dans un terminal, saisir :
+<code>sudo apt-get install budgie-desktop-minimal</code>
+<note important>Cela installera un bureau Budgie fonctionnel mais dont l'expérience d'utilisation sera plutôt incomplète.</note>
+
+===== Logiciels par défaut =====
+Par défaut, Ubuntu Budgie embarque beaucoup de logiciels [[:GNOME]] :
+
+  * Le gestionnaire de fichiers [[:Nautilus]] ;
+  * La logithèque [[:Gnome-Software]] ("Logiciels") ;
+  * L'éditeur de texte [[:Gedit]] ;
+  * Le lecteur de musique [[:Rhythmbox]] ;
+  * Le gestionnaire de photos [[:Gnome-Photos]] ;
+  * [[Gnome-maps]] ("Cartes")
+
+| {{ https://ubuntubudgie.org/storage/Budgiess/gnome-software.png?250|Logithèque GNOME }} | {{ https://ubuntubudgie.org/storage/Budgiess/rhythmbox.png?250|Lecteur de musique Rhythmbox }} | {{ http://i.imgur.com/F7G85cg.png?250|Gnome Maps }} |
+^ [[Gnome-Software]] ^ [[:Rhythmbox]] ^ [[:Gnome-Maps]] ^
+
+Mais aussi :
+  * La suite bureautique [[:LibreOffice]] ;
+  * Le navigateur [[:Chromium]] ;
+  * L'émulateur de terminal [[:Terminix]];
+
+| {{ http://i.imgur.com/rhwTgWN.png?250|Chromium }} | {{ https://ubuntubudgie.org/storage/Budgiess/libreoffice.png?250|LibreOffice }} | {{ http://i.imgur.com/QyEv3vZ.png?250|Terminix }} |
+^ [[:Chromium]] ^ [[:LibreOffice]] ^ [[:Terminix]] ^
+
+===== Utilisation =====
+
+Le menu (**Budgie-Menu**) se trouve par défaut dans le coin supérieur gauche. On peut y parcourir les catégories d'applications, ou y effectuer une recherche.
+
+Le dock (**Plank**) se trouve sur le coté gauche de l'écran. On peut y (dés)épingler nos applications favorites. Une application ouverte y est représentée son icône, avec un point à coté, et l'application ouverte est en surbrillance. Cherchez "Plank" dans le menu pour trouver les préférences de Plank et paramétrer ce dock.
+
+{{ https://ubuntubudgie.org/storage/Budgiess/budgiedesktop.png?250|Raven}}
+
+Le panneau latéral (**Raven**) est multifonction. Un icône dans le panneau supérieur permet de l'ouvrir.
+
+Il se constitue de 2 onglets majeurs : **Applets** et **Notifications**.
+
+  * Par défaut, Raven montre un ensemble d'//applets//, comme un calendrier ou les commandes du lecteur de musique (ci-contre).
+  * Si on ouvre Raven en cliquant sur l'icône des notifications, alors ce sera l'onglet "Notifications" de Raven qui apparaîtra à l'ouverture.
+Raven permet aussi de personnaliser l'organisation du bureau.
+
+===== Personnalisation =====
+
+Concernant la souris, le clavier, la langue, etc., vous trouverez les réglages correspondants dans le Budgie-Menu (catégorie "Préférences", cliquez sur "Paramètres").
+
+{{ http://i.imgur.com/jgHOVBN.png?350|Personnalisation avec Raven}}
+
+La plupart des opérations de personnalisation du bureau lui-même se font via **Raven**, le panneau latéral multifonction : un petit logo avec un engrenage permet d'accéder aux réglages (répartis dans 2 onglets).
+
+Notamment, on peut modifier :
+  * les thèmes (panneaux, fenêtres, icônes, curseurs)
+  * les polices
+<note important>Il faut avoir installé préalablement les thèmes ou les polices si on veut les appliquer !</note>
+  * le positionnement du panneau
+  * les applets qu'il contient (en ajouter, en enlever, modifier leurs positions, leurs réglages).
+
+===== Désinstallation =====
+Pour supprimer Budgie, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration de l'application est conservée ou supprimée.
+
+===== Voir aussi =====
+
+[[https://ubuntubudgie.org/|Site officiel]]
+
+----
+
+// Contributeurs: // [[:utilisateurs/roschan|Roschan]]

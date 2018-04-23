@@ -1,0 +1,53 @@
+{{tag>Precise Trusty audio}}
+
+----
+
+====== Ripper ses cd avec Grip ======
+ 
+<note important>**Grip** n'est plus disponible depuis les [[:depots|dépôts officiels]] mais depuis un [[PPA]].  Installer un paquet hors des dépôts officiels peut présenter un risque d’instabilité du système. Préférez l'utilisation d'un autre extracteur de CD.</note>
+**Grip** est une petite application très pratique qui vous permettra de ripper vos cd dans différents formats comme [[wpfr>ogg]], [[wpfr>MPEG-1/2_Audio_Layer_3|mp3]] ou encore [[wpfr>FLAC]]. Il est très simple d'utilisation, assez rapide.
+
+{{applications:grip.png}}
+
+===== Pré-requis =====
+  * Disposer des [[:sudo|droits d'administration]];
+  * Disposer d'une connexion à Internet configurée et activée;
+ 
+===== Installation =====
+
+  - [[:PPA|Ajouter le PPA]] **ppa:otto-kesselgulasch/testbildtest**((https://launchpad.net/~otto-kesselgulasch/+archive/ubuntu/testbildtest)) dans vos sources de logiciels; 
+  - [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|recharger la liste des paquets]];
+  - [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>grip]]**. 
+Ou dans un [[:terminal]], saisir les [[:commande_shell|commandes]] suivantes: 
+<code>sudo add-apt-repository ppa:otto-kesselgulasch/testbildtest
+sudo apt-get update
+sudo apt-get install grip</code>
+Ce [[:PPA]] contient d'autres paquets. Une fois l'installation terminée et pour éviter une mise à jour non désiré d'autres paquets du [[:PPA]], désactiver ce dernier.
+<note important>Attention, ce ppa ne prend pas en charge Ubuntu vivid, mais on peut utiliser ppa:kirkland/ppa.</note>
+  * Pour bénéficier de l'encodage en mp3, pensez à installer aussi le paquet **lame**
+  * Pour encoder en ogg avec oggenc, il faut installer le paquet **vorbis-tools** et mettre /usr/bin/oggenc dans configuration -> codage -> codeur -> programme de codage (à la place de oggenc).
+
+
+===== Utilisation=====
+
+Vous trouverez Grip dans le menu **Application => Son et vidéo => Grip**.
+
+  - Insérez votre cd audio, les pistes devraient être reconnues automatiquement.
+  - Allez dans l'onglet //Configuration//, puis dans celui-ci choisissez //Codage//. Vous pourrez alors choisir le format d'encodage, et vous aurez accès à la ligne de configuration de l'encodeur utilisé. Reportez vous au manuel de cet encodeur pour plus d'informations. Vous pouvez aussi choisir le répertoire où seront stockés les fichiers encodés. \\ Pour les plus débutants, le codec **lame** encode en mp3 128 kb/s par défaut, le codec **oggenc** encode en ogg 192kb/s par défaut.
+  - Allez enfin dans l'onglet //Extraction// du haut de la fenêtre, puis choisissez //Extraction + Codage// et attendez que l'opération se termine (si vous n'avez rien modifié attendez l'éjection du CD).
+Voilà, vous pouvez désormais ripper vos disques audio facilement ! 
+=====Désinstallation=====
+Pour supprimer cette application, il suffit de [[ :tutoriel/comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés. 
+
+=====Voir aussi=====
+  * **(en)**[[http://sourceforge.net/projects/grip/|Site officiel du projet]]
+
+====Autres applications d'extraction de CD====
+  * [[:Sound-Juicer|Sound-Juicer]]
+  * [[ :Asunder]]
+  * [[:xcfa|Xcfa]]
+  * [[:RipperX]]
+
+----
+
+//Contributeurs : Rédigé par [[utilisateurs:roane]] - Complété par L.Bellegarde.//

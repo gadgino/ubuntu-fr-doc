@@ -1,0 +1,55 @@
+{{tag>audio video multimedia programmation Precise BROUILLON}}
+----
+
+====== Pure Data ======
+ 
+**Pure Data** est un logiciel de programmation graphique pour la création musicale et multimédia en temps réel. Il permet également de gérer des signaux entrants dans l'ordinateur (signaux de capteurs ou événements réseau par exemple) et de gérer des signaux sortants (par des protocoles de réseau ou protocoles électroniques pour le pilotage de matériels divers).
+
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir activé l'accès au [[:depots#depots_officiels|dépôt Universe]].
+ 
+<file>sudo apt-get install autoconf</file>
+
+===== Installation =====
+
+<note important>
+Pd-extended n'est malheureusement plus maintenu. Il est donc désormais déconseillé de l'installer. Il faudra installer le paquet [[apt>puredata]] à la place, et installer les éventuels objets manquant manuellement.
+</note>
+ 
+Il est possible de télécharger directement le logiciel sur le site du logiciel : https://puredata.info/downloads/pure-data
+
+Anciennement la version **Pd-extended** était la version disponible dans les dépôts ubuntu (**[[apt>puredata|puredata]]**) :
+  * [[tutoriel:comment_modifier_sources_maj|ajoutez le dépôt]] ''**apt.puredata.info/releases** //version// main'' avec les clés d'authentification correspondantes.
+<file>
+sudo add-apt-repository "deb http://apt.puredata.info/releases `lsb_release -c | awk '{print $2}'` main"
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key 9f0fe587374bbe81
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key D63D3D09C39F5EEB
+</file>
+  * [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>pd-extended|pd-extended]]**, ou en ligne de commande :
+<file>
+sudo apt-get update
+sudo apt-get install pd-extended
+</file>
+
+ 
+===== Utilisation =====
+ 
+Lancez l'application via le [[:unity#tableau_de_bord_dash|dash]] (Ubuntu 11.04 et ultérieures) ou via le [[:terminal]] (toutes versions d'Ubuntu) avec la [[:commande_shell|commande]] suivante :
+<code>pd</code>
+
+ {{:audio:pd-extended_precise_ecran_principal.png ?300}}{{ :audio:pd-extended_precise_test_audio.png?300|}}
+
+
+===== Désinstallation =====
+ 
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+ 
+===== Voir aussi =====
+ 
+  * **(en)** [[http://puredata.info/]]
+  * **(fr)** [[http://www.codelab.fr|www.codelab.fr]] excellent forum d'entraide autour de la programmation multimédia temps réel (pure data, processing, SuperCollider, gephex, etc)
+----
+//Contributeurs principaux : [[utilisateurs:djiboun|Djiboun]].//

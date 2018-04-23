@@ -1,0 +1,84 @@
+{{tag>matériel portable}}
+
+----
+
+====== Liste des portables « Medion » ======
+
+Voici une liste de tous les micro-ordinateurs portables ayant été testés sous Ubuntu, classés par ordre alphabétique.
+Si vous rencontrez des problèmes avec le Wi-FI, un bouton du clavier permet d'activer ou de désactiver la carte. Il faut quelquefois préciser dans le [[:tutoriel:modifier_ordre_amorcage_du_bios|bios]] de conserver l'état de la carte entre deux démarrages pour avoir le Wi-Fi sous [[:gnu|GNU]]/[[:linux|Linux]].
+
+medion Fam 2000+  Sous hardy tout fonctionne du premier coup
+
+<note tip>Pour utiliser le pilote Nvidia propriétaire avec ce modèle (Medion Fam 2000), [[:tutoriel:comment_editer_un_fichier|éditez le fichier]] **/etc/X11/xorg.conf**, puis dans la partie //Section "Device"//, rajoutez la ligne : ''Option "UseDisplayDevice" "DFP-0"''. Sans quoi lors de l'activation du pilote, ce sera votre sortie TV qui sera sélectionnée comme écran principal et non l'écran de l'ordinateur, donc vous obtiendrez un écran noir (pour passer en mode "console" dans ce cas, appuyez sur Ctrl+Alt+F1 sur votre clavier).</note> 
+
+
+
+===== Akoya =====
+
+^ Modèle ^ Problème installation ^ Problème matériel ^ Commentaires ^  [[:versions|Version]]  ^
+| Akoya E1210 mini | Aucun | Matériel bien reconnu.|   | Maverick |
+| Akoya E1311  | Aucun | Matériel bien reconnu.|  | Maverick |
+| Akoya E1317T (MD 98449)  | Aucun | Tout est reconnu. | Le BIOS EUFI n'est pas désactivable, il faut activer **LSM enable** dans le BIOS pour pouvoir démarrer depuis un DVD d'installation (le démarrage depuis une clé USB MultiSystem n'a pas fonctionné). | Mint MATE 18 |
+|Akoya E6217| Aucun | oui| Il existe un interrupteur pour actionner le wifi qui n'est pas accessible. du coup, pas de wifi |Ubuntu 16.04|
+| Akoya P6612 | Aucun | Matériel bien reconnu. | Tous fonctionne sans problème sauf xubuntu et edubuntu si on l'installe dans windows. Si vous installez ces différent gestionnaire de bureau la barre de kde et xfce disparaitra et un certain nombre de programme ne fonctionneront pas (lors de l'installation ils vous demanderont le cd de xubuntu mais ce cd n'est pas reconnu) notamment les ide. Aucun problème recensé avec ubuntu et kubuntu 9.04 et 9.10 en version 32 bits. La version 64 refuse d'installer les programmes à plus de 50% et refusera d'être booté par grub au bout d'un moment. Code block refuse de faire les espace sous la 9.10, il faut faire alt+ctrl+espace ce qui est un peut embêtant à la longue ;-) ... | 9.04 et 9.10 32 et 64 bits|
+| Akoya  MD 98210 | Non | Non | Tout est reconnu  | Precise 32 |
+| Akoya  MD 98680 (E7218)| Non | Non | Fonctionnement sortie de boite ! | Precise 64 |
+| Akoya  MD 98723 | Non |  Carte graphique | Installer un noyau supérieur à 3.2, et éditer /etc/defaut/grub pour supprimer l'option "quiet slash"  | Precise 64 |
+| Akoya MD98525 (E6234) | Non | Aucun | Ubuntu 13.04 (ou ultérieur) indispensable. Un petit soucis de détection de Windows 8 que l'on ne pouvait pas amorcer à partir du menu Grub. Il a fallu ajouter un fichier /etc/grub.d/40_custom et reconfigurer Grub (cf. http://forum.ubuntu-fr.org/viewtopic.php?pid=14982371)  | Ubuntu 13.04 64 bits |
+| Akoya S4214 (MD 99056) | Oui | Non | Installation en mode EFI de Ubuntu 16.04.1 64 bits seul dans l'ordi (Windows 8 préinstallé a été viré) : voir post de [[https://forum.ubuntu-fr.org/viewtopic.php?id=2002903|mgomree]] | Ubuntu 16.04.1 \\ 64 bits |
+
+
+===== CAD =====
+
+^ Modèle ^ Problème installation ^ Problème matériel ^ Commentaires ^ [[:versions|Version]] ^
+|CAD 2000 (Athlon 64 bits 3000+ Mobile)| Aucun| Matériel bien reconnu par défaut sauf pour la webcam intégrée.| Carte ATI 9700 Mobility avec accélération 3D grâce au dernier pilote et [[http://wiki.cchtml.com/index.php/Ubuntu_Installation_Guide|ce guide]]. Webcam intégrée grâce au [[http://mxhaard.free.fr/download.html|module GSPCA]].| Hoary, Hoary64, Breezy, Breezy64, Dapper, Dapper64, Edgy, Edgy64|
+|CAD 2000 (Athlon 64 bits 3000+ Mobile)| Affichage | Matériel bien reconnu par défaut sauf pour la résolution d'affichage.| Carte ATI-RV350 Mobility RADEON 9600 M10  avec accélération 3D grâce au dernier [[http://wiki.cchtml.com/index.php/Ubuntu_Feisty_Installation_Guide|pilote ATI 8.41]]. (install methode2). | Feisty |
+|CAD 2000 (Athlon 64 bits 3000+ Mobile)| Affichage | Matériel bien reconnu par défaut (pilote ati libre). [[:plymouth|Problème écran de démarrage]] (mettre 1440*900)   |  Pilote ati propriétaire+accélération 3d instable et incompatible avec Compiz. |Gutsy, Gutsy64 |
+|CAD 2000 (Athlon 64 bits 3000+ Mobile)| Affichage | Matériel bien reconnu par défaut.   |  Pilote ati propriétaire+accélération 3d ok <del>mais scintillement des applis opengL (désactiver Compiz)</del> (ok avec mise à jour) |hardy, hardy64 |
+|CAD 2000 (Athlon 64 bits 3000+ Mobile)| Affichage |vidéo non reconnue par défaut, fonctionne en basse résolution   |  forum : http://forum.ubuntu-fr.org/viewtopic.php?pid=2214768 |intrepid |
+
+
+Voir aussi : une page complète de [[http://tebl.homelinux.com/laptop/ | configuration du cad2000 avec ubuntu (en)]]
+
+===== LT =====
+
+^ Modèle ^ Problème installation ^ Problème matériel ^ Commentaires ^ [[:versions|Version]] ^
+| LT 97500 | Aucun| wifi |Paramétrer dans le bios le Wifi sur "Last state", après le démarrage le wifi est actif, mais il n'est pas possible de le désactiver. | Hardy |
+===== MD =====
+
+^ Modèle ^ Problème installation ^ Problème matériel ^ Commentaires ^ [[:versions|Version]] ^
+|MD 2040 (Athlon 2400+)|Aucun|Matériel reconnu par défaut.| La carte graphique NVidia gForce 4 488 Go est « batarde » mais fonctionne bien avec les pilotes propriétaires.|Breezy|
+|MD 40072 (Mobile AMD Athlon XP, 1866 MHz (14 x 133) 2500+)| Aucun problème| Matériel reconnu par défaut.| Carte ATI Radeon IGP-320M installé avec les pilotes radeon libre et 3D activé //via// [[:radeon|le wiki]]. Pour installer 1Go de RAM voir [[http://aide.blinckers-groups.com/medion/index.php|ici]]|Dapper (K7), Feisty, Gutsy, Hardy, Intrepid, Jaunty|
+|MD 40100 (Pentium 4 2,8 GHz)| Ne pas mettre de chiffre dans le mot de passe initial| Matériel bien reconnu par défaut, sauf verrouillage caractères numériques et connexion WIFI, installer **[[apt>linux-firmware-nonfree]]**, éventuellement suivre ça : https://wiki.debian.org/prism54#p54pci | La carte graphique NVidia GForce FX fonctionne bien avec les pilotes propriétaires. Pour activer Wifi  au démarrage voir [[:acerhk|ici]], sans guarantie |Gutsy Precise Lubuntu|
+|MD 40653 (AMD 64, 1,8GHz) | Matériel bien reconnu par défaut, sauf connexion WIFI | carte graphique ATI reconnue sans problème. Carte wifi de marque "intersill" verrouillée pour ne fonctionner que sous win$. | Bien qu'il y ait un AMD 64, l'install de la version 64bit a crashé | Hardy Heron|
+|MD 41310 (Pentium M 1,4 GHz)| MBR protégé, mise à jour du Bios indispensable.| Matériel reconnu par défaut sauf modem.| Pilotes NVidia glx-legacy. |Dapper (i686) Feisty|
+|MD 6526 (Core2Quad Q6600) | LiveCD ne fonctionne pas |lecteur/graveur CD/DVD non reconnus|installation OK via [[:tutoriel:installer_ubuntu_par_internet|la netinstall]] - voir [[http://forum.ubuntu-fr.org/viewtopic.php?id=141473|ce topic]]|Feisty|
+|MD 6526 (Core2Quad Q6600) | Aucun| Aucun| Aucun|Gutsy|
+|MD 42630 mid2030 (P4 3ghz) | Aucun| sortie tv non testée,touche fn ok, pas de pilote 3D| muter le 2eme canal audio sous /sudo/alsamixer pour avoir du son, monter "front"|Heron, Gutsy, jaunty|
+|MD 95694 \\ Intel Celeron M370 à 1,5 GHz (MIM2120)|Aucun problème|Problème avec WiFi W89C33D|Aucun soucis avec résolution écran 1280x800px \\ WiFi en cours de paramétrage|Feisty, Gutsy|
+|MD 95746 RIM 2020|Aucun| Wifi: Winbond Electronics Corp W89C33D et arrêt matériel| Wifi: pas de pilotes disponibles et l'ordinateur ne s'arrête pas complètement| Hardy|
+|MD 9580 (P3 1 GHz)|Pas de problème | installation avec alternate CD|Réseau via Realtek 8139 - RAM 256 mo - Savage S3 8mo - Photoshop 7.0 via Wine|Xubuntu 7.10|
+|MD 95832 (Pentium M 730)| Aucun| Matériel bien reconnu par défaut, sauf le modem | Dans un terminal taper :\\ sudo aptitude install sl-modem-daemon pppstatus gnome-ppp\\ sudo modprobe snd_intel8x0m \\ Voir le post [[http://forum.ubuntu-fr.org/viewtopic.php?pid=1046280#p1046280|#39]] de ce[[http://forum.ubuntu-fr.org/viewtopic.php?id=129776&p=1|topic]]. | Dapper, Edgy, Feisty, Gutsy, Hardy|
+|MD 95921 (Intel)| Aucun | Carte TV non testée, MD 95921|<del>impossible de faire fonctionner la carte son HDA-Intel ALC883\\ Pas mal de recherche, aucune solution...</del> Carte son ok. Wifi ok, reconnu lors de l'installation. Carte vidéo (avec veille et hibernation) ok. Carte son (et TOUTES les sorties) ok. Attention au clavier, les touches directionnelles sont sur le pavé numérique. Il faut configurer le fichier $HOME/.xmodmaprc pour les remplacer par des touches directionnelles classiques avec des choses du genre : keycode 89 = Next KP_3 (voir [[http://www.commentcamarche.net/faq/sujet-6988-edefinir-les-touches-du-clavier|cette page]]) |..., Gusty, Intrepid (8.10 = carte son ok), Natty (avec processeur Intel T2300@1.66GHz)|
+|MD 96144 (Intel Core2Duo 2 GHz)| Aucun problèmes| Matériel reconnu par défaut.| Sous Kubuntu Feisty 7.04, le poweroff ne fonctionne pas. |Edgy|
+|MD 9626 (AMD Athlon 1000) |Aucun problème|Aucun problème|RAM 512 Mo dont 32 Mo partagés. \\ **WiFi** : carte PCMCIA Linksys WPCS54Gv2 reconnue automatiquement. \\ Pour un fonctionnement optimal du touchpad, installation du pilote Synaptics & modification xorg.conf sont nécessaires.  \\ **documentation** : [[:touchpad]] | Edgy, Feisty, Gutsy |
+|MD 96367 (Intel C2D T7300 2 GHz)|Aucuns problèmes|Le son est maintenant disponible en suivant [[:audio_intel_hda]] \\ Xorg fonctionne sans être connecté en suivant : [[http://forum.ubuntu-fr.org/viewtopic.php?pid=1595351]]| nVidia GeForce 8600M GS (fonctionne parfaitement avec la version 100.14.19 du pilote proprio) \\ *WIFI* : Intel Wireless 4965 AGN (fonctionne "out of the box")| Hardy |
+|MD 96500 (Intel)| Pas de problèmes d'installation|résolution mal réglée/wifi à activer via un module. Problème sortie casque audio|problème de carte vidéo réglé depuis le passage en Feisty avec le gestionnaire de pilotes propriétaires - pour le wifi : regardez la page portant sur le module [[:AcerHK]]. Pour casque: editer /etc/modprobe.d/alsa-base et rajouter a la fin: options snd-hda-intel model=6stack-digout |Feisty, Gutsy|
+|MD 9706 (Intel Pentium IV 1,7 GHz)|Aucun problème|Matériel reconnu par défaut, mais les Easy Start Buttons ne sont pas gérés.|Activer l'option HyperZ par Driconf améliore les performances graphiques.|Feisty|
+|MD 9783 (Intel Pentium IV 2,0 GHz)|Aucun problème|Aucun problème|Aucun|Feisty|
+|MD 97500 (Intel)| Problème mise sous tension carte wifi résolution vidéo ok 1200x800|carte wifi bien reconnu mais pas activée par défaut j'ai mis une PCMCIA à la place - carte vidéo ATI mobility X700XL correctement reconnue, écran 15,4’’|solution trouvée youpi! Allez dans le bios et changez la valeur par défaut de la carte wifi de "disabled" à "last state"|Edgy et Hardy|
+|MD 96290 (Pentium T2130 Dualcore)|Aucun|Carte Wifi non reconnue (Realtek 8187b), pas de son (Intel 82801G), configuration X minimale|Pour le wifi, voir [[:wifi_liste_carte#r|RTL8187b]]. Pour le son, rajouter simplement « ''options snd-hda-intel model=auto'' » à la fin du fichier **/etc/modprobe.d/alsa-base.conf** , puis sélectionner **PCM** comme canal de sortie audio sous Gnome ou KDE.\\ \\ Pour régler le problème de la barre de défilement verticale droite du touchpad qui ne fonctionne pas sous Precise Pangolin (voir [[:touchpad#pas_de_defilement_vertical|Pas de défilement vertical]]), exécuter la commande suivante : « echo "options psmouse proto=imps"%%|%%sudo tee -a /etc/modprobe.d/psmouse.conf; sudo modprobe -r psmouse; sudo modprobe psmouse »|Gutsy (probleme avec le wifi sur hardy), Intrepid Ibex (son ko, wifi ok, config X ok), Karmic & Lucid Lynx & Maverick (son ko), Precise Pangolin (son ok, wifi ok, config X ok)|
+|MD 96248 | Aucun | pas de son (résolu avec [[:audio_intel_hda]]) Pour le son, il suffit de compiler la dernière version d'alsa avec ce [[http://monespaceperso.org/blog/2009/02/08/acer-aspire-6920-aucun-son-sous-ubuntu-810/|tuto]] - Le lecteur de carte sd ne fonctionne également pas après l'installation, il faut l'activer avec ce [[:lecteur_carte_memoire|tuto]] dans la partie Ricoh (la seconde méthode a fonctionné pour moi)| Pour le wifi le module acer_wmi ne permet pas l'activation de la carte par le bouton prévu à cet effet, j'ai donc désactivé le wifi par le bios et l'active sous ubuntu lorsque j'en ai besoin par la commande "sudo modprobe acer_wmi" | Intrepid (8.10) Jaunty (9.04)|
+|MD 96640 (Mobile Intel DualCore, T5550: 1.83 GHz| Aucun problème| Carte son Intel HDA 888 non reconnue ainsi que la carte wifi (RT2860)| Résolutions des problèmes : [[:audio_intel_hda|son]] (à lire jusqu'au bout et utiliser p-ê "model=auto", vous verrez ;-)([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/252119/comments/4|si bug voir ici]])) et [[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/216084/comments/10|wifi]] ([[http://www.ralinktech.com/ralink/Home/Support/Linux.html|à télécharger]] : firmware (copier le rt2860.bin ds /lib/firmware) + pilotes (à extraire ds ~/home/driver pour le tuto avec "sudo -s ; make ; make install") p-ê utiliser [[:wicd|wicd]])|Hardy 64bit|
+|MD 96970 (Mobile Intel DualCore, T5750: 2.00 GHz| Aucun problème| Carte son Intel HDA 888 ne fonctionne pas, bouton d'activation wifi non fonctionnel avec os 32 bits même avec acerhk, avec x86_64 le bouton fonctionne mais pas la led | Résolutions des problèmes : [[:audio_intel_hda|son]] (à lire jusqu'au bout et utiliser p-ê "model=auto", vous verrez ;-)([[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/252119/comments/4|si bug voir ici]])), pour l'activation wifi et/ou la led je cherche encore ;-)|Hardy 32bit - hardy 64 bit - intrepid(beta) 32 bit|
+|MD 98200 (Intel DualCore, T2300: 1.66 GHz)|Aucun|Bouton wifi ON/OFF ne fonctionne pas|Le chipset intégré Intel provoque parfois des plantages si un gestionnaire de composite est lancé (xcompmgr/compiz-fusion) [[http://forum.ubuntu-fr.org/viewtopic.php?pid=1766680|Voir ici]]|Hardy 32bit - Karmic 32bit|
+| MD 96420 | Aucun | Wifi avec ndiswrapper / Son non fonctionnel | Aucun | Intrepid 64 |
+| MD 96464 | Aucun | Son non fonctionnel [[:medion-md96464|problème résolu]]| Aucun | Hardy |
+| MD 99481, Akoya S2217 (Intel Atom Z3735F) | EFI 32 bits | Audio non fonctionnel, pilotes (instables) à compiler pour wifi et bluetooth [[:medion-md99481]]| Problèmes similaires à ceux rencontrés pour le ASUS X205TA : processeur 64-bit avec un EFI 32-bit. | Xenial 64bit |
+===== MIM =====
+
+^ Modèle ^ Problème installation ^ Problème matériel ^ Commentaires ^ [[:versions|Version]] ^
+|MIM 2020 (Pentium M 705)| Aucun| Matériel bien reconnu par défaut. | | Breezy|
+|MIM 2050 Intel Celeron M 1,4Ghz| Aucun| Matériel reconnu en totalité| Installation parfaite|Ubuntu 9.10 Koala Karmique|
+|MIM 2080 (MD 95298 Celeron //black dragon//)| Problème avec tous les noyaux 2.6.| Matériel mal géré. Problème avec carte wifi WINBOND W89C33. résolution non détectée| Pour booter sur le LiveCD, ajouter à la ligne de commande de boot ''noapic nolapic ''. Une fois installé, pour récupérer l'acpi installer ce DSDT http://acpi.sourceforge.net/dsdt/view.php?id=934 . ensuite il vous serra possible d'installer une autre carte wifi. | Intrepid |
+|MIM 2190|Aucun Problème constaté|Matériel reconnu en totalité. Astuce avec carte wifi pour la détection il faut simplement présser la combinaison de touche (FN)(F1) . résolution  détectée & Son détectée|Ubuntu 9.10 Sur mim 2190 Parfait. " Juste n'oublier pas la touche fonction et F1 pour Up le wifi :)" Seb73 |Ubuntu 9.10 |

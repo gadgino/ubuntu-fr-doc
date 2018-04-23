@@ -1,0 +1,284 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#commandes_basiques" class="toc"> Commandes Basiques </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#convention" class="toc"> Convention </a></span></li>
+<li class="level2"><span class="li"><a href="#commandes" class="toc"> Commandes </a></span></li>
+<li class="level2"><span class="li"><a href="#liens" class="toc"> Liens </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Versions Warty et Hoary
+Traduction libre de BasicCommands
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/manu" class="wikilink1" title="utilisateurs:manu" onclick="return svchk()" onkeypress="return svchk()">manu</a>.
+</p>
+
+<p>
+Autre page utile : <a href="/traductions/learn_unix_in_10_minutes" class="wikilink1" title="traductions:learn_unix_in_10_minutes" onclick="return svchk()" onkeypress="return svchk()">Apprenez les bases de Unix en 10 minutes</a>.
+</p>
+
+<a name="commandes_basiques"></a><h1> Commandes Basiques </h1>
+<div class="level1">
+
+<p>
+ Ce <em>How To</em> est fait pour les débutants qui ne connaissent pas <strong>Linux</strong>, et n&rsquo;a pas la prétention de faire de vous des champions de la console. La distribution Ubuntu vise à simplifier l&rsquo;utilisation d&rsquo;une plate-forme Debian en limitant  l&rsquo;usage des commandes dans un <em>shell</em> pour une station basique pour le quotidien.
+</p>
+
+</div>
+<!-- SECTION [215-576] -->
+<a name="convention"></a><h2> Convention </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> Cette page vous donnera des commandes GNU/Linux basique à utiliser dans un shell (terminal).</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Tous les noms de commande seront en <strong>GRAS</strong>.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Les commandes devront être tapées en respectant <strong>la casse</strong> selon l&rsquo;exemple encadré.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Pour un complément d&rsquo;information, lisez le <strong>man</strong> de chaque commande.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [577-921] -->
+<a name="commandes"></a><h2> Commandes </h2>
+<div class="level2">
+
+</div>
+
+<a name="man"></a><h5> man </h5>
+<div class="level5">
+
+<p>
+ La commande <strong>man</strong> est employé pour vous montrer le manuel des autres commandes.  Pour obtenir une bonne compréhension, employez l&rsquo;exemple: 
+</p>
+<pre class="code">
+man man           ### ceci vous donnera la page d'information pour &quot;man&quot;
+</pre>
+
+</div>
+
+<a name="cd"></a><h5> cd </h5>
+<div class="level5">
+
+<p>
+ La commande <strong>cd</strong>, vous permettra de changer de répertoires. Quand vous ouvrez un <em>shell/terminal</em> vous serez dans votre répertoire local (/home).  Pour se déplacer dans le système de fichiers que vous emploierez <strong>cd</strong>.  Exemple: 
+</p>
+<pre class="code">
+cd ~/Desktop      ### vous déplacera à votre répertoire de //bureau//  (/home/user/Desktop)
+</pre>
+
+</div>
+
+<a name="ls"></a><h5> ls </h5>
+<div class="level5">
+
+<p>
+ La commande <strong>ls</strong>, vous montrera les dossiers dans votre répertoire <em>courant</em>.  Utilisé avec certaines options, vous pouvez voir la taille, les permissions et la date de créations des dossiers.  Exemple: 
+</p>
+<pre class="code">
+ls ~              ### montrera les dossiers qui sont dans votre répertoire local (/home)
+
+man ls            ### pour avoir les options de ls
+</pre>
+
+</div>
+
+<a name="mkdir"></a><h5> mkdir </h5>
+<div class="level5">
+
+<p>
+ La commande <strong>mkdir</strong> vous permettra de créer des répertoires.  Exemple: 
+</p>
+<pre class="code">
+mkdir music       ### créera un répertoire music
+
+man mkdir         ### pour avoir les options de mkdir
+</pre>
+
+</div>
+
+<a name="pwd"></a><h5> pwd </h5>
+<div class="level5">
+
+<p>
+ La commande <strong>pwd</strong> vous permettra de savoir dans quelle arborescence de répertoire vous êtes localisé.  Exemple: 
+</p>
+<pre class="code">
+pwd               ### suivant nos exemples si dessus nos sommes dans ~/Desktop ou /home/user/Destop
+</pre>
+
+</div>
+
+<a name="mv"></a><h5> mv </h5>
+<div class="level5">
+
+<p>
+ La commande <strong>mv</strong> servira à déplacer un dossier à un endroit différent ou renommer un dossier. Exemples:
+</p>
+<pre class="code">
+mv file foo       ### pour renommer le fichier/répertoire &quot;file&quot; en &quot;foo&quot;
+
+mv foo ~/Desktop  ### déplace le fichier &quot;foo&quot; du répertoire courant vers le répertoire ~/Desktop sans le renommer
+
+mv foo ~/Document/newfile ###déplace le fichier &quot;foo&quot; du répertoire courant vers le répertoire ~/Desktop et le renomme en 
+                             newfile (biensûr newfile n'existait pas dans le répertoire ~/Desktop sinon le system vous 
+                             demandera la confirmation pour écrasé l'ancien fichier)
+
+man mv            ### pour avoir les options de mv
+</pre>
+
+</div>
+
+<a name="cp"></a><h5> cp </h5>
+<div class="level5">
+
+<p>
+ La commande <strong>cp</strong> fera une copie d&rsquo;un fichier.  Exemple:
+</p>
+<pre class="code">
+cp file foo       ###fera une copie exacte du fichier &quot;file&quot; et l'appellera &quot;foo&quot;, mais le fichier &quot;file&quot; sera toujours là.
+                     Quand vous employez &quot;mv&quot; le fichier n'existerait plus, alors que quand vous utiliserez &quot;cp&quot; le fichier 
+                     ce dédouble sans être supprimé.
+
+man cp            ### pour avoir les options de cp
+</pre>
+
+</div>
+
+<a name="less"></a><h5> less </h5>
+<div class="level5">
+
+<p>
+ La commande <strong>less</strong> permet d&rsquo;afficher le contenu d&rsquo;un fichier directement dans le terminal. Exemple:
+</p>
+<pre class="code">
+less /etc/apt/sources.list   ###affichera par exemple le contenu de votre fichier sources pour apt
+
+.....
+ deb http://archive.ubuntu.com/ubuntu warty main restricted universe multiverse
+
+ deb http://archive.ubuntu.com/ubuntu warty-security main restricted
+
+ deb http://archive.ubuntu.com/ubuntu warty-updates main restricted universe multiverse
+.....
+
+man less                     ### pour avoir les options de less
+</pre>
+
+</div>
+
+<a name="rm"></a><h5> rm </h5>
+<div class="level5">
+
+<p>
+ La commande <strong>rm</strong> permet de supprimer un fichier ou répertoire. Attention cette commande est irréversible donc soyez vigilant quand vous l&rsquo;utilisez. Exemple:
+</p>
+<pre class="code">
+rm nom_fichier              ### supprime le fichier nom_fichier du répertoire courant
+
+rm /home/documents/nom_fichier ### supprime le fichier nom_fichier du répertoire /home/documents
+</pre>
+
+<p>
+ <u><strong>ATTENTION</strong></u>
+</p>
+
+<p>
+Si vous tapez: 
+</p>
+<pre class="code">
+rm / home/documents/nom_fichier ###il y a un espace entre / et home/documents/nom_fichier donc le systeme commencera par 
+                                faire un rm / puis fera un rm home/documents/nom_fichier
+
+                                Biensûr le rm / effacera complétement votre système de fichier donc attention au espace 
+                                qui se glisse dans la frappe quand vous utilisez la commande &quot;rm&quot;
+
+man rm                          ### pour avoir les options de &quot;rm&quot;
+
+</pre>
+
+</div>
+
+<a name="chown"></a><h5> chown </h5>
+<div class="level5">
+
+<p>
+ La commande <strong>chown</strong> permet de changer le propriétaire d&rsquo;un fichier ou répertoire. Seul le propriétaire du fichier (ou root) peut faire cette manipulation. Exemple: 
+</p>
+<pre class="code">
+chown user_name /home/toto/doc.txt  ### mettra comme propriétaire &quot;user_name&quot; au fichier doc.txt
+
+man chown                           ### pour avoir les options de &quot;chown&quot;
+</pre>
+
+<p>
+ chmod:: La commande <strong>chmod</strong> permet de modifier les droits d&rsquo;accés sur les fichiers ou répertoires. Seul le propriétaire des fichiers ou répertoires (ou root) peut faire cette manipulation. Exemple:
+</p>
+<pre class="code">
+chmod -c 644 /test/user/texte.txt   ### modifie les droits en rw-r--r-- pour le fichier texte.txt c'est à dire que seul le 
+                                       propriétaire peut écrire et les autres seulement lire
+
+man chmod                           ### pour avoir les options sur &quot;chmod&quot;
+</pre>
+
+</div>
+
+<a name="apt-get"></a><h5> apt-get </h5>
+<div class="level5">
+
+<p>
+ La commande <strong>apt-get</strong> permet de gérer les paquets Debian de votre Ubuntu. Exemple: 
+</p>
+<pre class="code">
+apt-get update                      ### permet de mettre à jour la liste des paquets disponibles, commande à taper en premier
+                                        avant toute installation pour être sur d'avoir les mises à jours.
+
+apt-get upgrade                     ### permet de mettre à jour les paquets déjà installés, à taper pour faire les mises à 
+                                        jour de sécurité.
+
+apt-get install soft                ### fera l'installation du logiciel &quot;soft&quot; en gérant les dépendances, donc &quot;apt&quot; vous 
+                                        demandera peut être d'installer d'autre paquets en compléments
+
+apt-get remove soft                 ### désinstallera le paquet &quot;soft&quot;
+
+man apt-get                         ### pour avoir les options de &quot;apt-get&quot;
+</pre>
+
+</div>
+
+<a name="apt-cache_search"></a><h5> apt-cache search </h5>
+<div class="level5">
+
+<p>
+ La commande <strong>apt-cache search</strong> permet de rechercher le nom d&rsquo;un paquet parmis ceux disponible. Avant d&rsquo;utiliser cette commande pensez à faire un <u><strong>apt-get update</strong></u> pour mettre à jour votre liste des paquets. Exemple:
+</p>
+<pre class="code">
+apt-cache search supersoft          ### vous donnera la liste des paquets contenant le nom &quot;supersoft&quot; ou l'ayant dans leurs 
+                                        références
+</pre>
+
+</div>
+<!-- SECTION [922-7288] -->
+<a name="liens"></a><h2> Liens </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> <a href="http://www.debian.org/doc/manuals/apt-howto/index.fr.html" class="urlextern" title="http://www.debian.org/doc/manuals/apt-howto/index.fr.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow"> How To Debian sur APT</a> </span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [7289-] -->

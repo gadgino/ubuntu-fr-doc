@@ -1,0 +1,86 @@
+{{tag>éducation langue}}
+
+----
+
+====== Anki ======
+
+===== Présentation =====
+{{ anki_logo.jpg|Logo de Anki}} 
+**Anki** est un logiciel de [[wpfr>Répétition_espacée|répétition espacée]]. Il est donc capable de vous faire retenir un grand nombre d'informations avec un minimum d'efforts. Vous évitez ainsi de trop réviser ce que vous savez déjà et de maintenir "à moindre frais" un savoir déjà acquis.
+
+==== Étendue des possibilités ====
+
+Anki est le plus souvent utilisé comme outil d'apprentissage de langues étrangères. Avec lui vous pourrez mémoriser des règles de grammaire, des conjugaisons (dont les satanés verbes irréguliers), du vocabulaire ; produire des phrases ou des bouts de phrases étrangères à partir de leur équivalent français ; reconnaître (ou traduire en français) des phrases ou des bouts de phrases étrangères en mode texte ou audio... Il y a potentiellement autant de façon d'utiliser Anki que d'utilisateurs !
+
+Anki permet également de mémoriser autre chose que des éléments linguistiques. Vous pourrez par exemple apprendre les drapeaux des pays, les dates importantes d'une période historique, les lignes et colonnes du tableau périodique des éléments de Mendeleiev... À vous de faire preuve d'imagination !
+
+==== Déroulement d'une révision ====
+
+Anki vous pose une série de questions que vous (ou un professeur ou une autre personne) lui avez précédemment ajoutées. Le but étant bien entendu de mémoriser durablement l'information associée. Vous répondez à la question et regardez la bonne réponse. C'est alors à vous de juger votre performance : //Redemander//, //Difficile//, //Bon// ou //Facile//. La réponse influence la date et l'heure à laquelle la question vous sera prochainement reposée, ceci afin d'optimiser vos performances. En cela Anki est beaucoup plus puissant que des logiciels tels que Parley (ex-KVocTrain) pour lesquels vous devez taper la réponse au clavier et où la notion de répétition espacée de questions n'existe pas.
+
+**Pour plus d'infos consulter le site officiel.**
+
+===== Installation =====
+
+==== Via les dépôts officiels ====
+
+Il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>anki]]**.
+
+En ligne de commande :
+<code bash>sudo apt-get install anki</code>
+
+Cependant, le développeur du logiciel conseille d'installer Anki via le DEB du site (méthode ci-dessous).
+
+==== Via le DEB du site ====
+
+Il suffit de télécharger puis [[:tutoriel:comment_installer_un_paquet|installer le paquet]] paquet DEB disponible [[http://ichi2.net/anki/#linux|sur le site officiel de Anki]]. 
+
+Une fois installé, le logiciel est accessible par le menu //Applications → Éducation → Anki//.
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. La configuration de l'application sera conservée ou supprimée selon la méthode de désinstallation que vous choisirez.
+
+===== Problèmes connus =====
+
+==== Problème d'enregistrement et de lecture audio ====
+
+<note warning>Ce qui suit ne concerne que la version 1.2.
+
+la dernière version 2.0.5 disponible sur le site de l'auteur règle ces problèmes.</note>
+
+Arriver à faire fonctionner l'enregistrement et la lecture audio avec Anki revient à installer 4 dépendances non indiquées dans le paquet officiel:
+  * [[apt>mplayer]] ([[:depots#depots_officiels|multiverse]] doit être actif)
+  * [[apt>lame]] ([[:depots#depots_officiels|multiverse]])
+  * [[http://people.csail.mit.edu/hubert/pyaudio/|python-pyaudio]], paquet externe à installer [[:tutoriel:comment_installer_un_paquet#installer_un_paquet_isole|avec gdebi]]. Attention, cette méthode ne marche que pour les ancienne versions ; ceci est dû au fait que python-pyaudio exige python-2.5 alors que [[:Jaunty]] et [[:Karmic]] ne proposent que python-2.6. On contournera se problème grâce a un [[:tutoriel:comment_modifier_sources_maj|dépôt]] **ppa:uninea/python** puis on recharge et on installe le paquet [[apt>python-pyaudio]] (testé uniquement sous [[:Lucid]]).
+  * [[apt>sox]] (≥ 14.1)
+
+Le problème avant lucid est que les versions de //sox// des distripython-pyaudiobutions [[:Hardy]] et [[:Intrepid]] sont plus basses que celles requises.
+
+À partir de là, 2 possibilités :
+
+**1.** agir sur Anki en modifiant son fichier /usr/share/anki/anki/sound.py (nécessite les droits d'administrateur):
+  ["sox", "tmp2.wav", "tmp3.wav", "norm", NORM_AMOUNT, "bass", BASS_AMOUNT, "fade", FADE_AMOUNT, "0"]
+... à remplacer par:
+  ["sox", "tmp2.wav, "tmp3.wav"]
+
+**2.** agir sur //sox// en compilant sa [[http://downloads.sourceforge.net/sox/sox-14.2.0.tar.gz?modtime=1226179484&big_mirror=0|version 14.2]]. Cela revient à télécharger le programme, le décompresser (-> création du dossier sox-14.2.0/), ouvrir un terminal et se rendre dans ce même dossier et taper les commandes:
+  ./configure --prefix=/usr/local && make && sudo make install
+  sudo sh -c "echo 'include /usr/local/lib' >> /etc/ld.so.conf"
+  sudo ldconfig
+
+Les 2 dernières commandes sont nécessaires pour que //sox// trouve bien ses propres bibliothèques. L'avant-dernière ajoute la ligne "include /usr/local/lib" à 
+/etc/ld.so.conf.
+
+===== Voir aussi =====
+
+Des références particulièrement intéressantes pour approfondir le sujet peuvent être utiles :
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=233697|Le fil de discussion du forum Ubuntu francophone]] pour toute question ou partage d'expérience.
+  * [[http://ichi2.net/anki/|Anki : le site officiel et les vidéos de démonstration]]
+  * [[http://pertinences.blogspot.com/2008/04/anki-un-logiciel-de-langues-intelligent.html|Présentation d'Anki en français]].
+  * [[http://polyglotte.tuxfamily.org/autres/anki_swac_fr.html|L'extension Swac]] permet l'apprentissage de l'orthographe et la reconnaissance sonore de mots ou d'expression étrangères
+  *[[http://polyglotte.tuxfamily.org/doku.php?id=logiciels:memorisation:creation_de_bonnes_questions_reponses|Pour créer de bonnes questions/réponses!]]
+
+----
+
+//Contributeurs : [[utilisateurs:Sorbus]], [[utilisateurs:alteo_gange|alteo-gange]], [[utilisateurs:gulp]]//

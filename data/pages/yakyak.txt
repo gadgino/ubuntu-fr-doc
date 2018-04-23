@@ -1,0 +1,38 @@
+{{tag>telephonie visioconférence}}
+
+====== YakYak ======
+
+YakYak est un logiciel gratuit, multiplateforme (Windows/Mac/Linux) permettant de chatter, téléphoner et faire de la visioconférence.
+
+<note important>Ce logiciel est en version beta (à ce jour : 24/07/2016)</note>
+
+===== Installation =====
+==== Installation en ligne de commande ====
+Note : par défaut, ce script installe YakYak dans le dossier home : /home/<monCompte>
+
+  cd ~
+	
+  #Detect 32 or 64 bit version
+  uname -m | grep 686 > /dev/null
+  if [ $? -ne 1 ]; then
+    # 32 bit OS
+    httpFolder=https://github.com/yakyak/yakyak/releases/download/v0.2.0/
+    installationFile=yakyak-linux-ia32.zip
+  else		
+    # 64 bit OS
+    httpFolder=https://github.com/yakyak/yakyak/releases/download/v0.2.0/
+    installationFile=yakyak-linux-x64.zip
+  fi
+
+  wget $httpFolder/$installationFile
+  unzip $installationFile
+  rm $installationFile
+  
+===== Lancer YakYak =====
+Note : on suppose que vous avez installer YakYak dans le dossier home
+
+  cd ~/linux-*
+  ./yakyak
+  
+===== Voir aussi =====
+  * [[https://github.com/yakyak/yakyak|yakyak sur github]]

@@ -1,0 +1,84 @@
+{{tag>Precise Trusty tutoriel}}
+
+----
+===== Optionnel : sauver le fichier avant de le modifier=====
+Voir [[:tutoriel:comment_sauver_et_restaurer_un_fichier|ce tutoriel]].
+
+===== Sous Ubuntu et Edubuntu (Gnome) =====
+
+[[:GEdit]] eiteur de texte conçu pour l'environnement [[:bureau_gnome|Gnome]].
+
+==== De manière graphique ====
+
+  * **Sans** les [[:sudo|droits d'administration]]: Faites une recherche dans [[:unity#tableau_de_bord_dash|le tableau de bord Unity]] avec le mot clé **Gedit**, ou pour Gnome classique //Applications → Accessoires → Éditeur de texte//
+  * **Avec** les  [[:sudo|droits d'administration]]: appuyez sur Alt–F2, puis saisissez « gksudo gedit ». Saisissez votre mot de passe.\\ **Attention** : L'éditeur étant ouvert en tant qu'administrateur, vous risquez d'endommager des fichiers systèmes. À n'utiliser qu'en cas de besoin.
+droits d'administration
+Une fois Gedit ouvert, ouvrez le fichier (//Fichier → Ouvrir// ou Ctrl–o) à modifier, faites ce que vous avez à faire, enregistrez le fichier (//Fichier → Enregistrer// ou Ctrl–s) et quittez.
+
+==== En ligne de commande ====
+
+  * **Sans** les [[:sudo|droits d'administration]]: <code>gedit /chemin/fichier</code>
+  * **Avec** les [[:sudo|droits d'administration]]: <code>sudo gedit /chemin/fichier</code> puis saisissez votre mot de passe.\\ **Attention** : L'éditeur étant ouvert en tant qu'administrateur, vous risquez d'endommager des fichiers systèmes. À n'utiliser qu'en cas de besoin.
+
+==== Tutoriel vidéo ====
+
+  *[[http://www.tutoriels-video.fr/editer-un-fichier-en-mode-administrateur-sur-ubuntu/ | Tutoriel vidéo : Éditer des fichiers en mode administrateur sur Ubuntu]] (fr)
+
+===== Sous Kubuntu (KDE) =====
+
+[[:Kate]] est un éditeur de texte conçu pour l'environnement [[:bureau_kde|KDE]]. Vous pouvez aussi utiliser [[:KWrite]] ou [[:Kedit]].
+
+==== De manière graphique ====
+
+  * Sans les [[:sudo|droits d'administration]]: //K → Utilitaires → Kate (Éditeur de texte avancé)//.
+  * Avec les [[:sudo|droits d'administration]] (choisissez l'une des deux possibilités) :
+    - appuyer sur Alt–F2, puis saisissez « kdesudo kate ». Saisissez votre mot de passe.
+    - allez dans //K → Exécuter une commande//, saisissez « kate », option //Exécuter sous un autre nom d'utilisateur// (saisissez « root » et le mot de passe) → //Exécuter//.\\ **Attention** : L'éditeur étant ouvert en tant qu'administrateur, vous risquez d'endommager des fichiers systèmes. À n'utiliser qu'en cas de besoin.
+
+Une fois Kate ouvert, ouvrez le fichier (//Fichier → Ouvrir// ou Ctrl–o) à modifier, faites ce que vous avez à faire, enregistrez le fichier (//Fichier → Enregistrer// ou Ctrl–s) et quittez.
+
+==== En ligne de commande ====
+
+  * **Sans** les [[:sudo|droits d'administration]]: <code>kate /chemin/fichier</code>
+  * **Avec** les [[:sudo|droits d'administration]]: <code>kdesudo kate /chemin/fichier</code> puis saisissez votre mot de passe.\\ **Attention** : L'éditeur étant ouvert en tant qu'administrateur, vous risquez d'endommager des fichiers systèmes. À n'utiliser qu'en cas de besoin.
+
+===== Sous Xubuntu (Xfce) =====
+
+{{ :tutoriel:applications-accessoires-mousepad.png?250}}
+
+[[:Mousepad]] est un éditeur de texte conçu pour l'environnement [[:Xfce]].
+
+==== De manière graphique ====
+
+  * **Sans** les [[:sudo|droits d'administration]]: //Applications → Accessoires → Mousepad// (voir la capture ci-contre).
+  * **Avec** les [[:sudo|droits d'administration]]: appuyez sur Alt-F2, puis saisissez « gksudo mousepad ». Saisissez votre mot de passe.\\ **Attention** : L'éditeur étant ouvert en tant qu'administrateur, vous risquez d'endommager des fichiers systèmes. À n'utiliser qu'en cas de besoin.
+
+Une fois Mousepad ouvert, ouvrez le fichier (//Fichier → Ouvrir// ou Ctrl–o) à modifier, faites ce que vous avez à faire, enregistrez le fichier (//Fichier → Enregistrer// ou Ctrl–s) et quittez.
+
+
+==== En ligne de commande ====
+
+  * **Sans** les [[:sudo|droits d'administration]]: <code>mousepad /chemin/fichier</code>
+  * **Avec** [[:sudo|droits d'administration]]: <code>gksudo mousepad /chemin/fichier</code> puis saisissez votre mot de passe.
+
+===== Sous Lubuntu (LXDE) =====
+
+[[:Leafpad]] est l'éditeur de texte de Lubuntu.
+Vous le trouverez dans le menu //Accessoires//.
+
+===== Partout (même sans interface graphique) =====
+<note>Le savoir peut être très utile, par exemple si vous avez fait des bêtises dans votre configuration graphique.</note>
+
+  * **Sans** les [[:sudo|droits d'administration]]: <code>nano /chemin/fichier</code>
+  * **Avec** les [[:sudo|droits d'administration]]: <code>sudo nano /chemin/fichier</code> puis saisissez votre mot de passe.
+
+[[:Nano]] est un éditeur de texte en [[:commande_shell|ligne de commande]] très simple. Vous pouvez en utiliser d'autres, comme [[:Vim]], il est aussi possible d'utiliser [[:Emacs]], si ceux-ci sont installés. L'utilisation de ces deux derniers est plus complexe.
+
+=====Voir aussi=====
+
+  * Tutoriel "[[:tutoriel:comment_supprimer_un_fichier|Comment supprimer un fichier (ou un dossier)]]"
+  * Tutoriel "[[:tutoriel:comment_sauver_et_restaurer_un_fichier|Comment sauver et restaurer un fichier]]"
+
+----
+
+//Contributeurs principaux : [[:utilisateurs:Ner0lph]], [[utilisateurs:Fabien26]], [[:utilisateurs:fabux]]//

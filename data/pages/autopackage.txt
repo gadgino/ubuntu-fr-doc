@@ -1,0 +1,58 @@
+{{tag>Hardy système administration}}
+
+----
+
+====== Autopackage ======
+
+
+===== Qu'est ce que c'est ? =====
+**Autopackage** est un utilitaire qui permet d'installer des paquets pour des installations d'applications sur la plupart des distributions Linux, comme par exemple **Firefox 2.0**. 
+
+**Autopackage** vérifie la présence de dépendance sur le système actuel, plutôt qu'interroger une base de données d'informations de paquets. Ce qui évite une gestion manuelle des dépendances souvent complexe à résoudre.
+
+Les paquets **Autopackage** sont en fait des scripts //bash// exécutables, et peuvent donc être installés simplement en les exécutant.
+
+**Autopackage** se différencie d'autres installateurs exécutables pour GNU/Linux comme **Loki Installer** par le fait qu'il soit spécialement conçu pour être compatible avec le plus de distributions possible.
+
+===== Version =====
+Autopackage-1.2.1
+
+
+
+
+
+
+===== Installation =====
+Pour installer **Autopackage-1.2.1**, il vous suffit d'avoir un fichier avec l'extension //.package// ou d'en récupérer un dans la [[http://autopackage.org/packages/|liste des packages]]. Vous pouvez trouver d'autres paquets en effectuant une recherche sur //[[http://www.google.fr|Google]]//.
+
+
+
+
+
+==== Installation depuis un package ====
+
+Lorsque vous aurez votre //package//, sélectionnez-le à l'aide du clic droit, ouvrez les propriétés. Sous l'onglet permissions, cochez **__Autoriser l'exécution du fichier comme un programme__**, puis fermez la fenêtre.\\
+\\ {{execution.png|Permissions du package}}
+
+
+<note attention>Attention, il vous faut supprimer toutes versions antérieures d'autopackage ou de Inkscape. Pour le faire, ouvrez dans le menu //Système => Administration => **Gestionnaire de paquets Synaptic**//, puis effectuez la recherche des paquets //autopackage// et //inkscape//. Si ces derniers sont sélectionnés, il vous faut les désinstaller.</note>
+
+Maintenant, il vous suffit de double cliquer sur votre package et de vous laissez guider. Une fenêtre doit s'ouvrir, cliquez sur **__Run__** ou **__Lancer__**, attention il vous faut les droits **root**. Une fenêtre de terminal ou console va s'ouvrir indiquant le mode d'installation de //autopackage//, pour cela vous aurez deux possibilités :
+  - Choix A : Vous installez autopackage par l'intermédiaire du paquet [[http://autopackage.org/downloads/latest/autopackage.tar.bz2|autopackage.tar.bz2]] que vous aurez préalablement téléchargé.
+  - Choix B (Par défaut): Vous installez autopackage par l'intermédiaire de votre connection internet, ce qui est le plus simple si vous avez accès à internet chez vous. Tapez //Y//.\\
+{{installation:terminal-install.png|Installation de Autopackage}}\\
+\\ Lorsque **autopackage** est installé, une fenêtre vous demandera votre mot de passe. Après avoir renseigné ce dernier, une fenêtre s'ouvrira et installera votre package.\\
+\\ {{installation:install-package-finish.png|Package installé}}\\
+\\ Et voila, dorénavant //autopackage// est installé et votre package aussi. Afin de le vérifier, je vous invite à aller dans le menu //Applications => Outils système//. Si vous y voyez **Gérer le programme d'une 3ème partie**, c'est confirmé.
+
+==== Installation de nouveaux packages ====
+
+Pour installer de nouveaux packages, il vous suffit de les télécharger et de double cliquer dessus. Renseignez votre mot de passe et l'installation se fera toute seule.
+
+===== Désintallation =====
+
+Supprimer Autopackage à l'aide de la commande suivante : <code>$ sudo package remove autopackage</code>
+
+----
+
+// Contributeur: // [[utilisateurs:azema]]

@@ -1,0 +1,185 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#installer_un_scanner_epson_usb" class="toc"> Installer un scanner Epson USB </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#peripheriques_supportes" class="toc"> Périphériques supportés </a></span></li>
+<li class="level2"><span class="li"><a href="#installation_du_pilote_et_du_logiciel_iscan" class="toc"> Installation du pilote et du logiciel iScan </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#installation_basique" class="toc"> Installation basique </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#utilisation_du_logiciel_iscan" class="toc"> Utilisation du logiciel iScan </a></span></li>
+<li class="level2"><span class="li"><a href="#le_logiciel_iscan" class="toc"> Le logiciel iScan </a></span></li>
+<li class="level2"><span class="li"><a href="#notes" class="toc"> Notes </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/ostaquet" class="wikilink1" title="utilisateurs:ostaquet" onclick="return svchk()" onkeypress="return svchk()">ostaquet</a>.
+</p>
+
+<p>
+Relu par <a href="/utilisateurs/antoine" class="wikilink1" title="utilisateurs:antoine" onclick="return svchk()" onkeypress="return svchk()">antoine</a>. J&rsquo;ai corrigé quelques fautes qui trainaient. Par contre, je n&rsquo;ai pas pu tester la méthode, j&rsquo;ai pas de scanner epson <img src="/smileys/icon_wink.gif" align="middle" alt=";-)" />.
+</p>
+
+<a name="installer_un_scanner_epson_usb"></a><h1> Installer un scanner Epson USB </h1>
+<div class="level1">
+
+<p>
+ Cette page a pour but d&rsquo;expliquer l&rsquo;installation et l&rsquo;utilisation d&rsquo;un scanner Epson USB récent (type Perfection). xSane ne reconnait pas ces scanners Epson par défaut et dès lors, il est nécessaire d&rsquo;utiliser un pilote et un logiciel complémentaire (iScan).
+</p>
+
+<p>
+Ce pilote et ce logiciel sont développés et maintenus par une branche de la société Epson, il s&rsquo;agit de Avasys (plus d&rsquo;informations sur <a href="http://www.avasys.jp/english/" class="urlextern" title="http://www.avasys.jp/english/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">la page web d'Avasys</a>).
+</p>
+
+<p>
+<em>Remarques :</em> Ce pilote est aussi connu sous le nom EPKOWA et il n&rsquo;est utilisable que sur les machines x86.
+</p>
+
+</div>
+<!-- SECTION [232-851] -->
+<a name="peripheriques_supportes"></a><h2> Périphériques supportés </h2>
+<div class="level2">
+
+<p>
+A priori, toute la gamme Epson. Cependant, il a été testé avec succès sur les scanners suivants. 
+</p>
+<ul>
+<li class="level1"><span class="li"> Epson CX5400</span>
+</li>
+<li class="level1"><span class="li"> Epson CX6600</span>
+</li>
+<li class="level1"><span class="li"> Epson Perfection 1250</span>
+</li>
+<li class="level1"><span class="li"> Epson Perfection 1260</span>
+</li>
+<li class="level1"><span class="li"> Epson Perfection 1640SU</span>
+</li>
+<li class="level1"><span class="li"> Epson Perfection 1650</span>
+</li>
+<li class="level1"><span class="li"> Epson Perfection 1660 Photo</span>
+</li>
+<li class="level1"><span class="li"> Epson Perfection 1680</span>
+</li>
+<li class="level1"><span class="li"> Epson Perfection 2400 Photo</span>
+</li>
+<li class="level1"><span class="li"> Epson Perfection 2450 Photo</span>
+</li>
+<li class="level1"><span class="li"> Epson Perfection 2480 Photo</span>
+</li>
+<li class="level1"><span class="li"> Epson Perfection 2580 Photo</span>
+</li>
+<li class="level1"><span class="li"> Epson Perfection 3170 Photo</span>
+</li>
+<li class="level1"><span class="li"> Epson Perfection 4180 Photo</span>
+</li>
+<li class="level1"><span class="li"> Epson Perfection 4870 Photo</span>
+</li>
+<li class="level1"><span class="li"> Espon RX500</span>
+</li>
+<li class="level1"><span class="li"> Epson RX510</span>
+</li>
+<li class="level1"><span class="li"> Epson RX600</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [852-1463] -->
+<a name="installation_du_pilote_et_du_logiciel_iscan"></a><h2> Installation du pilote et du logiciel iScan </h2>
+<div class="level2">
+
+</div>
+<!-- SECTION [1464-1520] -->
+<a name="installation_basique"></a><h3> Installation basique </h3>
+<div class="level3">
+<ul>
+<li class="level1"><span class="li"> Téléchargez le fichier .rpm du site d&rsquo;Avasys via <a href="http://www.avasys.jp/english/linux_e/dl_scan.html" class="urlextern" title="http://www.avasys.jp/english/linux_e/dl_scan.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">cette page</a>.</span>
+</li>
+<li class="level1"><span class="li"> Si ce n&rsquo;est déjà fait, installez le paquet <code>alien</code> avec <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a>.</span>
+</li>
+<li class="level1"><span class="li"> Une fois le fichier rpm téléchargé, transformez-le avec <code>alien</code> via la commande suivante. (<em>Remarque : </em>le numéro de version du paquet peut différer de celui indiqué ici.)</span>
+</li>
+</ul>
+<pre class="code">
+sudo alien --to-deb  iscan-1.14.0-3.i386.rpm
+</pre>
+<ul>
+<li class="level1"><span class="li"> Maintenant, vous installez le paquet Debian ainsi créé avec la commande suivante :</span>
+</li>
+</ul>
+<pre class="code">
+sudo dpkg -i iscan-1.14.0-3.i386.deb
+</pre>
+<ul>
+<li class="level1"><span class="li"> Le pilote et le logiciel iScan sont maintenant installés.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [1521-2215] -->
+<a name="utilisation_du_logiciel_iscan"></a><h2> Utilisation du logiciel iScan </h2>
+<div class="level2">
+
+<p>
+ Pour utiliser iScan, vous avez 2 possibilités :
+</p>
+<ol>
+<li class="level1"><span class="li"> le lancer à partir de la ligne de commande (via un terminal ou via le menu <strong>Applications &rArr; Lancer une application...</strong>). La commande est <code>iscan</code>.</span>
+</li>
+<li class="level1"><span class="li"> créer un lanceur (bouton droit sur le <strong>Bureau &rArr; Créer un lanceur...</strong>) avec comme commande <code>iscan</code>.</span>
+</li>
+</ol>
+
+</div>
+<!-- SECTION [2216-2573] -->
+<a name="le_logiciel_iscan"></a><h2> Le logiciel iScan </h2>
+<div class="level2">
+
+<p>
+ Pour l&rsquo;utiliser, rien de plus simple. 
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=materiel%3Aiscan.png" class="media" title="materiel:iscan.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=materiel%3Aiscan.png" class="media" alt="" /></a> 
+</p>
+<ul>
+<li class="level1"><span class="li"> Cliquez sur le bouton <strong>Aperçu</strong> pour obtenir un scan rapide de l&rsquo;image.</span>
+</li>
+<li class="level1"><span class="li"> Sélectionnez la zone que vous voulez scanner à l&rsquo;aide de la souris (directement dans l&rsquo;image).</span>
+</li>
+<li class="level1"><span class="li"> Cliquez sur <strong>Exposition auto</strong> (ou réglez les paramètres avancés via l&rsquo;onglet <strong>Ajuster</strong>.</span>
+</li>
+<li class="level1"><span class="li"> Choisissez le format de sortie (dans le bas de la fenêtre <strong>Destination</strong>). Perso, j&rsquo;ai choisi <strong>Fichier</strong>.</span>
+</li>
+<li class="level1"><span class="li"> Choisissez la résolution de scan. J&rsquo;ai choisi 300 dpi (à plat c&rsquo;est suffisant, pour les négatifs il faut prendre au moins 1600 dpi).</span>
+</li>
+<li class="level1"><span class="li"> Cliquez sur <strong>Numériser</strong>.</span>
+</li>
+<li class="level1"><span class="li"> iScan va vous demander le nom du fichier ainsi que le format (PNM, <acronym title="Portable Network Graphics">PNG</acronym> ou <acronym title="Joint Photographics Experts Group">JPG</acronym>). <em>Remarque :</em> Le PNM est très lourd en poids mais ne compresse pas du tout l&rsquo;image. Il n&rsquo;y aura alors aucune perte si vous scannez des négatifs ou des diapositives.</span>
+</li>
+<li class="level1"><span class="li"> Cliquez sur <strong>Valider</strong> et c&rsquo;est dans la boîte...</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [2574-3539] -->
+<a name="notes"></a><h2> Notes </h2>
+<div class="level2">
+
+<p>
+ iScan ne fonctionne pas encore avec Gimp 2.2 (mais bien avec Gimp 1.2).
+</p>
+
+<p>
+On peut également utiliser l&rsquo;excellent VueScan qui permet de piloter la plupart des scanners à plat et des scanners de négatifs. Plus d&rsquo;informations : <a href="http://www.hamrick.com/" class="urlextern" title="http://www.hamrick.com/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.hamrick.com/</a>. 
+</p>
+
+</div>
+<!-- SECTION [3540-] -->

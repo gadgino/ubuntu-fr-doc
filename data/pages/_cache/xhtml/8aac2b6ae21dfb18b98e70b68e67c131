@@ -1,0 +1,108 @@
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+ <a href="https://wiki.ubuntu.com/HowToEnableSCSIEmulationWithHoaryKernel26" class="urlextern" title="https://wiki.ubuntu.com/HowToEnableSCSIEmulationWithHoaryKernel26" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Traduit</a> par <a href="/utilisateurs/gauthier" class="wikilink1" title="utilisateurs:gauthier" onclick="return svchk()" onkeypress="return svchk()">Gauthier</a>.
+</p>
+
+<a name="comment_activer_l_emulation_scsi_avec_hoary_et_le_noyau_2.6"></a><h1> Comment activer l'émulation SCSI avec Hoary et le noyau 2.6 ? </h1>
+<div class="level1">
+
+<p>
+ Par le passé, l&rsquo;émulation <acronym title="Small Computer System Interface">SCSI</acronym> était activée par défaut sous Linux. Mais l&rsquo;émulation a été supprimée du noyau 2.6. Malheureusement, certaines applications anciennes (comme Wine) ont besoin de cette émulation pour graver des cédéroms.
+</p>
+
+<p>
+L&rsquo;émulation <acronym title="Small Computer System Interface">SCSI</acronym> est une méthode permettant à Linux de détecter votre lecteur de cédérom et de lui créer une interface <acronym title="Small Computer System Interface">SCSI</acronym> virtuelle. Cela a l&rsquo;effet d&rsquo;un leurre pour vos applications qui détectent alors un lecteur <acronym title="Small Computer System Interface">SCSI</acronym>. J&rsquo;ai eu en effet des problèmes en gravant des cédéroms sous Ubuntu tant avec cdrecord que wine. Or, comme la version 2.6 du noyau a modifié la prise en charge IDE, il est nécessaire de recréer l&rsquo;émulation <acronym title="Small Computer System Interface">SCSI</acronym> pour que certaines applications fonctionnent. SOYEZ TRÈS PRUDENT, une erreur de typo peut causer des dommages sérieux à votre système.
+</p>
+
+<p>
+1. Via le menu Applications lancez la commande &ldquo;gksudo gedit&rdquo;. Vous accéderez ainsi à l&rsquo;éditeur de texte avec les privilèges de l&rsquo;administrateur (root). Fermez le document vide créé par défaut à l&rsquo;ouverture.
+</p>
+
+<p>
+2. Ouvrez le fichier /etc/fstab
+</p>
+
+<p>
+3. Recherchez la ou les lignes contenant l&rsquo;expression &ldquo;media/cdrom&rdquo;. Ces lignes correspondent à votre ou vos graveurs de cédérom. Par la suite, nous passerons à l&rsquo;émulation <acronym title="Small Computer System Interface">SCSI</acronym>. Mais pour l&rsquo;instant, contentez-vous de noter les lignes contenant l&rsquo;expression &ldquo;hd&rdquo; + une lettre de désignation. Voici un exemple tiré de mon fichier fstab, sachant que je ne dispose que d&rsquo;un seul graveur désigné &ldquo;/dev/hd&rdquo; . 
+</p>
+<pre class="code">/dev/hdc        /media/cdrom0   udf,iso9660 ro,user,noauto  0       0</pre>
+
+<p>
+ 4. Ouvrez le fichier /boot/grub/menu.lst
+</p>
+
+<p>
+5. Rendez-vous à la section &ldquo;End default options&rdquo;. Recherchez la ligne qui commence par l&rsquo;expression &ldquo;kernel&rdquo;. Vous devriez obtenir quelque chose de similaire à : 
+</p>
+<pre class="code">kernel          /boot/vmlinuz-2.6.10-5-386 root=/dev/hda1 ro quiet splash</pre>
+
+<p>
+ 6. Il vous faut modifier cette ligne pour indiquer à Linux que vous souhaitez utiliser l&rsquo;émulation <acronym title="Small Computer System Interface">SCSI</acronym> pour votre lecteur de cédérom. Après l&rsquo;expression&rdquo;root= whatever&rdquo;, ajoutez &ldquo;hdx=ide-scsi&rdquo; . &ldquo;hdx&rdquo; doit apparaître pour chacun de vos périphériques IDE dans votre fichier fstab. En ce qui me concerne, j&rsquo;aurai la ligne &ldquo;hdc=ide-scsi&rdquo;. Attention, veillez bien à ce que l&rsquo;ensemble des paramètres tiennent sur une seule ligne. Voici un aperçu de mon fichier menu.lst après modification : 
+</p>
+<pre class="code">kernel          /boot/vmlinuz-2.6.10-5-386 root=/dev/hda1 hdc=ide-scsi ro quiet splash</pre>
+
+<p>
+ 7. Sauvegarder le fichier menu.lst. De nouveau, soyez vigilant, tous les paramètres de la ligne &ldquo;kernel&rdquo; doivent tenir sur une seule ligne, sans retour chariot.
+</p>
+
+<p>
+8. Ouvrez le fichier /etc/modules
+</p>
+
+<p>
+9. Il faut maintenant demander à Linux de charger le module IDE-<acronym title="Small Computer System Interface">SCSI</acronym>. Vous verrez plusieurs lignes concernant IDE parmi d&rsquo;autres sujets. Pour autoriser l&rsquo;émulation <acronym title="Small Computer System Interface">SCSI</acronym>, nous devrons ajouter le module &ldquo;IDE-<acronym title="Small Computer System Interface">SCSI</acronym>&quot; du noyau. Ajouter donc cette commande juste après les lignes IDE. Voici l&rsquo;exemple de mon fichier modules après modification : 
+</p>
+<pre class="code">ide-cd
+ide-disk
+ide-generic
+ide-core
+ide-scsi
+lp
+mousedev
+psmouse</pre>
+
+<p>
+ 10. Assurez-vous que les fichiers &ldquo;modules&rdquo; et &ldquo;menu.lst&rdquo; ont bien été sauvegardés.
+</p>
+
+<p>
+11. Redémarrer. Quand votre système va démarrer, vos lecteurs de cédéroms devraient fonctionner en émulation <acronym title="Small Computer System Interface">SCSI</acronym>. Néanmoins il nous faut encore faire quelques ajustements.
+</p>
+
+<p>
+12. Placez-vous dans le répertoire /dev directory. Vous verrez que vos partitions root et swap commencent toujours par &ldquo;hd&rdquo;. En revanche, vos lecteurs de cédéroms ne doivent plus commencer par &ldquo;hd&rdquo;, mais par &ldquo;scd&rdquo;. Il s&rsquo;agit bien de vos lecteurs de cédéroms, désormais en émulation <acronym title="Small Computer System Interface">SCSI</acronym>. Mon lecteur était jusqu&rsquo;alors désigné par &ldquo;hdc&rdquo;, il l&rsquo;est désormais par &ldquo;scd0&rdquo;. Notez tous les périphériques &ldquo;scd&rdquo; dont vous disposez.
+</p>
+
+<p>
+13. Nous en avons presque terminé. Il nous reste encore à éditer de nouveau le fichier fstab. Lancer la commande &ldquo;gksudo gedit&rdquo; et ouvrez le fichier /etc/fstab, comme nous l&rsquo;avons fait lors des étapes 1 à 4.
+</p>
+
+<p>
+15. Vous retrouverez la ligne &ldquo;/dev/hdx&rdquo;. Il faut maintenant remplacer &ldquo;hdc&rdquo; par &ldquo;scd0&rdquo;. Recherchez la ligne &ldquo;/dev/hdx&rdquo;, et faite un copier-coller pour obtenir deux lignes : 
+</p>
+<pre class="code">/dev/hdc        /media/cdrom0   udf,iso9660 ro,user,noauto  0       0
+/dev/hdc        /media/cdrom0   udf,iso9660 ro,user,noauto  0       0</pre>
+
+<p>
+ 17. Commentez la ligne originale en insérant le caractère # en début de ligne. Remplacer alors &ldquo;hdx&rdquo; par &ldquo;scd&rdquo; + le chiffre. Ajouter une ligne &ldquo;scd&rdquo; pour chaque lecteur présent sur votre machine. Les entrées &ldquo;scd&rdquo; doivent correspondre dans tous les cas à celles du répertoire /dev directory. Voici l&rsquo;exemple de mon fichier fstab : 
+</p>
+<pre class="code">#/dev/hdc        /media/cdrom0   udf,iso9660 ro,user,noauto  0       0
+/dev/scd0        /media/cdrom0   udf,iso9660 ro,user,noauto  0       0</pre>
+
+<p>
+ 18. Redémarrer
+</p>
+
+<p>
+19. Vous avez réussi, félicitations ! Votre graveur de cédérom fonctionne désormais en émulation <acronym title="Small Computer System Interface">SCSI</acronym>. Toutes vos anciennes applications qui requièrent l&rsquo;émulation <acronym title="Small Computer System Interface">SCSI</acronym> devraient maintenant fonctionner correctement.
+</p>
+
+<p>
+Dernière modification el 28-05-2005 20:32:20 par adsl-213-190-44-43 
+</p>
+
+</div>
+<!-- SECTION [150-] -->

@@ -1,0 +1,111 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="clear"><ul class="toc">
+<li class="level2"><span class="li"><a href="#utiliser_votre_systeme_ubuntu_depuis_windows" class="toc"> Utiliser votre système Ubuntu depuis Windows </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#conditions_requises" class="toc"> Conditions requises </a></span></li>
+<li class="level3"><span class="li"><a href="#avertissement_de_securite" class="toc"> Avertissement de sécurité </a></span></li>
+<li class="level3"><span class="li"><a href="#configuration_d_ubuntu_pour_permettre_les_connexions_xdmcp" class="toc"> Configuration d'Ubuntu pour permettre les connexions XDMCP </a></span></li>
+<li class="level3"><span class="li"><a href="#configuration_de_cygwin_avec_un_serveur_x" class="toc"> Configuration de Cygwin avec un serveur X </a></span></li>
+<li class="level3"><span class="li"><a href="#creation_du_script_modele_x_pour_cygwin" class="toc"> Création du script modèle X pour Cygwin </a></span></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<a name="utiliser_votre_systeme_ubuntu_depuis_windows"></a><h2> Utiliser votre système Ubuntu depuis Windows </h2>
+<div class="level2">
+
+<p>
+ La distribution Ubuntu est peut-être la distribution Linux disponible la plus orientée utilisateur. Cependant, la plupart d&rsquo;entre nous ont encore besoin d&rsquo;utiliser Microsoft Windows comme premier système d&rsquo;exploitation. Contrairement à Macintosh <acronym title="Operating System">OS</acronym> X et Linux, il n&rsquo;est pas aisé de porter les applications X sous Windows ainsi beaucoup de grandes applications ne sont tout simplement pas à notre disposition.
+</p>
+
+<p>
+Pourquoi ne pourriez-vous pas avoir le meilleur des deux mondes ? Imaginez-vous assis devant un clavier, une souris et un moniteur qui a accès en même temps aux applications de Windows et de Linux et partageant le même presse-papier.
+</p>
+
+<p>
+Ce guide va vous aider à réaliser cela.
+</p>
+
+</div>
+<!-- SECTION [1-756] -->
+<a name="conditions_requises"></a><h3> Conditions requises </h3>
+<div class="level3">
+<ul>
+<li class="level1"><span class="li"> Un système tournant sous Ubuntu avec Gnome</span>
+</li>
+<li class="level1"><span class="li"> Un système tournant sous Microsoft Windows</span>
+</li>
+<li class="level1"><span class="li"> Cygwin <a href="http://www.cygwin.com/" class="urlextern" title="http://www.cygwin.com/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.cygwin.com/</a></span>
+</li>
+<li class="level1"><span class="li"> Un réseau sécurisé reliant les deux sytèmes</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [757-997] -->
+<a name="avertissement_de_securite"></a><h3> Avertissement de sécurité </h3>
+<div class="level3">
+
+<p>
+ Vous activerez XDMCP qui est en soi peu sûr. Discuter des implications de sécurité dépasse le cadre de ce document. Cependant, la plupart des &ldquo;home users&rdquo; se trouvant derrière un firewall externe sans accès &ldquo;Wi-Fi&rdquo; ne risqueront rien.
+</p>
+
+</div>
+<!-- SECTION [998-1278] -->
+<a name="configuration_d_ubuntu_pour_permettre_les_connexions_xdmcp"></a><h3> Configuration d'Ubuntu pour permettre les connexions XDMCP </h3>
+<div class="level3">
+
+<p>
+ Votre système Ubuntu gère son affichage graphique par l&rsquo;intermédiaire du protocole X. On commence par activer [X Display Manager Control Protocol]. XDMCP permet à d&rsquo;autres systèmes XDMCP d&rsquo;ouvrir une session à distance.
+</p>
+
+<p>
+Ouvrez une session normallement sur votre système Ubuntu et lancez &ldquo;Configuration de l&rsquo;écran de connexion&rdquo; dans le menu &ldquo;Système &rarr; Administration&rdquo;. Sous l&rsquo;onglet XDMCP cochez la case &ldquo;Activer XDMCP&rdquo;.
+</p>
+
+</div>
+<!-- SECTION [1279-1780] -->
+<a name="configuration_de_cygwin_avec_un_serveur_x"></a><h3> Configuration de Cygwin avec un serveur X </h3>
+<div class="level3">
+
+<p>
+ Suivez les consignes indiquées à l&rsquo;adresse <a href="http://x.cygwin.com/docs/ug/setup-cygwin-x-installing.html" class="urlextern" title="http://x.cygwin.com/docs/ug/setup-cygwin-x-installing.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://x.cygwin.com/docs/ug/setup-cygwin-x-installing.html</a> pour installer un serveur X sur votre système Windows.
+</p>
+
+<p>
+Lorsque vous atteignez l&rsquo;étape 16, l&rsquo;étape à laquelle vous sélectionnez les paquets à installer, je vous recommande d&rsquo;installer aussi ces paquets supplémentaires : 
+</p>
+<ul>
+<li class="level1"><span class="li"> Net</span>
+<ul>
+<li class="level2"><span class="li"> openssh : Les programmes serveur et client OpenSSH</span>
+</li>
+</ul>
+</li>
+<li class="level1"><span class="li"> X11</span>
+<ul>
+<li class="level2"><span class="li"> xorg-x11-f100 : Cygwin/X polices 100 dpi</span>
+</li>
+<li class="level2"><span class="li"> xorg-x11-fscl : Cygwin/X polices vectorielles</span>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [1781-2401] -->
+<a name="creation_du_script_modele_x_pour_cygwin"></a><h3> Création du script modèle X pour Cygwin </h3>
+<div class="level3">
+
+<p>
+ Contrairement à la plupart des applications Windows, Cygwin a besoin d&rsquo;être énormément configuré pour arriver à le faire fonctionner. La collection des logiciels Cygwin semble être fortement orientée administrateurs Unix, développeurs logiciels et autres accrocs à la ligne de commande. Ne vous effrayez pas, si vous pouvez éditer un fichier .BAT de Windows vous devriez trouver cela facile à configurer avec ce guide.
+</p>
+
+</div>
+<!-- SECTION [2402-] -->

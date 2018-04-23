@@ -1,0 +1,208 @@
+{{tag>émulation programmation windows VÉTUSTE}}
+----
+{{ http://cygwin.com/cygwin-icon.gif}}
+====== Utiliser votre système Ubuntu depuis Windows ======
+
+La distribution Ubuntu est une distribution GNU/Linux orientée utilisateur. 
+Cependant, pour ceux qui ont besoin d'utiliser Microsoft Windows comme système d'exploitation principal en ce qui concerne certaines applications commerciales non disponibles sous GNU/Linux, il existe une solution : Cygwin. Avec ce logiciel installé sur Windows, il est possible de partager le même presse-papier et d'avoir à disposition son bureau GNOME.
+
+Pour ceux qui sont intéressés par cette interactivité entre Windows et GNU/Linux, les pages concernant les applications [[:Synergy]] et [[:Vmware]] méritent également d'être parcourues.
+
+===== Conditions requises =====
+
+  * Un système tournant sous Ubuntu avec GNOME
+  * Un système tournant sous Microsoft Windows
+  * Cygwin [[http://www.cygwin.com/|http://www.cygwin.com/]]
+  * Un réseau sécurisé reliant les deux systèmes
+
+===== Avertissement de sécurité =====
+
+Vous activerez XDMCP qui est en soi peu sûr. Discuter des implications de sécurité dépasse le cadre de ce document ; cependant, la plupart des utilisateurs qui, chez eux, se trouvent derrière un firewall externe sans accès "Wi-Fi" ne risquent rien.
+
+
+
+===== Configuration de Ubuntu pour permettre les connexions XDMCP =====
+
+Le système Ubuntu gère son affichage graphique par l'intermédiaire du protocole X. Commencer par activer [X Display Manager Control Protocol]. XDMCP permet à d'autres systèmes XDMCP d'ouvrir une session à distance.
+
+Ouvrir une session sur le système Ubuntu et lancer "Configuration de l'écran de connexion" dans le menu "Système -> Administration". Sous l'onglet XDMCP (ou onglet Sécurité) cocher la case "Activer XDMCP".
+
+== Sous Ubuntu 6.06, 6.10 et 7.04 ==
+Dans une session sur le système Ubuntu il faut lancer l'application **Système => Administration => Fenêtre de connexion**. 
+  * Dans l'onglet **Distante** il faut sélectionner "identique à locale" dans le  sélecteur **Style**,
+  * Dans l'onglet **Sécurité** il faut cocher les cases "Activer les connexions automatiques" et "Activer la connexion différée",
+  * Enfin, redémarrer votre ordinateur.
+
+== Sous Ubuntu 7.10 ==
+<note>En raison du [[https://bugs.launchpad.net/ubuntu/+source/gdm/+bug/150193|bug #150193]], le choix "Identique à locale" ne fonctionne pas. De plus, il ne semble pas utile sur cette version de cocher les cases "Activer les connexions automatiques" et "Activer la connexion différée" de l'onglet **Sécurité**.</note>
+
+Dans une session sur le système Ubuntu il faut lancer l'application **Système => Administration => Fenêtre de connexion**. 
+  * Dans l'onglet **Distante** il faut sélectionner "Simple avec navigateur de figures" dans le  sélecteur **Style**,
+  * Redémarrer votre ordinateur.
+
+===== Configuration de Microsoft Windows =====
+Il peut survenir un petit problème :
+
+La page de connexion s'affiche parfaitement, mais lors de votre connexion rien ne se passe à part la visualisation du fond d'écran.
+
+
+La solution, donnée par Dominique Colombani : [[http://dominique-colombani.fr/domblog/index.php/post/2007/02/17/15-ubuntu-cygwin-x-et-les-pare-feu|Lien vers le blog]] est la suivante :
+  * Sous Windows, ouvrir les ports :
+    * 177 avec le protocole UDP
+    * 6000 avec le protocole TCP
+    * 16001 avec le protocole UDP
+  * Cette opération étant relativement dangereuse avec Windows, pensez à modifier l'étendue de l'exception du pare-feu au sous-réseau ou à la machine voulue (la machine Ubuntu).
+  * Il faut ensuite redémarrer Windows pour que ces paramètres soient pris en compte
+ 
+Scribe : Flodemo
+
+===== Configuration de Cygwin avec un serveur X =====
+
+Suivre les consignes indiquées à l'adresse
+
+[[http://migale.jouy.inra.fr/documentation/installation/cygwin-install.html]]
+
+pour installer un serveur X sur le système Windows.
+
+À l'étape 16, Il est recommandé d'installer aussi ces paquets supplémentaires :
+
+  * Net
+    * openssh : Les programmes serveur et client OpenSSH
+  * X11
+    * xorg-x11-f100 : Cygwin/X polices 100 dpi
+    * xorg-x11-fscl : Cygwin/X polices vectorielles
+
+===== Création du script modèle X pour Cygwin =====
+
+Contrairement à la plupart des applications Windows, Cygwin nécessite d'être configuré pour fonctionner. La collection des logiciels Cygwin semble être fortement orientée administrateurs Unix ou développeurs logiciels. 
+Le guide qui suit permettra de configurer facilement Cygwin.
+
+Créer un certain nombre de fichiers *.BAT et de raccourcis sur le système Windows.
+Créer un dossier TRAVAIL sur le bureau et travailler à l'intérieur de celui-ci. Il restera par la suite le dossier de référence.
+
+Il est nécessaire de créer un modèle pour l'environnement X. Un modèle facilitera les futures expérimentations des différentes manières de faire tourner X sur le système Windows. Localiser le fichier C:\cygwin\usr\X11R6\bin\startxdmcp.bat et le copier dans le répertoire de travail. Le renommer en "xtemplate.bat" et l'ouvrir à l'aide d'un éditeur de texte.
+
+Au tout début du fichier trouver l'endroit où les variables d'environnement "DISPLAY" et "REMOTE_HOST".
+Ces lignes ne seront pas utilisées. Il faut donc placer un "REM" devant chacune d'elles comme ceci :
+
+  REM SET DISPLAY=127.0.0.1:0.0
+  REM SET REMOTE_HOST=10.0.0.1
+
+  SET REMOTE_HOST=[adresse IP de la ubuntu]
+
+Plusieurs exemples sont disponibles à la fin du fichier et montrent comment lancer XWin.exe. Placer un "REM" devant chacun de ces exemples si ce n'est pas déja fait.
+
+  REM run XWin -query %REMOTE_HOST% -nodecoration -lesspointer
+
+Sauver ce modèle. Se référer à lui comme étant "xtemplate.bat" dans les prochaines sections.
+
+
+===== Configuration pour un seul moniteur =====
+Dans le cas d'un seul moniteur sur le système Windows, commencer en copiant "xtemplate.bat" vers un nouveau fichier appellé "singlemon.bat" puis ouvrir ce dernier afin de l'éditer. 
+Ajouter cette commande tout à la fin du fichier :
+
+  run XWin :1 -once -clipboard -rootless -nodecoration -notrayicon -dpi 100 -broadcast
+
+Description des paramètres :
+
+:1
+----
+Utilisez :1 à la place de la valeur par défaut :0. Chaque instance de XWin.exe doit être sur un seul écran. Laisser :0 pour une utilisation -multiwindows.
+
+-once
+----
+Lance le Xserver une seule fois. Sinon il se réinitialise après la déconnexion.
+
+-clipboard
+----
+Partage le presse-papier entre Windows et Ubuntu.
+Si la connection ne se fait pas enlevez cette option. Voir:[[http://x.cygwin.com/docs/faq/cygwin-x-faq.html#display-and-screen]] 
+"6.5. Why does GDM not work with -clipboard"
+
+-rootless
+----
+Rend la fenêtre principale transparente. Cela vous permettra de voir vos fenêtres Windows et vos fenêtres Ubuntu en même temps.
+
+-nodecoration
+----
+Permet de ne pas mettre les bordures Windows, les boutons, etc.
+
+-notrayicon
+----
+Nous verrons toujours une tâche dans la barre des tâches de Windows donc n'ajoutez pas d'icône de lancement rapide.
+
+-dpi 100
+----
+Changer cette valeur afin de la faire correspondre à la valeur en DPI du moniteur. Cela dimensionnera correctement l'écran de connexion gdm. Facultatif puisqu'après la connexion, ceci est géré par Gnome.
+
+-broadcast
+----
+Diffusion sur le réseau pour une session XDMCP.
+
+Continuer en Lançant le script "singlemon.bat". Cela devrait ouvrir une session Ubuntu si tout est correct. 
+L'accès au bureau GNOME depuis Windows est maintenant paramétré.
+
+==== Connections à une machine via son IP ====
+En effet, lorsque l'on utilise la paramètre //-broadcast// on ne tombe pas forcément sur la bonne machine, surtout si dans le réseau il y a plusieurs machines en mode XDMCP. Donc il faut la commande suivant dans le script:
+
+  SET REMOTE_HOST=xxx.xxx.xxx.xxx
+où xxx.xxx.xxx.xxx est l'adresse IP de la machine visée et
+  run XWin :1 -once -clipboard -rootless -nodecoration -notrayicon -dpi 100 -query %REMOTE_HOST%
+
+===== Configuration pour plusieurs écrans =====
+
+  * La commande -multiplemonitors permet de prendre en compte le multiécran
+
+   XWin -screen 0 1900 1400 -multiplemonitors 
+
+  * Il vous suffit de remplacer les valeurs 1900 et 1400 par les valeurs en pixels de l'écran sur lequel vous souhaitez voir apparaitre votre linux.
+
+
+  * Source : http://sources.redhat.com/ml/cygwin-xfree/2006-05/msg00051.html 
+  * Scribe : Flodemo
+
+===== Peaufiner Ubuntu =====
+
+Maintenant que vous avez le fonctionnement de base, il est temps de faire quelques légers ajustements. Vous avez probablement remarqué que Ubuntu prend toute la place sur votre écran. Puisque nous avons indiqué -rootless dans la ligne de commande de XWin.exe nous avons la possibilité de voir au travers du bureau Ubuntu votre bureau Windows. Afin que cela soit utilisable nous avons besoin de dire à Nautilus d'arrêter de dessiner le bureau.
+
+Sur votre système Ubuntu, lancez **Éditeur de configuration GConf** dans **Applications => Outils système**. Décochez la case que vous trouverez à /apps/nautilus/preferences/show_desktop. Cela ne devrait pas prendre effet de suite donc vous allez devoir vous déconnecter. Une fois revenu vous devriez constater que vos fenêtres Windows et Ubuntu peuvent être visibles en même temps. 
+
+Vous devriez saisir cette occasion pour configurer correctement vos polices. Lancez **Police** dans **Sytème => Préferences**. Cliquez sur le bouton détails afin de choisir la résolution en points par pouce et le rendu qui vous convient le mieux.
+
+Vous pouvez souhaiter entendre les sons de votre système Ubuntu. Normalement, juste EsounD ouvre un tunnel sur le réseau mais ce n'est pas facile à réaliser avec Windows. Je recommande d'utiliser un câble pour connecter votre port de sortie audio Ubuntu vers votre port d'entrée Windows. Vous pourriez aussi juste brancher un autre jeu de haut-parleurs. Pour empêcher EsounD d'ouvrir un tunnel sur le réseau, éxecutez la commande suivante et déconnectez vous :
+
+  echo export ESPEAKER=localhost >> ~/.gnomerc
+
+TODO : Créer un script .gnomerc afin de détecter les connexions distantes et configurer Nautilus et EsounD automatiquement. Si quelqu'un  réalise un tel script, qu'il n'hésite pas à l'ajouter à ce wiki.
+
+
+
+===== Problèmes connus et limitations =====
+
+Si Totem ne démarre pas, vous aurez alors besoin de changer les dispositifs multimédia. La configuration par défaut suppose que l'accélération matérielle locale est disponible. Ouvrez le **Sélecteur de système multimédia** dans **Système => Préférences** sous l'onglet **Vidéo** changez la sortie Sink par défaut pour "XWindows (No Xv)".
+
+Les grandes vidéos et les applications GL peuvent ne pas être fluides. Déplacer du graphisme sur un réseau est une tâche très exigeante. Les fabricants de matériel ont dû créer des bus spéciaux comme l'AGP pour traiter cette demande de bande passante. Si vous êtes contraints d'effectuer des tâches graphiques intenses sous Ubuntu, il est peut-être temps de retirer votre système Windows.
+
+Il existe un conflit connu entre GDM et le partage du presse-papier. Si tout va bien, ce sera réglé prochainement. En attendant vous pouvez appliquer cette astuce à GDM : éditez /etc/X11/gdm/gdm.conf et assurez vous que ce qui suit est à l'intérieur :
+
+  KillInitClients=false
+
+From SamiHaahtinen Tue Apr 12 18:33:19 +0100 2005 From : Sami Haahtinen Date: Tue, 12 Apr 2005 18:33:19 +0100 Subject: An alternative Message-ID: <20050412183319+0100@[WWW] https://www.ubuntulinux.org>
+
+Vous pouvez aussi lancer une session fenêtrée dans Windows. (C'était ma manière préférée pour séparer le travail et le jeu l'un de l'autre)
+
+Pour cela, vous avez besoin d'installer les paquets xnest et openssh-server sur votre machine Ubuntu (sudo aptitude install xnest openssh-server) et putty (ou n'importe quel autre client ssh, si vous préferez autre chose) sur votre machine Windows.
+
+Maintenant, voici ce que vous devez faire :
+
+    * Ouvrez une session sur votre machine Windows.
+    * Démarrez le serveur Cygwin X normallement (si vous avez installé le paquet icône, vous devriez avoir le démarrage de X dans votre menu Démarrez) vous devriez voir le "X" dans votre systray.
+    * Démarrez putty, entrez les informations sur l'hôte et descendez aux paramètres de connexion. Vous devriez trouver "X Forwarding" au-dessous d'un des paramètres, activez-le (j'avais joué avec la version devel de putty pendant un moment du coup je ne sais plus le nom du paramètre) (ndt : Connexion -> SSH -> Tunnels) et connectez vous à l'hôte distant.
+    * Entrez votre nom d'utilisateur et votre mot de passe lorsqu'on vous les demande.
+    * Saisissez : gdmflexiserver -n
+    * Ouvrez une session sur votre Ubuntu.
+    * Have fun !
+
+----
+
+//Contributeur : [[https://help.ubuntu.com/community/HowToCygwinX|Traduit]] par [[utilisateurs:Nico]]//

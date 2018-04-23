@@ -1,0 +1,176 @@
+{{tag>Precise Trusty audio vidéo encodage montage_vidéo capture_vidéo multimédia}}
+----
+====== Libav-tools ======
+**Libav-tools**, paquet d'outils de traitement de flux audio ou vidéo (enregistrement, lecture ou conversion d'un format à un autre) est un [[wpfr>Fork_(développement_logiciel)|fork]] très proche de [[:FFmpeg]]. Remplaçant [[:Ffmpeg]] dans [[:trusty|Ubuntu Trusty 14.04]] et [[:precise|Precise 12.04]], il s'utilise à l'aide [[:commande_shell|de  la commande]] ''avconv'' ou au travers d'une application graphique de [[:lecture et encodage de fichiers vidéos]] (comme par exemple [[:WinFF]]).\\
+
+Vous pouvez également vous reporter à la page **[[:lecture et encodage de fichiers vidéos]]** pour découvrir d'autres applications du même type ou encore la page **[[FFmpeg]]** qui propose également une liste d'outils qui pourrait être compatible avec **avconv**.
+
+<note>Il  y a eu une scission entre les développeurs de [[:FFMpeg]]: une partie est sur [[http://libav.org|Libav]] et une autre partie sur [[http://ffmpeg.org|FFmpeg]]. Cependant //Libav// a décidé de ne plus avoir de liens avec [[http://ffmpeg.org|FFmpeg]], ils ont donc décidé de changer de commande. D'où la création de la commande ''avconv'' et un message indiquant l'obsolescence de ''ffmpeg''. La communauté [[http://ffmpeg.org|FFmpeg]] continuera avec la commande ''ffmpeg''.\\
+  * Voir [[http://askubuntu.com/questions/432542/is-ffmpeg-missing-from-the-official-repositories-in-14-04|cette page (en)]] pour plus d'explications.\\
+  * Voir des réactions à ce sujet sur [[http://linuxfr.org/news/ffmpeg-1-0#comment-1395196|LinuxFR.org]] et [[http://computing.travellingfroggy.info/index.php?article128/ffmpeg-aconv-libav-c-est-quoi-ce-souk|un billet de blog]] un peu plus explicatif.\\
+**Libav** au travers du paquet **libav-tools** est est la version disponible dans les [[:depots|dépôts Ubuntu]] pour [[:trusty|Trusty 14.04]] et [[:precise|Precise 12.04]].\\
+__Pour [[ :Trusty|Trusty 14,04]]__: Si vous souhaitez quand même utiliser [[:FFMpeg]] à la place de **Libav**, il est [[:ffmpeg#via_un_ppa_pour_trusty_1404_uniquement|disponible depuis un PPA]].</note>
+=====Pré-requis=====
+  * Disposer des [[:sudo|droits d'administration]];
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+==== Via les dépôts Ubuntu====
+
+**Avconv** et les autres outils de **Libav-tools** sont disponibles dans les [[depots|dépôts officiels]] pour [[:trusty|Ubuntu Trusty 14.04]] ou [[:precise|Precise 12.04]] en remplacement de [[:FFmpeg]]. Pour les utiliser, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>libav-tools]]**
+
+====Via un PPA pour Trusty 14.04 uniquement====
+<note important>À n'utiliser que si vous rencontrez des problèmes avec vos [[:montage_video|applications d'encodage vidéo]]. En vous rappelant que les [[:PPA|dépôts PPA]] sont des [[:dépôts]] non-officiels, et installer un paquet hors des [[:depots|dépôts officiels]] peut présenter un risque d'instabilité pour votre système. </note>
+
+[[:trusty|Ubuntu Trusty 14.04]] utilise la version 9.xx de **Libav**. Sauf problèmes majeurs de sécurité, [[:versions#mises_a_jour|il ne sera pas proposé de mise à jour]] vers une version supérieure. Si vous rencontrez des problèmes non résolus avec une [[:montage_video|application d'encodage vidéo]] et que vous pensez que cela pourrait provenir de la version de **Libav** utilisée par [[:Trusty|Trusty 14.04]], vous pouvez essayer de résoudre le problème en utilisant **Libav 11.xx ** (avec ses dépendances). Cette dernière est disponible depuis un [[:PPA]].\\
+Pour cela:
+  - [[:ppa|Ajoutez le PPA]] **ppa:heyarje/libav-11**((https://launchpad.net/~heyarje/+archive/ubuntu/libav-11)) à vos sources de logiciels;
+  - [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste de vos paquets]];
+  - [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>libav-tools]]**. 
+Ou bien dans un [[:terminal]], saisir les [[:commande_shell|commandes]] suivantes: <code>sudo add-apt-repository ppa:heyarje/libav-11
+sudo apt-get update
+sudo apt-get install libav-tools</code>
+//__À noter__: Il n'est pas nécessaire de désinstaller l'ancienne version, les actions ci-dessus provoqueront alors la mise à jour.//
+
+===== Connaître Avconv =====
+
+<note help>Ces instructions n'ont rien à voir avec l'encodage, elles servent à savoir ce que contient **Libav** et sa [[:commande_shell|commande]] ''avconv'' !</note>
+
+==== Connaître les conteneurs installés ====
+
+Il est important de savoir ce que **avconv** est capable de lire et d'écrire: si vous ne le savez pas, c'est simple, vous ne pouvez rien faire !\\
+Depuis un [[:terminal]], saisissez la [[:commande_shell|commande]] suivante:
+<code>avconv -formats</code>
+Vous devriez avoir une longue liste de formats (conteneurs) que reconnaît avconv.\\
+Cette liste est organisée de manière simple la première colonne indique si vous pourrez lire (D) ou écrire (E) le format en question indiqué en deuxième colonne.\\
+Par exemple
+<code>DE matroska        Matroska file format</code>
+Veut simplement dire que vous pourrez à la fois lire et écrire les fichiers .mkv avec avconv
+
+==== Connaître les codecs installés ====
+
+Comme pour les [[#Connaître les conteneurs installés|conteneurs]], vous pouvez avoir la liste des codecs disponibles par la  [[:commande_shell|commande]]:
+<code>avconv -codecs</code>
+Vous aurez une liste avec là aussi les fameux **D** et **E**. Mais aussi des **V**, **A** ou **S** qui vous permettent de savoir si un codec concerne la vidéo, le son ou les sous-titres.
+
+<note>Vous pouvez voir les codecs étranges comme **lib**<format>.\\
+Ce sont des codecs externes pour avconv.
+
+Vous trouverez par exemple vorbis et libvorbis. Le codec est le même, il s'agit juste de deux encodeurs différents.\\
+Si la qualité est importante pour vous,  préférez les **lib**<format> aux <format> eux-mêmes.
+
+Par exemple préférez libvorbis à vorbis, libfaac à aac, car la qualité s'en ressentira...</note>
+
+==== Obtenir les caractéristiques d'une vidéo ====
+
+Pour obtenir les caractéristiques d'une vidéo il suffit d’exécuter cette  [[:commande_shell|commande]]:
+<code>
+avconv -i maVidéo.mp4
+</code>
+
+===== Utilisation ====
+Avconv étant basé sur [[:FFmpeg]] ses options en sont très proches voire identiques. Pour plus d'informations, reportez-vous à la page **[[:FFmpeg]]**
+
+==== Conversion vidéo en mpeg4 ====
+Le but premier de cet exemple est d'effectuer une rotation de la vidéo (cas d'une vidéo prise à l'envers sur un smartphone) tout en gardant une qualité d'encodage équivalente.
+Il s'agit ici de convertir un fichier MPEG-4 (issu d'un Samsung Galaxy S2) dont la vidéo est au format mp4 et le son en aac.
+Mais cet exemple convient au ré-encodage d'une vidéo dans un autre format audio, vidéo, conteneur.\\
+Dans cet exemple, il sera fait deux passes dont le principe est expliqué **[[ffmpeg#encodage_2-pass|ici]]**
+  * 1ère passe:<code>
+avconv -i vidéoEnEntrée.mp4 -threads 8 -s 1920x1080 -vcodec mpeg4 -acodec libvo_aacenc -b 20000k -pass 1 -r 30 -y -vf "vflip" vidéoEnSortie.mp4
+</code>
+  * 2ème passe:<code>
+avconv -i vidéoEnEntrée.mp4 -threads 8 -s 1920x1080 -vcodec mpeg4 -acodec libvo_aacenc -b 20000k -pass 2 -r 30 -y -vf "vflip" vidéoEnSortie.mp4
+</code>
+Avec comme paramètres :
+
+  * //-i vidéoEnEntrée.mp4// : la vidéo d'entrée à convertir
+  * tous les paramètres après "-i vidéoEnEntrée.mp4" concernent la vidéo de sortie, à savoir:
+    * //-threads 8// : accélère le traitement en multipliant les threads. 8 est un bon paramètre pour un quadri-coeur multithread (4 coeurs * 2 threads = 8).
+<note help>-threads auto : pour ne pas se poser de question sur la capacité de votre machine</note>
+    * //-s 1920x1080// : la taille de la vidéo (<largeur>x<hauteur>).  Les résolutions courantes : 1920x1080 (full HD ou 1080p, 1280x720 (HD ou 720p) , 960*540 (demi HD 1080p /2). 
+<note help>Si c'est pour convertir une vidéo pour qu'elle puisse être compatible avec votre tablette, vérifiez à la fois la résolution supportée, et que l'image n'est pas déformée lors de la conversion. Si vous ne savez pas reconnaître une image déformée entre 16:9 et 4:3, visualisez un cercle à l'écran ... s'il devient une ellipse ou un oval, ce n'est pas que le match de foot s'est transformé en rugby, mais bien un problème de ratio.</note>
+    * //-vcodec mpeg4// : le codec vidéo. Pour recopier la vidéo : -c:v copy Vous pouvez utiliser le codec libre //libx264// mais il faut l'installer : **[[apt>libavcodec-extra-53]]** pour les versions antérieures à Trusty (14.04) ou **[[apt>libavcodec-extra-54]]** à partir de Trusty (14.04)
+<note help>Si le fichier de sortie est en extension .mp4 il n'est pas nécessaire de spécifier ce paramètre.</note>
+    * //-acodec libvo_aacenc// : le codec audio. Pour du [[wpfr>MPEG-1/2_Audio_Layer_3|mp3]]: "//-acodec mp3//" et pour recopier la bande son: "//-c:a copy//". Pour ne pas recopier la bande son : "//-an// (à coté du "//-y//")
+<note>L'intérêt de ne pas recopier la bande son est de faire une première passe qui se concentrera sur la video. Bien sûr on tiendra compte de la bande son lors de la deuxième passe.</note>
+    * //-b 20000k// le bit rate => maintien à peu près la taille initiale de la vidéo de sortie pour de la HD (sinon entre 1500 kb et 20000kb)
+<note help>On pourrait parler pendant des heures du bitrate, mais ce paramètre peut être omis si on s'impose plutôt une qualité de sortie. Disons que le calcul est simple : si vous imposez un bitrate dans la pass 2, ou si vous ne faites qu'une passe, par exemple avec -b 20000kb/s vous demandez à générer un fichier de 20000 kilobits par seconde, soit 20000/8 =  2500 ko/s, et donc 2,5 Mo/s (notez le changement d'unité bits/8=octets). Avec un film de 90 minutes (5400 secondes), on impose donc une taille de 90*60*2,5 = 13500 Mo (soient environ 13 Go). C'est trop pour moi. Des films de cette durée sont très bien encodés pour une taille moindre. Le pire, c'est que le bitrate que l'on indique par -b devient un niveau moyen pour toute la vidéo, mais ne profite pas de la lenteur de scènes à faible taux, parce que les scènes rapides sont forcément limitées par leur taux initial, et le nombre de FPS. En clair : si vous souhaitez imposez la taille du fichier de sortie, indiquez le bitrate ; si vous voulez la meilleure qualité, utilisez 2 passes sans indiquer de bitrate, et avec un -qscale=1</note>.
+    * //-pass 1// la première passe qui va créer un fichier de log (il faudra donc un -pass 2). La réalisation en deux pass améliore la qualité de l'encodage.
+<note tip>La première passe permet de stocker dans la log (locale au répertoire) les infos du bitrate effectif selon les scènes de la vidéo source. Lors de la deuxième passe, les scènes lentes seront traitées avec un faible bitrate (qualité inférieure) et les scènes d'action par un bitrate élevé (donc meilleure qualité). Le but est d'obtenir un bitrate variable dans le fichier de sortie sans trop augmenter sa taille. En effet, si on impose le bitrate, il n'y a plus de variation entre les scènes, et donc trop grosse consommation inutile sur les scènes lentes</note>
+    * //-r 30// : le frame rate ( fps ou nombre d'image par secondes souvent entre 24 et 30). **__Sans ce paramètre apparaît un problème de "timebase dénominator"__** avec les vidéos du galaxy s2 (et pas seulement !) mais pas avec les vidéos converties.
+    * //-y// : écrase les fichiers de sortie sans confirmation
+
+__Remarques__ \\
+Par défaut le format du container est défini par l'extension du nom de fichier (pour vidéoEnSortie.mp4 le container est mp4).\\
+La modification de la résolution peux entraîner un décalage entre l'image et le son. Il faut donc visualiser la vidéo au milieu de la piste pour vérifier qu'il n'y a pas de décalage.\\
+Pour encoder une vidéo mp4 en haute qualité mettre les paramètres suivants:
+<code>-mbd rd -flags +mv4+aic -trellis 2 -cmp 2 -subcmp 2 -g 300</code>a coté de "-pass  1" \\
+<note>Ces paramètres sont suggérés par [[http://libav.org/|Libav]], le site officiel du projet avconv, et ont très bien marché pour moi.</note>
+D'autres paramètres à essayer : \\
+<code>
+  -bf 2’, ’-flags qprd’, ’-flags mv0’, ’-flags skiprd
+</code>
+
+FIXME définir les différents paramètres
+
+
+=== Rotation d'une vidéo ===
+
+  * rotation à 180°(flip)  : -vf "vflip"
+  * rotation 90°            :  -vf "transpose=1"
+  * rotation -90°           :  -vf "transpose=2"
+
+=== Mon script et mes paramètres complets ===
+Pour une conversion de vidéos .WMV (Windows Live Movie Maker), voire .AVI (depuis Fraps), j'ai testé plusieurs paramètres en respectant les suggestions de [[http://libav.org/|Libav]], et je suis très heureux du résultat.
+Objectif : avoir des vidéos MP4 au format de ma tablette Xoom sous Android an 1080x720, de la meilleure qualité possible malgré la conversion et sans augmenter la taille par rapport au .wmv.
+
+  * en 2 passes (pour les raisons expliquées plus haut)
+  * sans tenir compte de la bande son dans la première passe : **-an**
+  * en imposant la meilleure qualité, donc en laissant avconv trouver le meilleur bitrate : **-qscale 1**
+  * la première passe envoie le fichier de sortie dans les limbes, et se concentre sur la création des infos dans la log : **-f rawvideo /dev/null**
+  * en respectant les recommandations pour mp4 : **-mbd rd -flags +mv4+aic -trellis 2 -cmp 2 -subcmp 2 -g 300**
+  * pour la résolution compatible Xoom, et parce que j'avais vérifié le ratio de mes videos en input : **-s 1280 x 720**
+  * le script tourne localement à un répertoire, et me crée un .mp4 pour chaque .wmv en entrée
+  * au final, qualité quasiment respectée, taille du mp4 légèrement //inférieure// à l'entrée : **-qscale 1**
+<code>ls -1 |grep wmv | awk -F. '{print $1}' | while read entree
+ do
+   avconv -y -i ${entree}.wmv -s 1280x720  -threads auto -vcodec mpeg4 -an -qscale 1 -mbd rd -flags +mv4+aic -trellis 2 -cmp 2 -subcmp 2 -g 300 -pass 1 -f rawvideo /dev/null
+   avconv -y -i ${entree}.wmv -s 1280x720 -threads auto -vcodec mpeg4 -qscale 1 -mbd rd -flags +mv4+aic -trellis 2 -cmp 2 -subcmp 2 -g 300 -pass 2 ${entree}.mp4
+ done</code>
+Vous noterez que la deuxième passe a lieu dans la foulée de la première dans le script, ce qui garantit que la log n'est pas perturbée par une succession de premières passes de fichiers différents.
+Par ailleurs, la deuxième passe reprend quasiment les mêmes paramètres que la première, mais en omettant celui qui coupait la bande son. Je n'ai pas spécifié de codec son en sortie, mais ça marche bien.
+
+==== Conversion audio (de flac vers mp3) ====
+
+<code>
+avconv -i maChanson.flac -threads 8  -c:a libmp3lame  -ab 320k -y maChanson.mp3
+</code>
+
+Avec comme paramètres :\\
+ * //-threads 8// : accélère le traitement en multipliant les threads. 8 est un bon paramètre pour un quadri-coeur multithread (4 coeurs * 2 threads = 8).\\
+* //-ab 320k//  encodage en mp3 320Kbs\\
+* //-y// : écrase les fichiers de sortie sans confirmation\\
+
+Le format mp3 est protégé. Pour pouvoir l'utiliser avec avconv, il faut installer le paquet : ubuntu-restricted-extras
+
+==== Couper une vidéo ====
+
+AVCONV peut être utilisé pour découper une vidéo.
+
+  * -ss indique le début de la séquence à extraire, en secondes (peut aussi être indiqué en HH:MM:SS)
+  * -t indique la durée en secondes (peut aussi être indiqué en HH:MM:SS)
+  * -vcodec copy -acodec copy  indiquent que l'on conserve les mêmes codec vidéo et audio
+
+__exemples :__
+  * avconv -ss 0 -i source.m4v -t 100 -vcodec copy -acodec copy part1.m4v
+  * avconv -ss 100 -i source.m4v -t 100 -vcodec copy -acodec copy part2.m4v
+  * avconv -ss 200 -i source.m4v -t 100 -vcodec copy -acodec copy part3.m4v  
+  * avconv -ss 300 -i source.m4v -t 100 -vcodec copy -acodec copy part4.m4v
+
+===== Voir aussi =====
+  * La page [[:ffmpeg]]: logiciel dont il est tiré
+  * **(en)**[[https://libav.org | Site du projet avconv]]. 
+
+----
+//Contributeurs: ratm54, kerkael (pour les détails supplémentaires).//

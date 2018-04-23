@@ -1,0 +1,116 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#skype" class="toc"> Skype </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#installation" class="toc"> Installation </a></span></li>
+<li class="level2"><span class="li"><a href="#usage" class="toc"> Usage </a></span></li>
+<li class="level2"><span class="li"><a href="#installation_par_les_depots" class="toc"> Installation par les dépôts </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Versions Warty &amp; Hoary
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/ostaquet" class="wikilink1" title="utilisateurs:ostaquet" onclick="return svchk()" onkeypress="return svchk()">ostaquet</a>.
+</p>
+
+<a name="skype"></a><h1> Skype </h1>
+<div class="level1">
+
+<p>
+ Skype est un système de téléphonie qui fonctionne via Internet.
+</p>
+
+<p>
+Skype peut être utilisé pour appeler d&rsquo;autres personnes sur leur ordinateur ou sur leur téléphone. Pour plus d&rsquo;informations, veuillez consulter <a href="http://www.skype.org" class="urlextern" title="http://www.skype.org" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow"> le site web de Skype</a> .
+</p>
+
+</div>
+<!-- SECTION [81-368] -->
+<a name="installation"></a><h2> Installation </h2>
+<div class="level2">
+
+<p>
+ Vous pouvez facilement installer Skype sur votre système Ubuntu en utilisant le paquet Debian. 
+</p>
+<ul>
+<li class="level1"><span class="li"> Téléchargez le paquet Debian sur le site de Skype (<a href="http://www.skype.org/products/skype/linux/" class="urlextern" title="http://www.skype.org/products/skype/linux/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.skype.org/products/skype/linux/</a>). Il s&rsquo;agit d&rsquo;un fichier <strong>.deb</strong> et sauvegardez-le sur votre disque dur. Lien direct : <a href="http://www.skype.com/go/getskype-linux-deb" class="urlextern" title="http://www.skype.com/go/getskype-linux-deb" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">skype en .deb derniere version</a></span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Lancez le gestionnaire de paquet <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a> et installez le paquet suivant :</span>
+</li>
+</ul>
+<pre class="code">
+libqt3c102-mt
+</pre>
+<ul>
+<li class="level1"><span class="li"> Ouvrez un terminal et placez vous dans le répertoire où le fichier Skype a été téléchargé (voir <a href="/console/ligne_de_commande" class="wikilink1" title="console:ligne_de_commande" onclick="return svchk()" onkeypress="return svchk()">les commandes basiques</a>) et lancez la commande suivante ( :</span>
+</li>
+</ul>
+<pre class="code">
+sudo dpkg --install skype_1.0.0.20-1_i386.deb
+</pre>
+
+<p>
+ <em>Remarquez que le numéro de version peut être différent chez vous.</em><a href="#fn1" name="fnt1" class="fn_top">1)</a>
+</p>
+
+<p>
+Par défaut, Skype a besoin de la carte son pour lui tout seul, la solution consiste à utiliser Arts et de lancer Skype avec la commande &ldquo;artsdsp -m skype&rdquo; (cf.   <a href="http://linuxfr.org/~dhp/17280.html" class="urlextern" title="http://linuxfr.org/~dhp/17280.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://linuxfr.org/~dhp/17280.html</a>)
+</p>
+
+</div>
+<!-- SECTION [369-1546] -->
+<a name="usage"></a><h2> Usage </h2>
+<div class="level2">
+
+<p>
+ Skype est maintenant disponible à partir du menu Applications &rArr; Internet &gt; Skype.
+</p>
+
+<p>
+Vous pouvez faire votre premier appel à <strong>echo123</strong> qui est un système de test pour voir si votre système son est bien configuré.
+</p>
+
+<p>
+<em>Remarque :</em> Vous pouvez mettre Skype en français en allant dans le menu <em>Tools &rArr; Select language &rArr; French</em>.
+</p>
+
+</div>
+<!-- SECTION [1547-1902] -->
+<a name="installation_par_les_depots"></a><h2> Installation par les dépôts </h2>
+<div class="level2">
+
+<p>
+Rédigé par <a href="/utilisateurs/phenix" class="wikilink1" title="utilisateurs:phenix" onclick="return svchk()" onkeypress="return svchk()">phenix</a>
+</p>
+
+<p>
+Ajouter la ligne suivante dans votre sources.list (ajout officiel) 
+</p>
+<pre class="code">
+deb http://download.skype.com/linux/repos/debian/ stable non-free
+</pre>
+
+<p>
+ et installer ensuite via synaptic ou par la ligne de commande 
+</p>
+<pre class="code">
+sudo apt-get install skype
+</pre>
+
+<p>
+et le menu sera disponible via Applications &raquo; Internet &raquo; Skype 
+</p>
+
+</div>
+<!-- SECTION [1903-] --><div class="footnotes">
+<div class="fn"><a href="#fnt1" name="fn1" class="fn_bot">1)</a> 
+les versions evoluent trés vite, le nom de paquet est peut être obsolete, tapez le début du nom <em>skype</em> puis TAB pour le completer</div>
+</div>

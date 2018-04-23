@@ -1,0 +1,98 @@
+{{tag>wiki BROUILLON}}
+----
+====== Ligne éditoriale du wiki ubuntu-fr ======
+
+Cette page a pour but de distinguer « ce qui peut » de « ce qui ne doit pas » être écrit dans la documentation ubuntu-fr.
+
+<note tip>Quelque soit le contenu d'une page, il revient aux modérateurs et administrateurs du wiki la décision finale de déplacer, modifier ou supprimer tout ou partie du contenu présent sur le wiki.</note>
+
+===== Objectif de la documentation =====
+
+Le but de la documentation francophone Ubuntu-fr est de fournir aux utilisateurs, particulièrement aux débutants, les éléments nécessaires pour prendre en main la distribution Ubuntu et ses variantes officielles pour toutes les versions encore soutenues.
+La documentation doit rester objective et impersonnelle pour permettre à tous de s'y reconnaitre.
+
+===== Contenu demandé =====
+
+Le contenu initial de la documentation est le suivant :
+
+  * la présentation de chaque [[:environnements|environnement]] (Gnome, KDE, Xfce, Netbook Edition, Server Edition) ;
+  * la présentation des [[:logiciels]] présents par défaut dans des pages portails pour chaque domaine (bureautique, internet, etc.) ;
+  * la création de pages dédiées aux logiciels demandant des manipulations spécifiques dans le cadre d'Ubuntu (c'est-à-dire pour cause de bug ou de problèmes à l'installation ou la configuration) ;
+  * la présentation des spécificités de la distribution [[:ubuntu_distribution|Ubuntu]] vis-à-vis des autres distributions GNU/Linux (sudo, Network Manager, etc.).
+
+<note>
+Si vous souhaitez ajouter un contenu ne répondant pas aux critères ci-dessus, veuillez d'abord en faire part à la [[:wiki:liste_discussion#coordination_de_la_documentation|liste de discussion du wiki]].
+</note>
+
+==== Règles de bon sens ====
+
+Voici quelques questions à se poser pour s'assurer que la page a sa place sur la documentation ubuntu-fr et du modèle qui conviendra.
+
+  * Une page **//application//** apportera-t-elle des informations liées à l'**utilisation d'Ubuntu** ?
+  * Une page **//portail//** permettra-t-elle de lister des logiciels présents dans les **dépôts officiels** et combien ? (minimum 5 requis)  
+  * Une page **//matériel//** ou **//portable//** permettra-t-elle à l'utilisateur de **résoudre un problème** vis-à-vis d'Ubuntu ?
+  * Une page **//tutoriel//** décrira-t-elle des **manipulation longues**, **non triviales**, qui ne peuvent être rattachée à la configuration d'une application ou d'un matériel donné ?
+
+<note help>Si toutes les réponses sont « Non », orientez-vous vers un autre média : documentation officielle, Wikipédia, blog personnel, etc.</note>
+
+==== Règles complètes ====
+
+Pour maintenir les objectifs de la documentation, nous demandons aux contributeurs de respecter les règles suivantes :
+
+=== 1  Pour toutes les pages ===
+
+  - Les images liées doivent être sous une licence libre et compatible avec la licence de la documentation, à savoir [[http://creativecommons.org/licenses/by-sa/3.0/deed.fr|CC-by-sa 3.0]].
+  - Si le contributeur n'est pas à l'auteur du texte, il doit s'assurer auprès de l'auteur original de l'accord de la publication dans le wiki ubuntu-fr ainsi que l'accord de la publication sous la licence du wiki.
+  - Les sources des textes ayant servis à la rédaction doivent être indiquées dans les liens en bas de page, à la section « Voir aussi », en respect du droit d'auteur français.
+  - Toujours indiquer un et un seul titre de niveau 1 (H1), le plus explicite et le plus simple possible.
+  - Ajouter les [[:wiki:tag|tags]] en haut de la page, suivi d'une ligne de séparation.
+  - N'ajouter que des tags pour lesquels il existe déjà une page … mais ne pas ajouter l'URL de la page comme tag, ni le nom de la page que vous venez de créer.
+  - Ajout des liens vers la page nouvellement créée dans les portails appropriés pour la référencer.
+
+=== 2  Pour les pages de type « application » ===
+
+  - Ne créer une nouvelle page application que si elle apporte des informations dans le cadre de l'utilisation d'Ubuntu.
+  - La page doit avoir pour URL le nom du paquet dans les dépôts officiels correspondant à l'application.
+  - Respecter le **[[:wiki:modèles:application|modèle « application »]]** et l'utilisation des liens vers les [[:wiki:mini-tutoriels|mini-tutoriels]] existants.
+  - Mettre en avant les méthodes d'installation depuis les dépôts officiels ou, à défaut, la plus accessible possible (ex. : PPA). Les méthodes par compilation sont à proscrire, de même que celle comportant un risque pour le système de l'utilisateur.\\ Dans le cas où la méthode par compilation serait la seule méthode permettant de résoudre un bug majeur, cette dernière pourra être décrite en fin de page dans la section « Problèmes et solutions » et **après validation sur la liste de discussion**.
+  - Lors de la description de bugs majeurs, les liens vers les rapports de bug correspondant (sur Launchpad) ou vers les topic du forum ubuntu-fr doivent systématiquement être indiqués.
+  - Les liens externes à la page doivent être regroupés en fin de page (section « Liens » ou « Voir Aussi ») dans la limite de 5 liens externes (hors rapports de bug).
+  - Les tags doivent indiquer les versions d'Ubuntu pour lesquelles les informations de la pages sont applicables.
+
+=== 3  Pour les pages de type « portail » ===
+
+  - Ne créer une nouvelle page portail que pour lier ou lister plusieurs logiciels présents dans les dépôts officiels (minimum 5 à 6 pages liées).
+  - Les logiciels présentés dans le portail doivent fonctionner de manière avérée sous Ubuntu, de préférence en ayant une page application associée. Le témoignage sur le forum est accepté, preuve à l'appui.
+  - Respecter le **[[:wiki:modèles:portail|modèle « portail »]]**.
+  - Les liens externes à la page doivent être minoritaires, regroupés en fin de page (section « Liens » ou « Voir Aussi »), dans la limite de 10 liens.
+
+=== 4  Pour les pages de type « matériel » ou « portable » ===
+
+  - Ne créer une [[:wiki:modèles:portable|nouvelle page portable]] ou [[:wiki:modèles:matériel|matériel]] que si vous avez rencontré des problèmes vis-à-vis d'Ubuntu, sinon ajoutez simplement une ligne dans le tableau de la marque correspondant au modèle.
+  - Respecter le **[[:wiki:modèles:matériel|modèle « matériel »]]** ou le **[[:wiki:modèles:matériel|modèle « portable »]]** et l'utilisation des liens vers les [[:wiki:mini-tutoriels|mini-tutoriels]] existants.
+  - Les tags doivent indiquer les versions d'Ubuntu pour lesquelles le matériel ou portable a été testé.
+
+=== 5  Pour les pages de type « tutoriel » ===
+
+  - Ne créer un nouveau tutoriel que pour les manipulations longues, qui ne sont pas triviales, et qui ne peuvent être rattachée à la configuration d'une application ou d'un matériel donné.
+  - Respecter le **[[:wiki:modèles:tutoriel|modèle « tutoriel »]]** et l'utilisation des liens vers les [[:wiki:mini-tutoriels|mini-tutoriels]] existants.
+  - Les tags doivent indiquer les versions d'Ubuntu pour lesquelles le tutoriel est fonctionnel.
+
+
+===== Contenu proscrit =====
+
+Le contenu ci-dessous sera systématiquement supprimé :
+
+  - contenu à caractère raciste, portant atteinte à la pudeur ou moralement condamnable (pédophilie, etc.) ;
+  - contenu à caractère religieux ostentatoire, intégriste ou non respectueux des autres communautés religieuses ou athées ;
+  - contenu illicite (warez, etc.) ;
+  - contenu subjectif (sans source officielle), trollesque, nuisible à tout ou partie de la communauté du logiciel libre (voir également le [[:codedeconduite|code de conduite]]) ;
+  - tout contenu n'ayant pas de lien direct avec la distribution Ubuntu.
+
+<note help>Vous pouvez signaler tout contenu proscrit en envoyant un mail aux [[ubuntu-fr-doc@lists.launchpad.net|modérateurs du wiki]], ou à la [[:wiki:liste_discussion#coordination_de_la_documentation|liste de discussion du wiki]].</note>
+
+<note warning>**Les auteurs de ce type de contenu seront systématiquement sanctionnés (bannissement temporaire ou définitif, ...).**</note>
+
+----
+
+//[[:utilisateurs:draco31.fr|draco31.fr]] Le 13/06/2010, 20:02//

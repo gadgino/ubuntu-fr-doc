@@ -1,0 +1,61 @@
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+ <a href="https://wiki.ubuntu.com/NetworkPrintingFromWinXP" class="urlextern" title="https://wiki.ubuntu.com/NetworkPrintingFromWinXP" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Traduit</a> par <a href="/utilisateurs/gauthier" class="wikilink1" title="utilisateurs:gauthier" onclick="return svchk()" onkeypress="return svchk()">Gauthier</a>.
+</p>
+
+<a name="impression_reseau_depuis_win_xp"></a><h1> Impression réseau depuis Win XP </h1>
+<div class="level1">
+
+<p>
+ En réseau hétérogène Ubuntu / Windows, j&rsquo;ai réussi une impression réseau à partir d&rsquo;une machine XP vers une station de travail Ubuntu (connectée à une imprimante locale), en suivant les 5 étapes décrites ci-après (légèrement adaptées d&rsquo;une page <acronym title="Frequently Asked Questions">FAQ</acronym> sur ce sujet).
+</p>
+
+<p>
+1) Utilisez l&rsquo;utilitaire d&rsquo;impression d&rsquo;Ubuntu pour ajouter l&rsquo;imprimante locale à votre station de travail Ubuntu.
+</p>
+
+<p>
+2) Modifiez le fichier de configuration /etc/cups/cupsd.conf (vous avez juste besoin de modifier la première balise intitulée &ldquo;Location&rdquo; (en tête de fichier), les autres balises héritant de permissions particulières) : 
+</p>
+<pre class="code">&lt;Location /&gt;
+Order Deny,Allow
+Deny From All
+Allow From 127.0.0.1
+#the line below allows access to the LAN subnet
+Allow From 192.168.1.*
+&lt;/Location&gt;</pre>
+<ul>
+<li class="level1"><span class="li"> paramétrez également le port afin qu&rsquo;il écoute toutes les interfaces (il se peut qeu vous vouliez faire un réseau avec des câbles séries :(</span>
+</li>
+</ul>
+<pre class="code">#Port 80
+#Port 443
+ Port 631
+#
+#Listen 127.0.0.1:631</pre>
+
+<p>
+ 3) Relancer le démon CUPS par la commande : 
+</p>
+<pre class="code">sudo /etc/init.d/cupsys restart</pre>
+
+<p>
+ 4) Modifiez le fichier C:\WINDOWS\system32\drivers\etc\hosts (Win XP ne reconnaîtra pas l&rsquo;adresse IP donc il faut l&rsquo;associer à un nom d&rsquo;hôte) : 
+</p>
+<pre class="code">127.0.0.1       localhost
+192.168.1.100   ubuntu</pre>
+
+<p>
+ 5) Ajouter l&rsquo;imprimante en utilisant la fonction dédiée du panneau de configuration Windows XP, et utilisez l&rsquo;adresse suivante pour la connection réseau : 
+</p>
+<pre class="code">http://ubuntu:631/printers/DeskJet-940C</pre>
+
+<p>
+ Dernières modifications le 07-09-2005 20:50:17 par BillBrown © 2005 Canonical Ltd. Ubuntu and Canonical are registered trademarks of Canonical Ltd.
+</p>
+
+</div>
+<!-- SECTION [133-] -->

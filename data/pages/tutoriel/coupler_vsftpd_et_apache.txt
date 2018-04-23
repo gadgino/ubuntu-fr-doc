@@ -1,0 +1,180 @@
+{{tag>Lucid tutoriel serveur}}
+----
+
+====== Comment coupler Vsftpd avec Apache ? ======
+
+Ce tutoriel décrit comment donner un accès Ftp aux sites web d'un serveur mutualisé, afin que ceux ci soient directement accessibles par le serveur apache, sans problème de droits.
+
+Pour cela, nous allons mettre en œuvre un serveur Vsftpd, en utilisant des utilisateurs virtuels.
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]] sur le serveur.
+  * Ce tutoriel fonctionne sur un serveur 10.4.1
+  
+  
+
+===== Installation =====
+
+Nous allons installer le serveur apache, le serveur vsftpd, et un outil qui nous permettra la création d'une base de données des utilisateurs.
+<code>
+sudo aptitude install apache2 vsftpd db4.8-util
+</code>
+===== Création des répertoires =====
+Les données des sites seront stockées sous /data/sites-web. Il faut donner les droits à l'utilisateur et au groupe www-data.
+Les données de configuration de vsftpd seront stockées sous /etc/vsftpd. Ce répertoire n'est pas créé à l'installation.
+Les fichiers de configurations de chaque utilisateur seront stockés dans le répertoire /etc/vsftpd/users.conf/ 
+<code>
+sudo mkdir -p /data/sites-web/site1
+sudo chown -R www-data:www-data /data
+sudo mkdir -p /etc/vsftpd/users.conf/
+</code>
+
+<note>A chaque ajout de site dans le répertoire /data/sites-web/, il faudra positionner correctement les droits</note>
+
+===== Création de la base d'utilisateurs =====
+Pour rester concis, nous utiliserons une base de données la plus simple possible.
+Dans le cadre d'un déploiement plus important, il est très facile d'utiliser une base mysql à la place. Pour cela voir [[:vsftpd_et_pam_mysql|VsftpD et authentification via pam_mysql sur base de données SQL]]
+
+Nous allons créer un simple fichier texte, qui contiendra les couples login/mot-de-passe. A l'aide de db4.8-util, nous transformerons ce fichier en base de données.
+<note>Attention ! Ce fichier contient les noms d'utilisateurs et mots de passe associés. Pensez à changer les droits d'accès à ces fichiers</note>
+<code>
+sudo touch /etc/vsftpd/users.txt
+sudo chmod 600 /etc/vsftpd/users.txt
+</code>
+
+Nous pouvons remplir ce fichier texte avec deux exemples :
+<code>
+user1
+password1
+user2
+password2
+</code>
+<note>Dans un cas concret, j'utiliserai des noms d'utilisateurs du type webmaster@monsite1.com</note>
+
+Compilons ce fichier texte et changeons les droits de la base de données :
+<code>
+sudo db4.8_load -T -t hash -f /etc/vsftpd/users.txt /etc/vsftpd/users.db
+sudo chmod 600 /etc/vsftpd/users.db
+</code> 
+
+===== Configuration de PAM =====
+Vsftpd utilise PAM pour l'authentification.
+
+Remplacez le contenu du fichier /etc/pam.d/vsftpd par :
+<code>
+auth    required   pam_userdb.so  db=/etc/vsftpd/users
+account required    pam_userdb.so  db=/etc/vsftpd/users
+</code>
+<note>Il ne faut pas mettre l'extension .db au chemin d'accès vers la base de données des utilisateurs</note>
+
+===== Configuration de VSFTPD =====
+Il ne reste plus que Vsftpd lui même  à configurer.
+
+Toute l'astuce ici réside dans la ligne guest-username. On utilise l'utilisateur www-data. Ceci permet à apache de pouvoir lire les fichiers écrits par vsftpd.
+
+Editons le fichier /etc/vsftpd.conf :
+<code>
+# Pas d'accès anonyme, que des utilisateurs locaux
+anonymous_enable=NO
+local_enable=YES
+# Active les utilisateurs virtuels
+# Vsftpd utilise en fait l'utilisateur www-data
+guest_enable=YES
+guest_username=www-data
+nopriv_user=www-data
+write_enable=YES
+# On restreint l'utilisateur à son dossier de connexion
+chroot_local_user=YES
+# Utilisation de PAM pour l'authentification
+pam_service_name=vsftpd
+# Configuration par utilisateur
+user_config_dir=/etc/vsftpd/users.conf
+</code>
+
+La dernière ligne du fichier de configuration permet d'inclure les fichiers de configuration par utilisateur. Ceux ci se situent dans le répertoire /etc/vsftpd/users.conf.
+
+===== Configuration par utilisateur =====
+Nous disposons, via le fichier users.db, d'un compte utilisateur et d'un mot de passe. Pour chaque utilisateur, il faut maintenant créer un fichier contenant ses informations, dans le répertoire /etc/vsftpd/users.conf.
+
+Exemple pour l'utilisateur user1 :
+<code>
+vim /etc/vsftpd/users.conf/user1
+anon_world_readable_only=NO
+local_root=/data/sites-web/site1
+write_enable=YES
+anon_upload_enable=YES
+anon_mkdir_write_enable=YES
+anon_other_write_enable=YES
+</code>
+
+===== Test du système =====
+Nous pouvons relancer le service SFTPD :
+<code>
+sudo service vsftpd restart
+</code>
+
+et tenter une connexion ftp :
+<code>
+$ ftp
+ftp> open 192.168.1.102
+Connected to 192.168.1.102.
+220 Welcome to blah FTP service.
+Name (192.168.1.102:server): user1
+331 Please specify the password.
+Password:
+230 Login successful.
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp> 
+</code>
+
+Copiez un fichier via ftp, et vérifier ses droits sur le serveur.
+<code>
+ls -l /data/sites-web/site1/
+</code>
+Le fichier doit appartenir à l'utilisateur www-data.
+
+
+
+===== Configuration apache =====
+Encore pour des raisons de concisions, nous allons paramétrer un alias dans apache. Bien entendu, il est possible de créer des vhosts.
+
+Modifions le fichier /etc/apache2/sites-available/default
+<code>
+sudo vim /etc/apache2/sites-available/default
+</code>
+
+ajoutons un simple alias :
+
+<code>
+Alias /site1/ "/data/sites-web/site1/"
+<Directory "/data/sites-web/site1/">
+    Options Indexes MultiViews FollowSymLinks
+    AllowOverride None
+    Order allow,deny
+    Allow from all
+</Directory>
+</code>
+
+Relançons apache :
+<code>
+sudo service apache2 restart
+</code>
+
+et accèdons à notre site pour vérifier la présence du fichier téléchargé en FTP précédemment.
+
+===== Conclusion=====
+Nous avons rapidement mis en oeuvre une solution pour créer des sites web sur un serveur mutualisé qui peuvent être mis à jour par FTP.
+Cette solution ouvre de nombreuses portes vers des solutions plus élaborées : stockage des comptes dans une base mysql, cryptage des mots de passe, etc.
+
+Un excellent tutoriel (voir rubrique Voir aussi) du site developpez.com va beaucoup plus loin dans la démarche. Sa lecture est vivement conseillée.
+
+===== Voir aussi =====
+
+  * **(fr)** [[http://olange.developpez.com/articles/debian/installation-serveur-dedie/|un tutoriel plus complet sur le sujet]]
+  * **(fr)** [[:vsftpd|Préambule : FTP et "FTP-Like" sécurisés]]
+ 
+
+----
+//Contributeurs principaux : [[:utilisateurs:lmrv]].//

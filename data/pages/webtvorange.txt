@@ -1,0 +1,207 @@
+{{tag>Trusty logiciels vidéo télévision webtv}}
+----
+
+====== WebTvOrange ======
+Les applications listées sur cette page sont des interfaces au service WebTV de Orange. Certaines permettent en plus d'enregistrer les programmes, comme le ferait un enregistreur numérique. 
+
+<note important>
+Depuis le 19 Novembre 2015, il est possible de regarder la TV en HTML5 avec Chromium ou Chrome
+</note>
+
+<note important>
+Depuis la mi-2012, Orange utilise un nouveau protocole pour diffuser ses flux: Microsoft Smooth Streaming.\\
+La lecture des flux utilisant ce protocole est actuellement disponible sous VLC >= 2.1 ou GStreamer >= 1.2.0 (pour Totem).\\
+Si  VLC >= 2.1 n'est pas disponibles dans vos dépôts officiels Ubuntu, vous pouvez toutefois utiliser le [[ppa|PPA]]  officiel de l'équipe Videolan: **ppa:videolan/master-daily**. Il s'agit de constructions quotidiennes depuis la branche de développement de VLC, ce ne sont pas des versions stables.
+</note>
+
+<note important>Le service TV sur PC d'Orange n'est plus disponible de base depuis le 3 septembre 2012 pour les clients : internet Formule, Formule Plus non équipés de la TV d'Orange (avec ligne fixe), Net ou Net Plus non équipés de la TV d'Orange (sans ligne Fixe), Découverte.
+Pour bénéficier de ce service il suffit de souscrire à la TV d'Orange sans changer d'offre et sans supplément de prix.
+A l'exception des clients Découverte qui doivent changer d'offre.</note>
+
+<note>Souvent l'application ne fonctionne pas correctement à cause du [[http://chaines-tv.orange.fr/#live/home|portail orange]] en lui même. Avant de rapporter tout problème, vérifier que le [[http://chaines-tv.orange.fr/#live/home|portail orange]] fonctionne.</note>
+===== Pré-requis =====
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Disposer d'un abonnement Orange, accompagné d'une offre TV.
+  * Installer VLC >= 2.1 ou GStreamer >= 1.2.0 (pour Totem).
+
+===== Auteurs et versions =====
+  * [[#wto_qui_a_ete_repris_par_loic_grenon|WTO (maintenu par Loïc Grenon)]] est une interface graphique à la WebTV d'Orange. Elle a fonctionne après les changements apportés par Orange le 24 mai 2011. Il s'agit de la méthode conseillée.
+  * La [[#wto_par_imon|version de $imon]] pour l'installation existe sous forme de [[#installation_avec_le_paquet_de_imon|paquet]] ou de [[#installation_avec_le_script_de_biginoz|script]] et a été réalisée par $imon. C'est une évolution de la version de [[http://forum.ubuntu-fr.org/profile.php?id=198|biginoz]] et de [[http://forum.ubuntu-fr.org/profile.php?id=107947|Octave21]] portant notamment sur la modification de l'interface graphique, la mise en place d'une liste d'enregistements et la possibilité de choisir le répertoire de destination.
+  * Le script original a été réalisé par [[http://forum.ubuntu-fr.org/profile.php?id=107947|Octave21]].
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?pid=4736971#p4736971 |  Interface très simplifiée]] permettant d'accéder aux chaînes de la WebTV par gerarmentor.
+
+===== WTO qui a été repris par Loïc GRENON =====
+[[http://wto.tuxfamily.org/|WTO]] est une interface graphique à la WebTV d'Orange, actuellement maintenu par Loïc GRENON.
+
+Dans l'interface, les chaînes sont listées avec le programme en cours et le logo. Pour la chaîne sélectionnée, les programmes à venir sont affichés.
+
+==== Installation depuis les sources ====
+Téléchargez la source depuis la [[http://wto.tuxfamily.org/downloads|page de téléchargement]]
+<code bash>wget http://download.tuxfamily.org/wto/wto-1.0.7.tar.gz</code>
+
+Puis installez sur votre système (adapter le numéro à la version téléchargée) :
+
+<code bash>  tar zxvf wto-1.0.7.tar.gz
+  cd wto-1.0.7
+  sudo python setup.py install</code>
+
+==== Installation depuis un PPA ====
+Il suffit d'ajouter le [[ppa|PPA]]  **ppa:wto/daily** à vos sources logicielles. La version qui est construite est toujours celle correspondant au dernier 'commit' dans le dépôt Git (et non la version stable).
+
+Voir également cette [[https://code.launchpad.net/~zebioman/+recipe/webtvorange-daily-builds|page]], pour connaitre les dernières versions disponibles et visualiser les fichiers journaux.
+
+==== Utilisation ====
+Lancez WTO avec la commande suivante, depuis un terminal ou avec le raccourci ALT+F2
+
+  wto
+
+==== Problème connu ====
+Dans le cas ou WTO se lance, récupère la liste des chaines mais bloque au lancement de la chaine choisie, vérifier que le pare-feu de votre livebox soit au minimum. 
+
+Vous pouvez consultez les problèmes connus via l'[[http://wto.tuxfamily.org/support/|outil de rapport de bogue]]. Merci de l'utiliser pour signaler les problèmes rencontrés.
+
+Pas de suite avec toutes les directives ,j ai verifié la securité de ma box je l ai meme retiré mais pas de suite.
+
+
+===== WTO par $imon =====
+<note warning>Le logiciel n'a pas été mis à jour pour l'instant, il faut utiliser WTO par Loic </note>
+
+==== Installation avec le paquet de $imon ====
+<note important>C'est la méthode recommandée. Fonctionne avec la version 32 bits et 64 bits </note>
+
+Il faut télécharger le fichier //webtvorange.deb// ici : **https://sourceforge.net/projects/webtvorange/**
+<note>Le dépôt sur le serveur //scolatix.org// ou //mathix.org// n'est plus fonctionnel.</note>
+
+Ensuite, [[:tutoriel:comment_installer_un_paquet|installer les paquets]] **[[apt://webtvorange,ubuntu-restricted-extras,gtkdialog|webtvorange ubuntu-restricted-extras gtkdialog]]**. Vous pouvez prendre **gtkdialog** ici : https://sourceforge.net/projects/webtvorange/files/3.0/
+
+il faut aussi installer //mozilla-plugin-vlc// et enlever //totem-mozilla//.
+Vous pouvez utiliser un autre lecteur que [[mplayer]], comme par exemple **[[:vlc]]** ou **[[:kaffeine]]**
+
+==== Installation avec le script de biginoz ====
+<note important>Fonctionne avec les versions 32 bits ou 64 bits
+
+Réservé aux utilisateurs confirmés.</note>
+
+En cas de problème avec le dépôt, il est possible d'utiliser le [[http://scolatix.org/depot/webtvorange-2.0.6.tar.gz|script]] de [[http://forum.ubuntu-fr.org/profile.php?id=198|biginoz]].
+
+Ce script contient les mêmes fichiers que la version en dépôts, mais n'est pas mis sous la forme d'un paquet debian.
+
+L'archive est configurée pour être décompressée dans **/usr**.
+
+==== Utilisation ====
+Lancez l'application depuis le menu //Multimédia -> WebTvOrange// ou //via// la commande suivante :
+
+  webtvorange
+
+==== Premier lancement ====
+Au lancement, vous verrez apparaître ceci :
+
+{{ :webtvorange:webtvorange-loading.png }}
+
+Ensuite, si vous n'êtes pas identifié directement chez orange, la fenêtre suivante apparaitra dans firefox (qui sera lancé automatiquement par WebTvOrange).
+
+<note tip>Si vous êtes déjà identifié, cette phase d'identification est naturellement inutile.</note>
+
+Il faudra cliquer sur **Identifiez vous** en haut à gauche :
+
+{{ :webtvorange:webtvorange2.jpg?800 }}
+
+A ce stade, vous serez normalement reconnus directement chez orange. Il suffira alors de cliquer sur rester connecté :
+
+{{ :webtvorange:webtvorange3.jpg?800 }}
+
+Sur la fenêtre suivante, il faudra lancer la lecture d'une chaîne de télévision, cliquant plusieurs fois dessus, jusqu'à obtenir un cadre gras et fixe de couleur orange. Quelques secondes plus tard, la chaîne doit se lancer, et firefox se fermera.
+
+<note tip>Il est indispensable qu'une chaîne se lance pour que le logiciel puisse fonctionner par la suite.
+**Si firefox se ferme de lui même, c'est bon aussi.**</note>
+
+{{ :webtvorange:webtvorange4.jpg?800 }}
+
+La fenêtre suivante apparaîtra, terminant la phase de configuration.
+
+{{ :webtvorange:webtvorange-main.png }}
+
+==== Lancements suivants ====
+Normalement, tout doit fonctionner automatiquement. Néanmoins, il est souvent nécessaire de [[webtvorange#problemes_et_solutions|rechercher la clé]], comme au premier lancement.
+
+Sinon, voir [[#problemes_et_solutions|ici]].
+
+==== Présentation des fonctions du logiciel ====
+
+=== Menu "Chaines" ===
+{{ :webtvorange:webtvorange-chaine.png }}
+
+**Ouvrir** permet de lancer le visionnage de la chaine sélectionnée. Revient en fait à un double clic sur la chaîne souhaitée ou un clic sur le bouton "Regarder" en bas.
+
+**Enregistrer** permet de programmer un enregistrement.
+
+<note>Lors du lancement de la visualisation d'une chaîne avec //mplayer//, quelques secondes sont nécessaires à démarrer car le logiciel est programmé pour remplir un cache de 4096 ko.</note>
+
+=== Menu "Outils" ===
+{{ :webtvorange:webtvorange-outils.png? |}}
+
+**Préférences** : ouvre la fenêtre pour régler vos préférences (visionneuse, qualité, dossier de destination des enregistrements par défaut...)
+
+**Rechercher la clé** : voir [[#problemes_et_solutions|ici]].
+
+**Liste des enregistrements** permet d'afficher la liste des enregistrements programmés a venir, et de les supprimer si besoin.
+
+**Mettre a jour les chaines** permet d'actualiser la liste des chaines
+
+=== Fenêtre "Enregistrer" ===
+{{ :webtvorange:webtvorange-enregistrer.png? |}}
+
+**Heure de début (HH:MM)** contient l'heure du début de l'enregistrement sous la forme HEURE:MINUTES.
+
+**Durée (minutes)** contient la durée de l'enregistrement en minutes.
+
+**Fichier de sortie** contient le fichier de destination sans l'extension.
+
+=== Fenêtre "Préférences" ===
+{{ :webtvorange:webtvorange-preferences.png? |}}
+
+**Lecteur par défaut** : permet de choisir la visionneuse qui sera utilisée pour regarder une chaine.
+
+**Qualité** permet de régler la qualité de la vidéo à 300 ou 700 pixels (à moduler selon votre débit internet).
+
+**Répertoire par défaut** permet de modifier le répertoire de destination par défaut des enregistrements
+
+=== Fenêtre "Liste des enregistrements" ===
+{{ :webtvorange:webtvorange-liste-enregistrements.png? |}}
+
+Affiche la liste des enregistrements a venir. Vous pouvez annuler un enregistrement en cliquant sur "Supprimer" et stopper un enregistrement en cours via le bouton "Arrêter les enregistrements en cours".
+
+<note>En mode enregistrement, l'arrêt de l'enregistrement est fait via un kill du processus mplayer. Dans certains cas les en-têtes vidéo ne sont donc pas correctement générées et lors de la lecture on ne peut pas utiliser l’ascenseur pour se déplacer dans la vidéo. L'auteur n'a pour l'instant pas de solution.</note>
+
+==== Désinstallation ====
+Si vous avez installé par paquet, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]].
+
+Sinon, il faut supprimer :
+  * le fichier /usr/bin/webtvorange
+  * le fichier /usr/share/pixmaps/webtvorange.png
+  * le répertoire /usr/share/webtvorange
+
+==== Problèmes et solutions ====
+  * Il faut être identifié sur le [[http://webtv.guidetv.orange.fr/|portail orange]] pour que l'application fonctionne : quand vous vous rendez sur le [[http://webtv.guidetv.orange.fr/|portail orange]] avec **firefox**, votre **nom doit apparaître** en haut à gauche.
+
+  * {{ :webtvorange:VLC-erreur.png?180}} Si au lancement la fenêtre de WebTvOrange apparaît et qu'il n'est pas possible de regarder une chaîne (par exemple en raison de l'apparition d'une fenêtre comme celle ci-contre), il faut cliquer sur **Recherche de la clé** et suivre la [[webtvorange#premier_lancement|procédure d'installation]].
+
+  * N'oubliez pas que le serveur orange est souvent saturé, en particulier le soir. Essayez de voir si le [[http://webtv.guidetv.orange.fr/|lien direct]] fonctionne ... sinon, pas la peine d'insister avec WebTvOrange !
+
+===== Autres méthodes =====
+Il est aussi possible de voir la TV d'Orange en branchant la sortie TV de la livebox sur l'ordinateur.
+
+Voir : [[http://www.porciello.com/inventel/tv_vlc.htm]]
+
+===== Voir aussi =====
+Deux fils de discussions très actifs sur cette application qui évolue très vite.
+
+  * **(fr)** [[http://forum.ubuntu-fr.org/viewtopic.php?id=335048&p=1]]
+  * **(fr)** [[http://forum.ubuntu-fr.org/viewtopic.php?id=211162]]
+
+On pourra voir aussi :
+  * **(fr)** [[http://debian-biginoz.blogspot.com/2009/07/creer-un-paquet-debian-pour-un-script.html]]
+
+----
+//Contributeurs principaux : [[utilisateurs:olivier_v|Olivier V]], [[utilisateurs:biginoz]], Octave21, [[utilisateurs:istinct|istinct]]//.

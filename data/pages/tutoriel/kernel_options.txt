@@ -1,0 +1,228 @@
+{{tag>Gutsy kernel}}
+----
+
+
+====== Choisir les options lors de la compilation du noyau ======
+
+
+===== Introduction =====
+Vous avez décidé de compiler votre noyau, bonne initiative ! Mais vous voilà arrivé à l'étape la plus laborieuse et risquée : le choix des options ! En effet, le nombre d'options différentes est très impressionnant... Je vais vous lister ici la configuration que je juge "idéale" car il permet à votre système de conserver toutes ses facultés mais aussi de l'accélérer !
+
+
+===== Avertissement =====
+
+**Cette liste est exhaustive, ne la suivez pas à la lettre si vous possédez du matériel exotique, en cas de doutes, n'hésitez pas à poster sur le forum**
+
+
+===== Guide =====
+L'arborescence de gconfig est reconstituée afin de trouver les options plus simplement. La lettre **//__A__//** signifie que l'option doit être **//__activée__//**. La lettre **//__D__//** signifie que l'option doit être **//__désactivée__//**.
+
+===== General setup =====
+**A** Support for paging of anonymous memory (swap)
+===== Loadable module support =====
+**D** Module Versioning Support
+
+**D** Source checksum for all modules
+===== Block layer =====
+**D** Support for Large Block Devices
+=== IO Schedulers ===
+**D** Anticipatory I/O scheduler
+
+**D** Deadline I/O scheduler
+
+===== Processor type and features =====
+**D** Symmetric multi-processing support
+
+**D** Generix x86 support
+
+**A** HPET Timer Support
+
+**A** MTRR (Memory Type Range Register) Support
+
+**A** Use register arguments
+
+**A** Enable seccomp to safely compute untrusted bytecode
+=== Preemption Model ===
+**A** Voluntary Kernel Preemption (Desktop)
+
+=== Local APIC support on uniprocessors ===
+**A** IO-APIC support on uniprocessors
+
+=== Firmware Drivers ===
+Désactivez les options dont vous n'avez pas l'utilité. (je les ai tous enlevés)
+
+=== High Memory Support ===
+Sélectionnez **Off** si vous n'avez pas plus de 1 GB de RAM.
+
+Sélectionnez **4GB** si vous avez entre 1 GB et 4 GB de RAM.
+
+Sélectionnez **64GB** si vous avez plus de 4 GB de RAM.
+
+=== Memory model ===
+**A** Sparse Memory
+
+=== Timer frequency ===
+**A** 1000 HZ
+
+===== Bus Options =====
+=== PCI support ===
+**A** Message Signaled Interrupts (MSI and MSI-X)
+
+===== Networking =====
+=== Networking support ===
+**D** Amateur Radio support (si vous n'en avez pas besoin)
+== Packet Socket ==
+**A** Packet Socket: mmapped IO
+== IrDA (infrared) subsystem support ==
+Désactivez tout ce dont vous n'avez pas besoin.
+== Bluetooth subsystem support ==
+Désactivez tout ce dont vous n'avez pas besoin.
+
+
+===== Device Drivers =====
+=== ATA/ATAPI/MFM/RLL support ===
+**D** Ide Taskfile Access
+== PCI IDE chipset support ==
+ //Generic PCI bus-master DMA support//
+
+**A** Use PCI DMA by default when available
+
+=== Multi-device support (Raid and LVM) ===
+**D** Multiple Devices driver support (Raid and LVM) (si vous n'en avez pas l'utilité)
+
+=== I2O device support ===
+**D** I2O Support (si vous n'en avez pas l'utilité)
+
+=== Network Device Support ===
+
+**D** EQL (serial line load balancing) support
+
+**D** Universal TUN/TAP device driver support
+
+**D** FDDI driver support
+
+**D** HIPPI driver support
+
+**D** SLIP (serial line) support
+
+**D** Network console logging support
+
+== ARCnet devices ==
+**D** ARCnet support (si vous n'en avez pas besoin)
+
+== Ethernet (1000 Mbit) ==
+Déselectionnez ce dont vous n'avez pas besoin.
+
+
+== Ethernet (10000 Mbit) ==
+Déselectionnez ce dont vous n'avez pas besoin.
+
+== Token Ring devices ==
+**D** Token Ring driver support (si vous n'en avez pas besoin)
+
+== Wan interfaces ==
+Déselectionnez ce dont vous n'avez pas besoin.
+
+=== ISDN subsystem ===
+**D** ISDN support (si vous n'en avez pas besoin)
+
+=== Input device support ===
+
+== Generic input layer ==
+**D** Touchscreen Interface
+
+**D** Touchsecreens
+
+=== Character devices  ===
+Désactiver tout ce qui ne concerne pas votre matériel.
+
+== Watchdog Cards ==
+**D** Watchdog Timer Support
+
+=== Misc devices ===
+**D** Device driver for IBM RSA service processor
+
+=== Multimedia Devices ===
+
+== Video Capture Adapters ==
+Désélectionnez tout ce dont vous n'avez pas besoin.
+
+== Radio Adapters ==
+Désélectionnez tout ce dont vous n'avez pas besoin.
+
+== Digital Video Broadcasting Devices ==
+**D** DVB For Linux
+
+== Graphics support ==
+**D** tout ce qui ne concerne pas votre matériel.
+
+**A** VGA 16-color graphics support
+
+**A** VESA VGA graphics support
+
+//Console display driver support//
+
+**A** VGA text console
+
+**A** MDA text console
+
+**A** Framebuffer Console support
+
+**A** Framebuffer Console Rotation
+
+//Logo configuration//
+
+**A** Bootup logo
+
+===== File systems =====
+**D** Minix fs support
+
+**D** ROM file system support
+
+**D** Quota support
+
+=== /DOS/FAT/NT Filesystems ===
+**A** NTFS file system support
+
+=== Network File Systems ===
+**D** NFS file system support
+
+**D** NFS server support
+
+**D** NCP file system support
+
+**D** Coda file system support
+
+**D** Andrew File System support
+
+**D** Plan 9 Resource Sharing Support
+
+=== Partition Types ===
+**D** Advanced partition selection
+
+=== Native Language Support ===
+
+== Base native language support ==
+**A** La langue du système
+
+**A** Codepage 437
+
+**A** ASCII
+
+**A** NLS UTF-8
+
+**D** Tout le reste
+
+===== Instrumentation Support =====
+**D** Profiling support
+
+**D** Kprobes
+
+==== Kernel hacking ====
+**D** Tout
+
+
+----
+Rédigé par [[utilisateurs:silversun|silversun]].
+
+Traduction, correction et ajouts du HOWTO : [[http://ubuntuforums.org/showpost.php?p=1174954&postcount=507|ubuntuforums]]

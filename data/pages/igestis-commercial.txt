@@ -1,0 +1,78 @@
+{{tag>entreprise erp crm gestion_commerciale}}
+
+====== iGestis ======
+
+===== Description =====
+
+iGestis-Commercial est un module fonctionnant sur iGestis, sous GPLv3. Site officiel : http://www.igestis.org/
+
+iGestis est un gestionnaire de contenu moderne fonctionnant sous PHP et peut utiliser n'importe quelle base LDAP pour gérer une authentification centralisée des utilisateurs (employés, clients et fournisseurs).
+
+Le module de gestion commerciale apporte les fonctionnalités suivantes :
+
+=== Devis et facturation ===
+
+  * Création de projets de ventes (Devis et factures).
+  * Gestion des factures d’achats.
+  * Gestion des projets commerciaux qui permet de rergouper en une seule vue toutes les informations utiles d’un projet.
+  * Gestion des règlements des factures
+  * Base d’articles
+  * Gestion multi-sociétés avec utilisation du logo et des informations dans les documents de ventes
+  * Gestion des taux de TVA
+  * Exportation des données directe en comptabilité avec personnalisation possible du forma d’export.
+  * Gestion des comptes bancaires avec saisie manuelle ou importation OFX
+
+=== Gestion des interventions ===
+
+  * Possibilité de noter toutes les interventions faites chez vos clients.
+  * Possibilité d’ajouter des types d’intervention personnalisés
+  * Moteur de recherche permettant de savoir instantanément combien de temps vous avez passé chez vos clients sur la période demandée.
+
+=== Ce qui n’est pour le moment pas inclus dans ce module ===
+
+  * La gestions des stocks
+  * La gestion des bons de livraisons
+
+===== Installation =====
+
+L'installation est relativement simple sous Ubuntu car un dépôt pour Debian/Ubuntu est disponible. Page officielle de l'installation http://www.igestis.org/installer-igestis/
+
+===   Ajout du dépôt ===
+
+<code>sudo wget http://iabsis.com/uploaded_content/igestis.list -O /etc/apt/sources.list.d/igestis.list</code>
+
+===   Ajout de la clef du dépôt ===
+
+<code>wget http://open.iabsis.com/open.iabsis.com.asc -O- | sudo apt-key add -</code>
+
+=== Rafraîchissement du dépôt ===
+
+<code>sudo apt-get update</code>
+
+=== Installation des paquets ===
+
+<code>sudo apt-get install igestis-commercial</code>
+
+Pendant l'installation, il vous sera demandé si vous souhaitez utiliser un système d'authentification externe. En effet, iGestis peut facilement se greffer et gérer une authentification du type LDAP.
+
+  * Choose the wanted authentication method : **Samba4 / OpenLDAP / Active Directory / Internal (choisissez Internal si vous n'avez pas d'annuaire LDAP).**
+  * Choose the admin account name : **root (choisissez le nom du compte pour le premier administrateur**
+  * Specify the uris for the directory : **Saisissez l'URI de votre serveur (applicable si vous n'avez pas choisi Internal).**
+  * Specify the directory base tree : **votre domaine LDAP (exemple domain.local, n'utilisez pas dc=...)**
+  * Specify the directory admin account for the directory : **Le compte administrateur à utiliser pour l'écriture dans votre annuaire LDAP (sous forme cn=root,dc... ou Administrator@domain.local pour Active Directory**
+  * Please specify the admin password for the directory : **Le mot de passe pour le compte précédent**
+  * Create a user in iGestis when present in the directory ? **Faut-il créer le compte automatiquement dans iGestis si ce dernier est présent dans l'annuaire LDAP? (Notez que l'employer sera automatiquement attribué à la première société crée dans iGestis et prendra les droits par défaut assigné à cette société).
+  * Configure database for igestis with dbconfig-common? Choisissez Oui
+  * Password of the database’s administrative user: Votre mot de passe mysql 
+  * MySQL application password for igestis: Laissez vide pour un mot de passe aléatoire
+  * Web server to reconfigure automatically : Laissez cocher apache2
+
+===== Désinstallation =====
+
+La désinstallation est encore plus simple que l'installation.
+
+<code>sudo apt-get remove igestis</code>
+
+Si vous souhaitez purger la base de données ainsi que les fichiers de données.
+
+<code>sudo apt-get remove --purge igestis</code>

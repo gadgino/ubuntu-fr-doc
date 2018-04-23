@@ -1,0 +1,73 @@
+{{tag>audio BROUILLON}}
+----
+
+====== Tunatic======
+
+**Tunatic** est un outil de reconnaissance de titres de morceaux de musique gratuits. Muni d'un micro placé près du haut-parleur de votre ordinateur, Tunatic est capable de reconnaitre le titre joué si celui-ci est référencé dans la base de données de l'éditeur.
+
+Tunatic n'est pas disponible nativement sous GNU/Linux. Cette page explique comment l'installer à l'aide de logiciels créant un environnement Windows sous Ubuntu.
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+
+===== Installation =====
+
+==== Installation de Wine ====
+
+  * Installez [[:Wine]] en version 1.2 au minimum ;
+  * Installez [[:winetricks]], puis installez la bibliothèque Windows **corefonts** (ligne de commande winetricks corefonts).
+<code>bebert@bar:~$ winetricks corefonts</code>
+  * [[:wine#configuration_de_wine|Configurez Wine]] ; dans l'onglet Applications -> « Paramètres par défaut », choisissez **Windows XP**.
+
+==== Installation de Tunatic ====
+
+  * Téléchargez la version Windows de Tunatic disponible sur [[http://www.wildbits.com/tunatic/|le site de l'éditeur]] ;
+  * Procédez à l'[[wine#installer_des_programmes_windows|installation du logiciel]] ;
+  * Il est nécessaire de terminer le processus 'tunatic' qui vient de se lancer dans une fenêtre invisible. Dans un [[:terminal]] :<code>killall tunatic.exe</code>
+
+===== Configuration =====
+
+Il faut à nouveau effectuer une [[wine#configuration_de_wine|configuration de Wine]].
+  * Dans l'onglet //Applications//, cliquez sur « Ajouter une application... » ; 
+  * Parcourez le dossier et sélectionnez l'exécutable : //Program Files -> Tunatic -> tunatic.exe//
+  * Choisissez la version **Windows 98** ;
+  * Sous l'onglet affichage, décochez les cases //... décorer les fenêtres// //... contrôler les fenêtres//
+
+===== Utilisation =====
+
+Lancez Tunatic par le menu //Applications -> Wine -> Programmes -> Tunatic//.
+
+Faites un clic droit sur la fenêtre et choisissez //Settings...// afin de choisir votre source d'entrée : **Primary Sound Driver**
+
+__veilliez à ce que l'entrée du flux de l'enregistrement ne soit pas en mode muet__
+
+lancez 
+  pulsecontrol
+onglet **enregistrement** décochez **Son en sourdine**
+<note important>La dernière version de wine gère parfaite l'enregistrement direct de la carte son.
+Ce qui suit ne vous sera peut-être pas utile 
+
+
+Il est possible de se passer d'un micro en enregistrant directement la sortie de la carte son
+vous devez pour cela impérativement installer la version patchée de **wine-pulseaudio** :
+
+  sudo add-apt-repository ppa:c-korn/ppa
+  sudo apt-get update
+  sudo apt-get upgrade
+  
+si vous choisissez cette méthode optez pour la source **Monitor of Audio interne Analog** qui ralentit beaucoup moins votre ordinateur.
+</note>
+
+===== Remarques =====
+
+Veillez à ce que dans l'onglet audio de Wine, la case //Alsa// ou //Pulseaudio// soit cochée !
+
+===== Voir aussi =====
+
+  * **(en)** [[http://www.wildbits.com/tunatic/|Site officiel]]
+
+----
+//Contributeurs : ...//

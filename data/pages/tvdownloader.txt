@@ -1,0 +1,74 @@
+{{tag>Television Webtv }}
+
+----
+
+
+====== TVDownloader ======
+
+TVDownloader est un projet qui a pour but de permettre le téléchargement de podcasts et d'émissions librement disponibles sur Internet. On retrouvera, entre autres, les podcasts de grands groupes radio comme Radio France ou télévisuel comme France Télévision (Pluzz), M6, W9, Canal Plus.
+
+<note warning>Les chaînes de télé ont modifié leurs protocoles des vidéos rendant certains programmes impossibles à télécharger (c'est le cas de W9 et Pluzz qui bloquent les téléchargements). Cependant, pour Pluzz, il existe [[pluzzdl|Pluzzdl]] sur le même dépôt mais en ligne de commande, voir plus bas, ou alors dPluzz, cf [[http://forum.ubuntu-fr.org/viewtopic.php?id=1559861|ici]].</note>
+
+<note tip>Les développeurs de TVDownloader recherchent des contributeurs pour leur prêter main forte.</note>
+
+===== Installation =====
+
+==== Installation par les dépôts PPA ====
+
+=== Ubuntu 10.10 (Maverick) et versions ultérieures===
+
+[[:PPA|Ajoutez le PPA]] **ppa:chaoswizard/tvdownloader**((https://launchpad.net/~chaoswizard/+archive/tvdownloader)) dans vos sources de logiciels, [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]], puis [[:tutoriel:comment_installer_un_paquet|Installez les paquets]] **[[apt://tvdownloader|tvdownloader]]**.
+
+  sudo add-apt-repository ppa:chaoswizard/tvdownloader && sudo apt-get update && sudo apt-get install -y tvdownloader
+  
+=== Ubuntu 10.04 (Lucid) ===
+
+La version pour lucid n'est plus générée sur le dépôt par l'équipe, il est toutefois possible de l'installer sur cette LTS (supportée jusqu'en avril 2013 pour les postes de travail).
+
+Téléchargez ((en fonction de votre [[architecture_materielle| architecture materielle]])) et [[:tutoriel:comment_installer_un_paquet|installez les paquets ]] :
+
+  *  **librtmp0_2.3-2** et **rtmpdump_2.3-2** que vous trouverez sur **[[http://security.ubuntu.com/ubuntu/pool/universe/r/rtmpdump/|ce site]]**, 
+  * **msdl** à télécharger sur **[[http://ppa.launchpad.net/chaoswizard/tvdownloader/ubuntu/pool/main/m/msdl/|ce site]]**,
+  * **tvdownloader** à télécharger sur **[[http://ppa.launchpad.net/chaoswizard/tvdownloader/ubuntu/pool/main/t/tvdownloader/|ce site]]**.
+==== Compilation par les sources ====
+
+[[:tutoriel:comment_installer_un_paquet|Installez les paquets]] **[[apt://build-essential,make,pyqt4-dev-tools,rtmpdump,python-crypto,python-mechanize,checkinstall|build-essential, make, pyqt4-dev-tools, rtmpdump, python-crypto, python-mechanize, checkinstall]].**
+
+<note> Le paquet **rtmpdump** n'étant pas disponible dans les dépôts de [[lucid|Lucid]], il vous faudra l'installer manuellement comme indiqué ci-dessus.</note> 
+
+Tapez dans un [[terminal]] les lignes suivantes :
+<code>wget http://tvdownloader.googlecode.com/files/tvdownloader-0.7.2.tar.gz
+tar -xvf tvdownloader-0.7.2.tar.gz
+cd tvdownloader-0.7.2
+make
+sudo make install
+sudo checkinstall</code>
+
+===== Utilisation=====
+==== Lancement de TV Downloader ====
+
+Lancez l'application depuis le menu //Applications -> Internet -> tvdownloader// ou //via// la [[:commande_shell|commande]] suivante :
+
+  tvdownloader
+
+==== Mise à jour des plugins ====
+Les plugins (greffons) contiennent les informations décrivant l'emplacement et les paramètres d'encodage des émissions à récupérer. Les chaînes modifiant ces paramètres fréquemment, il faut mettre à jour ces fichiers :
+//Edition -> Mise à jour des plugins//
+avec l'adresse suivante :
+  http://tvdownloader.googlecode.com/hg/plugins
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leur dossier personnel sont toujours conservés.
+
+
+===== Voir aussi =====
+
+  * [[http://code.google.com/p/tvdownloader/|TVDownloader]]
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3622816#p3622816|discussion sur le forum]]
+  * **(fr)** [[pluzzdl|Pluzzdl]]
+
+
+----
+
+//contributeurs principaux: [[:utilisateurs:wido]].//

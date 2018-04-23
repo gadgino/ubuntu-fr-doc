@@ -1,0 +1,51 @@
+{{tag>Precise Trusty Xenial montage_vidéo}}
+
+----
+
+====== PiTiVi, logiciel de montage vidéo ======
+<note warning>Il est déconseillé d'utiliser ce logiciel en raison de nombreux bugs et plantages et peut rendre le système inutilisable</note>
+{{  :applications:pitivi.png?400|:applications:pitivi.png}} {{:logo-pitivi.png?64&nolink  |Logo de PiTiVi}} **PiTiVi** est un logiciel libre de montage vidéo. Il peut être utilisé pour réaliser également des [[diaporama#creation_de_diaporama_d_images_et_videos|diaporama vidéo]] en montant aussi bien des petits films (très courants sur les appareils photo actuels), des photos et de la musique. Basé sur [[:Gstreamer]], il accepte une multitude de formats multimédia. Son utilisation se veut simple et sa prise en main rapide. 
+
+===== Installation =====
+
+PiTiVi fut installé par défaut dans Ubuntu, de la version [[:lucid|10.04]] à la version [[:natty|11.04]].
+Pour les autres versions, il vous suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt://pitivi|pitivi]]**.
+
+<note tip>
+Pour installer la dernière version (recommandé - 0.97.1 en août 2016), il faut [[http://pitivi.org/?go=download|utiliser flatpak]].
+</note>
+
+<note important>
+Avec Ubuntu 16.04, la version de Pitivi est 0.95 … et plante. Il est préférable d'utiliser au moins la version 0.96 qui a corrigé de nombreux problèmes.
+</note>
+
+===== Utilisation =====
+
+L'interface de PiTiVi se veut intuitive et ergonomique.
+
+Pour encoder une vidéo au format ogv (lisible avec la balise « video » de HTML 5), il faut modifier les paramètres du projet courant. Pour ce faire, il faut aller dans le menu //Projet → Paramètre du projet//, et sélectionner :
+  * Conteneur : Ogg Muxer
+  * Codec audio : Vorbis audio encoder
+  * Codec vidéo : Theora video encoder
+
+PiTiVi utilise :
+
+    * le langage Python et la boîte à outils GTK+ pour son interface,
+    * la bibliothèque multimédia GStreamer pour les opérations de lecture et de rendu audio et vidéo.
+
+PiTiVi peut donc lire et encoder tous les formats supportés par GStreamer. Notamment, PiTiVi se trouve être le premier logiciel libre de montage vidéo prenant en charge le [[wpfr>Material eXchange Format]], un format à destination des professionnels.
+
+    * Plusieurs vidéos peuvent être ajoutées simultanément à la ligne de montage en les sélectionnant depuis la bibliothèque de séquences et en appuyant sur la touche « Inser. » du clavier.
+    * Des séquences audio ou vidéo peuvent être ajoutées simplement à la bibliothèque de séquences en les faisant glisser depuis vos logiciels habituels du bureau GNOME (Rhythmbox, Totem, etc.).
+    * Le montage //ripple// est accessible en laissant appuyée la touche « Maj », le montage //roll// en laissant appuyée la touche « Ctrl » lors du déplacement d'un morceau d'une séquence dans la ligne de montage.
+
+===== Voir aussi =====
+
+  * [[http://www.pitivi.org/wiki/Main_Page|Site officiel]] **(en)**
+  * [[http://www.pitivi.org/wiki/Manual|Une documentation assez complète]] **(en)**
+  * [[http://www.lprod.org/wiki/doku.php/association:livre_eyrolles|Livre "montage audio-vidéo libre" Éditions Eyrolles - Écrit par lprod.org]]
+  * [[http://www.tutoriels-video.fr/faire-un-montage-video-simplement-avec-pitivi-sur-linux/|Tutoriel vidéo et astuces sur Pitivi]]
+
+----
+
+//Contributeur principal : [[:utilisateurs:steph138]].//

@@ -1,0 +1,64 @@
+{{tag>jeu carte réflexion}}
+----
+
+{{pok3d.png|}}
+
+====== Pok3D ======
+
+Pok3D est un jeu de poker en ligne et en 3D.
+
+Très bien réalisé, on regrettera que la communauté de joueurs ne soit pas aussi nombreuse que ce que le jeu mérite...
+
+<note tip>Le projet et le site semblaient être inactifs depuis un certain temps, mais on peut à présent lire "Coming back soon" sur la page d'accueil. Peut-être que le projet reprend et que nous aurons une nouvelle version bientôt...</note>
+
+===== Pré-requis =====
+
+  * Avoir activé les dépôts [[:depots#Universe]]
+
+===== Installation =====
+
+Modifiez vos sources de mises à jour pour y ajouter le dépôt adéquat selon votre version d'Ubuntu, par exemple pour Hardy :
+
+  deb http://pok3d.net/hardy ./
+
+
+Puis, [[:tutoriel:comment_installer_un_paquet|installez les paquets]] **[[apt://python-poker3d,poker3d-data|python-poker3d poker3d-data]]**
+
+<note> Ne semble pas avoir été mis à jour, site en fin de reconstruction http://www.pok3d.com/ </note>
+
+===== Utilisation =====
+
+Une fois installé, vous trouverez **poker2D** dans le menu //**Applications -> Jeux**//, mais pour jouer en 3D, il vous faudra lancer **poker3D** (depuis un terminal ou la fenêtre « Alt + F2 », ou encore se créer un [[:raccourci-lanceur|lanceur]] ou ajouter une entrée au menu Jeux en l'éditant)
+
+Pour jouer avec de l'argent fictif, il faut ajouter des jetons fictifs sur votre compte via votre compte sur le site de pok3d et non dans l'interface graphique (après avoir créée un compte sur le site).
+
+===== Problèmes d'installation: =====
+
+Avec la procédure indiquée sur le site de l'éditeur sous Feisty on peut rencontrer l'erreur suivante :
+<code>Certains paquets ne peuvent être installés. Ceci peut signifier
+que vous avez demandé l'impossible, ou bien, si vous utilisez
+la distribution unstable, que certains paquets n'ont pas encore
+été créés ou ne sont pas sortis d'Incoming.
+L'information suivante devrait vous aider à résoudre la situation : 
+
+Les paquets suivants contiennent des dépendances non satisfaites :
+  python-poker3d: Dépend: libopenscenegraph4 (>= 1.2.0) mais ne sera pas installé
+                  Dépend: libosgal-cvs1 mais ne sera pas installé
+                  Dépend: libpoker3d mais ne sera pas installé
+                  Dépend: libpoker3d (= 1.1.31-1) mais ne sera pas installé
+E: Paquets défectueux</code>
+
+Pour régler ce souci on préférera la commande suivante pour lancer l'installation :
+<code>sudo aptitude install python-poker3d pok3d-data</code>
+
+Une dernière alternative consiste à installer le pok3d totalement par Synaptic en prenant garde d'avoir supprimé l'intégralité des paquets se rapportant au poker au préalable.
+
+===== Problèmes connus =====
+
+  * L'utilisation du mode plein écran semble faire planter le logiciel, une édition du fichier XML présent dans votre_home/.poker3d permet de passer la valeur de fullscreen de "yes" à "no"
+
+
+===== Site officiel =====
+
+<note warning>Cette adresse renvoie pour l'instant vers un site commercial plus que douteux (cf : Wot) </note>
+[[http://www.pok3d.com/|www.pok3d.com]]

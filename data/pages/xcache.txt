@@ -1,0 +1,55 @@
+{{tag>serveur programmation PHP}}
+
+-----
+
+====== XCache ======
+
+[[wp>Alternative_PHP_Cache#XCache|XCache]] est un accélérateur [[:php|PHP]] comme [[:eaccelerator|eAccelerator]] et [[:php-apc|APC]] (Alternative PHP Cache) : il permet de mettre en cache le code PHP déjà compilé. Ceci évitera de recompiler les fichiers PHP à chaque fois, ce qui augmente de façon considérable les performances de votre site.
+
+Il surmonte beaucoup de problèmes qui ont été relevés avec d'autres accélérateurs tels que de pouvoir être employé avec de nouvelles versions de PHP.
+
+XCache est actuellement **stable**.
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]] ;
+  * Disposer d'une connexion à Internet configurée et activée ;
+  * Avoir [[:lamp|apache2 et php5]] installé.
+
+===== Installation =====
+
+Il vous suffit pour cela d'[[:tutoriel:comment_installer_un_paquet#paquet_present_dans_les_depots|installer le paquet]] **[[apt>php5-xcache|php5-xcache]]**.
+
+Une fois installé, redémarrez Apache pour qu'il le prenne en compte :
+<code>sudo invoke-rc.d apache2 restart</code>
+
+Vérifiez que l'extension XCache est ajoutée à l'aide du [[:tutoriel/demarrer_un_projet_web_avec_symfony#verification_du_bon_fonctionnement_de_php5|'phpinfo();']] de php.
+
+
+===== Configuration =====
+
+<note>Il est conseillé de configurer XCache afin de profiter pleinement de sa puissance.</note>
+
+<note important>Il faut redémarrer Apache après chaque modification.</note>
+
+Tout d'abord, [[:tutoriel:comment_editer_un_fichier|ouvrez le fichier]] **/etc/php5/apache2/conf.d/xcache.ini** 
+
+Nous ne nous intéresserons ici qu'à deux paramètres, mais XCache est beaucoup plus riche :
+
+	xcache.size	128M	; mémoire réservée pour XCache
+	xcache.count	2	; on donne le nombre total de processeurs [grep -c processor /proc/cpuinfo]
+
+  * **xcache.size** : ce paramètre précise la mémoire réservé pour XCache qui sera utilisée pour stocker le code compilé.
+  * **xcache.count** : définit en combien de parties le cache va être divisé pour une meilleur optimisation des accès mémoire lors de la recherche du code précompilé d'un fichier PHP. Les créateurs de XCache recommandent de renseigner ici le nombre de processeurs de la machine plus 1((http://xcache.lighttpd.net/wiki/SplittedCache)).
+
+===== Liens externes =====
+
+Des références particulièrement intéressantes pour approfondir le sujet peuvent être utiles :
+
+  * Le site officiel : [[http://xcache.lighttpd.net/]] (en)
+  * [[http://xcache.lighttpd.net/wiki/XcacheIni|Tous les paramètres de XCache]] (en)
+  * [[http://xcache.lighttpd.net/wiki/InstallFromSource|Installing XCache From Source]] (en)
+
+----
+
+//Contributeur : [[https://wiki.ubuntu.com/Zied_ALAYA|ALAYA]]//

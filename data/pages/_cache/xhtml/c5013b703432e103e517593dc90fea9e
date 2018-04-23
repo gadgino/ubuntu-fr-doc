@@ -1,0 +1,81 @@
+
+<p>
+= Epson 2480 =
+</p>
+
+<a name="comment_faireepson_perfection_2480_photo_scanner"></a><h5> COMMENT FAIRE: Epson Perfection 2480 Photo Scanner </h5>
+<div class="level5">
+
+<p>
+ Le firmware du scanner est un fichier appelé esfw41.bin. Ce fichier est disponible sur le CD-ROM fourni avec le scanner, mais il ne fonctionne que sous Windows. Soit vous avez un exemplaire de ce fichier récupéré d&rsquo;une machine Windows, soit vous pouvez télécharger mon exemplaire grâce à la commande suivante :
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=sudo_wget_http%3Aluc.byhet.free.fr%3Aepson2480%3Aesfw41.bin" class="media" title="sudo_wget_http:luc.byhet.free.fr:epson2480:esfw41.bin" onclick="return svchk()" onkeypress="return svchk()">sudo_wget_http:luc.byhet.free.fr:epson2480:esfw41.bin</a>}
+</p>
+
+<p>
+Vous devez ensuite déplacer le fichier dans le répertoire /etc/sane.d grâce à la commande qui suit :
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=materiel%3Aimprimante%3Asudo_mv_esfw41.bin_%3Aetc%3Asane.d" class="media" title="materiel:imprimante:sudo_mv_esfw41.bin_:etc:sane.d" onclick="return svchk()" onkeypress="return svchk()">materiel:imprimante:sudo_mv_esfw41.bin_:etc:sane.d</a>}
+</p>
+
+<p>
+Vérifiez que votre scanner est détecté en tapant cette commande :
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=materiel%3Aimprimante%3Ascanimage_-l" class="media" title="materiel:imprimante:scanimage_-l" onclick="return svchk()" onkeypress="return svchk()">materiel:imprimante:scanimage_-l</a>}
+</p>
+
+<p>
+Vous devriez voir quelque chose de semblable s&rsquo;afficher :
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=device_snapscan%3Alibusb%3A003%3A002_is_a_epson_epson_scanner1_flatbed_scanner" class="media" title="device_snapscan:libusb:003:002_is_a_epson_epson_scanner1_flatbed_scanner" onclick="return svchk()" onkeypress="return svchk()">device_snapscan:libusb:003:002_is_a_epson_epson_scanner1_flatbed_scanner</a>}
+</p>
+
+<p>
+Mofdifiez le fichier snapscan.conf : (si vous n&rsquo;avez pas emacs, <a href="/fetch.php?cache=cache&amp;media=materiel%3Aimprimante%3Asudo_apt-get_install_emacs21" class="media" title="materiel:imprimante:sudo_apt-get_install_emacs21" onclick="return svchk()" onkeypress="return svchk()">materiel:imprimante:sudo_apt-get_install_emacs21</a>})
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=materiel%3Aimprimante%3Asudo_emacs_%3Aetc%3Asane.d%3Asnapscan.conf" class="media" title="materiel:imprimante:sudo_emacs_:etc:sane.d:snapscan.conf" onclick="return svchk()" onkeypress="return svchk()">materiel:imprimante:sudo_emacs_:etc:sane.d:snapscan.conf</a>}
+</p>
+
+<p>
+Changez la ligne 5 :
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=materiel%3Aimprimante%3Afirmware_%3Apath%3Ato%3Ayour%3Afirmware%3Afile.bin" class="media" title="materiel:imprimante:firmware_:path:to:your:firmware:file.bin" onclick="return svchk()" onkeypress="return svchk()">materiel:imprimante:firmware_:path:to:your:firmware:file.bin</a>}
+</p>
+
+<p>
+en
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=materiel%3Aimprimante%3Afirmware_%3Aetc%3Asane.d%3Aesfw41.bin" class="media" title="materiel:imprimante:firmware_:etc:sane.d:esfw41.bin" onclick="return svchk()" onkeypress="return svchk()">materiel:imprimante:firmware_:etc:sane.d:esfw41.bin</a>}
+</p>
+
+<p>
+Maintenant sauvegardez et quittez emacs.
+</p>
+
+<p>
+Vous pouvez maintenant scannner en utilisant XSane. Il se peut que Xsane prenne un petit moment pour démarrer.
+</p>
+
+<p>
+Réferences
+</p>
+
+<p>
+<a href="http://ubuntuforums.org/archive/index.php/t-26911.html" class="urlextern" title="http://ubuntuforums.org/archive/index.php/t-26911.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://ubuntuforums.org/archive/index.php/t-26911.html</a> <a href="http://forum.ubuntu-fr.org/viewtopic.php?id=6304" class="urlextern" title="http://forum.ubuntu-fr.org/viewtopic.php?id=6304" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://forum.ubuntu-fr.org/viewtopic.php?id=6304</a>
+</p>
+
+</div>

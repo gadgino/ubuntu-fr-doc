@@ -1,0 +1,511 @@
+{{tag>audio matériel compilation kernel tutoriel}}
+
+----
+ 
+{{emu-0404.gif|}}
+
+
+
+
+
+
+
+
+
+
+
+
+====== Ubuntu et Ubuntu studio (linux-rt) ======
+
+
+***Ce tutoriel a pour but d'installer une carte EMU0404:***
+
+
+<note important>La carte son Emu404 est reconnue nativement depuis Ubuntu 9.10 "Karmic Koala" \o/ !</note>
+
+===== Installation simplifiée (conseillé) =====
+
+Nous allons utiliser un script écrit par [[:utilisateurs:furious-therapy]], il vous facilitera grandement la tache puisqu' il fera tout pour vous: téléchargements des fichiers nécessaires, compilation (incluant votre carte son intégrée + L' EMU404) et nettoyage d' une ancienne tentative ayant échouée. Vous n' aurez qu' à répondre à quelques questions.
+
+<note warning>Pour ceux/celles dont la version d'alsa est 1.0.18 il y a un problème : le firmware alsa 1.0.18 n'est pas disponible sur le FTP, cela vous retournera une erreure au téléchargement et à la compilation, la solution est , si possible de passer à une version supérieur d'alsa...
+</note>
+
+Pour l' utiliser copiez son contenu le dans un fichier vide que vous appellerez alsamod. Donnez lui les droits d' éxécution (dans un terminal: sudo chmod +x alsamod ou en mode graphique: clic droit sur le fichier puis >propriétés>cocher autoriser l' exécution du fichier)
+puis ouvrez le avec un terminal. Pour les détails du fonctionnement voir les lignes commentées.
+Le script:
+
+<code bash>
+#!/bin/bash
+echo "**************************************************************"
+echo "*Script de compilation alsa + Emu 404                        *"
+echo "*Par Furious-therapy sous licence GPL v2                     *"
+echo "*Ce script est distribué sans garanties de fonctionnement    *"
+echo "*vous l' utilisez à vos risques et périls                    *"
+echo "*Support@ http://forum.ubuntu-fr.org/viewtopic.php?id=147694 *"
+echo "**************************************************************"
+echo ""
+echo "Ce script va:"
+echo "I) Vous donner votre version d' alsa"
+echo "II) Lister vos cartes sons reconnues"
+echo "III) Télécharger les paquets "
+echo "IV) Installer le nécessaire et compiler alsa avec votre Emu-0404"
+echo ""
+echo "Il est conseillé d' agrandir le terminal pour plus de lisibilité"
+echo "!Avant toute chose munissez-vous d' un stylo et d'une feuille de papier!"
+echo "Appuyez sur la touche entrée quand vous êtes prêt ou sur 'ctrl' et 'c' pour quitter"
+read a 
+clear
+
+#### Nettoyage en cas d'ancienne installation ratée + possibilité d arrêter ####
+echo "Faut-il nettoyer une ancienne tentative de compilation d' alsa (uniquement dans le dossier /usr/src/alsa !!!) O,n ?"
+echo -n "Choix: "
+read clean
+if [ "$clean" = "O" ] || [ "$clean" = "o" ]; then
+{
+cd /usr/src/alsa/
+cd alsa-driver-1.0.*
+sudo make clean
+sudo make mrproper
+cd ..
+cd alsa-lib-1.0.*
+sudo make clean
+cd ..
+cd alsa-firmware-1.0.*
+sudo make clean
+cd ..
+cd alsa-utils-1.0.*
+sudo make clean
+cd ~/
+sudo rm -r -v /usr/src/alsa
+echo "Nettoyage terminé..."
+sleep 2s
+}
+elif [ "$clean" = "N" ] || [ "$clean" = "n" ]; then
+{
+echo "Rien à nettoyer, on continue"
+}
+fi 
+
+echo "Début du traitement des fichiers, pour continuer appuyez sur la touche entrée, pour arrêter appuyez sur la touche 'q'"
+echo -n "Choix: "
+read start
+if [ "$start" = "q" ] ; then
+{
+echo "Installation annulée..."
+sleep 2s
+exit 0
+}
+else
+{
+echo ""
+}
+fi
+
+######### C' est parti########
+echo "création des dossiers nécessaires:"
+echo " mkdir ~/alsamod"
+mkdir ~/alsamod
+echo "Création du dossier alsamod dans votre dossier personnel fini..." 
+echo ""
+echo "sudo mkdir /usr/src/alsa (votre mot de passe peut vous être demandé)"
+sudo mkdir /usr/src/alsa
+echo "Création du dossier /usr/src/alsa fini..."
+
+########### On donne la version d' alsa et le/les nom(s) de carte son déjà reconnu #################
+clear
+echo "voici vos carte son:"
+echo "la commande utilisée est: less /proc/asound/modules. Notez votre/vos nom(s) de carte sons sur un papier et appuyez sur la touche 'q' pour revenir au script"
+echo "Quand vous êtes prêt à afficher votre/vos carte son appuyez sur la touche entrée"
+read a
+less /proc/asound/modules
+clear
+
+########## Vérification de la version d' alsa et demande de téléchargement du patch Emu0404 si nécessaire #####################
+echo "Voici votre version d'alsa:"
+alsamixer -h
+echo ""
+echo "Votre version d alsa est elle supérieure à la version 1.0.15? (O,n)"
+echo -n "Réponse: "
+read on
+if [ "$on" = "N" ] || [ "$on" = "n" ];then
+{
+echo "Version d alsa est 1.0.15 ou inférieur, téléchargez le patch intitulé: alsa-emu0404.patch et enregistrez le dans le dossier alsamod qui se trouve dans votre dossier personnel"
+echo "a l adresse: https://bugtrack.alsa-project.org/alsa-bug/view.php?id=3496 (choisissez 'guest login sur le site pour accéder à la page)"
+echo "Appuyez sur la touche entrée une fois le téléchargement fini"
+read a
+echo "Installation du programme patch nécessaire..."
+sudo apt-get install patch
+echo "installation du programme patch fini"
+}
+elif [ "$on" = "O" ] || [ "$on" = "o" ];then
+{
+echo "Version d' alsa supérieur à 1.0.15, continue sans le patch..."
+}
+fi
+clear
+######## Demande la version d' alsa et télécharge les fichiers #########
+echo "Récupération des fichier nécessaires à la compilation"
+echo "Votre version d' alsa:"
+alsamixer -h
+echo ""
+echo "Veuillez taper votre version d' alsa sous la forme :1.0.* (ou * = dernier numéro de votre version, exemple: 1.0.16), nous allons l' afficher pour vous au cas ou vous ne l' auriez pas noté"
+echo ""
+echo -n "Version d' alsa: "
+read version
+echo ""
+echo "Téléchargements des fichiers alsa nécéssaires..."
+echo "!!!EN CAS D' ECHEC DE TELECHARGEMENT APPUYEZ SUR LA TOUCHE 'ctrl' ET SUR LA TOUCHE 'c' POUR ANNULER L OPPERATION OU FERMEZ LA CONSOLE ET RECOMENCEZ DEPUIS LE DEBUT (les fihiers téléchargées seront conservés et les téléchargements non fini seront repris ;) )!!!"
+sleep 5s
+echo ""
+cd ~/alsamod
+wget -c ftp://ftp.alsa-project.org/pub/driver/alsa-driver-$version.tar.bz2 
+wget -c ftp://ftp.alsa-project.org/pub/lib/alsa-lib-$version.tar.bz2
+wget -c ftp://ftp.alsa-project.org/pub/utils/alsa-utils-$version.tar.bz2
+wget -c ftp://ftp.alsa-project.org/pub/firmware/alsa-firmware-$version.tar.bz2
+
+###### Installation du nécessaire à la compilation et déplacements des fichiers vers /usr/src/alsa ######
+echo "Récupération terminée"
+echo "Installation des composants nécessaires à la compilation"
+sudo apt-get install linux-headers-$(uname -r) build-essential libncurses5-dev libncursesw5-dev ncurses-term alsa-tools-gui
+echo ""
+echo "Installation des composants terminée"
+echo ""
+echo "Déplacements des fichiers en cours"
+sudo cp -rvf ~/alsamod/* /usr/src/alsa/
+echo ""
+echo "Déplacements terminé"
+sleep 2s
+clear
+echo "Décompression des fichiers en cours veuillez patienter..."
+sleep 2s
+cd /usr/src/alsa
+sudo bunzip2 alsa-driver-$version.tar.bz2
+sudo tar -xf alsa-driver-$version.tar
+sudo bunzip2 alsa-lib-$version.tar.bz2
+sudo tar -xf alsa-lib-$version.tar
+sudo bunzip2 alsa-firmware-$version.tar.bz2
+sudo tar -xf alsa-firmware-$version.tar 
+sudo bunzip2 alsa-utils-$version.tar.bz2
+sudo tar -xf alsa-utils-$version.tar
+echo ""
+echo "Décompression terminée"
+sleep 2s
+clear
+###### Installation du patch... Ou pas^^ ##############
+alsamixer -h
+echo ""
+echo "Faut-il utiliser le patch emu0404 (seulement si votre version d' alsa est 1.0.15 ou inférieur)  O,n ?"
+echo -n "Choix:"
+read choix
+
+#### Si oui on copie le patch dans le dossier alsa-driver$vesrion et on patch ####
+if [ "$choix" = "O" ] || [ "$choix" = "o" ]; then
+{
+echo "Patch en cours..."
+cd /usr/src/alsa
+sudo patch -p0 < alsa-emu0404.patch
+cd /usr/src/alsa
+echo ""
+echo "Patch terminé"
+}
+
+#### Autrement on continue sans patcher ####
+else 
+{
+echo "Version supérieure à 1.0.15, on ne patche pas..."
+}
+fi
+echo ""
+clear
+####Début de la compilation#####
+echo "Début de la compilation, faut-il inclure une carte son reconnue (O,n)?"
+echo -n "Choix: "
+read choix1
+if [ "$choix1" = "O" ] || [ "$choix1" = "o" ]; then
+{
+echo ""
+echo "Veuillez taper le nom de votre carte son (vous l'avez noté au début du script) en enlevant le: 'snd_' du nom! "
+echo "Si vous ne l' avez pas notté ouvrez un terminal et tappez: less /proc/asound/modules pour voire vos cartes son"
+echo -n "Nom de votre carte son:"
+read cs
+echo "$cs"
+cd /usr/src/alsa/alsa-driver-$version
+sudo ./configure --with-cards=emu10k1,usb-audio,$cs --with-sequencer=yes
+sudo make && sudo make install
+cd /usr/src/alsa
+sudo touch ok  #### On créé on fichier ok, voire plus bas ####
+sudo chmod 777 ok
+}
+elif [ "$choix1" = "N" ] || [ "$choix1" = "n" ]; then
+{
+cd /usr/src/alsa
+cd alsa-driver-$version
+sudo ./configure --with-cards=emu10k1,usb-audio, --with-sequencer=yes
+sudo make && sudo make install
+cd /usr/src/alsa
+}
+fi
+cd /usr/src/alsa
+cd alsa-lib-$version
+sudo ./configure
+sudo make && sudo make install
+cd /usr/src/alsa
+cd alsa-firmware-$version
+sudo ./configure
+sudo make && sudo make install
+cd /usr/src/alsa
+cd alsa-utils-$version
+sudo make clean
+sudo ./configure
+sudo make && sudo make install
+cd /usr/src/alsa
+echo "Compilation terminée"
+sleep 2s
+
+####### Ajout au kernel #########
+echo ""
+echo "Ajout au kernel, patientez..."
+
+#### Si le fichier ok existe et qu' il est 'readable' alors on ajoute la carte son supplémentaire ;) #####
+
+if [ -r /usr/src/alsa/ok ]; then
+{
+sudo modprobe snd-emu10k1 ; sudo modprobe snd-pcm-oss ; sudo modprobe snd-mixer-oss ; sudo modprobe snd-seq-oss ; sudo modprobe snd-usb-audio ; sudo modprobe snd-$cs
+}
+else
+sudo modprobe snd-emu10k1 ; sudo modprobe snd-pcm-oss ; sudo modprobe snd-mixer-oss ; sudo modprobe snd-seq-oss ; sudo modprobe snd-usb-audio ;
+fi
+
+#### On supprime ok ####
+sudo rm -f ok
+echo ""
+
+#### Création du lien symbolique et reboot ####
+echo "Création du lien symbolique vers le firmware"
+sudo ln -s /usr/local/share/alsa/firmware /usr/share/alsa
+echo
+echo "Installation de la carte Emu-0404 terminée ;) !"
+echo "N' oubliez pas de lancer alsamixer dans un terminal au prochain démarrage pour paramétrer les volumes et mettre la fréquence à 44000 au lieu de 48000"
+echo "Appuyez sur la touche entrée pour redémarrer"
+read a
+sudo reboot
+</code>
+
+Si vous avez plusieurs cartes son le script 'Soundcards switcher' ci-dessous vous aidera à jongler avec celles-ci en cas de besoin:
+
+<code bash>
+#!/bin/bash
+echo "*******************************"
+echo "*Soundcards switcher          *"
+echo "*Par furious-therapy (2008)   *"
+echo "*Licence GPL V2               *"
+echo "*******************************"
+echo "Voici vos cartes sons:"
+asoundconf list
+echo "Quelle carte son voulez vous mettre par défaut?"
+echo -n "Choix: "
+read choix
+asoundconf set-default-card $choix
+echo "La carte son $choix à bien été mise comme carte son par défaut."
+echo "Voulez vous lancer Alsamixer (O,n)?"
+echo -n "Choix: "
+read on
+if [ "$on" = "O" ] | [ "$on" = "o" ]; then
+{
+alsamixer
+}
+elif [ "$on" = "N" ] | [ "$on" = "n" ]; then
+{
+echo "Bye bye..."
+exit
+} 
+fi
+echo "Bye..."
+sleep 1s
+exit 0
+</code>
+
+Si le script d' installation n'a pas fonctionné, ce qui est peu probable en temps normal, essayez la solution manuelle ci-dessous.
+
+===== Installation manuelle =====
+
+<note important>**L'exemple ci-dessous est basé sur la version Alsa 1.0.15;
+Les versions supérieures a la 1.0.15 __sont vivement conseillées__.
+
+Les versions de Alsa inférieures ou égales à 1.0.15 requièrent un patch (dans ce cas suivez la procédure décrite). Si vous avez une version de Alsa supérieure a 1.0.15 aucun patch n'est requis et la compilation ce déroule normalement, il suffit juste d'adapter le nom du package dans chaque etape**</note>
+
+<note tip>Une chose importante, si vous avez un problème sur une compilation, ça ne sert à rien de forcer, si le ./configure plante, le make et make install planteront forcément. Si le make plante, le make install plantera aussi.</note>
+
+
+On installe le nécessaire à la compilation:
+  sudo apt-get install linux-headers-$(uname -r) build-essential libncurses5-dev libncursesw5-dev ncurses-term alsa-tools-gui xmlto
+
+==== Téléchargement des fichiers ====
+
+<note tip>**SI** vous avez une version de Alsa supérieur a 1.0.15 aucun patch n'est requit et la compilation ce déroule normalement, il suffit juste d'adapter le nom du package dans chaque etapes</note>
+
+Alsa website:
+
+http://www.alsa-project.org/main/index.php/Main_Page
+
+Packages:
+
+ftp://ftp.alsa-project.org/pub/driver/alsa-driver-1.0.15.tar.bz2
+
+ftp://ftp.alsa-project.org/pub/lib/alsa-lib-1.0.15.tar.bz2
+
+ftp://ftp.alsa-project.org/pub/utils/alsa-utils-1.0.15.tar.bz2
+
+ftp://ftp.alsa-project.org/pub/firmware/alsa-firmware-1.0.15.tar.bz2
+
+https://bugtrack.alsa-project.org/alsa-bug/view.php?id=3496
+
+**Pour télécharger le patch, cliquez sur "Guest Login"**
+
+<note tip> **SVP** poster sur bugtrack pour leur confirmer le succès du patch, merci. Ce bug est corrige depuis la version de Alsa 1.0.16, aucun patch n'est donc nécessaire pour les versions supérieur</note>
+
+Créer un répertoire alsa dans votre /usr/src/
+
+  cd /usr/src
+  sudo mkdir alsa
+  cd alsa
+
+Copier tout les fichiers téléchargés précédemment dans /usr/src/alsa (avec le patch)
+NB: Si la copie de fichier via ligne de commandes vous rebute:
+
+  sudo nautilus
+
+==== Décompresson des fichiers ====
+
+  sudo bunzip2 alsa-driver-1.0.15.tar.bz2
+  sudo tar -xf alsa-driver-1.0.15.tar
+  sudo bunzip2 alsa-lib-1.0.15.tar.bz2
+  sudo tar -xf alsa-lib-1.0.15.tar
+  sudo bunzip2 alsa-firmware-1.0.15.tar.bz2
+  sudo tar -xf alsa-firmware-1.0.15.tar 
+  sudo bunzip2 alsa-utils-1.0.15.tar.bz2
+  sudo tar -xf alsa-utils-1.0.15.tar
+
+==== Compilation: ====
+
+Appliquer le patch depuis le dossier qui contient le dossier alsa-driver-1.0.15 
+
+  sudo patch -p0 < alsa-emu0404.patch
+
+<note tip>L’application du patch requière le package « patch », si vous ne possédez pas celui-ci, le terminal vous demandera de l’installer via « apt-get » :</note>
+
+  sudo apt-get install patch
+
+
+=== Compiler alsa-drivers ===
+
+Par défaut la compil comprend usb-audio (**merci cubi31 de Audiofanzine**).
+
+  cd alsa-driver-1.0.15
+  sudo make clean
+  sudo make mrproper
+  sudo ./configure --with-cards=emu10k1,usb-audio --with-sequencer=yes
+  sudo make && sudo make install
+  cd ..
+
+
+<note important>NB: Si vous voulez utiliser la carte son de votre carte mère, vous devrez l'ajouter a la compil de alsa-drivers. Donc changer la ligne de commande **"./configure"**. Si vous avez des doutes sur le nom du pilote de votre carte mère, je vous invite a utiliser le topic dédié ici même en fin de page.</note>
+
+Exemple avec une carte Intel:
+
+  sudo ./configure --with-cards=emu10k1,usb-audio,hda-intel --with-sequencer=yes
+
+
+==== Compiler alsa-lib ====
+
+  cd alsa-lib-1.0.15
+  sudo make clean
+  sudo ./configure
+  sudo make && sudo make install
+  cd ..
+
+==== Compiler alsa-firmware ====
+
+  cd alsa-firmware-1.0.15
+  sudo make clean
+  sudo ./configure
+  sudo make && sudo make install
+  cd ..
+
+==== Compiler alsa-utils ====
+
+  cd alsa-utils-1.0.15
+  sudo make clean
+  sudo ./configure
+  sudo make && sudo make install
+  cd ..
+
+==== Ajouter au kernel ====
+
+  sudo modprobe snd-emu10k1 ; sudo modprobe snd-pcm-oss ; sudo modprobe snd-mixer-oss ; sudo modprobe snd-seq-oss ; sudo modprobe snd-usb-audio
+
+Si carte audio intégré (exemple):
+
+  sudo modprobe snd-emu10k1 ; sudo modprobe snd-pcm-oss ; sudo modprobe snd-mixer-oss ; sudo modprobe snd-seq-oss ; sudo modprobe snd-usb-audio ; sudo modprobe snd-hda-intel
+
+
+==== Créer un lien symbolique vers le firmware ====
+
+  sudo ln -s /usr/local/share/alsa/firmware /usr/share/alsa
+
+==== Optionnel : Paramétrer l'ordre des cartes son dans Alsa-base ====
+
+<note important> Si vous avez plus d'une carte son, vous devez paramétrer l'ordre de celles-ci dans gnome </note>
+
+Editer alsa-base:
+
+  gksudo gedit /etc/modprobe.d/alsa-base
+
+**Par exemple**, en fonction de **votre** configuration, ajouter cette ligne ces lignes a alsa-base (sans rien supprimer):
+
+
+  # Prevent abnormal drivers from grabbing index 0
+  options snd-hda-intel index=1
+  options snd-emu10k1 index=0
+
+Puis redémarrez alsa
+<code>sudo /etc/init.d/alsa-utils restart</code>
+
+===== Paramétrer les volumes =====
+
+  alsamixer
+
+{{EMU-0404_alsamixer.png|}}
+
+Dans Alsamixer, view Playback :
+
+ router 0202 DAC Left > DSP 0 et 0202 DAC Right > DSP 1
+
+Dans Alsamixer, view Capture :
+
+{{audigy04042.png|}}
+
+{{audigy0404.png|}}
+
+ router DSP 0 > 0202 ADC Left et DSP 1 > 0202 ADC Right
+
+Dans Jack, settings :
+
+ interface hw:0 (EMU 0404), input device hw:0,2, output device hw:0,3
+
+
+===== Plusieurs cartes son ? =====
+
+  alsamixer -c1
+  alsamixer -c2
+  alsamixer ....
+
+Bon son :)
+
+===== Topic de support =====
+<note help>En cas de problèmes vous pouvez parcourir et utiliser le topic de support:
+http://forum.ubuntu-fr.org/viewtopic.php?id=147694&p=8</note>
+
+----
+
+//Contributeurs : bugtrack, nebeex, cubi31, fxdfxd, Marty_Macfly, omega2, Darkvator, furious-therapy pour leur commentaires, support et qui comme moi on tenté le coup :) [[:utilisateurs:Nab!!daN]] [[:utilisateurs:furious-therapy]]//

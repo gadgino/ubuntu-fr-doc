@@ -1,0 +1,86 @@
+{{tag>Precise Trusty écran santé}}
+
+----
+
+====== F.lux ======
+**F.lux** est un logiciel conçu pour améliorer votre confort visuel. Partant du principe que la luminosité ambiante varie dans la journée, mais que celle de votre écran ne le fait pas (certaines télévisions ont des capteurs prévus pour), il adapte automatiquement la luminosité mais surtout la température de la couleur de l'affichage, en fonction du moment de la journée. Il n'utilise pas l'heure de votre PC, mais vous géolocalise (on peut indiquer ses coordonnées latitude longitude), et lorsqu'arrive le coucher de soleil, l'écran adopte une teinte rose/orangée, très douce.
+
+
+
+
+=====Pré-requis=====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Si vous êtes sous [[Ubuntu 64bits]], avoir installé le paquet **[[apt>ia32-libs]]**.
+
+=====Installation=====
+====Via le PPA====
+**F.lux** n'est pas dans les dépôts officiels. Un dépôt [[PPA]] est disponible pour installer f.lux directement :
+
+=== Méthode graphique ===
+  - [[:PPA|Ajoutez dans vos sources de logiciels le PPA]]
+
+  * __**Pour Ubuntu 16.04 et les versions ultérieures**__ : **ppa:nathan-renniewaldock/flux**((https://launchpad.net/~nathan-renniewaldock/+archive/flux))
+  * __**Pour Ubuntu 14.04 et les versions antérieures**__ : **ppa:kilian/f.lux**((https://launchpad.net/~kilian/+archive/f.lux))
+
+  - [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste des paquets]].
+  - [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>fluxgui]]**.
+  - Si vous observez une décalage entre le réglage souhaité et celui indiqué par fluxgui, mettez à jour vous-même xflux : https://github.com/Kilian/f.lux-indicator-applet/blob/master/xflux (téléchargez-le, dans un terminal faites: **chmod +x xflux** dans le répertoire du fichier, puis glissez-le dans le répertoire /usr/bin).
+
+=== Méthode en ligne de commande ===
+Ouvrez un [[:terminal]] et entrez les commandes suivantes pour **Ubuntu 16.04 et les versions ultérieures** :
+<code>sudo add-apt-repository ppa:nathan-renniewaldock/flux
+sudo apt-get update
+sudo apt-get install fluxgui</code>
+
+Pour **Ubuntu 14.04 et les versions antérieures** :
+<code>sudo add-apt-repository ppa:kilian/f.lux
+sudo apt-get update
+sudo apt-get install fluxgui</code>
+
+
+====Installation manuelle====
+  - Télécharger le logiciel [[https://justgetflux.com/linux.html|à partir du site f.lux]] (il y a plusieurs versions). En ligne de [[:commande_shel|commande]], cela donne <code>wget Mettez_Le_Lien_Http_Ici /tmp/</code> en remplacant MettezLeLienHttpIci par le lien de téléchargement du site
+  - Décompresser l'archive <code>
+7z x xflux.tgz
+ 7z x xflux.tar</code>
+  - Copier le programme dans le dossier **/usr/bin** <code>sudo cp /tmp/xflux /usr/bin</code>
+  - Attribuer les autorisations nécessaires <code>sudo chmod 755 /usr/bin/xflux</code>
+  - Vous pouvez lancer le programme manuellement, via la commande: <code>xflux</code> en n'oubliant pas de définir d'abord votre coordonnées:<code>xflux -l XX.XX -g YY.YY   #(remplacer les X par votre latitude et les Y par votre longitude)</code>
+<note tip>
+Pour trouver vos coordonnées, vous pouvez vous référer au [[http://stereopsis.com/flux/map.html|site du développeur]] ou si vous préférez la page Wikipedia de la ville où vous êtes.
+
+Il est également possible d'obtenir votre position grâce au projet libre [[http://www.openstreetmap.org/|OpenStreetMap]] : cliquez sur le bouton //Afficher mon emplacement// à droite de l'écran (acceptez la demande d'utilisation des données de géolocalisation). Une fois votre géolocalisation obtenue, cliquez sur //Où suis-je ?// dans la barre de recherche. Les coordonnées apparaissent alors, sous //Résultats internes//.
+</note>
+ou votre code postal avec la variable -z au lieu de -l
+<note important>Seuls les codes postaux des États-Unis sont disponibles.</note>
+
+Il est aussi possible d'avoir le programme lancé au démarrage:
+Aller dans Système > Préférences > Application au démarrage ; et cliquer sur "Ajouter", avec les paramètres suivants:
+  * **Nom** : F.lux
+  * **Commande** : xflux -l XX.XX -g YY.YY   #(remplacer les X par votre latitude et les Y par votre longitude)
+  * **Commentaire** : F.lux , Better lighting For Your Computer
+
+=====Désinstallation=====
+==== Version du PPA ====
+ 
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+ 
+==== Version installée manuellement ====
+Pour supprimer ce programme, saisir dans un [[terminal]] :
+<code>sudo rm /usr/bin/xflux</code>
+
+=====Voir aussi=====
+  *  [[http://stereopsis.com/flux/|Site officiel de F.lux (eng)]]
+  *  [[http://www.libellules.ch/dotclear/index.php?post/2009/03/08/F.lux|Presentation sur Libellules (fr)]]
+  *  [[http://www.ubuntu-inside.me/2009/03/flux-better-lighting-for-your-computer.html|Article/tutoriel sur Ubuntu Blog (eng)]]
+  *  [[http://en.ubucentrum.net/2009/03/automatic-correction-of-lighting-and.html|Article/tutoriel sur UbuCentrum (eng)]]
+  * Équivalent à F.lux :
+    * [[https://launchpad.net/redshift|Redshift]] en libre
+    * [[https://play.google.com/store/apps/details?id=com.urbandroid.lux|Twilight]] sous Android
+
+
+-----
+
+//Contributeurs : Umuntu. //

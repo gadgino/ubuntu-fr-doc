@@ -1,0 +1,53 @@
+{{tag>comptabilité kde}}
+
+----
+
+====== Skrooge ======
+
+**Skrooge** est un logiciel de gestion financière personnelle et sous licence open-source. Il s'intègre particulièrement bien à l'environnement [[KDE]]. La philosophie du logiciel est d'être simple à utiliser.
+
+{{:skrooge_1.png?640}}
+
+=====Installation=====
+
+Il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt://skrooge|skrooge]]**.
+
+Il est possible d'installer la dernière version de Skrooge depuis le ppa du développeur principal: https://skrooge.org/ubuntu_installation
+
+==== Installation de la version 2.4 (utilisant KF5) sur Ubuntu Xenial (hors KDE) ====
+
+Vous auriez besoin de cette version pour plusieurs raisons :
+  * Vous utilisiez déjà une version d'un dépôt ppa sous 14.04 ou 15.04
+  * Vous souhaitez avoir la dernière version à jour
+
+Ajoutez le dépôt stable sans oublier de désinstaller l'ancienne version (sinon il y aura des conflits : ''skrooge-common'' n'est pas automatiquement remplacé par ''skrooge-kf5-common'')
+<code>
+sudo add-apt-repository ppa:s-mankowski/ppa-kf5
+sudo apt-get update 
+sudo apt-get remove skrooge skrooge-common
+sudo apt-get install skrooge-kf5 libqca-qt5-2-plugins libqca-qt5-2-plugin-ossl oxygen-icon-theme
+</code>
+Les paquets de la ''libqca'' sont utiles pour les fichiers cryptés par mot de passe ; le pack d'icônes ''oxygen'' est obligatoire pour ne pas se retrouver sans icônes.
+Éditez aussi le fichier de configuration des applications KDE pour garder des icônes cohérentes avec le thème d'icônes Gnome (par exemple ici celui par défaut de Ubuntu) :
+
+<code>
+gedit ~/.config/kdeglobals
+</code>
+
+Y insérer :
+
+<code>
+[Icons]
+Theme=Humanity
+</code>
+===== Utilisation =====
+
+Pour lancer le logiciel, allez dans //Applications → Bureautique → Skrooge//.
+
+
+
+===== Pour aller plus loin =====
+
+  * [[http://skrooge.org|le site officiel de skrooge]]
+  * [[http://docs.kde.org/development/en/extragear-office/skrooge/index.html|la documentation officielle]]
+

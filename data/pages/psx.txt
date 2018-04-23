@@ -1,0 +1,224 @@
+{{tag>Hardy émulation émulateurs_console jeu BROUILLON}}
+
+----
+
+====== pSX − Un émulateur Playstation ======
+
+pSX est un émulateur Playstation première du nom (PSOne), assez performant et gratuit, mais pas libre… Il a été développé par un particulier.
+
+pSX n'utilise pas les plugins (concept fort connu de l'émulation PSX et N64) ce qui le rend plus simple d'utilisation, et rend son interface de configuration mieux intégrée, et plus simple d'emploi.
+
+Le fait de ne pas utiliser de plugin ne le rend pas moins complet que les autres, il peut par exemple directement démarrer depuis une image *.iso, ou autre *.bin. La qualité graphique, ainsi que sa compatibilité avec du matériel plutôt ancien est aussi très bonne.
+
+Par contre pour l'utiliser, vous devrez disposer d'un BIOS pSX comme par exemple : **scph1001.bin**
+
+<note warning>**Attention**
+
+Du fait que l'émulateur ne peut pas être utilisé sans le BIOS, vous devez obligatoirement disposer d'une Playstation 1 ou 2 chez vous pour pouvoir utiliser cet émulateur !</note>
+
+(Il était prévu qu'il prenne en charge le BIOS Playstation 2 pour améliorer la qualité graphique des jeux Playstation 1, puis un début d'émulation de la Playstation 2 n'était pas exclu, mais il semble que le développement ait été arrêté avant.)
+
+Cet émulateur existe aussi en version Windows. Les deux versions étant sensiblement identiques.
+
+===== Installation =====
+
+<note important>Après l'installation, si pSX ne démarre pas [[#psx_ne_s_ouvre_pas_crash_au_demarrage|voir ici]] car c'est probablement dû au bug de pSX avec [[pulseaudio|pulseaudio]], heureusement assez facile à contourner...</note>
+
+==== Fichiers officiels ====
+
+=== Ubuntu 32 bits ===
+
+Avant de pouvoir utiliser pSX, vérifiez que le paquet [[apt://libgtkglext1|libgtkglext1]] est bien [[:tutoriel:comment_installer_un_paquet|installé sur votre système.]]
+
+Téléchargez [[http://psxemulator.gazaxian.com/pSX_linux_1_13.tar.bz2|ce fichier]].
+
+Puis décompressez-le (clic droit sur le fichier ''pSX_linux_1_13.tar.bz2'', puis //Extraire ici//) et placez le dossier ''pSX'' alors obtenu où vous le voulez.
+
+Téléchargez le BIOS « scph1001 » ((Pour cela, débrouillez-vous…)).
+
+Puis décompressez-le, et placez le fichier ''scph1001.bin'' dans le dossier bios se trouvant à l'intérieur du dossier pSX.
+
+=== Ubuntu 64 bits ===
+
+Pour la version 64 bits, il faut aller récupérer  le paquet **libgtkglext1** version i386, direction packages.ubuntu.com :
+[[http://packages.ubuntu.com/search?keywords=libgtkglext1&searchon=names&suite=all|Libgtkglext1 sur packages.ubuntu.com]]
+Choisir votre version d'Ubuntu, sélectionnez la version i386, choisir un miroir et le téléchargement se lance.
+
+Ne pas l'exécuter mais plutôt l'ouvrir avec un extracteur de fichier et extraire le fichier « data.tar.gz ».
+
+Ouvrir ensuite ce fichier avec un extracteur de fichier et extraire le dossier lib qui se trouve dans le dossier usr (usr/lib). 
+
+Ouvrez le dossier "usr" que vous venez d'extraire, ouvrez "lib" et récupérez les fichiers que vous allez copier dans /usr/lib32. Si on vous parle d'un problème de droits effectuez l'opération en tapant sudo nautilus ou sudo dolphin dans un terminal.
+(Si quelqu'un connait une méthode plus clean, qu'il édite ce wiki :))
+
+Téléchargez ce fichier: http://psxemulator.gazaxian.com/pSX_linux_1_13.tar.bz2
+
+Puis décompressez le (clic droit sur le fichier ''pSX_linux_1_13.tar.bz2'', puis Extraire ici) et placez le dossier ''pSX'' alors obtenu où vous le voulez.
+
+Téléchargez le BIOS « scph1001 » ((Pour cela, débrouillez-vous…)).
+
+Puis décompressez le, et placez le fichier ''scph1001.bin'' dans le dossier bios se trouvant à l'intérieur du dossier pSX.
+
+==== rippeur facile cdpsx2bin ====
+<note note>  Je vous propose un petit programme "cdpsx2bin" pour ripper facilement une image de cd playstation 1, afin de pouvoir l'utiliser avec un émulateur type pcsx ou epsxe et autre.\\
+un ppa est maintenant disponible pour **Lucid** Lynx et **Precise** Pangolin [[https://launchpad.net/~muglia/+archive/ppa]].
+
+Pour ajouter ce ppa à vos sources:
+<code>sudo add-apt-repository ppa:muglia/ppa 
+sudo apt-get update
+sudo apt-get install cdpsx2bin
+</code></note>
+
+Si cdpsxbin ne fonctionne pas pour vous, il va falloir passer par le terminal. Pour déterminer le nom de votre lecteur de disque optique, entrez la commande suivante:
+<code>cdrdao scanbus</code>
+
+Dans l'exemple suivant, nous obtenons ceci:
+<code>Cdrdao version 1.2.3 - (C) Andreas Mueller <andreas@daneb.de>
+/dev/sr0 : hp      , CDDVDW SH-216ALN, HA5A
+/dev/sr1 : WD      , Virtual CD 070A , 1032</code>
+
+
+/dev/sr0 est le nom du lecteur de disque optique
+Il va falloir ensuite le démonter : 
+
+<code>umount /dev/sr0</code>
+
+
+Enfin, et en partant du principe que votre lecteur de disque optique est /dev/sr0, nous allons extraire les données du jeu. GAME_NAME sera le nom donné par défaut. Vous pouvez le changer dans la commande ci-dessous mais ne mettez pas d'espace.
+<code>cdrdao read-cd --read-raw --read-subchan rw_raw --datafile GAME_NAME.bin --device /dev/sr0 --driver generic-mmc-raw GAME_NAME.toc</code>
+
+Au bout de quelques minutes, vous aurez une extraction de votre jeu PlayStation qui sera dans votre home sous le nom GAME_NAME.bin et GAME_NAME.toc
+===== Utilisation =====
+
+Pour ouvrir pSX, rendez vous simplement dans le dossier pSX, et ensuite, double cliquez sur l'exécutable pSX qui s'y trouve.
+
+Après le choix de la langue le bios pSX devrait démarrer, il ne vous reste plus qu'à cliquer sur **Fichier** pour utiliser une iso ou un cd dans votre lecteur !
+
+<note>Pour entrer ou sortir du mode **Plein écran**, il faut utiliser le raccourci clavier: **Alt+Entrée**</note>
+
+===== Configuration =====
+
+Pour configurer votre manette (La seule chose à configurer dans cet émulateur, à part l'emplacement d'un fichier de carte mémoire virtuelle), il faut faire: **//Fichier->Configuration//**, puis dans l'onglet **Manettes**, choisissez le **Nom** de la manette connectée à l'ordinateur (si vous n'avez pas de manette vous pouvez utiliser le clavier); et le **Type** de la manette, ensuite vous devez cliquer sur un des bouton de la playstation, pour l'associer à un bouton de votre manette, ou clavier.
+
+Vous pouvez changer la configuration à tous moments, même pendant un jeu.
+
+Suivant la compatibilité du jeu avec le dualshock, ou non, il vous faudra choisir comme **Type** de manette, la **Manette normale**, ou **DualShock**.
+
+<note>Si un jeu n'est pas compatible **dualshock**, vous ne pourrez rien faire, vous devrez donc aller dans la configuration pour modifier le **Type** en **Manette normale** pour contrôler le jeu comme il faut.</note>
+
+
+==== Conseil ====
+
+Faites un lien du dossier contenant vos isos PS1 dans le dossier cdimages de pSX, ceci vous permettra d'y accéder plus rapidement sans avoir à chaque fois à refaire le chemin via le navigateur de fichiers peu pratique utilisé par pSX.
+
+Bien sûr dans le cas où vous utiliseriez des copies de sauvegarde et non vos cds originaux.
+
+===== Problèmes =====
+
+==== pSX ne s'ouvre pas / crash au démarrage ====
+
+=== Sous Ubuntu 11.04 (testé sous i386)===
+
+Il semble nécessaire de désactiver/supprimer **pulseaudio** __et__ de //désactiver// les drivers propriétaires pour la carte graphique (en tout cas pour celles nvidia) pour éviter les //erreurs de segmentation//. Pour les cartes nvidia, vous pouvez par contre activer le pilote appelé **prise en charge expérimentale de la 3D pour les cartes nvidia**(libre) dans le gestionnaire de pilote. De plus, avec ce pilote le rendu du son est bien meilleur qu'avant (mais quel est le rapport??) en gardant le réglage de latence classique de pSX. //par [[http://forum.ubuntu-fr.org/profile.php?id=23748|Broussaille]], le 4/05/2011//
+
+=== Sous Lucid (10.04) (testé sous 64 bits) ===
+
+Il semble impossible de lancer l'émulateur en utilisant pulseaudio mais désactiver pulseaudio est devenu un peu plus compliqué puisque si on ne fait rien de spécial il se relance immédiatement...
+
+[[http://forum.ubuntu-fr.org/viewtopic.php?pid=3441970#p3441970|voyez ce post]] pour désactiver pulse puis lancer pSX.
+Si vraiment ça ne veut pas marcher, vérifiez que pulse est bien désactivé par :
+  ps -A |grep pulseaudio
+Si vous avez bien bien désactivé pulseaudio et que ça ne démarre pas, réinitialiser la configuration avant de lancer pSX
+  rm ~/.pSX/psx.ini
+
+Si ça peut vous servir voici le petit script que j'utilise pour automatiser la désactivation / réactivation de Pulseaudio, **il faut préalablement mettre le "autospawn = yes" à la dernière ligne du fichier .pulse/client.conf**, attention aux espaces de part et d'autre du "=".
+--- //[[:utilisateurs:Mysteroïd|Mysteroïd]] Le 06/09/2010//:
+<code bash>
+#!/bin/bash
+sed -i "s/autospawn = yes/autospawn = no/g" .pulse/client.conf
+pulseaudio -k
+<chemin vers le dossier pSX>/pSX & # <=== Cette ligne est à éditer pour inclure le chemin qui convient !
+sleep 1
+pulseaudio -D
+sed -i "s/autospawn = no/autospawn = yes/g" .pulse/client.conf
+exit 0
+</code>
+
+=== Sous Ubuntu 9.10 et 10.10 64 bits ===
+
+À partir de Jaunty, pSX fonctionne avec PulseAudio sans aucun problème, malheureusement il semblerait que psX ne trouve pas le bon contrôleur audio à tous les coups. Qu'on stop le processus pulseaudio (sudo killall pulseaudio) ou pas, pSX ne démarre pas! Pour contourner cette erreur, on pourrait lancer pSX avec sudo, mais il y a mieux!
+
+La solution est résumée ainsi :
+  - Ouvrez un [[Terminal]]
+  - Fermer pulseaudio avec la commande : **sudo killall pulseaudio**
+  - Lancer pSX en 'root' avec la commande: **sudo /opt/pSX/pSX**
+  - Une fois pSX ouvert, aller dans la section "son" dans "Fichier->Configuration". Changer l'option défaut dans "Carte son" pour le contrôleur approprié (plughw:0,0 dans la plupart des cas). Appuyer sur 'apply' et vérifiez qu'il y a toujours du son dans pSX (//Fichier → Redémarrer pSX//), s'il y a encore du son vous avez choisi le bon contrôleur, sinon retourner dans la configuration et choisissez en un autre.
+  - [[:tutoriel:comment_modifier_un_fichier|Ouvrez le fichier]] **/root/.pSX/psx.ini** dans un éditeur de texte. Chercher la section « ''[Sound]'' » dans la configuration et copier la valeur de « ''device'' ».
+  - Coller la valeur précédente au même endroit dans le fichier **~/.pSX/psx.ini**, là où il a des zéros. Sauvegardez. Et tout devrait fonctionner ! Et avec PulseAudio ouvert ! Le seul inconvénient est que vous ne pourrez pas écouter de musique en même temps de jouer (dans Totem par exemple) avec votre émulateur ouvert, pas très grave donc…
+
+<note>Si vous n'avez pas le fichier dans votre répertoire d'utilisateur, exécutez pSX une fois sans partir le jeu et coller la valeur dans la nouvelle configuration que pSX vient de créer.</note>
+
+[[http://ubuntuforums.org/showthread.php?p=7202241|Source]]
+
+=== Sous Ubuntu 8.10 et 8.04 LTS ===
+
+Ceci peut survenir si le serveur son pulse audio est en fonctionnement. Voici un script qui désactive pusleaudio, lance psx et réactive pulseaudio :
+
+<code>
+#!/bin/bash
+
+gksu /etc/init.d/pulseaudio stop
+sleep 1
+gksu killall pulseaudio
+sleep 1
+exec /chemin/vers/votre/install/de/pSX #Pensez à changer pour votre répertoire d'install
+gksu /etc/init.d/pulseaudio start
+</code>
+
+Vous pouvez aussi supprimer le paquet **pulseaudio** si comme moi vous en avez eu par dessus la tête de pulseaudio ...
+
+==== Parfois, les jeux plantent… ====
+
+Certains jeux comme Parodius plantent, tout fonctionne sauf que vous ne pouvez plus diriger votre vaisseau, que se soit avec une manette ou un clavier…
+
+Je cherche actuellement s'il est possible de passer outre ce problème ... (changer de bios, ou une case à décocher/cocher ...)
+
+Problème constaté sur Parodius (souvent), Warm-up (souvent), Final Fantasy VII (hyper rarement), Final Fantasy VIII (à deux reprises incontournables, vous devrez reprendre votre sauvegarde sur un autre émulateur avant de revenir) ...
+
+<note>Hizoka : J'avais un plantage pour FF7, en utilisant le bios SCPH7502.BIN, cela est reparti et les vidéos passent mieux avec ce bios.</note>
+
+==== Jeux ====
+
+=== Jeux avec DRM : Final Fantasy VIII, IX entres autres ===
+
+Final Fantasy VIII et IX ont une protection (DRM), la plupart des émulateurs ne les feront tourner que si vous les patchés avant de les utiliser ([[epsxe]] permet de les faire tourner sans modification). Pour résoudre ce problème avec pSX et PCSX, il faut donc trouver une iso pré patchée ou patcher vous-même l'iso que vous créerez avec les CD originaux des jeux.
+
+
+=== The Legend of Dragoon ===
+
+Ce jeu ne veut pas se lancer, pour on ne sait qu'elle raison sur le bios scph1001 ... 
+
+Quel que soit l'émulateur; pourtant, il fonctionne parfaitement sur ma playstation première génération ... qui doit avoir le même bios ...
+
+La solution est d'utiliser le bios scph7502 ou le bios spch1002.
+
+<note>Si vous utilisez le paquet .deb de ma conception (fabien26), le bios spch1002 est celui par défaut, même si pour l'auto-détection, il a été renommé scph1001.</note>
+
+D'autres bugs subsistent dans ce jeu avec cet émulateur, je vous conseille d'utiliser [[ePSXe]] pour ce jeu.
+
+==== Ça marche, mais le son ou les images saccadent ====
+
+Deux choses vont vous aider : 
+
+1ère manipulation : Système > Préférence > Apparence > Aucun effet visuel.
+
+2nde manipulation si vous connaissez encore des problèmes de saccade : voyez la page pulse audio de la doc : ce serveur de son pose des soucis, il vous faudra le contourner ou même le supprimer.
+
+===== Liens =====
+
+  * [[ http://psxemulator.gazaxian.com/|Site officiel]]
+  * [[http://2020linux.free.fr/download.php?categorie=Utilitaire|2020Linux - cdpsx2bin]] rippeur de CD facile pour PS1
+
+----
+
+//Contributeurs : [[utilisateurs:Fabien26]], [[utilisateurs:Mysteroïd]].//

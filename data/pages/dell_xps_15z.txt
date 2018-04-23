@@ -1,0 +1,42 @@
+====== Dell XPS 15z ======
+===== En un coup d’œil =====
+^ Version ^ Installation ^ Carte graphique ^ Son ^ Wi-Fi ^ Bluetooth ^ Webcam ^ Touchpad ^ Raccourcis multimédia ^ Autres ^
+| [[precise|Ubuntu 12.04 LTS]] | {{ :icons:important.png?nolink |}} | {{ :icons:important.png?nolink |}} |  {{ :icons:icon-ubuntu.png?nolink |}} | {{ :icons:icon-ubuntu.png?nolink |}} | {{ :icons:icon-ubuntu.png?nolink |}} | {{ :icons:icon-ubuntu.png?nolink |}} | {{ :icons:icon-ubuntu.png?nolink |}} | {{ :icons:icon-ubuntu.png?nolink |}} | Pour se servir du Wi-Fi, il est nécessaire d’activer le Bluetooth, et vice-versa. |
+===== Installation =====
+==== Démarrage impossible ====
+=== Symptôme ===
+L’écran « homme = clavier » apparaît, s’efface et laisse place à un écran noir. L’ordinateur se bloque ensuite et plus rien ne se passe. Il est alors nécessaire d’éteindre l’ordinateur « à l’arrache », avec le bouton destiné à... allumer l’ordinateur. Maintenez-le enfoncé et, après quelques secondes, l’ordinateur s’éteint. Comment accéder à l’installateur dans ce cas ? Suivez le guide...
+=== Lancer l’installateur ===
+C’est bon ? Vous êtes parvenu à éteindre l’ordi ? Et bien, maintenant, allumez-le à nouveau. :-D Démarrez sur le support bootable sur lequel vous aviez démarré précédemment... Et lorsque l’écran « homme = clavier » apparaît, appuyez sur une touche. Un écran mal défini apparaît alors, vous montrant une liste de langues. Choisissez à l’aide des flèches du clavier celle que vous voulez, et validez avec la touche entrée. Maintenant, appuyez sur F6. Un petit menu au bas à droite apparaît. Faites-le disparaître en appuyant sur échap. :-P Vous apercevez alors une nouvelle ligne, sous la liste principale de l’écran. Un curseur blanc clignote à droite de cette ligne. Déplacez-le à l’aide des flèches du clavier, et mettez-le à gauche de « quiet splash ». Ajoutez alors « acpi=noirq », puis appuyez sur espace. La ligne doit ressembler à ça :
+<code>acpi=noirq quiet splash</code>
+Maintenant, appuyez sur entrée : la session de test démarre, vous pouvez alors installer Ubuntu sans encombres.
+===== Résolutions =====
+==== Démarrage impossible ====
+=== Dépannage ===
+Vous allez rire : le problème rencontré avec le démarrage de l’installateur se retrouve une fois le système installé ! Ubuntu refuse de démarrer ! Aucun problème. Allumez votre ordinateur, et lorsque Grub apparaît, sélectionnez la ligne destinée à Ubuntu. Appuyez sur la touche « e ». Retrouvez la ligne avec « quiet splash », et ajoutez-y, comme précédemment, « acpi=noirq ». À nouveau, la ligne doit contenir :
+<code>acpi=noirq quiet splash</code>
+Appuez sur Ctrl et « x », et c’est parti ! Malheureusement, ce changement ne sera pas permanent. Suivez le paragraphe suivant pour le rendre permanent.
+=== Solution permanente ===
+Une fois que vous êtes connecté, lancez le Terminal. (Ouvrez le Tableau de bord, entrez « Terminal » et pressez entrée.) Entrez alors :
+<code>sudo gedit /etc/default/grub</code>
+Pressez entrée, renseignez votre mot de passe, validez avec entrée. Le fichier grub s’ouvre alors. Recherchez la ligne :
+<file>GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"</file>
+Devinez quoi ? Il faut ajouter « acpi=noirq » avant « quiet splash ». La ligne devient donc :
+<file>GRUB_CMDLINE_LINUX_DEFAULT="acpi=noirq quiet splash"</file>
+Enregistrez, fermez, et retournez dans le Terminal. Entrez :
+<code>sudo update-grub</code>
+Pressez entrée. Attendez quelques instants, puis fermez la fenêtre et redémarrez votre ordinateur. Il démarre sans problèmes.
+===== Optimisations =====
+==== Carte graphique ====
+Aucun pilote n’est proposé par Ubuntu pour la carte graphique du XPS 15z. Il faut installer //[[bumblebee|Bumblebee]]// pour qu’elle fonctionne parfaitement.
+Il faut d’abord ajouter le dépôt //Bumblebee//. Dans un Terminal, entrez :
+<code>sudo add-apt-repository ppa:bumblebee/stable</code>
+Pressez entrez, rentrez votre mot de passe et validez avec entrée.
+Puis entrez :
+<code>sudo apt-get update && sudo apt-get upgrade</code>
+Validez avec entrée, vous commencez à comprendre... Durant cette étape, appuyez sur entrée dès qu’on vous pose une question, afin de mettre à jour votre ordinateur.
+Puis :
+<code>sudo apt-get install bumblebee bumblebee-nvidia</code>
+Pressez entrée, ainsi qu’à chaque fois qu’on vous posera une question, comme à l’étape précédente. Puis :
+<code>sudo usermod -a -G bumblebee UTILISATEUR</code>
+Où « UTILISATEUR » est votre nom d’utilisateur. Pressez entrée... Puis redémarrez votre ordinateur. Ça y est ! La carte graphique fonctionne, ainsi qu’Unity !

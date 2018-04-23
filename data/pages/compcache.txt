@@ -1,0 +1,28 @@
+{{tag>TAGS}}
+
+----
+
+====== Compcache ======
+
+**Compcache** est une technologie ingénieuse. En temps normal, un ordinateur arrivant à manquer de mémoire vive inscrit directement sur le disque dur le contenu de la mémoire vive pour libérer le l'espace. Cette technique est appelée **[[SWAP]]** \\
+Autrefois cette technique, malgré tous ces défauts, restait raisonnable. Malheureusement plus le temps avance, plus les disques dur deviennent lents. Ainsi le simple fait de décharger "un peu" de mémoire vive sur le disque dur peut ralentir drastiquement, voir freezer votre PC. \\
+Compcache permet de remédier à ça en compressant la ram la moins utilisée pour faire de la place. La RAM la moins utilisée reste donc en RAM mais compressée permettant de faire de la place pour d'autres informations. \\
+La RAM une fois compressée est certes un tout petit peu plus lente, mais ne requiert pas l’inscription de ces donnés sur le disque dur. (Un disque dur est immensément plus lent qu'une simple compression) L'impact sur le processeur est d'ailleurs très négligeable. Dans tous les cas vous sortirez gagnant ! \\
+Aucun bug résultant de son utilisation n'a été découvert par mes soins jusque ici (même l'hibernation fonctionne).
+
+<note important>Compcache a été maintenant remplacé par **[[zRam]]**. Il s'agit de la même technologie, légèrement améliorée au niveau performances.</note>
+
+==== Problème avec compcache dans Ubuntu Jaunty ====
+
+Compcache est utilisé dans certains liveCD d'Ubuntu. Une partie de la mémoire (25% par défaut) est compressée pour permettre le CD de démarrer sur des ordinateurs avec peu de RAM. 
+
+Cependant il se peut que vous rencontriez des problèmes dans cette version d'Ubuntu lors d'une utilisation normale (freeze de la machine, obligation de redémarrer manuellement).
+
+**Exemple d'erreur**
+<code>compcache: Error allocating memory for compressed page: 12345, size=4096
+Write-error on swap-device (123:0:123456)</code>
+
+Pour résoudre ce problème, vous pouvez simplement désactiver le compcache en exécutant cette ligne à partir d'un terminal :
+<code>sudo rm -f /usr/share/initramfs-tools/conf.d/compcache && sudo update-initramfs -u</code>
+
+Après redémarrage, le problème semble être résolu.

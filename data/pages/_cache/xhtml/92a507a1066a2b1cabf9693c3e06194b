@@ -1,0 +1,220 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#installation_d_un_sagem_f_st_800_adsl_adsl_max" class="toc"> Installation d'un sagem F@ST 800 (ADSL / ADSL Max) </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#methode_1" class="toc"> Méthode 1 </a></span></li>
+<li class="level2"><span class="li"><a href="#methode_2" class="toc"> Méthode 2 </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#installer_eagle-usb_compilation_a_partir_des_sources" class="toc"> Installer eagle-usb : compilation à partir des sources </a></span></li>
+<li class="level3"><span class="li"><a href="#configuration_d_eagle-usb" class="toc"> Configuration d'eagle-usb </a></span></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary
+</pre>
+
+<a name="installation_d_un_sagem_f_st_800_adsl_adsl_max"></a><h1> Installation d'un sagem F@ST 800 (ADSL / ADSL Max) </h1>
+<div class="level1">
+
+<p>
+ Voici 2 méthodes différentes : une avec les paquets précompilés, l&rsquo;autre avec les sources les plus récentes. Si une des méthodes ne fonctionne pas essayez l&rsquo;autre. La première méthode fonctionne avec des i386, donc si vous avez un AMD64 ou un PowerPC essayez plutôt la seconde. D&rsquo;une manière générale, la seconde méthode fonctionne avec plus de modem car elle utilise la dernière vesion du driver eagle-usb, mais elle est légèrement plus compliquée.
+</p>
+
+</div>
+<!-- SECTION [31-564] -->
+<a name="methode_1"></a><h2> Méthode 1 </h2>
+<div class="level2">
+
+<p>
+ Rédigé par <a href="/utilisateurs/dukiclock" class="wikilink1" title="utilisateurs:dukiclock" onclick="return svchk()" onkeypress="return svchk()">dukiclock</a>
+</p>
+
+</div>
+
+<a name="telechargement_de"></a><h4> Téléchargement de : </h4>
+<div class="level4">
+<ul>
+<li class="level1"><span class="li"> eagle-usb-data_2.1.1-2_all.deb</span>
+</li>
+<li class="level1"><span class="li"> eagle-usb-modules-source_2.1.1-2_all.deb</span>
+</li>
+<li class="level1"><span class="li"> eagle-usb-utils_2.1.1-2_i386.deb</span>
+</li>
+</ul>
+
+<p>
+ <a href="http://download.gna.org/eagleusb/eagle-usb-2.1.0/" class="urlextern" title="http://download.gna.org/eagleusb/eagle-usb-2.1.0/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://download.gna.org/eagleusb/eagle-usb-2.1.0/</a> ou par synaptic (Site officiel des pilotes Eagle-usb : <a href="http://www.eagle-usb.org" class="urlextern" title="http://www.eagle-usb.org" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.eagle-usb.org</a>)
+</p>
+
+<p>
+<strong>ATTENTION :</strong> Brancher votre modem avant la configuration !
+</p>
+
+</div>
+
+<a name="ensuite_installation_des_paquets_dans_l_ordre"></a><h4> Ensuite, installation des paquets (dans l'ordre) : </h4>
+<div class="level4">
+<pre class="code">sudo dpkg -i eagle-usb-modules-source_2.1.1-2_all.deb
+sudo dpkg -i eagle-usb-data_2.1.1-2_all.deb
+sudo dpkg -i eagle-usb-utils_2.1.1-2_i386.deb</pre>
+
+</div>
+
+<a name="puis_on_configure_la_connection_adsl"></a><h4> Puis, on configure la connection ADSL : </h4>
+<div class="level4">
+<pre class="code">sudo dpkg-reconfigure eagle-usb-utils</pre>
+
+<p>
+ Completer : FAI/Login/Password...
+</p>
+
+<p>
+<strong>ATTENTION :</strong> Pour Free (et autres FAI... ?) : A la question “Votre FAI accepte-t-il le CHIFFREMENT des MOTS de PASSE ?” : repondre  “NON”
+</p>
+
+<p>
+<strong>ATTENTION :</strong> il faut choisir connexion auto AU BRANCHEMENT et non au démarrage !
+</p>
+
+</div>
+
+<a name="pour_terminer_on_lance_la_connection_adsl"></a><h4> Pour terminer, on lance la connection ADSL : </h4>
+<div class="level4">
+<pre class="code">sudo startadsl</pre>
+
+</div>
+
+<a name="pour_les_connections_adsl_max_debit_faible_et_synchronisation_trop_haute"></a><h4> Pour les connections ADSL Max (debit faible et synchronisation trop haute ...) : </h4>
+<div class="level4">
+
+<p>
+Editer le fichier eagle-usb.conf : 
+</p>
+<pre class="code">sudo gedit /etc/eagle-usb/eagle-usb.conf</pre>
+
+<p>
+ metre un # devant la ligne OPTN1 puis débrancher / rebrancher le modem !
+</p>
+
+</div>
+<!-- SECTION [565-1894] -->
+<a name="methode_2"></a><h2> Méthode 2 </h2>
+<div class="level2">
+
+<p>
+ Rédigé par <a href="/utilisateurs/eks" class="wikilink1" title="utilisateurs:eks" onclick="return svchk()" onkeypress="return svchk()">eks</a>
+</p>
+
+</div>
+
+<a name="installation_du_compilateur_et_des_en-tetes_du_noyaux"></a><h4> Installation du compilateur et des en-têtes du noyaux </h4>
+<div class="level4">
+
+<p>
+ <em>Les packages à installer dans cette section sont disponible à partir du cd, vous n&rsquo;avez donc pas besoin de dépôt supplémentaire ou de connexion internet pour les installer, mais juste de votre cd ubuntu.</em>
+</p>
+
+<p>
+Si ce n&rsquo;est déjà fait, installez de quoi compiler : 
+</p>
+<pre class="code">sudo apt-get install build-essential</pre>
+
+<p>
+Pour les en-tête du noyau, le package à installer dépend de votre noyau. Ouvrez synaptic, et recherchez &ldquo;linux source&rdquo;. Vous devriez voir un paquet correspondant à votre architecture et la version de votre noyau. Le paquet à installer est linux-headers-[version_du_noyau]. Pour vous aider, la version du noyau est affichée au démarrage de votre ordinateur, lorsque vous choisissez l&rsquo;<acronym title="Operating System">OS</acronym> à lancer (c&rsquo;est le choix par défaut). Par exemple, si vous avez un x86, il s&rsquo;agit probablement du paquet : linux-headers-2.6.10-5 et pour un amd64, du paquet linux-headers-2.6.10-5-amd64-generic Si vous ne savez pas lequel prendre, vous pouvez en cocher plusieurs, cela ne fera que prendre quelques Mo sur votre disque. Pour installer ces paquets avec synaptic, il suffit de cocher la case devant le nom du paquet (sélectionner pour installation) et de cliquer sur &ldquo;appliquer&rdquo; pour effectuer l&rsquo;installation.
+</p>
+
+<p>
+<strong>NB : </strong> je cite ceci de mémoire, si ce n&rsquo;est pas le bon paquet, merci de le signaler à eks0 AT free DOT fr
+</p>
+
+</div>
+
+<a name="telechargement_des_sources"></a><h4> Téléchargement des sources : </h4>
+<div class="level4">
+
+<p>
+ Sur la <a href="http://www.eagle-usb.org/rubrique.php3?id_rubrique=2" class="urlextern" title="http://www.eagle-usb.org/rubrique.php3?id_rubrique=2" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">page de téléchargement d'eagle usb</a>, téléchargez les sources la version la plus récente. A l&rsquo;heure où j&rsquo;écris ces lignes, il s&rsquo;agit de la version 2.3.2, vous devez donc télécharger l&rsquo;archive <a href="http://baud123.free.fr/eagle-usb/eagle-usb-2.3/eagle-usb-2.3.2.tar.bz2" class="urlextern" title="http://baud123.free.fr/eagle-usb/eagle-usb-2.3/eagle-usb-2.3.2.tar.bz2" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">eagle-usb-2.3.2.tar.bz2</a>:
+</p>
+
+</div>
+<!-- SECTION [1895-3757] -->
+<a name="installer_eagle-usb_compilation_a_partir_des_sources"></a><h3> Installer eagle-usb : compilation à partir des sources </h3>
+<div class="level3">
+
+<p>
+ Copiez l&rsquo;archive téléchargée dans /usr/src/ : 
+</p>
+<pre class="code">sudo cp /home/moi/Desktop/eagle-usb-2.3.2.tar.bz2 /usr/src/</pre>
+
+<p>
+ (si /home/moi/Desktop/ est le dossier contenant l&rsquo;archive)
+</p>
+
+<p>
+Il faut maintenant extraire le tout : 
+</p>
+<pre class="code">cd /usr/src
+tar xjvf eagle-usb-2.3.2.tar.bz2</pre>
+
+<p>
+Préparer pour la compilation : 
+</p>
+<pre class="code">cd eagle-usb-2.3.2
+./configure</pre>
+
+<p>
+Si vous avez déjà installé (en partie ou entièrement) une version d&rsquo;eagle-usb, par exemple via la 1ère méthode, il faut la désinstaller : 
+</p>
+<pre class="code">sudo make uninstall</pre>
+
+<p>
+Un petit coup de Mr Propre (optionnel) : 
+</p>
+<pre class="code">sudo make clean</pre>
+
+<p>
+On compile : 
+</p>
+<pre class="code">sudo make</pre>
+
+<p>
+Et on installe : 
+</p>
+<pre class="code">sudo make install</pre>
+
+</div>
+<!-- SECTION [3758-4515] -->
+<a name="configuration_d_eagle-usb"></a><h3> Configuration d'eagle-usb </h3>
+<div class="level3">
+
+<p>
+ <strong>ATTENTION :</strong> Branchez votre modem avant la configuration !
+</p>
+
+<p>
+Lancez la configuration : 
+</p>
+<pre class="code">sudo eagleconfig</pre>
+
+<p>
+Remplissez les champs demandés (FAI, login, mot de passe). A la question “Votre FAI accepte-t-il le CHIFFREMENT des MOTS de PASSE ?” : repondez “NON”, et s&rsquo;il vous demande si la connexion doit se faire au lancement ou  au branchement, répondez &ldquo;Au branchement&rdquo;.
+</p>
+
+<p>
+Il ne vous reste qu&rsquo;à lancer la connexion : 
+</p>
+<pre class="code">sudo startadsl</pre>
+
+<p>
+S&rsquo;il vous dit que le modem n&rsquo;est pas opérationnel, essayez : 
+</p>
+<pre class="code">sudo eaglectrl -w
+sudo startadsl</pre>
+
+</div>
+<!-- SECTION [4516-] -->

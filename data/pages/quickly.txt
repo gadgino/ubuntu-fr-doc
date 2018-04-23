@@ -1,0 +1,156 @@
+{{tag>Precise programmation python}}
+
+----
+
+====== Quickly ======
+
+{{ :quickly:quickly-logo.png|quickly}}
+
+**Quickly** vous aide à créer des programmes (et d'autres choses) rapidement. Vous pouvez choisir parmi des modèles et utiliser les commandes Quickly pour créer, modifier le code et l'IHM, et publier votre programme afin qu'il puisse être utilisé par d'autres.
+
+Quickly est livré avec trois modèles: ubuntu-application qui permet d'écrire des applications graphiques avec PyGTK et Glade, ubuntu-cli pour créer des applications en ligne de commande et ubuntu-pygame pour la création de jeux. Les trois modèles sont basés sur le langage de programmation [[python|Python]].
+Le préfixe "ubuntu" dans le nom des modèles signifie que les projets sont liés a la plateforme [[http://launchpad.net|Launchpad]] et que les paquets permettant de distribuer votre application sont spécifiques à Ubuntu. Cependant, rien ne vous empêche de modifier ces modèles pour créer, par exemple, "fedora-application" ou "opensuse-cli".
+Si les modèles pré-installés se chargent de faire des choix de technologie afin de guider l'utilisateur, le noyau de quickly ne vous impose rien. Libre à vous d'étendre les possibilités de Quickly selon vos besoins. Un modèle pour le langage ruby est en cours d'élaboration et on peut facilement imager des modèles pour le PHP, le C ou spécifiques à des besoins très spécifiques (par exemple : "django-jquery-project")
+
+===== Installation =====
+
+Quickly est présent dans les dépôts officiels à partir d'[[:karmic|Ubuntu 9.10]]. Pour l'utiliser, il faut [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt://quickly|quickly]]**.
+Le paquet quickly contient un nombre de dépendances relativement imposant, le téléchargement de tous les paquets peut prendre quelques minutes sur une connexion internet à faible débit. 
+
+
+===== Utilisation =====
+
+==== Afficher les commandes disponibles ====
+
+  quickly commands
+
+==== Afficher l'aide ====
+
+  quickly help
+
+==== Afficher des informations pour démarrer rapidement un projet ====
+
+  quickly getstarted
+
+==== Créer un nouveau modèle à partir d'un modèle existant ====
+
+  quickly quickly modele-d-origine nouveau-modele
+
+<note tip>Les commandes quickly prennent en charge l'auto-complétion, vous pouvez par exemple saisir ''quickly com'' puis la touche TAB pour obtenir ''quickly commands''.</note>
+
+===== Le modèle « ubuntu-application » =====
+
+==== Créer un projet ====
+
+  quickly create ubuntu-application [nomprojet]
+
+Cette commande crée des fichiers Python pour l'application, une interface GTK minimale et un dépôt [[bzr]] local.
+<note warning>Le nom du projet ne doit contenir que des caractères alphanumériques</note>
+
+==== Travailler sur le projet ====
+
+  cd [nomprojet]
+
+==== Lancer le programme ====
+
+  quickly run
+
+==== Afficher le tutoriel ====
+
+  quickly tutorial &
+
+==== Modifier le code de l'application ====
+
+  quickly edit
+
+Cette commande va ouvrir l'éditeur [[Gedit]] en chargeant les fichiers sources du projet.
+
+<note tip>Si vous préférez utiliser l'éditeur [[Geany]] au lieu de [[Gedit]] :
+<code>export EDITOR=/usr/bin/geany
+quickly edit
+</code>
+La première commande n'est à saisir qu'une fois pour chaque terminal ouvert ; si vous voulez ne plus avoir à la saisir à chaque ouverture de terminal, insérez-la à la fin du fichier ''~/.bashrc'' (solution mono-utilisateur) ou du fichier ''/etc/bash.bashrc'' (solution multi-utilisateur).
+</note>
+
+==== Modifier l'interface graphique ====
+
+  quickly design
+  
+Cette commande ouvre l'éditeur d'interface [[Glade]] et charge l'interface de votre projet.
+
+==== Sauvegarder les changements ====
+
+  quickly save "Commentaire"
+
+Cette commande enregistre les changements dans le dépôt [[bzr]] local dans une nouvelle révision. Il est ainsi possible de revenir à une version antérieure en cas de problème.
+
+==== Créer une nouvelle boite de dialogue ====
+
+  quickly dialog [nomdialogue]
+
+<note tip>Ne mettez pas de suffixe comme Dialog a votre boîte de dialogue, celui ci sera ajouté automatiquement par Quickly.</note>
+
+==== Spécifier la licence de son projet ====
+
+Avant toute chose, [[:tutoriel:comment_modifier_un_fichier|modifiez le fichier]] **Copyright** dans le dossier de votre application et renseignez l'année, votre nom et votre adresse de courriel sur la première ligne du fichier. Ne modifiez pas le reste du fichier.
+
+  quickly license [nom_licence]
+
+Si le paramètre [nom_licence] n'est pas renseigné, votre projet sera automatiquement passé sous licence GPL 3. Vous pouvez spécifier une autre licence parmi BSD, GPL-2, GPL-3, LGPL-2 et LGPL-3.
+Les contenus des licences sont stockés dans « /usr/share/quickly/templates/ubuntu-project/available_licenses ».
+
+==== Modifier l'icône de votre application ====
+
+Ouvrez le fichier data/media/icon.png avec votre logiciel de retouche graphique pour y apporter les modifications désirées.
+
+==== Modifier le raccourci de votre application ====
+
+Par défaut, les applications créées avec Quickly seront accessibles dans le menu //Applications → Accessoires// du menu Gnome. Vous pouvez [[:tutoriel:comment_modifier_un_fichier|modifier le fichier]] **jotty.desktop.in** pour y apporter les modifications souhaitées. Pour modifier l'emplacement de votre application dans le menu, vous devez respecter les [[http://standards.freedesktop.org/menu-spec/latest/apa.html|normes spécifiées par freedesktop.org]].
+
+==== Créer un paquet Debian ====
+
+Quickly vous permet de créer un fichier .deb pour vous permettre de distribuer et d'installer facilement votre application.
+
+  quickly package
+
+Après avoir lancé cette commande, vous trouverez, après construction du paquet, le fichier .deb ainsi qu'une archive des sources dans le répertoire parent de votre application. Les autres fichiers générés (.dsc et .changes) sont nécessaires à l'envoi du paquet sur Launchpad.
+
+==== Publier votre application sur un PPA ====
+
+Avant de lancer la commande relative à cette action, vérifiez que vous avez effectué tout le nécessaire pour publier des paquet sur votre [[PPA]] dans Launchpad (clé GPG, clé SSH, création du PPA).
+Prenez soin d'avoir renseigné les informations importantes à la fin du fichier setup.py à la racine du projet. Une fois que votre programme est prêt à être publié tapez la commande :
+
+  quickly release
+
+Vous pouvez aussi donner à la commande release un numéro de version et des notes concernant les changements effectués : 
+  quickly release [numéro de version] [notes à propos de la nouvelle version]
+
+Vous pouvez aussi partager votre application sans générer un nouveau numéro de version, par exemple si vous voulez la faire tester avant une sortie stable. Pour cela utilisez la commande :
+
+  quickly share  
+
+===== Exemples =====
+
+Pour apprendre a utiliser Quickly, rien de mieux que de s'inspirer de projets existants. Voici quelques applications réalisées avec Quickly : 
+
+  * [[https://launchpad.net/lernid|Lernid]] : Application facilitant l'accès aux évènements organisés par Ubuntu.
+  * [[https://launchpad.net/lolocopter|Lolocopter]] : Application conçue pour apporter des lulz dans votre vie.
+  * [[https://launchpad.net/acire|Acire]] : Navigateur de snippets de code Python.
+  * [[https://launchpad.net/photobomb|Photobomb]] : Éditeur de photos 
+  * [[https://launchpad.net/jotty|Jotty]] : Utilitaire de prise de notes utilisant DesktopCouch
+  * [[https://launchpad.net/lolz|I can haz lolz]] : Viewer de lolcats
+  * [[https://launchpad.net/bughugger|Bug Hugger]] : Gestionnaire de bugs pour Launchpad
+  * [[https://launchpad.net/notifythis|Notify This]] : Outil de notification pour annoncer les conférences ou lessons durant un évènement.
+
+===== Ressources =====
+
+  * [[https://edge.launchpad.net/quickly|Quickly sur Launchpad]]
+  * Auteurs de Quickly : [[https://launchpad.net/~rick-rickspencer3|Rick Spencer]] et [[https://launchpad.net/~didrocks|Didier Roche]]
+  * [[https://wiki.ubuntu.com/Quickly|Quickly sur le Wiki anglophone]]
+  * [[http://blog.didrocks.fr/post/Build-your-application-quickly-with-Quickly%3A-Inside-Quickly-part-1|Tutoriel en 9 parties par Didier Roche  [en]]]
+  * Tutoriel vidéo par Rick Spencer : [[http://www.youtube.com/watch?v=dx93U10Kkro|Partie 1 Getting Started]], [[http://www.youtube.com/watch?v=62T8Vw4PUTE|Partie 2 Getting Started]], [[http://www.youtube.com/watch?v=GpnNOfxq0zw| Partie 3 Packaging]]
+  * Tutoriel vidéo de Jono Bacon : [[http://www.youtube.com/watch?v=sO8hiPreNBg&feature=youtu.be&a|de 45 minutes [en] ]]
+
+----
+
+//Contributeur principal : [[:utilisateurs:Mathieu Comandon]].//

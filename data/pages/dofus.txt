@@ -1,0 +1,164 @@
+{{tag>Precise Trusty jeu rpg}}
+
+
+----
+
+====== DOFUS ======
+
+{{http://upload.wikimedia.org/wikipedia/en/0/0b/Logo_dofus.png  |Dofus, un MMORPG très populaire}}
+
+[[http://www.dofus.com/fr|Dofus]] est un jeu de rôle en ligne massivement multijoueur (//massive multi-player online role playing game//, ou MMORPG) développé et distribué par l'entreprise française [[http://www.ankama-games.com/fr|Ankama]]. Le jeu se déroule dans un monde médiéval fantastique.
+Développée à l'aide de la technologie Adobe AIR, DOFUS est un jeu qui peut être joué sur plusieurs plate-formes (celles pour lesquelles le plugiciel [[:adobe_air|Adobe AIR]] a été développé). Le jeu est présenté à l'aide de graphiques en 3D isométrique, et est disponible en versions gratuite (zone limitée) ou payante (environ 5€ par mois, suivant la durée d’abonnement et le mode de paiement).
+
+Cette documentation est là pour vous aider à installer Dofus sur Ubuntu et ses variantes.
+
+{{http://medias.jeuxonline.info/www/captures/93/7/16527.jpg?200}} {{http://jolstatic.fr/www/captures/93/8/16528.jpg?200}} {{http://jolstatic.fr/www/captures/93/7/16517.jpg?200}} {{http://jolstatic.fr/www/captures/93/3/16513.jpg?200}}
+
+=====Installation=====
+
+Il y a plusieurs méthodes d'installation qui sont décrites ci-après.
+
+
+====Dofus par paquet debian====
+
+C'est actuellement la méthode la plus fiable et la plus simple. L'installation se fait en deux étapes : installation de AIR puis de Dofus 2.0.
+
+===Installation de AIR ===
+
+Installez AdobeAir comme indiqué sur [[:adobe_air|sa page]].
+
+===Installation de Dofus===
+
+Des paquets ont été créés en vu de simplifier grandement l'installation comparé au script officiel d'Ankama et donc de minimiser le risque d'échec.
+La procédure est similaire à l'installation de AIR.
+
+Lien du paquet :
+     * [[http://dl.dropbox.com/u/12943198/dofus_2.0_ubuntu12_all.deb|Lien de Dofus 2]]
+
+Comme précédemment, une fois le paquet téléchargé, double cliquez dessus et installez le.
+<note important>Même si le paquet s'installe en 64 bit, suivez les instructions [[http://forum.ubuntu-fr.org/viewtopic.php?id=363549|ici]].</note>
+<note tip>Si vous rencontrez des problèmes avec ce paquet ou avez des suggestions à faire  [[http://forum.ubuntu-fr.org/viewtopic.php?id=363549|c'est ici]].</note>
+
+<note> Si vous utilisez kde, vérifiez que le paquet //zenity// est installé chez vous si vous utilisez le script d'installation du site officiel.</note>
+
+==== Le script officiel====
+
+===Installation d'Adobe Air===
+
+Installez Adobe Air selon la procédure indiquée sur [[:adobe_air|sa page]].
+
+===Installation de Dofus 2.33===
+
+==Version 32 bits==
+
+Lancez le terminal puis téléchargez l'archive Dofus en inscrivant la commande suivante :
+<code>wget http://dl.ak.ankama.com/games/installers/dofus-x86.tar.gz</code>
+
+Extraire ensuite l'archive :
+<code>tar xzvf dofus-x86.tar.gz</code>
+
+==Version 64 bits==
+
+Lancez le terminal puis téléchargez l'archive Dofus en inscrivant la commande suivante :
+<code>wget http://dl.ak.ankama.com/games/installers/dofus-amd64.tar.gz</code>
+
+Extraire ensuite l'archive :
+<code>tar xzvf dofus-amd64.tar.gz</code>
+
+<note tip>Si vous rencontrez des problèmes pour le téléchargement de l'archive, vous pouvez télécharger directement le fichier sur le site du jeu [[http://www.dofus.com/fr/mmorpg/telecharger|ici]].</note>
+
+Déplacez vous dans le dossier créé :
+
+<code>cd Dofus/</code>
+
+Exécutez le script :
+
+<code>./Dofus</code>
+
+Puis suivez les instructions d'installation.
+
+<note tip>Si vous rencontrez des problèmes, entre autres problèmes récurrents de permissions non-accordées, vous pouvez vous rapportez [[http://ubuntunoobs.blogspot.fr/2016/02/installer-dofus-233-sur-ubuntu-linux.html|ici]]</note>
+====Installation sous PlayOnLinux====
+Il semblerait que le jeu tourne mieux sous Wine.
+
+Cela pourrait venir du fait que le jeu profite alors de la dernière version d'Adobe Air.
+
+De plus l'utilisation de la dernière version d'Adobe Air permet de changer la qualité de flash.
+
+  - Installer PlayOnLinux.
+  - Installer la dernière version de Wine.
+  - Installer Adobe Air.
+  - Installer Flash Player.
+  - Installer / Copier Dofus.
+  - Lancer et jouer.
+
+=====Utilisation=====
+
+Le paquet installe deux icônes sur le Bureau et dans le menu (Applications -> Jeux) :
+  * Dofus Updater : Permet de lancer l'updater pour faire une éventuelle mise à jour du jeu et profiter du son.
+  * Dofus Direct : Permet de lancer directement le jeu sans passer par l'updater. Le son ne fonctionne pas avec ce lanceur.
+
+Il est à noter que si vous lancez le jeu par Dofus Direct et qu'une mise à jour est disponible, l'updater sera lancé automatiquement.
+
+
+
+====Désinstallation====
+<note>La désinstallation de dofus ne désinstalle pas Adobe AIR. 
+En revanche, la supression d'AIR (paquet .deb adobeair) entraîne celle de Dofus !!</note>
+Pour désinstaller Dofus rien de plus simple il suffit de rechercher "dofus" dans le "Tableau de Bord" et de cliquer sur "désinstaller dofus".
+Par la suite allez dans votre **Dossier personnel** puis affichez les [[:fichier_cache|fichiers cachés]] et supprimez les dossiers "Ankama". 
+
+===== Problèmes connus =====
+
+==== Compiz / KWin / Murrine====
+
+DOFUS 2.0 (version Linux) plante avec une erreur de segmentation lors de la saisie du mot de passe : il suffit de désactiver compiz au lancement de DOFUS.
+
+Pour désactiver Compiz : clic droit sur l'icone de icon-fusion (si vous l'avez installé) > Select window manager > Metacity, ou en ligne de commande :
+<code>metacity --replace & # desactive compiz
+compiz --replace & # reactive compiz</code>
+
+Pour désactiver les effets composites de KWin :
+Menu K -> Configuration du Système -> Bureau -> Suspendre l'affichage composite (ou Alt-Shift-F12)
+
+
+Si vous avez activé le module de rendu Murrine (en suivant [[http://www.webupd8.org/2010/05/enable-rgba-transparency-in-ubuntu-910.html|ce tuto]]) pour avoir des effets de transparence trop stylés un peu partout dans vos applications, vous ne pourrez pas lancer le UpLauncher de DOFUS 2.0. La seule solution consiste à désactiver ces effets.
+
+====Problème de connexion de l'updater====
+
+Tapez dans un terminal :
+  
+<code>echo "213.200.108.51    dl.ak.ankama.com" | sudo tee -a /etc/hosts</code>
+  
+Puis relancez l'updater. En cas d'échec dû à la connexion à dl.ak.ankama ------> Impossibilité de télécharger le jeu depuis le site officiel Dofus
+                                                                                                                     ------>Impossibilité de lancer le jeu depuis l'updater 
+C'est que l'adresse IP tapée dans le terminal ci-dessus ne correspond pas à l'adresse IP actuelle de dl.ak.ankama d'où le problème .
+Pour changer cette adresse IP il vous suffit de taper dans le terminal : host dl.ak.ankama , ceci étant fait vous devriez voir apparaître une adresse IP.
+Il faut la copier dans le fichier gedit , je dirais lié à Ankama ... C'est flou :/ pardon . Remplacez les 4 lignes d'adresse IP par la nouvelle obtenue , sans modifier dl.ak.ankama qui se situe sur les mêmes lignes à droite des IP . Enregistrez et fermez . Essayez de nouveau de relancer/télécharger le jeu.
+
+
+
+
+====Divers====
+   * Si vous rencontrez des problèmes de clignotements de certaines animations, c'est dû à une version de votre kernel (le noyau linux) inférieure à la 2.6.32. Mettre à jour votre distribution est ainsi conseillé. (Ubuntu Lucid Lynx (10.04) et supérieurs possèdent un kernel adéquat).
+
+   * Si lorsque vous lancez le paquet d'installation de AIR et que vous avez un message du type : "wrong architecture" cela signifie que vous êtes en 64 bit. Suivez les informations du sujet sur le forum.
+
+   * Si vous n'avez pas de son c'est que vous avez lancé Dofus avec l'icône Dofus_Direct. En effet c'est l'updater qui gère le moteur son et nécessite d'être lancé lorsque vous jouez.
+
+   * Il est impossible de paramétrer la qualité flash dans DOFUS 2. **Pour pouvoir modifier la qualité de flash, il faut que le jeu tourne sous Windows (version 3 d'Adobe Air) donc sous **[[:Wine]]** ou **[[:PlayOnLinux]]** **.
+
+
+===== Liens et sources =====
+  * **[[http://www.dofus.com/fr |Site officiel de DOFUS]]**,,
+  * [[wpfr>Dofus|DOFUS dans Wikipedia]],
+  * [[http://www.wiki-dofus.eu|L'encyclopédie Dofus]],
+  * [[http://www.dofus-astuce.com|Les astuces de Dofus]],
+  * [[http://forum.dofus.com/fr/problemes---solutions-f1049/installation-de-dofus-2-0-par-paquet-debian-ou-rpm--linux--t321448.html|Installation de Dofus 2.0 par un paquet debian]],
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=363549|Réécriture du sujet pour les paquets debian de Dofus 2.0]],
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?pid=18872181#p18872181|Installer Dofus sur Ubuntu Precise 12.04, Trusty 14.04, Utopic 14.10, Linux Mint 13 Maya ou 17 Qiana 64 bits (AMD64)]],
+  * [[https://www.youtube.com/watch?v=-1uYbcGKj60| Vidéo : Comment installer Dofus (wakfu) sur Ubuntu 14.04 64 bits (AMD64)]].
+
+----
+
+//Contributeurs : [[utilisateurs:Dexter]], [[utilisateurs:activx]], Zoloom, [[utilisateurs:Jean-lux]], [[utilisateurs:Mydoom666]], [[utilisateurs:Iluvatar]], Ouranos999, Sanael, [[utilisateurs:yoann21]], [[utilisateurs:Phendrax]]//, //[[:utilisateurs:alma31]]

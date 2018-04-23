@@ -1,0 +1,126 @@
+{{tag>joystick trusty precise}}
+
+----
+
+====== AntiMicro ou La configuration ultime de sa manette ======
+{{http://hizo.fr/img/antimicro/icone.png }}
+[[https://github.com/AntiMicro/antimicro|AntiMicro]] est un logiciel simple et très récent (Janvier 2013) mais complètement fonctionnel.
+
+Celui-ci permet d'attribuer des touches clavier/souris, combinaisons de touches et mouvement de souris aux touches de votre manette.
+
+[[https://github.com/AntiMicro/antimicro|AntiMicro]] fait suite à [[http://qjoypad.sourceforge.net/|QJoypad]] qui n'est plus maintenu depuis Février 2010.
+
+Ce logiciel utilise [[qt]] pour son interface graphique (donc plus orienté [[kde|KDE]]).
+===== Pré-requis =====
+  * Disposer d'une connexion à Internet configurée/activée.
+  * Disposer des droits root.
+  * Manette fonctionnelle.
+  * [[:tutoriel:comment_installer_un_paquet|Installer les dépendances]] : [[apt>libsdl1.2debian,libc6,libqtcore4,libqtgui4,libxtst6|libsdl1.2debian, libc6, libqtcore4 (>=4.8.0), libqtgui4 (>=4.8.0), libxtst6]]
+
+===== Installation =====
+[[https://github.com/AntiMicro/antimicro|AntiMicro]] propose plusieurs moyens :
+  * Via le dépôt PPA (recommandé)
+  * En installant un paquet Debian créé par l'auteur.
+  * En compilant les sources depuis le git.
+
+=== Via le dépôt PPA ===
+[[:PPA|Ajoutez le PPA]] **ppa:mdeguzis/libregeek**((https://launchpad.net/%7Emdeguzis/+archive/ubuntu/libregeek)) dans vos sources de logiciels, puis [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]].
+
+Ensuite, [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>antimicro]]**.
+
+
+=== Fichiers Debian ===
+  - Télécharger le fichier  correspondant à l'[[architecture_materielle|architecture]] de l'ordinateur sur le site de l'auteur: https://github.com/AntiMicro/antimicro/releases
+  - [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] téléchargé.
+
+=== Sources du git ===
+Réservé aux personnes sachant [[compilation|compiler]] des sources.
+Les sources sont disponibles [[https://github.com/AntiMicro/antimicro|ici]].
+
+<code>sudo apt-get install -y libqt4-dev libsdl1.2-dev libxtst-dev libX11-dev
+git clone https://github.com/AntiMicro/antimicro.git
+cd antimicro/src
+cmake
+make
+make updateqm
+sudo make install</code>
+===== Utilisation =====
+==== Branchement de la manette ====
+Afin que le logiciel trouve la manette, celle-ci doit être branchée avant son lancement.
+
+Dans le cas de changement de manette, de logiciel lancé avant, il faut demander à [[https://github.com/Ryochan7/antimicro|AntiMicro]] de recharger la liste des manette :
+  * Options > Mettre à jour les manettes
+  * CTRL+U
+  * Clic droit sur l'icone du systray > Mettre à jour les manettes
+
+<note tip>Dans le cas d'une manette PlayStation 3, il est nécessaire de démarrer la manette en appuyant sur la touche portant le logo PlayStation.
+Si votre manette possède ce type de bouton, pensez à le presser.</note>
+
+==== Lancement du logiciel ====
+Pour lancer le logiciel, 3 possibilités :
+   * Lancer le raccourci : **Menu > Utilitaire > AntiMicro**.
+   * Exécutez la commande **antimicro**.
+   * Pour lancer le logiciel en mode caché : **antimicro --tray**.
+
+==== Présentation globale du logiciel ====
+{{http://hizo.fr/img/antimicro/v0.7-global.png}}
+
+==== Nombre de touches configurables ====
+[[https://github.com/Ryochan7/antimicro|AntiMicro]] détecte plus ou moins bien de le nombre de touches de la manette (Trouve un peu trop de possibilités avec une manette PS3 par ex.)
+
+==== Correspondance entre la manette et AntiMicro ====
+Pour déterminer à quel numéro de bouton correspond la touche de la manette, il suffit de la presser, la touche correspondante se colorera alors en bleu (voir l'image ci-dessus).
+
+
+===== Configuration =====
+=== Touches simples ===
+La configuration est très simple puisqu'il suffit de cliquer sur le bouton à configurer, apparaît alors la fenêtre ci-dessous.
+
+{{http://hizo.fr/img/antimicro/v0.7-configuration_simple.gif}}
+
+2 possibilités pour configurer le bouton :
+  * Presser la touche du clavier (ou de la souris) à y associer.
+  * Cliquer sur le bouton du clavier ou de la souris virtuelle.
+
+2 options :
+  * Turbo : Lorsque le bouton reste pressé, la touche correspondante est virtuellement mitraillée (clics multiples).
+  * Pression continue : Une simple pression sur le bouton laisse virtuellement celui-ci pressé. Pour arrêter la pression virtuelle, il suffit de ré-appuyer dessus. 
+
+=== Combinaisons de touches ===
+Pour accéder aux combinaisons de touches, il faut cliquer sur le bouton **Avancé** de la fenêtre de configuration simple (voir ci-dessus), apparaît alors cette fenêtre.
+
+{{http://hizo.fr/img/antimicro/v0.7-configuration_avancee.png}}
+
+De nombreuses options et combinaisons de touches sont possibles, des infos bulles sont disponibles sur les différentes options.
+
+=== Axes ===
+Les axes correspondent aux déplacements horizontaux et verticaux de la souris par ex.
+
+Comme dans le cas des touches simples, il suffit de cliquer sur le bouton correspondant à l'axe à configurer, apparaît alors la fenêtre ci-dessous.
+{{http://hizo.fr/img/antimicro/v0.7-axes.png}}
+
+Le logiciel propose des sélections toutes faites :
+  * De la souris verticale/horizontale inversée ou non.
+  * Des touches avec les flèches haut, bas, gauche, droite.
+  * Des touches W, S, A, D.
+
+Si ces propositions ne conviennent pas, il suffit de choisir ses touches en cliquant sur les boutons correspondants aux actions, s'ouvre alors la fenêtre de la combinaison de touches (voir ci-dessus).
+
+=== Divers ===
+Comme indiqué sur la 1ère image, il est possible de sauvegarder différentes configurations et de se promener entre elles.
+
+Pour cacher la fenêtre, **Fichier > Cacher** ou **CTRL+H**.
+
+Il est obligatoire de garder le logiciel lancé (au moins dans la zone des icônes) pour que la configuration des touches reste active.
+
+===== Désinstallation =====
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer le paquet]] **antimicro**.
+
+===== Voir aussi =====
+
+  * La page traitant des [[joystick|joysticks]] de façon générale.
+  * [[http://qjoypad.sourceforge.net/|QJoypad]]
+  * [[https://github.com/AntiMicro/antimicro|Page git d'AntiMicro]]
+
+----
+//Contributeurs : [[:utilisateurs:hizoka|hizoka]] Le 16/05/2013//

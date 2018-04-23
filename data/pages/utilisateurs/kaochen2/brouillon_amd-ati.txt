@@ -1,0 +1,240 @@
+{{tag> matériel carte_graphique radeon catalyst}}
+----
+
+====== Cartes graphiques AMD-ATI ======
+
+{{ :amd_ati_logo.png |AMD-ATI}}
+
+===== Avant propos =====
+
+Depuis fin 2006, [[wpfr>ATI|ATI]] est une filiale de [[wpfr>Advanced_Micro_Devices|AMD]]. Même si le nom ATI reste valable, l'appellation AMD-ATI sera utilisée à sa place pour rappeler l'appartenance à AMD.
+
+===== Introduction =====
+
+Comme c'est très souvent le cas, les pilotes (//drivers//)  pour les cartes graphiques **[[http://ati.amd.com/fr/|AMD-ATI]]** peuvent être regroupés en deux "familles" :
+  * Les pilotes [[wpfr>Logiciel_libre | libres]], développés par la communauté. Ils sont, pour la plupart, installés par défaut sur Ubuntu.
+  * Les pilotes [[wpfr>Logiciel_propri%C3%A9taire | propriétaires]], développés par AMD-ATI. Ils sont fournis par le constructeur, ils peuvent s'installer en quelques clics depuis les paramètres système.
+
+===== Pilotes libres =====
+
+==== Présentation des pilotes libres ====
+Historiquement les seuls pilotes libres pour cartes graphiques [[http://ati.amd.com/fr/ | AMD-ATI]] étaient ceux développés et fournis par la fondation [[wpfr>Xorg|X.org]] afin de permettre le fonctionnement de ces cartes avec le serveur [[:xorg|X.org]] (serveur graphique utilisé par la (quasi-)totalité des distributions Linux).\\
+Toujours d'actualité, ces pilotes sont au nombre de quatre :
+  - Le pilote générique **ati** qui n'est pas vraiment un pilote puisque son rôle est de détecter la carte graphique et de charger le pilote adéquat.
+  - Le pilote **atimisc** qui est le pilote pour les cartes de type ATI Mach8/32/64
+  - Le pilote **r128** qui est le pilote pour les cartes de type ATI Rage128.
+  - Le pilote **[[:radeon]]** qui est le pilote à utiliser pour la majorité des cartes de type [[wpfr>Radeon | ATI Radeon]].
+
+==== Installation des pilotes libres ====
+Ces pilotes font partie par défaut d'Ubuntu et ne nécessitent aucune installation préalable.\\
+Si, malgré tout, une réinstallation est nécessaire il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>xserver-xorg-video-ati|xserver-xorg-video-ati]]**.
+
+  * Pour installer une version plus récente ou une version en cours de développement, rendez-vous sur la page [[:radeon]]. Attention ces méthodes comportent un risque pour la stabilité de votre système.
+
+===== Pilotes propriétaires =====
+==== Présentation des pilotes propriétaires  ====
+
+>Le code source des pilotes propriétaires n'est pas librement accessible et modifiable par les développeurs de Ubuntu. Leur utilisation est risquée car la société qui produit ces pilotes ne les a conçus que pour certains types de matériels, et des mises à jour de sécurité qui y sont apportées dépendent uniquement de son bon vouloir. Ubuntu ne peut pas réparer ou améliorer ces pilotes.
+
+Si les pilotes libres sont en parfaite adéquation avec la [[wpfr>Linux#Principes_et_id.C3.A9ologie|philosophie Linux]], les pilotes propriétaires ont souvent l'avantage d'être plus performants.\\
+En l'occurrence, utiliser les pilotes propriétaires est, à l'heure actuelle, la seule façon d'obtenir une [[:acceleration_graphique|accélération]] 3D complète avec une carte graphique AMD-ATI.
+
+Bien que l'appellation des pilotes propriétaires AMD-ATI soit unifiée sous le terme **fglrx** (pour "//FireGL Radeon for X (server)//"), il existe en réalité deux versions différentes :
+  - le pilote [[:Catalyst]] (**fglrx** version 8.43 et suivantes) qui prend en charge les:
+       * //Radeon// 8500 et suivantes (en [[wpfr>Accelerated_Graphics_Port|AGP]] et [[wpfr>Pci_express|PCI express]])
+       * //ATI FireGL// 8700 et suivantes
+  - le pilote "ancienne version" appelé simplement "//ATI proprietary driver//" (**fglrx** version 8.42.3 et antérieures)
+        * Les cartes graphiques "plus anciennes" ne sont pas officiellement supportées par le pilote //Catalyst//; aussi, il est nécessaire d'installer une ancienne version de **fglrx**.
+
+==== Installation du pilote propriétaire via l'utilitaire ====
+
+<note>Cette méthode est vivement recommandée en cas d'installation du pilote propriétaire. C'est la méthode la plus simple qui utilise des pilotes spécialement empaquetés pour **Ubuntu** et dont les mises à jour seront proposées automatiquement.
+Néanmoins le pilote du dépôt peut présenter des bugs qui n'apparaissent pas si l'on fait soi-même les fichiers deb à partir de la version du pilote fourni sur le site du constructeur.</note>
+
+Pour installer les pilotes propriétaires, il suffit d'aller dans //Paramètres système → Pilotes additionnels//.\\
+Plusieurs choix de versions peuvent être disponibles.
+
+{{:ati_driver_install.png?350|L'interface Ubuntu des pilotes de périphériques}}
+
+**Si aucun choix n'est disponible**, allez dans  //Logithèque Ubuntu → Edition → Sources de logiciels//, et vérifiez dans le premier onglet (Logiciels Ubuntu) que la case "Pilotes propriétaires de périphériques" est bien activée:
+  * Si elle était déjà activée: lancez  le //Gestionnaire de mises à jour//, pour [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|recharger la liste des paquets disponibles]]
+  * Si vous venez de l'activer: la mise à jour sera demandée dès la fermeture de la fenêtre "Sources de logiciels". Une connexion internet doit bien sûr être active.
+
+**Si la liste des choix est toujours vide** après ces manipulations, parlez-en dans la section [[http://forum.ubuntu-fr.org/viewforum.php?id=27|Serveurs graphiques et cartes vidéo]] du forum.
+
+==== Installation du pilote propriétaire depuis le site officiel====
+
+<note important>La moindre erreur dans le fichier **/etc/X11/xorg.conf** pourrait empêcher votre système de démarrer graphiquement.\\ Avant toute installation ou manipulation, effectuez une [[#important_sauvegarder_son_fichier_xorgconf | sauvegarde de ce fichier]].</note>
+
+**AMD-ATI** fournit directement sur [[http://ati.amd.com/support/driver.html |son site]] les pilotes sous la forme d'exécutable. Cela permet de profiter des tout derniers pilotes et même de tester les versions //bêta// (à vos risques et périls).
+
+Vous trouverez plus d'explication sur la page [[:Catalyst]].
+
+===== Systèmes à cartes graphiques hybrides Intel / AMD =====
+
+Pour faire fonctionner et profiter de votre carte graphique AMD sur un système à [[wpfr>Processeur_graphique|GPUs]] commutables, il est nécessaire d'installer le pilote propriétaire AMD Catalyst (fglrx) sur votre ordinateur selon une technique spécifique.\\
+Pour prendre connaissance de celle-ci rendez-vous sur le forum [[http://forum.ubuntu-fr.org/viewtopic.php?id=924311|ici]].
+
+<note>Les versions antérieures à Ubuntu [[:precise|12.04]] ne sont pas prises en charge.</note>
+
+===== Cas des ordinateurs à chipset graphique intégré au processeur (HD2000, HD3000 et autres) =====
+
+De plus en plus d'ordinateurs possèdent un processeur avec carte graphique "intégrée". Ces cartes consomment beaucoup moins d'énergie que les cartes graphiques traditionnelles.\\
+Il est donc conseillé pour les ordinateurs portables de désactiver la carte graphique ATI, ce qui permet de gagner jusqu'à 50% d'autonomie.
+
+Deux solutions sont possibles :
+  * [[#Avec vga_switcheroo]]
+  * [[#Avec acpi_call]]
+
+==== Avec vga_switcheroo ====
+
+Une page est dédiée à son utilisation : <<** [[:vga_switcheroo]]** >>\\
+Cet outil inclus dans le noyau linux est simple à utiliser. Cependant, il ne fonctionne pas toujours et il faut alors se reporter à la [#Avec acpi_call|méthode suivante]].
+
+==== Avec acpi_call ====
+
+**acpi_call** est un autre [[:tutoriel:tout_savoir_sur_les_modules_linux|module]] développé pour désactiver la carte graphique.
+ 
+Pour importer le projet acpi_call, tapez dans un [[:terminal]] :
+<code>sudo apt-get install git
+git clone http://github.com/mkottman/acpi_call.git
+</code>
+  
+Puis lancez le module en tapant dans le [[:terminal]] :
+<code>cd acpi_call/
+make
+sudo insmod acpi_call.ko
+</code>
+  
+Il faut ensuite lancer un [[:tutoriel:script_shell|script]], après l'avoir rendu [[:permissions|exécutable]], qui permet de savoir "où" se trouve la carte. Pour cela, tapez :
+<code>chmod u+x test_off.sh
+./test_off.sh 
+</code>
+
+Vous devriez obtenir un résultat comparable à celui-ci :
+<code>
+Trying \_SB.PCI0.P0P1.VGA._OFF: failed
+Trying \_SB.PCI0.P0P2.VGA._OFF: failed
+Trying \_SB_.PCI0.OVGA.ATPX: failed
+Trying \_SB_.PCI0.OVGA.XTPX: failed
+Trying \_SB.PCI0.P0P3.PEGP._OFF: failed
+Trying \_SB.PCI0.P0P2.PEGP._OFF: failed
+Trying \_SB.PCI0.P0P1.PEGP._OFF: failed
+Trying \_SB.PCI0.MXR0.MXM0._OFF: failed
+Trying \_SB.PCI0.PEG1.GFX0._OFF: failed
+Trying \_SB.PCI0.PEG0.GFX0.DOFF: failed
+Trying \_SB.PCI0.PEG1.GFX0.DOFF: failed
+Trying \_SB.PCI0.PEG0.PEGP._OFF: works!
+</code>
+
+Il faut alors repérer la ligne qui se termine par "works!".  C'est cette ligne qui vous intéresse pour désactiver la carte à chaque démarrage.
+
+[[:tutoriel:comment_modifier_un_fichier|Modifiez avec les droits d'administration]] le fichier **/etc/rc.local** pour insérer les deux lignes suivantes à la fin du fichier,  juste avant //exit 0// :
+<file bash>
+insmod /<CHEMIN>/acpi_call.ko
+echo '\_SB.PCI0.PEG0.PEGP._OFF' > /proc/acpi/call 
+</file>
+où :
+  * <CHEMIN> est à remplacer par le chemin complet vers où se trouve le fichier **acpi_call/acpi_call.ko**
+  * //\_SB.PCI0.PEG0.PEGP._OFF// est à remplacer par la ligne où se trouvait le "works!".
+
+
+===== Configuration =====
+
+==== Pilote libre Radeon ====
+
+Veuillez vous référer à la page <<** [[:radeon]]** >>
+
+==== ATI Catalyst ====
+
+{{:Ati_bienvenue.png?350|L'interface Catalyst}}
+
+Veuillez vous référer à la page << **[[:Catalyst]]** >>
+
+===== Désactivation et désinstallation des pilotes propriétaires =====
+
+Si vous rencontrez des problèmes avec les pilotes propriétaires (ou que vous ne voulez utiliser que des modules libres), vous pouvez repasser aux **pilotes libres** très simplement. Pour cela, il suffit de ne pas utiliser les **pilotes propriétaires** et dans ce cas il n'est pas indispensable de les désinstaller (à part si vous tenez absolument à économiser quelques méga-octets).
+
+Par contre, si vous avez installé les pilotes à partir des [[:dépôts]] (par le gestionnaire de pilotes de périphériques ou par l'installation manuelle des paquets), et que finalement vous désirez installer manuellement les derniers pilotes téléchargés sur le site de **ATI**, il est nécessaire de désinstaller les paquets auparavant.
+
+==== Simple désactivation ====
+
+=== Par le gestionnaire de pilotes de périphériques ===
+
+<note>Pour Ubuntu [[:lucid|10.04]] et versions suivantes, la désactivation n'est plus possible. Dans le menu //Système -> Administration -> Pilotes supplémentaires//, il y a seulement le bouton "Supprimer" qui réalise effectivement une désinstallation du pilote propriétaire</note>
+Dans //Paramètres système → Pilotes additionnels// , sélectionnez le pilote graphique et cliquez simplement sur le bouton **Désactiver** :
+
+{{:driver-deactivate.png|Désactivation d'un pilote propriétaire}}
+
+==== Désinstallation complète des pilotes propriétaires ====
+
+La méthode de désinstallation dépend évidemment de la méthode utilisée pour l'installation.
+
+Si l'installation a été effectuée par le gestionnaire de pilotes de périphériques ou manuellement par les dépôts, suivez la [[#pour une installation par les dépôts|première méthode de désinstallation]].\\
+Sinon, si l'installation a été effectuée manuellement avec le pilote téléchargé sur le site de **ATI**, suivez la [[#pour une installation par le fichier téléchargé sur le site de AMD-ATI|seconde méthode]].
+
+=== pour une installation par les dépôts ===
+
+Pour **supprimer** tous les pilotes **ATI** installés par les dépôts, [[:tutoriel:comment_supprimer_un_paquet|supprimez les paquets]]  commençant par ** fglrx**.\\
+Ceci peut se résumé avec l'outil [[:apt-get]], en saisissant dans un [[:terminal]]:
+<code>sudo apt-get remove fglrx*</code>
+
+=== pour une installation par le fichier téléchargé sur le site de AMD-ATI ===
+
+Après avoir sauvegardé votre   [[#important_sauvegarder_son_fichier_xorgconf | xorg.conf ]] , tapez dans un [[:terminal]] :
+<code>cd /usr/share/ati/
+sudo sh fglrx-uninstall.sh
+</code>
+
+===== Informations pratiques =====
+
+==== Connaître le modèle de sa carte graphique ====
+
+=== Dans ATI Catalyst ===
+
+{{:Ati_information.png|Catalyst et les informations de la carte graphique }}
+
+=== Dans un terminal ===
+Tapez :
+<code> glxinfo | grep OpenGL</code>
+Ou, si vous utilisez le driver proriétaire Catalyst
+<code>fglrxinfo -v | grep OpenGL</code>
+
+Voici un exemple de résultat :
+<code>OpenGL vendor string: ATI Technologies Inc.
+OpenGL renderer string: Radeon X1300/X1550 Series
+OpenGL version string: 2.1.8087 Release
+OpenGL shading language version string: 1.20
+OpenGL extensions:
+</code>
+Ou encore tapez :
+<code>lspci | grep VGA</code>
+
+qui vous donnera quelque chose dans ce style là:
+<code>03:00.0 VGA compatible controller: ATI Technologies Inc RV516 [Radeon X1300/X1550 Series]</code>
+  
+Si vous posez une question sur le forum à propos d'un problème graphique, pensez à mentionner ce résultat.
+  
+===== FAQ / Notes / Problèmes récurrents =====
+
+====Important sauvegarder son fichier xorg.conf====
+
+Pour en faire une copie **__avant__** de commencer les manipulations
+<code>sudo cp /etc/X11/xorg.conf{,.orig}</code>
+Pour restaurer le fichier original en cas d'erreur:
+<code>sudo cp /etc/X11/xorg.conf.orig /etc/X11/xorg.conf</code>
+  
+==== Bug Lucid Lynx ====
+
+Avec les pilotes propriétaires et à partir de [[:Lucid]] Lynx 10.04, la résolution au démarrage et à l'arrêt est très faible.\\
+Le problème vient de [[:Plymouth]]. Toute la manœuvre à faire pour corriger ce problème est décrite [[http://www.clapico.com/2010/05/02/logo-baveux-ubuntu-dans-lucid-lynx-par-le-joli/|dans cet article]].
+
+=====Liens externes : =====
+
+  * **(fr)**[[wpfr>Radeon]]
+  * **(fr)** [[http://www.amd.com/fr/Pages/AMDHomePage.aspx|Page AMD]] fournissant les spécifications détaillées des cartes ainsi que les derniers pilotes [[:Catalyst]]
+  * **(en)** [[http://wiki.cchtml.com/index.php/Ubuntu|Wiki AMD non officiel]], mais riche en informations utiles
+  * **(en)** [[http://www.x.org/wiki/radeon|Portail de la fondation X.org]] dédié au développement des pilotes libres [[:Radeon]]
+
+----
+//Contributeurs: [[:utilisateurs:Kao_chen]], [[:utilisateurs:RustyBSD]], [[:utilisateurs:WSH]], [[:utilisateurs:Canigou 66]] //

@@ -1,0 +1,270 @@
+{{tag>matériel portable acer}}
+----
+
+====== Acer 8920G Son ======
+
+===== Ubuntu 9.10 =====
+
+Tout marche sans configuration : micro incorporé et son 5.1. [[http://www.lynnepublishing.com/surround/www_lynnemusic_com_surround_test.ac3|Fichier son test]].
+
+===== Ubuntu 9.04 =====
+
+<note>J'ai récemment remarqué que le mute avec le pavé tactile déconne, en effet le PCM (à voir dans alsamixer) est systématiquement remis à 0 et ne revient pas à son ancienne valeur lorsqu'on désactive le mute, je suis actuellement à la recherche d'une solution.</note>
+
+
+FIXME JUSTE AUTRE CHOSE :  et le Front Micro (le micro incorporé) ???? Ca ne marche toujours pas ! Quelques soient les réglages ALsa !!!! Du coup Skype ne marche pas !!!!
+
+==== Headphones ====
+
+
+Comme vous l'avez remarqué Jaunty détecte notre carte son à merveille sauf une petite chose si vous avez un petit problème avec vos écouteurs, (vous avez le son dans vos écouteurs mais les haut parleurs du pc jouent également le son), effectuez cette petite manipulation :
+<code>
+sudo gedit /etc/modprobe.d/alsa-base.conf
+</code>
+Ajoutez ceci
+<code>
+snd-hda-intel model=auto
+</code>
+Voilà normalement ça devrait fonctionner :-D
+
+==== Surround ====
+
+
+Pour activer le Surround 5.1 reporter vous à [[acer_aspire_8920g#pour_jaunty_jackalope_9.04|ce topic]]
+
+===== Ubuntu 8.10 ou antérieur =====
+
+==== Pré-requis ====
+Vous devez posséder une connexion internet pour pouvoir télécharger les fichiers nécessaires au script.
+
+==== Introduction ====
+
+J'ai décidé de rassembler différentes idées ou solutions au problème de son sur l'ordinateur portable Acer 8920G postés sur le forum (voir [[http://forum.ubuntu-fr.org/viewtopic.php?id=246709|ici]]). Grâce à Realtek j'ai pu reprendre et modifier leur script, si vous voulez le script original allez voir [[ftp://61.56.69.18/pc/audio|ici]].
+
+==== Explication du Script ====
+
+Tout d'abord voilà le script (le dernier 1.0.2-beta) :
+=== config ===
+
+<code bash>
+#!/bin/sh
+
+##Version du noyau
+KERNEL_VER=`uname -r`
+
+##Version de ALSA
+alsadriverversion=1.0.20
+alsalibversion=1.0.20
+alsautilsversion=1.0.20
+
+##Version de HDA-VERB
+hdaverbversion=0.3
+
+##Lien pour télécharger ALSA
+dlalsadriver="ftp://ftp.alsa-project.org/pub/driver/alsa-driver-$alsadriverversion.tar.bz2"
+dlalsalib="ftp://ftp.alsa-project.org/pub/lib/alsa-lib-$alsalibversion.tar.bz2"
+dlalsautils="ftp://ftp.alsa-project.org/pub/utils/alsa-utils-$alsautilsversion.tar.bz2"
+
+##Lien pour télécharger HDA-VERB
+dlhdaverb="ftp://ftp.suse.com/pub/people/tiwai/misc/hda-verb-$hdaverbversion.tar.gz"
+</code>
+
+Le fichier config contient toutes les informations nécessaires au script install pour HDA-VERB et ALSA, c'est à dire le lien pour le télécharger et la version. Si une nouvelle version de HDA-VERB ou ALSA est disponible vous pourrez modifier **alsadriverversion alsalibversion alsautilsversion hdaverbversion**
+
+=== install ===
+
+<code bash>
+#!/bin/sh
+
+. ./config
+
+clear
+
+echo "\033[31m==========================\033[00m"
+echo "\033[31m Installation de HDA VERB \033[00m"
+echo "\033[31m==========================\033[00m"
+wget -c $dlhdaverb
+tar -zxvf hda-verb-$hdaverbversion.tar.gz > /dev/null 2>&1
+echo "\033[31mTéléchargement et décompression de HDA VERB v$hdaverbversion					[OK]\033[00m"
+cd hda-verb-$hdaverbversion && make && sudo cp hda-verb /usr/local/bin/
+cd ..
+sudo cp /etc/rc.local /etc/rc.local.backup
+sudo sed "12a\ \n/usr/local/bin/hda-verb /dev/snd/hwC0D0 0x15 SET_EAPD_BTLENABLE 2\n" /etc/rc.local.backup > /etc/rc.local
+echo "\033[31mCompilation de HDA VERB v$hdaverbversion								[OK]\033[00m"
+
+clear
+
+echo "\033[31m==================================================================\033[00m"
+echo "\033[31m Téléchargement et décompression de ALSA driver v$alsadriverversion \033[00m"
+echo "\033[31m==================================================================\033[00m"
+wget -c $dlalsadriver
+tar xvpfj alsa-driver-$alsadriverversion.tar.bz2 > /dev/null 2>&1
+echo "\033[31mTéléchargement et décompression de ALSA driver v$alsadriverversion				[OK]\033[00m"
+
+echo "\033[31m=====================================================================\033[00m"
+echo "\033[31m Téléchargement et décompression de ALSA Library source v$alsalibversion \033[00m"
+echo "\033[31m=====================================================================\033[00m"
+wget -c $dlalsalib
+tar xvpfj alsa-lib-$alsalibversion.tar.bz2 > /dev/null 2>&1
+echo "\033[31mTéléchargement et décompression de ALSA Library source v$alsalibversion				[OK]\033[00m"
+
+echo "\033[31m=============================================================\033[00m"
+echo "\033[31m Téléchargement décompression de ALSA Utility v$alsautilsversion \033[00m"
+echo "\033[31m=============================================================\033[00m"
+wget -c $dlalsautils
+tar xvpfj alsa-utils-$alsautilsversion.tar.bz2 >/dev/null 2>&1
+echo "\033[31mTéléchargement décompression de ALSA Utility v$alsautilsversion					[OK]\033[00m"
+
+sync
+
+echo "\033[31m=================================\033[00m"
+echo "\033[31m Suppression des anciens pilotes \033[00m"
+echo "\033[31m=================================\033[00m"
+if [ -d /lib/modules/$KERNEL_VER/kernel/sound ]; then
+   rm -rf /lib/modules/$KERNEL_VER/kernel/sound/pci > /dev/null 2>&1
+   rm -rf /lib/modules/$KERNEL_VER/kernel/sound/acore > /dev/null 2>&1
+   rm -rf /lib/modules/$KERNEL_VER/kernel/sound/core > /dev/null 2>&1
+fi
+
+if [ -f /etc/rc.d/init.d/alsasound ]; then
+   /etc/init.d/alsasound stop
+   rmmod snd-page-alloc > /dev/null 2>&1 
+   rmmod soundcore > /dev/null 2>&1
+fi
+echo "\033[31mSuppression des anciens pilotes									[ OK ]\033[00m"
+
+sleep 2
+
+echo "\033[31m=======================\033[00m"
+echo "\033[31m Compilation du pilote \033[00m"
+echo "\033[31m=======================\033[00m"
+cd alsa-driver-$alsadriverversion
+./configure --with-cards=hda-intel 
+make
+make install
+./snddevices
+cd ..
+echo "\033[31mCompilation du pilote										[ OK ]\033[00m"
+
+## Pour x86
+echo "\033[31m=====================================\033[00m"
+echo "\033[31m Supression des anciennes librairies \033[00m"
+echo "\033[31m=====================================\033[00m"
+
+rm -rf /lib/libasound.* > /dev/null 2>&1 
+rm -rf /lib64/libasound.* > /dev/null 2>&1 
+rm -rf /usr/lib/libasound.* > /dev/null 2>&1 
+rm -rf /usr/lib64/libasound.* > /dev/null 2>&1
+echo "\033[31mSupression des anciennes librairies								[ OK ]\033[00m"
+
+echo "\033[31m======================================\033[00m"
+echo "\033[31m Compilation des nouvelles librairies \033[00m"
+echo "\033[31m======================================\033[00m"
+
+cd alsa-lib-$alsalibversion
+./configure
+make
+make install
+cd ..
+echo "\033[31mCompilation des nouvelles librairies								[ OK ]\033[00m"
+
+echo "\033[31m=============================\033[00m"
+echo "\033[31m Compilation de ALSA Utility \033[00m"
+echo "\033[31m=============================\033[00m"
+
+cd alsa-utils-$alsautilsversion
+./configure
+make
+make install
+cd ..
+echo "\033[31mCompilation de ALSA Utility									[ OK ]\033[00m"
+
+## Pour x86_64
+if [ -d /usr/lib64 ]; then
+  cp -lf /usr/lib/libasound.* /usr/lib64
+  cp -lf /usr/lib/pkgconfig/alsa.pc /usr/lib64/pkgconfig
+  ldconfig -n /usr/lib64
+fi
+
+sleep 1
+
+if [ -f /etc/asound.state ]; then
+   rm -rf /etc/asound.state > /dev/null 2>&1
+fi
+
+rm -rf /dev/sndstat > /dev/null 2>&1
+ln -s /proc/asound/oss/sndstat /dev/sndstat
+
+if [ -d /usr/share/sounds/alsa ]; then
+     bzip2 -d test.wav.bz2
+     cp -f test.wav /usr/share/sounds/alsa
+     bzip2 test.wav
+else
+     mkdir /usr/share/sounds/alsa
+     bzip2 -d test.wav.bz2
+     cp -f test.wav /usr/share/sounds/alsa
+     bzip2 test.wav
+fi
+
+clear
+
+echo "\033[31m======================================\033[00m"
+echo "\033[31m Suppression des fichiers temporaires \033[00m"
+echo "\033[31m======================================\033[00m"
+
+rm -rf alsa-driver-$alsadriverversion > /dev/null && rm -rf alsa-driver-$alsadriverversion.tar.bz2 > /dev/null
+rm -rf alsa-lib-$alsalibversion> /dev/null && rm -rf alsa-lib-$alsalibversion.tar.bz2 > /dev/null
+rm -rf alsa-utils-$alsautilsversion > /dev/null && rm -rf alsa-utils-$alsautilsversion.tar.bz2 > /dev/null
+rm -rf hda-verb-$hdaverbversion.tar.gz > /dev/null && rm -rf hda-verb-$hdaverbversion > /dev/null
+echo "\033[31mSuppression des fichiers temporaires								[ OK ]\033[00m"
+
+alsaconf
+
+echo "\033[31m==================================="
+echo "\033[31m Modification du fichier alsa-base "
+echo "\033[31m==================================="
+sudo cp /etc/modprobe.d/alsa-base /etc/modprobe.d/alsa-base.backup
+echo "\033[31mCréation d'un backup de alsa-base									[ OK ]\033[00m" 
+sudo sed "57a\ \n#Activation du haut parleur avant en stéréo\nalias snd-card-0 snd-hda-intel\noptions snd-hda-intel model=auto\n" /etc/modprobe.d/alsa-base.backup > /etc/modprobe.d/alsa-base
+echo "\033[31mActivation du haut parleur avant en stéréo								[ OK ]\033[00m"
+
+echo "Pour avoir le son vous devez redémarrer votre ordinateur"
+echo -n "Voulez-vous redémarrer ? (O/N) "
+read ouinon
+if [ "$ouinon" = "o" ] || [ "$ouinon" = "O" ]; then
+{
+    sudo shutdown -r now
+}
+elif [ "$ouinon" = "n" ] || [ "$ouinon" = "N" ]; then
+{
+    exit 0
+}
+else
+{
+  echo "Il faut taper O ou N ! Pas $ouinon"
+}
+fi
+exit 0
+</code>
+
+J'ai implémenté l'installation automatisée de HDA-VERB ainsi que ALSA (pilote, utils et lib), le script est assez simple à comprendre pour ceux qui veulent le modifier.
+
+==== Installation ====
+
+Tout d'abord téléchargez le script qui se trouve [[http://choohatek.no-ip.org/Acer8920G-Son|ici]] (ou reprenez celui qui se trouve plus haut si le serveur est down), ensuite on décompresse tout ça :
+<code>
+cd /le/répertoire/où/se/trouve/l'archive/
+tar xvpfj Acer8920G-Son-vX.tar.bz2
+</code>
+
+Puis on lance le script d'installation :
+<code>
+sudo ./install
+</code>
+
+===== Voir aussi =====
+
+  * Page de la documentation concernant ce modèle [[acer_aspire_8920g]] (fr)
+
+----
+//Contributeurs : [[:utilisateurs:choohatek]]//

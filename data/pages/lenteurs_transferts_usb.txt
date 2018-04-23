@@ -1,0 +1,69 @@
+{{tag>USB optimisation }}
+
+===== Problèmes rencontrés =====
+Cette page a pour but de recenser les problèmes de débits faibles (ou qui le deviennent) sur les transferts USB sur la plupart des distributions Linux.
+
+Un thread traitant du sujet est ouvert [[http://forum.kubuntu-fr.org/viewtopic.php?id=287690|ici]]
+
+Une vidéo montrant la chute de débit sur cette [[http://www.youtube.com/watch?v=qf3KvH1U85Y|vidéo]]
+
+Il serait intéressant pour chacun de pouvoir remplir ce tableau afin de se faire une idée plus précise des problèmes et de leur amélioration suivant les upgrades des distributions et des kernels
+
+**Dans tout les cas, il est conseillé de tester et comparer les performances de votre disque ou clef USB sur un autre PC ou un autre OS (Windows, Mac, etc) pour écarter un problème autre que Linux**
+
+De préférence aussi faire une copie au moins 2 fois pour montrer la constance du problème.
+
+===== Quelques mesures =====
+
+^ Distribution ^ Kernel ^ Périphérique USB (DD ou Clef) ^ Sens  ^ Taille fichier ^ Durée Transfert (mm:ss) ^ Taux ^ Charge CPU ^ Commentaires ^
+| Mandriva 2010.0 Kde 32 | 2.6.31.12 | DD Iomega 500Go (NTFS) | PC => USB| 1,7 Go | 00:53 | 32 Mo/s constants | Elevée | Process mount.ntfs-3g consomme entre 50 et 80% CPU |
+| Mandriva 2010.0 Kde 32 | 2.6.31.12 | Clef Kingston 2Go (FAT) | PC => USB| 1,7 Go | 10:50 | 2,6 Mo/s constants | Normale |.|
+| Mandriva Cooker Kde 32 | 2.6.33.1 | DD Iomega 500Go (NTFS) | PC => USB| 1,7 Go | 00:50 | 34 Mo/s constants | Normale | Test à refaire |
+| Mandriva Cooker Kde 32 | 2.6.33.1 | Clef Kingston 2Go (FAT) | PC => USB| 1,7 Go | 11:30 | ~2,6 Mo/s constants | Normale |.|
+| Ubuntu 9.04 | 2.6.28-11 | DD Iomega 500Go (NTFS) | PC => USB| 1,7 Go | 01:02 | 27 Mo/s constants | Elevée |Process mount.ntfs-3g consomme 80% CPU |
+| Ubuntu 9.04 | 2.6.28-11 | Clef Kingston 2Go (FAT) | PC => USB| 1,7 Go | 10:51 | 27 Mo/s constants | Normale |.|
+| Ubuntu 9.10 | 2.6.31-20 | DD Seagate 500Go | PC => USB| 3,2 Go | ? | 20 Mo/s constants | Normale | Transfert via Nautilus, du même ordre sur Vista|
+| Ubuntu 9.10 | 2.6.31-20 | Clé PNY 8Go | PC => USB| 0,7 Go | ? | rapide jusqu'à 120Mo puis 9mo/s puis 5mo/s | Normale | Transfert via Nautilus |
+| Ubuntu Lucid Beta 1 | 2.6.32-16 | DD Iomega 500Go (NTFS) | PC => USB| 1,7 Go | 00:50 | 34 Mo/s constants | Elevée |Process mount-ntfs consomme entre 50 et 80% CPU |
+| Ubuntu Lucid Beta 1 | 2.6.32-16 | Clef Kingston 2Go (FAT) | PC => USB| 1,7 Go | 11:45 | ~2,4 Mo/s constants | Normale |.|
+| Mandriva 2010.0 32b Kde 4.35 | 2.6.31.12 | DD WD passeport 250 (NTFS) | PC => USB| 1,4 Go | 01:50 | 18 Mo/s constants | Elevée | Process ntfs-3g 100% CPU |
+| Mandriva 2010.0 32b Kde 4.35 | 2.6.31.12 | clef kingston datatraveller 2 Go (FAT) | PC => USB| 1,4 Go | interrompu | < 1Mo/s constants | Elevée | pas pu voir |
+
+===== Méthode à essayer =====
+Ouvrez le fichier etc/default/grub dans un éditeur de texte en mode super-utilisateur. Exemples :
+
+ <code>sudo gedit etc/default/grub</code>
+
+ou
+
+<code> sudo mousepad etc/default/grub</code>
+
+Vous devriez trouver des lignes ressemblant à celles-ci :
+
+<code>
+GRUB_DEFAULT=0
+
+GRUB_HIDDEN_TIMEOUT=01
+
+GRUB_HIDDEN_TIMEOUT_QUIET=true
+
+GRUB_TIMEOUT=1
+
+GRUB_DISTRIBUTOR=`lsb_release -i -s 2> /dev/null || echo Debian`
+
+GRUB_CMDLINE_LINUX_DEFAULT="vga=775 quiet splash noapic"
+
+GRUB_CMDLINE_LINUX="splash noapic"
+</code>
+
+Rajoutez l'option l'option splash noapic sur la dernière ligne, ou crée une nouvelle ligne si elle est absente, et enregistrez votre document.
+
+Puis dans un terminal :
+
+<code>sudo update-grub;sudo reboot</code>
+
+Votre machine redémarrera, et vous pourrez alors comparer votre vitesse de taux de transfert.
+
+Source sur le forum : https://forum.ubuntu-fr.org/viewtopic.php?pid=5343711#p5343711
+
+//Contributeur(s) : [[:utilisateurs:sylvainsjc|SylvainsJC]], steph138

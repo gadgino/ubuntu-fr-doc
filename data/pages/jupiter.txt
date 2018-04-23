@@ -1,0 +1,69 @@
+{{tag>énergie Precise vétuste}}
+
+----
+
+{{ applications:logo_de_jupiter.png|Logo de Jupiter}}
+
+====== Jupiter : un gestionnaire d'énergie ======
+
+Jupiter est un projet de logiciel permettant de mieux gérer l'énergie sur les ordinateurs portables et permet une gestion avancée des processeurs sur les [[:asus_eee_pc|Eee PC]] de Asus, en utilisant la technologie SHE (Super Hybrid Engine).
+
+<note warning>Depuis [[http://jupiter.sourceforge.net/|Décembre 2012]], le développement de Jupiter a été arrêté.\\ 
+Mais, il existe une alternative :[[TLP]]; [[http://linrunner.de/en/tlp/docs/tlp-linux-advanced-power-management.html|TLP]]</note>
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+Tout d'abord, rendez vous sur le sourceforge du projet à la [[http://sourceforge.net/projects/jupiter/files/|rubrique téléchargement]] pour y récupérer le [[:paquet]] //.deb// de la dernière version de jupiter, et celle de jupiter-support-eee si elle vous est utile.
+
+Il vous suffit maintenant d'[[:tutoriel:comment_installer_un_paquet|installer les paquets]] que vous venez de télécharger.
+
+===== Utilisation=====
+
+Jupiter se lancera automatiquement au démarrage. Vous pouvez également l'exécuter avec le lanceur situé dans le menu //Applications -> Outils Systèmes//.
+
+L'utilisation se fera au travers de l'applet présent dans la zone de notification où vous pouvez accéder à différent réglages.
+
+==== Rubrique « Performance » ====
+
+  * //**Maximum Performance**// : permet de faire fonctionner le processeur à plein régime sans économie d'énergie, le système est plus réactif mais plus gourmand en énergie ;
+  * //**Power On Demand**// : permet au processeur d'ajuster sa vitesse et consommation en fonction de la demande en ressources, le système s'adapte à la demande, la consommation d'énergie est fonction de l'utilisation ;
+  * //**Power Saving**// : force les économies d'énergie au maximum, le système sera plus lent en cas de forte demande en ressources matériel mais l'autonomie en sera renforcée.
+
+==== Rubrique « Device » ====
+
+Dans cette rubrique, vous pouvez désactiver certains périphérique pour économiser de l'énergie. La liste est différente en fonction du matériel supporté :
+  * Modem ;
+  * Carte 3G ;
+  * WebCam ;
+  * WiFi ;
+  * Touchpad ;
+
+==== Autres réglages ====
+
+Vous pouvez également modifier les résolutions d'écran et, sur les petits écrans, vous pouvez utiliser des [[xrandr#resolution_virtuelle|résolutions virtuelles]].\\
+L'orientation et la sélection des sorties vidéos est également supportées.
+
+===== Résolution des problèmes =====
+
+Avec [[:oneiric|Ubuntu 11.10]], l’icône de notification Jupiter peut ne pas apparaître car les autorisations de l'application ne se font pas.\\
+Dans ce cas, [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>libmono-posix4.0-cil]]** puis exécuter Jupiter à partir de votre menu d'applications.\\
+ Pour en savoir plus, consultez les commentaires de [[http://www.webupd8.org/2011/09/jupiter-applet-finally-available-for.html|cet article]]<sup>(en)</sup>.
+
+<note warning>Attention, l'installation de jupiter va créer un groupe "Jupiter". Il faut s'assurer que votre utilisateur fasse partie de ce groupe.</note>
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi =====
+
+  * **(en)** [[http://jupiter.sourceforge.net/|Site officiel de Jupiter]] ;
+  * **(en)** [[http://www.webupd8.org/2010/07/jupiter-ubuntu-ppa-hardware-and-power.html|Post sur le blog Web Upd8 annonçant le PPA]] ;
+  * **(en)** [[https://launchpad.net/jupiter-project|Jupiter sur Launchpad]].
+
+----
+//Contributeur principal : [[utilisateurs:trackzy|stdt]], [[utilisateurs:percherie|Percherie]]//

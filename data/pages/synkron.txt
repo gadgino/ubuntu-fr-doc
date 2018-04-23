@@ -1,0 +1,135 @@
+{{tag>Precise Trusty sauvegarde synchronisation}}
+----
+
+{{ :application:synkron_maverick_00.png?70| Logo de Synkron}}
+======= Synkron, synchroniser facilement ses fichiers ======
+
+**Synkron** est un outil remarquable de [[:synchronisation#types_de_synchronisation|synchronisation bi-directionnelle (par défaut) ou uni-directionnelle]], simple et en français. Il vous permet d'enregistrer des fichiers et dossiers sur un média ou un contenu que vous sélectionnerez au préalable.\\
+Distribué selon les termes de la [[wpfr>Licence_publique_générale_GNU|licence publique générale v2]], il est écrit en C++ et utilise les [[wpfr>Qt#Qt4|bibliothèques logicielles Qt4]].
+
+Vous pouvez ainsi sauvegarder votre dossier personnel (/home) sur un média externe ou tout autre emplacement, avec ou sans les fichiers cachés. Il est possible de créer des listes noires et configurer plusieurs profils de synchronisation. Grâce à son système de mise à jour, uniquement les fichiers modifiés seront sauvegardés lors de la prochaine synchronisation.\\
+Vous pouvez également vous servir de cette méthode pour avoir exactement le même contenu sur plusieurs sessions, ou plusieurs machines reliées en réseau local. Notez toutefois que **Synkron** ne gère pas directement la sauvegarde sur réseau distant (**il ne prend pas en charge SSH**). Il effectue des copies locales que vous pouvez ensuite (via un script cron ou autre) copier sur des ordinateurs distants.
+
+{{:synkron.png?700|Fenêtre prrincipale}}
+
+<note important> information de Matus Tomlein, le développeur de Synkron en avril 2014 : //"Actuellement, je ne recommande pas d'utiliser **Synkron** pour synchroniser des données importantes".//  \\ 
+Sur sa page personnelle "activities", Synkron est d'ailleurs marqué 2007-2011</note>
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  
+===== Installation =====
+
+**Synkron** n'est pas dans les [[:depots#depots_officiels|dépôts officiels]]. Il va donc falloir faire quelques manipulations particulières pour l'installer.
+<note important>Installer un paquet hors des [[depots#depots_officiels|dépôts officiels]] peut présenter un risque d'instabilité de votre système</note>
+
+Un paquet au format .deb est disponible depuis le [[http://synkron.sourceforge.net/|site officiel de Synkron]] en version 32 bits. Ce paquet n'est pas construit avec la dernière version disponible et présente des erreurs: //synkron: maintainer-address-malformed niente <niente@niente>// \\
+Pour que **Synkron** soit compatible avec [[:Ubuntu_64bits|Ubuntu 64 bits]] par exemple et puisse s'installer sans erreur, nous utiliserons la version source, qui nécessite d'être compilée. La version 32 ou 64 bits sera détectée et installée automatiquement en suivant les indications qui suivent.
+
+__**Avis aux débutants**__ : Cette méthode (tutoriel) est parfaitement accessible même si vous n'avez jamais compilé. Si vous compilez pour la première fois il vous suffit de suivre les étapes qui consistent à faire des copiés/collés des [[:commande_shell|commandes]] ci-dessous dans votre [[:terminal]]. Veillez à bien tout lire et ne pas sauter d'étapes, ainsi vous gagnerez du temps.
+
+==== Dépendances de compilation ====
+Vérifiez que vous ayez ces [[:tutoriel/comment_installer_un_paquet#installer_un_paquet_present_dans_les_depots_recommande|paquets installés]] : **[[apt>g++|g++]]** **[[apt>qt4-qmake|qt4-qmake]]** **[[apt>/libqt4-dev|libqt4-dev]]** **[[apt>qt4-dev-tools|qt4-dev-tools]]**
+
+==== Télécharger les sources (Compatible 32 et 64 Bits) ====
+
+Pour cela, 
+  - Allez sur [[http://sourceforge.net/projects/synkron/files/synkron/|cette page]];
+  - Cliquez ensuite sur le dossier **1.6.2** (dernière version disponible le 01/05/2011), et enfin:
+  - Téléchargez le fichier **Synkron-1.6.2-src.tar.gz**. Vérifiez ensuite que ce fichier soit bien dans votre dossier **Téléchargements** via le menu** Raccourcis > Téléchargements**. Sans quoi, si vous débutez, vous ne réussirez pas à poursuivre ce tutoriel.
+
+==== Extraction de l'archive ====
+  - Depuis le [[terminal]], saisissez cette [[:commande_shell|commande]] pour extraire l'archive et placer le dossier exrtait sur votre Bureau:<code>tar -xvzf ~/Téléchargements/Synkron* -C ~/Bureau</code>
+  - Notre archive est à présent dans sur votre Bureau. Nous allons la renommer avec cette [[:commande_shell|commande]] <code>mv ~/Bureau/Synkron* ~/Bureau/synkron</code>
+
+==== Compilation ====
+Nous passons maintenant à la compilation. 
+  - D'abord, se déplacer dans le dossier :<code>cd ~/Bureau/synkron</code>
+  - Puis lancer la compilation<code>lrelease Synkron.pro</code><code>qmake -config release
+make</code>
+  - Si nécessaire, pressez la touche Entrée à chaque question. 
+La partie **Installation résultats** peut prendre du temps.
+
+
+==== Ranger l'application ====
+Déplacez le dossier synkron dans le dossier **/opt** ([[:arborescence|dossier système]]) contenant les applications installées hors [[:gestionnaire de paquets]]: <code>sudo mv ~/Bureau/synkron /opt/synkron</code>
+<note help> Le dossier système **/opt** n’existe pas si vous n'avez pas encore installé d'application hors [[:gestionnaire de paquets]]. Le [[:terminal]] vous renverra alors "//Impossible de déplacer... Aucun fichier ou dossier de ce type//". Il faut donc créer ce dossier à l'aide de la [[:commande_shell|commande]] suivante:<code>sudo mkdir /opt</code> puis ré-exécuter la [[:commande_shell|commande]] précédente.</note>
+
+==== Simplifier l'exécution ====
+Créez un raccourci vers le [[:arborescence|dossier système]] **/usr/bin** <code>sudo ln -s /opt/synkron/synkron  /usr/bin/synkron</code>
+
+==== Nettoyer le dossier compressé ====
+L'installation terminée vous pouvez [[:tutoriel/comment_supprimer_un_fichier|supprimer l'archive tar.gz]] qui reste dans votre dossier "Téléchargements".
+
+=====Lancement=====
+L'application se lance depuis un [[:terminal]] à l'aide de la [[:commande_shell|commande]] suivante: <code>synkron</code> Un applet sera installé dans la zone de notification de la barre supérieure du bureau. Cet applet restera une fois la fenêtre de **Synkron** fermée. Cet applet vous permettra de rappeler les fonctions de **Synkron**.
+
+Si vous l'utilisez fréquemment et que vous souhaitez retrouver l'applet au prochain démarrage, vous pouvez l'ajouter comme [[:tutoriel/application_demarrage|application au démarrage]] en utilisant cette commande.
+
+Vous pouvez également créer un [[:raccourci-lanceur|lanceur]] en utilisant cette même commande. Vous pouvez également lui attribuer le logo d'origine qui se trouve dans **(Système de fichiers) /opt/synkron/images/Synkron128.png** ou tout autre logo de votre choix.
+
+=====Configuration=====
+
+==== Synchronisation bi-directionnelle==== 
+Un dossier peut être déclaré comme "maître" ou "esclave". Par défaut, tous les dossiers sont maîtres, la synchronisation est bi-directionnelle. Deux dossiers maîtres auront le même poids dans la synchronisation : les changements les plus récents seront reportés d'un dossier à l'autre, quel que soit le dossier le plus récent. Ainsi, le réglage est idéal pour avoir le même contenu sur plusieurs postes sur lesquelles vous travaillez.
+
+<note help>Si vous supprimez un fichier, à la prochaine synchronisation, ce fichier va être recréé! Pour que ce fichier disparaisse, il faut sélectionner "Propager les suppressions" dans les options avancées (bouton en bas à gauche).</note>
+
+====Synchronisation uni-directionnelle====
+ Pour passer en synchronisation uni-directionnelle, le dossier source sera "maître" et le dossier destination doit être "esclave". Pour cela, à gauche du dossier en question, cliquez sur la clé et sélectionnez **Maître** ou **Esclave**.  Un dossier esclave sera une copie du dossier maître: les changements éventuellement faits dans le dossier esclave seront annulés et remplacés par le contenu du dossier maître. 
+
+Pour réaliser des sauvegardes d'un dossier (typiquement votre ordinateur), veillez à ce qu'il soit maître et que le dossier de sauvegarde (typiquement une clé %%USB%% ou un disque dur externe par exemple) soit esclave.
+
+===== Utilisation =====
+
+==== Principe de base ====
+
+  - Choisir le dossier que vous souhaitez synchroniser (**Dossier 1**). Aidez vous du bouton **Parcourir**.
+  - De la même façon, choisissez le dossier de destination (**Dossier 2**). Celui-ci peut être sur un média externe. 
+  - Il ne vous reste plus qu'à cliquer sur le bouton **Synchronisation** situé en bas à droite.
+
+
+<note important>**Synkron** sécurise la synchronisation en gardant une copie des modifications faites dans le [[:fichier cache|dossier caché]] **~/.Synkron** de votre dossier personnel. Vous pouvez donc revenir à l'état précédent, plus ou moins facilement. Pour cela cliquez sur le bouton **Restaurer**. Vous pourrez alors restaurer ou supprimer les copies des fichiers de votre choix. \\
+Si vous utilisez **Synkron** fréquemment et avec des fichiers volumineux, vous avez tout intérêt à faire du nettoyage périodiquement pour éviter de surcharger votre /home et ainsi économiser de l'espace sur disque. Vous pouvez aussi retirer cette sécurité en cochant "Ne pas faire de Backup des fichiers mis à jour". Vous trouverez cette option dans le menu déroulant à gauche des champs "Dossier 1" et "dossier 2".</note>
+
+===== Utilisation avancée =====
+
+<note>Ce qui suit est extrait de la [[http://sites.google.com/site/synkrondocumentation/|documentation officielle de Synkron]]. Si vous savez lire l'allemand, rendez-vous directement sur ce site. La version anglaise, n'est malheureusement pas à jour (version 1.5 au 9/12/2010), mais reste plus complète que ce qui suit.</note>
+
+====Analyser====
+Avant de faire une synchronisation, vous pouvez **Analyser**. **Synkron** affichera alors le résultat de son analyse sans rien changer et vous pourrez vérifier et modifier ce qui va être fait lors de la synchronisation. Pour afficher uniquement ce qui nécessite une synchronisation, en bas à gauche cliquer sur **Avancé → Analyse → Lister uniquement les fichiers qui ont besoin d'être synchronisés**.
+====Onglets====
+Si vous souhaitez créer d'autres synchronisations, simplifiez-vous la vie avec les onglets : utiliser les boutons **Nouvel onglet** pour créer une nouvelle synchronisation et **Fermer l'onglet**.
+
+====Liste noire====
+**Synkron** permet de mettre différents éléments sur liste noire (dossiers, fichiers et extensions). Les éléments sur liste noire ne seront pas pris en compte pendant la synchronisation. \\
+Pour les fichiers et dossiers, après une analyse, cliquez simplement sur les cases situées à gauche : lorsque la case est décochée, l'élément en question sera placé en liste noire. Pour les extensions, vous devez cliquer sur **Avancé → Éditer la liste noire**. Cela vous permettra également de gérer les différents éléments placés en liste noire jusqu'ici. Pour revenir à l'analyse, cliquez sur le bouton **Précédent** en bas à droite. En parallèle à cette liste noire (spécifique à l'onglet), une liste noire globale est éditable à l'aide du bouton **Liste noire**.
+
+Bien d'autres fonctionnalités sont disponibles, découvrez-les en les essayant. Voici tout de même un aperçu rapide de certaines d'entre elles :
+  * **Mutlisynchronisation** : sauvegardez plusieurs sources vers une unique destination.
+  * **Vue des synchronisations** : gérez toutes les synchronisations que vous utilisez facilement.
+  * **Programmateur** : laissez **Synkron** travailler pour vous en choisissant quelle synchronisation faire à un intervalle régulier.
+
+===== Problèmes connus =====
+====Gel de l'application====
+**Synkron** gèle sur les gros fichiers. Ne forcez pas la fermeture du programme, le processus est long suivant le nombre de fichiers. Malgré les gels, Synkron termine correctement la synchronisation et finit toujours par dégeler.
+
+===== Désinstallation =====
+Pour supprimer cette application, il suffit de supprimer le dossier de l'application et son raccourci. Pour cela, dans un [[:terminal]], saisir les [[:commande_shell|commandes]] suivantes:
+<code>sudo rm -fr /opt/synkron
+sudo rm /usr/bin/synkron</code>
+Si vous n'êtes pas familier avec la ligne de commande, vous saurez que Synkron est désinstallé correctement si votre [[:terminal]] vous retourne une ligne :  utilisateur@nom_ordinateur:~$ après avoir entré les deux commandes susmentionnées. 
+
+Le lanceur peut être mis à la corbeille.
+
+Si vous avez installé **Synkron** en suivant un autre tutoriel, veuillez vous reporter au mode de désinstallation indiqué par l'auteur. 
+
+===== Voir aussi =====
+  * **(en)** [[http://synkron.sourceforge.net/|Site officiel]]
+  * **(de)** [[http://sites.google.com/site/synkrondocumentation/|Documentation officielle de Synkron]]
+
+----
+
+//Contributeurs : [[utilisateurs:MaryPopy]]//.

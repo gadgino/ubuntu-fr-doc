@@ -1,0 +1,235 @@
+{{tag>virtualisation}}
+
+----
+
+====== Xen ======
+{{http://www.cl.cam.ac.uk/research/srg/netos/xen/graphics/xenlogo.gif }}
+(MàJ 2012)
+
+Xen est un logiciel libre de (para)[[virtualisation]], plus précisément un hyperviseur de machine virtuelle.
+
+Xen permet de faire fonctionner plusieurs systèmes d'exploitation virtuels (invités) sur une seule machine hôte. ( voir précisément [[http://fr.wikipedia.org/wiki/Paravirtualisation|paravirtualisation]] )
+
+Les choses ont beaucoup changé puisque le kernel Linux, à partir de la version 3, intègre nativement Xen. Dès lors il est capable de fonctionner en Dom0 ou DomU sans recompilation ou manipulation. 
+
+La procédure pour l’installer sur Ubuntu 11.10 et supérieur est simplissime :
+<code>
+sudo apt-get install xen-hypervisor
+</code>
+===== Présentation =====
+
+Xen est un logiciel de (para)[[:virtualisation|virtualisation]] de type [[:virtualisation#paravirtualisation|hyperviseur]].
+Il permet donc de faire tourner plusieurs systèmes d'exploitation (OS) sur une même ressource matérielle (PC, Serveur,...).
+
+Le principe de l'hyperviseur est de faire tourner les OS dans le noyau (kernel) même, et non-pas de les émuler, ce qui permet de conserver des performances proches des natives.
+
+Xen est un « paravirtualiseur » ou un « hyperviseur » de machines virtuelles. Les systèmes d'exploitation invités ont « conscience » du Xen sous-jacent, ils ont besoin d'être « portés » (adaptés) pour fonctionner sur Xen. Linux, NetBSD, FreeBSD (portage en cours), Plan 9 et GNU Hurd peuvent d'ores et déjà fonctionner sur Xen.
+
+Xen 3 peut également exécuter des systèmes non modifiés comme Windows sur des processeurs supportant les technologies VT d'Intel ou AMD-V (nom de projet: Pacifica) de AMD1.
+
+Les architectures x86, x64, IA-64, PowerPC et SPARC sont supportées. Le multiprocesseur (SMP) et partiellement l’Hyper-Threading sont supportés.
+
+==== Utilisation ====
+
+L'utilisation d'un hyperviseur comme Xen peut servir dans beaucoup d'applications :
+  * Fonctionnement de plusieurs serveurs virtuels sur un unique serveur physique, avec un trou de sécurité actuel de type [[rootkit]] de très bas niveau matériel compatible : [[http://fr.wikipedia.org/wiki/Blue_Pill|blue pill]] (avec création de serveurs virtuels "à la volée", notamment lorsque l'un d'entre-eux plante ou est victime de piratage,...) et inversement amélioration de la sécurité en cloisonnant les OS et processus. ( [[http://qubes-os.org/|Qubes OS]] )
+  * Gestion de Clusters
+  * Fonctionnement de plusieurs OS sur une même ressource matérielle (développement multi-OS,...)
+  * Amélioration de la compatibilité (D'anciennes versions d'OS et d'applications peuvent devenir incompatibles avec du nouveau matériel)
+  * Développement de kernel en live (débogage, test,...)
+  * Facilite le développement de nouveaux OS en sachant que d'autres pilotes seront réutilisables.
+  * de par la facilité de mise en oeuvre et ses performances proches de l'OS hébergeur, XEN est parfaitement adapté à la réalisation de machines virtuelles pour des serveurs d'infrastructure réseau : DNS, NTP, NIS, FTP, VOIP, WEB, mail,...
+
+
+==== Caractéristiques ====
+
+  * Pas d'émulation : ni matérielle, ni logicielle = sûreté
+  * Performances proches des natives
+  * Migration d'OS en direct ( dans le cas d'une infrastructure en cluster)
+  * Supporte jusqu'à 32 processeurs virtuels par machine "hôte"
+  * Supporte la plupart des pilotes Linux
+  * Installation de la machine "hôte" en Ring1 (droits inférieurs au Ring0 = root) mais possibilité de faire des requêtes (HyperCall) vers le Ring0.
+
+
+==== Support ====
+Reportez-vous à la [[http://wiki.xenproject.org/wiki/Xen_Release_Features|page officielle]] pour les dernières infos
+  * Processeurs 32bits x86_32 (dont Intel-PAE)
+  * Processeurs 64bits AMD x86_64
+  * Processeurs 64bits Intel (x86_64 EM64T & IA64)
+  * Processeurs à architecture Power
+  * Jusqu'à 16To de RAM
+  * HyperThreading
+  * Multi-Processeurs
+  * Processeurs à virtualisation hardware Intel VT (Vanderpool Technology) et AMD-V (Pacifica)
+
+
+==== Principe ====
+
+=== Général ===
+
+== Les couches de l'OS ==
+
+=== Dom0 et DomU ===
+
+Le Dom0 correspond au système d'exploitation hôte (OS Host). Il gère l'infrastructure Xen et toute la partie matérielle. Les DomU dépendent du Dom0.
+
+Les DomU correspondent à chaque système d'exploitation invité (OS Guest).  
+==== Différences avec VM-Ware, VirtualBox et QEmu ====
+
+L'OS invité (Guest) doit en général être modifié pour être virtualisé alors qu'avec un virtualiseur classique les systèmes d'exploitation fonctionnent en l'état (même s'il existe des optimiseurs à installer).
+
+Il est aussi possible de faire tourner des OS non modifiés (HVM : //Hardware Virtual Machine// cf. [[http://en.wikipedia.org/wiki/Hardware-assisted_virtualization|Hardware-assisted virtualization]]) si vous disposez d'une technologie de virtualisation intégrée au processeur : Intel VT ou AMD-V.
+
+Contrairement aux autres technologies de virtualisation, Xen n'est pas composé d'un programme et d'un module du noyau, mais il est composé de plusieurs programmes et d'un noyau modifié pour son fonctionnement.
+
+
+
+
+
+
+
+
+==== Support ====
+
+Tout le matériel supporté par linux est disponible sous Xen (sous réserve de compatibilité avec le noyau).
+
+Xen supporte tous les systèmes d'exploitation modifiés pour fonctionner en son sein.
+
+Xen supporte les systèmes d'exploitation non-modifiés à travers la virtualisation matérielle des processeurs compatibles (Intel VT et AMD-V).
+
+===== Installation de Xen =====
+
+<note important>VETUSTE ( voir introduction ) Valable pour les versions d'ubuntu inférieur a 11.10 : Le noyau Xen ne semble plus être maintenu par les développeurs de Canonical.
+\\ La dernière image d'un noyau Xen Ubuntu se trouve dans les dépôts de la version 8.04 LTS - Dapper.
+\\ Pour utiliser Xen sur un noyau à jour, il est conseillé d'utiliser les derniers dépôts stables Debian.</note>
+
+<note important>L'installation d'un système d'exploitation non-modifié (Windows,...) nécessite un processeur (et une carte mère) supportant la virtualisation matérielle (Intel VT ou AMD-V).</note>
+
+
+==== Installation du Dom0 ====
+
+ == Mettre son système à jour ==
+
+Avant de commencer, il convient d'avoir son système à jour :
+
+<code>sudo apt-get update
+sudo apt-get upgrade</code>
+
+
+ == Installer le noyau Xen ==
+
+Installer le paquet "xen-hypervisor" :
+
+<code>sudo apt-get install xen-hypervisor</code>
+
+<note important>FIXME À compléter :
+\\ Le paquet xen-hypervisor installe tous les utilitaires nécessaires au fonctionnement de Xen.
+\\ Cependant, le noyau Xen n'est présent que dans la version 8.04 d'Ubuntu. Si on utilise une autre version d'Ubuntu, le noyau ne sera pas installé mais seulement les utilitaires.(marche dans la version 11.10)
+\\ \\ FIXME Ajouter les procédures pour installer les noyaux Xen 'Ubuntu 8.04' ou 'Debian stable'</note> 
+
+ == Redémarrer sur le noyau créé ==
+
+Redémarrer votre système en choisissant "XEN" lors de l'invite GRUB
+
+ == Vérifier le bon déroulement de l'installation ==
+
+  *  Vérifier le nom du noyau
+<code>sudo uname -a</code>
+Il doit contenir "Xen" dans son intitulé, sinon vous n'êtes pas sur un noyau Xen.
+
+  *  Vérifier que dom0 est bien lancé
+<code>sudo xm list</code>
+
+  *  Vérifier que le réseau est bien configuré
+<code>ifconfig</code>
+doit vous retourner au moins 3 interfaces : **lo** (le loopback du système), **eth0** (le bridge (qui n'est plus votre interface réseau mais son image pour les domU)) et **peth0** (votre interface réseau).
+
+  *  Vérifier votre connexion Internet
+Vous devez pouvoir vous connecter à Internet (si c'était bien le cas avant).
+
+=== Support XOrg ===
+
+== Pilotes graphiques ==
+
+Les pilotes ATI semblent fonctionner avec le noyau Xen.
+
+== Accélération graphique ==
+
+L'accélération graphique par OpenGL est supporté par Xen à travers [[http://www.cs.toronto.edu/~andreslc/xen-gl/|VMGL]]
+\\  FIXME À compléter
+
+
+
+<note warning>Suite en cours de mise à jour</note>
+
+
+
+==== Installation d'un DomU de système d'exploitation modifié (Linux,...) ====
+
+==== Installation d'un DomU de système d'exploitation non-modifié (Windows,...) ====
+
+<note important>Il est nécessaire de disposer de la **version 3 de Xen** et d'un processeur supportant **Intel VT** ou **AMD-V** (Pacifica).</note>
+
+Car __seuls les processeurs ayant le support matériel de la virtualisation__ peuvent faire tourner des systèmes d'exploitation propriétaires étant donné qu'il n'est plus nécessaire d'installer un noyau modifié.
+
+Liste des processeurs Intel VT et AMD-V :
+  *  [[http://ark.intel.com/VTList.aspx|Liste des processeurs Intel VT]]
+  *  [[http://products.amd.com/fr-fr/desktopcpuresult.aspx?f1=&f2=&f3=&f4=&f5=&f6=&f7=&f8=&f9=&f10=&f11=&f12=True|Liste des processeurs AMD-V pour PC de bureau]]
+  *  [[http://products.amd.com/en-us/notebookcpuresult.aspx?f1=&f2=&f3=&f4=&f5=&f6=&f7=&f8=&f9=True|Liste des processeurs AMD-V pour portables]]
+
+==== Paramètres des fichiers de configuration ====
+
+
+
+
+===== Gestion de Xen =====
+
+====OpenXenManager ( GUI pour manager xen) ====
+{{ http://sourceforge.net/p/openxenmanager/screenshot/266822.jpg }}
+  * [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt://openxenmanager |openxenmanager]]**.
+
+Voir [[http://sourceforge.net/projects/openxenmanager/|site officiel]]
+==== XCP Project Kronos (plateforme de management pour xen pour ubuntu debian) ====
+
+XCP ( Xen Cloud Platform ).
+
+Voir [[http://wiki.xen.org/wiki/XAPI_on_Ubuntu|XAPI_sur_Ubuntu(et debian)  sur le wiki de Xen]]
+
+  * [[ppa|Ajoutez à vos sources de logiciels le PPA]] suivant : **ppa:ubuntu-xen-org/xcp**((https://launchpad.net/~ubuntu-xen-org/+archive/xcp))
+  * [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste des paquets]].
+  * [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt://xcp-storage-managers |xcp-storage-managers ]]**.
+
+FIXME a essayer plus amplement.
+
+====xen-tools ====
+
+
+  * [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt://xen-tools|xen-tools]]**.
+FIXME
+
+====virt-manager.org: un système de management utilisant libvirt ====
+
+{{ http://virt-manager.org/screenshots/manager-summary.png }}
+
+  * [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt://ubuntu-virt|ubuntu-virt]]**.
+Installera également ubuntu-virt-mgmt,virt-manager,virt-server.
+
+Voir : [[http://virt-manager.org/|Site officiel]].
+
+
+
+===== Liens =====
+
+  * [[https://help.ubuntu.com/community/Xen|Wiki ubuntu anglais Xen]]
+  * [[http://www.cl.cam.ac.uk/research/srg/netos/xen/|Site officiel de Xen (En)]]
+  * [[http://www.virtuatopia.com/index.php/Xen_Virtualization_Essentials|Virtuatopia]] : Une série de tutos sur Xen en anglais
+  * [[http://www.howtoforge.com/perfect_xen_setup_debian_ubuntu|The Perfect Xen Setup For Debian And Ubuntu]]
+  * [[http://xenman.sourceforge.net/downloads.html|ConVirt (Ex-XenMan]] : Gérez vos machines virtuelles graphiquement (kvm, xen)
+  * [[http://blog.info16.fr/index.php?article53/script-lister-les-domu-xen-et-leurs-ressources|Script: Lister les DomU Xen et leurs ressources]]
+  * [[http://www.phoronix.com/scan.php?page=article&item=ubuntu_1110_xenkvm&num=2|Ubuntu 11.10: Xen vs. KVM vs. VirtualBox]]
+  * [[http://wiki.xen.org/wiki/Guest_VM_Images#Aur.C3.A9lien_Jarno.27s_Debian_Images|Télécharger des VM debian fait pour xen ( etc )]]
+
+  * liste de [[http://www.xen.org/community/projects.html|projets]] liés a Xen.
+
+----
+//Contributeurs: [[utilisateurs:Fabien26]]//

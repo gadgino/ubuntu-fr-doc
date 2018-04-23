@@ -1,0 +1,135 @@
+{{tag>webcam webcamvirtuelle capture_d_ecran streaming multimédia vidéo audio}}
+
+----
+======WebcamStudio : Capture d'écran, et webcam virtuelle======
+
+__**WebCamStudio est un logiciel Libre sous licence**__ [[gnu|GNU GPL v3]]
+
+**WebcamStudio** vous aide à créer une [[webcamvirtuelle|webcam virtuelle]] qui peut montrer: 
+   * Votre webcam qui ne fonctionne pas avec le site [[flashplayer#webcam_avec_application_flash_ou_contenu_flash_dans_une_page_web|Flash]]
+   * [[webcamstudio?&#streamer_une_video|Streamer une vidéo]],  
+   * Votre capture de bureau avec votre webcam en superposition
+   * Votre capture de bureau / webcam avec des effets vidéo à plusieurs
+   * Donner du Fun dans votre webcam ([[jabber]],[[skype]])
+   * [[streaming#streaming_p2p|Peut également aider à réaliser une webtv avec plusieurs participants]] **et** [[streaming#faire_sa_propre_web-tv_avec_plusieurs_participants|ici]].\\
+
+{{:webcamstudio.png?200|}}{{:webcamstudio_capture0.png?400|}}\\
+__**Pour voir le rendu de WebCamStudio**__ en [[http://www.youtube.com/user/patrickballeux|VIDEO]] avec son concepteur.
+=====Installation=====
+  * **Webcamstudio marche en Java**.\\
+Il faut donc installer [[java#par_les_depots_recommande|Java]] (marche très bien avec java libre [[apt>openjdk-6-jre|openjdk-6-jre]]
+====Depuis le dépôt PPA====
+<note important>Le dépôt stable semble vide à ce jour, utiliser le dailybuilds</note>
+===Version stable===
+[[https://launchpad.net/~webcamstudio/+archive/webcamstudio-stable]]
+
+  * La dernière version stable (au 06/09/2014) est la 0.61
+Pour l'installer, il faut installer le dépot stable : 
+<code>sudo add-apt-repository ppa:webcamstudio/webcamstudio-stable
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install webcamstudio</code>
+
+===Version daily (testing)===
+  * La dernière version en date est la 0.73
+Pour les plus guerriers, le dépot daily (testing) : 
+<code>sudo add-apt-repository ppa:webcamstudio/webcamstudio-dailybuilds
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install webcamstudio</code>
+
+===depuis 14.04===
+
+ * La dernière version à ce jour (au 18/11/2016) est la 0.73
+
+<code>sudo add-apt-repository ppa:webcamstudio/webcamstudio-dailybuilds
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install webcamstudio</code>
+
+ensuite installer oracle java8
+
+<code>sudo add-apt-repository ppa:webupd8team/java
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install oracle-java8-installer</code>
+<note important>Il est important de redémarrer votre ordinateur pour que l'application fonctionne </note>
+====Par parquet .deb=====
+===Ubuntu 12.04 LTS===
+  * WebcamStudio étant en standby,la version à utiliser sur 12.04 est [[http://webcamstudio.googlecode.com/files/webcamstudio_0.57beta4_all.deb|webcamstudio_0.57beta4]]
+<note important>Si un développeur/programmeur en Java est intéressé pour reprendre ou aider le concepteur de WebCamStudio (GPL) ...</note>
+<note>Si vous avez une erreur du type
+<code>The Module Webcam Studio is not loaded.</code>il suffit de lancer
+<code>sudo /etc/init.d/webcamstudio start</code></note>
+
+
+===Ubuntu 10.04LTS===
+  * [[http://code.google.com/p/webcamstudio/|Télécharger .deb]] de préférence (All .deb), car les __alpha/béta__ sont pour les testeurs et instable.
+
+   * Voir site officiel[[http://www.ws4gl.org/home|ici]]
+
+
+
+=====Utilisation=====
+
+exécuter webcamstudio: Application/son et vidéo/\\
+
+====Se servir de la webcam comme source====
+Sur la gauche, allez dans dans dossier sources/périphérique/ (USB caméra), double-clic dessus, attendre quelques instants. Puis appuyer sur le bouton **jouer**
+
+====Streamer une vidéo====
+Les formats testés sont: X264, Xvid, théora, .mkv, .ogv, .Flv, .avi,
+  * Allez dans la barre **Sources** puis choisir **Vidéo** ouvrir ca vidéo. Attendre quelque instant,appuyer sur **jouer**\\
+
+====redimensionner la capture (sources)====
+Il est possible d'avoir plusieurs sources (webcam + vidéo + effets) simultanément vers la sortie (/dev/vidéo1).\\
+  * il faut redimensionner les captures sources:
+Allez dans l'onglet position modifier: Width 320 et Height 240 puis X et Y\\
+
+====Prévisualisation====
+Pour voir le rendu,une prévisualisation est possible
+  * Dans **Sortie** appuyer sur **afficher prévisualisation**
+
+=====Voir la sortie (réelle)=====
+Avant d'envoyer sa sortie vidéo vers les participants ([[jabber]], [[Skype]], [[visioconference]], etc...),vous pouvez l'observer. Un moyen rapide pour tester les sites en Flash est [[http://www.un-miroir.com/tester-webcam.php|le site www.un-mirroir.com]]\\
+<note>Allez dans le dossier /dev/ car vous pourriez avoir plusieurs fichiers de source vidéo:\\
+/dev/video0 première source vidéo\\
+/dev/video1 deuxième source vidéo\\
+/dev/video2 troisième source vidéo. ect...</note>
+====Avec VLC====
+  * mettre ceci dans un terminal
+<code>vlc v4l:///dev/video0</code>
+  * **où** (selon votre vidéo source de sortie)
+  * <code>vlc v4l:///dev/video1</code>
+  * <code>vlc v4l:///dev/video2</code>
+  * <code>vlc v4l:///dev/video_xxxx_</code> ect...\\
+    * Sinon l'aide [[vlc]]
+=====Problèmes=====
+====Images vert et bleu====
+Il se peut qu'il y ait une image en sortie de mauvaise couleur
+  * Allez dans barre **Sortie** et cocher **inverser Rouge/Bleu**
+=====Bug=====
+<note important>**N'oubliez pas**: _Affichez votre version d'Ubuntu installée :?: Quelle version de java est installée :?: Quelle est la version de WebCamStudio utilisée :?:\\
+  * __1. Rapportez le Bug sur le site officiel__ [[http://webcamstudio.3802688.n2.nabble.com/Post-Bugs-Here-f3989851.html|ici]] (pour qu'il soit officiellement déclaré :-P)
+  * __2. Donnez le lien__ du __Forum__ [[http://forum.ubuntu-fr.org/Forum]] (pour suivre vos aides et solutions ;-))
+</note>
+===Lucid 10.04===
+  * Dites-nous les Bugs que vous rencontrez (avec certitudes) MERCI.
+
+===Natty 11.04===
+Pour ubuntu 11.04, il faut installer "libglib2.0-dev": (avec le terminal)
+<code>sudo apt-get install libglib2.0-dev</code>
+
+===Precise 12.04===
+  *Dites-nous les Bugs que vous rencontrez (avec certitudes) MERCI.
+
+  * A confirmer : la version stable **webcamstudio_0.56_all.deb** ne serait pas compatible avec Linux Mint 13 XFCE ([[http://www.linuxmint.com/oldreleases.php|basé sur Ubuntu Precise 12.04]]) à cause d'un problème de dépendance avec le paquet **gstreamer0.10-plugins-ugly-multiverse**.  <=UPDATE #1: Le problème si dessus est confirmé sur Ubuntu 12.04 et 12.10.
+
+La version beta **webcamstudio_0.57beta4_all.deb** ne poserait pas de problème.
+=====Voir aussi=====
+   * [[webcam]] | [[webcamvirtuelle]] | [[capture_d_ecran]] | [[streaming]] 
+   * Voir site officiel[[http://www.ws4gl.org/download/installing-on-ubuntu|ici]]
+   * [[visioconference?&#wwwblog-videotv|wwwblog-videotv]]
+
+----
+Contributeurs : [[:utilisateurs:psychederic|Psychederic]],[[:utilisateurs:bricef77|bricef77]] ...//

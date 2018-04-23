@@ -1,0 +1,300 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="clear"><ul class="toc">
+<li class="level2"><span class="li"><a href="#introduction" class="toc"> Introduction </a></span></li>
+<li class="level2"><span class="li"><a href="#parametrage" class="toc"> Paramétrage </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#parametrage_de_base_de_grub" class="toc"> Paramètrage de base de GRUB </a></span></li>
+<li class="level3"><span class="li"><a href="#parametrage_du_kernel_dans_grub" class="toc"> Paramètrage du Kernel dans GRUB </a></span></li>
+<li class="level3"><span class="li"><a href="#windows_dans_le_menu_grub" class="toc"> Windows dans le menu Grub </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#en_cas_de_soucis" class="toc"> En cas de soucis </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#restauration" class="toc"> Restauration </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#fond_d_ecran_dans_grub" class="toc"> Fond d'écran dans Grub </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#installation" class="toc"> Installation </a></span></li>
+<li class="level3"><span class="li"><a href="#creation_de_son_image" class="toc"> Création de son image </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#documentation_complementaire" class="toc"> Documentation complémentaire </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#les_fichiers_de_grub_ont_disparu" class="toc"> Les fichiers de Grub ont disparu ! </a></span></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Pour Warty et Hoary
+</pre>
+
+<p>
+Traduction libre de <a href="http://wiki.ubuntu.com/GrubHowto" class="urlextern" title="http://wiki.ubuntu.com/GrubHowto" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">GrubHowto</a>
+</p>
+
+<p>
+Rédigé par <a href="/utilisateurs/manu" class="wikilink1" title="utilisateurs:manu" onclick="return svchk()" onkeypress="return svchk()">manu</a>. Relu par <a href="/utilisateurs/methu" class="wikilink1" title="utilisateurs:methu" onclick="return svchk()" onkeypress="return svchk()">methu</a>. Merge avec doc statique <a href="/utilisateurs/ju" class="wikilink1" title="utilisateurs:ju" onclick="return svchk()" onkeypress="return svchk()">Ju.</a>. Explications fond d&rsquo;écran <a href="/utilisateurs/eric_p" class="wikilink1" title="utilisateurs:eric_p" onclick="return svchk()" onkeypress="return svchk()">Eric P</a>.
+</p>
+
+<a name="introduction"></a><h2> Introduction </h2>
+<div class="level2">
+
+<p>
+ Grub est le chargeur de système installé par défaut avec Ubuntu. Il vous permet d&rsquo;avoir différents systèmes d&rsquo;exploitations, ou versions de ceux-ci, sur la même machine. Par exemple vous pouvez avoir Windows et Linux sur un ordinateur, GRUB chargera l&rsquo;un ou l&rsquo;autre de ces derniers en vous donnant le choix au démarrage. Vous pouvez également créer une <a href="/installation/disquette_de_boot_avec_grub" class="wikilink1" title="installation:disquette_de_boot_avec_grub" onclick="return svchk()" onkeypress="return svchk()">disquette de boot avec grub</a> en cas d&rsquo;urgence . Suite à l’installation d’un autre système d’exploitation ou d’une éventuelle erreur de manipulation, il arrive que ce programme soit malmené. Ce qui peut aboutir à l’impossibilité de démarrer votre machine sous Linux ! Le but de ce document est de vous aider à rebondir face à ce genre de situation.
+</p>
+
+</div>
+<!-- SECTION [273-1044] -->
+<a name="parametrage"></a><h2> Paramétrage </h2>
+<div class="level2">
+
+<p>
+ Grub désigne les disques et partitions présentes sur votre machine d’une manière différente de celle utilisée par Ubuntu.
+</p>
+
+<p>
+Avec Grub, les disques et les partitions sont identifiés à l’aide d’expressions écrites entre parenthèses. Si par exemple on souhaite désigner le lecteur de disquettes, on écrira (fd0). ‘fd’ signifie qu’on s’intéresse au lecteur de disquettes. Le ‘0’ est là pour indiquer qu’il s’agit du premier lecteur de disquettes. Si on possède un deuxième lecteur de disquettes, celui-ci sera désigné par (fd1). Notez que mme si l’on ne possède qu’un seul lecteur, il est nécessaire de mentionner le ‘0’.
+</p>
+
+<p>
+Pour désigner un disque dur, on utilise la mme notation en remplaant ‘fd’ par ‘hd’. Comme pour les lecteurs de disquettes, la numérotation des disques commence à ‘0’. Le disque /dev/hda est donc désigné par (hd0). Pour indiquer une partition, on fait suivre l’expression entre parenthèse par une virgule et le numéro attribué à la partition. Commme pour les lecteurs, la numérotation débute à ‘0’. La notation utilisée pour designer la deuxième partition du disque /dev/hdb (i.e. /dev/hdb2) est donc (hd1,1).
+</p>
+
+<p>
+Nous arrêtons ici la description des conventions d’écriture employées par Grub pour désigner des disques et des partitions. Si vous désirez en connaître plus de détails à ce sujet, vous pouvez consulter la documentation officielle de Grub. La prévention: une disquette de démarrage.
+</p>
+
+</div>
+<!-- SECTION [1045-2576] -->
+<a name="parametrage_de_base_de_grub"></a><h3> Paramètrage de base de GRUB </h3>
+<div class="level3">
+
+<p>
+Si vous devez entrer dans le menu de grub, vous devez appuyer sur ESC juste aprés le démarrage. Par défaut vous devez appuyer sur ESC très rapidement.  Pour augmenter ce temps éditez <em>/boot/grub/menu.lst</em> (avec <a href="/applications/nano" class="wikilink1" title="applications:nano" onclick="return svchk()" onkeypress="return svchk()">Nano</a> par exemple), puis augmentez les secondes dans la section <strong>timeout</strong>. Vous pourrez également faire apparaître systématiquement le menu de GRUB pendant le boot en commentant <strong>hiddenmenu</strong> dans le même fichier (rajouter un symbole <strong>#</strong> devant). Une fois que vous avez changé <strong>menu.lst</strong> vous devez taper la commande: 
+</p>
+<pre class="code">
+$ sudo update-grub
+</pre>
+
+<p>
+Notez que si <em>l&rsquo;installateur d&rsquo;Ubuntu</em> détecte d&rsquo;autres systèmes d&rsquo;exploitation sur le disque pendant l&rsquo;installation, alors le menu de grub sera visible par défaut au boot et le timeout sera augmenté, ainsi les étapes ci-dessus seront inutiles.
+</p>
+
+</div>
+<!-- SECTION [2577-3469] -->
+<a name="parametrage_du_kernel_dans_grub"></a><h3> Paramètrage du Kernel dans GRUB </h3>
+<div class="level3">
+
+<p>
+Dans <em>/boot/grub/menu.lst</em>, vous trouverez une ligne comme ceci: 
+</p>
+<pre class="code">
+# kopt=root=/dev/sda1 ro
+</pre>
+
+<p>
+C&rsquo;est un commentaire, mais n&rsquo;enlevez pas le <strong># </strong> au début,  <strong>C&rsquo;EST IMPORTANT</strong>.
+</p>
+
+<p>
+Si vous avez besoin de paramètres additionnels pour le kernel (par exemple, si quelqu&rsquo;un vous a demandé d&rsquo;examiner le boot avec certains paramètres afin de dépanner un problème), ajoutez-les à l&rsquo;extrémité de la ligne, par exemple pour ajouter le <strong>noapic</strong>: 
+</p>
+<pre class="code">
+# kopt=root=/dev/sda1 ro noapic
+</pre>
+
+<p>
+Aprés les modification tapez la commande: 
+</p>
+<pre class="code">
+$ sudo update-grub
+</pre>
+
+<p>
+pour mettre à jour grub.
+</p>
+
+</div>
+<!-- SECTION [3470-4129] -->
+<a name="windows_dans_le_menu_grub"></a><h3> Windows dans le menu Grub </h3>
+<div class="level3">
+
+<p>
+ Pour ajouter windows, au menu de démarrage affiché par Grub, il faut éditer le fichier /<code>boot/grub/menu.lst</code>. Par exemple, avec nano comme éditeur de texte: 
+</p>
+<pre class="code">$ sudo nano /boot/grub/menu.lst</pre>
+
+<p>
+ Ajoutez-y les lignes suivantes à la fin du fichier : 
+</p>
+<pre class="code">title       Windows NT/2000/XP
+root        (hd0,0)
+savedefault
+makeactive
+chainloader +1</pre>
+
+<p>
+ Sauvez et quittez. Avec nano, ceci s&rsquo;effectue l&rsquo;aide de la séquence &lt;ctrl-o&gt; puis &lt;ctrl-x&gt;
+</p>
+
+</div>
+<!-- SECTION [4130-4613] -->
+<a name="en_cas_de_soucis"></a><h2> En cas de soucis </h2>
+<div class="level2">
+
+<p>
+ N&rsquo;oubliez pas de créér une <a href="/installation/disquette_de_boot_avec_grub" class="wikilink1" title="installation:disquette_de_boot_avec_grub" onclick="return svchk()" onkeypress="return svchk()">disquette_de_boot_avec_grub</a>.
+</p>
+
+</div>
+<!-- SECTION [4614-4719] -->
+<a name="restauration"></a><h3> Restauration </h3>
+<div class="level3">
+
+<p>
+ Lorsque Grub a été effacé par l&rsquo;installation d&rsquo;une autre système d&rsquo;exploitation (par exemple Windows), la disquette de démarrage s&rsquo;avère utile. En effet, car gràce à elle, vous pouvez démarrer votre système Ubuntu ! Toutefois, si vous ne possédez pas de disquette de démarrage, ne cédez pas à la panique car il y a moyen de s&rsquo;en sortir à l&rsquo;aide d&rsquo;un live-CD contenant le programme Grub. Si vous n&rsquo;avez pas encore de live-CD, vous pouvez, par exemple, télécharger SystemRescueCd dont la taille avoisine 100Mo.  Vous pouvez egalement utiliser le live-CD Ubuntu. Mais le paquet grub n&rsquo;etant pas installe, vous devrez faire sudo apt-get install grub. La source du paquet peut provenir d&rsquo;internet (si vous avez configure le reseau) ou d&rsquo;un CD d&rsquo;installation d&rsquo;ubuntu (faire apt-cdrom add /media/cdrom pour ajouter le cdrom comme source de paquets).
+</p>
+
+<p>
+Sous Ubuntu ou à partir d&rsquo;une machine démarrée avec un liveCD, dans un terminal, lancez Grub : 
+</p>
+<pre class="code">$ sudo -s
+# grub --batch </pre>
+
+<p>
+ Si vous ne savez pas sur quelle partition se trouvent les fichiers de Grub, entrez à l&rsquo;invite grub&gt; 
+</p>
+<pre class="code">grub&gt; find /boot/grub/stage1</pre>
+
+<p>
+ cette commande vous indiquera la partition sur laquelle sont situés ces fichiers. Imaginons que cette commande nous a fournit (hd0,1) comme réponse. Dans ce cas, il faut entrer: 
+</p>
+<pre class="code">grub&gt; root (hd0,1)</pre>
+
+<p>
+ Remplacez bien entendu (hd0,1) par la partition que vous a été indiquée par la commande find.
+</p>
+
+<p>
+L&rsquo;étape suivante consiste à indiquer à Grub le disque sur lequel il doit (ré)installer le chargeur de système. Si par exemple, on souhaite l&rsquo;installer sur le disque (hd0): 
+</p>
+<pre class="code">grub&gt; setup (hd0)
+grub&gt; quit</pre>
+
+<p>
+ Voilà le travail est fini. Grub est remis d&rsquo;aplomb !
+</p>
+
+</div>
+<!-- SECTION [4720-6438] -->
+<a name="fond_d_ecran_dans_grub"></a><h2> Fond d'écran dans Grub </h2>
+<div class="level2">
+
+<p>
+ Il est possible de paramétrer Grub pour qu&rsquo;une image, appelée <em>splash image</em> soit affichée en fond d&rsquo;écran.
+</p>
+
+</div>
+<!-- SECTION [6439-6590] -->
+<a name="installation"></a><h3> Installation </h3>
+<div class="level3">
+
+<p>
+ Tout d’abord, vous pouvez installer un paquet contenant des images par défaut :
+</p>
+<pre class="code">sudo apt-get install grub-splashimages</pre>
+
+<p>
+ Ces images vont être placées dans <em>/boot/grub/splashimages</em>/ . Il n&rsquo;est pas obligatoire d&rsquo;utiliser ce paquet, vous pouvez télécharger vos propres images sur Internet ou les créer vous-mêmes (voir <a href="/installation/grub%23creation_de_son_image" class="wikilink1" title="installation:grub#creation_de_son_image" onclick="return svchk()" onkeypress="return svchk()">Création de son image</a>), mais il faut que vous les placiez dans <em>/boot/grub/splashimages</em>/ .
+</p>
+
+<p>
+<a href="http://sleepybuddha.sl.funpic.de/ubuntu/" class="urlextern" title="http://sleepybuddha.sl.funpic.de/ubuntu/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Ce site</a> contient de chouettes images pour Ubuntu.
+</p>
+
+<p>
+Rajouter dans le fichier /boot/grub/menu.lst
+</p>
+<pre class="code">splashimage (hdX,Y)/boot/grub/splashimages/NOM_IMAGE.xpm.gz</pre>
+
+<p>
+ Où: 
+</p>
+<ul>
+<li class="level1"><span class="li"> NOM_IMAGE est à remplacer par le nom de l&rsquo;image que vous avez choisie. Par exemple, <em>biosplash</em>.</span>
+</li>
+<li class="level1"><span class="li"> (hdX,Y) est à remplacer par la partition montée en /boot, ou en / si vous n&rsquo;avez pas choisi d&rsquo;installer /boot sur une partition séparée). Par exemple, si vous avez un disque monté en /boot (par exemple (hd0,3), vous devrez mettre :</span>
+</li>
+</ul>
+<pre class="code">splashimage (hd0,3)/grub/splashimages/biosplash.xpm.gz</pre>
+
+<p>
+ Pour voir votre image, redemarrez l’ordinateur et admirez.
+</p>
+
+<p>
+Il est possible également d&rsquo;installer un <em>boot splash</em> pour que toute la suite du démarrage d&rsquo;Ubuntu soit graphique, avec une barre de progression. La page <a href="/installation/bootsplash" class="wikilink2" title="installation:bootsplash" onclick="return svchk()" onkeypress="return svchk()">Boot splash</a> n&rsquo;est pas encore créée. En attendant que la page soit écrite, vous pouvez vous référer à <a href="http://ubuntuforums.org/showthread.php?t=41709" class="urlextern" title="http://ubuntuforums.org/showthread.php?t=41709" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">ce howto</a> paru sur le forum anglophone d&rsquo;Ubuntu.
+</p>
+
+</div>
+<!-- SECTION [6591-8128] -->
+<a name="creation_de_son_image"></a><h3> Création de son image </h3>
+<div class="level3">
+
+<p>
+ Les images utilisées par grub sont bien particulières. Elle doivent remplir un certain cahier des charges :
+</p>
+<ul>
+<li class="level1"><span class="li"> fichier de type xpm.gz</span>
+</li>
+<li class="level1"><span class="li"> taille de 640&times;480</span>
+</li>
+<li class="level1"><span class="li"> être en 14 couleurs seulement</span>
+</li>
+</ul>
+
+<p>
+Pour vous aider, Coffee a écrit un petit script disponible ici: <a href="http://lecoindespotes.free.fr/article.php3?id_article=14" class="urlextern" title="http://lecoindespotes.free.fr/article.php3?id_article=14" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Script</a>
+</p>
+
+</div>
+<!-- SECTION [8129-8490] -->
+<a name="documentation_complementaire"></a><h2> Documentation complémentaire </h2>
+<div class="level2">
+
+<p>
+ Voici quelques liens, pour ceux qui veulent approfondir le sujet: 
+</p>
+<ul>
+<li class="level1"><span class="li"> Site du <a href="http://www.gnu.org/software/grub/" class="urlextern" title="http://www.gnu.org/software/grub/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">projet GNU GRUB</a> (en anglais):</span>
+</li>
+<li class="level2"><span class="li"> <a href="http://www.linux-france.org/article/sys/chargeurs/ix86/grub/grub-manual-fr.html" class="urlextern" title="http://www.linux-france.org/article/sys/chargeurs/ix86/grub/grub-manual-fr.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Traduction française du manuel de la version 0.92 de Grub</a></span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [8491-8839] -->
+<a name="les_fichiers_de_grub_ont_disparu"></a><h3> Les fichiers de Grub ont disparu ! </h3>
+<div class="level3">
+
+<p>
+ Si vous avez malencontreusement effacé le répertoire /boot/grub/, vous pouvez vous en sortir en recréant un nouveau répertoire grub/ dans /boot/ et en y copiant le contenu de /lib/grub/i386-pc/: 
+</p>
+<pre class="code">$ sudo -s
+#mkdir /boot/grub
+#cp -a /lib/grub/i386-pc/* /boot/grub/</pre>
+
+<p>
+ Ensuite, suivez les étapes décrites au point 5 à partir d&rsquo;ici.
+</p>
+
+<p>
+De plus, si vous comptez également regénérer le fichier /boot/grub/menu.lst, vous pouvez vous inspirer du fichier /usr/share/doc/grub/examples/menu.lst. 
+</p>
+
+</div>
+<!-- SECTION [8840-] -->

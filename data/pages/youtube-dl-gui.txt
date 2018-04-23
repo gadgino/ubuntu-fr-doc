@@ -1,0 +1,45 @@
+{{tag>Precise Trusty multimédia capture}}
+
+----
+
+======Youtube-dl-gui, capture de vidéos internet======
+
+**Youtube-dl-gui** est une [[wpfr>interface graphique]] très simpliste (et dépouillée) pour **Youtube-dl**. Sans option ni d'indicateur de téléchargement, vous n'avez qu'un [[wpfr>Copier-coller|copié/collé]] de l'adresse %%URL%% de la page de la vidéo à faire. 
+
+<note important>La copie d’œuvre est réglementée pour chaque pays. Pour la France, voir [[http://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000025003518&cidTexte=LEGITEXT000006069414|l'article L122-5 sur Légifrance]].</note>
+
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]] pour l'installation et la mise à jour.
+  * Disposer d'une connexion à Internet configurée et activée.
+
+=====Installation=====
+
+<note important>Le paquet au format .deb de cette application n'est pas disponible dans les [[:dépots|dépôts officiels]] mais depuis [[https://launchpad.net/gui-youtube-dl|Launchpad]]. Bien que ce paquet soit destiné aux [[:debian_ubuntu_comparaison|distributions Debian]], il n'est pas vérifié par les contributeurs pour Ubuntu. Ce type d'installation peut provoquer une instabilité de votre système. </note>
+
+Télécharger depuis [[https://launchpad.net/gui-youtube-dl/release-1.0/rc1/+download/youtube-dl-gui_0.1.2-1ubuntu1_all.deb|ce lien]] et [[:tutoriel/comment_installer_un_paquet#installer_un_paquet_isole|installer ce paquet isolé]].
+
+Si ce n'est pas déjà fait, le programme source [[:Youtube-dl]] sera installé automatiquement. Sans autre [[:tutoriel:comment_modifier_sources_maj|modification préalable des sources de logiciels]], ce sera la version des [[#via les depots officiels|dépôts officiels]] qui sera installée. Si vous souhaitez une version plus récente et tenue à jour du programme source Youtube-dl, voir le [[:youtube-dl#installation|chapitre installation du programme source youtube-dl]].
+
+Pour [[:trusty|Ubuntu Trusty 14.04]], il est nécessaire d'utiliser la [[:avconv#via_un_ppa_pour_trusty_1404_uniquement|version 11 de l'encodeur audio/vidéo Avconv]], la version 9 installée par défaut ne fonctionnant pas avec Youtube-dl. Ou bien utiliser à la place l'[[:ffmpeg#via_un_ppa_pour_trusty_1404_uniquement|encodeur FFmpeg]] tout aussi bien pris en charge.
+
+=====Utilisation=====
+L'application se lance comme n'importe quelle autre application graphique. Depuis le [[:unity#tableau_de_bord_dash|tableau de bord d'Unity]] ou pour les menus classiques, **Multimédia** -> **Youtube-dl-gui**. Ensuite, 
+  - copiez l'adresse %%URL%% de la page de la vidéo et collez-la dans la case prévue à cet effet;
+  - Cliquez sur le bouton "Download" et patientez, il n'y a aucun indicateur de téléchargement. Si la vidéo est importante et de bonne qualité, cela prendra du temps. 
+La vidéo sera enregistrée à la racine de votre dossier personnel au format par défaut (mp4 en général).
+
+=====Options=====
+Bien que **youtube-dl-gui** n'ait pas d'option, vous pouvez toujours modifier celles-ci en [[:youtube-dl#configuration|modifiant le fichier de configuration du programme source youtube-dl]].
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+=====Voir aussi=====
+  * **(en)** [[https://launchpad.net/gui-youtube-dl/|La page du projet sur Launchpad]]
+
+----
+
+//Contributeurs: //

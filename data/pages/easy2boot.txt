@@ -1,0 +1,73 @@
+{{tag>live_usb}}
+----
+
+====== Easy2boot : Créez votre LiveUSB MultiBoot simplement ======
+
+{{  easy2boot1.jpg?140nolink}}
+
+**Easy2boot** est un logiciel qui, contrairement aux outils traditionnels comme [[http://www.linuxliveusb.com/|LinuxLive USB Creator]], [[Usb-creator|Usb-creator]], ou encore [[unetbootin#depuis_ubuntu|Unetbootin]], permet de créer entre autres des clés dites [[:live_usb|Live-USB]] mais [[wpfr>multiboot]], il ne dispose d'aucune interface graphique, l'ajout des iso's s'effectuent via un [[https://fr.wikipedia.org/wiki/Glisser-d%C3%A9poser|drag and drop]] directement sur votre clé USB :-).
+
+**Easyboot** permet le multiboot Windows, vous pouvez par exemple avoir sur la même clé USB: **Windows XP**, **Windows 7**, **Windows 10** (par exemple), ce qui n'est actuellement pas le cas avec le logiciel [[https://doc.ubuntu-fr.org/multisystem|MultiSystem]].
+
+Vous trouverez la liste des distributions supportées par Easy2boot sur [[http://www.easy2boot.com/add-payload-files/list-of-tested-payload-files/|cette page]] du site officiel.
+
+
+----
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion Internet pour l'installation du logiciel.
+
+----
+
+===== Installation =====
+
+Pour installer Easy2boot sur notre clé USB, nous allons télécharger le fichier [[http://files.easy2boot.com/200002312-f0ccdf1c69/Easy2Boot_v1.87DPMS.zip]], pour se faire, veuillez ouvrir un terminal avec pour contenu:
+<code>cd Bureau && wget http://files.easy2boot.com/200002312-f0ccdf1c69/Easy2Boot_v1.87DPMS.zip</code>
+
+ Il nous faut maintenant extraire notre .zip sur notre bureau :
+
+<code>sudo apt-get install p7zip-full -y 
+7z x Easy2Boot_v1.87DPMS.zip</code>
+
+Maintenant que nous avons extrait notre dossier **Easy2Boot_v1.81ADPMS**, on va se placer dans le dossier **Easy2Boot_v1.87DPMS** et plus précisément dans **_ISO/docs/linux_utils/** pour se faire on ferra:
+
+<code>cd Easy2Boot_v1.87DPMS/_ISO/docs/linux_utils</code>
+
+Veuillez maintenant brancher votre clé USB, et taper dans votre terminal:
+
+<note warning>Attention, le script fmt.sh formatera votre clé USB en FAT32, vous perdrez donc toutes vos données.</note>
+
+<code>chmod +x fmt.sh && sudo ./fmt.sh</code>
+
+Vous obtiendrez quelque chose de semblable à :
+
+{{confirmation3454.jpg?640nolink}}
+
+<note warning>Avant de confirmer votre choix, veuillez vérifier que /dev/sdb1((dans notre cas)) est bien votre clé USB !, pour se faire: <code>sudo blkid</code></note>
+
+----
+
+Vous avez maintenant votre clé multiboot de prête, pour ajouter une ISO à votre clé USB multiboot, veuillez tout simplement accéder à votre clé USB via votre [[https://doc.ubuntu-fr.org/gestionnaire_de_fichiers|gestionnaire de fichiers]] favoris et vous rendre dans le dossier **_ISO** , vous y trouverez différents dossiers, veuillez déplacer votre ISO dans le dossier idoine, par exemple pour une distribution Ubuntu, vous déplacerez votre ISO dans le dossier **LINUX**. 
+
+Voici le résultat final:
+
+{{easy2boot.jpg?640nolink}}
+
+{{http://files.easy2boot.com/200000063-ca1dccb1c0-public/E2B_UEFI_Menu.jpg?640nolink}}
+
+----
+
+Contributeur(s): 
+
+[[:utilisateurs:beaver|BeAvEr]] : (Création de la page)
+
+[[:utilisateurs:deaphroat|deaphroat]] : Modification du lien de téléchargement, version proposée obsolète. La version E2B v1.87 contient des scriptes améliorés pour une meilleure compatibilité de Boot.
+
+Correction du tuto en fonction : 
+
+- Modification  de l’installation de p7zip pour prendre en charge les fichiers zip, l'archive est passée du format 7z au zip
+
+- Modification de la commande d'extraction de l'archive
+

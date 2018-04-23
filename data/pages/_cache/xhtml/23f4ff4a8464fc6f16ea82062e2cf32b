@@ -1,0 +1,135 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="clear"><ul class="toc">
+<li class="level2"><span class="li"><a href="#generalites" class="toc"> Généralités </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#comment_savoir_si_mysql_est_lance" class="toc"> Comment savoir si MySQL est lancé ? </a></span></li>
+<li class="level3"><span class="li"><a href="#comment_demarrer_le_serveur_mysql" class="toc"> Comment démarrer le serveur MySQL ? </a></span></li>
+<li class="level3"><span class="li"><a href="#comment_redemarrer_le_serveur_mysql" class="toc"> Comment redémarrer le serveur MySQL ? </a></span></li>
+<li class="level3"><span class="li"><a href="#comment_arreter_le_serveur_mysql" class="toc"> Comment arrêter le serveur MySQL ? </a></span></li>
+<li class="level3"><span class="li"><a href="#comment_recharger_la_configuration_de_mysql" class="toc"> Comment recharger la configuration de MySQL ? </a></span></li>
+<li class="level3"><span class="li"><a href="#comment_forcer_la_prise_en_compte_de_la_nouvelle_configuration_de_mysql" class="toc"> Comment forcer la prise en compte de la nouvelle configuration de MySQL ? </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#utilisation" class="toc"> Utilisation </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#comment_ajouter_ou_changer_le_mot_de_passe_de_root" class="toc"> Comment ajouter ou changer le mot de passe de root ? </a></span></li>
+<li class="level3"><span class="li"><a href="#je_ne_peux_pas_me_connecter_a_mysql_sur_le_port_3306" class="toc"> Je ne peux pas me connecter à MySQL sur le port 3306 </a></span></li>
+<li class="level3"><span class="li"><a href="#comment_me_connecter_a_mysql_depuis_un_autre_systeme" class="toc"> Comment me connecter à MySQL depuis un autre système ? </a></span></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<a name="generalites"></a><h2> Généralités </h2>
+<div class="level2">
+
+</div>
+<!-- SECTION [1-28] -->
+<a name="comment_savoir_si_mysql_est_lance"></a><h3> Comment savoir si MySQL est lancé ? </h3>
+<div class="level3">
+
+<p>
+ Pour savoir si le serveur MySQL est lancé, tapez la commande suivante dans un terminal : 
+</p>
+<pre class="code">sudo ps -A | grep mysql</pre>
+
+<p>
+Si MySQL est en fonctionnement, vous devriez obtenir une ligne semblable à : 
+</p>
+<pre class="code"> 8052 ?        00:00:00 mysqld</pre>
+
+</div>
+<!-- SECTION [29-327] -->
+<a name="comment_demarrer_le_serveur_mysql"></a><h3> Comment démarrer le serveur MySQL ? </h3>
+<div class="level3">
+
+<p>
+ Pour démarrer le serveur MySQL, tapez la commande suivante dans un terminal : 
+</p>
+<pre class="code">sudo /etc/init.d/mysql start</pre>
+
+</div>
+<!-- SECTION [328-497] -->
+<a name="comment_redemarrer_le_serveur_mysql"></a><h3> Comment redémarrer le serveur MySQL ? </h3>
+<div class="level3">
+
+<p>
+ Pour redémarrer le serveur MySQL, tapez la commande suivante dans un terminal : 
+</p>
+<pre class="code">sudo /etc/init.d/mysql restart</pre>
+
+</div>
+<!-- SECTION [498-673] -->
+<a name="comment_arreter_le_serveur_mysql"></a><h3> Comment arrêter le serveur MySQL ? </h3>
+<div class="level3">
+
+<p>
+ Pour arrêter le serveur MySQL, tapez la commande suivante dans un terminal : 
+</p>
+<pre class="code">sudo /etc/init.d/mysql stop</pre>
+
+</div>
+<!-- SECTION [674-840] -->
+<a name="comment_recharger_la_configuration_de_mysql"></a><h3> Comment recharger la configuration de MySQL ? </h3>
+<div class="level3">
+
+<p>
+ Pour que MySQL prenne en compte les modifications de sa configuration, tapez la commande suivante dans un terminal : 
+</p>
+<pre class="code">sudo /etc/init.d/mysql reload</pre>
+
+</div>
+<!-- SECTION [841-1058] -->
+<a name="comment_forcer_la_prise_en_compte_de_la_nouvelle_configuration_de_mysql"></a><h3> Comment forcer la prise en compte de la nouvelle configuration de MySQL ? </h3>
+<div class="level3">
+
+<p>
+ Pour forcer MySQL à recharger ses fichiers de configuration, tapez la commande suivante dans un terminal : 
+</p>
+<pre class="code">sudo /etc/init.d/mysql force-reload</pre>
+
+</div>
+<!-- SECTION [1059-1301] -->
+<a name="utilisation"></a><h2> Utilisation </h2>
+<div class="level2">
+
+</div>
+<!-- SECTION [1302-1326] -->
+<a name="comment_ajouter_ou_changer_le_mot_de_passe_de_root"></a><h3> Comment ajouter ou changer le mot de passe de root ? </h3>
+<div class="level3">
+
+<p>
+ Pour changer le mot de passe de l&rsquo;utilisateur root (qui n&rsquo;est pas le même que l&rsquo;utilisateur root du système), tapez la commande suivante dans un terminal :
+</p>
+<pre class="code">sudo mysqladmin -u root password nouveau_mot_de_passe</pre>
+
+</div>
+<!-- SECTION [1327-1617] -->
+<a name="je_ne_peux_pas_me_connecter_a_mysql_sur_le_port_3306"></a><h3> Je ne peux pas me connecter à MySQL sur le port 3306 </h3>
+<div class="level3">
+
+<p>
+ Pour activer la connexion à MySQL via le port 3306, commentez la ligne suivante dans le fichier <code>/etc/mysql/my.cnf</code> (en ajoutant <code>#</code> au début de la ligne) :
+</p>
+<pre class="code">skip-networking</pre>
+
+</div>
+<!-- SECTION [1618-1876] -->
+<a name="comment_me_connecter_a_mysql_depuis_un_autre_systeme"></a><h3> Comment me connecter à MySQL depuis un autre système ? </h3>
+<div class="level3">
+
+<p>
+ Par défaut, MySQL n&rsquo;écoute que les connexions venant de localhost (127.0.0.1), c&rsquo;est-à-dire du système sur lequel il est installé.
+</p>
+
+<p>
+Pour pouvoir accéder à MySQL depuis un autre ordinateur, ajoutez la ligne suivante au fichier <code>/etc/mysql/my.cnf</code> dans la partie [mysqld] : 
+</p>
+<pre class="code">bind-address = 0.0.0.0</pre>
+
+</div>
+<!-- SECTION [1877-] -->

@@ -1,0 +1,85 @@
+{{tag>portail internet logiciels communication}}
+
+----
+
+====== Visioconférence (audio+vidéo+messagerie instantanée)======
+
+Cette page recense les logiciels de [[wpfr>Visioconférence|visioconférence]] (voir et dialoguer avec son interlocuteur) fonctionnant sur Ubuntu.
+
+<note tip>
+Cette page traite de communication par webcam avec messagerie instantanée (audio+vidéo+chat).
+Si vous souhaitez seulement « tchatter » (pas de webcam ni d'audio), consultez la page [[messagerie instantanée]]. Si vous souhaitez seulement « téléphoner par internet » (pas de webcam), consultez [[VoIP]].
+</note> 
+
+===== Logiciels de visioconférence =====
+
+==== Voix+vidéo+messagerie entre Ubuntu, Windows et Mac OS ====
+
+Pour qu'il y ait une bonne interopérabilité entre les programmes de plateformes différentes (GNU/Linux, Windows, Mac OS), il est nécessaire que les logiciels utilisent des codecs communs. Cela ne pose pas de problème majeur pour la voix, mais pour la vidéo la situation est encore un peu complexe.
+
+<note tip>
+Les solutions les plus fonctionnelles sont généralement [[:Jitsi]], [[:Ekiga]], [[;Empathy]] (avec Jabber uniquement), [[:Skype]] et  [[:google_hangouts|Hangouts]]. 
+
+  * Si vos interlocuteurs utilisent Windows, [[:Jitsi]], [[:Ekiga]], [[:Linphone]] et [[:Ring]] sont les seules solutions 100 % libres.
+  * Si vos interlocuteurs utilisent MacOS, [[:Jitsi]], [[:Linphone]] et [[:Ring]] sont les seules solutions 100 % libres.
+  * Si vos interlocuteurs utilisent un smartphone (Android, iPhone, WindowsPhone) [[:Linphone]] ou [[:Ring]] sont les seules solutions 100 % libre.
+  * Si vos interlocuteurs utilisent GNU/Linux, [[:Muji]] permet des vidéoconférences à 3 ou plus. 
+
+Vous pouvez faire des tests d'appels avec les bénévoles listés sur [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3504884#p3504884|ce message]] ! :-).
+</note>
+
+Le tableau suivant résume la situation actuelle (février 2014) pour avoir la voix, la vidéo et la messagerie instantanée :
+
+^ Logiciel pour Ubuntu  ^ Solution recommandée pour vos contacts GNU/Linux  ^ Solution recommandée pour vos contacts Windows ^ Solution recommandée pour vos contacts MacOS ^ Solution recommandée pour vos contacts Android ^ Codec Vidéo ^ Protocole permettant la vidéoconférence ^ Remarques |
+^ **[[:Ekiga]]** | Ekiga | [[http://wiki.ekiga.org/index.php/Windows_Users|Ekiga]]((http://wiki.ekiga.org/index.php/Ekiga_Interoperability#Windows)) | [[http://xmeeting.sourceforge.net/|Xmeeting]]((http://wiki.ekiga.org/index.php/Ekiga_Interoperability#Mac_OS)) | [[http://www.linphone.org/eng/download/packages/|Linphone]] |H.261, 263, 263+, 264, Theora et Mpeg4 |[[:SIP]]| |
+^ **[[:empathy|Empathy]]** | Empathy | [[https://jitsi.org/index.php/Main/Download|Jitsi]] |[[https://jitsi.org/index.php/Main/Download|Jitsi]] | [[http://www.linphone.org/eng/download/packages/|Linphone]] | [[http://wiki.ekiga.org/index.php/Ekiga_Interoperability|H.263+]], [[http://osdir.com/ml/svn-commits-list/2009-08/msg01480.html|263, 264]], Theora |[[:SIP]], [[:Jabber]]((http://telepathy.freedesktop.org/wiki/Protocols%20Support))| __**Recommandé pour Jabber**__, [[:empathy#via_les_depots_launchpad|la version PPA]] est conseillée. |
+^ **[[:gajim|Gajim]]** | Gajim | [[https://jitsi.org/index.php/Main/Download|Jitsi]] | [[https://jitsi.org/index.php/Main/Download|Jitsi]] | - | H264 FIXME |[[:Jabber]] | La version Windows de Gajim [[https://trac.gajim.org/ticket/6030|ne supporte pas la visioconférence]]. |
+^ [[:google_hangouts|Hangouts (plugin Gmail)]](**non-libre**) | Hangouts | [[https://www.google.com/tools/dlpage/hangoutplugin?hl=fr|Hangouts]]((**non-libre**)) | [[https://www.google.com/tools/dlpage/hangoutplugin?hl=fr|Hangouts]]((**non-libre**)) | [[https://www.google.com/tools/dlpage/hangoutplugin?hl=fr|Hangouts]]((**non-libre**)) | **protocole fermé** | Hangouts (**non-libre**) | __**Fonctionnel**__ , mais non-libre |
+^ [[:Jitsi]] | Jitsi | [[https://jitsi.org/index.php/Main/Download|Jitsi]] | [[https://jitsi.org/index.php/Main/Download|Jitsi]] | [[http://www.linphone.org/eng/download/packages/|Linphone]] | H263, H264, FIXME |[[:SIP]], [[:Jabber]] | Tests en cours [[http://forum.ubuntu-fr.org/viewtopic.php?id=153887&p=1|ici]] |
+^ [[:Linphone]] | Linphone | [[http://www.linphone.org/eng/download/packages/|Linphone]] | [[http://www.linphone.org/eng/download/packages/|Linphone]] | [[http://www.linphone.org/eng/download/packages/|Linphone]] | H263, H263-1998, MPEG4, theora, H264 |[[:SIP]]| __**Recommandé pour SIP**__ |
+^ **[[:Pidgin]]** | Pidgin | [[https://jitsi.org/index.php/Main/Download|Jitsi]] | [[https://jitsi.org/index.php/Main/Download|Jitsi]] | - | [[http://developer.pidgin.im/ticket/10093|H.264]]  | [[:Jabber]] | La version Windows de Pidgin [[http://developer.pidgin.im/ticket/11075|ne supporte pas la visioconférence]]. |
+^ [[:Qutecom]] | Qutecom | [[http://qutecom.org|Qutecom]] | [[http://qutecom.org|Qutecom]] | - |H.263 non standard | non standard | compatible SIP pour l'audio |
+^ [[:Ring]] | Ring | [[https://ring.cx/fr|Ring]] | [[https://ring.cx/fr|Ring]]  | [[https://ring.cx/fr|Ring]] | H264, VP8,MPEG4,H263 | [[:SIP]]|  |
+^ [[:Skype]] (**non-libre**)| Skype | [[http://www.skype.com|Skype]] | [[http://www.skype.com|Skype]]  | [[http://www.skype.com|Skype]] | **protocole fermé** | Skype (**non-libre**)| __**Fonctionnel**__, mais non-libre. |
+^ [[:Tox]] | Tox | [[http://tox.im|Tox]] | [[http://tox.im|Tox]]  | [[http://tox.im|Tox]] | ? | | Disponible aussi pour iOS. |
+^ [[:Twinkle]] |  |  | |  | ? | SIP|  |
+
+==== Solutions alternatives ou expérimentales ====
+
+=== Via la technologie WebRTC ===
+
+Vous pouvez donc communiquer simplement par le biais de votre navigateur Web du moment qu'il prend en charge cette technologie (actuellement : Opera, Firefox, Chrome). Votre interlocuteur doit posséder un navigateur Web compatible.
+Le principe reste le même : vous créez une salle, et donnez le lien aux personnes concernées pour vous rejoindre.
+Vous n'avez rien à installer, ou de compte à créer pour en profiter, vous n'avez qu'à autoriser votre micro et votre webcam lors de la première utilisation.
+
+
+Les solutions suivantes sont des services de chat vidéo qui utilisent la technologie [[wpfr>WebRTC]] :
+  * [[https://appear.in|Appear.in]] [[https://www.gruveo.com/|Gruveo]] [[https://hubl.in/|Hubl.in]] [[https://meet.jit.si|Jitsi-Meet]] [[https://opentokrtc.com|OpenTokRTC]] [[https://palava.tv|PalavaTV]] [[https://talky.io|Talky]] [[https://videolink2.me/start|VideoLink2.me]]
+  * Il existe aussi [[http://lynckia.com/licode/|Licode]] à installer sur Ubuntu.
+  * Il existe aussi des applications WebRTC sur Android et iOS.
+
+=== Via la technologie Flash ===
+
+Les solutions en ligne ont des chances de fonctionner, si votre webcam est reconnue par [[:flashplayer#webcam_avec_application_flash_ou_contenu_flash_dans_une_page_web|Flash]].
+  * Services de chat vidéo en ligne (non libres) : [[https://hangouts.google.com/?hl=fr|Google+ Hangouts]] [[http://tinychat.com/|Tinychat]] [[http://viduality.com/|Video faces]] [[http://www.camconf.com|Camconf]] 
+  * Pour YahooMessenger : [[:Gyachi]] ou [[:Kopete]] permettent d'avoir la vidéo (si votre webcam est supportée par libv4l), l'audio sur Y!M peut être obtenu via le service gtalk2voip (pas très fiable). Voir [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3058154#p3058154|cette discussion]].
+  * [[http://www.adobe.com/fr/products/adobeconnect.html|Adobe ConnectNow]]
+ 
+<note help>Vous pouvez également voir la page pour les [[:web_conference|solutions de conférence en ligne]]. Ces solutions ne s'adressent généralement pas aux utilisateurs normaux voulant une utilisation basique et rapide de la visioconférence.</note>
+
+===== Liens =====
+
+  * [[:VoIP]] : logiciels permettant de téléphoner via internet (pas de vidéo)
+  * [[:Messagerie instantanée]] : logiciels permettant de « tchatter » (pas de vidéo ni audio) 
+  * [[:Internet et réseaux]] : portail général
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?pid=2952316|Avenir de la vidéoconférence sous GNU/Linux]] - Discussion du forum ubuntu-fr_lien périmé
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3504884#p3504884|Recherche Testeurs VOIP/Visio libre : SIP - XMPP]] - Aidez à améliorer les alternatives libres ! 
+  * [[https://support.google.com/plus/answer/1216376?hl=fr|Configuration système requise pour les Google+Hangouts]]
+
+===== Pages contenant le tag « visioconférence » =====
+
+Voir la [[:visioconference?do=backlink|liste des backlinks]].
+
+----
+
+//Contributeurs principaux : [[:utilisateurs:YannUbuntu]] (basé sur [[SIP]] par Yannick@AMD64).//

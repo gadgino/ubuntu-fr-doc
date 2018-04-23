@@ -1,0 +1,167 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#comment_installer_l_acceleration_3d_sur_une_carte_nvidia" class="toc"> Comment installer l'accélération 3D sur une carte NVidia ? </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#verification_de_la_presence_de_la_carte" class="toc"> Vérification de la présence de la carte </a></span></li>
+<li class="level2"><span class="li"><a href="#installation_en_mode_graphique" class="toc"> Installation en mode graphique </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#installation" class="toc"> Installation </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#installation_en_mode_console" class="toc"> Installation en mode console </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#installation" class="toc"> Installation </a></span></li>
+<li class="level3"><span class="li"><a href="#pour_faire_quelques_reglages_supplementaires" class="toc"> Pour faire quelques réglages supplémentaires </a></span></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Versions : Warty &amp; Hoary
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/ostaquet" class="wikilink1" title="utilisateurs:ostaquet" onclick="return svchk()" onkeypress="return svchk()">ostaquet</a>.
+</p>
+
+<a name="comment_installer_l_acceleration_3d_sur_une_carte_nvidia"></a><h1> Comment installer l'accélération 3D sur une carte NVidia ? </h1>
+<div class="level1">
+
+<p>
+ Ubuntu fournit le pilote NVidia pour les cartes graphiques embarquant ce chipset. Par défaut, vous tournez sous le pilote générique &ldquo;nv&rdquo; et ne pouvez bénéficier de l&rsquo;accélération 3D, utilisée par certains jeux et applications. 
+</p>
+
+<p>
+Vous pouvez installer le pilote propriétaire NVidia en mode graphique ou en mode console. Veuillez vous référer aux sections ci-dessous.
+</p>
+
+<p>
+Cependant, avant d&rsquo;installer le pilote, assurez vous que votre carte graphique est bien une NVidia. Si vous installez le pilote NVidia sur une carte qui n&rsquo;est pas prévue pour cela, il vous faudra reconfigurer votre serveur X.
+</p>
+
+</div>
+<!-- SECTION [83-764] -->
+<a name="verification_de_la_presence_de_la_carte"></a><h2> Vérification de la présence de la carte </h2>
+<div class="level2">
+
+<p>
+ Installez le pilote NVidia si une des lignes ci-dessous est vraie : 
+</p>
+<ul>
+<li class="level1"><span class="li"> Vous savez que vous possédez une carte NVidia (TNT, GeForce ou Quattro).</span>
+</li>
+<li class="level1"><span class="li"> La commande <pre class="code">lspci</pre>
+
+<p>
+ indique que vous avez une carte nommée &ldquo;NVIDIA&rdquo;.</span>
+
+</p>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [765-1052] -->
+<a name="installation_en_mode_graphique"></a><h2> Installation en mode graphique </h2>
+<div class="level2">
+
+</div>
+<!-- SECTION [1053-1096] -->
+<a name="installation"></a><h3> Installation </h3>
+<div class="level3">
+
+<p>
+ Pour installer ce pilote :  
+</p>
+<ol>
+<li class="level1"><span class="li"> ouvrez le gestionnaire de paquets Synaptic (Menu Système &gt; Administration &gt; Synaptic)</span>
+</li>
+<li class="level1"><span class="li"> recherchez les paquets contenant le mot <pre class="code">nvidia</pre>
+
+<p>
+</span>
+
+</p>
+</li>
+<li class="level1"><span class="li"> installez les paquets <pre class="code">nvidia-glx, nvidia-kernel-common</pre>
+
+<p>
+ et 
+</p>
+<pre class="code">nvidia-settings</pre>
+
+<p>
+</span>
+
+</p>
+</li>
+<li class="level1"><span class="li"> fermez le gestionnaire de paquets Synaptic</span>
+</li>
+<li class="level1"><span class="li"> lancez la commande (Menu Applications &gt; Lancer une application...) <pre class="code">gksudo nvidia-glx-config enable</pre>
+
+<p>
+</span>
+
+</p>
+</li>
+<li class="level1"><span class="li"> Redémarrez le serveur X (en appuyant sur CTRL + ALT + RETOUR EN ARRIERE)</span>
+</li>
+</ol>
+
+<p>
+ Un logo NVidia devrait s&rsquo;afficher lors du redémarrage du serveur. Votre carte graphique supporte maintenant l&rsquo;accélération 3D.
+</p>
+
+<p>
+Pour effectuer des réglages supplémentaires, lancez la commande (Menu Applications &gt; Lancer une application...) 
+</p>
+<pre class="code">
+nvidia-settings
+</pre>
+
+</div>
+<!-- SECTION [1097-1927] -->
+<a name="installation_en_mode_console"></a><h2> Installation en mode console </h2>
+<div class="level2">
+
+</div>
+<!-- SECTION [1928-1969] -->
+<a name="installation"></a><h3> Installation </h3>
+<div class="level3">
+
+<p>
+ Pour installer ce pilote, ouvrez un terminal et exécutez les commandes suivantes :
+</p>
+<pre class="code">
+    sudo apt-get install nvidia-glx nvidia-kernel-common
+    sudo nvidia-glx-config enable
+</pre>
+
+<p>
+Pour faire prendre en compte les modifications, vous devez redémarrer le serveur graphique (nul besoin de redémarrer l&rsquo;ordinateur). 
+</p>
+
+<p>
+Fermez préalablement votre session et appuyez sur les touches &ldquo;Ctrl + Alt + Retour en Arrière&rdquo;.
+</p>
+
+<p>
+Vous devriez voir apparaître brièvement le logo nVIDIA qui indique que l&rsquo;affichage dépend dorénavant du pilote propriétaire autorisant l&rsquo;accélération 3D.
+</p>
+
+</div>
+<!-- SECTION [1970-2582] -->
+<a name="pour_faire_quelques_reglages_supplementaires"></a><h3> Pour faire quelques réglages supplémentaires </h3>
+<div class="level3">
+
+<p>
+ Pour modifier le gamma ou d&rsquo;autres choses dans une interface graphique :
+</p>
+<pre class="code">
+    sudo apt-get install nvidia-settings
+    nvidia-settings
+</pre>
+
+</div>
+<!-- SECTION [2583-] -->

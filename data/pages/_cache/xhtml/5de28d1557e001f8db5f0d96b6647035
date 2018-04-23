@@ -1,0 +1,128 @@
+
+<a name="installation_du_modem_f_st_800"></a><h1> Installation du Modem F@st 800 </h1>
+<div class="level1">
+
+<p>
+Informations préalables :  -On suppose que l&rsquo;autre <acronym title="Operating System">OS</acronym> installé est Windows (Peu importe lequel...)
+</p>
+
+<p>
+-Vous devez telecharger les drivers eagle dans leur version Package .deb.
+</p>
+
+<p>
+-Vous devez les placez sur votre disque dur, dans un répertoire facile d&rsquo;accès
+</p>
+
+<p>
+-Les drivers sont disponibles ici : <a href="http://download.gna.org/eagle-usb-2.1.0/" class="urlextern" title="http://download.gna.org/eagle-usb-2.1.0/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://download.gna.org/eagle-usb-2.1.0/</a>
+</p>
+
+<p>
+- Vous devez télécharger : 
+</p>
+
+<p>
+eagle-usb-modules-source_2.1.1-2_all.deb
+</p>
+
+<p>
+eagle-usb-data_2.1.1-2_all.deb
+</p>
+
+<p>
+eagle-usb-utils_2.1.1-2_i386.deb
+</p>
+
+<p>
+ Installation : 
+</p>
+
+<p>
+Eteignez votre Ordinateur, Allumez le, Inserez le live CD d&rsquo;ubuntu avant la séquence de boot.
+</p>
+
+<p>
+Votre ordinateur doit maintenant afficher un écran avec le logo d&rsquo;Ubuntu. Appuyez sur Entrer.
+</p>
+
+<p>
+Attendez la fin du chargement de Ubuntu, puis démarrez un Terminal Root : Application &gt; Outils Systèmes&gt; Terminal SuperUtilisateur.
+</p>
+
+<p>
+Puis Tappez : 
+</p>
+
+<p>
+<code>mkdir /mnt/hda1
+
+mount -t vfat /dev/hda1 /mnt/hda1</code>
+</p>
+
+<p>
+Remplacer vfat par le système de fichier de votre disque ou se trouve les drivers (Fat = vfat, ext2 = ext2, ext3 = ext3 et ntfs = ntfs)
+</p>
+
+<p>
+Le système de fichier par défaut pour Windows XP est ntfs
+</p>
+
+<p>
+Remplacez hda1 par le disque où sont placés vos Drivers (hda pour le disque primaire, hdb pour le secondaire etc... hda1 pour la première partition du disque primaire, hda2 pour la seconde...)
+</p>
+
+<p>
+Ensuite, rendez vous dans le répertoire ou sont placez vos drivers : dans mon cas : C:\lin\ Tappez donc
+</p>
+
+<p>
+<code>cd /mnt/hda1</code>
+</p>
+
+<p>
+Effectuez ensuite les commandes suivantes <strong>Dans l&rsquo;ordre !</strong>:
+</p>
+
+<p>
+ <code>dpkg eagle-usb-modules-source_2.1.1-2_all.deb
+
+dpkg eagle-usb-data_2.1.1-2_all.deb
+
+dpkg eagle-usb-utils_2.1.1-2_i386.deb
+</code>
+</p>
+
+<p>
+Puis on configure la connection ADSL
+</p>
+
+<p>
+<code>dpkg-reconfigure eagle-usb-utils</code>
+</p>
+
+<p>
+Completer ce que le script vous demande.
+</p>
+
+<p>
+<strong>ATTENTION : </strong> Pour Free : A la question &ldquo;Votre FAI accepte-t-il le CHIFFREMENT des MOTS de PASSE ?&rdquo; : répondre &ldquo;NON&rdquo;
+</p>
+
+<p>
+<strong>Pour terminer : on lance la connection</strong>
+</p>
+
+<p>
+<code>startadsl</code>
+</p>
+
+<p>
+Essayez maintenant d&rsquo;aller sur google.fr depuis FireFox : si ça marche : c&rsquo;est tout bon !
+</p>
+
+<p>
+Vous pouvez fermez le terminal ! 
+</p>
+
+</div>

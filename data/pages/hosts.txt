@@ -1,0 +1,291 @@
+{{tag> pare-feu réseau sécurité}}
+
+----
+
+====== Les fichiers Hosts et hostname ======
+===== Les fichiers =====
+==== hostname ====
+
+**Le fichier /etc/hostname** contient le nom du PC. Il faut le modifier [[sudo|avec les droits administrateur]] en l'éditant avec votre éditeur préféré ou en tapant :
+<code> sudo echo nouveau_nom_du_pc > /etc/hostname</code> 
+Un redémarrage est nécessaire pour la prise en compte.
+De façon temporaire on peut simplement utiliser la commande du même nom :
+<code> sudo hostname nouveau_nom_du_pc</code> 
+Attention à garder la cohérence avec le fichier de configuration de Samba, cf. [[:samba_smb.conf#parametres_generaux_de_global|samba_smb.conf paramètres généraux [global]]]
+
+==== hosts ====
+
+**Le fichier hosts** est utilisé sous tous les systèmes d’exploitations lors de l’accès à Internet, ce fichier est consulté avant l’accès au serveur DNS. C’est un simple fichier qui contient sur la même ligne une adresse IP et parfois le nom de domaine.\\
+
+Ce fichier permet de bloquer l’accès à un site Internet, de le rediriger, de bloquer les pubs et d’améliorer l’accès à des sites en fonction de la configuration de celui-ci. Il peut être utile pour protéger votre ordinateur, empêcher un enfant (par exemple) d’accéder à un site particulier.\\
+Ce fichier peut aussi servir à définir les noms des machines sur un réseau local (ou pas), cf. [[:tutoriel/comment_configurer_son_reseau_local#renseigner_le_fichieretchosts|renseigner_le_fichier etc hosts]]
+
+Le fichier hosts est l’ancêtre des [[dns|DNS]] utilisé dans [[wpfr>ARPANET]] - servant à adresser les adresses des réseaux.
+
+  * **Voir également [[Moblock]], pour bloquer à partir de liste peerguardian.**
+
+==== Trouver et modifier le fichier Hosts  ====
+Le fichier se trouve dans ''/etc/hosts''.
+
+Pour l'ouvrir dans un éditeur graphique, tapez <code> sudo xdg-open /etc/hosts</code>
+
+<note important>Après l'avoir modifié, tapez <code>sudo /etc/init.d/networking restart</code> pour que les changements soient pris en compte par le service réseau.
+</note>
+
+----
+<note warning>Pour information, la commande ci-dessus est **deprecated**, mais je ne sais pas par quoi la remplacer FIXME - Lire ci-après
+<code>* Running /etc/init.d/networking restart is deprecated because it may not re-enable some interfaces
+ * Reconfiguring network interfaces...
+ifdown: failed to open lockfile /run/network/.ifstate.lock: No such file or directory
+ifup: failed to open lockfile /run/network/ifstate.lo: No such file or directory</code></note>
+
+===== Utiliser le fichier Hosts pour bloquer des sites web  =====
+
+En définissant, comme adresse IP une adresse autre, on peut éviter d'aller sur certains sites web : par exemple, pour ne pas afficher le contenu de publicité.
+
+La plupart du temps c'est l'adresse de la boucle locale (i.e. votre ordinateur) qui est utilisé (en tout cas dans les fichiers et exemples ci-après).
+==== D'autres fichiers hosts ====
+
+<note>A priori de trop grosses listes et/ou non adaptées peuvent ralentir votre accès au réseau (et internet). Faire des test (via la commande ping par exemple).
+
+Dans tous les cas et dans une perspective de sécurité, l'utilisation d'un [[pare-feu]] est préférable.
+</note>
+
+  * http://www.mvps.org/winhelp2002/hosts.txt
+conseillé
+
+  * http://rlwpx.free.fr/WPFF/hosts.htm
+Il bloque pas mal de site, c'est même un peu trop!
+
+  * http://accs-net.com/hosts/hostsforlinux.html
+pas testé.
+
+  * http://someonewhocares.org/hosts/
+  * http://sourceforge.net/projects/adzhosts/
+//AdZHosts est un fichier HOSTS régulièrement tenu à jour.
+Il est disponible pour tous les OS et Smartphones.
+Son but est d'interdire l'accès aux sites qui diffusent de la pub et de bloquer l'accès aux sites intrusifs sur votre PC et votre smartphone.
+Ce n'est pas simplement votre navigateur qui est protégé de ces pubs mais bien toute la machine.//
+
+
+Pour windows il y a [[http://www.javacoolsoftware.com/spywareblaster.html|spywareblaster]] - (gratuit, licence ?) et [[http://www.safer-networking.org/fr/home/index.html|Spybot S & D]] (libre...) qui ont des listes à leur disposition. ( il serait utile de les récupérer et de faire partager). 
+
+Il est théoriquement possible de convertir des listes peerguardian pour mettre à jour hosts - mais autant utiliser [[Moblock|PGLD]] qui fait déjà cela automatiquement.
+
+
+==== Pré-requis ====
+
+
+savoir utiliser les [[:tutoriel:console_commandes_de_base|commandes de bases]].\\
+
+Penser à sauvegarder le précédent avec :\\
+<code>cd /etc/</code>
+<code>cp hosts hosts.backup</code>
+
+
+==== Installation et mise à jour automatique  ====
+
+Je vous propose une méthode simple de mise à jour automatique mensuel du fichier host.
+
+Dans une console :
+<code>sudo touch /etc/cron.monthly/hosts ; sudo xdg-open /etc/cron.monthly/hosts</code>
+
+Collez-y le code ci-dessous ("ubuntu" est à changer par le nom de votre machine) :
+<code>#!/bin/bash
+wget --directory-prefix=/tmp  http://winhelp2002.mvps.org/hosts.txt ||exit
+mv /tmp/hosts.txt /etc/hosts
+echo "127.0.1.1 ubuntu" >> /etc/hosts
+echo "::1 ip6-localhost ip6-loopback" >> /etc/hosts
+echo "fe00::0 ip6-localnet" >> /etc/hosts
+echo "ff00::0 ip6-mcastprefix" >> /etc/hosts
+echo "ff02::1 ip6-allnodes" >> /etc/hosts
+echo "ff02::2 ip6-alllrouters" >> /etc/hosts</code>
+
+Fermez l’éditeur de texte puis exécutez :
+<code>sudo chmod +x /etc/cron.monthly/hosts</code>
+
+et voilà la mise à jour est automatique !
+
+Remarque :
+
+- ce script ne modifie rien si il n’arrive pas à télécharger
+
+- ce script s'adapte en ajoutant les lignes par défaut du fichier de Ubuntu
+
+- ce script est exécuté automatiquement tout les mois sans intervention de l'utilisateur
+
+- il est possible de l’exécuter n’importe quand avec "sudo /etc/cron.monthly/hosts"
+==== Désinstallation ====
+
+Il faut tout simplement supprimer le fichier hosts qui a été remplacé et remettre l’original précieusement sauvegardé :)\\
+
+==== Site en rapport ====
+
+
+  * Autre lien pour script automatique : [[http://fl4t.blogspot.com/2009/05/script-pour-linuxien-adzhosts.html]]\\
+  * Le fil de discussion [[http://forum.ubuntu-fr.org/viewtopic.php?pid=2575813#p2575813]]\\
+  * Introduction et personnalisation de l’hosts [[http://kerio.probb.fr/securiser-un-peu-plus-son-ordinateur-f9/le-fichier-hosts-securiser-et-ameliorer-t473.htm]]\\
+
+===== Remplacer les messages d’erreurs "Impossible de charger l'URL" lors de la navigation =====
+
+Vous l’aurez certainement remarqué, le fait de blacklister un site dans le fichier HOST provoque des erreurs d’affichage assez désagréables lors de la navigation.
+
+En effet, le fichier HOST redirige l’adresse du site indésirable vers l'adresse 127.0.0.1, c'est-à-dire votre ordinateur. Votre ordinateur n’est donc pas capable de répondre à la requête, car aucun serveur HTTP n’est actif ou dans le cas contraire, votre serveur HTTP ne peut servir l’URL demandée car elle n'existe pas sur votre ordinateur.
+
+La méthode de contournement consiste à lancer un serveur HTTP bidon qui va répondre à toute les requêtes en envoyant comme réponse un code HTML défini par l'utilisateur.
+
+==== Installation ==== 
+
+- Installer les dépendances
+
+<code>sudo apt-get install libcurl4-gnutls-dev </code>
+
+- Télécharger et décompresser l’archive (le lien semble mort le 03/01/2014)
+
+<code>wget http://fab.homelinux.org/nullsrvd/nullsrvd.tar.gz
+tar xzvf nullsrvd.tar.gz</code>
+
+- Compiler
+
+<code>cd nullsrvd
+make</code>
+
+- Installer 
+
+<code>sudo make install</code>
+
+==== Utilisation ==== 
+
+Le serveur nullsrvd est un démon, c’est-à-dire que celui-ci se lance tout seul dès le démarrage de la machine
+
+=== Arrêt / Démarrage ===
+
+<code>sudo service nullsrvd start|stop</code>
+
+=== Consultation de la log ===
+
+<code>cat /var/log/nullsrvd/nullsrvd.log</code>
+
+=== Changer le code HTML renvoyé par nullsrvd ===
+
+[[:tutoriel:comment_modifier_un_fichier|Editer le fichier]] /etc/nullsrvd/response.html
+
+=== Changer le chemin d'accès du fichier HTML renvoyé par nullsrvd ===
+
+[[:tutoriel:comment_modifier_un_fichier|Editer le fichier]] /etc/default/nullsrvd
+
+=== Rajouter des entrées hosts utilisateur ===
+
+Si vous souhaitez que nullsrvd rajoute des entrées au fichier hosts après l'installation d'un nouveau fichier issu d’AdzHosts, 
+[[:tutoriel:comment_modifier_un_fichier|éditer le fichier]] /etc/nullsrvd/user.hosts
+
+==== Désinstallation ==== 
+
+Penser à arrêter nullsrvd avant sa désinstallation.
+
+<code>sudo make uninstall</code>
+
+==== Problèmes / Remarques ==== 
+
+S’adresser à [[http://forum.ubuntu-fr.org/profile.php?id=45561|darunia]]
+
+===== Héberger simultanément un site local et une page spéciale de blocage =====
+Si vous hébergez un site sur votre ordinateur, il sera accessible à l’adresse 127.0.0.1, mais vous ne voulez pas forcément que ce soit ce site qui s’affiche pour une url bloquée par le fichier hosts.
+
+La première chose à faire est une page en php qui va analyser l'adresse et rediriger vers votre site si l'adresse appartient à une liste définie (localhost, votre ip locale, le nom de la machine…) et rediriger vers une page bloquant l’accès au site pour toutes les autres adresses (soit celles contenues dans le fichier host).
+==== La page index.php ====
+
+La page index.php sera la page chargée par défaut si vous indiquer uniquement un nom de domaine sans indiquer de fichier, c'est donc celle la qui va analyser l'adresse
+
+<code>
+<!DOCTYPE html> 
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>index.php</title>
+    </head>
+
+    <body>
+  
+
+<?php
+$monUrl = "http://".$_SERVER['HTTP_HOST']."/";
+switch ($monUrl)
+{
+case "http://127.0.0.1/":
+include ('./mapagedaccueil.php');
+break;
+
+case "http://192.168.1.95/":
+include ('./mapagedaccueil.php');
+break;
+
+case "http://localhost/":
+include ('./mapagedaccueil.php');
+break;
+
+default:
+include ('./bloque.php');
+
+}
+			
+?> 
+	
+    </body>
+</html>
+</code>
+
+Cette page va donc récupérer l’adresse courante avec  %% $_SERVER['HTTP_HOST'] %% et inclure la page qui convient. Bien sûr, il faut remplacer 192.168.1.95 par votre adresse ip locale et rajouter si besoin d’autres %% case %% si vous voulez que d’autres adresses affichent votre site. Elle affichera soit la page bloque.php que nous verrons au chapitre suivant soit votre page d’accueil, qui s’appelait index.php avant de suivre ce tuto et que vous devez renommer en mapagedaccueil.php ou un autre nom mais il faudra adapter la page index.php et y mettre le même nom.
+
+==== La page bloque.php ====
+
+C’est cette page qui s’affichera pour toute les adresses qui ne sont pas précisément recensées. Elle s’affichera donc pour les url contenues dans le fichier host.
+Elle indique le nom du site, affiche un sens interdit, explique que la page est bloquée et redirige vers une autre page après quelques secondes.
+
+<code>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Page bloque par le fichier host</title>
+
+    </head>
+
+<img src="./sens-interdit.jpg" alt="sens interdit" />
+
+    <body>
+    
+
+ 
+
+<?
+$monUrl = "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+echo "<h1> La page que vous tentez de charger </p>"  .$monUrl." est bloquée.</h1> </p>";
+
+
+echo "vous allez etre redirigez vers duckduckgo dans 5s</p>";
+
+header ("Refresh: 5;URL=https://duckduckgo.com/");
+
+
+
+?> 
+	
+    </body>
+</html>
+</code>
+Vous pouvez adapter le temps avant la redirection en secondes, changez l'adresse...
+Vous pouvez maintenant afficher une page différente en fonction que se soit l'adresse du site local ou une autre même si elle possède la même adresse ip dans votre fichier host.
+
+
+===== Liens =====
+
+  * [[http://fr.wikipedia.org/wiki/Hosts|Hosts - sur wikipedia]] et [[http://en.wikipedia.org/wiki/Hosts_file|wikipedia en]]
+  * [[http://lelogiciellibre.net/tutoriaux/fichier-hosts.php|Le fichier hosts sur le logiciellibre]].
+
+
+----
+
+//Contributeurs principaux : [[:utilisateurs:fl4t|Fl4t]], [[:utilisateurs:psychederic|PsychedÉric]], [[:utilisateurs:gb1yop]], [[http://forum.ubuntu-fr.org/profile.php?id=45561|darunia]], [[:utilisateurs:anonyme68|anonyme68]] (suppression de paragraphes et des scripts étranges pour une meilleure clarté).//
+
+//Basé sur [[http://forum.ubuntu-fr.org/viewtopic.php?id=350476|forum]].//

@@ -1,0 +1,83 @@
+{{tag>éducation logiciels_enseignement}}
+
+----
+
+====== Jeux2mots : Créer des exercices de lecture et d'orthographe======
+
+**Jeux2mots** est un script python qui permet, à partir d'une série d'images, de générer plusieurs types d'exercices de lecture ou d'orthographe pour l'école élémentaire.
+
+Le résultat est un document PDF, prêt à être imprimé.
+
+**Jeux2mots** est une création du [[http://www.bipede.fr/contrib/index.php?page=OpenSource|Bipède]]
+
+===== Installation =====
+
+[[:tutoriel:comment_installer_un_paquet|Installez]] d'abord les paquets **[[apt://python-wxgtk2.8,python-reportlab,python-imaging|python-wxgtk2.8 python-reportlab python-imaging]]**
+
+Puis rendez vous sur [[http://www.bipede.fr/contrib/index.php?page=jeux2mots---downloads|la page de téléchargement]] du site de l'auteur pour y télécharger **l'archive tar.gz** de la dernière version (à l'heure d'aujourd'hui, en [[http://www.bipede.fr/contrib/uploads/logiciels/jeux2mots-1.03.tar.gz|version 1.03]]) que vous allez [[:archivage|extraire]].
+
+===== Utilisation =====
+
+Jeux2mots est dans la même veine que [[http://www.bipede.fr/contrib/index.php?page=lotoeduc-creer-des-cartes-de-loto-educatives|LotoEduc]], également écrit en python-wxPython, très simple d'utilisation, et destiné à la création de fiches d'exercices de lecture et d'orthographe pour les petits.
+
+Le principe est de réaliser une fiche comportant douze images.
+
+Suivant ce modèle, trois types d'exercices peuvent être générés :
+
+{{:education:exo0.jpg|}}
+
+**MOTS À TROUS**
+
+Compléter des mots en écrivant le bon phonème.
+
+{{:education:exo1.jpg|}}
+
+**ÉCRITURE DE MOTS**
+
+Écrire des mots en empruntant des syllabes données.
+
+{{:education:exo2.jpg|}}
+
+**PHONÈMES ET SYLLABES**
+
+Repérer la syllabe contenant un son donné.
+
+
+Au lancement, le logiciel vous demande le type d'exercice que vous voulez générer. Un aperçu est disponible :
+
+{{:education:capture-choisir_le_type_d_exercice.png|}}
+
+----
+
+Selon le type d'exercice choisi, il vous faudra renseigner une ou plusieurs options :
+
+**- Mots à trous :** entrez les lettres qui seront remplacées par des pointillés (celles que les élèves devront retrouver), séparées par des virgules.
+
+**- Écriture de mots :** pas d'option à choisir au départ.
+
+**- Phonèmes et syllabes :** sélectionnez dans la grille le phonème qui sera travaillé.
+
+A partir de là, rien de plus simple, il suffit de glisser-déposer à la souris les fichiers images désirés sur chacune des cases affichées par le logiciel (peu importe la taille des images originales qui sont redimensionnées automatiquement).
+
+----
+
+Lors du dépôt d'une image :
+
+
+**- Mots à trous :** le logiciel vous invite à saisir le mot associé à l'image.
+
+**- Écriture de mots** : idem, mais vous devez séparer les syllabes par des virgules ( ex : pan,ta,lon ).
+
+**- Phonèmes et syllabes :** déposez simplement les images, rien ne vous est demandé.
+
+
+Une fois toutes les cases remplies, il suffit de cliquer sur le bouton "Générer".
+
+
+===== Liens =====
+
+[[http://www.bipede.fr/contrib/index.php?page=jeux2mots---le-pluriel-de-jeu2mot|Site officiel de l'application]]
+
+----
+
+//Contributeur : Arnaud Champollion//

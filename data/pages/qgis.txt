@@ -1,0 +1,186 @@
+{{tag>cartographie éducation}}
+
+----
+
+{{ qgis_logo.png}}
+
+====== Quantum GIS ======
+
+
+**QGIS** , ou **Quantum GIS** de son nom complet, est un logiciel libre de [[wpfr>Système d'Information Géographique|SIG]] (à comparer avec les logiciels propriétaires ArcGIS ou MapInfo, par exemple sous Windows). C'est l'un des projets officiels de la Fondation Geospatiale Open Source ([[http://www.osgeo.org/|OSGeo]]), tout comme [[GRASS]] auquel il peut servir d'interface graphique conviviale. Son développement intègre, ou s'articule, autour d'autres projets fédérés au sein de l'OSGeo : GDAL/OGR, PROJ.4, PostGIS, MapServer, etc.
+
+Multiplateforme (GNU/Linux, Windows, Mac OSX), il est écrit en en C++ et utilise la bibliothèque graphique Qt4. Il s'intègre donc mieux par défaut dans [[KDE]], mais peut très bien être utilisé dans un autre [[environnements|environnement]]. De nombreuses extensions peuvent être activées, ajoutées ou développées en Python. Il est distribué sous licence GNU GPL.
+
+{{ qgis_1.4_karmic.png?600 |QuantumGIS 1.4 sous Karmic (données OpenStreetMap)}}
+
+[[http://qgis.org/fr/a-propos-de-qgis/captures-decran.html|D'autres captures d'écran…]]
+
+=== Fonctionnalités ===
+
+QuantumGIS prend en charge :
+  * les connexion au SGBD [[PostgreSQL]] et à son extension spatiale PostGIS, de manière native ;
+  * les formats vecteurs courants à travers la bibliothèque [[http://www.gdal.org/ogr/ogr_formats.html|OGR]], notamment Shapefile ESRI, MapInfo, SDTS et [[wp>GML]] ;
+  * les formats rasters courants à travers la bibliothèque [[http://www.gdal.org/formats_list.html|GDAL]], notamment les couvertures ArcInfo, TIFF/geoTIFF, JPG ;
+  * les données géographiques en lignes à travers les services [[wpfr>Web Map Service|WMS]] et [[wpfr>WFS]], suivant les spécifications ouvertes de l'OGC ([[wpfr>Open Geospatial Consortium]]) ;
+  * les fichiers GRASS.
+
+Il inclut, entre autres, les fonctionnalités suivantes :
+  * projection à la volée ;
+  * géosignets ;
+  * sélection, visualisation, modification d'attributs ;
+  * étiquetage ;
+  * gestion de la symbologie ;
+  * mise en page pour impression ;
+  * réalisation d'un carroyage ;
+  * géoréférencer un jeu de données ;
+  * import/export de données GPS ;
+  * analyse spatiale à travers l'extension fTools (pour les shapefiles) ou les outils GRASS ;
+  * export vers MapServer pour une publication en ligne ;
+  * import/mise à jour/export des données [[wpfr>OpenStreetMap]] (QGIS >= 1.2.0)
+ 
+=== Cycle de mise à jour ===
+
+QuantumGIS utilise un cycle de développement qui rappelle celui d'Ubuntu : deux versions du logiciel sont disponibles.
+
+  * **Version actuelle** : elle contient les dernières fonctionnalités mais peut contenir plus de bogues (cette version a été brièvement dénommée « unstable »). Actuellement, c'est la version **2.6**, dénommée « **Brighton** » sortie en Octobre 2014.
+  * **Version soutenue à long terme (LTS)** : elle dispose d'une interface et d'une API qui ne varient pas. Des versions mineures incluant des correctifs sont régulièrement diffusées (cette version a été brièvement dénommée « stable »). Actuellement c'est la version **1.4**, dénommée « **Enceladus** ».
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+==== Par les dépôts officiels (version obsolète) ====
+
+Simplement installer le paquet [[apt://qgis|qgis]]
+
+
+==== Pour obtenir la version courante ou la LTS via un PPA  ====
+
+[[:PPA|Ajoutez le PPA]] dans vos sources de logiciels :
+  * pour la **version courante** de QGIS : **ppa:ubuntugis/ubuntugis-unstable**((https://launchpad.net/~ubuntugis/+archive/ubuntugis-unstable))
+  * ou pour la **version LTS** : **ppa:ubuntugis/ppa**((https://launchpad.net/~ubuntugis/+archive/ppa))
+  
+Puis [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]].
+
+Et [[tutoriel:comment_installer_un_paquet#paquet_present_dans_les_depots|installez le paquet]] **[[apt://qgis|qgis]]**.
+
+
+===== Utilisation =====
+
+Lancez l'application depuis le menu //Applications -> Éducation// ou //Applications -> Science//.
+
+
+L'interface est simple et intuitive.
+
+===== Prise en charge des formats ECW et JPEG2000 =====
+
+La prise en charge des formats d'images matricielles compressées ECW et JPEG 2000 n'est pas activé par défaut pour une question de licence.
+
+Source : [[http://geomatips.blogspot.com/2009/12/disposer-du-support-de-lecw-sous-ubuntu.html|Disposer du support de l'ECW sous Ubuntu]].
+<note important> A partir de Ubuntu 14.04 le paquet **[[apt://gdal-bin,libgdal-ecw-src|gdal-bin libgdal-ecw-src]]** ,n'est plus dans les dépôts ubuntugis-unstable suivez la partie consacré à **Ubuntu 14.04 et suivant**.</note>
+====Pour Precise ====
+
+=== Pré-requis === 
+  * Avoir [[PPA|ajouté]] et [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargé]] le PPA **ppa:ubuntugis/ppa** (sous Ubuntu 10.04 Lucid Lynx, les paquets semblent uniquement disponibles sur le PPA **ppa:ubuntugis/ubuntugis-unstable**)
+  * Installer gdal et sa source pour l'ecw : **[[apt://gdal-bin,libgdal-ecw-src|gdal-bin libgdal-ecw-src]]**
+  * Vous pouvez soit installer le support ECW par paquets deb ou par compilation
+  
+== Installation par paquets deb ==
+
+<note important>Paquets non officiels, proposés par //[[http://geomatips.blogspot.com/2009/12/disposer-du-support-de-lecw-sous-ubuntu.html|Geomatips]]// sur son blog.</note>
+
+Télécharger et installer les paquets Debian pour Ubuntu 64bits :
+[[http://www.mediafire.com/?lr8yu653768z91u|libecwj2_3.3-1_amd64.deb]]
+[[http://www.mediafire.com/?8xj1fyy6m58na69|libgdal-ecw_1.7.2-1_amd64.deb]]
+
+Télécharger et installer les paquets Debian pour Ubuntu 32bits :
+[[http://www.mediafire.com/?yvrmmzh0xmc|libecwj2_3.3-1_i386.deb]]
+<note important>Pas de paquet libgdal-ecw pour 32bits à l'heure actuelle, se référer à la suite : Compiler la librairie gdal pour le support de l'ECW</note>
+
+== Installation par compilation ==
+
+  * Télécharger les [[http://www.erdas.com/tabid/84/currentid/1142/default.aspx|sources du SDK d'ErMapper]]. Ça s'appelle "ECW JPEG2000 Codec SDK Source Code" sur la page
+<note important>Les sources ne sont plus disponibles. Télécharger les sources directement ici : [[http://ns227471.ovh.net/veremes/freedownload/products/util/ImageCompressionSDKSourceCode3.3Setup_20070509.zip|SDK 3.3 sur Veremes]]</note>
+  * Décompresser et compiler les sources avec l'option ''%%--prefix%%'' : <code>
+./configure --prefix=/usr #imperativement préciser le prefix
+make
+sudo make install
+</code>
+  * Compiler la librairie gdal pour le support de l'ECW : <code>sudo gdal-ecw-build /usr</code>
+
+=== Vérification de l'installation ===
+
+Ouvrez un terminal et taper :
+
+  gdalinfo --formats | grep ECW
+
+Si la réponse est :
+
+<file> 
+ECW (rw): ERMapper Compressed Wavelets
+JP2ECW (rw+): ERMapper JPEG2000
+</file>
+
+Alors la prise en charge de ECW et JPEG2000 pour Gdal est correctement installée.
+
+==== Ubuntu 14.04 et suivant ==== 
+A partir de Ubuntu 14.04 le paquet **[[apt://gdal-bin,libgdal-ecw-src|gdal-bin libgdal-ecw-src]]** ,n'est plus dans les dépôts. Une méthode alternative (en anglais) peut toutefois être trouvée sur ce forum [[http://gis.stackexchange.com/questions/94870/unable-to-install-ecw-support-on-lubuntu-14-04/102088#102088]]
+
+
+
+  -  Télécharger ERDAS ECW/JP2 SDK 5.2.1 Linux depuis l'adresse [[http://download.intergraph.com/]] et le placer dans le dossier ~/Téléchargements
+  - Ajouter le dépôt ubuntugis-unstable aux sources et installer qgis et libgdal-dev : <code>add-apt-repository ppa:ubuntugis/ubuntugis-unstable 
+sudo apt-get update
+sudo apt-get install qgis python-qgis qgis-plugin-grass libgdal-dev</code>
+  - On accepte ensuite la licence en sélectionnant "desktop-read-only": <code>cd ~/Téléchargements chmod +x ERDAS_ECWJP2_SDK-5.2.1.bin
+./ERDAS_ECWJP2_SDK-5.2.1.bin</code>
+  - On exécute ensuite les commandes suivantes (le dossier se crée dans le répertoire /home/XXX/hexagon, remplacer XXX par le nom de répertoire): <code>sudo cp -r /home/XXX/hexagon/ERDAS-ECW_JPEG_2000_SDK-5.2.1 /usr/local/
+sudo ln -s /usr/local/ERDAS-ECW_JPEG_2000_SDK-5.2.1/Desktop_Read-Only/lib/x64/release/libNCSEcw.so /usr/local/lib/libNCSEcw.so
+sudo ldconfig</code>
+  - Pour éviter les conflits on télécharge manuellement libgdal-ecw-src avec la commande suivante : <code>wget https://launchpad.net/~ubuntugis/+archive/ubuntugis-unstable/+files/libgdal-ecw-src_1.10.0-1~raring4_all.deb</code>
+  - Rendez-vous dans ~/Téléchargements puis installez manuellement le paquet  libgdal-ecw-src avec GDebi en double cliquant dessus.
+  - On exécute les commandes suivantes : <code>ar vx libgdal-ecw-src_1.10.0-1~raring4_all.deb
+tar -xzf data.tar.gz
+sudo cp usr/src/libgdal-ecw-1.10.0.tar.gz /usr/src/
+sudo cp usr/bin/gdal-ecw-build /usr/bin/
+sudo gdal-ecw-build /usr/local/ERDAS-ECW_JPEG_2000_SDK-5.2.1/Desktop_Read-Only</code>
+  - Le script stocke le plugin dans /usr/lib/gdalplugins/1.10 or pour que GDAL puisse le trouver il faut le déplacer dans /usr/lib/gdalplugins/1.11 : <code>sudo mkdir /usr/lib/gdalplugins/1.11
+cd /usr/lib/gdalplugins/1.10
+sudo cp gdal_ECW_JP2ECW.so /usr/lib/gdalplugins/1.11</code>
+  - tapez la commande suivante dans le terminal :<code>gdalinfo --formats | grep ECW</code>
+Si la réponse est :
+<file> ECW (rw): ERMapper Compressed Wavelets
+JP2ECW (rw+): ERMapper JPEG2000</file>
+Alors la prise en charge de ECW et JPEG2000 pour Gdal est correctement installée.
+
+Si la réponse **contient des erreurs**, notamment sur les **systèmes modernes 64bits**, se référer au post suivant: [[https://forum.ubuntu-fr.org/viewtopic.php?pid=21002001#p21002001|https://forum.ubuntu-fr.org/viewtopic.php?pid=21002001#p21002001]].
+La solution décrite stipule de créer un lien depuis un fichier 32 bits et non 64 bits en tapant la commande suivante:
+<code>
+sudo ln -s /usr/local/ERDAS-ECW_JPEG_2000_SDK-5.2.1/Desktop_Read-Only/lib/x86/release/libNCSEcw.so /usr/local/lib/libNCSEcw.so
+</code>
+Si le fichier **libNCSEcw.so** existait déjà, il vaut mieux créer une copie de celui-ci, l'effacer et recréer le lien grâce aux commandes suivantes:
+<code>
+sudo cp /usr/local/lib/libNCSEcw.so /usr/local/lib/libNCSEcw.so.old
+sudo rm /usr/local/lib/libNCSEcw.so
+sudo ln -s /usr/local/ERDAS-ECW_JPEG_2000_SDK-5.2.1/Desktop_Read-Only/lib/x86/release/libNCSEcw.so /usr/local/lib/libNCSEcw.so
+</code>
+
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi =====
+
+  * **(en, fr)** [[http://www2.qgis.org/fr/site/|Site officiel de QGIS]]
+  * **(en)** [[http://forum.qgis.org/|Forum officiel]]
+  * **(fr)** [[http://www.geoinformations.developpement-durable.gouv.fr/qgis-supports-pedagogiques-r947.html|Formations "prise en main" et "perfectionnement" publiées par l'Espace interministériel de l'information géographique]]
+  * **(en, fr)** [[http://www2.qgis.org/fr/docs/index.html|Documentation officielle]]
+  * **(en)** [[http://linfiniti.com/downloads/QGISFeatures.pdf|Présentation en 5 min]]
+  * **(en)** [[http://makina-corpus.com/blog/metier/howto-install-qgis-with-ecw-support-on-linux|How to install ECW support with QGis on Linux]]
+
+----
+
+//Contributeurs : [[utilisateurs:mavosaure]], [[utilisateurs:mag86]].//

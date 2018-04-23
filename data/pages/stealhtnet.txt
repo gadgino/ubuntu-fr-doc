@@ -1,0 +1,150 @@
+{{tag>internet réseau p2p}}
+
+----
+
+====== StealthNet ======
+
+
+StealthNet est un logiciel libre et gratuit de "P2P amélioré". Car contrairement à d'autres logiciels de P2P, StealthNet est anonyme et de plus le téléchargement de fichiers est plutôt rapide. Pour mieux comprendre comment ce logiciel parvient à être anonyme et par quel réseau consultez [[http://www.planetpeer.de/wiki/index.php/RShare_documentation_(French)|ce lien]]. De plus il est disponible sous Linux et sous Windows. Ce programme a été écrit en C#, il dispose d'une interface graphique et d'une interface texte.
+Néamoins, pour l'instant l'interface graphique ne fonctionne pas sous Ubuntu, je vous conseille d'utiliser StealthNet en "mode console" (voir plus bas)
+
+
+{{:application:StealthNet-300px.png|interface graphique de StealthNet}}
+
+===== Pré-requis =====
+
+==== MonoDevelop ====
+
+Pour pouvoir lancer Stealthnet (ou appelé "sn"), il faut installer MonoDevelop.
+Pour cela, [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>monodevelop|monodevelop]]**.
+
+
+==== Ouvertures des ports ====
+
+Ouvrez ensuite le port 6097 en TCP.
+<note important>Que vous soyez en mode graphique ou non !</note>
+
+
+===Pour la livebox ===
+Tout d'abord, rendez-vous ici : http://192.168.1.1.
+<note>conseil: faites ctrl-sur le lien pour pouvoir ouvrir le menu de configuration de la Livebox dans un autre onglet, et suivre ce tuto</note>
+Ensuite, après avoir saisi le mot de passe ("admin" par défaut) dans l'onglet "Livebox", cliquez sur "Paramètre avancé", puis sur "NAT/PAT".
+Remplissez les paramètre comme ceci :
+  * Application/service : Au choix (exemple : SN ou Stealthnet),
+  * Port externe : 6097,
+  * Port interne : 6097,
+  * Protocol: choisissez "TCP',
+  * Equipement: Choisissez le nom de votre pc,
+  * Enfin cochez "Activé ?".
+
+===Pour les autres===
+La manipulation devrait être presque identique à celle de la Livebox.
+<note> Il suffit d'adapter la manip. Google devrait vous aider.</note> 
+Si vous avez besoin de connaître votre adresse IP locale, faites comme ceci :
+Entrez dans le [[terminal|terminal]] :
+
+  ifconfig | grep "inet adr"
+vous aurez une réponse du type :
+
+  inet adr:192.168.1.12  Bcast:192.168.1.255  Masque:255.255.255.0
+  inet adr:127.0.0.1  Masque:255.0.0.0
+
+Sachant que 127.0.0.1 c'est votre adresse interne a votre ordinateur, votre adresse //réseau// local et sur la première ligne. Donc ici, mon IP locale est : 192.168.1.12. 
+
+===== Installation =====
+
+==== Décompression d'archive ====
+
+La page magique est la page [[http://www.stealthnet.de/fr_download.php]].
+
+L'archive ".zip" Windows de cette page contient un logiciel graphique ; l'archive Linux, un logiciel en ligne de commande.  
+
+Le "Windows Installer" n'est pas destiné à un usage sous Linux!
+
+Il suffit de décompresser l'archive dans le répertoire qu'il vous plaira. Nous vous conseillons de créer auparavant un dossier "Stealhtnet" et de mettre l'archive dedans.
+
+
+===== Configuration =====
+
+Comme indiqué plus haut, StealhtNet utilise le port TCP 6097 par défaut. Il vous faudra ouvrir ce port.
+
+Si vous utilisez un routeur, configurez le service de redirection des adresses IP (parfois appelé NAT). 
+
+Pensez également que le noyau Linux dispose d'un pare-feu intégré (désactivé par défaut dans Ubuntu).  Pour modifier graphiquement sa configuration voyez [[:Gufw]].  En mode texte seulement, reportez-vous à la page http://stealthnet.fr/v2/index.php?topic=434.0 cela vous expliquera tout ce qui faut !
+
+===== Utilisation=====
+
+==== Logiciel graphique ====
+<note warning>Pour l'instant (v0.8.7.9 sortie en 2011), l'interface graphique ne marche pas sous Ubuntu (10.10, 10.04, ni 16.04). Cela dit il reste possible d'apprendre à utiliser SN de manière console ;-) Lire plus bas.</note>
+
+
+Le logiciel graphique est utile pour un usage "classique".
+
+il faut d'abord extraire l'archive que vous venez d'installer. Faites donc:
+  * clic droit sur l'archive
+  * ouvrir avec le Gestionnaire d'archive
+  * extraire
+puis choisissez l'endroit où vous allez extraire l'archive.
+  * faites clic droit sur "StealthNet.exe"
+  * ouvrir avec une autre application 
+  * Utilisez une commande personnalisée et tapez "mono".
+ 
+Un écran splash apparait puis l'application apparaît après quelques secondes.
+
+<note important>Il faut avoir, au préalable installé MonoDevelop, comme indiqué plus haut, et il faut avoir téléchargé le logiciel graphique StealthNet.</note> 
+
+==== Logiciel en ligne de commande ====
+<note important>Si vous voulez utiliser Stealthnet en ligne de commande il faut télécharger l'archive,non pas de windows mais cette fois-ci de linux. Pour cela rendez-vous sur la page de téléchargement indiquez plus haut.</note>
+ 
+Le logiciel en ligne de commande est utile si vous connaissez Linux, que vous voulez optimiser l'usage de votre CPU et/ou utiliser StealthNet sur des serveurs dédiés sans interface graphique. De plus, pour l'instant l'interface graphique ne marche pas sous ubuntu 10.10 et 10.04.  
+
+Placez-vous dans le répertoire racine de l'archive décompressée, pour cela lancer le terminale puis tapez :
+  cd /dossier_ou_le_fichier_et_décompressé/ 
+Lancez la commande : 
+  mono StealthNet.exe
+ Après un message de bienvenue, vous devez avoir ceci :
+  StealthNet> 
+Vous pouvez avoir de l'aide en tapant : "?" ou "help" dans le console , pour un tuto plus complet allez [[http://stealthnet.fr/index.php?topic=434.0|ici]]
+ 
+Pour lancer une recherche tapez : start search + le nom du fichier 
+Pour affichez la liste des recherches tapez : list searches
+Pour voir les résultats de la recherche tapez : list results 'D de votre recherche
+
+Pour télécharger :
+
+Pour démarrer le téléchargement : sd  l’id de la recherche  l’id du fichier souhaité. Par exemple : sd 3 1
+Pour voir les téléchargement eu cours : ld .
+Pour annuler un téléchargement (les données téléchargées vont être totalement supprimées):cd  l’id du fichier téléchargement . 
+==== Connexion aux serveurs ====
+
+Par défaut, vous êtes connecté à des utilisateurs, considérés comme serveurs en réalité. Vous pouvez rajouter une IP d'un ami utilisateur de StealhNet, mais cela nécessite d'avoir une bonne connexion internet.
+==== Partager des fichiers ====
+
+Pour partager un fichier (que vous soyez en ligne de commande ou avec l'interface graphique) il suffit de placer le fichier que vous voulez partager dans le dossier "incoming". Et c'est tout !.
+
+
+==== Recherche de Fichiers ====
+
+Pour la recherche de fichiers, il suffit de se rendre dans l'onglet rechercher, et écrire dans le champ "recherche" le nom du fichier présumé recherché... 
+Un tableau se crée avec les recherches en cours, et leur statut (en cours, terminé) ainsi que le nombre de résultat.
+Au bout de quelques minutes, différents résultats sont disponibles, cliquer sur le nom du fichier recherché, qui vous oriente sur le résultat des recherches...
+<note>Pour les nouvelle version, il suffit de double cliquer sur une recherche pour lancer son téléchargement !</note>
+ Selectionner le ou les fichiers qui vous conviennent puis cliquer sur "Copy link to clipboard" et ensuite sur "Copy link".
+Cliquez sur "Download"> clique droit dans l'espace blanc et "Download by Link/Hash".
+Et enfin cliquez sur "Download". Et le téléchargement commencera.  
+
+
+===== Voir aussi =====
+
+  * **(fr)** [[wpfr>StealthNet|Article StealthNet dans Wikipedia]] 
+  * **(fr)** [[http://stealthnetwebui.sourceforge.net/|Site officiel de stealthnetwebui]]
+  * **(fr)** [[http://www.stealthnet.de/fr_index.php|Site officiel de stealthnet]]
+  * **(fr)** [[http://forum.ubuntu-fr.org/viewtopic.php?pid=2578051#p2578051|Lien vers un tutoriel réalisé dans un forum]] (2009)
+  * **(fr)** [[http://www.stealthnet.fr|Site d'aide de stealthnet]]
+
+
+----
+
+
+
+//Contributeurs principaux : hadopix et d'autre !

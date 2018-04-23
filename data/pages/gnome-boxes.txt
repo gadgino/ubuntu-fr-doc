@@ -1,0 +1,38 @@
+{{tag>Xenial virtualisation}}
+----
+
+ {{ :gnome-boxes_quantal_00_logo_.png?nolink&100|}} 
+====== GNOME Boxes ======
+ 
+GNOME Boxes est un logiciel libre sous licence LGPL v.2 utilisé pour accéder à des machines virtuelles ou distantes.
+
+D'une utilisation très simple, il intéressera notamment les personnes souhaitant recourir à la virtualisation sans connaissances techniques particulières. Il prend en charge les isos, les machines sur le réseaux, et même les vdi de [[:virtualbox]].
+
+ {{ :applications:gnome-boxes_xenial.png?450 }}
+
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+ 
+===== Installation =====
+ 
+Pour installer ce logiciel, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>gnome-boxes]]**.
+===== Utilisation =====
+ 
+Lancez l'application via le [[:unity#tableau_de_bord_dash|tableau de bord Unity]] ou via le [[:terminal]] (toutes versions d'Ubuntu) avec la [[:commande_shell|commande]] suivante :
+<code>gnome-boxes</code>
+Quand la fenêtre s'ouvre, cliquez sur **Nouveau** pour créer une nouvelle machine, sois virtuelle soit distance. Suivez les instructions.
+===== Désinstallation =====
+ 
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer le paquet]] **gnome-boxes**.
+=====Problèmes connus=====
+====Cannot allocate memory====
+Si vous ne parvenez pas à démarrer votre machine virtuelle, et que la console affiche le message suivant:
+<code>(gnome-boxes:3212): Boxes-WARNING **: machine.vala:611: Failed to start [insérez n'importe quel nom d'OS]:
+Unable to start domain: internal error: process exited while connecting
+to monitor: 2017-03-20T21:40:44.152608Z qemu-system-x86_64: cannot set up
+guest memory 'pc.ram': Cannot allocate memory</code>
+Allouez moins de RAM à la machine virtuelle.
+
+Contributeurs : [[:utilisateurs:l_africain|L'Africain]]

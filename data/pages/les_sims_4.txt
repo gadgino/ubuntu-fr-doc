@@ -1,0 +1,84 @@
+{{tag>jeu wine playonlinux simulation xenial}}
+
+----
+
+====== Les Sims 4 ======
+
+{{ :applications:jeux:les-sims-4.png?450|Les Sims 4 sous Ubuntu}}
+Le jeu **[[http://fr.wikipedia.org/wiki/Les_Sims_4|Les Sims 4]]** est un jeu développé par Maxis et édité par Electronic Arts sorti en septembre 2014 Le gameplay du jeu est le même que dans les précédents opus de la série. Le joueur crée un ou plusieurs personnages, que l'on appelle des « Sims », puis explore les différentes personnalités de ceux-ci, tout en leur trouvant une maison, l'amour, des amis, un travail etc. Le jeu ne comporte ni violence physique, ni score à battre, il suffit uniquement de faire vivre son personnage dans sa vie de tous les jours. Si une grande partie du jeu consiste à faire interagir son Sim avec son environnement, la construction d'une habitation et son ameublement tiennent également une certaine place comme toujours dans la série. (Wikipedia)
+
+===== Avertissement =====
+
+Bien qu'il soit possible d'installer Les Sims 4 via Origin, il est beaucoup plus simple d'utiliser une version craquée sans Origin à l'aide d'une image ISO et d'installer un patch no-cd. J'invite les joueurs à être honnêtes et à tout de même acheter le jeu si vous prévoyez y jouer.
+
+Il conviens de ne pas installer de mises à jour au jeu au risque de faire planter le patch no-cd.
+
+<note important>Testé sur Ubuntu 16.04 avec GPU Intel, crash observé lors de l'installation sous 14.04, cause inconnue.</note>
+
+===== Résumé =====
+Wine 1.7.31 32 bit (mode Windows XP, Windows 7 pour version Origin)
+
+POL_Install_vcrun2010
+
+POL_Install_vcrun2012
+
+===== Installation =====
+
+Il est possible d'installer Les Sims 4 soit via Origin, par DVD original acheté, ou bien par ISO téléchargée
+
+=== Avec image ISO ===
+
+(testé avec succès sous Ubuntu 16.04 LTS 64 bits)
+Il vous faut une image du jeu "Les Sims 4" disponible sur plusieurs sites de partage (Piratebay, T411, etc) Dans cet exemple l'image utilisée viens de [[http://telecharger-jeuxpc.com/2014/10/pc-fr-the-sims-4-reloaded/|telecharger-jeuxpc.com]] (lien fonctionnel 29 nov 2016) ici téléchargé via mega.
+
+Pour rendre l'installation plus aisée installez [[playonlinux|PlayOnLinux]]
+
+**Étape 1: Installation de Wine**
+
+Ouvrez PlayonLinux, dans le menu "Outil" sélectionner "Gérer les versions de Wine". Dans l'onglet "Version de Wine X86" choisissez 1.7.31 et cliquez sur la flèche pour l'ajouter.
+
+**Étape 2: Image ISO**
+
+Décompressez votre fichier téléchargé si nécessaire puis [[tutoriel:comment_monter_une_image_cd|montez votre image ISO]]
+
+**Étape 3: Installation du jeu**
+
+Dans PlayonLinux faites "installer" puis "installer un programme non listé" (pas encore de script automatique pour les sims 4 nov 2016) Ensuite "installer un programme dans un nouveau disque dur virtuel", suivant, nommer le disque virtuel (ex: sims4), suivant, Cocher "Utiliser une autre version de Wine" et "Installer certaines librairies", suivant, choisit 1.7.31, suivant, 32 bits, suivant, cochez "POL_Install_vcrun2010" et "POL_Install_vcrun2012", suivant, lorsqu'il vous demande, choisissez l'exécutable sur l'image montée du jeu.
+
+installez avec les paramètres par défaut et dans la menu de création de raccourcis choisissez "TS4.exe"
+
+**Étape 4: installation du patch**
+
+ Sur l'image de telecharger-jeuxpc.com vous trouverez un dossier nommé "patch", copiez son contenu dans le dossier "bin" du répertoire d'installation du jeu "/home/utilisateur/PlayOnLinux's virtual drives/sims4/drive_c/Program Files/The Sims 4/Game/Bin"
+
+=== Avec Origin ===
+
+[[https://www.pcsteps.com/5110-install-origin-linux-mint-ubuntu-wine/|Guide pour installer origin sous Ubuntu ou Mint]]
+
+===== Mise à jour =====
+
+<note important>Ne faites pas de mises à jour si vous avez installé une version craquée !</note>
+Pour la version Origin les mises à jour vous exposent au danger d'une nouvelle version incompatible avec Wine
+
+===== Problèmes possibles =====
+Pour la version Origin il est conseillé de désactiver Origin in-game qui fait crasher le jeu
+
+
+**Son**
+Si vous avez un problème de son "haché", trop rapide ou de grichement configurez wine pour qu'il utilise le driver audio alsa:
+
+ <code>$ winetricks sound=alsa</code>
+
+Si la soluton ne fonctionne pas essayez d'éditer le fichier de configuration du démon pulseaudio:
+
+<code>$ sudo nano /etc/pulse/daemon.conf</code>
+
+et définissez "default-fragment-size-msec" à un nombre inférieur (5 fonctionne bien pour moi) sauvegardez (ctrl-o) puis redémarrez le système
+
+===== Liens =====
+  * [[https://www.thesims.com/fr_FR/|Site officiel du jeu]]
+  * [[https://appdb.winehq.org/objectManager.php?sClass=application&iId=16273|Les Sims 4 sur le site du projet Wine]]
+
+----
+
+//Contributeurs : [[:utilisateurs:sivolc73]], [[https://forum.ubuntu-fr.org/profile.php?id=273001|sivolc73]].//

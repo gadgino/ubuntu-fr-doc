@@ -1,0 +1,1081 @@
+{{tag>serveur réseau BROUILLON}}
+
+------
+====== openldap-server ======
+
+Il a été traduit et mis en page par [[utilisateurs:cyclick]].
+
+===== Introduction =====
+LDAP est l'acronyme de [[wpfr>Lightweight Directory Access Protocol]], c'est une version simplifiée du protocole X.500.
+
+La configuration mise en œuvre dans ce document permettra l'utilisation de l'authentification avec LDAP.
+
+Néanmoins, LDAP peut être utilisé de plusieurs façons: authentification, répertoire partagé (pour les clients de messagerie), carnet d'adresses, etc.
+
+Pour décrire rapidement LDAP, toutes les informations sont stockées dans une structure en arborescence. Avec OpenLDAP vous avez la liberté de déterminer le répertoire de l'arborescence le "Directory Information Tree" (DIT) vous-même. Nous allons commencer par un arbre de base contenant deux nœuds sous la racine:
+
+  * Le nœud "People" , où seront stockés vos utilisateurs.
+  * Le nœud "Groups" , où seront enregistrés vos groupes.
+  
+Avant de commencer, vous devez déterminer ce que la racine de votre répertoire LDAP sera. Par défaut, votre arbre sera déterminé par votre nom de domaine pleinement qualifié (FQDN).
+
+Si votre domaine est **example.com** (que nous utiliserons dans cet exemple), votre nœud racine sera **dc=example,dc=com**.
+
+LDAP est un protocole TCP/IP, version simplifiée du protocole OSI X.500.
+Il permet d'accéder à un annuaire.
+
+Un annuaire peut contenir par exemple :
+  * des adresses mails
+  * des liens
+  * des comptes utilisateurs
+  * en règle générale toute données majoritairement servies en lecture seule  
+et peut être utilisé par :
+  * le système d'exploitation pour l'authentification de ses utilisateurs,
+  * par des applications web
+  * par un MUA (Thunderbird par exemple) pour son carnet d'adresse
+  * etc.
+
+La version actuelle du protocole est la version LDAPv3.
+Les versions récentes d'OpenLDAP intègrent la configuration directement dans leur base de données, permettant ainsi les changements à chaud.
+
+ Voici certains concepts et mots clefs qui seront utilisés plus bas :
+  * Un annuaire LDAP est un arbre de données hiérarchique (appelé DIT pour Directory Information Tree)
+  * Une entrée de cet arbre est composé d'attributs
+  * Un attribut est composé d'un type (un nom ou une description) et d'une ou plusieurs valeurs
+  * Chaque attribut doit être défini dans au moins une classe d'objets pour pouvoir être utilisé
+  * Les attributs et les classes d'objets sont définis dans des schémas
+  * Chaque entrée dispose d'une identifier unique, appelé "Distinguished Name" (noté DN ou dn).
+
+Les termes objets, conteneurs et nœuds ont des connotations spéciales, mais sont identiques au terme entrée, qu'il faut privilégier. 
+ 
+OpenLDAP utilise pour ses interactions avec l'administrateur, ou éventuellement pour échanger avec d'autres serveurs LDAP, le format de fichier LDIF (LDAP Data Interchange Format). Toute information contenue dans le DIT peut être décrite dans ce format.
+Il est, de ce fait, incontournable pour l'administrateur.
+
+Un fichier LDIF ressemble à l'exemple ci-dessous :
+<file>
+dn: cn=David Vincent,dc=ubuntu-fr,dc=lan
+  cn: David Vincent
+  givenName: David
+  sn: Vincent
+  telephoneNumber: +0033 20 99 88 77
+  mail: david.vincent@ubuntu-fr.lan
+  manager: cn=Will Smith,dc=ubuntu-fr,dc=lan
+  objectClass: inetOrgPerson
+  objectClass: organizationalPerson
+  objectClass: person
+  objectClass: top
+</file>
+
+On peut, à l'aide de simples fichiers textes LDIF, totalement interagir avec le serveur OpenLDAP, et ajouter, modifier ou supprimer des entrées, de la configuration du serveur ou de l'annuaire en lui-même.
+
+D'autres implémentations de LDAP peuvent être intéressantes à tester, comme 389 Directory Server (Red Hat), qui vient avec sa console d'administration multi-plateforme. 389DS permet notamment la synchronisation avec un serveur Microsoft Active Directory, et la configuration du serveur en mode graphique. L'installation et la configuration sont très bien documentées (en anglais).
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+L'installation du paquet slapd mettra en place une configuration fonctionnelle, avec notamment l'instance de base de données pour stocker nos données. Le suffixe utilisé pour cette instance est déterminé par le nom de domaine de la machine locale. Si le suffixe désiré n'est pas le suffixe DNS de la machine, il faut alors le changer dans le fichier /etc/hosts. Dans tous les cas, le suffixe peut être changé après l'installation, en saisissant dans un [[:terminal]] la [[:commande_shell|commande]] suivante :
+<code bash>
+dpkg-reconfigure slapd
+</code>
+
+Dans notre cas, le serveur répondra au suffixe ubuntu-fr.lan, configurez le fichier /etc/hosts comme suit :
+<file>
+127.0.1.1       ldap01.ubuntu-fr.lan	ldap01
+</file>
+<note important>Le tiret de ubuntu-fr devrait ne pas plaire à l'installeur. Il devrait vous afficher un message d'erreur, que vous pouvez ignorer, le service fonctionnera quand même.</note>
+===== Installation =====
+Installez le daemon du serveur OpenLDAP, **[[apt>slapd]]** ainsi que les scripts d'administration **[[apt>ldap-utils]]** couramment utilisés.
+Par défaut **slapd** est configuré avec des options minimales nécessaires pour exécuter le démon **slapd**.
+
+Dans l'exemple de configuration présenté dans les sections suivantes, le nom de domaine du serveur doit correspondre avec celui de votre machine. Par exemple, la machine dont le nom de domaine qualifié (FQDN) est **ldap.example.com**, le suffixe par défaut sera **dc=example,dc=com**. Si la machine n'a pas de domaine, le suffix sera **dc=nodomain**.
+
+EZ
+
+==== Tests de bon fonctionnement ====
+Le bon fonctionnement du serveur peut être testé à l'aide de ces deux commandes :
+<code bash>
+sudo ldapsearch -Q -LLL -Y EXTERNAL -H ldapi:/// -b cn=config dn
+</code>
+devrait répondre :
+<code bash>
+dn: cn=config
+
+dn: cn=module{0},cn=config
+
+dn: cn=schema,cn=config
+
+dn: cn={0}core,cn=schema,cn=config
+
+dn: cn={1}cosine,cn=schema,cn=config
+
+dn: cn={2}nis,cn=schema,cn=config
+
+dn: cn={3}inetorgperson,cn=schema,cn=config
+
+dn: olcBackend={0}hdb,cn=config
+
+dn: olcDatabase={-1}frontend,cn=config
+
+dn: olcDatabase={0}config,cn=config
+
+dn: olcDatabase={1}hdb,cn=config
+</code>
+
+et
+
+<code bash>
+ldapsearch -x -LLL -H ldap:/// -b dc=ubuntu-fr,dc=lan dn
+</code>
+répondra :
+<code bash>
+dn: dc=ubuntu-fr,dc=lan
+
+dn: cn=admin,dc=ubuntu-fr,dc=lan
+</code>
+
+Les options de la commande ldapsearch permettent :
+    -x : de ne pas utiliser la méthode d'authentification SASL, qui est la valeur par défaut.
+    -LLL: de désactiver l'impression LDIF des informations de schéma.
+
+===== Peuplement LDAP =====
+
+OpenLDAP utilise un répertoire distinct qui contient le répertoire **cn=config** qui est le répertoire de l'arbre d'information, de l'anglais "Directory Information Tree" (DIT). Le DIT **cn=config** est utilisé pour configurer dynamiquement le démon **slapd**, permettant la modification des définitions de schéma, des index, ACL, etc sans interruption de service.
+
+Le dorsal **cn=config** a seulement une configuration minimale par défaut et a besoin d'options de configuration supplémentaires afin de peupler le frontal. Le schéma frontal sera rempli avec un schéma dit "classique" qui sera compatible avec les applications de carnet d'adresses et avec les comptes Unix Posix. Les comptes POSIX permettent l'authentification à diverses applications, telles que les applications web, e-mail **Mail Transfer Agent (MTA)** d'applications, etc.
+
+<note>
+Pour s'authentifier avec des applications extérieures en utilisant LDAP il faudra les configurer. Reportez-vous à la documentation individuelle des applications pour plus de détails.
+</note>
+
+<note>
+N'oubliez pas de changer **dc=example,dc=com** dans les exemples ci-dessous pour les faire correspondre à votre configuration LDAP.
+</note>
+
+Tout d'abord, certains fichiers de schéma supplémentaires doivent être chargés. Dans un terminal tapez:
+<code>
+sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/cosine.ldif
+sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/nis.ldif
+sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/inetorgperson.ldif
+</code>
+
+Ensuite, copiez le fichier exemple LDIF suivant, en le nommant **backend.example.com.ldif**, quelque part sur votre système:
+
+<code>
+# Load dynamic backend modules
+dn: cn=module,cn=config
+objectClass: olcModuleList
+cn: module
+olcModulepath: /usr/lib/ldap
+olcModuleload: back_hdb
+
+# Database settings
+dn: olcDatabase=hdb,cn=config
+objectClass: olcDatabaseConfig
+objectClass: olcHdbConfig
+olcDatabase: {1}hdb
+olcSuffix: dc=example,dc=com
+olcDbDirectory: /var/lib/ldap
+olcRootDN: cn=admin,dc=example,dc=com
+olcRootPW: secret
+olcDbConfig: set_cachesize 0 2097152 0
+olcDbConfig: set_lk_max_objects 1500
+olcDbConfig: set_lk_max_locks 1500
+olcDbConfig: set_lk_max_lockers 1500
+olcDbIndex: objectClass eq
+olcLastMod: TRUE
+olcDbCheckpoint: 512 30
+olcAccess: to attrs=userPassword by dn="cn=admin,dc=example,dc=com" write by anonymous auth by self write by * none
+olcAccess: to attrs=shadowLastChange by self write by * read
+olcAccess: to dn.base="" by * read
+olcAccess: to * by dn="cn=admin,dc=example,dc=com" write by * read
+</code>
+
+Changer **secret** dans **olcRootPW:** par un mot de passe de votre choix.
+Il est possible aussi de générer un mot de passe chiffré avec la commande suivante:
+<code>
+sudo slappasswd -s secret
+
+{SSHA}aobrpti5d0rnoT48U+XfZT9XecpYXyVA
+</code>
+Changer **secret** par un mot de passe de votre choix, mettre le résultat, pour l'exemple **olcRootPW: {SSHA}aobrpti5d0rnoT48U+XfZT9XecpYXyVA** dans le fichier **backend.example.com.ldif**.
+
+Maintenant, ajoutez le LDIF dans le répertoire:
+<code>
+sudo ldapadd -Y EXTERNAL -H ldapi:/// -f backend.example.com.ldif
+</code>
+
+Le répertoire frontal est maintenant prêt à être rempli. Créez un fichier **frontend.example.com.ldif** avec le contenu suivant:
+
+<code>
+# Create top-level object in domain
+dn: dc=example,dc=com
+objectClass: top
+objectClass: dcObject
+objectclass: organization
+o: Example Organization
+dc: Example
+description: LDAP Example 
+
+# Admin user.
+dn: cn=admin,dc=example,dc=com
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: admin
+description: LDAP administrator
+userPassword: secret
+
+dn: ou=people,dc=example,dc=com
+objectClass: organizationalUnit
+ou: people
+
+dn: ou=groups,dc=example,dc=com
+objectClass: organizationalUnit
+ou: groups
+
+dn: uid=john,ou=people,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: john
+sn: Doe
+givenName: John
+cn: John Doe
+displayName: John Doe
+uidNumber: 1000
+gidNumber: 10000
+userPassword: password
+gecos: John Doe
+loginShell: /bin/bash
+homeDirectory: /home/john
+shadowExpire: -1
+shadowFlag: 0
+shadowWarning: 7
+shadowMin: 8
+shadowMax: 999999
+shadowLastChange: 10877
+mail: john.doe@example.com
+postalCode: 31000
+l: Toulouse
+o: Example
+mobile: +33 (0)6 xx xx xx xx
+homePhone: +33 (0)5 xx xx xx xx
+title: System Administrator
+postalAddress: 
+initials: JD
+
+dn: cn=example,ou=groups,dc=example,dc=com
+objectClass: posixGroup
+cn: example
+gidNumber: 10000
+</code>
+
+Dans cet exemple, une structure de répertoire avec un utilisateur et un groupe sera insérée. Dans d'autres exemples que vous pouvez voir l'objet "objectClass: top" est ajouté dans chaque entrée, mais vu que c'est le comportement par défaut interprété par la commande, vous n'avez pas à l'ajouter explicitement à chaque fois.
+
+Ajoutez les entrées à l'annuaire LDAP:
+<code>
+sudo ldapadd -x -D cn=admin,dc=example,dc=com -W -f frontend.example.com.ldif
+</code>
+
+On peut vérifier que le contenu a été correctement ajouté avec l'utilitaire **ldapsearch**. Exécutez une recherche dans l'annuaire LDAP:
+<code>
+ldapsearch -xLLL -b "dc=example,dc=com" uid=john sn givenName cn
+
+dn: uid=john,ou=people,dc=example,dc=com
+cn: John Doe
+sn: Doe
+givenName: John
+</code>
+
+Juste une petite explication:
+
+	* -x: ne pas utiliser la méthode d'authentification SASL, qui est la valeur par défaut.
+	* -LLL: désactiver l'impression LDIF informations de schéma.
+	
+=== Autre configuration ===
+
+L'arbre **cn=config** peut être manipulé en utilisant les utilitaires contenus dans le paquet ldap-utils. Par exemple:
+
+Utilisez **ldapsearch** pour afficher l'arbre, entrez le mot de passe admin défini durant l'installation ou la configuration:
+<code>
+sudo ldapsearch -LLL -Y EXTERNAL -H ldapi:/// -b cn=config dn
+
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+dn: cn=config
+
+dn: cn=module{0},cn=config
+
+dn: cn=schema,cn=config
+
+dn: cn={0}core,cn=schema,cn=config
+
+dn: cn={1}cosine,cn=schema,cn=config
+
+dn: cn={2}nis,cn=schema,cn=config
+
+dn: cn={3}inetorgperson,cn=schema,cn=config
+
+dn: olcDatabase={-1}frontend,cn=config
+
+dn: olcDatabase={0}config,cn=config
+
+dn: olcDatabase={1}hdb,cn=config
+</code>
+
+La sortie ci-dessus est le résultat des options de configuration actuelles pour le dorsal de la base de donnée **cn=config**. Votre sortie est peut être différente.
+
+Un exemple de modification de l'arbre **cn=config**, ajouter un autre attribut de la liste des index en utilisant **ldapmodify**:
+<code>
+sudo ldapmodify -Y EXTERNAL -H ldapi:///
+
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+dn: olcDatabase={1}hdb,cn=config
+add: olcDbIndex
+olcDbIndex: uidNumber eq
+
+modifying entry "olcDatabase={1}hdb,cn=config"
+
+</code>
+Modifiez l'entrée "olcDatabase={1}hdb,cn=config", ctrl+d pour quitter.
+
+Vérifiez avec la commande suivante:
+<code>
+sudo ldapsearch -LLL -Y EXTERNAL -H ldapi:/// -b olcDatabase={1}hdb,cn=config
+</code>
+
+Une fois la modification terminée, appuyez sur Ctrl + D pour quitter l'utilitaire.
+L'utilitaire **ldapmodify** peut également lire les modifications d'un fichier. Copiez et collez le texte suivant dans un fichier nommé **uid_index.ldif**:
+<code>
+dn: olcDatabase={1}hdb,cn=config
+add: olcDbIndex
+olcDbIndex: uid eq,pres,sub
+</code>
+
+Ensuite, exécutez **ldapmodify**:
+<code>
+sudo ldapmodify -Y EXTERNAL -H ldapi:/// -f uid_index.ldif
+
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+modifying entry "olcDatabase={1}hdb,cn=config"
+
+</code>
+Modifier l'entrée "olcDatabase={1}hdb,cn=config", ctrl+d pour quitter.
+
+La méthode du fichier est très utile pour de grands changements.
+
+L'ajout de schémas supplémentaires à slapd exige qu'ils soient convertis au format LDIF. Le fichier **/etc/ldap/schema** contient des fichiers schéma déjà convertis au format LDIF comme démontré dans la section précédente. Heureusement, le programme **slapd** peut être utilisé pour automatiser la conversion. L'exemple suivant ajoute le schéma **dyngroup.schema**:
+
+-- D'abord, créez un fichier **schema_convert.conf** contenant les lignes suivantes:
+<code>
+include /etc/ldap/schema/core.schema
+include /etc/ldap/schema/collective.schema
+include /etc/ldap/schema/corba.schema
+include /etc/ldap/schema/cosine.schema
+include /etc/ldap/schema/duaconf.schema
+include /etc/ldap/schema/dyngroup.schema
+include /etc/ldap/schema/inetorgperson.schema
+include /etc/ldap/schema/java.schema
+include /etc/ldap/schema/misc.schema
+include /etc/ldap/schema/nis.schema
+include /etc/ldap/schema/openldap.schema
+include /etc/ldap/schema/ppolicy.schema
+</code>
+	
+-- Ensuite, créez un répertoire temporaire pour stocker la sortie:
+<code>
+mkdir /tmp/ldif_output
+</code>
+	
+-- Maintenant, en utilisant slapcat il faut convertir les fichiers LDIF schéma:
+<code>
+slapcat -f schema_convert.conf -F /tmp/ldif_output -n0 -s "cn={5}dyngroup,cn=schema,cn=config" > /tmp/cn=dyngroup.ldif
+</code>
+Ajustez le nom du fichier de configuration et les noms de répertoire temporaires si les vôtres sont différents. En outre, il peut être utile de garder le répertoire ldif_output de coté au cas où vous souhaiteriez ajouter d'autres schémas à l'avenir.
+	
+-- Modifiez le fichier **/tmp/cn\=dyngroup.ldif**, changer les attributs suivants:
+<code>
+dn: cn=dyngroup,cn=schema,cn=config
+...
+cn: dyngroup
+</code>	
+
+Et supprimer les lignes suivantes à partir du bas du fichier:
+	
+<code>
+structuralObjectClass: olcSchemaConfig
+entryUUID: 10dae0ea-0760-102d-80d3-f9366b7f7757
+creatorsName: cn=config
+createTimestamp: 20080826021140Z
+entryCSN: 20080826021140.791425Z#000000#000#000000
+modifiersName: cn=config
+modifyTimestamp: 20080826021140Z
+</code>
+
+<note>
+Les valeurs d'attribut peuvent varier, juste être sûr que les attributs sont supprimés.
+</note>
+	
+-- Enfin, en utilisant l'utilitaire ldapadd, ajoutez le nouveau schéma de l'annuaire:
+<code>
+sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /tmp/cn\=dyngroup.ldif
+</code>
+	
+Il devrait maintenant y avoir un schéma **dn: cn={4}dyngroup,cn=schema,cn=config** dans l'arbre **cn=config**.
+
+Pour que **slapd** renseigne le log **/var/log/syslog**, utilisez **ldapmodify** pour modifier l'entrée **cn=config"** dans un terminal:
+<code>
+sudo ldapmodify -Y EXTERNAL -H ldapi:///
+
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+dn: cn=config
+add: olcLogLevel
+olcLogLevel: stats
+
+modifying entry "cn=config"
+
+</code>
+Modifier l'entrée "cn=config", ctrl+d pour quitter.
+
+Il est toujours possible de vérifier avec la commande suivante:
+<code>
+sudo ldapsearch -LLL -Y EXTERNAL -H ldapi:/// -b cn=config
+</code>
+
+Redémarrage du service **slapd**:
+<code>
+sudo /etc/init.d/slapd restart
+</code>
+
+=== Ancienne configuration ===
+Il est possible de migrer un fichier slapd.conf vers un DIT **cn=config**.
+Copiez le fichier **slapd.conf** dans **/etc/ldap** puis tapez dans un terminal:
+<code>
+sudo /etc/init.d/slapd stop
+cd /etc/ldap
+sudo mv slapd.d slapd.d.old
+sudo mkdir slapd.d
+sudo slaptest -f slapd.conf -F slapd.d
+sudo chown -R openldap:openldap slapd.d
+/etc/init.d/slapd start
+</code>
+
+Il est aussi possible d'utiliser l'ancien mode "static" de LDAP avec le fichier **slapd.conf**.
+Copiez le fichier **slapd.conf** dans **/etc/ldap** puis tapez dans un terminal:
+<code>
+sudo /etc/init.d/slapd stop
+cd /etc/ldap
+sudo mv slapd.d slapd.d.old
+sudo mrdir -Rf slapd.d
+sudo chown -R openldap:openldap slapd.conf
+</code>
+Ensuite éditez le fichier /etc/default/slapd puis renseigner le champ:
+<code>
+SLAPD_CONF=/etc/ldap/slapd.conf
+</code>
+Puis dans un terminal:
+<code>
+sudo /etc/init.d/slapd start
+</code>
+
+=== Réinitialisation de la configuration ===
+Dans un terminal:
+<code>
+sudo /etc/init.d/slapd stop
+cd /etc/ldap
+sudo dpkg-reconfigure slapd
+</code>
+
+<code>
+1.Passer la configuration d'OpenLDAP ? non
+2.Voulez-vous que la base de donnée soit effacée lorsque slapd est purgé ? oui 
+3.Authoriser le protocol LDAPv2 ? non
+</code>
+
+===== Réplication LDAP =====
+LDAP souvent devient rapidement un service hautement critique pour le réseau. De multiples systèmes peuvent dépendre de LDAP pour l'authentification, l'autorisation, la configuration, etc. C'est une bonne idée de mettre en place un système redondant grâce à la réplication.
+
+La réplication est réalisée en utilisant le moteur de **syncrepl**. **Syncrepl** permet de synchroniser les changements en utilisant un modèle de fournisseur(maître) par client(esclave). Un fournisseur envoie les modifications de répertoire aux clients.
+
+=== configuration ===
+Ce qui suit est un exemple de configuration simple maître/esclave. Dans cette configuration un serveur OpenLDAP est configuré comme un fournisseur et un autre en tant que client.
+
+== Configuration du fournisseur(maître) ==
+-- Tout d'abord, configurez le serveur fournisseur(maître). Copiez le texte suivant dans un fichier nommé **provider_sync.ldif**: 
+<code>
+# Add indexes to the frontend db.
+dn: olcDatabase={1}hdb,cn=config
+changetype: modify
+add: olcDbIndex
+olcDbIndex: entryCSN eq
+-
+add: olcDbIndex
+olcDbIndex: entryUUID eq
+
+#Load the syncprov and accesslog modules.
+dn: cn=module{0},cn=config
+changetype: modify
+add: olcModuleLoad
+olcModuleLoad: syncprov
+-
+add: olcModuleLoad
+olcModuleLoad: accesslog
+
+# Accesslog database definitions
+dn: olcDatabase={2}hdb,cn=config
+objectClass: olcDatabaseConfig
+objectClass: olcHdbConfig
+olcDatabase: {2}hdb
+olcDbDirectory: /var/lib/ldap/accesslog
+olcSuffix: cn=accesslog
+olcRootDN: cn=admin,dc=example,dc=com
+olcDbIndex: default eq
+olcDbIndex: entryCSN,objectClass,reqEnd,reqResult,reqStart
+
+# Accesslog db syncprov.
+dn: olcOverlay=syncprov,olcDatabase={2}hdb,cn=config
+changetype: add
+objectClass: olcOverlayConfig
+objectClass: olcSyncProvConfig
+olcOverlay: syncprov
+olcSpNoPresent: TRUE
+olcSpReloadHint: TRUE
+
+# syncrepl Provider for primary db
+dn: olcOverlay=syncprov,olcDatabase={1}hdb,cn=config
+changetype: add
+objectClass: olcOverlayConfig
+objectClass: olcSyncProvConfig
+olcOverlay: syncprov
+olcSpNoPresent: TRUE
+
+# accesslog overlay definitions for primary db
+dn: olcOverlay=accesslog,olcDatabase={1}hdb,cn=config
+objectClass: olcOverlayConfig
+objectClass: olcAccessLogConfig
+olcOverlay: accesslog
+olcAccessLogDB: cn=accesslog
+olcAccessLogOps: writes
+olcAccessLogSuccess: TRUE
+# scan the accesslog DB every day, and purge entries older than 7 days
+olcAccessLogPurge: 07+00:00 01+00:00
+</code>
+	
+-- Le profil **AppArmor** pour **slapd** devra être ajusté pour l'emplacement de base de données **accesslog**. Modifiez **/etc/apparmor.d/usr.sbin.slapd** en ajoutant:
+<code>
+/var/lib/ldap/accesslog/ r,
+/var/lib/ldap/accesslog/** rwk,
+</code>
+Ensuite, créez le répertoire, rechargez le profil AppArmor, et copiez le fichier DB_CONFIG:
+<code>
+sudo -u openldap mkdir /var/lib/ldap/accesslog
+sudo -u openldap cp /var/lib/ldap/DB_CONFIG /var/lib/ldap/accesslog/
+sudo /etc/init.d/apparmor reload
+{{icons:icontip.png  |Conseil}}
+>Utiliser l'option -u openldap avec les commandes sudo ci-dessus supprime la nécessité de régler les permissions pour le nouveau répertoire plus tard.
+	
+-- Modifiez le fichier et changez le **olcRootDN** pour le faire correspondre à votre répertoire:
+<code>
+olcRootDN: cn=admin,dc=example,dc=com
+</code>
+	
+-- Ensuite, ajoutez le fichier LDIF aide de l'utilitaire **ldapadd**:
+<code>
+sudo ldapadd -Y EXTERNAL -H ldapi:/// -f provider_sync.ldif
+</code>
+	
+-- Redémarrez **slapd**:
+<code>
+sudo /etc/init.d/slapd restart
+</code>
+	
+Le serveur est maintenant configuré comme fournisseur, et il est temps de configurer un serveur client:
+
+== Configuration du client(esclave) ==
+-- Sur le serveur client appliquez la même configuration que celle du fournisseur, sauf pour les étapes de configuration **syncrepl**.
+Ajoutez les fichiers de schéma supplémentaires:
+<code>
+sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/cosine.ldif
+sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/nis.ldif
+sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/inetorgperson.ldif
+</code>
+En outre, créer un fichier, ou faites une copie de celui du serveur fournisseur, nommé **backend.example.com.ldif**.
+<code>
+# Load dynamic backend modules
+dn: cn=module,cn=config
+objectClass: olcModuleList
+cn: module
+olcModulepath: /usr/lib/ldap
+olcModuleload: back_hdb
+
+# Database settings
+dn: olcDatabase=hdb,cn=config
+objectClass: olcDatabaseConfig
+objectClass: olcHdbConfig
+olcDatabase: {1}hdb
+olcSuffix: dc=example,dc=com
+olcDbDirectory: /var/lib/ldap
+olcRootDN: cn=admin,dc=example,dc=com
+olcRootPW: secret
+olcDbConfig: set_cachesize 0 2097152 0
+olcDbConfig: set_lk_max_objects 1500
+olcDbConfig: set_lk_max_locks 1500
+olcDbConfig: set_lk_max_lockers 1500
+olcDbIndex: objectClass eq
+olcLastMod: TRUE
+olcDbCheckpoint: 512 30
+olcAccess: to attrs=userPassword by dn="cn=admin,dc=example,dc=com" write by anonymous auth by self write by * none
+olcAccess: to attrs=shadowLastChange by self write by * read
+olcAccess: to dn.base="" by * read
+olcAccess: to * by dn="cn=admin,dc=example,dc=com" write by * read
+</code>
+Et ajouter le LDIF en entrant:
+<code>
+sudo ldapadd -Y EXTERNAL -H ldapi:/// -f backend.example.com.ldif
+</code>
+	
+-- Faites de même avec le fichier frontend.example.com.ldif cité ci-dessus, et ajoutez le:
+<code>
+sudo ldapadd -x -D cn=admin,dc=example,dc=com -W -f frontend.example.com.ldif
+</code>
+Les deux serveurs doivent maintenant avoir la même configuration à l'exception des options syncrepl.
+	
+-- Maintenant, créez un fichier nommé consumer_sync.ldif contenant:
+<code>
+#Load the syncprov module.
+dn: cn=module{0},cn=config
+changetype: modify
+add: olcModuleLoad
+olcModuleLoad: syncprov
+
+# syncrepl specific indices
+dn: olcDatabase={1}hdb,cn=config
+changetype: modify
+add: olcDbIndex
+olcDbIndex: entryUUID eq
+-
+add: olcSyncRepl
+olcSyncRepl: rid=0 provider=ldap://ldap01.example.com bindmethod=simple binddn="cn=admin,dc=example,dc=com" 
+credentials=secret searchbase="dc=example,dc=com" logbase="cn=accesslog" 
+logfilter="(&(objectClass=auditWriteObject)(reqResult=0))" schemachecking=on 
+type=refreshAndPersist retry="60 +" syncdata=accesslog
+-
+add: olcUpdateRef
+olcUpdateRef: ldap://ldap01.example.com
+</code>
+Vous voudrez probablement modifier les attributs suivants:
+		* ldap01.example.com nom d'hôte de votre serveur.
+		* binddn
+		* credentials
+		* searchbase
+		* olcUpdateRef:
+	
+-- Ajoutez le fichier LDIF à l'arborescence de configuration:
+<code>
+sudo ldapadd -c -Y EXTERNAL -H ldapi:/// -f consumer_sync.ldif
+</code>
+
+La base de données client devrait désormais se synchroniser entre les serveurs. Vous pouvez ajouter des serveurs supplémentaires en suivant les étapes ci-dessus si le besoin s'en fait sentir.
+
+<note>
+Le démon **slapd** enverra les informations du journal dans **/var/log/syslog** par défaut. Donc, si vous avez des problémes vous pouvez y consulter les erreurs et retrouver des informations pour le dépannage. Aussi, assurez-vous que le nom de domaine de chaque serveur soit pleinement qualifié (FQDN). le nom du serveur est configuré dans **/etc/hosts** avec une ligne semblable à: **127.0.0.1	ldap01.example.com ldap01**
+</note>
+	
+===== Mise en place d'ACL =====
+L'authentification nécessite un accès au champ de mot de passe, qui ne devrait pas être accessible par défaut. Aussi, pour que les utilisateurs puissent changer leur propre mot de passe, en utilisant les utilitaires passwd ou autre, shadowLastChange doit être accessible une fois qu'un utilisateur s'est authentifié.
+
+Pour afficher la liste de contrôle d'accès (ACL), utilisez l'utilitaire ldapsearch:
+<code>
+ldapsearch -xLLL -b cn=config -D cn=admin,cn=config -W olcDatabase=hdb olcAccess
+
+Enter LDAP Password: 
+dn: olcDatabase={1}hdb,cn=config
+olcAccess: {0}to attrs=userPassword,shadowLastChange by dn="cn=admin,dc=example,dc=com" write by anonymous auth by self write by * none
+olcAccess: {1}to dn.base="" by * read
+olcAccess: {2}to * by dn="cn=admin,dc=example,dc=com" write by * read
+</code>
+
+===== TLS et SSL =====
+Lors de l'authentification à un serveur OpenLDAP, il est préférable de le faire en utilisant une session chiffrée.
+
+Ceci peut être accompli en utilisant le mode Transport Layer Security (TLS) et/ou le mode Secure Sockets Layer (SSL).
+
+La première étape du processus est d'obtenir ou de créer un certificat. Parce que **slapd** est compilé en utilisant la bibliothèque **gnutls**, l'utilitaire **certtool** sera utilisé pour créer des certificats.
+
+-- Tout d'abord, installez **gnutls-bin** en entrant le texte suivant dans un terminal:
+<code>
+sudo apt-get install gnutls-bin
+</code>
+		
+-- Ensuite, créez une clé privée pour l'autorité de certification (CA):
+<code>
+sudo sh -c "certtool --generate-privkey > /etc/ssl/private/cakey.pem"
+</code>
+		
+-- Créez un fichier **/etc/ssl/ca.info** de détails à auto-signer avec le certificat CA contenant:
+<code>
+cn = Example Company
+ca
+cert_signing_key
+</code>
+	
+-- Maintenant, créez le certificat auto-signé CA:
+<code>
+sudo certtool --generate-self-signed --load-privkey /etc/ssl/private/cakey.pem --template /etc/ssl/ca.info --outfile /etc/ssl/certs/cacert.pem
+</code>
+	
+-- Faites une clé privée pour le serveur:
+<code>
+sudo sh -c "certtool --generate-privkey > /etc/ssl/private/ldap01_slapd_key.pem"
+</code>
+
+<note>
+Remplacez **ldap01** dans le nom des fichiers avec le nom de votre serveur. Ajuster le certificat et la clé de l'hôte correctement vous permettra de vous aidez à les utiliser et à récupérer les noms de fichiers et les chemins d'accès absolu.
+</note>
+	
+-- Pour signer le certificat du serveur avec le CA, créez le fichier d'information **/etc/ssl/ldap01.info** contenant:
+<code>
+organization = Example Company
+cn = ldap01.example.com
+tls_www_server
+encryption_key
+signing_key
+</code>
+	
+-- Créez le certificat du serveur:
+<code>
+sudo certtool --generate-certificate --load-privkey /etc/ssl/private/ldap01_slapd_key.pem \
+--load-ca-certificate /etc/ssl/certs/cacert.pem --load-ca-privkey /etc/ssl/private/cakey.pem \
+--template /etc/ssl/ldap01.info --outfile /etc/ssl/certs/ldap01_slapd_cert.pem
+</code>
+	
+Une fois que vous avez un certificat, une clé et un CA cert installé, utilisez **ldapmodify** afin d'ajouter les nouvelles options de configuration :
+<code>
+sudo ldapmodify -Y EXTERNAL -H ldapi:///
+
+Enter LDAP Password:
+dn: cn=config
+add: olcTLSCACertificateFile
+olcTLSCACertificateFile: /etc/ssl/certs/cacert.pem
+
+add: olcTLSCertificateFile
+olcTLSCertificateFile: /etc/ssl/certs/ldap01_slapd_cert.pem
+
+add: olcTLSCertificateKeyFile
+olcTLSCertificateKeyFile: /etc/ssl/private/ldap01_slapd_key.pem
+
+modifying entry "cn=config"
+
+</code>
+Modifiez l'entrée "cn=config", ctrl+d pour quitter.
+
+Utiliser ldapsearch dans un terminal pour faire une vérification des modifications:
+<code>
+sudo ldapsearch -LLL -Y EXTERNAL -H ldapi:/// -b cn=config|grep Certificate
+</code>
+
+<note>
+Ajuster les noms **ldap01_slapd_cert.pem**, **ldap01_slapd_key.pem**, et **cacert.pem** en fonction de votre configuration.
+</note>
+
+Ensuite, éditez le fichier **/etc/default/slapd** et mettez la valeur de l'option **SLAPD_SERVICES** comme ci dessous:
+
+<code>
+SLAPD_SERVICES="ldap:/// ldapi:/// ldaps:///"
+</code>
+
+Maintenant, l'utilisateur **openldap** doit avoir accès au certificat:
+
+<code>
+chgrp openldap /etc/ssl/private
+chmod 750 /etc/ssl/private
+sudo chgrp openldap /etc/ssl/private/ldap01_slapd_key.pem
+sudo chmod g+r /etc/ssl/private/ldap01_slapd_key.pem
+</code>
+
+<note>
+Si les fichiers **/etc/ssl/private** et **/etc/ssl/private/server.key** ont des autorisations différentes, réglez les commandes de façon appropriée.
+</note>
+
+Enfin, redémarrez **slapd**:
+<code>
+sudo /etc/init.d/slapd restart
+</code>
+
+Le démon **slapd** doit maintenant être à l'écoute pour les connexions LDAPS et être en mesure d'utiliser **STARTTLS** lors de l'authentification.
+
+Vous pouvez utiliser la commande suivante dans un terminal pour vérifier si **slapd** écoute bien les port TCP:389 et TCP:636 pour le SSL.
+<code>
+sudo netstat -natup | grep LISTEN
+</code>
+
+<note>
+Si vous avez un souci avec le serveur et qu'il ne démarre pas, vérifiez le répertoire /var/log/syslog. Si vous voyez des erreurs du type: TLS init def ctx failed: -1, il est probable qu'il y ait un problème de configuration. Vérifiez que le certificat est signé par l'autorité à partir du fichiers configuré, et que le groupe ssl-cert a les autorisations de lecture sur la clé privée.
+</note>
+
+===== Réplication TLS =====
+Si vous avez configuré **syncrepl** entre les serveurs, il est prudent de chiffrer le trafic de réplication en utilisant le mode **Transport Layer Security (TLS)**. Pour plus de détails sur la configuration de la réplication voir la section intitulée **Réplication LDAP**.
+En supposant que vous avez suivi les instructions ci-dessus et créé un certificat CA et un serveur de certificat sur le serveur du fournisseur, suivez les instructions suivantes pour créer un certificat et une clé pour le serveur client.
+
+-- Créez une nouvelle clé pour le serveur client:
+<code>
+mkdir ldap02-ssl
+cd ldap02-ssl
+certtool --generate-privkey > ldap02_slapd_key.pem
+</code>
+
+<note>
+Créer un nouveau répertoire n'est pas strictement nécessaire, mais cela aidera à garder les choses organisées et à rendre plus facile la copie des fichiers sur le serveur client.
+</note>
+	
+-- Ensuite, créez un fichier d'infos, nommer **ldap02.info** pour le serveur client, modifiez les attributs pour les faire correspondre à votre localité et à votre serveur:
+<code>  
+country = US
+state = North Carolina
+locality = Winston-Salem
+organization = Example Company
+cn = ldap02.salem.edu
+tls_www_client
+encryption_key
+signing_key
+</code>
+	
+-- Créez le certificat:
+<code>
+sudo certtool --generate-certificate --load-privkey ldap02_slapd_key.pem \
+--load-ca-certificate /etc/ssl/certs/cacert.pem --load-ca-privkey /etc/ssl/private/cakey.pem \
+--template ldap02.info --outfile ldap02_slapd_cert.pem
+</code>
+	
+-- Copiez le fichier **cacert.pem** dans le répertoire:
+<code>
+cp /etc/ssl/certs/cacert.pem
+</code>
+	
+-- La seule chose qui reste à faire est de copier le répertoire ldap02-ssl pour le serveur client, puis de copiez ldap02_slapd_cert.pem et cacert.pem dans /etc/ssl/certs, ainsi que ldap02_slapd_key.pem dans /etc/ssl/private.
+	
+-- Une fois les fichiers en place ajustez le **cn=config** de l'arbre en entrant:
+<code>
+sudo ldapmodify -Y EXTERNAL -H ldapi:///
+dn: cn=config
+add: olcTLSCACertificateFile
+olcTLSCACertificateFile: /etc/ssl/certs/cacert.pem
+
+add: olcTLSCertificateFile
+olcTLSCertificateFile: /etc/ssl/certs/ldap02_slapd_cert.pem
+
+add: olcTLSCertificateKeyFile
+olcTLSCertificateKeyFile: /etc/ssl/private/ldap02_slapd_key.pem
+
+modifying entry  "cn=config"
+
+</code>
+Modifiez l'entrée "cn=config", ctrl+d pour quitter.
+	
+-- Comme avec le fournisseur, vous pouvez maintenant éditer le fichier **/etc/default/slapd** et ajouter le paramètre ldaps de l'option **SLAPD_SERVICES**.
+
+<code>
+SLAPD_SERVICES="ldap:/// ldaps:/// ldapi:///"
+</code>
+	
+Maintenant que TLS a été mis en place sur chaque serveur, une fois de plus modifiez l'arbre **cn=config** du serveur client en entrant le texte suivant dans un terminal:
+<code>
+sudo ldapmodify -Y EXTERNAL -H ldapi:///
+
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+dn: olcDatabase={1}hdb,cn=config
+replace: olcSyncrepl
+olcSyncrepl: {0}rid=0 provider=ldap://ldap01.example.com bindmethod=simple binddn="cn=admin,dc=example,dc=com" credentials=secret searchbase="dc=example,dc=com" logbase="cn=accesslog" logfilter="(&(objectClass=auditWriteObject)(reqResult=0))" schemachecking=on type=refreshAndPersist retry="60 +" syncdata=accesslog starttls=yes
+
+modifying entry "dn: olcDatabase={1}hdb,cn=config"
+ 
+</code>
+Modifiez l'entrée "olcDatabase={1}hdb,cn=config", ctrl+d pour quitter.
+
+Si le nom du serveur LDAP ne correspond pas un nom de domaine pleinement qualifié (FQDN) dans le certificat, vous pouvez avoir à éditer le fichier **/etc/ldap/ldap.conf** et à ajouter les options TLS suivantes:
+<code>
+TLS_CERT /etc/ssl/certs/ldap02_slapd_cert.pem
+TLS_KEY /etc/ssl/private/ldap02_slapd_key.pem
+TLS_CACERT /etc/ssl/certs/cacert.pem
+</code>
+
+Enfin, redémarrez **slapd** sur chacun des serveurs:
+<code>
+sudo /etc/init.d/slapd restart
+</code>
+
+===== Authentification LDAP ===== 
+Une fois que vous avez un serveur LDAP de travail, les paquets **auth-client-config** et **llibnss-ldap** installés, vous allez faire la configuration d'un client Ubuntu et vous authentifier en utilisant LDAP. Pour ce faire installez les packages suivants à partir d'un terminal et entrez:
+<code>
+sudo apt-get install libnss-ldap
+</code>
+
+Au cours de l'installation un menu dans une boîte de dialogue vous demandera les détails de connexion à votre serveur LDAP.
+
+Si vous faites une erreur en entrant vos informations, vous pouvez exécuter à nouveau la boîte de dialogue à l'aide:
+<code>
+sudo dpkg-reconfigure ldap-auth-config
+</code>
+
+Les résultats de la boîte de dialogue peut être vus dans **/etc/ldap.conf**. Si votre serveur requiert des options qui ne sont pas dans le menu, éditez ce fichier en conséquence.
+Maintenant que libnss-ldap est configuré il faut activer auth-client-config dans le profile LDAP en entrant:
+<code>
+sudo auth-client-config -t nss -p lac_ldap
+</code>
+	* -t: ne modifie que le fichier **/etc/nsswitch.conf**.
+	* -p: le nom du profil à activer, désactiver, etc.
+	
+lac_ldap: le profil **auth-client-config** qui fait partie du paquet **ldap-auth-config**.
+	
+L'utilisation de l'utilitaire **pam-auth-update**, configure le système pour utiliser LDAP pour l'authentification:
+<code>
+sudo pam-auth-update
+</code>
+
+Dans le menu **pam-auth-update**, choisissez LDAP et les autres mécanismes d'authentification dont vous avez besoin.
+
+Vous devriez maintenant être capable de vous connecter en utilisant les identifiants d'utilisateur stockés dans le répertoire LDAP.
+
+Si vous compter utiliser LDAP pour stocker des utilisateurs Samba, vous devrez configurer le serveur pour s'authentifier en utilisant LDAP. Voir la section intitulée «Samba et LDAP» pour plus de détails.
+
+===== Gestion des utilisateurs et groupes =====
+Le paquet **ldap-utils** est livré avec plusieurs utilitaires pour gérer le répertoire LDAP, mais la longue chaîne d'options nécessaire peut les rendre difficiles à utiliser. Le paquet **ldapscripts** contient des scripts configurables pour gérer facilement les utilisateurs et groupes LDAP.
+Pour installer le paquet, à partir d'un terminal tapez:
+<code>
+sudo apt-get install ldapscripts
+</code>
+Ensuite, éditez le fichier de configuration /etc/ldapscripts/ldapscripts.conf en enlevant et en changeant ce qui suit pour le faire correspondre à votre environnement:
+<code>
+SERVER=localhost
+BINDDN='cn=admin,dc=example,dc=com'
+BINDPWDFILE="/etc/ldapscripts/ldapscripts.passwd"
+SUFFIX='dc=example,dc=com'
+GSUFFIX='ou=Groups'
+USUFFIX='ou=People'
+MSUFFIX='ou=Computers'
+GIDSTART=10000
+UIDSTART=10000
+MIDSTART=10000
+</code>
+Maintenant, créez le fichier ldapscripts.passwd pour permettre un accès authentifié à l'annuaire:
+<code>
+sudo sh -c "echo -n 'secret' > /etc/ldapscripts/ldapscripts.passwd"
+sudo chmod 400 /etc/ldapscripts/ldapscripts.passwd
+</code>
+<note>
+Remplacez **secret** avec le mot de passe réel pour votre utilisateur admin LDAP.
+</note>
+
+Le paquet **ldapscripts** est maintenant prêt à vous aider à gérer votre annuaire. Ce qui suit sont quelques exemples sur la façon d'utiliser les scripts:
+
+-- Créer un nouvel utilisateur:
+<code>
+sudo ldapadduser george example
+</code>
+Cela va créer un utilisateur George avec comme uid george et définir le groupe primaire de l'utilisateur (gid) avec example.	
+-- Changer mot de passe d'un utilisateur:
+<code>
+sudo ldapsetpasswd george	
+Changing password for user uid=george,ou=People,dc=example,dc=com
+New Password: 
+New Password (verify):
+</code>
+-- Supprimer un utilisateur:
+<code>
+sudo ldapdeleteuser george
+</code>	
+-- Ajouter un groupe:
+<code>
+sudo ldapaddgroup qa
+</code>
+-- Supprimer un groupe:
+<code>
+sudo ldapdeletegroup qa
+</code>
+-- Ajouter un utilisateur à un groupe:
+<code>
+sudo ldapaddusertogroup george qa
+</code>
+Vous devriez maintenant voir un attribut memberUid pour le groupe qa une valeur de george.
+-- Supprimer un utilisateur d'un groupe:
+<code>
+sudo ldapdeleteuserfromgroup george qa
+</code>
+L'attribut **memberUid** devrait maintenant être supprimé du groupe aq.	
+-- Le script **ldapmodifyuser** vous permet d'ajouter, supprimer ou remplacer les attributs d'un utilisateur. Le script utilise la même syntaxe que ldapmodify utilisé précedement. Par exemple:
+<code>
+sudo ldapmodifyuser george
+# Modifier l'entrée suivante :
+dn: uid=george,ou=People,dc=example,dc=com
+objectClass: account
+objectClass: posixAccount
+cn: george
+uid: george
+uidNumber: 1001
+gidNumber: 1001
+homeDirectory: /home/george
+loginShell: /bin/bash
+gecos: george
+description: User account
+userPassword:: e1NTSEF9eXFsTFcyWlhwWkF1eGUybVdFWHZKRzJVMjFTSG9vcHk=
+
+# Entrez les modifications ici, finissez avec CTRL-D.
+dn: uid=george,ou=People,dc=example,dc=com
+replace: gecos
+gecos: George Carlin
+</code>
+L'utilisateur gecos doit maintenant être «George Carlin».	
+-- Une autre grande caractéristique de ldapscripts, est le système de template. Les modèles vous permettent de personnaliser les attributs d'utilisateur, de groupe et d'objet machine. Par exemple, pour permettre l'utilisation de modèle utilisateur, éditez le fichier /etc/ldapscripts/ldapscripts.conf et changez:
+<code>
+UTEMPLATE="/etc/ldapscripts/ldapadduser.template
+</code>
+Il ya des exemples de modèles dans le répertoire /etc/ldapscripts. Copiez ou renommez le fichier ldapadduser.template.sample dans /etc/ldapscripts/ldapadduser.template:
+<code>
+sudo cp /etc/ldapscripts/ldapadduser.template.sample /etc/ldapscripts/ldapadduser.template
+</code>
+Modifiez le modèle de nouveau et ajoutez les attributs souhaités. Ce qui suit devrait créer un nouvel utilisateur comme avec un objectClass de inetOrgPerson:
+<code>
+dn: uid=<user>,<usuffix>,<suffix>
+objectClass: inetOrgPerson
+objectClass: posixAccount
+cn: <user>
+sn: <ask>
+uid: <user>
+uidNumber: <uid>
+gidNumber: <gid>
+homeDirectory: <home>
+loginShell: <shell>
+gecos: <user>
+description: User account
+title: Employee
+</code>
+	
+<note important> 
+L'option **ask** est utilisée pour la valeur cn. L'utilisation de **ask** devrait configurer **ldapadduser** pour vous demander la valeur de l'attribut lors de la création d'un utilisateur.
+</note>
+
+Il y a des scripts plus utiles dans le paquet, pour voir une liste complète entrez:
+
+<code>
+dpkg -L ldapscripts | grep bin
+</code>
+
+===== Ressources =====
+  * Le lien de la documentation officiel [[https://help.ubuntu.com/10.04/serverguide/C/openldap-server.html|openldap-server]].
+  * Le wiki Ubuntu [[https://wiki.ubuntu.com/OpenLDAPServer|OpenLDAP]] contient plus de détails.
+  * La documentation Ubuntu-fr [[:slapd|slapd]].  
+  * Pour plus d'informations, voir la page d'accueil [[http://www.openldap.org/|OpenLDAP.org]].
+  * La documentation administrateur sur OpenLDAP.org [[http://www.openldap.org/doc/admin24/|Administrator's Guide]].
+  * Bien qu'il commence à montrer son âge, il est une grande source d'information en profondeur sur LDAP: [[http://www.oreilly.com/catalog/ldapsa/|O'Reilly LDAP System Administration]].
+  * PACKT [[http://www.packtpub.com/OpenLDAP-Developers-Server-Open-Source-Linux/book|Mastering OpenLDAP]] est une grande référence couvrant les dernières versions d'OpenLDAP.
+  * Pour plus d'informations sur **auth-client-config** consultez la page man: **man auth-client-config**.
+  * Pour plus de détails concernant le paquet **ldapscripts** voir les pages man: **man ldapscripts**, **man ldapadduser**, **man ldapaddgroup**, etc.

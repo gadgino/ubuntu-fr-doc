@@ -1,0 +1,45 @@
+{{tag>Xenial entreprise erp crm}}
+
+----
+
+{{ dolibarr_logo.png?260}}
+
+====== Dolibarr ERP/CRM ======
+
+**Dolibarr** est un système sous licence libre ([[https://fr.wikipedia.org/wiki/Licence_publique_g%C3%A9n%C3%A9rale_GNU|GPL v3]]), de gestion pour les entreprises, associations, indépendants ou auto-entrepreneurs, donc un ERP/CRM. Il prend en charge via une interface web, la gestion des clients, fournisseurs, produits, stocks, comptable et de nombreuses autres activités, et ceci de façon totalement modulable, ce qui permet de l'adapter à vos besoins.
+
+{{:capture_dolibarr.png?600}}
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir installé [[:Lamp]].
+
+===== Installation =====
+ Pour installer ce logiciel, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer les paquets]] **[[apt>dolibarr]]**.
+Si vous souhaitez la dernière version, vous pouvez télécharger le paquet pour Ubuntu [[http://sourceforge.net/projects/dolibarr/files/Dolibarr%20installer%20for%20Debian-Ubuntu%20%28DoliDeb%29/|ici]].
+
+
+===== Utilisation =====
+ 
+Lancez l'application via le [[:unity#tableau_de_bord_dash|tableau de bord]] (Unity) ou via le [[:terminal]] (toutes versions d'Ubuntu).
+Le [[https://wiki.dolibarr.org|wiki officiel]] est assez bien fourni et devrait vous aider pour la prise en main.
+
+===== Configuration ====
+Suivez les instructions de la page web qui s'ouvre lors de la première utilisation. N'oubliez de donner un mot de passe à l'utilisateur dolibarr pour la base de données.
+=====Problèmes connus=====
+Si vous rencontrez une difficulté à créer la base de données Mysql du type :\\
+''Erreur SQL DB_ERROR_SYNTAX You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'virtual tinyint DEFAULT 0 NOT NULL, fk_parent integer DEFAULT 0, ' at line 11''\\
+[[:tutoriel:comment_modifier_un_fichier|ouvrez le fichier]] **/usr/share/dolibarr/htdocs/install/mysql/tables/llx_product.sql** et mettez le mot ''virtual'' entre ce caractère « ` ».
+
+==== Liens ====
+
+  * [[https://www.dolibarr.org/|Site officiel]] **(en)**
+  * [[http://www.dolibarr.fr/|Site officiel]] **(fr)**
+  * [[https://wiki.dolibarr.org/|Wiki]]
+  * [[http://www.dolibarr.fr/forum/|Forum]]
+  * [[https://demo.dolibarr.org|Demo online]]
+
+----
+
+//Contributeur principal : [[utilisateurs:Random]].//

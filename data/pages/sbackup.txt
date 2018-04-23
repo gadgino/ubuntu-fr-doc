@@ -1,0 +1,101 @@
+{{tag>Xenial sauvegarde}}
+----
+
+====== SBackup ======
+SBackup - pour Simple Backup - est une application graphique destinée aux personnes souhaitant faire une ou plusieurs sauvegardes de leur système. Elle se veut simple à utiliser et à configurer, et permet de faire des sauvegardes automatisées sur des emplacements locaux ou distants.
+
+Cet article a pour but d'expliquer les options de configuration de SBackup et de vous guider dans la mise en place d'une solution de sauvegarde adaptée à vos besoins avec ce logiciel.
+
+
+===== Pré-requis =====
+
+  * Disposer des [[sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+Pour installer SBackup, il suffit [[:tutoriel:comment_installer_un_paquet|d'installer le paquet]] **[[apt>sbackup]]**. 
+
+===== Utilisation =====
+
+Lancez l'application via le [[:unity#tableau_de_bord_dash|tableau de bord]] (Unity) ou via le [[:terminal]] (toutes versions d'Ubuntu) avec la [[:commande_shell|commande]] suivante : <code> sbackup-config-gtk</code>
+
+===== Configuration=====
+
+==== Onglet Général ====
+
+Faisons connaissance avec l'interface de Simple Backup:
+
+{{applications:sbackupconfig_xenial.png?500|Onglet Général}}
+
+Les options sont les suivantes : 
+  * La fréquence de sauvegarde en jour,
+  * Le format de compression,
+  * La division de l'archive ou  pas.
+
+==== Onglet Inclure ====
+Cet onglet permet de choisir les dossiers à inclure dans la sauvegarde.
+
+Pour ceux qui connaissent l'utilité de /var/, /usr/local/, et /etc/, décidez si vous voulez les inclure ou non. Pour connaître l'utilité de ces divers dossiers reportez-vous à la page sur l'[[arborescence]] des dossiers dans Ubuntu.
+
+Il est évident qu'il faille laisser le **Dossier Personnel** dans la liste des dossiers sauvegardés, car c'est le dossier qui stocke touts les documents des utilisateurs du système.
+
+==== Onglet Exclure ====
+Cette onglet est composés de 4 champs :
+  * //Chemins// contient les chemins à ne pas inclure dans la sauvegarde. En général, vous pouvez laisser cette liste intacte, à moins que vous ayez des dossiers à y ajouter,
+  * //Types de fichiers// vous permet ou non de sauvegarder la musique et les vidéos. Ajoutez en conséquence les types de fichiers (par leur extension) à la liste.  Ces fichiers prennent de la place, et que les exclure permet d'épargner votre espace disque et la durée de la sauvegarde. Si vous n'en avez pas réellement besoin, ajoutez ces exclusions.
+  * //Exp. rég.// permet d'exclure de la sauvegarde les dossiers de miniatures (images), la poubelle et les dossiers de cache.
+  * //Autres// permet d'exclure des fichiers par taille. Cela a une incidence directe sur la taille de la sauvegarde, mais pourrait poser problème dans de nombreux cas, particulièrement si vous travaillez avec de gros fichiers, et que vous voulez les sauvegarder. Dans ce cas, décochez //Ne pas sauvegarder...//. Vous devriez aussi la décocher, ou tout du moins augmenter la taille limite, si vous avez choisi de sauvegarder votre musique et vos vidéos. En effet, il n'est pas rare qu'un fichier audio particulièrement long dépasse cette taille, et c'est le cas de presque tous les fichiers vidéo.
+
+==== Onglet Destination ====
+Vous allez ici choisir le dossier dans lequel vos sauvegardes seront conservées. Pour faire un bon choix ici, il vous faut comprendre le système de fichiers de linux. Voici en quelques points une méthodologie pour bien choisir le dossier de stockage:
+  * Utiliser le répertoire de sauvegarde par défaut vous protégera contre la suppression accidentelle, mais pas contre la suppression de partition ou le crash disque !
+  * Utiliser un répertoire personnalisé vous permet par exemple de choisir un disque dur externe, ou un point de montage alternatif. Dans le cas d'un disque dur externe, vous êtes à l'abri d'un crash de votre disque dur interne, mais pas contre un incendie, par exemple. Le point de montage alternatif est une bonne solution si vous disposez de deux disques durs internes, mais veillez à exclure ce répertoire de la sauvegarde!
+  * Utiliser un répertoire distant est la meilleure solution si vous disposez d'un tel emplacement. Sachez que, si vous ne voulez ou ne pouvez pas en mettre en place, des espaces de stockages existent dans le commerce, moyennant finance.
+  * Dans tous les cas, **veillez à exclure le dossier de destination de la sauvegarde**.
+
+==== Onglet Planification ====
+
+Cet onglet n'est actif que depuis le menu "Outils système".
+
+Vous pouvez spécifier l'heure et la date à laquelle vous voulez que votre sauvegarde s'effectue. Si vous choisissez //précisément//, veillez à ce que l'ordinateur soit enclenché à l'heure que vous préciserez!
+
+Pour les spécialistes du [[:cron]], choisir personnalisé vous permettra de vous démarquer.
+
+Enfin, choisissez le délai après lequel Simple Backup fera une sauvegarde complète. Une précision s'impose : par défaut, Simple Backup ne sauvegarde que les fichiers modifiés depuis votre dernière sauvegarde. Les autres sont simplement ignorés. En revanche, il réalisera une sauvegarde complète - et donc aussi des fichiers non-modifiés - après le délai spécifié ici.
+
+==== Onglet Nettoyage ====
+Vous pouvez choisir ici si Simple Backup doit supprimer les sauvegardes trop vieilles ou incomplètes. Ce paramètre est recommandé.
+  * Supprimer les sauvegardes de plus de X jours est suffisant pour les systèmes personnels, car le nombre de sauvegarde est plus faible. Adaptez le délai à votre cas, 30 jours étant assez efficace.
+  * Si vous avez besoin de sauvegardes sur un plus long terme, comme en entreprise, par exemple, vous apprécierez la suppression logarithmique, clairement expliquée dans le logiciel.
+
+
+===== Restauration totale ou partielle=====
+La restauration permet de restituer une arborescence, des dossiers complets ou de simples fichiers, dans une version antérieure qui aura été sauvegardée préalablement à une date donnée. Chacune de ces sauvegardes et appelée "instantané" (comme une photo "instantanée" à un moment donné). L'endroit où cette restitution va se faire est modifiable, ce qui permet de restaurer à l'endroit où se trouvait le dossier ou le fichier à l'origine, ou de le restituer ailleurs, à l'endroit de votre choix. Pour une récupération partielle, et pour éviter toute mauvaise surprise (écraser involontairement un document récent avec une version antérieure, ou effacer un document par erreur...), il est conseillé de procéder par étapes, et donc de restaurer dans un dossier provisoire que l'on pourra déplacer par la suite si le résultat escompté est atteint. Il est conseillé aussi de faire de temps à autre des essais de restauration, pour éviter de faire confiance à un système de sauvegarde mal paramétré.
+
+Pour restaurer,  choisir la destination où doit se faire la restauration. Choisir la date de la sauvegarde à restaurer (ou contenant le dossier ou le fichier à restaurer). Sélectionner la sauvegarde disponible à la date choisie (instantanés). Puis dans le menu "gestion de la restauration", choisir le dossier ou le fichier à restaurer, en descendant dans l'arborescence jusqu'au niveau souhaité. 
+
+Les quatre touches qui permettent de lancer les actions suivantes ne sont pas très explicites (du moins en français...). Pour une restauration complète, récursive, c'est à dire comprenant tous les dossiers et fichiers inclus (et pas seulement la structure), utiliser la touche "rétrograder comme...". Une fenêtre vous demande alors de choisir la destination de la restauration (rétrogradation).
+
+Avant que la restauration ne s'exécute, une nouvelle fenêtre va vous demander confirmation de la commande : "Voulez-vous vraiment rétrograder... (suit ici le chemin de votre sauvegarde) vers (ici le chemin de votre destination)?" Si tout correspond à vos attentes, lancer l'opération. En fin de traitement, un message vous indiquera si tout s'est bien passé et si la restauration est réussie. La restauration d'un simple fichier peut demander un certain temps. Mais le résultat en vaut bien la peine...
+
+=====Problèmes connus=====
+
+====La sauvegarde ne se lance pas====
+
+Voir [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3484145|cette discussion]] et 
+[[http://wwww.ubuntuforums.org/showpost.php?p=9477790&postcount=8|cette discussion]].
+
+====La restauration ne se lance pas====
+Lorsque vous souhaitez restaurer une sauvegarde préalablement effectuée, il vous faut impérativement conserver la structure du dossier créé (fichiers //includes.list, packages, files.tar//, etc.) ainsi que le **nom du dossier** créé par sbackup, faute de quoi le programme de restauration ne trouvera pas le dossier bien que vous lui ayez indiqué le chemin correct (//ex : /var/backup/ //), rendant la restauration impossible. Veillez donc à **ne surtout pas modifier cette nomenclature** (même si c'est moche ;-)), par exemple lors d'un back-up sur un serveur FTP.
+
+A titre d'illustration un intitulé du dossier de back-up ressemble à cela :
+<code>yyyy-mm-jj_hh.mm.ss.aaaaaa.nom.de.la.machine.ful</code> (la variables a semble aléatoire mais peut-être y a t'il un encodage quelconque que je ne connais pas...)
+
+===== Voir aussi =====
+  *[[https://sourceforge.net/projects/sbackup/|Le site de sbackup]]
+  *[[https://launchpad.net/sbackup|SBackup sur Launchpad]]
+  *[[https://launchpad.net/nssbackup|NSSBackup sur Launchpad]]
+
+----
+
+//Contributeurs: [[:utilisateurs:Exod]],[[:utilisateurs:lolobu]]//

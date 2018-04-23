@@ -1,0 +1,68 @@
+{{tag>tutoriel système partitions trusty}}
+----
+
+====== Comment activer l'écriture sur les partitions NTFS ?======
+
+Après son apparition avec Windows 2000 le format de fichier NTFS a longtemps posé problème sous GNU/Linux, empêchant toute possibilité d'échange efficace avec des partitions ou ordinateurs utilisant ce format de fichier. Le paquet Ntfs-3g résout ce problème et permet l'activation du support de l'écriture sur les partitions NTFS. Le paquet est installé par défaut sous Ubuntu.
+
+<note tip>En cas de soucis avec une partition NTFS, tenter de réparer à l'aide de [[:ntfsfix]] et [[:fsck]].
+Dans le cas particulier d'un [[:cohabitation_ubuntu_windows|double-amorçage]] avec Windows, une réparation avec l'utilitaire système de Windows **chkdsk** sera plus efficace (vérifier le disque, avec les options de correction des erreurs activées).</note>
+
+=====Installation=====
+Il est possible d'accéder directement à une partition en NTFS en lecture et en écriture par défaut, même sur LiveCD.
+Ceci est parfois utile pour récupérer des données sur une partition en NTFS via LiveCD.
+
+=====Configuration=====
+
+====Avec Ntfs-config==== 
+<note important>Dans le cas d'un dual-boot avec Windows 8,8.1 et 10, avant d'installer et d'utiliser ntfs-config il est vivement conseillé de [[#Problème connu|désactiver le démarrage rapide]] pour éviter un passage en ''emergency mode'' (voire même un écran noir) au prochain démarrage sur Ubuntu.</note>
+Pour gérer vos partitions ntfs il existe un outil graphique, tel que ntfs-config :  {{ tutoriel:ntfs-config_trusty.png?400|Détection des partitions}}
+        - [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>ntfs-config]]** ;
+        - Lancez l'application **Outil de configuration NTFS** (dans Unity ou Gnome-shell, taper "ntfs" et sélectionnez "Outil de configuration NTFS"). 
+
+Dans la première fenêtre qui s'ouvre **Nouvelles partitions détectées** :
+\\
+  * Cliquez dans la zone **Point de montage**, entrez-y le point de montage de votre choix (par exemple (/media/Windows) et cochez la partition que vous souhaitez monter automatiquement ;
+  * Cliquez sur le bouton **valider** puis **fermez la fenêtre par la croix dans la barre du haut** ; \\
+\\
+\\
+\\
+\\
+{{:tutoriel:ntfs-config2_trusty.png?400 }} 
+
+Une deuxième fenêtre apparaît (elle était cachée par la première) où vous pourrez choisir d'activer l'écriture soit sur les périphériques ntfs externes (usb), soit sur les périphériques internes. Cochez la case qui correspond à vos besoins comme sur la capture ci-contre. Le logiciel va alors monter toutes les partitions ntfs présentes sur votre ordinateur et que vous aurez cochées, avec le support de l'écriture.
+Si à l'issue de l'opération, trop de partitions NTFS sont montées au démarrage et que ça ne vous plaît pas, il suffit de les décocher.\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+====Avec Disk-manager====
+Reportez vous à la page [[:disk-manager]].
+
+=====Problème connu=====
+Si lors d'une installation en [[:cohabitation_ubuntu_windows|double-amorçage]] avec Windows 8/10 vous rencontrez l'erreur suivante lorsque vous souhaitez accéder à un partition ntfs :
+\\
+\\
+{{ :tutoriel:erreur_ntfs_trusty.png?400 }} 
+\\
+cela signifie que Windows n'arrête pas complètement le système.
+Afin d'accélérer le démarrage du système, Windows 8 utilise une fonctionnalité du nom de Démarrage rapide. Le démarrage rapide permet d'enregistrer l'état de votre système lors de l'arrêt de l'ordinateur et ainsi de redémarrerbeaucoup plus rapidement. Mais si cela permet d'accélérer Windows, cela rend impossible l'accès aux partitions préalablement accessibles sous Windows.
+Pour désactiver le démarrage rapide activé par défaut sous Windows8 :
+  * Déplacez la souris dans le coin inférieur droit du bureau et cliquez sur l'icône **Rechercher**. Pour plus de simplicité, vous pouvez également utiliser le raccourci clavier Win+Q;
+  * Dans le champ de recherche, tapez **boutons d'alimentation** puis cliquez sur **Paramètres**;
+  * Cliquez ensuite sur **Modifier le comportement des boutons d'alimentation**;
+  * Cela va alors permettre de modifier les options Paramètres d'arrêt en bas de page. Décochez alors l'option **Activer le démarrage rapide**;
+  * Pour terminer, cliquez sur le bouton Enregistrer les modifications puis redémarrez l'ordinateur.
+Vous pourrez maintenant accéder à vos partitions nfts sans difficultés.
+
+<note tip>Il peut y avoir d'autres options de "démarrage rapide" à désélectionner. Si la procédure ci-dessus ne fonctionne pas, cherchez d'autres options d'alimentation où le démarrage rapide est encore activé.</note>
+
+====Voir aussi=====
+  * [[http://mygeekopinions.blogspot.com/2011/06/how-to-install-ntfs-config-in-ubuntu.html|Cette page]] (en).
+
+----
+
+//Contributeur : [[utilisateurs:Lalou]], [[utilisateurs:Fabien26]], [[utilisateurs:Skully]], [[utilisateurs:l_africain|L'Africain]].//

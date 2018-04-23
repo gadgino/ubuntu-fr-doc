@@ -1,0 +1,175 @@
+{{tag> Trusty Precise montage_vidéo vidéo encodage}}
+
+----
+
+{{ :application:avidemux:avidemux.png?80|}}
+====== Avidemux ======
+{{ :application:avidemux:avidemux_14.04_01.png?450|}}
+
+
+**Avidemux** est un logiciel vidéo, permettant d'effectuer des coupes, d'appliquer des filtres et de ré-encoder des vidéos. Il est considéré comme l'équivalent de VirtualDub (disponible uniquement sous Windows). Avidemux est simple d'utilisation : quelques clics suffisent pour éditer et encoder une vidéo. Il permet l'encodage dans un grand nombre de formats vidéo dont le H264 et un grand nombre de conteneurs, notamment MPEG, MP4 et MKV. Vous pouvez mettre une vidéo à l'envers (exemple).
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+=====Installation=====
+==== Depuis les dépôts officiels ====
+<note warning>Au 01/07/2016, Avidemux n'est pas dans les dépôt de Xenial 16.04, il faut passer par le dépôt de getdb ou par compilation  (voir [[https://forum.ubuntu-fr.org/viewtopic.php?pid=21501070|ce fil sur le forum]]). Il est préférable d'utiliser Handbrake si vous voulez encoder vos vidéos uniquement en MP4 ou MKV</note>
+
+<note tip>Au 11/01/2017, Avidemux 2.6.18 est proposé au format AppImage et fonctionne parfaitement sous  Xenial 16.04. Il suffit de rendre le fichier **//avidemux_2.6.18.appImage//** exécutable puis de le lancer. (voir [[https://www.fosshub.com/Avidemux.html/avidemux_2.6.18.appImage]]).</note>
+
+
+**[[:tutoriel:comment_installer_un_paquet|Installez le paquet]]** **[[apt>avidemux|avidemux]].**\\
+Si vous utilisez [[kde|l'environnement de bureau KDE]], une interface vous est plus spécifiquement destinée. Pour en bénéficier, il faut **[[:tutoriel:comment_installer_un_paquet|installer le paquet]]** **[[apt>avidemux-qt|avidemux-qt]].**
+==== Depuis le dépôt de Getdeb (version plus récente) ====
+Ajouter le dépôt [[getdeb|GetDeb]], puis **[[:tutoriel:comment_installer_un_paquet|installer le paquet]]** **[[apt>avidemux2.6|avidemux2.6]]** (ou autre selon les versions disponibles).
+
+==== Depuis un launchpad non officiel (installation facile et préférable à l'utilisation de getdeb) ====
+
+On peut installer facilement la dernière version de Avidemux en entrant dans le terminal les commandes suivantes :
+
+  sudo add-apt-repository ppa:rebuntu16/avidemux+unofficial
+  sudo apt-get update
+  sudo apt-get install avidemux2.6-qt4
+
+ou en une ligne :
+  sudo add-apt-repository ppa:rebuntu16/avidemux+unofficial && sudo apt-get update && sudo apt-get install avidemux2.6-qt4
+
+===== Exemples d'utilisation =====
+==== Réduire la taille d'une vidéo ====
+
+{{ avidemux_hardy_01.png?347x331|Vidéo de vacances prête à subir un filtre en noir et blanc }}
+
+Les vidéos provenant de DVD, d'appareils photo numériques ou de la télévision utilisent des codecs anciens et peu performants. Pour les conserver ou les passer à ses amis, il est souvent préférable de les ré-encoder avec la dernière génération de codecs : le [[wpfr>H264]]. Il est ainsi possible de réduire leur taille sans altérer la qualité. Attention toutefois, toutes les combinaisons de codecs vidéo/audio et de conteneurs ne fonctionnent pas et il faudra utiliser un lecteur vidéo performant pour lire les vidéos ainsi créées. La marche à suivre explicitée ci-dessous ne devrait pas poser de problèmes sous GNU/Linux.
+  - //Ouvrez// la vidéo à ré-encoder.
+  - //Choisissez vos codecs// dans les menus déroulants du panneau vertical à gauche :
+    * le codec vidéo **MPEG-4 AVC**
+    * le codec audio **AAC (FAAC)**
+    * le format (conteneur) **AVI**
+  - Les //configurations// par défaut de vos codecs sont probablement bonnes, mais vous pourriez vouloir affiner un peu. Pour cela, cliquer sur le bouton « Configurer » présent sous le nom des codecs dans le panneau vertical.
+    * vidéo : plusieurs onglets sont disponibles, le seul accessible aux débutants est l'onglet **Débit**. Le mieux est de conserver le **Mode d'encodage** par défaut: **Une passe - Qualité Quantificateur (moyenne)**. Vous pouvez légèrement baisser le **Quantificateur** (par exemple à 24) pour une meilleure qualité vidéo ou l'augmenter (ex. : 28) pour obtenir un fichier de plus petite taille. Vous pourriez avoir un objectif de taille pour votre vidéo, sélectionner alors le**Mode d'encodage**: ** Deux passes - Taille de la vidéo** puis dans la ligne du dessous, indiquez la taille voulue de votre vidéo en mégaoctets (Mio).
+    * audio : indiquez le débit audio en kilobits par seconde (kbps). Cliquer sur **Filtres**, cocher **Rééchantillonnage** et saisir 48000 ou 44100 Hz si l'étape d'enregistrement vous retourne l'erreur **[BuildChain] Encoder initialization failed Not activated, make sure number of channels and bitrate are compatible with encoder!**
+
+<note>certaines vidéos (notamment sur certains DVD) provoquent un décalage entre l'audio et la vidéo dans Avidemux. Ce décalage est visible dans: Audio - Piste... (exemple: "560 ms shift"; dans ce cas mettez un décalage audio de -560 ms)</note>
+
+ 4. Avidemux comprend de nombreux //filtres vidéo// que vous pouvez sélectionner en cliquant sur **Filtres**, toujours dans le panneau vertical de gauche. Vous pourrez prévisualiser l'effet de la plupart de vos filtrages en remplaçant **Entrée** par **Sortie** ou **Haut** (ou un autre) dans le menu déroulant au dessus de l'image. Parmi les filtres les plus utiles, citons :
+    * **Rotate** dans l'onglet **Transformation** : permet par exemple de remettre droite une vidéo prise en orientation //portrait//. Souvent utile en revenant de vacances…
+    * **Crop** dans l'onglet **Transformation** : permet d'enlever les bandes noires autour de l'image.
+    * **Mplayer Resize** dans l'onglet **Transformation** : permet de redimensionner l'image dans des tailles plus petite pour optimiser la compression, ou déformer le ratio de l'image pour par exemple corriger un enregistrement 4/3 qui est en fait en 16/9.
+    * **Yadif** dans l'onglet **Entrelacement** : dés-entrelace une vidéo. Il existe dans cet onglet d'autres filtres équivalents, choisissez votre préféré.
+    * **MPlayer hqdn3d** dans l'onglet **Bruit** : atténue les bruits provenant d'un encodage un peu sévère ou d'un fichier source de mauvaise qualité. il permet l'obtention d'un fichier de qualité de plus petite taille.
+ 5. //Enregistrez// votre vidéo en donnant un nom finissant par « .avi ».
+==== Incruster des sous-titres ====
+
+  - Avant tout vous devez ré-encoder la vidéo, et donc choisir autre chose que "Copie" dans la boîte "Vidéo", ainsi qu'un format autre que "Copie" sans la boîte "Audio". (pour voir les encodages originaux, allez dans "fichier", "propriétés".
+  - Ouvrez ensuite la rubrique "Filtres" dans l'onglet "Video" .
+  - Dans la section sous-titres, choisissez le module correspondant au fichier de sous-titres que vous avez (.sub ...), double cliquez dessus
+  - Choisissez une police (ex: /usr/share/fonts/truetype/ttf-liberation/LiberationSans-Regular.ttf)
+  - Réglez les paramètres d'écriture comme la couleur (blanc par exemple), la hauteur, et la taille du texte.
+  - Lancez l'encodage (en enregistrant votre vidéo quelque part).
+
+<note tip>Vous pouvez voir le résultat avant encodage en visualisant la sortie (dans la boîte déroulante en haut) ou en cliquant sur Preview.</note>
+
+FIXME Ce module de Avidemux ne semble pas prendre en compte les balises (<i>italique</i> ...)
+
+====Effectuer des coupes====
+Les coupes s'effectuent à l'aide des curseurs **A [** et **B ]** qu'il suffit de placer sur la barre de progression.
+
+==== Extraire la bande son d'une vidéo ====
+
+//Ouvrez// la vidéo dont vous voulez extraire la bande son,   
+puis suivez les instructions :
+  - Sur la partie gauche d'Avidemux , //Allez// dans la liste déroulante **Vidéo**\\ et laissez : copier .
+  - //Ouvrez// la liste déroulante **Audio** et choisissez le format Audio voulu (par exemple : MP3 (LAME)).
+  - Cliquez sur le bouton **Configurer** et choisissez le débit qui va bien. Validez le tout.
+Ensuite dans le menu Audio :
+
+ 1. Cliquez sur **Enregistrer**. Choisissez le répertoire que vous voulez et donnez un nom à votre future musique (par exemple musique.mp3 (indiquez bien l'extension !).
+<note important>
+**Ne cliquez pas sur le bouton "Enregistrer"** présent sur l'interface ! Mais allez bien __dans le menu__ "Audio" -> "Enregistrer" !
+</note>
+ 2. Cliquez sur **Enregistrer** et le travail commence.
+
+==== Traitement par lot ====
+
+Avec Avidemux, il est possible de traiter plusieurs vidéo avec les même paramètres. Il existe deux méthodes. La première méthode utilise un script en bash et ligne de commande mais reste limité en nombre de paramètres disponible. La seconde méthode utilise le javascript mais permet d'utiliser la totalité des paramètres existant dans Avidemux.
+
+=== Script en bash ===
+
+Grâce à un script en bash, il est possible de scanner le contenu d'un dossier et d'appeler récursivement Avidemux pour le traitement via la [[:commande_shell|commande]] <code>avidemux --quit</code>
+La liste des paramètres disponibles est consultable sur le [[http://www.avidemux.org/admWiki/doku.php?id=using:command_line_usage|wiki d'Avidemux]].
+
+L'exemple ci dessous permet :
+  * La conversion et le ré-encodage des vidéos MOV et AVI au format AVI ;
+  * L'encodage en une seule passe avec une qualité de 3000 kb/s ;
+  * D'utiliser « le mode sûr » pour les vidéos utilisant le codec H.264 ;
+  * Le codec audio utilisé est le MP3 ;
+  * L'enregistrement des vidéos convertie dans un répertoire spécifique pour éviter l'écrasement des vidéos à convertir.
+
+<file>#!/bin/bash
+
+#Gestion des noms de fichier avec espace
+IFS=$'\n'
+#Création du répertoire de destination
+mkdir `pwd`/conversion
+
+#Paramètres pour avidemux
+VIDEOCODEC="Xvid"
+QUALITY="cbr=3000"
+AUDIOCODEC="MP3"
+
+#Commande pour avidemux pour les vidéos MOV et AVI
+for FIL in `ls *MOV *mov *AVI *avi | sort` ; do
+  avidemux --force-alt-h264 --video-codec $VIDEOCODEC --video-conf $QUALITY --audio-codec $AUDIOCODEC --load "$FIL" --save `pwd`/conversion/${FIL%.*}.avi --output-format AVI --quit
+done</file>
+
+Le fichier contenant le script doit être placé dans le répertoire contenant les vidéos et peut être exécuter dans un [[:terminal]] via la [[:commande_shell|commande]]: <code>bash <nom_du_script></code>
+
+=== Script en javascript ===
+
+Le rédacteur n'a pas d'exemple à proposer mais vous pouvez générer un premier script en enregistrant votre projet. Le projet est enregistré au format javascript, vous pouvez modifier le fichier en vous inspirant des informations indiquées dans le wiki de Avidemux concernant le [[http://www.avidemux.org/admWiki/doku.php?id=tutorial:batch_processing#js_scripting_ecmascript_only_batch_processing|ECMAScript]] ou la rubrique [[http://www.avidemux.org/admWiki/doku.php?id=using:scripting|Scripting]].
+
+
+===== Problèmes connus =====
+
+<note importante>Avidemux peut s'avérer instable avec certaines vidéos et certains formats comme le FLV pendant l'encodage</note>
+
+==== Problèmes lors de l'initialisation du dispositif audio ====
+Allez dans Edition - Préférences - Audio
+et essayez de changer le périphérique de sortie par SDL ou Pulse Audio
+
+==== Problèmes de son ====
+  
+Si lors de la lecture le son est haché, vous entendez des craquements ou après encodage vous vous apercevez que le son se décale au fur et à mesure de la lecture sur la vidéo finale, il faut comme précédemment aller dans Edition - Préférences - Audio et essayer de changer le périphérique de sortie. Essayez les différents périphériques jusqu'à ce que le problème soit réglé.
+Par ailleurs:
+  - AAC: Si la source est AAC, **[[:tutoriel:comment_installer_un_paquet|Installer le paquet]]** **[[apt>faad]]** (lit plus de format & stable)
+  - Forcer le décalage de Son (ex: -5ms)
+
+==== Problèmes de coupure de fichier à 4GB  ====
+
+Pour résoudre ce problème, cochez la case "Créer des fichiers openDML" dans  "Éditions/Préférences/Sortie"
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi =====
+
+  * [[http://avidemux.sourceforge.net/|Site officiel]] (en) ;
+  * [[http://www.avidemux.org/admWiki/index.php?title=Main_Page|Wiki officiel]] (en) ;
+  * [[http://www.linuxpedia.fr/doku.php/avidemux/avidemux|Exemples d'utilisations]] **(fr)** ;
+  * [[http://www.avidemux.org/smf/index.php?board=2.0|Forum francophone]] **(fr)** ;
+  * [[http://www.avidemux.org/admWiki/doku.php|Wiki francophone]] **(fr)** ;
+  * [[http://www.tutoriels-video.fr/les-bases-du-montage-video-avec-avidemux/|Tutoriel vidéo : Les bases du montage vidéo avec avidemux]] **(fr)** ;
+  * [[http://www.avidemux.org/admWiki/doku.php?id=tutorial:batch_processing|Tutoriel sur le traitement en lot]] (en) ;
+  * [[http://www.avidemux.org/admWiki/doku.php?id=using:command_line_usage|Liste des paramètres utilisable en ligne de commande]] (en) ;
+  * [[http://www.avidemux.org/admWiki/doku.php?id=tutorial:scripting_tutorial|Tutoriel sur l'ECMAScript pour Avidemux]] (en) ;
+  * [[http://www.lprod.org/wiki/doku.php/association:livre_eyrolles|Livre "montage audio-vidéo libre" Editions Eyrolles - Ecrit par lprod.org]].
+  * [[http://www.hdfever.fr/2010/04/22/encodeur-x264-avidemux-h264-mkv/|Tutoriel v2 : encoder en x264 avec Avidemux 2.5.2]]
+
+
+----
+
+//Contributeurs : [[utilisateurs:Kmeleon]], [[utilisateurs:laurentb|Laurent Bellegarde]], [[utilisateurs:ZondeR]] - Relu par [[http://www.avidemux.org/|Mean]] et [[utilisateurs:KaoT]]//

@@ -1,0 +1,178 @@
+{{tag>wine}}
+----
+
+====== Wine look ======
+
+{{ applications:winehq_logo.png}}
+
+Cette page est une **page annexe de la page [[Wine]]**. Elle vous donnera quelques informations pour vous permettre de changer le look de Wine
+
+
+===== Changer l'apparence des applications lancées via Wine =====
+
+Vous trouvez le gris foncé des applications Wine peu esthétique ? 
+La solution est très largement inspirée de ce forum US : http://ubuntuforums.org/showthread.php?t=55286
+
+Jugez-en par vous-même :
+
+{{ :sketchup_sous_wine.png?650 |exemple sous Xubuntu 11.10}}
+
+Ici, l'objectif est de donner un "look & feel" Ubuntu à Wine. Le thème est plus proche de Radiance que d'Ambiance car ce dernier ne donnait pas de très bon résultats.
+
+==== Pré-requis ====
+  * Avoir installé Wine (Sur Oneiric, cela installe en même temps winetricks et gecko pour Wine). Si ce n'est déjà fait -> [[apt>wine]].
+  * Lancer wineconfig : Applications / Wine / Configurer Wine
+  * Sous l'onglet 'Affichage' dans Résolution de l'écran choisissez (ex : 120 pour un écran 1024 x768),
+  * Si vous avez fait précédemment des modifications dans 'Intégration avec le bureau', revenez à aucun thème.
+  * Fermez maintenant tout programme utilisant Wine (pour être sûr vous pouvez vous déconnecter/reconnecter).
+
+==== Personnalisation ====
+  * Lancez votre gestionnaire de fichiers + Ctrl H pour afficher les fichiers cachés
+  * Allez dans le dossier .wine de votre dossier utilisateur
+  * Copier le fichier "user.reg" et collez-le pour en avoir une sauvegarde
+  * Ouvrez-le
+  * Nous allons modifier toutes les rubriques **précédant** "iCalendarType" en mettant à la place ce qui suit :
+
+<file txt user.reg_extrait.txt>WINE REGISTRY Version 2
+;; All keys relative to \\User\\S-1-5-21-0-0-0-1000
+
+#arch=win32
+
+[AppEvents\\Schemes\\Apps\\Explorer\\Navigating\\.Current] 1249917684
+@=""
+
+[Console] 1252956930
+"CursorSize"=dword:00000019
+"CursorVisible"=dword:00000001
+"EditionMode"=dword:00000000
+"ExitOnDie"=dword:00000001
+"FaceName"="Courier\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
+"FontSize"=dword:000d0008
+"FontWeight"=dword:00000000
+"HistoryBufferSize"=dword:00000032
+"HistoryNoDup"=dword:00000000
+"MenuMask"=dword:00000000
+"QuickEdit"=dword:00000000
+"ScreenBufferSize"=dword:00190050
+"ScreenColors"=dword:0000000f
+"WindowSize"=dword:00190050
+
+[Control Panel\\Colors] 1326934464
+"ActiveBorder"="239 235 231"
+"ActiveTitle"="239 235 231"
+"AppWorkSpace"="198 198 191"
+"Background"="93 77 52"
+"ButtonAlternativeFace"="200 0 0"
+"ButtonDkShadow"="85 85 82"
+"ButtonFace"="239 235 231"
+"ButtonHilight"="255 255 255"
+"ButtonLight"="255 255 255"
+"ButtonShadow"="198 198 191"
+"ButtonText"="0 0 0"
+"GradientActiveTitle"="239 235 231"
+"GradientInactiveTitle"="239 235 231"
+"GrayText"="198 198 191"
+"Hilight"="245 120 70"
+"HilightText"="255 255 255"
+"InactiveBorder"="239 235 231"
+"InactiveTitle"="239 235 231"
+"InactiveTitleText"="255 255 255"
+"InfoText"="0 0 0"
+"InfoWindow"="255 255 160"
+"Menu"="239 235 231"
+"MenuBar"="239 235 231"
+"MenuHilight"="245 120 70"
+"MenuText"="0 0 0"
+"Scrollbar"="239 235 231"
+"TitleText"="255 255 255"
+"Window"="255 255 255"
+"WindowFrame"="0 0 0"
+"WindowText"="0 0 0"
+
+[Control Panel\\Desktop] 1326934464
+"DragFullWindows"="0"
+"FontSmoothing"="2"
+"FontSmoothingGamma"=dword:00000578
+"FontSmoothingOrientation"=dword:00000001
+"FontSmoothingType"=dword:00000002
+"LowPowerActive"="0"
+"MenuShowDelay"="400"
+"SmoothScroll"=hex:00,00,00,00
+"UserPreferenceMask"=hex:10,00,00,80
+
+[Control Panel\\Desktop\\WindowMetrics] 1326978347
+"BorderWidth"="1"
+"CaptionFont"=hex:f1,ff,ff,ff,00,00,00,00,00,00,00,00,00,00,00,00,90,01,00,00,\
+  00,00,00,00,00,00,00,22,55,00,62,00,75,00,6e,00,74,00,75,00,00,00,00,00,00,\
+  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,\
+  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+"CaptionHeight"="18"
+"CaptionWidth"="18"
+"IconFont"=hex:f1,ff,ff,ff,00,00,00,00,00,00,00,00,00,00,00,00,90,01,00,00,00,\
+  00,00,00,00,00,00,22,55,00,62,00,75,00,6e,00,74,00,75,00,00,00,00,00,00,00,\
+  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,\
+  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+"MenuFont"=hex:f1,ff,ff,ff,00,00,00,00,00,00,00,00,00,00,00,00,90,01,00,00,00,\
+  00,00,00,00,00,00,22,55,00,62,00,75,00,6e,00,74,00,75,00,00,00,00,00,00,00,\
+  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,\
+  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+"MenuHeight"="18"
+"MenuWidth"="18"
+"MessageFont"=hex:f1,ff,ff,ff,00,00,00,00,00,00,00,00,00,00,00,00,90,01,00,00,\
+  00,00,00,00,00,00,00,22,55,00,62,00,75,00,6e,00,74,00,75,00,00,00,00,00,00,\
+  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,\
+  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+"ScrollHeight"="16"
+"ScrollWidth"="16"
+"Shell Icon Size"="32"
+"SmCaptionFont"=hex:f1,ff,ff,ff,00,00,00,00,00,00,00,00,00,00,00,00,90,01,00,\
+  00,00,00,00,00,00,00,00,22,55,00,62,00,75,00,6e,00,74,00,75,00,00,00,00,00,\
+  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,\
+  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+"SmCaptionHeight"="20"
+"SmCaptionWidth"="13"
+"StatusFont"=hex:f1,ff,ff,ff,00,00,00,00,00,00,00,00,00,00,00,00,90,01,00,00,\
+  00,00,00,00,00,00,00,22,55,00,62,00,75,00,6e,00,74,00,75,00,00,00,00,00,00,\
+  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,\
+  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+
+[Control Panel\\International] 1326981156</file>
+...
+Enregistrez, lancez une application via wine, c'est prêt.
+
+==== Problèmes ====
+  * Si vous n'avez pas la police Ubuntu d'installée : [[apt>ttf-ubuntu-font-family]] ou [[apt>ubuntu-artwork]]
+  * Si elle ne rend pas bien :
+<code>winetricks fontsmooth=rgb</code>
+  * Si vous en préférez une autre, 
+    * lancez wineconfig
+    * allez dans 'Intégration avec le bureau'
+    * dans la liste 'Élément :', choisissez 'Texte du menu'
+    * cliquez sur le bouton Police et choisissez une police et sa taille (attention la taille devra être plus petite que pour du Linux natif)
+    * fermez wineconfig et toute autre application sous Wine
+    * Ouvrez le fichier 'user.reg' (comme indiqué plus haut)
+    * Regardez le code hexadécimal en face de "MenuFont"= pour éventuellement le copier/coller pour CaptionFont, IconFont, MessageFont,..
+    * Enregistrez ces modifications
+
+==== Compiz et les menus qui sortent ====
+Sous [[:compizconfig-settings-manager|compiz]], les menus sortent de la fenêtre (sous Xubuntu 11.10 au moins). La seule parade trouvée, est de maximiser la fenêtre.
+
+===== Utiliser des thèmes -skins- =====
+
+Wine peut gérer les fichiers de thèmes (skins) de Windows au format "msstyles". Vous pourrez en trouver de nombreux par exemple sur le site de Deviant Art. 
+http://browse.deviantart.com/customization/skins/windows/visualstyle/
+
+Pour les utiliser, il vous faut créer un dossier dans le disque Windows virtuel de Wine, et ensuite indiquer à Wine de les utiliser.
+
+  * Tout d'abord, rendez-vous sur le disque virtuel. Il s'agit d'ordinaire du disque ".wine/drive_c" placé dans la partie cachée de votre dossier home. Ouvrez le dossier Windows et créez-y un nouveau dossier "Resources". A l'intérieur de celui-ci, créez un nouveau dossier, appelé "Themes". Et enfin, à l'intérieur vous créerez autant de dossiers que de thèmes que vous y mettrez. Il s'agit de fichiers comportant le suffixe ".msstyles". Par exemple, le chemin complet d'un fichier de ce type appelé exemple.msstyles serait: "/home/votre_nom/.wine/drive_c/windows/Resources/Themes/Exemple/exemple.msstyles". 
+<note>
+Juste le fichier .msstyles ne sera certainement pas suffisant pour avoir un skin complet, il faudra également mettre dans Themes/mon_theme les fichiers et dossiers annexes, comme le dossier "shell", contenant un (ou plusieurs) fichier(s) "shellstyle.dll". Dans le cas de skins téléchargés, ce dossier "shell" sera très certainement à coté du .msstyles, donc mettez tout ensemble et ça ira :-)
+</note>
+
+  * Enfin, il vous faudra indiquer à Wine d'utiliser le thème. Lancez winecfg. Dans la fenêtre de configuration, choisissez l'onglet "Desktop Integration" et cochez la case "Theme". Celle-ci devrait faire apparaître votre nouveau thème dans son menu. Après l'avoir sélectionné, cliquez sur "appliquer" en bas et regardez ce que ça donne (les résultats peuvent être variables). Si cela vous convient, cliquez sur OK. 
+
+<note importante> Même si le thème vous convient visuellement, il vous faudra aussi vérifier qu'il ne vous pose pas de problème de fonctionnement. Certains thèmes récents peuvent provoquer en effet une charge déraisonnable du processeur, ce qui n'est pas vraiment le but recherché..... 
+</note>
+
+----
+//Contributeurs: [[:contributeurs|Les contributeurs d'Ubuntu-fr]], [[utilisateurs:Fabien26]].//

@@ -1,0 +1,111 @@
+{{tag>réseau vpn}}
+----
+
+====== VPNAUTOCONNECT ======
+{{:vpnautoconnect_72.png|}}
+
+**VPNAutoconnect** permet de pallier l'absence de reconnexions sur les liens VPNs :\\
+Il permet :
+   * De **connecter automatiquement** le VPN choisi au lancement de la session ou au démarrage de la distribution dès que le lien "parent" est établi.
+   * De **reconnecter automatiquement** le VPN en cas de **coupure** du fournisseur d'accès VPN.
+   * De **détecter une chute de connexion** et de reconnecter dès que la ligne est rétablie (principalement utile dans les VPN de type openvpn qui gardent la connexion ouverte même en cas de chute de la connexion parente ou qui recalculent un identifiant de session sur une session désactivée par l'hôte)
+
+=== Information ===
+
+A l'origine une option est prévue par network-manager mais n'a jamais été implémentée (peut-être dans le futur).\\
+VPNAutoconnect s'appuie au maximum sur les options définies dans network-manager.\\
+Il faudra donc cocher « se connecter automatiquement » si vous voulez que la connexion VPN se reconnecte à chaque déconnexion et à chaque redémarrage. Ce paramètre peut être modifié à tout moment.
+
+===== Installation =====
+=== Utilisation des paquets pré-compilés ===
+Téléchargez le paquet pré-compilé sur [[http://sourceforge.net/projects/vpnautoconnect/|Sourceforge]] en fonction de votre architecture puis [[:tutoriel/comment_installer_un_paquet#installer_un_paquet_hors_depots_non_recommande|installez le paquet]].
+
+L'icône de VPNAutoconnect devrait s'installer dans votre barre de notifications :\\
+{{:notif_vpnautoconnect.png|}}\\
+
+=== Compiler soi-même le paquet ===
+Téléchargez les sources sur [[http://sourceforge.net/projects/vpnautoconnect/|Sourceforge]]
+Installez les dépendances utiles à la compilation :
+<code>aptitude install libdbus-glib-1-dev libgtk2.0-dev libnotify-dev libcap-dev</code>
+Décompressez le fichier :
+<code>tar xvfz vpnautoconnect-1.0.8.tar.gz</code>
+Allez dans le répertoire contenant les sources :
+<code>cd vpnautoconnect-1.0.8/</code>
+Puis faites une installation classique en créant votre fichier de configuration et en définissant la connexion "parente" pour chaque connexion VPN trouvée :
+<code>make
+make config
+sudo make install
+</code>
+
+<note> Le makefile se fabrique en exécutant ./configure ce qui est nécessaire en particulier si la commande make renvoie "Pas de cibles spécifiées et aucun makefile n'a été trouvé. Arrêt."
+</note>
+
+L'icône de VPNAutoconnect devrait s'installer dans votre barre de notifications :\\
+{{:notif_vpnautoconnect.png|}}\\
+<note important>**Attention** seule la version pré-compilée contient une icône de lancement rapide dans le menu.</note>
+
+=== Via synaptic ===
+Il est désormais possible d'installer Vpnautoconnect via synaptic [[:tutoriel:comment_modifier_sources_maj#ajout_d_un_ppa|en ajoutant le ppa dans vos sources]] (au moins pour Ubuntu 12.04 ?) :
+<code>
+ppa:barraudmanuel/vpnautoconnect
+</code>
+===== Les différentes options du menu contextuel =====
+**Envoyer un message par pop-up** : VPNAutoconnect envoie des messages de notification à chaque changement d'état. Ces messages sont des pop-ups d'alerte qui apparaissent et qui indiquent le changement d'état d'une ligne. Pour une raison étrange, il semblerait que la librairie libnotify intégrée à Ubuntu fasse bugger certains logiciels comme Cedega. Ce bug n'est pas lié a VPNAutoconnect mais à la librairie elle-même. En attendant une éventuelle correction il est possible de désactiver temporairement l'envoi de ces messages.
+
+**Recharger** : Permet de recharger le fichier de configuration et de prendre en compte les nouvelles modifications sans relancer VPNAutoconnect.
+
+**A propos** : Information sur la version et les différents contributeurs au projet VPNAutoconnect. Vous pouvez également soutenir le projet VPNAutoconnect en suivant le lien disponible.
+
+**Quitter** : Quitte l'application VPNAutoconnect.
+
+===== Information en survol de l'icône de VPNAutoconnect =====
+En survolant l'icône de VPNAutoconnect vous pouvez obtenir quelques informations :\\
+{{:survolpopup_vpnautoconnect.png|}}\\
+Vous obtenez l'**ip source** et l'**ip de destination** du ping continu. Ce ping permet de vérifier la qualité et le bon fonctionnement de la ligne VPN. Si la connexion n'arrive plus à faire de ping alors le VPN sera déconnecté puis reconnecté dès que le ping sera de nouveau possible.\\
+**Le statut internet** permet d'afficher le domaine interrogé pour le ping ainsi que l'état global. VPNAutoconnect peut détecter un problème DNS, dans ce cas là on ne pourra plus interroger un nom de domaine puisque les DNS ne sont plus disponibles. VPNAutoconnect vous affichera un message de WARNING dans cette section et "pinguera" à la place une IP donnée dans le fichier de configuration.\\
+Ce statut vous donne également depuis combien de temps votre ligne VPN est active. Bien entendu une reconnexion remet ce compteur à zéro.\\
+La **réponse ping** vous donne la latence globale de votre VPN. Plus cette valeur sera forte, moins la qualité de la ligne sera bonne. Cela peut également indiquer un fort encombrement réseau.\\
+**Total reconnnexion** indique le nombre de reconnexions. **Auto** est le nombre de reconnexions dues à une coupure du VPN effectuée par votre hôte distant et **parent** le nombre de reconnexions dues à une coupure de la connexion parente. Ces paramètres permettent de déduire la qualité de votre fournisseur VPN.
+
+===== Le fichier de configuration vpnautoconnect.cfg =====
+Vous pouvez changer le comportement par défaut de VPNAutoconnect en éditant le fichier vpnautoconnect.cfg
+<code>sudo nano /etc/vpnautoconnect.cfg</code>
+Si l'installation a été faite par les dépôts, c'est le fichier config dans votre dossier personnel (remplacer robert par le nom de votre dossier) :
+<code>sudo nano /home/robert/.vpnautoconnect/config</code>
+Le contenu du fichier est le suivant :\\
+<code>
+#For each section we define the vpn connection and the attached parent connection
+[global]
+FollowReconnectParent=yes
+HostToPing=google.com
+#If DNS is down we ping an IP. This is the Root DNS IP 
+AddrToPingIfDNSDown=198.41.0.4,192.33.4.12
+TimeoutBeforeSwitch=15
+scriptEvenement=
+
+reconnectAfterDisconnectManual=no
+
+[Connexion VPN 1]
+connectionSupport=eth0
+</code>
+  
+Le fichier de configuration comporte une section "global" et une section par VPN.\\
+  * **FollowReconnectParent** permet de suivre l'état de la liaison parente de la connexion VPN et de la lier à son état. Par exemple si la connexion parente s'effondre, alors il y a de fortes chances (100% même !) que la connexion VPN s'effondre. Avant d'attendre que la connexion VPN s'effondre d'elle-même on va forcer la déconnexion et suivre le parent pour reconnecter le VPN dès que le parent revient.
+L'auteur de cette documentation conseille fortement de laisser ce paramètre à "yes".\\
+  * **HostToPing** est l'adresse à "pinguer" pour vérifier l'état de la connexion. Le ping est effectué toutes les secondes et renouvelle l'interrogation dns ce qui permet de supporter le loadbalancing DNS. Plus il y aura d'ip par domaine, plus la détection d'effondrement de ligne sera fiable.\\
+
+
+
+===== Options avancées de scripting =====
+
+FIXME
+
+===== Voir aussi =====
+
+  * **(en)** [[https://sourceforge.net/projects/vpnautoconnect/|Site officiel]] sur SourceForge
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=322750|Fil de discussion sur le forum Ubuntu-fr]]
+  * [[https://twitter.com/vpnautoconnect|Vpnautoconnect sur twitter]]
+  * [[https://launchpad.net/~barraudmanuel/+archive/vpnautoconnect|Les sources du ppa]]
+
+----
+//Contributeur principal : ... \\ Relecture/Correction : [[:utilisateurs:PiccoLo]]//

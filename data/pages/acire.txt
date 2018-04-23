@@ -1,0 +1,47 @@
+{{tag>Precise programmation}}
+
+
+----
+
+====== Acire ======
+
+{{  :python-snippets-64.png|}}
+
+**Acire** est un outil graphique d'aide à l'apprentissage de la programmation en [[:Python]]. Il permet d'accéder à la bibliothèque Python Snippets, référentiel de codes source d'applications simples développées dans ce langage, afin d'en étudier et d'en comprendre le fonctionnement. Acire participe à la fonction de partage des connaissances chère au logiciel libre.
+
+{{:acire.jpg?250}}
+
+Acire est un logiciel sous licence libre GNU GPL V3, développé à l'aide de [[:quickly]].
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+Les dépôts PPA ci-dessus ne sont plus à jour et par conséquent ils ne sont plus accessibles avec la procédure ci-dessus. Sous [[precise|Ubuntu 12.04 LTS]],  la modification suivante permet de compléter l'installation.
+  * [[:tutoriel:comment_modifier_sources_maj#modifier_les_sources_de_mises_a_jour|Éditez les deux sources de mises à jour]] de la façon suivante :
+    * Pour le PPA python-snippets-daily, remplacer la distribution <<precise>> par <<lucid>>
+    * Pour le PPA acire-releases, remplacer la distribution <<precise>> par <<natty>>
+  * Ajoutez les dépendances manquantes **[[apt>desktopcouch,python-vte|desktopcouch python-vte]]**.
+  * [[:tutoriel:comment_installer_un_paquet|Installez les paquets]] **[[apt>acire,python-snippets|acire python-snippets]]**.
+
+===== Utilisation=====
+
+Lancez l'application via le [[:unity#tableau_de_bord_dash|tableau de bord]] Unity ou via le [[:terminal]] (toutes versions d'Ubuntu) avec la [[:commande_shell|commande]] suivante :
+<code>acire</code>
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer les paquets]] **acire** et **python-snippets**.La suppression des dépôts PPA correspondants est également recommandée.
+
+===== Voir aussi =====
+
+  * **(en)** [[http://aciresnippets.wordpress.com/|Site officiel d'Acire]]
+  * **(en)** [[https://launchpad.net/acire|Le projet Acire sur Launchpad]]
+  * **(en)** [[https://launchpad.net/python-snippets|Le projet Python Snippets sur Launchpad]]
+
+----
+
+//Contributeurs principaux : [[utilisateurs:poupoul2]]//.

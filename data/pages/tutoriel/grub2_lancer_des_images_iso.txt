@@ -1,0 +1,302 @@
+{{tag>grub-pc amorçage}}
+----
+<note>Cette page ne concerne qu'une des utilisations possibles de Grub2 dont la documentation détaillée est disponible [[:grub-pc|ici]].</note>
+
+====== Lancer des images iso directement depuis GRUB 2 ======
+
+Pour **lancer une distribution linux sans avoir à graver sur Cd**, les solutions existantes ont le plus souvent le recours à une clé USB gravée avec **[[:live_usb#en_ligne_de_commandes|l'instruction "dd"]]** ou avec un utilitaire comme **[[:usb-creator]]**, **[[:Unetbootin]]**, **[[:Easy2boot]]**, **[[http://liveusb.info/dotclear/index.php?pages/install|Multisystem]]**, etc.
+
+On peut aussi utiliser **[[:Virtualbox]]** qui ne nécessite pas de clé USB mais dont l'inconvénient est qu'il ne teste pas votre configuration mais un matériel émulé.
+
+**Voici la procédure à suivre pour lancer vos isos présents sur le disque dur directement avec [[:grub-pc|Grub 2]]**.
+
+<note important>Ce type de lancement ne fonctionne pas avec toutes les distributions Linux. Le fonctionnement est aussi très différent d'une distribution à l'autre.</note>
+
+===== Objectifs de ce tutoriel =====
+  * pouvoir **tester** toutes les versions Ubuntu sur votre matériel,
+  * pouvoir **installer** ces distributions sans avoir à graver un CD,
+  * connaitre aussi les astuces de lancement des isos en dehors du seul monde Ubuntu (pour de la maintenance : gparted live, rescueCD,.. ou pour tester d'autres environnements : dernières versions de [[:Gnome-Shell]], [[:Cinnamon]], Mate, [[:Lxqt]],..)
+
+===== Pré-requis =====
+  * Vérifier que la version de Grub est une version 1.97 ou supérieure. <code>grub-install -V</code> 
+  * Dans les exemples cités, la partition **(hd0,2)** soit /dev/sda2 **[[:grub-pc#numerotation_des_disques|est à adapter à votre propre configuration]]**.
+
+===== Parti pris pour ce tutoriel =====
+==== Un dossier unique ====
+Pour **simplifier** les descriptions dans ce tutoriel, on créera un dossier unique pour tous les fichiers 'iso' :
+  * on **créera un dossier 'isos'** au choix sur la partition système ou une partition de données (clic droit 'Ouvrir un terminal ici' à l'endroit choisi dans le gestionnaire de fichiers)
+  * on **changera le propriétaire du dossier** pour écrire dedans sans nécessité d'avoir les [[:permissions#modifier_les_permissions|droits 'super utilisateur']]
+  * on **créera un lien symbolique** dans le dossier 'Téléchargements' pour y accéder facilement
+
+Pour cela, on saisira les commandes suivantes dans le terminal:
+<code>cd /					# pour aller à la racine de la partition si ce n'est déjà fait
+sudo mkdir isos
+sudo chown ben:ben isos			# username:groupname : à adapter à votre configuration (le plus souvent le nom du groupe est identique à celui de l'utilisateur)
+ln -f -s -r -t ~/Téléchargements isos</code>
+
+Donc, tous les fichiers 'iso' téléchargés seront désormais déplacés dans ce dossier 'isos' dans 'Téléchargements'.
+
+==== Un sous-menu ====
+Modifier le menu principal en configurant le fichier /etc/grub.d/40_custom ou /boot/grub/custom.cfg nous obligerait à lancer la commande 'sudo update-grub' après chaque modification. Pour éviter cela :
+  * **Dans 40_custom**, on créera **une bonne fois pour toutes** une ligne de menu menant **vers un fichier de configuration totalement indépendant**.
+  * Ce fichier de configuration sera mis **au même endroit que les fichiers 'iso'** : c'est ainsi facile de le modifier et il ne nécessite pas les [[:permissions#modifier_les_permissions|droits 'super utilisateur']].
+  
+On configure donc le fichier /etc/grub.d/40_custom ainsi :\\ //(Cliquez sur le nom du fichier pour l'afficher dans votre éditeur de texte)//
+<file txt /etc/grub.d/40_custom>menuentry "   " {
+	true	# true permet d'afficher la ligne de titre (ici une ligne vide pour 'aérer' le menu) sans rien faire d'autre
+}
+menuentry "===>> Distribs lancées depuis leur fichier 'iso'" {
+	set root=(hd0,2)
+	configfile /isos/00_isoboot.cfg
+}</file>
+
+Note : avec la commande 'set root=(hd0,2)', on définit comme partition où est le dossier 'isos' /dev/sda2 (c'est donc à adapter à votre configuration).
+
+Pour activer ce changement, il faut lancer la commande :
+<code>sudo update-grub</code>
+
+On aura ainsi une ligne à notre menu grub pour se rendre sur une page dédiée aux lancements de fichiers 'iso'.
+
+===== Le fichier de configuration =====
+==== Paramètres généraux ====
+
+Ce sont des paramètres qui concernent tous les menus qu'on évite ainsi de répéter dans chacun d'entre eux :
+<file txt /isos/00_isoboot.cfg_(paramètres)>### Lancement des modules grub qui ne seraient pas déjà lancés en standard
+#insmod ntfs		# décommentez si les isos sont sur une partion MS Windows
+insmod loopback
+insmod iso9660
+
+### la racine est définie pour tous les menus qui suivront car tous les isos sont au même endroit
+set root=(hd0,2)		# correspond à /dev/sda2 (la commande peut être aussi set root=(hd0,msdos2) ou (hd0,gpt2) selon le type de votre partition)
+
+### effacer les deux lignes ci-dessous si vous ne voulez pas de menu par défaut
+set default="2"		# la ligne de menu qui sera sélectionnée par défaut sera la 3ème (on compte à partir de 0 dans grub !)
+set timeout=8		# durée en secondes avant le lancement du menu par défaut</file>
+
+==== Habillage (mode texte) ====
+Si votre **grub principal** est en **mode texte**, il est préférable de conserver ici un **habillage en mode texte**.
+<file txt /isos/00_isoboot.cfg_(habillage)>#insmod gfxterm			# nécéssaire pour personnaliser l'aspect du menu. Peut être déjà lancé si vous avez une image de fond pour votre menu principal
+set gfxmode=1920x1200	# définit la résolution d'affichage du menu grub
+
+insmod jpeg													# insmod png   si votre image de fond est au format png
+background_image -m stretch /isos/0_image_de_fond.jpg		# si votre image ne s'affiche pas, se référer à la doc (tutoriel:Grub2_paramétrage_manuel#Fond d'écran)
+### note: pour que le texte des menus reste lisible, une image plus foncée que la normale est conseillée.
+
+### couleurs dispo : black, blue, green, cyan, red, magenta, brown, light-gray, dark-gray, light-blue, light-green, light-cyan, light-red, light-magenta, yellow, white 
+### black équivaut à transparent lorsqu'on a une image de fond
+set color_normal=light-cyan/black				# définit les couleurs de texte/fond d'écran autour du cadre de menu
+set menu_color_normal=light-cyan/black			# définit les couleurs de texte/fond d'écran dans le cadre de menu
+set menu_color_highlight=light-magenta/blue		# définit les couleurs de texte/surbrillance pour le menu sélectionné
+
+set gfxpayload=1920x1200		# définit la résolution d'affichage par défaut en sortant du menu grub (par défaut il est à 'keep')</file>
+
+==== Thème ====
+Si votre **grub principal** s'affiche via un **thème**, on pourra en définir **un autre ici** pour se repérer plus facilement (on ne cumulera pas avec le paragraphe précédent : c'est soit l'un soit l'autre).
+
+Le thème utilisé vient de [[https://www.gnome-look.org/p/1160963/|cette page]]. Les **polices de caractères** doivent être lancées **'manuellement' ainsi que le fond d'écran**.
+
+<file txt /isos/00_isoboot.cfg_(theme)>insmod png	# s'il n'est pas déjà lancé pour le thème du menu principal
+
+loadfont /isos/themes/Crunchy-ubuntu-ish/Ubuntu_normal.pf2
+loadfont /isos/themes/Crunchy-ubuntu-ish/Ubuntu_title.pf2
+background_image /isos/themes/Crunchy-green/term_borders_c.png		# le fond d'écran n'est utile que pour la ligne de commande ou l'édition d'un des menus
+
+theme=/isos/themes/Crunchy-ubuntu-ish/theme-fr.txt</file>
+
+==== Menu type ====
+Cet extrait de fichier est à ajouter éventuellement à votre fichier de configuration et à modifier à votre convenance.
+<file txt /isos/00_isoboot.cfg_(ubuntu et ses variantes)>menuentry ".. Ubuntu 16.04" {
+	set isofile="/isos/ubuntu-16.04-desktop-amd64.iso"
+	loopback loop $isofile
+	linux (loop)/casper/vmlinuz.efi locale=fr_FR bootkbd=fr console-setup/layoutcode=fr iso-scan/filename=$isofile boot=casper file=/cdrom/preseed/ubuntu.seed noprompt quiet splash --
+	initrd (loop)/casper/initrd.lz
+}
+</file>
+On **dupliquera** ce menu **autant de fois que de menus souhaités**. 'root=..' étant déjà indiqué dans les paramètres généraux, il n'est pas répété dans le menu type.
+
+**set isofile** est à adapter en fonction du fichier iso téléchargé,\\ 
+**loopback loop $isofile** peut être modifié en //loopback loop (hd0,2)$isofile// si le fichier n'est pas trouvé par grub,\\ 
+**/cdrom/preseed/** est à adapter en fonction de la variante (C'est souvent la seule chose qui diffère dans la ligne 'linux loop' des variantes ubuntu, cf paragraphe suivant).
+
+===== Ubuntu et ses variantes =====
+Voici les lignes 'vmlinuz' pour toutes les variantes d'Ubuntu :
+  * **[[:Ubuntu]]** : [[http://releases.ubuntu.com/|versions soutenues]] - [[http://cdimage.ubuntu.com/ubuntu/daily-live/current/|versions en cours de développement]]\\ //linux (loop)/casper/vmlinuz.efi locale=fr_FR bootkbd=fr console-setup/layoutcode=fr iso-scan/filename=$isofile boot=casper file=/cdrom/preseed/ubuntu.seed noprompt quiet splash --//
+
+  * **[[:Kubuntu]]** : [[http://cdimage.ubuntu.com/kubuntu/releases/|versions soutenues]] - [[http://cdimage.ubuntu.com/kubuntu/daily-live/current/|versions en cours de développement]]\\ //linux (loop)/casper/vmlinuz.efi locale=fr_FR bootkbd=fr console-setup/layoutcode=fr iso-scan/filename=$isofile boot=casper file=/cdrom/preseed/kubuntu.seed noprompt quiet splash --//
+
+  * **[[:Lubuntu]]** : [[http://cdimage.ubuntu.com/lubuntu/releases/|versions soutenues]] - [[http://cdimage.ubuntu.com/lubuntu/daily-live/current/|versions en cours de développement]]\\ //linux (loop)/casper/vmlinuz.efi locale=fr_FR bootkbd=fr console-setup/layoutcode=fr iso-scan/filename=$isofile boot=casper file=/cdrom/preseed/lubuntu.seed noprompt quiet splash --//
+
+  * **[[https://ubuntubudgie.org/|Ubuntu-Budgie]]** (nouvelle variante depuis 2017) : [[http://cdimage.ubuntu.com/ubuntu-budgie/releases/|versions soutenues]] - [[http://cdimage.ubuntu.com/ubuntu-budgie/daily-live/current/|versions en cours de développement]]\\ //linux (loop)/casper/vmlinuz.efi locale=fr_FR bootkbd=fr console-setup/layoutcode=fr iso-scan/filename=$isofile boot=casper file=/cdrom/preseed/ubuntu-budgie.seed noprompt quiet splash --//
+
+  * **[[:ubuntu_gnome|Ubuntu-Gnome]]** : [[http://cdimage.ubuntu.com/ubuntu-gnome/releases/|versions soutenues]] - [[http://cdimage.ubuntu.com/ubuntu-gnome/daily-live/current/|versions en cours de développement]]\\ //linux (loop)/casper/vmlinuz.efi locale=fr_FR bootkbd=fr console-setup/layoutcode=fr iso-scan/filename=$isofile boot=casper file=/cdrom/preseed/ubuntu-gnome.seed noprompt quiet splash --//
+
+  * **[[:mate|Ubuntu-Mate]]** : [[http://cdimage.ubuntu.com/ubuntu-mate/releases/|versions soutenues]] - [[http://cdimage.ubuntu.com/ubuntu-mate/daily-live/current/|versions en cours de développement]]\\ //linux (loop)/casper/vmlinuz.efi locale=fr_FR bootkbd=fr console-setup/layoutcode=fr iso-scan/filename=$isofile boot=casper file=/cdrom/preseed/ubuntu-mate.seed noprompt quiet splash --//
+
+  * **[[:ubuntu_studio|Ubuntu Studio]]** : [[http://cdimage.ubuntu.com/ubuntustudio/releases/|versions soutenues]] - [[http://cdimage.ubuntu.com/ubuntustudio/daily-live/current/|versions en cours de développement]]\\ //linux (loop)/casper/vmlinuz.efi locale=fr_FR bootkbd=fr console-setup/layoutcode=fr iso-scan/filename=$isofile boot=casper file=/cdrom/preseed/ubuntustudio.seed noprompt quiet splash --//
+
+  * **[[:Xubuntu]]** : [[http://cdimage.ubuntu.com/xubuntu/releases/|versions soutenues]] - [[http://cdimage.ubuntu.com/xubuntu/daily-live/current/|versions en cours de développement]]\\ //linux (loop)/casper/vmlinuz.efi locale=fr_FR bootkbd=fr console-setup/layoutcode=fr iso-scan/filename=$isofile boot=casper file=/cdrom/preseed/xubuntu.seed noprompt quiet splash --//
+
+**Attention !** Pour les **versions 32 bits** d'Ubuntu et ses variantes, **vmlinuz.efi** doit être modifié en **vmlinuz** tout court.
+
+==== Dérivés : LinuxMint,.. ====
+  * **[[:linux_mint|Linux Mint]]** : [[https://linuxmint.com/download.php|versions soutenues]] - [[https://community.linuxmint.com/iso|versions en cours de développement]]\\ //linux (loop)/casper/vmlinuz.efi locale=fr_FR bootkbd=fr console-setup/layoutcode=fr iso-scan/filename=$isofile boot=casper file=/cdrom/preseed/linuxmint.seed noprompt quiet splash --//
+
+  * **[[http://linuxfr.org/news/zevenos-5-une-distribution-au-gout-de-beos|ZevenOS]]** : [[http://www.zevenos.com/download|site de téléchargement]]\\ //linux (loop)/casper/vmlinuz locale=fr_FR bootkbd=fr console-setup/layoutcode=fr iso-scan/filename=$isofile boot=casper file=/cdrom/preseed/zevenos.seed persistent noprompt quiet splash --//
+
+==== Installer en mode graphique =====
+**2 solutions** :
+  * avec l'**icône "installer Ubuntu"** disponible sur le bureau des différentes variantes. Cependant, pour que l'installation ne soit pas bloquée, il faut **démonter la partition** d'où est lancé l'iso (nommée **'/isodevice'** par ubuntu) :<code>sudo umount -l -r -f /isodevice</code>
+
+  * avec un **menu grub dédié** qui lance directement l'installation avec l'**option 'only-ubiquity'**. Voici par exemple la ligne 'linux loop' pour ubuntu-MATE.\\ //linux (loop)/casper/vmlinuz.efi locale=fr_FR bootkbd=fr console-setup/layoutcode=fr iso-scan/filename=$isofile boot=casper file=/cdrom/preseed/ubuntu-mate.seed noprompt **only-ubiquity** quiet splash ---//
+
+L'option 'only-ubiquity' ou 'maybe-ubiquity' ne fonctionne pas toujours. Le démontage de 'isodevice' puis clic sur l'icône 'installer ubuntu', lui, a toujours fonctionné.
+
+==== Installer en mode texte ====
+  * Télécharger un **'mini.iso'** [[:tutoriel/installer_ubuntu_par_internet#pre-requis|sur cette page]] ou [[http://cdimage.ubuntu.com/netboot/|celle-là]] configuré dans un menu grub avec ces 2 lignes :\\ //linux (loop)/linux\\ initrd (loop)/initrd.gz//
+
+  * Autre alternative : **[[:tutoriel:installer_ubuntu_sans_cd|utiliser "hd-media"]]** (C'est la seule autre solution car les versions 'alternate' ou 'server' lancée depuis Grub cherchent toujours un cd dans un lecteur cd et on ne va pas plus loin).
+  
+===== Distributions dédiées à la maintenance =====
+Comme pour ubuntu, n'oubliez pas les paramètres généraux (surtout les 'insmod' et 'set root') et le menu de base dont on modifiera les lignes 'linux loop' et 'initrd loop' comme indiquées en italique.
+
+==== Parted Magic (payant) ====
+Très complet mais pas gratuit //([[https://partedmagic.com/programs/|liste des programmes]], **[[https://partedmagic.com/downloads/|téléchargement]]**)// :
+  * **dernière version gratuite** (pmagic_2013_06_15.iso)\\ //linux (loop)/pmagic/bzImage keymap=fr-latin1 fr_FR\\ initrd  (loop)/pmagic/initrd.img//
+  
+  * **version 32 bits** actuelle\\ //linux (loop)/pmagic/bzImage iso_filename=$isofile keymap=fr-latin1 fr_FR load_ramdisk=1\\ initrd (loop)/pmagic/initrd.img (loop)/pmagic/fu.img (loop)/pmagic/m32.img//
+  
+  * **version 64 bits** actuelle\\ //linux (loop)/pmagic/bzImage64 iso_filename=$isofile keymap=fr-latin1 fr_FR load_ramdisk=1\\ initrd (loop)/pmagic/initrd.img (loop)/pmagic/fu.img (loop)/pmagic/m64.img//
+
+==== GParted Live ====
+Elle contient [[:PhotoRec]] et [[:Testdisk]]. Par contre, le gestionnaire de fichiers est un peu limité (il n'affiche pas les partitions non montées) - **[[https://sourceforge.net/projects/gparted/files/gparted-live-stable/|Téléchargement]]**
+
+  * //linux (loop)/live/vmlinuz boot='live' union='overlay' username='user' config locales='fr_FR.UTF-8' keyboard-layouts='fr' components noswap noeject toram='filesystem.squashfs' ip="" findiso="${isofile}"//\\ //initrd (loop)/live/initrd.img//
+
+==== SystemRescueCd ====
+**Seuls les outils via l'interface graphique sont accessibles**. Aucune tentative de lancer les outils en mode texte lancés via syslinux n'a abouti.\\ **[[https://sourceforge.net/projects/systemrescuecd/files/sysresccd-x86/|Page de téléchargement]] - [[http://www.sysresccd.org/Online-Manual-FR|Manuel d'utilisation]] - [[http://www.sysresccd.org/Sysresccd-manual-en_Easy_install_SystemRescueCd_on_harddisk#Boot_the_ISO_image_from_the_disk_using_Grub2|Documentation Officielle SystemRescue ISO et grub2]]**
+
+  * //linux (loop)/isolinux/rescue64 isoloop=$isofile rootfs=/sysresccd setkmap=fr nomodeset docache dostartx\\ initrd (loop)/isolinux/initram.igz//
+
+  * Pour un **lancement en 32 bits** : //linux (loop)/isolinux/rescue32 isoloop=$isofile rootfs=/sysresccd setkmap=fr nomodeset docache dostartx//
+
+==== CloneZilla ====
+**[[wpfr>CloneZilla]]** vous permettra de cloner une partition vers une image ou une autre partition ou inversement.
+
+  * **[[http://clonezilla.org/downloads/download.php?branch=stable|version stable]]** (basée sur Debian)<file>  linux (loop)/live/vmlinuz persistent boot=live findiso=$isofile union=overlay username=user config components quiet noswap lang=fr_FR.UTF-8 locales=fr_FR.UTF-8 edd=on nomodeset nodmraid ocs_live_run=\"ocs-live-general\" ocs_live_extra_param=\"\" keyboard-layouts=fr ocs_live_batch=\"no\" vga=normal ip=frommedia nosplash toram=filesystem.squashfs timezone=Europe/Paris utc=yes
+  initrd (loop)/live/initrd.img</file>
+  * **[[http://clonezilla.org/downloads/download.php?branch=alternative|version alternative stable]]** (basée sur Ubuntu)<file>  linux (loop)/live/vmlinuz persistent boot=live findiso=$isofile union=overlay username=user hostname=xenial config components quiet noswap lang=fr_FR.UTF-8 locales=fr_FR.UTF-8 edd=on nomodeset nodmraid noeject ocs_live_run=\"ocs-live-general\" ocs_live_extra_param=\"\" keyboard-layouts=fr ocs_live_batch=\"no\" vga=normal ip=frommedia nosplash toram=filesystem.squashfs timezone=Europe/Paris utc=yes net.ifnames=0
+  initrd (loop)/live/initrd.img</file>
+
+===== Quelques grands noms =====
+N'oubliez pas les paramètres généraux et les lignes en italiques sont celles qui sont différentes du menu de base.
+
+==== Arch ====
+Ne connaissant aucune version livecd officielle, voici quelques distributions dérivées de Arch Linux (pas trouvé comment les lancer directement en français) :
+  * **[[wp>Archbang]]** (environnement Openbox) : [[https://sourceforge.net/projects/archbang/|Téléchargement]]\\ **pensez à modifier 'img_dev'** selon la partition où est votre iso et **'archisolabel'**\\ //linux (loop)/arch/boot/x86_64/vmlinuz img_dev=/dev/sda2 img_loop=$isofile earlymodules=loop archisobasedir=arch archisolabel=ARCHBANG --\\ initrd (loop)/arch/boot/intel_ucode.img (loop)/arch/boot/x86_64/archiso.img//
+
+  * **[[http://archex.exton.net/|ArchEX]]** (environnement Lxde) : [[https://sourceforge.net/projects/archex/|Téléchargement]]\\ **pensez à modifier 'img_dev'** selon la partition où est votre iso et **'archisolabel'**\\ //linux (loop)/arch/boot/x86_64/vmlinuz img_dev=/dev/sda2 img_loop=$isofile earlymodules=loop archisobasedir=arch archisolabel=ARCH_201607 --\\ initrd (loop)/arch/boot/intel_ucode.img (loop)/arch/boot/x86_64/archiso.img//
+
+  * **[[wpfr>Manjaro Linux|Manjaro]]** (voir [[#LxQt|plus bas]])
+
+==== Debian ====
+Même si Debian est parent du projet Ubuntu, son lancement est différent car il n'utilise pas casper.
+
+  * **Stable** (version 8 : Jessie) : [[http://cdimage.debian.org/mirror/cdimage/release/current-live/|Téléchargement]]\\ //linux (loop)/live/vmlinuz boot=live findiso=${isofile} live-config lang=fr_FR.UTF-8 locales=fr_FR.UTF-8 keyboard-layouts=fr timezone=Europe/Paris utc=yes quiet splash\\ initrd (loop)/live/initrd.img//
+
+**Dérivées**
+  * **[[:linux_mint|LMDE]]** : [[https://www.linuxmint.com/download_lmde.php|Téléchargement]]\\ //linux (loop)/live/vmlinuz boot=live findiso=${isofile} live-config lang=fr_FR.UTF-8 locales=fr_FR.UTF-8 keyboard-layouts=fr timezone=Europe/Paris utc=yes quiet splash\\ initrd (loop)/live/initrd.lz//
+
+==== Fedora ====
+Par rapport au menu standard, on définira une variable de plus : $isolabel. Pour la trouver, il faut ouvrir l'iso avec le gestionnaire d'archive (clic droit). Dans le dossier 'isolinux', il faut ouvrir 'isolinux.cfg' puis rechercher CDLABEL.
+
+  * **[[wpfr>Fedora (GNU/Linux)|Fedora]]** live Workstation - [[https://getfedora.org/fr/workstation/download/|Téléchargement]]\\ //set isolabel="Fedora-WS-Live-24-1-2"\\ linux (loop)/isolinux/vmlinuz0 root=live:CDLABEL=$isolabel iso-scan/filename=$isofile rootfstype=auto rd.live.image rhgb keytable=fr lang=fr_FR.utf8 locale.lang=fr_FR vconsole.keymap=fr\\ initrd (loop)/isolinux/initrd0.img//
+
+==== Gentoo ====
+  * **[[wpfr>Gentoo Linux|Gentoo]]** Live DVD (les codes pour le lancer directement en français ne fonctionnent plus depuis la version 2016) - [[https://www.gentoo.org/downloads/|Téléchargement]]\\ //linux (loop)/isolinux/gentoo isoboot=$isofile root=/dev/ram0 init=/linuxrc aufs looptype=squashfs loop=/image.squashfs cdroot vconsole.keymap=fr locale=fr_FR console=tty1 nomodeset --\\ initrd (loop)/isolinux/gentoo.xz//
+
+**Dérivées**
+  * **[[wpfr>Sabayon Linux|Sabayon]]** (lui peut être lancé en français sans problème) - [[ftp://ftp.belnet.be/mirror/sabayonlinux/iso/monthly/|Téléchargement]]\\ //linux (loop)/boot/sabayon root=/dev/ram0 init=/linuxrc lang=fr_FR isoboot=${isofile} cdroot looptype=squashfs loop=/livecd.squashfs overlayfs\\ initrd (loop)/boot/sabayon.igz//
+
+==== openSUSE ====
+
+  * **[[wpfr>openSUSE]]** version install [[http://software.opensuse.org/421/fr|Téléchargement]]\\ //linux (loop)/boot/x86_64/loader/linux install=hd:$isofile\\ initrd (loop)/boot/x86_64/loader/initrd//
+
+==== Slackware ====
+Un petit tour chez la grand-mère des distros. Pas réussi à lancer la version live depuis Grub.
+
+  * **[[wpfr>Slackware]]** version install. [[http://bear.alienbase.nl/mirrors/slackware/slackware-iso/|Téléchargement]]\\ //linux (loop)/kernels/huge.s/bzImage load_ramdisk=1 prompt_ramdisk=0 rw printk.time=0 SLACK_KERNEL=huge.s locale=fr_FR.utf8 kbd=fr tz=Europe/Paris\\ initrd (loop)/isolinux/initrd.img//
+
+===== Distributions spécialisées =====
+Ce sont des distributions dédiées à une certaine utilisation. N'oubliez pas les paramètres généraux et les lignes en italiques sont celles qui sont différentes du menu de base.
+
+==== Jeux ====
+
+  * **[[wpfr>Fedora (GNU/Linux)#Labs|Fedora]] Games** ([[#Fedora|voir plus haut]]) [[https://labs.fedoraproject.org/fr/games/|Téléchargement]] - [[https://labs.fedoraproject.org/|Autres suites logicielles]]\\ //set isolabel="Fedora-Game-Live-24-1-2"\\ linux (loop)/isolinux/vmlinuz root=live:CDLABEL=$isolabel iso-scan/filename=$isofile rootfstype=auto rd.live.image rhgb KEYTABLE=fr LANG=fr_FR.utf8 locale.lang=fr_FR vconsole.keymap=fr\\ initrd (loop)/isolinux/initrd.img//
+
+==== Logiciels éducatifs ====
+  * **[[:edubuntu]]** pas d'iso depuis 2014.
+
+  * **[[https://fr.vikidia.org/wiki/PrimTux|PrimTux]]** : [[http://primtux.fr/telecharger-primtux/|Page de téléchargement]]\\ //linux (loop)/live/vmlinuz2 boot=live findiso=${isofile} components live-config hostname=localhost lang=fr_FR.UTF-8 locales=fr_FR.UTF-8 keyboard-layouts=fr timezone=Europe/Paris utc=yes quiet splash\\ initrd (loop)/live/initrd2.img//
+
+  * **[[wpfr>Uberstudent]]** (beaucoup de logiciels qui ne sont pas sur d'autres distros) : [[https://sourceforge.net/projects/uberstudent/|Téléchargement]]\\ //linux (loop)/casper/vmlinuz locale=fr_FR bootkbd=fr console-setup/layoutcode=fr iso-scan/filename=$isofile boot=casper file=/cdrom/preseed/uberstudent.seed noprompt quiet splash --\\ initrd (loop)/casper/initrd.lz//
+
+==== Logiciels pour la MAO (Musique Assistée par Ordinateur) ====
+  * **[[:ubuntu_studio|Ubuntu Studio]]** est déjà cité [[#Ubuntu et ses variantes|plus haut]].
+
+  * **[[:mao#distributions_orientees_mao|Musix]]** développée par des argentins : [[http://musix.najval.net/musix/isos/|Site de téléchargement]]\\ //linux (loop)/live/vmlinuz boot=live findiso=${isofile} live-config lang=fr_FR.UTF-8 locales=fr_FR.UTF-8 keyboard-layouts=fr timezone=Europe/Paris utc=yes quiet splash\\ initrd (loop)/live/initrd.img//
+  
+===== Expérimenter d'autres environnements =====
+==== Enlightenment ====
+  * **[[:Enlightenment|Elive]]** a quelques racourcis intéressants (Alt + clic glissé : clic gauche déplace la fenêtre, clic droit la redimensionne par exemple) : [[http://www.elivecd.org/download/beta/|téléchargement de la version beta]]\\ //linux (loop)/live/vmlinuz1 username=eliveuser boot=live findiso=${isofile} live-config lang=fr_FR.UTF-8 locales=fr_FR.UTF-8 keyboard-layouts=fr timezone=Europe/Paris utc=yes loglevel=0 quiet splash\\ initrd (loop)/live/initrd1.img//
+
+==== LxQt ====
+  * **[[wpfr>Manjaro]] [[:Lxqt]]** : [[https://sourceforge.net/projects/manjarolinux/files/community/LXQT/|LXQT]] [[https://sourceforge.net/projects/manjarolinux/files/community/|Autres environnements]]\\ **pensez à modifier 'img_dev'** selon la partition où est votre iso **et 'misolabel'** qui reprend l'année et le mois indiqué dans le nom de l'iso<file>  linux (loop)/manjaro/boot/x86_64/manjaro img_dev=/dev/sda2 img_loop=$isofile misobasedir=manjaro misolabel=MJRO1605 nouveau.modeset=1 i915.modeset=1 radeon.modeset=1 logo.nologo locale.LANG=fr_FR.utf8 vconsole.keymap=fr-latin1 timezone=Europe/Paris overlay=free --
+  initrd (loop)/manjaro/boot/x86_64/manjaro.img</file>
+
+  * **[[wpfr>Extix]]** (basé sur Ubuntu) : [[https://sourceforge.net/projects/extix/files/|Téléchargement]]\\ **login:root, password:root** - très rapide (pour le lancement de LibreOffice, Chrome ou Gimp par exemple)\\ //linux (loop)/casper/vmlinuz.efi locale=fr_FR bootkbd=fr console-setup/layoutcode=fr iso-scan/filename=$isofile boot=casper file=/cdrom/preseed/cli.seed noprompt quiet splash --\\ initrd (loop)/casper/initrd.lz//
+
+==== Pantheon d'Elementary OS ====
+**[[wpfr>Elementary_OS|Article Wikipédia]]**
+
+  * Étant basé sur Ubuntu, son lancement est identique. [[http://www.elementaryos-fr.org/telecharger-elementary-os/|Téléchargement]]\\ //linux (loop)/casper/vmlinuz locale=fr_FR bootkbd=fr console-setup/layoutcode=fr iso-scan/filename=$isofile boot=casper file=/cdrom/preseed/elementary.seed noprompt quiet splash --\\ initrd (loop)/casper/initrd.lz//
+
+===== Distributions légères =====
+==== antiX ====
+[[http://antix.mepis.org/index.php?title=French|Antix]] est une distribution pouvant tourner sur de vieux systèmes. Elle utilise notamment des environnements de bureau légers tels que [[:IceWm]] et [[:Fluxbox]].\\  [[http://antix.mepis.org/index.php?title=Main_Page#Downloads|Page de téléchargement]]
+
+  * //linux (loop)/antiX/vmlinuz fromiso=${isofile} bootdev=sda2 lang=fr tz=Europe/Paris xres=1920x1080 toram hwclock=utc quiet splash\\ initrd (loop)/antiX/initrd.gz//
+
+Remarque : **'bootdev'** correspond à la même partition que 'set root=(hd0,2)' dans les paramètres généraux. **Il faut l'adapter ainsi que 'xres'** à votre configuration.
+
+==== Slitaz====
+Un linux qui tient sur une "iso" de 50 Mo. **Seules les versions "core" peuvent être lancées** depuis Grub :\\ [[http://mirror.switch.ch/ftp/mirror/slitaz/iso/stable/flavors/|version 4 (stable)]], [[http://mirror.switch.ch/ftp/mirror/slitaz/iso/rolling/|version rolling 32 et 64-bit]]
+
+  * **32 bits** : Slitaz-4.0 Core et Slitaz-rolling Core\\ //linux (loop)/boot/bzImage iso-scan/filename=${isofile} lang=fr_FR kmap=fr-latin1 root=/dev/null vga=normal autologin\\ initrd (loop)/boot/rootfs.gz//
+
+  * **64 bits** : Slitaz-rolling Core64\\ //linux (loop)/boot/bzImage64 iso-scan/filename=${isofile} lang=fr_FR kmap=fr-latin1 root=/dev/null vga=normal autologin\\ initrd (loop)/boot/rootfs.gz//
+
+===== Qu'en est-il des isos BSD =====
+FIXME:pas réussi à amorcer complètement une BSD depuis un fichier iso. Debian est l'essai le plus encourageant.
+Parmi les tests effectués : 
+  * https://forums.freebsd.org/threads/46480/
+  * ce qui m'a servi pour Debian Kfreebsd : https://forums.freebsd.org/threads/19701/#post-153279
+
+==== Debian kfreeBSD ====
+Site de téléchargement de l'[[http://cdimage.debian.org/mirror/cdimage/archive/7.11.0/kfreebsd-amd64/iso-cd/|iso-cd]] ou l'[[http://cdimage.debian.org/mirror/cdimage/archive/7.11.0/kfreebsd-amd64/iso-dvd/|iso-dvd]]
+
+  * Pas trouvé comment faire en sorte qu'il ne cherche pas l'iso dans un lecteur de cd. <file txt /isos/00_isoboot.cfg_(debian kfreebsd)>menuentry "kFreeBSD netinst" {
+	insmod ufs2
+	set isofile=/isos_autres/debian-7.11.0-kfreebsd-amd64-netinst.iso
+	loopback loop $isofile
+	set root=(loop)
+	kfreebsd (loop)/boot/kernel/kfreebsd-9.gz
+	kfreebsd_module (loop)/boot/mfsroot.gz type=mfs_root
+	set kFreeBSD.vfs.root.mountfrom=ufs:/dev/md0
+}</file>
+
+===== GRUB 2 sur une clef USB =====
+Pour lancer ces isos on peut créer une clé USB ayant un grub d'intégré en suivant **[[:grub-pc#Créer une clé USB de secours|cette procédure]]**. Ensuite on intégrera les menus directement au fichier /boot/grub/grub.cfg de celle-ci.
+
+
+----
+//Contributeurs principaux : [[:utilisateurs:Frombenny]] ...//

@@ -1,0 +1,144 @@
+{{tag>variante VÉTUSTE}}
+
+----
+
+======= Ubuntu Boîte-à-outils Remix ======
+
+La **"Boîte-à-outils"** est une variante non-officielle d'Ubuntu créée à partir d'une ISO minimale d'Ubuntu 10.04 LTS. 
+Elle est destinée aux professionnels et particuliers ayant besoin d'effectuer des tests hardware, sauvegardes et "simuler" des attaques réseau. Destinée pour un usage LiveUSB et PC d'atelier servant à effectuer des testes. 
+Le compte [[root|root]] est activé par défaut afin de ne pas perdre de temps durant l'utilisation. Il ne vous est donc jamais nécessaire d'employer [[sudo|sudo ou gksudo]]. 
+
+<note important>Cette variante n'est pas supportée officiellement par Canonical.</note>
+
+{{:capture-boite-a-outils.png?direct&300|}}
+=====Pré--requis=====
+  * Disposer d'une connexion Internet
+  * Posséder une clé USB d'au moins 1 Go
+  * Avoir téléchargé l'ISO de La Boîte à outils : [[https://sourceforge.net/projects/laboteoutils/files/|Sourceforge]]
+  * Disposer d'un utilitaire de création de live USB tel que : LiLi USB Creator (pour Windows),  USB Creator (le créateur de disques de démarrage pré-installé dans Ubuntu), Multisystem (Live-USB Multiboot), Unetbootin (GNU/Linux et Windows)...
+=====Préparer un Live=====
+====USB ou DVD===
+Préférez le créateur de disque proposé par Ubuntu. Un [[wpfr>Formatage#Formatage_de_bas_niveau|formatage de bas niveau]] sur Windows est indispensable pour créer un Live USB suite à un formatage avec Gparted. Veillez donc à uniquement effacer les fichiers sur Linux et ne surtout pas formater au risque que la clé ne boot plus jusqu'au prochain formatage de bas niveau.
+
+[[multisystem]] permet de créer un Live-USB Multiboot (Selon la capacité de la clé vous pouvez installer autant d'images iso que vous voulez ( plusieurs distributions, Ubuntu-secured-remix, Live-Gparted, Live-CloneZilla etc... et bien sûr l'iso de boite à outils), ceci par un simple "glisser-déposer" dans une fenêtre (voir doc ubuntu).
+
+[[unetbootin|Unetbootin]] Windows et Linux, permet de créer une Live USB . Choisissez l'ISO de la boîte à outils (DisqueImage) puis entrez le chemin de la clé USB. Lien Unetbootin : http://unetbootin.sourceforge.net/
+
+**Si le Memtest ne fonctionne pas**, créez votre LiveUSB avec Linux LiveUSB Creator uniquement disponible sur Windows©. LinuxLive USB Creator permet de lancer la Boîte à outils non seulement lors du boot, mais également dans une VirtualBox, directement depuis la clé. Cette méthode est celle configurée par défaut. Pour que la clé soit crée plus rapidement vous pouvez décocher cette option. 
+
+Pour créer un DVD-ROM, sur Windows, installez ISO recorder, faite clique droite sur l'ISO puis choisissez de copier sur un CD. 
+Windows 7 comporte déjà un outil pour graver les ISO. Lien Isorecorder : http://isorecorder.alexfeinman.com/isorecorder.htm
+
+Pour booter il faut accéder au menu boot de votre bios. Généralement les touches : Esc, Delete, F2 ou F12. Avec les flèches sélectionnez votre clé USB. Si l'USB n'apparait pas dans le choix de boot il faut configurer votre bios et activer l'USB au démarrage. Vous pouvez également choisir l'ordre de boot et mettre l'USB en premier.
+====HDD externe====
+Certain logiciels de sauvegarde mentionnés au point **3.2** nécessitent de l'espace disque ; comme Synkron ou Partimage. Suivant l'emploi que vous en avez il serait préférable d'installer **La Boîte à outils** sur un HDD externe. Ceux qui en auront un usage professionnel et réalisent quotidiennement des ghost sur ISO pourrait avoir un gros avantage à faire cela. Attention toute fois à choisir d'installer le secteurs d'amorçage (**Le Grub**) sur de HDD externe.  Soyez attentif, le choix est proposé dans la dernière étape de la configuration de l'installation. Si vous ne configurez pas cela, il vous faudra connecter le HDD externe pour booter votre PC. Ce qui serait ennuyeux mais corrigible.
+=====Utilisation=====
+Bootez vos machines sur la clé USB et utilisez vos ordinateurs de la même manière que si Ubuntu était installé. Accédez à vos utilitaires grâce au menu Ubuntu.
+====Connexion====
+La Boîte à outils demande votre identifiant qui est :
+>Identifiant : **root**
+>Password : **toor**
+
+====Les utilitaires qu'elle contient ====
+===Volumes===
+
+>[[testdisk|testdisk]] : testez et restaurez vos partitions perdues (Nombreux support, Xbox, Mac, PC... )
+>[[photorec|photorec]] : testez vos volumes et récupérez vos photos, videos, documents, et archives (Nombreux support, Xbox, Mac, PC... )
+>[[:gnome-disk-utility|palimpsest]] : testez vos volumes...
+>[[gparted|gparted]] : Gparted compatible avec les secteurs de > 512 octets...
+>[[gparted|parted]] : alignez vos partitions, formatez, partitionnez...
+>iozone : divers façon de tester les volumes
+>discus : information sur l'espace occupé "disk space usage program"
+>[[disk-manager|disk-manager]] : Configurez les préférences de vos partitions...
+>seatools®: Testez vos HDD facilement. Cet outil est très employé  par les techniciens. **4.1**
+
+===Sauvegardes et backup===
+
+>[[synkron|synkron]] : synchronisez vos documents - **//# peut nécessiter un espace libre important//**
+>[[partimage|partimage]] : réalisez des ghosts au format ISO et transférez les sur un réseau - **//# peut nécessiter un espace libre important//**
+>[[dd|dd]] : la meilleur solution pour réaliser un ghost (Utilisation du terminal / Pas d'indicateur de durée)
+>[[dd|dcfldd]] : commande dd "améliorée" selon l'auteur avec état d'avancement du clone **4.2**
+
+=== Cpu's===
+
+>stress : stress cpu
+>stressapptest : stress cpu
+
+===Test réseau et Web===
+
+>w3af : Attack and Audit Mode d'emploi en français : http://www.lulu-search.com/boite-a-outils/files/w3af-users-guide.pdf
+>metasploit© : Penetration Testing Resources
+>zenmap : nmap en mode graphique
+>nikto : Testez la sécurité de votre serveur
+>LOIC : Attaquer par déni de service le site ciblé en inondant le serveur avec des paquets TCP, des paquets UDP, dont des requêtes HTTP avec l'intention de perturber le service d'un hôte particulier.
+
+===Benchmark===
+
+>sysinfo : information Hardware et version.
+>[[:hardinfo]] : sortez une feuille html avec toutes vos informations hardware.
+>gtkperf : petit utilitaire pour réaliser des tests de performances.
+>lynis : benchmarck en mode console
+>sysbench : benchmarck
+>iozone : divers façon de tester les volumes
+===Déverrouillez===
+>chntpw : déverrouillez les mots de passes Windows.
+>greenpoison RC4 : dévérouillez iPhone, iPad et iPod
+>ophcrack : Crackez les mots de passe WindowsTM
+===Autre===
+>PureAdmin, [[ClamAV|clamav]], htop, [[gigolo|gigolo]], memtest86+ V4.00
+
+====Méthode de personnalisation====
+===Astuce===
+  - Installez VirtualBox
+  - Lancez le Live dans **[[apt>virtualbox]]** et installez **La Boîte à outils**. Menu : Système > Administration > ubiquity
+  - Lancez la machine invitée. Les identifiants seront **root** et** toor** malgré que vous les ayez changé à l'installation.  
+  - Apportez vos changements
+  - Ouvrez le [[terminal|terminal]] de la machine invitée (//Machine virtuelle//) et lancez la commande :<code>remastersys backup</code>
+  - L'ISO personnalisée se trouve dans /home/remastersys/remastersys
+  - Pour récupérer l'ISO sur votre machine hôte, il faut avoir lancé VirtualBox avec la commande <code>gksudo VirtualBox</code> Ainsi vous pourrez faire reconnaître votre clé depuis le menu "Périphériques" de VirtualBox.
+**
+Remarque** : Vous pouvez également apporter des changements en installant **La Boîte à outils** sur une partition qui lui est réservée. 
+===Les fichiers===
+  * Le background : /usr/share/backgrounds/warty-final-ubuntu.png #format 1680X1050
+  * Le background de gdm : facilité de changement directement depuis Ubuntu-tweak
+  * Le background Remastersys : /etc/remastersys/isolinux/splash.png #format 640X480
+  * Les icônes proviennent pour la plupart de  [[http://www.iconfinder.com/|iconfinder]] et ce situe dans : /usr/share/icones
+  * Les documentations : /opt/boite-a-outils
+  * Les scripts stress : /usr/bin test0 test2 test3 test4 test5
+  * Les compilations de Metasploit®, Gparted et Synkron : /opt
+
+
+
+
+
+
+
+====Langages supportés====
+La boîte à outils supporte tout les langages mais le français est installé par défaut. Pour éviter que l'utilisateur francophone perde du temps les dispositions clavier suivantes sont à choix :
+  * fr_FR = Français 
+  * fr_CH = Français Suisse
+  * fr_BE = Français Belgique
+  * fr_CA = Français Canada
+
+
+=====Astuces rapides=====
+====Information sur Seatools©====
+Recueillez les informations sur vos disques. Lancez **st -I**
+Vous remarquerez que les chemins sont propres à Seatools®
+  Exemple :
+   /dev/sda = /dev/sg0
+   /dev/sdb = /dev/sg1
+   /dev/sdc = /dev/sg2            
+               
+   Pour lancer une analyse complète faite st -G suivit du chemin correspondant au volume. 
+   Exemple : st -G /dev/sg4
+
+   Pour avoir des informations complètes sur les fonctions de Seatools® lancez simplement **st**
+====Copie bit à bit avec dcfldd====
+<code>dcfldd if=/dev/sd(x) of=/dev/sd(x) conv=notrunc,noerror status=on </code>
+=====Voir aussi=====
+  * Sourceforge version 1.3.2 : [[https://sourceforge.net/projects/laboteoutils/files/la boite a outils 1.3.2/]]
+  * Sourceforge version 1.2 : [[https://sourceforge.net/projects/laboteoutils/files/la boite a outils 1.2/]]
+  * Sourceforge version 1.0 : https://sourceforge.net/projects/laboteoutils/files/
+----
+//Contributeurs de la doc et auteur de La Boîte à outils : [[utilisateurs:MaryPopy]]//

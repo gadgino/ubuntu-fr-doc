@@ -1,0 +1,220 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#lecture_et_encodage_de_fichiers_audio" class="toc"> Lecture et encodage de fichiers audio </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#la_lecture_de_fichier_audio" class="toc"> La lecture de fichier audio </a></span></li>
+<li class="level2"><span class="li"><a href="#l_encodage_de_fichier_audio" class="toc"> L'encodage de fichier audio </a></span></li>
+<li class="level2"><span class="li"><a href="#le_cas_du_mp3" class="toc"> Le cas du MP3 </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#lecture_de_fichiers_mp3" class="toc"> Lecture de fichiers MP3 </a></span></li>
+<li class="level3"><span class="li"><a href="#encodage_de_fichiers_mp3" class="toc"> Encodage de fichiers MP3 </a></span></li>
+<li class="level3"><span class="li"><a href="#conversion_de_mp3_en_ogg" class="toc"> Conversion de MP3 en OGG </a></span></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Versions Warty et Hoary
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/ostaquet" class="wikilink1" title="utilisateurs:ostaquet" onclick="return svchk()" onkeypress="return svchk()">ostaquet</a>.
+</p>
+
+<a name="lecture_et_encodage_de_fichiers_audio"></a><h1> Lecture et encodage de fichiers audio </h1>
+<div class="level1">
+
+<p>
+ Cet article a pour but d&rsquo;examiner comment lire des fichiers audio avec les outils disponibles dans Ubuntu et comment encoder un fichier audio à partir d&rsquo;un CD.
+</p>
+
+<p>
+<strong>Remarque :</strong> Nous vous rappelons que dans la plupart des pays l&rsquo;encodage de CD audio destinés à être partagés est puni par la loi.
+</p>
+
+</div>
+<!-- SECTION [82-434] -->
+<a name="la_lecture_de_fichier_audio"></a><h2> La lecture de fichier audio </h2>
+<div class="level2">
+
+<p>
+ Le lecteur multimédia par défaut est <strong>Totem</strong> (menu Applications &rArr; Son et vidéo &rArr; Lecteur vidéo Totem). Totem permet de lire des fichiers audio et vidéo. Si vous double-cliquez sur un fichier audio, c&rsquo;est Totem qui s&rsquo;ouvrira par défaut.
+</p>
+
+<p>
+Il existe d&rsquo;autre outils de lecture des fichiers audio. 
+</p>
+
+<p>
+Il existe notamment <strong>Rythmbox</strong> (menu Applications &rArr; Son et vidéo &rArr; Lecteur de musique) qui est également installé par défaut. Rythmbox ressemble très fort au gestionnaire de bibliothèque audio utilisé dans le Windows Media Player. 
+</p>
+
+<p>
+Si vous préférez un lecteur à la Winamp, vous pouvez utiliser <strong>XMMS</strong>. XMMS est un lecteur audio extrêmement performant.  Il dispose de nombreux plugiciels (ou <em>plugins</em>) pour étendre ses capacités.  Il supporte aussi les thèmes (ou <em>skins</em>)  classiques pour Winamp 2.x.  (N&rsquo;essayez pas, les thèmes modernes pour Winamp3 ou 5.x ne sont pas gérés.  Les plugiciels pour Winamp ne sont pas non plus supportés.)  Même s&rsquo;il n&rsquo;évolue plus, ce lecteur audio reste tout de même une référence dans le monde linuxien.  XMMS n&rsquo;est pas installé par défaut sous Ubuntu. Pour l&rsquo;installer, utilisez le gestionnaire de paquet <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a> pour l&rsquo;installer. Le paquet à installé est <code>xmms</code> et il est disponible dans le dépot d&rsquo;Ubuntu.
+</p>
+
+<p>
+Un <a href="http://en.wikipedia.org/wiki/Fork_%28software_developpement%29" class="interwiki" title="http://en.wikipedia.org/wiki/Fork_%28software_developpement%29" style="background-image: url(/interwiki/wp.gif)" onclick="return svchk()" onkeypress="return svchk()">fork</a> de XMMS existe aussi pour Ubuntu.  Appelé <strong>Beep Media Player</strong>, ou BMP, il a l&rsquo;avantage d&rsquo;utiliser la librairie GTK2+, ce qui rend ce lecteur beaucoup plus joli dans un environnement Gnome ou XFce.  BMP supporte lui aussi les thèmes classiques pour Winamp et pour XMMS, de même qu&rsquo;il supporte plusieurs plugiciels compatibles avec XMMS.  BMP peut être installé par <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a> ; le paquet correspondant est <code>beep-media-player</code>.  (Vous voudrez peut-être aussi installer de façon optionnelle le paquet <code>bmp-skins</code>, qui ajoute de nombreux thèmes pour BMP.)
+</p>
+
+</div>
+<!-- SECTION [435-2385] -->
+<a name="l_encodage_de_fichier_audio"></a><h2> L'encodage de fichier audio </h2>
+<div class="level2">
+
+<p>
+ L&rsquo;encodage d&rsquo;un fichier audio consiste à transformer une plage d&rsquo;un CD audio en un fichier lisible sur un ordinateur ou un lecteur portable.
+</p>
+
+<p>
+Pour encoder un fichier audio, vous pouvez utiliser l&rsquo;application Sound Juicer (menu Applications &rArr; Son et vidéo &rArr; Extracteur de CDs audio Sound Juicer). Si vous possédez une connexion Internet, Sound Juicer va également récupérer le nom de l&rsquo;artiste et des plages via une base de données CDDB.
+</p>
+
+<p>
+Pour modifier les paramètres d&rsquo;encodage de Sound Juicer, vous pouvez aller dans le menu Edition &rArr; Préférences de l&rsquo;application.
+</p>
+
+</div>
+<!-- SECTION [2386-3007] -->
+<a name="le_cas_du_mp3"></a><h2> Le cas du MP3 </h2>
+<div class="level2">
+
+<p>
+ Vous avez sans doute remarqué que la lecture des fichiers <acronym title="Motion Picture Experts Group Layer 3">MP3</acronym> n&rsquo;est pas supportée par défaut dans Ubuntu. C&rsquo;est dû à un problème de droits d&rsquo;utilisation du codec.  En effet, le format audio <acronym title="Motion Picture Experts Group Layer 3">MP3</acronym> est un format propriétaire, et il est illégal de le distribuer directement dans le CD d&rsquo;installation de Ubuntu sans payer une licence, un droit d&rsquo;exploitation coûteux.
+</p>
+
+<p>
+Si vous n&rsquo;avez pas réellement besoin du format <acronym title="Motion Picture Experts Group Layer 3">MP3</acronym> et que vous désirez utiliser un format OggVorbis).
+</p>
+
+<p>
+Néanmoins, si vous désirez pouvoir lire le format <acronym title="Motion Picture Experts Group Layer 3">MP3</acronym> dans Ubuntu (car vous possédez déjà des titres au format <acronym title="Motion Picture Experts Group Layer 3">MP3</acronym> ou que vous planifiez éventuellement transférer vos titres vers un baladeur), suivrez les instructions suivantes pour contourner le problème.
+</p>
+
+</div>
+<!-- SECTION [3008-3777] -->
+<a name="lecture_de_fichiers_mp3"></a><h3> Lecture de fichiers MP3 </h3>
+<div class="level3">
+
+<p>
+ Pour lire les fichiers <acronym title="Motion Picture Experts Group Layer 3">MP3</acronym>, vous pouvez utiliser XMMS (voir plus haut) qui les supporte en standard ou alors installer les paquets nécessaires pour le décodage et la lecture avec les autres applications (Totem, Rythmbox,... en fait, toutes les applications utilisant gstreamer).
+</p>
+
+<p>
+Pour ce faire, allez dans le gestionnaire de paquet <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a> et installez le paquet 
+</p>
+<pre class="code">gstreamer0.8-mad</pre>
+
+<p>
+ qui se trouve dans le dépot <em>universe</em> (voir les <a href="/installation/depots" class="wikilink1" title="installation:depots" onclick="return svchk()" onkeypress="return svchk()">depots</a>).
+</p>
+
+<p>
+Une fois ce paquet installés, vous pouvez utiliser Totem et Rythmbox pour lire vos fichiers <acronym title="Motion Picture Experts Group Layer 3">MP3</acronym>.
+</p>
+
+</div>
+<!-- SECTION [3778-4390] -->
+<a name="encodage_de_fichiers_mp3"></a><h3> Encodage de fichiers MP3 </h3>
+<div class="level3">
+
+<p>
+ Pour encoder des fichiers <acronym title="Motion Picture Experts Group Layer 3">MP3</acronym>, vous pouvez utiliser Sound Juicer (comme pour les OGG). Cependant, vous devez installer les paquets permettant l&rsquo;encodage dans ce format. Voici la procédure : 
+</p>
+<ul>
+<li class="level1"><span class="li"> Tout d&rsquo;abord, installez le paquet suivant à l&rsquo;aide de <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a>. Ce paquet se trouve dans le dépot <em>Marillat</em> ou dans <em>hoary-extras</em> de <em>ubuntu-backports</em> (voir les <a href="/installation/depots" class="wikilink1" title="installation:depots" onclick="return svchk()" onkeypress="return svchk()">dépôts</a>) :</span>
+</li>
+</ul>
+<pre class="code">
+gstreamer0.8-lame
+</pre>
+<ul>
+<li class="level1"><span class="li"> Une fois le paquet installé, vous devez configurer l&rsquo;encodeur pour le faire connaître par Gnome. Pour ce faire lancer la commande suivante (via menu Applications &rArr; Lancer une application...) :</span>
+</li>
+</ul>
+<pre class="code">
+gnome-audio-profiles-properties
+</pre>
+<ul>
+<li class="level1"><span class="li"> Créez un nouveau profil en cliquant sur <em>Nouveau</em> et nommez le <em><acronym title="Motion Picture Experts Group Layer 3">MP3</acronym></em> ou quelque chose du genre.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Editez maintenant le profil que vous venez de créer à l&rsquo;aide du bouton <em>Editer</em>.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Indiquez pour l&rsquo;option <em>Pipeline GStreamer</em> la commande suivante :</span>
+</li>
+</ul>
+<pre class="code">
+audio/x-raw-int,rate=44100,channels=2 ! lame name=enc
+</pre>
+<ul>
+<li class="level1"><span class="li"> Pour l&rsquo;option <em>Extension du fichier</em> indiquez <code>mp3</code>.</span>
+</li>
+<li class="level1"><span class="li"> Et pour finir, cochez la case <em>Actif ?</em>.</span>
+</li>
+<li class="level1"><span class="li"> Validez vos changements en cliquant sur <em>Valider</em> et vous pouvez fermez le Gnome Audio Profiles.</span>
+</li>
+<li class="level1"><span class="li"> Pour intégrer le nouvel encodeur aux applications, lancez la commande suivante (via menu Applications &rArr; Lancer une application...) :</span>
+</li>
+</ul>
+<pre class="code">
+gst-register-0.8
+</pre>
+
+<p>
+Vous pouvez maintenant encoder des fichiers <acronym title="Motion Picture Experts Group Layer 3">MP3</acronym> avec les applications utilisant GStreamer et notamment le Sound Juicer.
+</p>
+
+</div>
+<!-- SECTION [4391-5958] -->
+<a name="conversion_de_mp3_en_ogg"></a><h3> Conversion de MP3 en OGG </h3>
+<div class="level3">
+
+<p>
+rédigé par <a href="/utilisateurs/olivir" class="wikilink1" title="utilisateurs:olivir" onclick="return svchk()" onkeypress="return svchk()">olivir</a>
+</p>
+
+<p>
+Même s&rsquo;il y a priori des risques théoriques de perdre en qualité par rapport à un fichier source au format .wav, la conversion des <acronym title="Motion Picture Experts Group Layer 3">MP3</acronym> en OGG peut être très intéressante !
+</p>
+
+<p>
+Tout d&rsquo;abord, procurons-nous le petit utilitaire de Nathan Walp : mp32ogg. Soit par l&rsquo;intermédiaire de Synaptic, soit en passant par un Terminal :
+</p>
+<pre class="code">
+sudo apt-get install mp32ogg
+</pre>
+
+<p>
+Voilà c&rsquo;est fini, pour convertir des <acronym title="Motion Picture Experts Group Layer 3">MP3</acronym> en OGG, rendez-vous dans un terminal et tapez quelque chose comme ceci :
+</p>
+<pre class="code">
+mp32ogg [options] dir1 dir2 file1 file2 ...
+</pre>
+
+<p>
+Toutes les explication sont disponibles dans l&rsquo;aide :
+</p>
+<pre class="code">
+mp32ogg --help
+</pre>
+
+<p>
+Imaginons que vous vouliez convertir tous vos fichiers <acronym title="Motion Picture Experts Group Layer 3">MP3</acronym> du dossier /home :
+</p>
+<pre class="code">
+mp32ogg --quality=10 --delete --rename=morceau %t par %a /home
+</pre>
+
+<p>
+Cette ligne de commande lancera une conversion avec la plus haute qualité possible (<em>quality=10</em>), effacera les <acronym title="Motion Picture Experts Group Layer 3">MP3</acronym> sources après la conversion (<em>delete</em>) et renommera les fichiers OGG en incluant nom de l&rsquo;artiste et titre du morceau). 
+</p>
+
+</div>
+<!-- SECTION [5959-] -->

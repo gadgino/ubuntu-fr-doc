@@ -1,0 +1,427 @@
+{{tag>matériel wifi}}
+
+----
+
+====== Liste des cartes Wi-Fi ======
+
+Cette page est la synthèse de l'usage des cartes clients Wi-Fi sur les systèmes Ubuntu francophone. Vous trouverez des informations complémentaires [[http://linuxwireless.org/en/users/Devices/USB/|ici]] pour les périphériques USB, [[http://linuxwireless.org/en/users/Devices/PCI/|ici]] pour les PCI et [[http://linuxwireless.org/en/users/Devices/PCMCIA/|ici]] pour les PCMCIA.
+
+N'hésitez pas à imiter la démarche pour centraliser les questions et réponses portant sur un périphérique. Vous avez ce matériel, "abonnez-vous au post" portant dessus. Le support de votre matériel n'existe pas encore : "créez un post" sur le forum à l'image du mien [[http://forum.ubuntu-fr.org/viewtopic.php?pid=180791#p180791|Support sur le forum]].
+
+===== Identifier sa carte Wi-Fi=====
+Pour identifier sa carte Wi-Fi reportez-vous à au [[:wifi#Identifier sa carte Wi-Fi|paragraphe]] correspondant de la page principale Wi-Fi.
+=====Signification des icônes=====
+^ Icône ^ Signification ^
+| {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | Fonctionne immédiatement. |
+| {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} | Nécessite l'[[:tutoriel:comment_installer_un_paquet|Installation du paquet]] **[[apt>linux-firmware-nonfree]]** en passant par [[:gestionnaire_de_pilotes_proprietaires|le gestionnaire de pilote propriétaires]]. |
+| {{wiki:modeles:laptop_work.png|Fonctionne après config}} | **Fonctionne avec [[:Ndiswrapper]].** |
+| {{:icons:process-stop.png?nolink|Ne fonctionne pas}} | Le modèle ne semble pas être supporté par Ubuntu. |
+
+
+===== A =====
+^ Produit ^ Modèle ^ Chipset ^ Type ^ Prise en charge ^ Id Vendor/Product ^ Commentaire/Version ^
+^ Advance | [[http://www.suza.fr/english/produits/network/WL-54PCI/WL-54PCI.html|WL-54PCI]] | PCI | Marvell | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | [[:utilisateurs:pip99]] 7.10 |
+^ Advance | [[http://www.suza.fr/english/produits/network/WL-54USB/WL-54USB.html|WL-54USB]] | USB | Marvell | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | 1286:1fab 1286:2001 05a3:8388 | [[:utilisateurs/marc31]]  7.10 |
+^ Advance | WL-USB11N2 | USB | | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | Pas pu installer driver Linux fourni sur 12.10 64bits, fonctionnement erratique avec driver libre [[:utilisateurs/benoit747]] 12.10 |
+^ ALFA | AWUS036s | USB | | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | 148f:2573 | 12.04 |
+^ Atlantisland | A02-UP-W54 | USB |Sis163u | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | Ne fonctionne pas encore 7.04 | 
+^ Atlantisland | A02-UP-W54 | USB | Sis163u | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | Ne fonctionne pas encore 7.10 version 64bits | 
+^ Atlantisland | A02-PCI-W54 | PCI | Mrv8000c | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | Pilote Windows fournit sur le CD ou [[http://www.01net.com/telecharger/drivers/adaptateurs-wi-fi/atlantis-land/fiches/i-fly-pci-adapter-a02-wp-54g-8165.html|ici]]) 7.10 |
+^  Atmel  | AT76C503/505A | USB | atmel | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 12.04 |
+
+ 
+====Atheros====
+Les cartes WIFI Atheros fonctionnent plus ou moins facilement sous GNU/Linux Ubuntu au gré des versions. Un pilote unique est utilisé pour tous les modèles, le module **ath5k** ou **ath9k**. Parfois, ce pilote ne fonctionne que partiellement et des réglages/optimisations sont nécessaires selon les modèles de cartes.
+
+^ Modèle ^ Chipset ^ Type ^ Prise en charge ^ Id Vendor/Product ^ Commentaire/Version ^
+|  AR242x | PCI | Atheros AR242x | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} |  | Apple MacBook pro\\ (1ere génération) non prise en charge sur 8.04LTS mais [[http://forum.ubuntu-fr.org/viewtopic.php?id=224717|fonctionne avec cette solution]] [[http://forum.ubuntu-fr.org/viewtopic.php?pid=12288061#p12288061|ou avec celle-là sur 12.04]] 12.04 | 
+|  AR5001 | PCI (intégrée) |Atheros AR5001 ath5k | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 9.10 | 
+|  AR5007EG | intégrée | Atheros AR5007EG | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} |  | 10.10 | 
+|  AR9285 | PCI intégrée | Atheros AR9285 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} |  | En cas de lenteur, dans l'interface de configuration de votre routeur, vérifiez le canal utilisé : s'il est en mode "automatique", tentez d'attribuer un canal manuel inférieur à 10. ou essayez la commande : ''echo "options ath9k nohwcrypt=1" | sudo tee -a /etc/modprobe.d/ath9k.conf''. En cas de difficultés persistantes on peut essayer de faire charger le pilote au démarrage avec la commande : ''sudo echo ath9k  %%>>%%  /etc/modules'' 12.04 14.04 |
+|  AR9287 | PCI (intégrée) | Atheros AR9287 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 11.04 |
+|  Qualcomm 2,4 / 5GHz| PCI (intégrée) | | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | 003e | Reconnue à partir de 16.04. Sur 12.04 et 14.04 installez [[:ltsenablementstack|un noyau plus récent]], puis téléchargez et installez la mise-à-jour du firmware [[http://mirrors.kernel.org/ubuntu/pool/main/l/linux-firmware/linux-firmware_1.149.2_all.deb|ici]]  |
+
+===== B =====
+
+^ Produit ^ Modèle ^ Chipset ^ Type ^ Prise en charge ^ Id Vendor/Product ^ Commentaire/Version ^
+^ BeeWi | BWA311 | USB | RTL8188SU | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | 10.10 |
+^ Buffalo | WLI-UC-G450  | USB   | rt3573   | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | Si problème voir cette [[:wifi_ralink_rt3573_usb|page]] 13.04 |
+
+
+==== Belkin ====
+^ Modèle ^ Chipset ^ Type ^ Prise en charge ^ Id Vendor/Product ^ Commentaire/Version ^
+|  F5D6020 (rev 20) | PCMCIA | Bel6020 + rtl8180 | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | Ne pose pas de problème avec Ubuntu 6.10. Nécessite ndiswrapper à partir de Ubuntu Feisty Fawn (7.04). La solution complète : [[:wifi_belkin_f5d6020]] 6.10 / 7.04 |
+| F5D6051 | USB | zd1201 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 12.04 |
+|  F5D7010 54g | PCMCIA | BCM4306 | {{:icons:important.png?nolink|Fonctionne avec quelques manipulations.}} | | Voir [[:wifi_broadcom_bcm43xx|bcm43xx]] fonctionne avec bcm43xx-fwcutter. Par défaut, la carte est en 11Mb/s. Un script au démarrage permet de la passer en 54Mb/s Aucun problème avec 7.04 |
+|  F5D7050df (Wireless G USB Adapter) | USB | zd1211rw | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} |  | 7.04 |
+|  F5D7050 E | USB |  ? | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | [[http://www.belkin.com/support/article/?lid=en&aid=5381|pilotes windows]]. 9.04 |
+|  F5D7050EF | USB |  | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | 0x50d:0x200 | 12.04 |
+|  F5D7050ES ou 54g | USB | Ralink RT2571W | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | 050d:705a | 12.04 |
+|  F5D7050fr (Wireless G USB Adapter) | USB | | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | Drivers Windows téléchargeables [[http://www.belkin.com/support/article/?lid=en&pid=F5D7050&aid=5381&scid=221|ici]]. Natif sous 9.04 problèmes sous 9.04 |
+| Micra Digital F5D7050 EAE | USB | zd1211rw | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 8.10 |
+|  F5D8053 v6 | USB | rtl8192su | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | 050d:815f  | [[:12.04]] |
+|  F5D8055 (Wireless N USB Adapter) | USB | rt2870sta | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 9.10 |
+|  F5D9050c (Wireless G Plus MIMO USB NetWork Adapter) | USB | rt73 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | |8.04|
+|  [[http://www.belkin.com/fr/support/product/?lid=fr&pid=F7D1102ed&scid=580|F7D1102ed micro-adaptateur USB sans fil Surf]] | USB | RTL8192cu | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | Voir [[:hercules_hwnup-150|procédure ici]] 14.04 |
+|  F7D1102az (Surf N150  USB Wireless Micro Adapter  v1000)| USB |Realtek RTL8188CUS | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 14.04 |
+|  F7D2102az (N300 Micro Wireless USB Adapter)| USB |  net8192cu.inf | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | Reconnu par defaut sur Trusty 14.04, Mais décroche en affirmant être connecté. Voir [[:hercules_hwnup-150|procédure ici]] 14.04 |
+|  F7D2102 (N300 Micro Wireless USB Adapter)| USB | RTL8192cu  | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | Décroche rapidement tout en affirmant être connecté. Voir [[:hercules_hwnup-150|procédure ici]]  14.04|
+|  F7D4101 v1 | USB | Broadcom BCM43231 | {{:icons:important.png?nolink|Fonctionne avec quelques manipulations.}} |  | 12.10/13.04, non reconnu nativement. Fonctionne avec Ndiswrapper, en utilisant [[http://en-us-support.belkin.com/app/product/detail/p/5137 |ce pilote]]. Installer //bcmwlight5.inf// avec Ndiswrapper et ne pas oublier les fichiers .cat et .sys. (récupérables en faisant une fausse installation avec Wine). La carte ne fonctionne pas en mode monitoring. Le mode 54Ghz ne fonctionne pas. La WPA/WPA2 ne fonctionne pas ou durant un très court instant. 12.10/13.04 |
+|  F9L1004 v1 (Extended Range USB Wireless N Adapter SURF N300 XR)| USB | RTL8192CU | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | Voir [[:hercules_hwnup-150|procédure ici]] 12.04 |
+|  V5000ed | USB | ? | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | ? | 9.10|
+
+==== Bluestork ====
+^ Modèle ^ Chipset ^ Type ^ Prise en charge ^ Id Vendor/Product ^ Commentaire/Version ^
+^ BS-WG-PCMCIA | PCMCIA | 88w8335 | {{wiki:modeles:laptop_work.png|Fonctionne après config}} |  | Voir procédure du Netgear WG311v3 |
+^ BS-WG-USB V1 | USB | ? | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} |  | 10.04 |
+^  BS-WG-USB V2 | USB | RTL8187B | {{wiki:modeles:laptop_work.png|Fonctionne après config}} |  | Le pilote téléchargeable [[http://www.realtek.com.tw/downloads/downloadsView.aspx?Langid=1&PNid=1&PFid=1&Level=6&Conn=5&DownTypeID=3&GetDown=false&Downloads=true#RTL8187B|ici]] et blacklister le pilote rtl8187 (sudo modprobe -r rtl8187) 8.10 |
+
+
+==== Broadcom ====
+Voir pour cette marque voir la page [[:wifi_broadcom_bcm43xx|dédiée aux cartes Broadcom]].
+
+===== C =====
+
+^ Produit ^ Modèle ^ Chipset ^ Type ^ Prise en charge ^ Id Vendor/Product ^ Commentaire/Version ^
+^ Cisco  | Aironet AIR-PI21AG-E-K9 | PCI | Atheros AR5212A | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} |  | 11.04 |
+^ COMFAST | [[http://comfast.en.alibaba.com/product/60147644870-800277558/COMFAST_CF_912AC_Dubai_Wholesale_Market_1200Mbps_RTL8812AU_Wireless_AC_Dongle.html#!|CF-912AC]] | USB3 | rtl8812au | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} |  | 14.04 téléchargez le pilote au format .deb  [[http://packages.ubuntu.com/xenial/all/rtl8812au-dkms|ici]]. Pour 16.04 installer le paquet [[apt>rtl8812au-dkms]] |
+^ Connectland | 54 g Plus | USB |   | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} |  | 9.10 
+^ Connectland | WIRE-CNL-G-USB | USB |   | {{wiki:modeles:laptop_work.png|Fonctionne après config}} |  | 9.10 |
+^ Connectland | WIRE-G-PCM-54 | PCMCIA |  | {{wiki:modeles:laptop_work.png|Fonctionne après config}} |  | 10.04 |
+^ Connectland | WIRE-N-USB-R | USB |  | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} |  | 11.04 |
+
+===== D =====
+Pour la marque D-link voir la page [[:wifi_d-link|dédiée]].
+
+^ Produit ^ Modèle ^ Chipset ^ Type ^ Prise en charge ^ Id Vendor/Product ^ Commentaire/Version ^
+^ DIGITUS | DN-7003GR | usb | Ralink rt73 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | 148f:2573 | 9.10 | 
+^ DELL | lattitude 5400 | usb | BCM4312 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} |  |charger le pilote : firmware-b43-installer à partir de la page : wifi_broadcom_bcm43xx | 
+
+
+===== E =====
+^ Produit ^ Modèle ^ Chipset ^ Type ^ Prise en charge ^ Id Vendor/Product ^ Commentaire/Version ^
+^ ELSA|AirLancer MC-11|PCMCIA| Orinoco| {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} |-|5.10|
+^ E-Tech|(fourni avec abonnement Telenet en Belgique)?|USB|zd1201|{{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} |?| 12.04|
+^ EDIMAX  | EW-7117U | USB | zd1201 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 12.04 |
+^ EDIMAX |EW-7128g| |  | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | |11.10|
+^ EDIMAX |EW-7316Ig|PCI| RTL8185| {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | |Signal très faible pouvant nécessiter un changement de driver. Voir [[http://forum.ubuntu-fr.org/viewtopic.php?id=386067|ici]] 9.10|
+^ EDIMAX |EW-7628LG | |  | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | |11.10|
+^ EDIMAX |EW-7317UHg|USB| RT2571| {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | Fonctionne avec  RT73 Wicd. 8.04|
+^ EDIMAX|EW-7318Ug|USB| RT2501 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}}| 148f:2573 |9.10 |
+^ EDIMAX|EW-7711UAn|USB| RT2870STA| {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 12.04 |
+^ EDIMAX|EW-7711in|PCI| RT3060| {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} | | installer les drivers [[http://www.ralinktech.com/en/04_support/support.php?sn=501|ralink]] avec en modifiant os/linux/config.mk (HAS_WPA_SUPPLICANT=**y** et HAS_NATIVE_WPA_SUPPLICANT_SUPPORT=**y**) [[http://forum.ubuntu-fr.org/viewtopic.php?pid=8407041|voir forum]] 10.04, 11.10|
+^ EDIMAX|EW-7717Un|USB| RT2870| {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | |11.10|
+^ EDIMAX|EW-7722In|PCI| RT3062| {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | |12.04|
+^ EDIMAX|EW-7722UTn V2|USB| RTL8178| {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | |16.10|
+^ EDIMAX|EW-7728IN|PCI| RT2860| {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | |  10.10|
+^ EDIMAX|EW-7733UnD|USB| rt3573| {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} à partir de 14.04 {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | voir cette [[:wifi_ralink_rt3573_usb|page]] 13.04 14.04 |
+^[[http://www.edimax.com/edimax/merchandise/merchandise_detail/data/edimax/global/wireless_adapters_ac1200_dual-band/ew-7822uac/|Edimax]]| [[http://www.linux-hardware-guide.com/uk/2013-11-16-edimax-ew-7822uac-ac1200-wifi-dual-band-usb-3-0| EW-7822UAC]]|  | rtl8812au | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} | 7392:a822 | 14.04 téléchargez le pilote au format .deb  [[http://packages.ubuntu.com/xenial/all/rtl8812au-dkms|ici]]. Pour 16.04 installer le paquet [[apt>rtl8812au-dkms]] |
+^ EMTEC|WI350 et WI300|USB| RTL8191SU | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 12.04 |
+
+=====G=====
+^ Produit ^ Modèle ^ Chipset ^ Type ^ Prise en charge ^ Id Vendor/Product ^ Commentaire/Version ^
+^  Gygabyte  | GN-WLBZ201 | USB | zd1201 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 12.04 |
+^  Gigabyte  | GC-WB867D-I-L | PCI |  | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 16.04 |
+^  Gigafast  | WF741-UIC1 | USB | zd1201 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 12.04 |
+
+
+=====H =====
+
+^ Produit ^ Modèle ^ Chipset ^ Type ^ Prise en charge ^ Id Vendor/Product ^ Commentaire/Version ^
+^ Hama | MiMo 300 express 00062733) | PCMCIA | RT2600| {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} |  | 9.04 |
+^ Hercules | HWGUSB2-54 | USB | RT2570/rt73usb | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} |06f8:e010 | [[utilisateurs:Id2ndR]] 12.04 |
+^ Hercules | HWGUm-54 | USB | RTL8192SU | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 12.04 |
+^ Hercules | HWGPCI-54 et v2 | PCI | RT2560 RT61 pour la v2 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | [[utilisateurs:mick_pierrot]] 11.10 |
+^ Hercules | HWGPCMCIA-54 | PCMCIA | RT2500 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | [[utilisateurs:manu_newbie]] 6.06 |
+^ Hercules | HWGPCMCIA-54-V2 | PCMCIA | Rt61pci /rt61 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 7.04 |
+^ Hercules | HWNU-300 | USB | rt2870 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} |  |12.04 |
+^ Hercules | HWNUm-300 mini | USB | RTL8191SU | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} |06f8:e031 | 12.04  |
+^ Hercules | HWNUm-300V2 | USB (mini) | RTL8192CU | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | 06f8:e035 | Voir [[:hercules_hwnup-150|procédure ici]] Linux Mint Nadia |
+^ Hercules | HWNUp-150 | USB (pico) | RTL8192CU | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | 06f8:e033 | Voir [[:hercules_hwnup-150|procédure ici]] 12.04 14.04  |
+
+===== F =====
+^ Produit ^ Modèle ^ Chipset ^ Type ^ Prise en charge ^ Id Vendor/Product ^ Commentaire/Version ^
+^ Free | Dongle USB 802.11n/802.11ac | USB3 | rtl8812au | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} | 0bda:8812 | 14.04 téléchargez le pilote au format .deb  [[http://packages.ubuntu.com/xenial/all/rtl8812au-dkms|ici]]. Pour 16.04 installer le paquet [[apt>rtl8812au-dkms]] |
+
+===== I =====
+
+^ Produit ^ Modèle ^ Chipset ^ Type ^ Prise en charge ^ Id Vendor/Product ^ Commentaire/Version ^
+^ InproComm | IPN2220 | Intégrée | | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | ? | [[:Ndiswrapper]] avec le pilote [[http://support1.toshiba-tro.de/tedd-files2/0/wlesslan-20080722133309.zip|à télécharger ici]]. Ou pilote selon selon problème décrit [[http://forum.ubuntu-fr.org/viewtopic.php?id=441028#p3983719|ici]] et fonctionnel, notamment, pour l'Acer TravelMate 2300 [[ftp://ftp.aopen.com.cn/pub/nb/2681/driver/wlan.zip|à télécharger ici]]. Sont concerné Acer Aspire 1350 et 1360, Aspire 1522 WLMi  Acer TravelMate 2300, et Toshiba Satellite L10-121 et MSI M635 7.10 |  
+^ Inventel | UR012i| USB| Prism2  | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} | | Peut nécessiter l'installation du paquet **[[apt>prism2-usb-firmware-installer]]**. 8.04|  
+^ Inventel | ur054g_r01_v1.1| USB| Prism2  | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} | | 10.04|  
+^ Inventel | WU221P | USB | atmel | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | Peut nécessiter l'installation du paquet **[[apt>prism2-usb-firmware-installer]]**.12.04 |
+
+====Intersil/Conexant====
+
+<note tip>Au sujet de la marque Intersil actuellement Conexant, et la prise en charge du chipset **Prism 2, 2.5, et 3**, vous trouverez une liste du matériel concerné [[https://help.ubuntu.com/community/WifiDocs/Driver/prism2_usb#Supported devices|ici]]. Certaines carte, mais pas toutes peuvent nécessiter l'installation du paquet **[[apt>prism2-usb-firmware-installer]]**.</note>
+
+^ Produit ^ Modèle ^ Chipset ^ Type ^ Prise en charge ^ Id Vendor/Product ^ Commentaire/Version ^
+^ Intersil Corporation  | Prism 2.5 Wavelan chipset | PCI (intégré) | Orinoco | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} | | Peut nécessiter l'installation du paquet **[[apt>prism2-usb-firmware-installer]]**. 12.04 | 
+
+
+====Intel====
+Les cartes wifi intel disposent de pilotes libres très vite intégrés au noyau Linux. Si malgré tout votre carte n'est pas reconnue, il est fort probable qu'une mise à jour vers un [[:ltsenablementstack|noyau plus récent]] réglera l'affaire.
+
+^ Modèle ^ Chipset ^ Type ^ Prise en charge ^ Id Vendor/Product ^ Commentaire/Version ^
+|  Centrino wireless-N100 | PCI | iwlwifi-100-5 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} |  | 10.10 |
+| Pro/Wireless 2200 bg|PCI / Mini PCI  |ipw2200| {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 6.10 et postérieurs|
+|  PRO/Wireless 3945 | Intégrée |  ipw3945 / iwl3945 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | Reconnue automatiquement sous HP Compaq6710b avec Intrepid, si l'interrupteur est "off" à l'installation d'Ubuntu, il est nécessaire soit de le réactiver via Windows soit de réinitialiser les valeurs par défaut du Bios pour la passer "on" au démarrage pour pouvoir l'utiliser / Sous Intrepid Ibex, suivre le tutoriel disponible [[http://www.lostinbrittany.org/blog/2008/11/02/dis-moi-ubuntu-il-est-ou-mon-wifi/|ici]],  [[http://bugs.launchpad.net/ubuntu/+source/linux/+bug/226411|problèmes pour lister les réseaux et se connecter]] 9.04 | 
+|  PRO/Wireless 4965 AG or AGN | Intégrée | iwlagn | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} |  | 8.10 |
+|  PRO/Wireless 5100 AGN | Intégrée | | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | Attention la carte est active uniquement si le port Ethernet est débranché ! 10.10 |
+|  7260 | Intégrée | iwlwifi-7260 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | Reconnu nativement à partir d'Ubuntu 14.04. Pour les versions plus anciennes [[:ltsenablementstack|installer un noyau plus récent]] |
+
+===== K =====
+
+^ Produit ^ Modèle ^ Chipset ^ Type ^ Prise en charge ^ Id Vendor/Product ^ Commentaire/Version ^
+^ Konig Electronic | CMPWNUSB40 | usb | RTL8191S | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} |  | 10.04 11.04 |  
+
+===== L =====
+
+^ Produit ^ Modèle ^ Chipset ^ Type ^ Prise en charge ^ Id Vendor/Product ^ Commentaire/Version ^
+^ LDLC | QS 54USB | USB | usb8xxx Libertas 88W8338 | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | [[:Ndiswrapper]] avec [[http://www.filefactory.com/file/ahb5008/n/ndiswrapper_LDLC_tar_gz|netMw225.inf]]. (Le pilote libre usb8xxx ne gère que le chipset 88W8388 / [[utilisateurs:Id2ndR]])  9.04 |
+^ LDLC | | PCMCIA   | usb8xxx 88W8335 | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | Voir procédure du Netgear WG311v3 [[:Ndiswrapper]] avec [[http://microsoftaccess.free.fr/autres/ubuntu/wifi/Mrv8000c.tar.gz|Mrv8000c.inf]] 8.04 |
+^ Linksys | WPC300N | PCMCIA |  Atheros Com.  AR5416  | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} |  | 12.04 |
+^ Linksys | WUSB54GC  | USB | RT2500 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} |  13b1:0020 | 8.04 | 
+^ Linksys | WUSB54GC Ver.3 | USB |  rt3070sta fonctionne partiellement (rt2870sta) | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} | | Serait supporté par le driver rt2x00 (rt2800) mais il est en dévelopement et non testable 9.10 |  
+^ Linksys | WMP54G  | PCI | bcm4306 | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} | | [[:wifi_broadcom_bcm43xx|Broadcom]] 6.06 |  
+^ Linksys | WPC54G v1 | PCI | bcm4306 | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} | | [[:wifi_broadcom_bcm43xx|Broadcom]] 10.04 |
+^ Linksys | WPC54G v2 | PCMCIA | acx | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | Voir [[:wifi_chipset_ti_acx|ici]]. 10.04 |
+^ Linksys | WMP54G v4.1 | PCI | RT2561 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} |  | 11.10 |
+^ Linksys | WPC54GS | PCMCIA | bcm4306 | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} | | [[:wifi_broadcom_bcm43xx|Broadcom]] 9.04 |
+^ Linksys | WPC54GS v2 | PCMCIA | bcm4318 | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} | | [[:wifi_broadcom_bcm43xx|Broadcom]] 6.06 |
+^ Linksys | WUSB54GS v1 | USB | bcm4320 | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} | | [[:wifi_broadcom_bcm43xx|Broadcom]]  7.04 |
+^ Linksys | WUSB54G v4 | USB | RT2870/rt2500 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 9.04 |
+^ Linksys | WUSB600N | USB | rt2870 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 9.04 |
+^ Logilink | Wireless N 300 Mbps | PCI | rt3062 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 12.10 |
+^Linksys| WUSB6300| PCI | rtl8812au | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} | 13b1:003f | 14.04 téléchargez le pilote au format .deb  [[http://packages.ubuntu.com/xenial/all/rtl8812au-dkms|ici]]. Pour 16.04 installer le paquet [[apt>rtl8812au-dkms]] |
+^  Longshine  | LCS-8131R | USB | zd1201 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 12.04 |
+
+===== M =====
+
+^ Produit ^ Modèle ^ Chipset ^ Type ^ Prise en charge ^ Id Vendor/Product ^ Commentaire/Version ^
+^ Marvell | 88W8385 (libertas) | PCI | libertas_sdio  | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 14.04 |
+^ Marvell | 88W8686 (libertas) | PCI | libertas_sdio | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} |  | 14.04 |
+^ Marvell | 88W8388 (libertas) | USB | usb8xxx |{{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | 05A3:8388 1286:2001 | 14.04 |
+^ Mediatek | MT7630e | PCI |  mt7620 | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} | | Avant 16.04 il est nécessaire d'[[:ltsenablementstack|installer un noyau plus récent]]. 14.04 Voir [[:wifi_bt_mt7630e|ici]] |
+^ Micra Digital - Belkin | F5D7050 EAE | USB | zd1211rw | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}}|  |8.10 |
+^ MicraDigital | [[http://www.micradigital.fr/Product.aspx?id=227119|802.11g Wireless PCI Adapter]] ver. 1100ea | PCI | Atheros AR2413 rev 01 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | [[utilisateurs:dolmen]] L'emballage dispose d'une fenêtre permettant de vérifier le chipset. 8.10 |
+^ Micradigital | //belkin noname// ver2001ea  | USB  | ZD1211 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | [[utilisateurs:manu_newbie]] 8.04  |
+^ MSI | PC54G2 | PCI | Ralink| {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} |  |  ersplus [[utilisateurs:manu_newbie]]. / 8.04 |
+^ MSI | PC54G3 | PCI | RT2561/RT61 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 7.10 | 
+^ MSI | PC60G | PCI | RaLink | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 7.10 | 
+^ MSI | PC60G-F | PCI |  RaLink | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 7.10 | 
+^ MSI | CB54G2 | PCMCIA | Ralink| {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 8.04 |
+^ MSI | UB11B | USB | zd1201 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 12.04 |
+^ MSI | US54SE | USB | zd1211rw | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 7.04|
+^ MSI | CB11B (MS-6802) | PCMCIA (cardbus) | | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | [[:ndiswrapper|ndiswrapper -i ms68bm.inf]] en utilisant le fichier ms68bm.inf contenu dans l'archive du pilote MSI_WLAN_Software4.1.19.29 (prendre la version pour Windows XP) [[utilisateurs:jpcote|Détails]] Feisty 7.04, Intrepid 8.10 |
+
+===== N =====
+
+^ Produit ^ Modèle ^ Chipset ^ Type ^ Prise en charge ^ Id Vendor/Product ^ Commentaire/Version ^
+^ Netcow  | FC-NC9000G  | Pci | ?  |  ? | |  6.06  |
+^  NorthQ  | NQ9000 | USB | zd1201 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 12.04 |
+
+==== Netgear ====
+^ Modèle ^ Chipset ^ Type ^ Prise en charge ^ Id Vendor/Product ^ Commentaire/Version ^
+| AC600 | USB | Chipset 8812au | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} | | Voir le [[http://ubuntuforums.org/showthread.php?t=2240631|lien]] en anglais (il est très simple à suivre, et très lisible) 14.04 |
+| MA111 v1 | USB | prism2 | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} | | Peut nécessiter l'installation du paquet **[[apt>linux-wlan-ng-firmware]]** [[http://forum.ubuntu-fr.org/viewtopic.php?pid=537399#p537399| Sujet sur le forum]] 7.04 |
+| MA401 | PCMCIA | Prism2/2.5/3| {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} | | **[[apt>linux-wlan-ng-firmware]]** ou **[[apt>prism2-usb-firmware-installer]]** [[http://forum.ubuntu-fr.org/viewtopic.php?pid=180791#p180791|Support MA401]] (solution donnée pour le WPA) 6.06 |
+| MA521 | PCMCIA | RealTek 8180 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 6.10 |
+| WAG311FS | PCI | Atheros AR5212 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 7.10 |
+| WAG511v2 | PCMCIA | Atheros | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | Reconnue sans problème avec Madwifi. 6.06 |
+| WG111v1 | USB | Prism54 Intersil 3386 | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | 8.04 |
+| WG111v2 | USB | RTL8187L | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | [[:wifi_realtek_rtl8187]] 7.10 |
+| WG111v3 | USB |8187b | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | Utiliser [[:Ndiswrapper]] / pilotes [[http://www.avengergear.com/upload/WG111v3.tar.bz2|ici]] - Sous Intrepid, reconnu nativement mais soucis de déconnexions intempestives selon les personnes, et problèmes de connexion au démarrage sous 8.10 et 9.04 |
+| WG111t | USB | | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | Voir explication [[http://forum.ubuntu-fr.org/viewtopic.php?id=52293|ici]] 7.10 |
+| WG121 | USB | | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | Pilote [[http://kbserver.netgear.com/release_notes/d102275.htm|ici]] Modules à blacklister : islsm et islsm_usb 7.10 |
+| WG311v1 | PCI | ACX 111 (Texas instruments) | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | Voir [[:wifi_chipset_ti_acx|ici]]. Utiliser [[:Ndiswrapper]] et en utilisant les pilotes WG311v1 9.04 |
+| WG311v2 | PCI | ACX 111 (Texas instruments) | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | Voir [[:wifi_chipset_ti_acx|ici]].Utiliser [[:Ndiswrapper]] et le pilote [[http://kbserver.netgear.com/release_notes/d102550.asp|2.0.0.7]]. Suivre [[http://forum.ubuntu-fr.org/viewtopic.php?id=41492|ce tuto]] et blacklister le module acx avec cette commande <code>gksudo gedit /etc/modprobe.d/blacklist</code> et rajoutez **blacklist acx** à la fin du fichier. 6.06 |
+| WG311v3 | PCI | Marvell 88w8335 Libertas| {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | [[:Ndiswrapper|Ndiswrapper]] avec [[ftp://downloads.netgear.com/files/wg311v3_1_0.zip|pilotes Windows]]. [[http://forum.ubuntu-fr.org/viewtopic.php?id=35548|Support WG311v3]] [[http://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/Linux.Wireless.drivers.802.11ag.html#Libertas|Des infos sur le pilote]]. En 64 bits Téléchargez le pilote [[http://www.skd.de/e_en/support/driver_searchresults.html?navanchor=&term=typ.treiber+produkt.SK-54C1&produkt=produkt.SK-54C1&typ=typ.treiber&system=|64bits sur le site de Marvell]] ([[http://www.skd.de/e_en/download_bestaetigung.html?datei=/e_en/products/wlan/SK-54C1/WinX64.zip|lien direct]]), renommer le fichier //MRV8335x64.sys// de l'archive Marvell en //WG311v3XP.sys// et remplacer celui existant dans les pilotes XP de Netgear. Vous pouvez désormais installer le pilote 64bits comme s'il était un pilote 32bits. 10.04 |
+| WG311T 108Mbp/s | PCI / PCMCIA | AR5212 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 7.04 |
+| WG311Tv2 | PCI | Atheros | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 7.04 |
+| WG511T | PCMCIA | Atheros | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} | | 8.10 |
+| WG511 V1 (Taïwan) | PCMCIA | Prism54g | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | Le pilote libre "prism54" permet l'utilisation en WEP mais pas en WPA \\ * Pour utiliser le WPA, blacklister le pilote prism54 et utiliser ndiswrapper avec le pilote Windows netwg511.inf + wg511icb.sys 7.04 |
+| WG511v2 | PCMCIA | Marvell 88w8335 Libertas | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | [[:Ndiswrapper|Ndiswrapper]] \\ Il faut [[http://forum.ubuntu-fr.org/viewtopic.php?pid=339322#p339322|blacklister mrv8k]] \\ [[http://www.saillard.org/linux/mrv8k/|pilote natif en développement]] 9.04 |
+| WG602 | RJ45 | | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} | | Boîtier externe [[http://forum.ubuntu-fr.org/viewtopic.php?id=136048|ici]] 7.10 |
+| WN311T | PCI | Marvell | {{wiki:modeles:laptop_work.png|Fonctionne après config}}| | [[:Ndiswrapper|Ndiswrapper]] [[http://www.netgear-forum.com/forum/index.php?showtopic=42693| Fichier INF]] 6.06 |
+| WN311B | PCI | 802.11b/g/n | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} | | 12.04 |
+| WN111v2 | USB | Atheros ar9170usb | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} | | 14.04 |
+| WNA1100 | USB | Atheros | {{:icons:icon-ubuntu.png| Reconnue par défaut. | Cliquez sur l'icône pour plus de détails.}} | | Reconnue par défaut |
+| WNA1000M | USB |rtl8192cu | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | Liste les réseaux mais ne parvient pas à s'y connecter : voir [[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1075967 |bug]]. Voir [[:hercules_hwnup-150|procédure ici]] 12.04 13.04 |
+| WNA1000Mv2 | USB | rtl8192cu | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | Voir [[:hercules_hwnup-150|procédure ici]] 14.04 |
+| WPN111 | USB | Atheros | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | Pilotes (netwpn11 + athwpn [[http://ge.ubuntuforums.com/attachment.php?s=50263ccff118691f969a80b4b1f6547b&attachmentid=34119&d=1180778076|téléchargeables ici]]) du cd ou dispo sur le site de netgear. Pour le WPA [[:wifi_ligne_de_commande#wpa-psk_avec_essid_masque_avec_une_carte_broadcom_4311_ou_netgear_wpn111|voir ici]] 8.04 |
+| WPN311 | PCI | Atheros AR5212 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 8.04 |
+| WPN511 | PCMCIA | Atheros | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 9.10 |
+| WNDA3100 | USB | Broadcom BCM4323 | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} | | ? |
+| WNA3100 300 Mbps (2.4GHz) | USB | Broadcom BCM43231 | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | Installation via [[:ndiswrapper|ndiswrapper]] : *** en 32b** : driver [[http://matthew-4gl.wikispaces.com/file/view/Netgear.tar.gz/190342998/Netgear.tar.gz|ici]] et méthode [[http://forum.ubuntu-fr.org/viewtopic.php?id=580171|là]] ***en 64b** : plus complexe, mais fonctionne avec [[http://forum.linuxmint.com/viewtopic.php?f=53&t=79209|cette méthode]] (en anglais) 11.10 |
+| WNA3100M | USB | Realtek RLT8192CU | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | Reconnue par défaut, mais instable. Voir [[:hercules_hwnup-150|procédure ici]] 12.04 64bit 14.04|
+| WNDA4100 N900 | USB | rt3573 | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} | | Voir cette [[:wifi_ralink_rt3573_usb|page]] 13.04 |
+
+===== O =====
+
+^ Produit ^ Modèle ^ Chipset ^ Type ^ Prise en charge ^ Id Vendor/Product ^ Commentaire/Version ^
+^ Olitec | G| PCI |  | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | clé WEP en héxadécimal 6.06 | 
+^ Olitec | G| PCMCIA |   | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | clé WEP en héxadécimal  fonctionne en utilisant ndiswrapper 9.04 | 
+^ Olitec | G| USB | Chipset Marvell | {{wiki:modeles:laptop_work.png|Fonctionne après config}} |  | 7.04 | 
+^ Olitec | 721v1 | USB | | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 12.04 |
+^ Origo | WLL-1610 | USB | zd1201 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 12.04 |
+^ Ovislink | EVO-W54PCI (et v2) | PCI | Ralink | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | [[http://forum.ubuntu-fr.org/viewtopic.php?id=26851|Support EVO-W54PCI]] 9.04 |
+^ OvisLink | EVO-W54USB | USB | Ralink RT2570 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 6.06 |
+^ OvisLink | EVO-W54USB et v2 | USB | rt73 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | 148f:2573 | [[utilisateurs:Id2ndR]], [[utilisateurs:marc31]] 9.10 |
+^ OvisLink  | EVO-W542USB | USB |  rt2070 |{{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | Reconnue avec le pilote rt2800, une connexion semble établie mais aucune transmission ne se fait. La Diode clignote rapidement (anormalement) en permanence dès son branchement. Pas de pilote spécifique disponible sur le site de Ralink. Ne fonctionne pas non plus avec ndiswrapper. 10.04 |
+^ OvisLink | EVO-W108PCI | PCI | ar5212 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 7.04 |
+^ OvisLink | EVO-W108usb | USB | ar5523 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | 0cf3:0002 |  |
+^ OvisLink | WL-8000PCI | PCI | ACX111| {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | 6.10 |
+^ Ovislink | OP-W54PCI | PCI | rt2500 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 8.10 |
+
+
+===== P =====
+
+^ Produit ^ Modèle ^ Chipset ^ Type ^ Prise en charge ^ Id Vendor/Product ^ Commentaire/Version ^
+^ Peabird | Wlan USB | USB | [[http://zd1211.ath.cx/|zd1211]] sur certaines versions | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | [[:utilisateurs/Id2ndR]] 12.04 |
+^ Peabird | Wifi 54G | USB | Sis163u | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | Je n'ai pas réussi à faire fonctionner le WPA. Mais aucun problème pour le WEP. 6.10 |
+^ Peabird | PEAB-WLG-PCI PCMCIA | PCMCIA |Marvell 88w8335 Libertas | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | Voir procédure du Netgear WG311v3 9.04 | 
+^ Planet | WL-8314 | PCI |Marvell 8335 Libertas | {{wiki:modeles:laptop_work.png|Fonctionne après config}} |  | Voir procédure du Netgear WG311v3 [[utilisateurs:keup]] 6.06 | 
+^ Philips | SNN6500 | PCMCIA | Atheros AR5413 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 8.10 |
+
+===== R =====
+
+^ Produit ^ Modèle ^ Chipset ^ Type ^ Prise en charge ^ Id Vendor/Product ^ Commentaire/Version ^
+^ Ralink | CNET DWL 854 F RT2501/RT2573 | USB | Ralink RT2570 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | 148f:2573 | 12.04 |
+^ Ralink | RT2500USB/RT2571 | USB | Ralink RT2570  | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | 148f:2570 | 12.04 |
+^ Ralink | Conceptronic C54RU v3 | USB | RT2570 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | 14b2:3c22 | [[:nknico]] 12.04 |
+^ Ralink |  |  | rt2860 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} |  | 10.04 |
+^ Ralink | Ralink rt3572 (WUSB600N v2) | USB |  | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | Sous [[:precise|Ubuntu 12.04]] mettre à jour le [[:kernel|noyau]] ou passer à une version plus récente. |
+^ Ralink   | RT3573  | USB   | rt3573  | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} |  | voir cette page: [[wifi_ralink_rt3573_usb]] 13.04 |
+^ Ralink   | RT3090 | | rt2860 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | Ouvrez avec les droits d'administration le fichier **/etc/modprobe.d/blacklist.conf** pour y ajouter les lignes suivantes : <file>blacklist rt2800usb
+blacklist rt2x00usb 
+blacklist rt2x00lib
+blacklist rt2800pci</file> 11.04|
+^ Ralink   | RT3290 | | | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | Reconnu à partir de 12.10, avant il faut compiler le pilote 13.04 |
+^ Rosewill | AC1200UBE | PCI   | RTL8812AU   | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} |  0bda:8812 | 14.04 téléchargez le pilote au format .deb  [[http://packages.ubuntu.com/xenial/all/rtl8812au-dkms|ici]]. Pour 16.04 installer le paquet [[apt>rtl8812au-dkms]] |  
+====Realtek====
+Pour les cartes realtek à base du chipset rtl8192CU [[:hercules_hwnup-150|procédure ici]].
+
+^ Modèle ^ Chipset ^ Type ^ Prise en charge ^ Id Vendor/Product ^ Commentaire/Version ^
+| RTL8179| PCI   | rtl8188 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | À partir de 14.04 64 bits, pour 12.04 installer un noyau plus récent. Trusty 14.04 64 bits |
+| RTL8185L| PCI   | rtl8180   | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} |  | 7.04|   
+| RTL8187 | USB   | rtl8187   | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 8.04 |
+| RTL8187b | PCI   | rtl8187b  | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 8.10 |
+| RTL8188CE et rev 01 | | rtl8192ce | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | À partir de 14.04 64 bits, pour 12.04 installer un noyau plus récent. |
+| RTL8192E  | PCI-E | rtl8192e | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | Installation faite par [[:Ndiswrapper]] avec le driver se trouvant http://sourceforge.net/apps/mediawiki/ndiswrapper/index.php?title=Realtek_RTL8192E .   Pour une version 32/64Bits natif; une version [[http://docs.google.com/uc?id=0B-z6gZwUUif6YzRjYzQ5YmUtOWYxZC00NWUxLTljYzctNjg4MTkyYmFmOTA2&export=download&authkey=COGKyOQN&hl=en|packagée dkms de la version 2.6.0014.0401.2010]] de realtek - note : ne sais pas si la distribution est bien "légale" 0 10.04 |
+| RTL8191SE | PCI-E   | rtl8192se  | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} |  |  |
+| RTL8192SE | PCI-E   | rtl8192se  | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} |  | Sur Ubuntu 10.04 LTS, il faut installer DKMS puis le paquet de [[https://launchpad.net/~matt-price/+archive/mattprice|Matt Price]] pour recompiler le driver à chaque nouveau noyau. Le WiFi fonctionne correctement après les mises à jour. Sur Ubuntu 10.10, des déconnexions sont pourtant à signaler... 10.04 10.10 |
+|  RTL8191SU | USB | rtl8191su | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | [[:16.04]] |
+|  RTL8192SU | USB | rtl8192su | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | [[:14.04]] |
+|  RTL8723AE E et BE | USB | rtl8723 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | À partir de 14.04 64 bits, pour 12.04 installer un noyau plus récent. Trusty 14.04 64 bits |
+
+===== S =====
+
+^ Produit ^ Modèle ^ Chipset ^ Type ^ Prise en charge ^ Id Vendor/Product ^ Commentaire/Version ^
+^ Sagem | XG-760A |USB | zd1211 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} |  | 7.10 |
+^ Sagem | XG-760N XG |USB | zd1211 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 7.10 |
+^ Sagem | XG-762N |USB | zd1211 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 8.04 |
+^ Sagem | XI735 | USB   | Prism 3  | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | reconnue natif **[[apt>linux-wlan-ng-firmware]]** **[[apt>prism2-usb-firmware-installer]]**  6.06 |
+^ Siemens | SANTIS | USB | atmel | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 12.04 |
+^ Sitecom | WL-113 | USB |  rt73 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | 0df6:9712 | nécessite probablement l'[[:tutoriel:comment_installer_un_paquet|installation du paquet]] **[[apt>linux-firmware-nonfree]]** en passant par [[:gestionnaire_de_pilotes_proprietaires|le gestionnaire de pilote propriétaires]]. |
+^ SITECOM | WL-115 | PCI | RT2500 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | |  6.10 |
+^ SITECOM | WL-171 | PCI | RT2561ST | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | |  7.04 |
+^ Sitecom | WL-172 | USB | rt73 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | ID 0df6:90ac | Fonctionne sans problème (reconnu par defaut), nécessite probablement l'[[:tutoriel:comment_installer_un_paquet|installation du paquet]] **[[apt>linux-firmware-nonfree]]** en passant par [[:gestionnaire_de_pilotes_proprietaires|le gestionnaire de pilote propriétaires]].  |
+^ Sitecom | WL-534 v1 001/WL-113 | USB | rt73 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | 0df6:9712 | Nécessite probablement l'[[:tutoriel:comment_installer_un_paquet|installation du paquet]] **[[apt>linux-firmware-nonfree]]** en passant par [[:gestionnaire_de_pilotes_proprietaires|le gestionnaire de pilote propriétaires]]. |
+^ SMC | EZ Connect | USB |  zd1211 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 7.10 |
+^ SMC | SMCWUSB-G | USB | zd1211 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 9.04 |
+^ SMC | SMCWUSB-G2 | USB |  ? | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 8.04 |
+^ SMC | SMCWUSBS-N | USB | RT2870 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 9.04 |
+^ SMC | SMCWUSB-N2 | USB | AR9170 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} |  | 10.04 |
+^ SMC | SMC2635W | PCMCIA | LinkSys | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} |  | 6.06 |
+^ SMC | SMC2835W | PCMCIA | ? |{{wiki:modeles:laptop_work.png|Fonctionne après config}} | | 6.10 |
+^ SMC | SMCWCB-GM | PCMCIA | RT61 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} |  | 7.04 |
+^ SMC | SMCWPCI-GM MIMO | PCI| RT61 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 6.06 |
+^ Surecom | EP-9001 | USB | zd1201 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 12.04 |
+^ Surecom | EP-9001-g | USB |  rt73 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | 0769:31f3 | Nécessite probablement l'[[:tutoriel:comment_installer_un_paquet|installation du paquet]] **[[apt>linux-firmware-nonfree]]** en passant par [[:gestionnaire_de_pilotes_proprietaires|le gestionnaire de pilote propriétaires]]. 9.10 |
+^ Sweex | LW052 | PCI | Atheros AR2413A |{{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} |  | [[http://madwifi.org/ | MadWifi]] 6.10 |
+^  Sweex  | LC100020 | USB | zd1201 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 12.04 |
+
+===== T =====
+
+^ Produit ^ Modèle ^ Chipset ^ Type ^ Prise en charge ^ Id Vendor/Product ^ Commentaire/Version ^
+^ Tenda  | TWL541U | USB | | {{wiki:modeles:laptop_work.png|Fonctionne après config}} |  | [[:Ndiswrapper]], les pilotes sont dans le répertoire netMw225 [[http://www.tenda.com.cn/doce/WLAN.asp|pour récupérer les pilotes]] 6.10 |
+^ Tenda | W311U | USB | rt2870 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 11.04 | 
+^ Thomson | WLG 1500A | USB | Sis163u | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | |Pilote [[http://www.porciello.com/inventel/|ici]] puis rechercher v1.1 Cameo (pilotes pour win 98 (testé ok), 2000, NT et Xp il faut choisir le fichier **SiS163u.INF** 12.04 |
+^ Topcom | SKYR@CER WIRELESS USB STICK 11 | USB | zd1201 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 12.04 |
+^ Topcom  | Skyr@cer v2  | USB | Silicon Integrated Systems | {{wiki:modeles:laptop_work.png|Fonctionne après config}} |  | [[:ndiswrapper]], [[http://forum.ubuntu-fr.org/viewtopic.php?id=41492|suivre ce tutoriel (forum)]] 6.10 |
+^ Topcom | Sky@cer USB 4001g | USB | rt73 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | 148f:2573 | nécessite probablement l'[[:tutoriel:comment_installer_un_paquet|installation du paquet]] **[[apt>linux-firmware-nonfree]]** en passant par [[:gestionnaire_de_pilotes_proprietaires|le gestionnaire de pilote propriétaires]]. 9.10 |
+
+==== TP-link ====
+
+[[http://www.tp-link.fr/faq-46.html|Comment connaître la version du matériel]] sur un périphérique TP-Link.
+
+^ Modèle ^ Chipset ^ Type ^ Prise en charge ^ Id Vendor/Product ^ Commentaire/Version ^
+| [[http://www.amazon.com/gp/product/B00JBJ6VG8?*Version*=1&*entries*=0|AC1200 - Archer T4UH]] | USB 3 | rtl8812au | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} | 2357:0101 et 2357:0103 | 14.04 téléchargez le pilote au format .deb  [[http://packages.ubuntu.com/xenial/all/rtl8812au-dkms|ici]]. Pour 16.04 installer le paquet [[apt>rtl8812au-dkms]] |
+| [[http://www.tp-link.fr/products/details/Archer-T4UH.html|AC 1200 Archer T4UH Version 1]] | USB 3 | RTL8812AU | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} | | 14.04 téléchargez le pilote au format .deb  [[http://packages.ubuntu.com/xenial/all/rtl8812au-dkms|ici]]. Pour 16.04 installer le paquet [[apt>rtl8812au-dkms]] |
+| [[http://www.tp-link.com/en/products/details/Archer-T6E.html|AC1300 - Archer T6E]] | PCI-E | ? | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 16.04.1 Non reconnue en LiveUsb mais reconnaissance auto après installation d'Ubuntu |
+|TL-WN321G | USB | rt73 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} |148f:2573 | Nécessite probablement l'[[:tutoriel:comment_installer_un_paquet|installation du paquet]] **[[apt>linux-firmware-nonfree]]** en passant par [[:gestionnaire_de_pilotes_proprietaires|le gestionnaire de pilote propriétaires]]. 9.10 [[utilisateurs:toutafai]] |
+|TL-WN422G| USB | Atheros AR9271 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | 0cf3:1006 | 12.04.1, 14.04 |
+| [[http://www.tuto-fr.com/tutoriaux/crack-wep/test-tp-link-tl-WN610G.php|TL-WN610G]] | PCMCIA | Atheros | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | Sans problème avec Madwifi sous Intrepid|
+|TL-WN55xG| PCI | Atheros | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 9.04 |
+|TL-WN721N| USB | Atheros | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 11.10 |
+|[[http://www.tp-link.fr/products/details/TL-WN723N.html|TL-WN723N]] V1.1 | USB |Atheros | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | Precise 12.04 |
+|[[http://www.tp-link.fr/products/details/TL-WN723N.html|TL-WN723N]] V2.0 | USB | Realtek 8192CUS | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | Reconnue automatiquement, MAIS ne fonctionne pas avec les 3/4 des routeurs 12.04 |
+|[[http://www.tp-link.fr/products/details/TL-WN725N.html|TL-WN725N]] V1 | USB | Realtek 8179 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} |  | À partir de 14.04 64 bits, pour 12.04 installer un noyau plus récent. Trusty 14.04 64 bits |
+|[[http://www.tp-link.fr/products/details/TL-WN725N.html|TL-WN725N]] V2.0 | USB | Realtek RTL8188EUS | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 14.04 |
+|TL-WN727N| USB | ralink rt87 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 12.04 et 13.04 |
+|[[http://www.tp-link.fr/products/details/TL-WN821N.html|TL-WN821N]] V3| USB | Atheros AR7015 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | Reconnue par défaut, mais instable (freeze) avec les drivers Ubuntu. Marche avec les drivers Windows XP (32bit ou 34bit en fonction de la distribution d'Ubuntu) via Ndsiwrapper. Sensibilité et débit corrects, mais performances inférieures à l'usage sous Seven. 12.04 32b, 13.04 64b, 13.10 64b |
+|[[http://www.tp-link.fr/products/details/TL-WN821N.html|TL-WN821N]] V4.2 | USB | Realtek RTL8192CU | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} | | Reconnue par défaut mais connexion instable. Fonctionne bien avec la méthode 2 de [[:hercules_hwnup-150|cette procédure]]. Linux Mint MATE 18 64 bits|
+|[[http://www.tp-link.fr/products/details/TL-WN822N.html|TL-WN822N]]| USB | Atheros - V1 AR9170 - V2 AR7010| {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | Attention différentes versions (V1,V2 OK / V3 à tester). V3 [[https://forum.ubuntu-fr.org/viewtopic.php?id=1357371|forum ubuntu-fr]] 14.04 64b |
+|[[http://www.tp-link.fr/products/details/TL-WN822N.html|TL-WN822N]] V3.0 | USB | Realtek RTL8192CU | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} | | Reconnue par défaut mais connexion instable. Fonctionne bien avec la méthode 2 de [[:hercules_hwnup-150|cette procédure]]. Linux Mint MATE 18 64 bits|
+|[[http://www.tp-link.fr/products/details/TL-WN823N.html|TL-WN823N]] | USB | Realtek RTL8192CU | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} | | Voir [[:hercules_hwnup-150|procédure ici]] 14.04 trusty 32 bits|
+| [[http://www.tp-link.fr/products/details/TL-WN751ND.html|TL-WN751ND]] | PCI | Atheros AR9227 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 12.04 64b |
+| [[http://www.tp-link.fr/products/details/TL-WN851ND.html|TL-WN851ND]] | PCI | Atheros AR9287 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 12.10|
+| [[http://www.tp-link.fr/products/details/TL-WN851ND.html|TL-WN851ND]] | PCI | Atheros AR9287 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 12.10|
+| TL-WN951N | PCI |  Atheros AR5416 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 14.04 |
+==== TrenDNET ====
+^ Modèle ^ Chipset ^ Type ^ Prise en charge ^ Id Vendor/Product ^ Commentaire/Version ^
+| TEW-226PC | PCMCIA | Realtek 8180 | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | Reconnu de suite (Dapper) ATTENTION : le pilote libre engendre sur certains systèmes 6.10 une instabilité lors de l'utilisation du réseau. Dans ce cas, utiliser Ndiswrapper. 6.10 | 
+| TEW-421PC | PCMCIA |  ACX 111 (Texas instruments) | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} |  | Voir [[:wifi_chipset_ti_acx|ici]] Blacklister Mrv8k puis installer le pilote Windows 2000 avec Ndiswrapper ou Ndisgtk (fonctionne avec la version B1 de la carte)  7.04 | 
+| TEW-421PC C1.0R | PCMCIA |  ? | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} | | Voir [[http://forum.ubuntu-fr.org/viewtopic.php?pid=1711789|ici]] 7.10, 8.04 | 
+| TEW-421PC C1.2R | PCMCIA |  Realtek rtl8180 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | Testé sur un réseau WEP. 10.04 |
+| TEW-423PI  | PCI |  acx-111 | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | Voir [[:wifi_chipset_ti_acx|ici]]  Problèmes avec Ndiswrapper. Utilisation difficile en version AMD64. (connexion et de capture des réseaux). Sous 9.04/10.04 : uniquement en 802.11b et instable 10.10 64 bit |
+| TEW-423PI B1 | PCI | Marvel Technology Group Ltd 88w8335 | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} |  | Voir procédure du Netgear WG311v3 Pilote [[http://trendnet.com/langfr/downloads/list_subcategory.asp?SUBTYPE_ID=367&SUBMIT=Go|ici]]  9.04 / 9.10|
+| TEW-423PI C1 | PCI | rtl8185L | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} |  | Procédure [[:wifi_realtek_rtl8185|ici]] 9.10|
+| TEW-424UB v2 | USB | Sis | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | Utiliser [[:Ndiswrapper]] et suivre [[http://forum.ubuntu-fr.org/viewtopic.php?id=41492|ce tutoriel (forum)]][[http://forum.ubuntu-fr.org/viewtopic.php?pid=2849388#p2849388|Ou sa version Simplifiée #331]] 9.04 |
+| TEW-424UB v3.1 | USB |  Realtek 8187b | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | 0bda:8189 | 10.04 |
+| TEW-443PI | PCI |  atheros AR5212 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} |  | 7.04 |
+| TEW-644UB | USB | Sans objet | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | Testé sur un réseau WEP. Signal fiable 11.04 |
+| TEW-648UB (H/W:v1.0R) (FR) | USB | Realtek (0BDA:8171)  | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | Fonctionne avec le module r8712u  12.04|
+| TEW-649UB/EU (H/W:v1.0R) | USB | Realtek RTL8191S | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | (fonctionne avec le module r8712u) 13.04 |
+|[[http://www.linux-hardware-guide.com/fr/2013-11-16-trendnet-tew-805ub-usb-ac1200-wifi-adapter-802-11ac|TEW-805UB]] | USB3 | rtl8812au | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} | 20f4:805b | 14.04 téléchargez le pilote au format .deb  [[http://packages.ubuntu.com/xenial/all/rtl8812au-dkms|ici]]. Pour 16.04 installer le paquet [[apt>rtl8812au-dkms]] |
+
+===== U =====
+
+^ Produit ^ Modèle ^ Chipset ^ Type ^ Prise en charge ^ Id Vendor/Product ^ Commentaire/Version ^
+^ US Robotics | USR 5410 | PCMCIA | ACX 111 (Texas instruments) | {{:icons:important.png?nolink| Fonctionne avec quelques manipulations.}} |  | Voir [[:wifi_chipset_ti_acx|ici]] 7.10 |
+^ US Robotics | USR 5416 | PCI | ACX 111 (Texas instruments) | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | Voir [[:wifi_chipset_ti_acx|ici]] [[http://www.linuxant.com|Linuxant]] (//Texas Instrument chipsets//) 5.10 | 
+^ US Robotics | USR 5418 | PCI |  Atheros AR2413 rev 01 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | Des bugs peuvent cependant se produire aléatoirement, notamment le bureau qui se fige complètement sur Ubuntu 14.04 | 
+===== Y =====
+^ Produit ^ Modèle ^ Chipset ^ Type ^ Prise en charge ^ Id Vendor/Product ^ Commentaire/Version ^
+^ YAHT | WN-1011U | USB | zd1201 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 12.04 |
+
+===== Z =====
+
+^ Produit ^ Modèle ^ Chipset ^ Type ^ Prise en charge ^ Id Vendor/Product ^ Commentaire/Version ^
+^  ZyXEL  | ZyAir B-220 | USB | zd1201 | {{:icons:icon-ubuntu.png| Reconnue par défaut. Cliquez sur l'icône pour plus de détails.}} | | 12.04 |
+^  ZyXEL  | Zyxel G-360 | PCI | ACX 111 (Texas instruments) | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | Voir [[:wifi_chipset_ti_acx|ici]] Les pilotes windows sont disponibles sur le site de Zyxel 8.10 | 
+^  Zcom  |  | Texas acx 111 | PCMCIA | {{wiki:modeles:laptop_work.png|Fonctionne après config}} | | Voir [[:wifi_chipset_ti_acx|ici]]. Le pilote Windows à utiliser est dans la plupart des cas celui-ci : [[http://pascale.lusseau.free.fr/ACXDriver.tar.bz2|ACXDriver.tar.bz2]] | 
+  
+===== Liens =====
+
+  * Une liste plus complète des cartes Wifi supportées par Ubuntu se trouve sur [[https://help.ubuntu.com/community/WifiDocs/WirelessCardsSupported|cette page]] (en Anglais).
+  * Une liste de cartes testées et recommandées. Toutes avec de bon chipset pour ne pas passer par ndiswrapper et disposer du mode monitor : [[http://www.tuto-fr.com/tutoriaux/carte-wifi-crack-wep-usb-pci-pcmcia.php#selection |cartes wifi testées]].
+  * D'autres clefs Wifi usb disponibles en france testées  [[http://www.presence-pc.com/tests/cles-usb-wifi-499/|ici]].
+  * [[http://rfswitch.sourceforge.net/?page=laptop_matrix |Une page]] recensant les portables équipés de boutons d'activation pour le Wifi, et la manière de les activer/désactiver sous Linux (j'ai galéré assez longtemps avec le Wifi avant de me rendre compte que [[ http://rfswitch.sourceforge.net/?page=laptop_matrix|c'était le switch qui posait problème]]
+  * Un [[http://forum.ubuntu-fr.org/viewtopic.php?pid=2530610#p2530610|tuto]] bien fichu pour qui démarre,
+  * [[http://linuxwireless.org|Site]] en anglais fournissant des pilotes compatibles pour une série de chipsets :  Cliquer sur //User//, puis sur //Devices// pour obtenir une liste de modèles, loin d'être exhaustive.
+
+----
+
+//Contributeurs principaux : [[utilisateurs:Démosthène]], [[utilisateurs:lestat_the_vampire|Lestat the vampire]].//

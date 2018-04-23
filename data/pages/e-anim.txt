@@ -1,0 +1,69 @@
+{{tag>graphisme animation programmation flash vétuste}}
+
+----
+
+
+
+====== E-anim ======
+
+E-anim est un excellent logiciel libre qui permet de créer de puissantes animations Flash très simplement. :-D
+Par contre, la programmation MTASC ne fonctionne pas parce qu'elle lance un fichier exécutable pour windows.
+
+
+<note warning>Il n'y a plus de version Linux de par la volonté de l'auteur. E-anim ne fonctionne plus sous les versions récentes d'Ubuntu bien qu'il soit écrit en Java, ni la version Linux, ni la version pour Windows avec Wine. Si un utilisateur trouve la solution son aide pour la rédaction de cette page est la bienvenue.</note>
+
+
+===== Installation de la version linux =====
+FIXME Cette version ne fonctionne plus.\\
+- Installer **[[apt>openjdk-6-jre]]**.
+
+- Télécharger **la version pour linux** du logiciel à cette adresse :
+[[http://www.phildes.com/loadeanim_final.shtml]]
+
+- Décompressez le fichier zip
+
+- Désactivez les effets visuels : Système / préférences / apparence / effets visuels (eh oui, il y a un petit bug sinon...)
+
+- Rendez exécutable le fichier linux_run.sh : avec nautilus, bouton droit sur le fichier, propriétés, permissions, cocher autoriser l'exécution ... ou bien :
+   chmod +x linux_run.sh
+
+- Exécutez le bash (dans le dossier e-anim):
+   sudo bash ./linux_run.sh
+
+- Lorsqu'il demande où se trouve java, mettre
+   /usr/lib/jvm/java-1.5.0-sun-1.5.0.15/jre/bin/java
+
+
+
+===== Installation de la version windows =====
+
+Fonctionne nativement sous Ubuntu 10.10 + **[[apt>wine]]** avec la version de Java fourni par Ubuntu : **[[apt>openjdk-6-jre]]** 
+<note>FIXME  Il subsiste encore une sorte de bug car e-anim lance une fenêtre intitulée "Internet Explorer" lors de son démarrage et pendant les sauvegardes automatiques. Il est donc possible qu'e-anim nécessite l'installation d'Internet Explorer pour parfaire son installation.</note>
+
+
+Télécharger **la version pour windows** du logiciel à cette adresse :
+[[http://www.phildes.com/loadeanim_final.shtml]]
+
+Si le lancement simple ne fonctionne pas essayer comme suit :
+  * Double-cliquez sur le logiciel pour que Wine l'installe dans le répertoire de votre choix.
+  * Placez vous dans le répertoire d'installation et lancez en ligne de commande : <code>''java -Xms64m -Xmx256m -cp "" eanim_run''</code>
+
+ou : 
+  * Créez un fichier vierge nommé "e-anim" dans 
+/home/utilisateur/.wine/drive_c/Program\ Files/e-anim701/
+  * Mettez y le code ci-dessous : <code>java -Xms64m -Xmx256m -cp "" eanim_run</code>
+  * Donnez-lui des droits d'exécution : clic droit, propriétés -> permissions cocher la case exécution.
+
+ou  :
+Si vous le souhaitez, créez un lien vers le bureau : clic droit, créer un lien, déplacez le vers le bureau avec un glisser-coller. Editez le lien avec gedit ou mousepad et ajoutez le chemin.
+Le lien doit contenir quelquechose comme ça : <code>cd /home/fred/.wine/drive_c/Program\ Files/e-anim701/
+  java -Xms64m -Xmx256m -cp "" eanim_run</code>
+
+ou tout simplement créez un [[:raccourci-lanceur|lanceur]].
+
+===== Participer au développement d'e-anim =====
+
+Les deux dernières versions (e-anim test et e-anim FX) ne semblent pas fonctionner sous ubuntu. Si vous maîtrisez java, notamment avec Eclipse, votre aide sera la bienvenue pour rendre de nouveau e-anim disponible sous ubuntu : 
+http://e-anim.smileyforum.net/connaitre-e-anim-f1/e-anim-pour-linux-t2962-75.htm#80419
+
+__Site officiel :__ [[http://www.e-anim.com/]]

@@ -1,0 +1,142 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#introduction" class="toc"> Introduction </a></span></li>
+<li class="level1"><span class="li"><a href="#installation" class="toc"> Installation </a></span></li>
+<li class="level1"><span class="li"><a href="#parametrage_final" class="toc"> Parametrage final </a></span></li>
+<li class="level1"><span class="li"><a href="#lancer_la_conquete" class="toc"> Lancer la conquête </a></span></li>
+<li class="level1"><span class="li"><a href="#liens" class="toc"> Liens </a></span></li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Pour Warty et Hoary
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/manu" class="wikilink1" title="utilisateurs:manu" onclick="return svchk()" onkeypress="return svchk()">manu</a>.
+</p>
+
+<a name="introduction"></a><h1> Introduction </h1>
+<div class="level1">
+
+<p>
+ <a href="http://www.freeciv.org/index.php/Fr:Freeciv" class="urlextern" title="http://www.freeciv.org/index.php/Fr:Freeciv" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Freeciv</a> est un jeu de stratégie au tour par tour, libre, dans lequel chacun des joueurs devient le chef d&rsquo;une civilisation, luttant pour parvenir au but ultime :<strong>Devenir la plus grande civilisation.</strong> (extrait du site officiel)
+</p>
+
+<p>
+<strong>Freeciv</strong> est composé de deux parties: Un client et un serveur. Cette particularité permet de lancer le serveur sur une machine dédiée et chaque joueur a son client pour se connecter dessus. Mais vous pouvez jouer en solo en ayant le client et le serveur sur votre machine.
+</p>
+
+</div>
+<!-- SECTION [74-661] -->
+<a name="installation"></a><h1> Installation </h1>
+<div class="level1">
+
+<p>
+ Pour installer <strong>Freeciv</strong>, la manière la plus simple est d&rsquo;utiliser <em>Synaptic</em> (voir [FrSynapticHowto]) et de sélectionner le paquet <strong>freeciv</strong> (version 1.14-2.1 au moment de la création de cette page) et prendre les paquets dépendants. Autre solution, utiliser <em>apt-get</em> dans un shell root:
+</p>
+<pre class="code">
+apt-get install freeciv-server freeciv-client-gtk
+</pre>
+
+<p>
+Accepter les dépendances éventuelles.
+</p>
+
+<p>
+Voilà l&rsquo;installation de base est terminée.
+</p>
+
+</div>
+<!-- SECTION [662-1145] -->
+<a name="parametrage_final"></a><h1> Parametrage final </h1>
+<div class="level1">
+
+<p>
+ Une fois l&rsquo;installation finie, vous trouverez dans le menu <strong>Applications &rArr; Jeux</strong> le raccourci <strong>Freeciv</strong> qui vous lancera le client de ce jeu.
+</p>
+
+<p>
+Mais le serveur n&rsquo;a pas de raccourci créé automatiquement donc il vous faut faire un <em>lanceur</em> dans le tableau de bord de votre choix. La commande pour lancer le serveur est /usr/games/civserver.
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=applications%3Afreeciv.png" class="media" title="applications:freeciv.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=applications%3Afreeciv.png" class="media" alt="" /></a>
+</p>
+
+<p>
+Les paramètres à rentrer sont: 
+</p>
+<ul>
+<li class="level1"><span class="li"> <strong>Name</strong>: Donnez le nom que vous voulez au raccourci, exemple:Freeciv-serveur</span>
+</li>
+<li class="level1"><span class="li"> <strong>Command</strong>: Donnez le chemin de la commande à lancer pour le serveur : /usr/games/civserver</span>
+</li>
+<li class="level1"><span class="li"> <strong>Type</strong>: Laissez sur Application.</span>
+</li>
+<li class="level1"><span class="li"> <strong>Icône</strong>: Choisissez l&rsquo;icône que vous désirez</span>
+</li>
+<li class="level1"><span class="li"> <strong>Run in terminal</strong>: Cochez la case de cette option, elle est obligatoire car la gestion du serveur <strong>Freeciv</strong> se fait en ligne de commande donc si vous n&rsquo;avez pas de terminal.... <img src="/smileys/icon_razz.gif" align="middle" alt=":-P" /></span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [1146-2054] -->
+<a name="lancer_la_conquete"></a><h1> Lancer la conquête </h1>
+<div class="level1">
+
+<p>
+ <u>Pour lancer le jeu</u>, utilisez le lanceur que vous venez de créer. Une fenêtre s&rsquo;ouvre et vous permet de donner vos ordres au serveur. Voici quelques commandes pour tout savoir sur les options possibles reportez vous au menu <em>help</em> et aux documentations en ligne (voir chapitre <strong>Lien</strong>): 
+</p>
+<ul>
+<li class="level1"><span class="li"> <strong>help</strong> : pour optenir les commandes de base et, de l&rsquo;aide sur les options et leurs configurations.</span>
+</li>
+<li class="level1"><span class="li"> <strong>show</strong>: permet de visualiser les valeurs des options du serveur .</span>
+</li>
+<li class="level1"><span class="li"> <strong>set</strong>: pour modifier la valeur d&rsquo;une option du serveur</span>
+</li>
+<li class="level1"><span class="li"> <strong>start</strong>: pour lancer le jeu une fois que tous les joueurs sont connecter.</span>
+</li>
+<li class="level1"><span class="li"> <strong>save</strong>: permet de sauvegarder une partie en cours pour la relancer plus tard.</span>
+</li>
+<li class="level1"><span class="li"> <strong>load</strong>: permet de charger une partie sauvegardée</span>
+</li>
+<li class="level1"><span class="li"> <strong>quit</strong>: permet de quittter et arrêter le serveur.</span>
+</li>
+</ul>
+
+<p>
+ <u>Pour la partie client</u>, reportez vous aux documentations fournis avec le jeu ou les aides en ligne. Les seules informations importantes pour débuter la partie sont les paramètres de connexion au serveur. Quand le client se lance une fenêtre pour joindre le serveur s&rsquo;ouvre: 
+</p>
+<ul>
+<li class="level1"><span class="li"> <strong>Nom</strong>: Votre pseudo pour jouer (par defaut c&rsquo;est votre username).</span>
+</li>
+<li class="level1"><span class="li"> <strong>Hôte</strong>: Nom du serveur (ou adresse IP), pour les partis en solo utilisez <strong>localhost</strong> proposé par defaut.</span>
+</li>
+<li class="level1"><span class="li"> <strong>Port</strong>: port TCP pour joindre le serveur sur l<strong>&rsquo;Hôte</strong>, par defaut c&rsquo;est 5555.</span>
+</li>
+</ul>
+
+<p>
+ Une fois que tous les joueurs, ou vous seul (partie solo) êtes connecté au serveur, dans sa console tapez <strong>start</strong> et la partie commence. Choisissez votre couleur de drapeau/pays et votre leader puis partez à la conquête du nouveau monde <img src="/smileys/icon_smile.gif" align="middle" alt=":-)" />.
+</p>
+
+</div>
+<!-- SECTION [2055-3706] -->
+<a name="liens"></a><h1> Liens </h1>
+<div class="level1">
+<ul>
+<li class="level1"><span class="li"> <a href="http://old.freeciv.org/fr/" class="urlextern" title="http://old.freeciv.org/fr/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow"> Freeciv-doc</a>   Sur ce site vous trouverez des guides et tutoriaux pour jouer à <strong>Freeciv</strong></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://www.linux-france.org/article/appli/jeu/freeciv/html/intro_freeciv.html" class="urlextern" title="http://www.linux-france.org/article/appli/jeu/freeciv/html/intro_freeciv.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow"> Autre page</a>  d&rsquo;information</span>
+</li>
+</ul>
+
+<p>
+ Création <a href="/utilisateurs/manu" class="wikilink1" title="utilisateurs:manu" onclick="return svchk()" onkeypress="return svchk()">manu</a>, Mai 2005 pour Ubuntu-fr 
+</p>
+
+</div>
+<!-- SECTION [3707-] -->

@@ -1,0 +1,22 @@
+a:2:{s:7:"current";a:10:{s:4:"date";a:2:{s:7:"created";i:1297781884;s:8:"modified";i:1391989214;}s:7:"creator";s:6:"Id2ndR";s:11:"last_change";a:7:{s:4:"date";i:1391989214;s:2:"ip";s:14:"82.241.249.174";s:4:"type";s:1:"E";s:2:"id";s:7:"libvirt";s:4:"user";s:6:"Id2ndR";s:3:"sum";s:32:"exemple de configuration réseau";s:5:"extra";s:0:"";}s:4:"user";s:0:"";s:11:"contributor";a:1:{s:6:"Id2ndR";s:6:"Id2ndR";}s:7:"subject";a:2:{i:0;s:14:"virtualisation";i:1;s:9:"brouillon";}s:8:"relation";a:2:{s:10:"references";a:5:{s:14:"virtualisation";b:1;s:9:"brouillon";b:1;s:12:"virt-manager";b:1;s:34:"tutoriel:console_ligne_de_commande";b:1;s:19:"utilisateurs:id2ndr";b:1;}s:10:"firstimage";s:0:"";}s:5:"title";s:7:"libvirt";s:11:"description";a:2:{s:15:"tableofcontents";a:4:{i:0;a:4:{s:3:"hid";s:13:"configuration";s:5:"title";s:13:"Configuration";s:4:"type";s:2:"ul";s:5:"level";i:1;}i:1;a:4:{s:3:"hid";s:57:"nat_ipv4_et_routage_ipv6_avec_autoconfiguration_d_adresse";s:5:"title";s:58:"NAT IPv4, et routage IPv6 avec autoconfiguration d'adresse";s:4:"type";s:2:"ul";s:5:"level";i:2;}i:2;a:4:{s:3:"hid";s:7:"astuces";s:5:"title";s:7:"Astuces";s:4:"type";s:2:"ul";s:5:"level";i:1;}i:3;a:4:{s:3:"hid";s:17:"serveur_dhcp_fixe";s:5:"title";s:17:"Serveur DHCP fixe";s:4:"type";s:2:"ul";s:5:"level";i:2;}}s:8:"abstract";s:506:"virtualisation brouillon
+
+libvirt
+
+libvirt est le démon utilisé par virt-manager pour gérer les hyperviseurs qui font tourner les machines virtuelles
+
+Configuration
+
+NAT IPv4, et routage IPv6 avec autoconfiguration d'adresse
+
+
+
+
+<network>
+  <name>default</name>
+  <uuid>#un identifiant#</uuid>
+  <forward mode='nat'/>
+  <bridge name='virbr0' stp='on' delay='0'/>
+  <mac address='#Une MAC#'/>
+  <ip address='192.168.122.1' netmask='255.255.255.0'>
+    <dhcp>
+      <range start='192.168.122.2' end='19…";}s:8:"internal";a:2:{s:5:"cache";b:1;s:3:"toc";b:1;}}s:10:"persistent";a:5:{s:4:"date";a:2:{s:7:"created";i:1297781884;s:8:"modified";i:1391989214;}s:7:"creator";s:6:"Id2ndR";s:11:"last_change";a:7:{s:4:"date";i:1391989214;s:2:"ip";s:14:"82.241.249.174";s:4:"type";s:1:"E";s:2:"id";s:7:"libvirt";s:4:"user";s:6:"Id2ndR";s:3:"sum";s:32:"exemple de configuration réseau";s:5:"extra";s:0:"";}s:4:"user";s:0:"";s:11:"contributor";a:1:{s:6:"Id2ndR";s:6:"Id2ndR";}}}

@@ -1,0 +1,14 @@
+{{tag>Precise scanner}}
+----
+
+======Scanner Trust Easy Connect 9600+ ======
+
+Le scanner est supporté par SANE seulement il n'est pas detecté par xsane.
+
+Pour régler le problème, il suffit d'[[:tutoriel/comment_modifier_un_fichier|éditer le fichier]] /etc/sane.d/mustek_pp.conf et d'ajouter la ligne suivante :
+<code>scanner "Trust Easy Connect 9600+" * cis600</code>
+
+Voir [[http://forum.ubuntu-fr.org/viewtopic.php?id=818391|ici]]
+
+----
+//Contributeurs:demonipuch//

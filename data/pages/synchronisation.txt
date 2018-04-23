@@ -1,0 +1,38 @@
+{{tag>BROUILLON fichier}}
+
+----
+
+====== Synchronisation ======
+
+La synchronisation de fichiers (ou de répertoires) est le processus permettant de faire correspondre les contenus de deux (ou plus) emplacements de stockage.
+
+===== Types de synchronisation =====
+
+La synchronisation de fichiers peut être à sens unique (unidirectionnelle) ou bidirectionnelle (à deux sens). Dans le cas d'une synchronisation à sens unique, les modifications sont appliquées seulement d'un endroit primaire (source ou "maître") à un endroit secondaire (cible ou "esclave") et dans une seule direction, mais aucune modification n'est effectuée de l'endroit secondaire à l'endroit primaire. Dans la synchronisation bidirectionnelle, au contraire, des modifications sont appliquées dans les deux directions, maintenant les contenus des deux endroits parfaitement identiques. \\
+Il est à noter qu'il est possible de faire deux synchronisations unidirectionnelles, tantôt dans un sens, tantôt dans l'autre mais que cela risque de poser des problèmes avec les fichiers supprimés et ceux modifiés de part et d'autre, alors que la synchronisation bidirectionnelle gère cela.
+
+===== Logiciels de synchronisation =====
+
+==== Avec une interface graphique ====
+
+  * **[[Grsync]]** : Interface graphique de [[rsync]]. Principalement utilisé pour mettre en place des systèmes de sauvegarde distante. Rsync travaille de manière unidirectionnelle.
+  * **[[Unison-gtk]]** : Interface graphique de [[unison]]. À la différence de Rsync celui-ci réalise une synchronisation bidirectionnelle.
+  * **[[FreeFileSync]]** : Semblable à Unison, mais beaucoup plus simple. Gère les dossiers distants.
+  * **[[Synkron]]** : Relativement simple d'utilisation, multiplate-forme, bidirectionnelle et multilingue. La dernière version compilée pour Linux date de 2009, et les sources de 2011.
+  * **[[Conduit]]** : Outil de synchronisation pour l'environnement de bureau Gnome. Il vous permettra de synchroniser vos photos, documents, calendriers, emails, contacts, notes, marque-pages et flux RSS, ... Possibilité de synchroniser les dossiers distants. Dernière version datant de 2010.
+  * **[[FullSync]]**: Logiciel de synchronisation de fichiers/dossiers avec interface graphique. Dernière version datant du 5 avril 2016.
+  * **LuckyBackup**: Logiciel de synchronisation qui utilise rsync. [[http://luckybackup.sourceforge.net/]] aussi disponible dans les dépôts.
+  * **[[http://jfilesync.sourceforge.net/|JFileSync]]** **N'est plus développé**
+  * **[[http://www.dirsyncpro.org/|DirSync Pro]]**
+  * **[[Syncthing|Syncthing]]** (licence GPLv3): Synchroniser des répertoires entre plusieurs machines, le tout de manière sécurisée [[http://fr.wikipedia.org/wiki/Chiffrement_RSA|clés RSA]] + utilisation de [[http://fr.wikipedia.org/wiki/Transport_Layer_Security|TLS]].
+  * **[[bittorrentsync|BtSync]]** (logiciel fermé & **bientôt payant**): Synchroniser des répertoires entre plusieurs machines en local & Internet, Crypté [[http://fr.wikipedia.org/wiki/Advanced_Encryption_Standard|AES-256]]
+  *  **[[librevault|LibreVault]]** (logiciel **Libre**): Synchroniser des répertoires entre plusieurs machines en local & Internet, Crypté [[http://fr.wikipedia.org/wiki/Advanced_Encryption_Standard|AES-256]], [[https://librevault.com/blog/features|TLSv1.2, SHA-3]]. c'est l'aternative de BtSync
+
+==== En ligne de commande ====
+
+  * **[[Rsync]]** : Principalement utilisé pour mettre en place des systèmes de sauvegarde distante. Rsync travaille de manière unidirectionnelle.
+  * **[[Unison]]** : À la différence de Rsync celui-ci réalise une synchronisation bidirectionnelle.
+
+===== Liste des pages sur la synchronisation =====
+
+{{topic>synchronisation}}

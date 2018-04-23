@@ -1,0 +1,61 @@
+{{tag>Precise Trusty bureautique application_domestique comptabilité}}
+----
+
+====== Grisbi : La comptabilité personnelle pour tous ======
+{{ applications:grisbi_lucid_00.png?120}}
+**Grisbi** est une application pour la comptabilité personnelle distribuée sous [[wpfr>Licence_publique_générale_GNU|licence GNU GPL]].\\
+Écrite par des français, il respecte parfaitement l'esprit de la comptabilité à la française. Grisbi est multi-comptes, multi-devises, et multi-utilisateurs. Elle gère les tiers, les catégories de recettes et de dépenses, mais aussi les imputations budgétaires, les exercices et d'autres informations qui le rendent parfaitement adapté à la comptabilité d'une association (hormis celles qui sont tenues à la comptabilité en partie double). 
+
+Elle permet l'import d'opérations au format Open Financial Exchange (OFX), Quicken Interchange Format (QIF), CSV, ou Gnucash. Il est également disponible sous Windows.
+
+
+{{applications:grisbi_lucid_01.png?500|Grisbi version 0.6.0 sous Lucid}}
+
+===== Installation =====
+==== Installation par les dépôts ====
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>grisbi]]**.
+
+
+===== Utilisation =====
+
+Pour lancer l'application faites une recherche dans [[unity#tableau_de_bord_dash|le tableau de bord Unity]] avec le mot clé **Grisbi** ou depuis un [[:terminal]] //via// la [[:commande_shell|commande]] suivante :<code>grisbi</code>
+
+==== Migration des données de MS Money ====
+Pour migrer vos données à partir de Microsoft Money®, il suffit de faire un export au format QIF sous Money et ensuite d'importer le(s) fichier(s) dans Grisbi.
+
+===== Configuration =====
+==== Changer les icônes ====
+Pour changer les icônes et les adapter à ses banques, choisir son compte, onglets "Propriétés", cliquer sur l’icône et renseigner un nouvelle icône.
+
+====Ajout de l'aide intégrée====
+Pour ajouter l'aide complète, téléchargez [[:archivage|l'archive]] à cette [[http://sourceforge.net/projects/grisbi/files/Documentation/|adresse]] (il y a la version 1.0 et 0.8.9), [[:archivage|décompressez]], et déplacez son contenu avec les [[:sudo|droits d'administration]]  dans le dossier **/usr/share/doc/grisbi/fr**, ou bien directement avec cette [[:commande_shell|commande]] dans un [[:terminal]], en supposant que vous ayez décompressé votre archive dans votre **Dossier Personnel** : <code>sudo mv grisbi-manuel-html*/* /usr/share/doc/grisbi/fr/</code>
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Problèmes connus =====
+
+Lors de manipulations vous pouvez être amenés à modifier la largeur de colonnes involontairement. Il existe un [[http://comments.gmane.org/gmane.comp.finance.grisbi.user.french/10776|bug constaté]] (au moins sur la version 0.8.9) qui va décupler la largeur des colonnes et ne plus rien faire apparaître à l'écran. La méthode "restaurer les réglages par défaut" dans Paramètres/Affichage/Polices et logo ne fonctionne pas.
+
+Solution :
+Il est nécessaire d'ouvrir votre fichier de compte grisbi ( exemple.gsb) avec un éditeur de texte (comme gedit)
+Il suffira  de modifier les lignes commençant par : <file>
+
+		Transaction_column_width="
+		Transaction_column_align="
+		Scheduler_column_width="
+</file>
+et d'y renseigner les valeurs suivantes (exemples fonctionnels) : <file>
+		Transaction_column_width="11-8-32-3-7-8-32"
+		Transaction_column_align="0-0-0-1-2-2-2"
+		Scheduler_column_width="11-21-30-9-8-12-22"</file>
+
+===== Voir aussi =====
+  * [[http://fr.grisbi.org/|Site officiel]]
+  * [[wpfr>Grisbi|Article sur Grisbi sur Wikipédia]]
+  * [[http://www.generation-linux.fr/index.php?post/2008/10/20/Test-de-Grisbi-un-logiciel-de-comptabilite-personnelle|Test  complet de Grisbi]]
+  * [[http://vviale.developpez.com/tutoriels/grisbi/debuter|Tutoriel pour débuter avec Grisbi]]
+
+----
+
+//Contributeurs : ??, [[utilisateurs:Id2ndR]]//.--- //[[:utilisateurs:yanov|yanov]] Le 25/01/2014, 17:17//

@@ -1,0 +1,259 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#recuperation_d_ubuntu_apres_une_re_installation_de_windows" class="toc"> Récupération d'Ubuntu après une (ré) installation de Windows </a></span><ul class="toc">
+<li class="clear"><ul class="toc">
+<li class="level3"><span class="li"><a href="#avant_de_commencer" class="toc"> Avant de commencer: </a></span></li>
+<li class="level3"><span class="li"><a href="#pre_requis" class="toc"> Pré requis: </a></span></li>
+<li class="level3"><span class="li"><a href="#preparation" class="toc"> Préparation: </a></span></li>
+<li class="level3"><span class="li"><a href="#restaurer_grub_automatiquement" class="toc"> Restaurer GRUB automatiquement: </a></span></li>
+<li class="level3"><span class="li"><a href="#configurer_le_menu_de_grub" class="toc"> Configurer le menu de GRUB: </a></span></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Versions Warty et Hoary
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/golgoth" class="wikilink1" title="utilisateurs:golgoth" onclick="return svchk()" onkeypress="return svchk()">Golgoth</a>
+</p>
+
+<a name="recuperation_d_ubuntu_apres_une_re_installation_de_windows"></a><h1> Récupération d'Ubuntu après une (ré) installation de Windows </h1>
+<div class="level1">
+
+</div>
+<!-- SECTION [88-167] -->
+<a name="avant_de_commencer"></a><h3> Avant de commencer: </h3>
+<div class="level3">
+
+<p>
+ Cet &ldquo;howto&rdquo; s&rsquo;applique dans les cas suivants: 
+</p>
+<ul>
+<li class="level1"><span class="li"> une configuration &ldquo;dual-boot&rdquo; (double-démarrage) où Windows a été installé après Ubuntu</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> une panne de Windows qui oblige à le réinstaller</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> une récupération de Windows impliquant une restauration du MBR (Master Boot Record)</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> GRUB ne s&rsquo;installe pas par défaut</span>
+</li>
+</ul>
+
+<p>
+<br/>
+
+</p>
+
+</div>
+<!-- SECTION [168-537] -->
+<a name="pre_requis"></a><h3> Pré requis: </h3>
+<div class="level3">
+<ul>
+<li class="level1"><span class="li"> vos partitions Ubuntu sont toutes encore intactes</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> vous possédez un LiveCD comme celui d&rsquo;Ubuntu ou tout autre avec lequel vous êtes à l&rsquo;aise</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> vous connaissez assez votre LiveCD pour accéder au mode console</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> vous vous rappelez de la façon dont vous avez configuré vos partitions (l&rsquo;idéal est d&rsquo;avoir une impression de votre /etc/fstab bien que vous pouvez aussi l&rsquo;obtenir avec un fdisk -l /dev/hda)</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> vous savez comment fonctionne votre noyau (notamment pour initrd) si vous n&rsquo;utilisez pas le noyau d&rsquo;Ubuntu ou si vous vous êtes fait vous-même votre propre noyau. </span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> votre version du noyau est la 2.6.10-5-386</span>
+</li>
+</ul>
+
+<p>
+<br/>
+
+</p>
+
+</div>
+<!-- SECTION [538-1205] -->
+<a name="preparation"></a><h3> Préparation: </h3>
+<div class="level3">
+
+<p>
+ Pour commencer la procédure de restauration, insérez votre LiveCD et redémarrez votre ordinateur. Laissez la procédure de boot du LiveCD se dérouler jusqu&rsquo;à ce que vous arriviez à une interface. Si votre LiveCD ne vous propose pas immédiatement une console (aussi appelée terminal), ouvrez en une (pour faire ceci, cliquez sur Applications &rarr; Outils Systèmes &rarr; Terminal).
+</p>
+
+<p>
+Note: Comme c&rsquo;est un environnement de LiveCD, tout changement aux comptes utilisateurs ou aux fichiers système ne sera pas définitif à ce niveau. Cela signifie que vous pouvez choisir un mot de passe root temporaire et créer des répertoires sans changer votre installation.
+</p>
+
+<p>
+Maintenant, vous avez besoin d&rsquo;un compte root. Sous Ubuntu, vous pouvez le faire grâce aux commandes suivantes:
+</p>
+<pre class="code">
+sudo passwd root
+(Entrez le mot de passe désiré)</pre>
+<pre class="code">su -
+(Entrez votre mot de passe)</pre>
+
+<p>
+ Avec Knoppix, la commande suivante suffit, et on ne vous demandera pas de mot de passe: 
+</p>
+<pre class="code">su -</pre>
+
+<p>
+ Maintenant que vous avez un accès root, vous avez besoin de monter la ou les partitions contenant les fichiers de boot.
+</p>
+
+<p>
+Vous devez avoir accès à votre répertoire /sbin ainsi qu&rsquo;à votre répertoire /boot. Si vous avez une ligne /boot dans votre fstab, vous êtes parmi ceux qui auront besoin de monter deux partitions. 
+</p>
+
+<p>
+Commencez par créer un point de montage pour votre environnement de travail. Vous remarquerez que cela revient à créer un répertoire. 
+</p>
+<pre class="code">mkdir /mnt/work</pre>
+
+<p>
+ Si vous avez besoin de monter /boot, exécutez également l&rsquo;instruction suivante: 
+</p>
+<pre class="code">mkdir /mnt/work/boot</pre>
+
+<p>
+ Maintenant il est temps de charger les données de votre système de fichiers. Relisez votre fstab et identifiez où se trouve(nt) / et /boot/; cela ressemblera vraisemblablement à /dev/hda3 et /dev/hda4 bien que la lettre &ldquo;a&rdquo; et les chiffres &ldquo;3&rdquo; et &ldquo;4&rdquo; peuvent différer.
+</p>
+
+<p>
+Note: Pour la suite de cet &ldquo;howto&rdquo;, on utilisera /dev/hda3 et /dev/hda4 donc changez-les le cas échéant.
+</p>
+
+<p>
+Entrez les commandes suivantes afin de charger votre système de fichiers ainsi que quelques informations dont GRUB peut avoir besoin. 
+</p>
+<pre class="code">mount /dev/hda4 /mnt/work 
+mount -o bind /dev /mnt/work/dev
+mount -o bind /proc /mnt/work/proc
+cp /proc/mounts /mnt/work/etc/mtab
+  </pre>
+
+<p>
+Maintenant, vous devez entrer dans votre environnement de travail. Lancez la commande suivante: 
+</p>
+<pre class="code">chroot /mnt/work/ /bin/bash</pre>
+
+<p>
+ Attention: À partir de ce point, toute modification d&rsquo;un fichier sera pris en compte. Vous n&rsquo;avez plus la sécurité du LiveCD.  <br/>
+ <br/>
+
+</p>
+
+</div>
+<!-- SECTION [1206-3719] -->
+<a name="restaurer_grub_automatiquement"></a><h3> Restaurer GRUB automatiquement: </h3>
+<div class="level3">
+
+<p>
+ Si vous avez une partition distincte pour /boot/, tapez la commande suivante:
+</p>
+
+<p>
+ mount /dev/hda3 /boot/
+</p>
+
+<p>
+Réinstaller GRUB à partir de ce point est facile, tapez la commande suivante:
+</p>
+
+<p>
+ /sbin/grub-install /dev/hda
+</p>
+
+<p>
+Si cette commande ne fonctionne pas, ce qui est peu probable, vous allez devoir configurer GRUB manuellement (ce n&rsquo;est pas trop dur); si au contraire elle a fonctionné, vous devriez lire: &ldquo;Configuring the GRUB Menu&rdquo;.
+</p>
+
+<p>
+Avant de passer à l&rsquo;étape suivante, il est important de comprendre comment GRUB identifie les partitions.
+</p>
+
+<p>
+Pour GRUB, les nombres commencent à 0 et les lettres sont exprimées numériquement, commençant également à 0.
+</p>
+
+<p>
+Par exemple, /dev/hda1 est &ldquo;hd0,0&rdquo; pour GRUB. De la même façon, /dev/hdb3 est &ldquo;hd1,2&rdquo;.
+</p>
+
+<p>
+Note: La ligne &ldquo;root&rdquo; doit pointer sur la location de votre partition /boot/ si vous en avez une. Si vous n&rsquo;en avez pas, il faut qu&rsquo;elle pointe sur votre partition /. 
+</p>
+<pre class="code">/sbin/grub 
+grub&gt; root (hd0,2)
+grub&gt; setup (hd0)
+grub&gt; quit</pre>
+
+<p>
+<br/>
+ <br/>
+
+</p>
+
+</div>
+<!-- SECTION [3720-4754] -->
+<a name="configurer_le_menu_de_grub"></a><h3> Configurer le menu de GRUB: </h3>
+<div class="level3">
+
+<p>
+ Note: Cette étape n&rsquo;est pas indispensable si vous essayez juste de récupérer votre MBR. L&rsquo;installation de Windows ne va pas changer le contenu de votre menu.lst, donc si tout fonctionnait correctement avant, tout continuera à fonctionner maintenant et vous pouvez donc redémarrer votre ordinateur.
+</p>
+
+<p>
+Ouvrez /boot/grub/menu.lst avec votre éditeur de texte préféré. Par exemple: 
+</p>
+<pre class="code">nano /boot/grub/menu.lst</pre>
+
+<p>
+ Note: Le menu.lst est utilisé pour contrôler l&rsquo;affichage de GRUB au démarrage ainsi que son apparence. Cet &ldquo;howto&rdquo; ne vous expliquera pas comment le rendre joli mais le fera fonctionner, c&rsquo;est tout!   Vous trouverez ci-dessous un exemple de menu.lst dénué de tout commentaire. Il est basé sur l&rsquo;exemple de /dev/hda3 et /dev/hda4 utilisé précédemment et suppose que Windows est sur /dev/hda1. 
+</p>
+<pre class="code">timeout 5 #Le nombre de secondes que GRUB devra attendre avant de démarrer sur l'OS
+default 0 #L'entrée sur laquelle GRUB démarrera par défaut
+fallback 1 #L'entrée sur laquelle GRUB démarrera si la premère entrée par défaut génère une erreur
+ 
+title  Ubuntu, 2.6.10 #Une entrée Ubuntu 32bits
+root   (hd0,2)
+initrd /initrd.img-2.6.10-5-386
+kernel /vmlinuz-2.6.10-5-386 root=/dev/hda4
+ 
+title  Ubuntu, 2.6.10 #Une autre entrée Ubuntu 32bits
+root   (hd0,2)
+initrd /boot/initrd.img-2.6.10-5-386
+kernel /boot/vmlinuz-2.6.10-5-386
+ 
+title  Microsoft Windows XP Home #Une entrée pour une installation Windows
+root   (hd0,0)
+makeactive
+chainloader +1</pre>
+
+<p>
+ Voilà, c&rsquo;est terminé, sauvegardez ce fichier, ensuite redémarrez et testez les entrées de GRUB.   
+</p>
+
+</div>
+<!-- SECTION [4755-] -->

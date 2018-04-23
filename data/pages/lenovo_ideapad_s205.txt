@@ -1,0 +1,128 @@
+<note tip>Cet article n'est pas terminé.</note>
+
+----
+======  Lenovo Ideapad S205======
+
+
+ [[http://www.lenovo.com/fr/fr/|Le site du constructeur]]
+
+=== Les données techniques du S205===
+
+Product Features :
+  * CPU AMD Zacate E-350 Dual Core + GPU AMD Radeon HD6310 (supporte le HDMI et le visionnage des vidéos HD) ;
+  * Ecran 11.6 pouces brillant ;
+  * Disponible sans OS et avec plusieurs possibilités via vendeurs spécialisés.
+
+===== En un coup d’œil =====
+
+Le tableau suivant récapitule la prise en charge du matériel de portable par les différentes versions d'Ubuntu.
+Il utilise les notations suivantes :
+  * {{icons:important.png|Fonctionne après config}} : **Fonctionne après quelques manipulations**
+  * {{icons:icon-ubuntu.png|Fonctionne immédiatement}} : **Fonctionne immédiatement**
+  * {{icons:icon-support.png|Pas testé}} : **Pas d'informations disponibles**
+  * {{icons:process-stop.png?36|Ne fonctionne pas}} : **Ne fonctionne pas**
+
+^ Version ^ Installation ^ Carte graphique ^ Son ^ Wifi ^ Bluetooth ^ Webcam ^ Touchpad ^ Raccourcis multimédia ^ Lecteur multicarte ^
+| [[:oneiric|11.10 ]]| {{icons:important.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} |
+
+**Utilisateurs du Wiki possédant cet ordinateur, fonctionnel :**
+  * **[[:utilisateurs:Ekimia]]** : [[oneiric|Ubuntu 11.10 ]]
+  * **[[:utilisateurs:Sioban]]** : [[natty|Ubuntu 11.04 ]]
+
+**Cet ordinateur portable n'est à priori pas [[:pc_tatoué|tatoué]].**
+
+
+
+
+===== Installation =====
+
+
+==== A partir d'une clé USB ====
+
+Largement inspiré du blog de rwh : http://helms-deep.cable.nu/~rwh/blog/?p=177
+
+Démarrez le S205 avec la clé USB bootable Ubuntu présente dans l'un des ports USB, normalement le BIOS est, d'origine, paramétré pour démarrer (booter) sur les ports USB.
+
+Dans tous les cas, il faut créer les partitions indiquées ci-dessous.
+Si l'installation classique ne marche pas, il est possible que GRUB2 ne soit pas compatible avec le matériel (anciennes versions); dans ce cas, faire la suite.
+
+  * Pressez assez rapidement Fn-F11 (F12) pour choisir de démarrer sur la clé USB ;
+  * Choisir "Run Ubuntu from this USB" et non pas "Install Ubuntu on a Hard Disk" car il faudra modifier la version de GRUB ;
+  * Lancez l'installation en utilisant le raccourci "Install Ubuntu 11.04", le wifi n'étant pas fonctionnel au début, il est conseillé d'utiliser une liaison réseau filaire afin d'installer automatiquement les mises à jours et le bon noyau ;
+  * Utilisez les paramètres suivant pour partionner le disque (**attention** : ces informations peuvent changer si vous voulez faire du multiboot avec windows, se reporter au blog de rwh pour cette manipulation) :
+    * Supprimez les partitions
+    * Créez une partition primaire __/dev/sda1__ de __255 Mb__ au format __ext2__ avec comme point de montage __/boot__ (GRUB Legacy ne supportant pas les partitions ext4 alors que GRUB2 oui) ;
+    * Créez une partition primaire __/dev/sda2__ de __[La taille du disque - 4 Gb] Gb__ au format __ext4__ avec comme point de montage __/__ ;
+    * Créez une partition primaire __/dev/sda3__ de __4 Gb__ au format __swap__ ;
+    * Le boot loader doit être positionné sur __/dev/sda1__ (et non pas __/dev/sda__).
+  * Continuez l'installation ;
+  * Une fois l'installation terminée, il ne faut pas redémarrer ;
+  * Ouvrez une ligne de commande pour y passer les instructions suivantes afin de se placer dans le contexte de l'installation :
+    * sudo su 
+    * mkdir /mnt/sda2
+    * mount /dev/sda2 /mnt/sda2
+    * cd /mnt/sda2
+    * mount /dev/sda1 ./boot
+    * mount --bind /sys ./sys
+    * mount --bind /proc ./proc
+    * mount --bind /dev ./dev
+    * chroot .
+  * Il faut maintenant supprimer GRUB2 pour y mettre GRUB Legacy, tapez les instructions suivantes (attention, il faut une connexion à Internet pour que cela fonctionne, sinon GRUB Legacy ne sera pas trouvé) :
+    * apt-get update
+    * apt-get purge grub-pc
+    * apt-get install grub
+    * grub-install **/dev/sda1**
+    * update-grub
+  * On peut maintenant redémarrer, l'installation est terminée.
+
+
+===== Premier démarrage =====
+
+*TODO : expliquer l'installation des drivers proprio ATI 
+
+===== Problèmes et solutions =====
+
+====Activer le Wifi  ====
+    * Ajouter dans les informations suivantes dans /etc/modprobe.d/blacklist.conf 
+      * blacklist acer_wmi
+      * blacklist rt2800lib 
+      * blacklist rt2800pci
+      * blacklist rt2800usb 
+      * blacklist rt2x00lib 
+      * blacklist rt2x00pci 
+      * blacklist rt2x00usb
+    * Rebooter
+
+
+Pour régler les problèmes de lenteurs dus à un bug dans le noyau 2.6.38, il faut installer les paquets backport-modules :
+ <code>sudo apt-get install linux-backports-modules-headers-natty-generic-pae linux-backports-modules-net-natty-generic-pae</code>
+Vous pouvez supprimer l'extension **-pae** si vous avez moins de 3Go de RAM.
+
+==== Lecteur de Cartes ====
+
+ Ekimia a contacté RealTek qui a répondu et envoyé ce driver : 
+
+http://ubuntuone.com/p/153B/
+
+Testé par différentes personnes avec succès.
+
+Ce driver est maintenant inclus dans 11.10
+
+===== Plus de 3 Go de Ram =====
+
+En 32 bits si vous avez plus de 3 Go de ram il faudra certainement installer un Le noyau PAE, il faut donc suivre ce [[kernel_32bits_pae|tutoriel]].
+Ceci est inutile si vous avez accès à Internet lors de l'installation, le noyau PAE est installé par défaut, ce qui fait pour 4Go de RAM : 3 707 548 octets (le reste étant utilisé par la carte vidéo).
+
+
+
+
+===== Voir aussi =====
+
+  * (fr) [[http://www.lenovo.com/fr/fr/|Site officiel du constructeur.]]
+
+
+
+----
+
+//Contributeur principal : [[utilisateurs:ekimia|Ekimia]].//
+//Contributeur : [[utilisateurs:sioban]].//

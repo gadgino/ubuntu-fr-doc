@@ -1,0 +1,95 @@
+{{tag>"Sublime Text" "éditeur de texte"}}
+====== Sublime Text ======
+
+[[http://www.sublimetext.com/|Sublime Text]] est un éditeur de texte à mi-chemin de l'IDE avec une auto-complétion des fonctions de base de différents langages supportés (PHP, C, C++, etc.) avec une version 2, disponible en version d'essai illimitée et une version 3 en bêta actuellement.
+
+===== Installation =====
+
+Sublime Text n'est pas disponible dans les dépôts officiels Ubuntu. Vous pouvez donc : 
+  * soit télécharger l'archive .deb pour Ubuntu 32 ou 64bits, sur le site officiel [[http://www.sublimetext.com/3]] et l'installer classiquement, 
+  * soit l'installer via un dépôt ppa non officiel comme indiqué dans ce qui suit.
+
+
+
+
+==== Ajouter le dépôt ====
+
+La deuxième méthode est  d'ajouter un dépôt contenant "Sublime Text" pour pouvoir l'installer ensuite.
+
+Tapez dans le Terminal la commande ci-dessous pour ajouter le dépôt à votre liste de dépôts. Ensuite rechargez votre liste de dépôts et Installez Sublime Text 2 : 
+  sudo add-apt-repository ppa:webupd8team/sublime-text-2 && sudo apt-get update && sudo apt-get install sublime-text
+
+Même si Sublime Text 3 est en bêta, il est aussi possible de l'installer depuis les dépôts. La procédure est similaire à l'installation de Sublime Text 2 : 
+  sudo add-apt-repository ppa:webupd8team/sublime-text-3 && sudo apt-get update && sudo apt-get install sublime-text-installer
+  
+<note important>N'ajoutez pas les deux dépôts en même temps, cela pourrait créer des conflits de paquets.</note>
+
+Une fois cette commande effectuée avec succès, il ne vous reste plus qu'à tester cet éditeur de texte et peut-être plus tard acheter une licence si cet éditeur vous convient. 
+
+==== Installation "manuelle" ====
+
+Si vous rencontrez un problème avec l'installation du fichier "deb", vous pouvez essayer cette méthode.
+
+Attention, cette méthode fonctionne uniquement avec la version 3 (version au 13/11/2016) de Sublime Text.
+Vous devez l'adapter en fonction de votre architecture (32bits ou 64bits) et en fonction de la dernière version que vous aurez téléchargée.
+Dans cet exemple, j'ai choisi d'exécuter Sublime Text avec la commande en ligne "st3".
+Vous pouvez mettre le nom que vous souhaitez en modifiant "st3" par votre choix dans les lignes de commande ci-dessous.
+
+Allez sur https://www.sublimetext.com/3
+Téléchargez "sublime_text_3_build_3126_x64.tar.bz2" (PC 64 bits) dans /home/Téléchargements (Attention au dossier de destination, je suis sur une version française ;-) )
+
+Pour la suite, n'oubliez pas d'utiliser la complétion avec la touche "Tabulation". C'est vraiment pratique !
+
+  cd /home/$USERNAME/Téléchargements/
+sur une version française (ou cd /home/$USERNAME/Downloads/ en anglais)
+  tar -xvjf sublime_text_3_build_3126_x64.tar.bz2
+  sudo mv sublime_text_3 /opt/
+  sudo ln -s /opt/sublime_text_3 /usr/local/sublime_text_3
+  sudo ln -s /usr/local/sublime_text_3/sublime_text /usr/local/bin/st3
+  sudo rm sublime_text_3_build_3126_x64.tar.bz2
+
+Maintenant, essayez la commande en ligne "st3" depuis un terminal ", ça devrait fonctionner.
+Au plaisir !
+
+===== Utilisation =====
+
+Sublime Text est un éditeur qui s'adapte à votre pratique de développement. En effet il est possible de modifier de nombreuses configurations dans le logiciel. Cette partie est justement là pour cela. N'hésitez pas à y ajouter vos propres astuces pour optimisation de temps avec "Sublime Text".
+
+==== Les Snippets ====
+
+Sublime Text permet la création et l'utilisation de snippets, certains déjà présents lors de l’installation du logiciel sont utilisables dans différents langages mais il est plus pratique d'avoir ses propres snippets qui sont particuliers à votre pratique.
+
+=== Créer un snippet ===
+
+Créer un snippet est relativement simple. Rendez-vous dans le menu "tools" et cliquez sur "new snippet", un nouveau document s'ouvrira comme ci-dessous :
+
+{{ :application:application:snippet-st.png?700 |}}
+
+Il vous suffit ensuite de changer le "Hello, ${1:this} is a ${2:snippet}." par ce que vous voulez insérer lorsque vous utiliserez ce snippet (ligne 3)
+
+Supprimez le commentaire de la ligne 5 pour le remplacer par <tabTrigger>la "balise" à taper pour activer le snipper</tabTrigger>
+
+Supprimez le commentaire de la ligne 7 pour le remplacer par <scope>source.Le type de document ou le snippet est actif</scope> -->
+
+<note tip>Si vous ne souhaitez pas avoir de type de document particulier ou de "balise" particuliere laissez le champ en commentaire.</note>
+
+=== Utiliser les snippets ===
+
+L'utilisation des snippets est très simple sur "Sublime Text", en effet il vous suffit de taper le début de la commande à réaliser et d’appuyer sur la touche "tab" pour que le code de la snippet soit inséré.
+
+=== Les plugins ===
+
+ Différents plugins sont disponibles pour "sublime text" et vont vous faciliter le travail.
+Voici avant d'achever cette documentation un lien vers de nombreux plugins, n’hésitez pas à les tester et à compléter cet article si cela vous intéresse
+
+[[http://wbond.net/sublime_packages|Lien vers les plugins]]
+
+Un installateur de plugins existe (c'est lui-même un plugin) : [[https://packagecontrol.io|Package Control]]
+
+
+===== Liens officiels =====
+Site officiel de sublime-text : [[http://www.sublimetext.com/|sublime-text official website]]
+
+Acheter une licence sublime-text 2 (upgrade 3 gratuite) : [[https://www.sublimetext.com/buy|Buy Sublime-text]]
+
+Télecharger la Beta sublime-text 3 : [[http://www.sublimetext.com/3|Download Sublime-text 3]]

@@ -1,0 +1,499 @@
+{{tag>matériel netbook hp}}
+----
+
+=======HP 2133 Mini-Note PC=======
+{{:hp2133-intrepid.jpg|}}
+
+HP Netbook Mininote PC 2133.
+
+Matériel sympathique, léger, et utile pour les voyages.
+
+Ubuntu 8.10 tourne parfaitement dessus. Encore aucun freeze du système pour l'instant!
+
+Mais si on veut un système plus configurable, Kubuntu 8.10 tourne très très bien dessus également (testé)!
+
+Pas de gros ralentissements, mais c'est vrai qu'avec 1 Go de RAM ça fait un peu ralentit.
+
+Je conseille le modèle avec 2 Go de RAM.
+
+En bref, ce produit est vraiment à ne pas rater: sa finition est superbe, légère et résistante.
+
+Je note quand même que pour que le matériel soit fonctionnel, il faut installer des pilotes propriétaires pour la Wi Fi et le Bluetooth, modifier le xorg.conf pour l'affichage, et lancer le LiveUSB/LiveCD via la commande "live xforcevesa" suite à un problème d'affichage.
+
+<note>Dans le HP Mininote PC 2133 fourni avec Novell SUSE préinstallé, on peut remarquer une partition en NTFS...
+Etant du format Windows, on peut se poser la question suivante: supprimer cette partition ne changera rien au démarrage du 2133? Serais-ce un tatouage?
+
+Après avoir testé un reformatage complet, le 2133 fonctionne toujours même après formatage complet du disque dur ;).
+
+Vous pouvez y aller sans risques, en prenant bien le temps de lire cette page.</note>
+
+=====Présentation=====
+
+
+| Modele    ^  CPU/FSB ^ RAM ^ Drive ^ WiFi ^ BT  ^ OS Préinstallé   ^ Divers  ^
+^ FU342EA   | 1.6/800  | 2 Go | 120GB | abg  | oui |suse10 Ent. Desk. |  CH     |
+^ FU339EA          | 1.6/800  |1 Go  | 120GB  |abg   |oui     |suse10 Ent. Desk.                  |  CH       |
+
+
+Pas certain que le modèle FU339EA ait le BT !
+
+=====Installation de Ubuntu sur le HP Netbook Mininote PC 2133=====
+
+====Via une clé USB====
+
+<note important> [[:live_usb|Installation depuis un live USB]] </note>
+
+==Créer le stick USB==
+
+En suivant les indications données (voir lien au dessus), votre stick USB sera prêt et vous pourrez continuer votre procédure d'installation, et passer a la prochaine étape.
+
+==Installer Ubuntu 8.10 sur le HP 2133==
+
+Insérez votre clef USB, puis allumez ou redémarrez votre système (si vous l'aviez allumé avant, bien entendu).
+
+Dès que le logo HP apparaît, appuyez sur la touche F9 a une intervalle d'environ une seconde plusieurs fois jusqu'à ce qu'apparaîsse à l'écran un carré bleu vous demandant sur quel périphérique vous voulez démarrer.
+
+Sélectionnez votre clef USB, probablement le deuxième choix, portant le nom de série de la clef, en descendant avec les flèches du clavier, puis la touche "Entrée" pour valider.
+
+Patientez un instant, et ubuntu démarre.
+
+Vous avez trentes secondes pour sélectionner votre langue. Sélectionnez "Français" ou toute autre langue adaptée, puis validez avec "Entrée".
+
+Suite à un problème de VESA, il faut ajouter une option supplémentaire avant de commencer l'installation normale.
+
+Avant toute chose, vérifiez votre clavier en appuyant sur F3.
+
+Puis, tapez F6 et mettez vous à la fin de la ligne, via la flèche de droite.
+
+Ajoutez ceci à la suite:
+
+__live xforcevesa__
+
+Puis appuyez sur la touche "Entrée", et faite votre installation en mode graphique comme d'habitude.
+
+Pour plus d'informations, veuillez vous référer à ce lien, qui vous expliquera comment installer Ubuntu en détails:
+[[:tutoriel:installer_ubuntu_avec_le_live_cd|Installation Graphique d'Ubuntu.]]
+
+<note tip>**__Pour éviter d'avoir à configurer les dépôts après installation__**
+
+Si vous faites l'installation via LiveUSB, un mode persistant, d'une valeur de stockage défini lors de la création du LiveUSB, vous permettra d'enregistrer les modifications que vous faites à votre système Live.
+Au départ, il faut configurer un pilote propriétaire pour le Wi Fi, et il est impossible pour l'installateur d'avoir une connexion internet fonctionnelle pendant l'installation si ce pilote n'est pas activé.
+
+J'ai remarqué que sans avoir configuré ce pilote puis sélectionné une borne Wi Fi, Ubuntu n'avait pas configuré les dépôts officiels et j'ai dû le faire manuellement ensuite.
+
+Pour vous éviter cela, configurez le pilote propriétaire via:
+Système>>Administration>>Pilotes de Périphériques
+Cliquez sur activer, puis redémarrez comme demandé. Le système redémarre, il ne vous reste plus qu'à configurer votre Wi Fi avant de commencer l'installation, histoire d'avoir les dépôts après l'installation.
+
+Note: Vous n'êtes pas obligé d'activer le Wi Fi; une simple connexion en ethernet suffira, mais je n'ai pas testé sans installer le pilote propriétaire.</note>
+
+<note important>Personne n'a vraisemblablement parlé de cela, mais après avoir tapé la commande "live xforcevesa", puis après le chargement d'Ubuntu, j'ai eu un message d'erreur et Ubuntu m'a logé en Konsole. Je vous fait part de la solution
+Le simple fait de lancer la commande suivante m'a permis de lancer Ubuntu correctement:
+//startx//
+
+Ensuite, cela ne change rien à l'installation en mode graphique.</note>
+
+Bonne installation!
+
+====Via un lecteur CD externe====
+
+Pour installer Ubuntu (que ce soit la version 8.04, 8.10 ou 9.04) il vous faudra:
+
+-Un cable ethernet relié à votre modem diponible/cable courant porteur
+-Un lecteur CD/DVD externe USB de préférence
+-Un LiveCD d'Ubuntu/Kubuntu/Xubuntu/Edubuntu
+
+Il n'est pas possible de sauvegarder des données depuis LiveCD, donc pour l'accès internet pendant l'installation (voir astuce catégorie LiveUSB), il faudra se limiter à un accès via ethernet.
+
+=== Ubuntu 8.04/8.10 ===
+
+
+
+Il ne faudra pas oublier de taper F6 puis d'ajouter a la fin la commande "Live xforcevesa" avant de sélectionner "Essayer Ubuntu sans rien changer sur mon Ordinateur" ou "Installer Ubuntu".
+
+Pour plus d'informations, voir l'installation un peu plus détaillée plus haut.
+
+Bonne installation!
+
+
+
+=== Ubuntu 9.04 ===
+
+
+
+A venir dans les prochains jours ( je finis quelques tests :p)
+=====Après l'installation=====
+
+Le système est fonctionel, excepté du wi-fi et du Bluetooth.
+Il suffit d'installer les 2 pilotes propriétaires dans System->Administration->Hardware Driver ou Système>>Administration>>Pilotes Propriétaires (en français).
+
+Ceci rendra le wi-fi et le bluetooth fonctionel.
+Une modification du fichier de configuration de l'affichage graphique est conseillée pour pouvoir profiter de l'affichage natif de 1280*768.Voir ci-après.
+
+
+
+====ADAPTER L'AFFICHAGE: Modification du fichier xorg.conf====
+
+Depuis le shell
+
+Avant de commencer l modification du xorg.conf, faites une sauvegarde: on ne sait jamais, si des fois...
+
+<code>$ sudo cp /etc/X11/xorg.conf /etc/X11/xorg.conf.ori</code>
+
+Puis ouvrez le xorg.conf:
+<code>$ sudo gedit /etc/X11/xorg.conf</code>
+puis remplacez le contenu de /etc/X11/xorg.conf avec le contenant suivant
+**(pour les FU339EA FU346EA (1024x600) recopier le deuxieme fichier)**:
+
+<code>
+# xorg.conf (X.Org X Window System server configuration file)
+#
+# This file was generated by reidy90, by copying correct settings from
+# the xorg.conf that was provided with the SUSE hp 2133.
+#
+# Edit this file with caution, and see the xorg.conf manual page.
+# (Type "man xorg.conf" at the shell prompt.)
+#
+# This file is automatically updated on xserver-xorg package upgrades *only*
+# if it has not been modified since the last upgrade of the xserver-xorg
+# package.
+#
+# Note that some configuration settings that could be done previously
+# in this file, now are automatically configured by the server and settings
+# here are ignored.
+#
+# If you have edited this file but would like it to be automatically updated
+# again, run the following command:
+#   sudo dpkg-reconfigure -phigh xserver-xorg
+
+Section "Device"
+  BoardName    "Framebuffer Graphics"
+  Driver       "vesa"
+  Identifier   "Device[0]"
+  Screen       0
+  VendorName   "VIA Technology"
+  Option "NoDDCValue"
+  Option "ActiveDevice" "LCD,CRT"
+  Option "PanelID"      "3"
+  Option  "DisplayHardwareLayout" "LCD"
+  Option  "ForceLCD"
+#[<bool>]
+  Option  "VideoOnDevice" "LCD"
+#  Option "LCDPort" "DVP0"
+EndSection
+
+Section "Monitor"
+  DisplaySize  250 150
+  HorizSync    28-500
+  Identifier   "Monitor[0]"
+  ModelName    "VIEWSONIC VA912-4SERIES"
+  Option       "DPMS"
+  VendorName   "VSC"
+  VertRefresh  43-60
+  UseModes     "Modes[0]"
+EndSection
+
+Section "Modes"
+  Identifier   "Modes[0]"
+  Modeline      "1280x800" 120.33 1280 1368 1504 1728 800 801 804 839
+  Modeline      "1280x800" 118.88 1280 1368 1504 1728 800 801 804 839
+  Modeline      "1280x800" 116.21 1280 1360 1496 1712 800 801 804 838
+#  Modeline     "1280x768" 114.53 1280 1360 1496 1712 768 769 772 806
+#  Modeline     "1280x768" 113.01 1280 1360 1496 1712 768 769 772 805
+#  Modeline     "1280x768" 111.63 1280 1360 1496 1712 768 769 772 805
+  Modeline      "1280x768" 80.14  1280 1344 1480 1680  768 769 772 795  -HSync +Vsync
+  Modeline      "1024x768" 92.05 1024 1088 1200 1376 768 769 772 806
+  Modeline      "1024x768" 90.83 1024 1088 1200 1376 768 769 772 805
+  Modeline      "1024x768" 89.72 1024 1088 1200 1376 768 769 772 805
+  Modeline      "1280x600" 88.68 1280 1352 1488 1696 600 601 604 630
+  Modeline      "1280x600" 87.48 1280 1352 1488 1696 600 601 604 629
+  Modeline      "1280x600" 85.59 1280 1344 1480 1680 600 601 604 629
+  Modeline      "1024x600" 71.11 1024 1080 1192 1360 600 601 604 630
+  Modeline      "1024x600" 69.32 1024 1080 1184 1344 600 601 604 629
+  Modeline      "1024x600" 68.48 1024 1080 1184 1344 600 601 604 629
+  Modeline      "800x600" 55.22 800 840 928 1056 600 601 604 630
+  Modeline      "800x600" 54.47 800 840 928 1056 600 601 604 629
+  Modeline      "800x600" 53.80 800 840 928 1056 600 601 604 629
+  Modeline      "768x576" 50.62 768 808 888 1008 576 577 580 605
+  Modeline      "768x576" 49.92 768 808 888 1008 576 577 580 604
+  Modeline      "768x576" 49.32 768 808 888 1008 576 577 580 604
+  Modeline      "640x480" 34.80 640 672 736 832 480 481 484 504
+  Modeline      "640x480" 34.38 640 672 736 832 480 481 484 504
+  Modeline      "640x480" 33.90 640 672 736 832 480 481 484 503
+EndSection
+
+Section "Screen"
+  SubSection "Display"
+    Modes      "1280x768"
+  EndSubSection
+  Device       "Device[0]"
+  Identifier   "Screen[0]"
+  Monitor      "Monitor[0]"
+EndSection
+</code>
+
+
+Voici un xorg.conf pour les HP 2133 de référence FU339EA FU346EA (écran WSVGA) en test au 06 01 2009 sur [[http://forum.ubuntu-fr.org/viewtopic.php?pid=2330561#p2330561]]
+attention pour ubuntu 8.04 une modification est à faire (changer le # de place devant: Option "PanelID")
+
+<code>
+# /etc/X11/xorg.conf  for  hp Mini-Note 2133 FU339EA FU346EA ubuntu 8.10
+#         with ubuntu 8.04 change the PanelID option
+# based on the xorg.conf published on hhttp://hp2133.umsw.de/xorg.conf
+
+Section "Device"
+    Identifier   "Device 0"  
+    Driver       "via"
+    VendorName   "VIA Technology"
+    Option "NoDDCValue"
+    Option "ActiveDevice" "LCD"         
+#     Option "PanelID"      "17"             #  si ubuntu 8.04  
+    Option "PanelID"      "9"               # si ubuntu 8.10  
+    Option  "DisplayHardwareLayout" "LCD"   #for chip (CX700, CX800) with LVDS/TMDS support. Not set for(CN896, CN700).
+    Option  "ForceLCD" "TRUE" 
+     Option "Refresh" "60"
+EndSection
+
+Section "Monitor"
+     Identifier   "Monitor 0"
+     DisplaySize  196 116      
+     HorizSync    28-50            
+     VertRefresh  43-60           
+     Option       "DPMS"
+    #  mode "1024x600": 49.0 MHz, 37.3 kHz, 60.0 Hz
+     Modeline "1024x600_60"   48.96  1024 1064 1168 1312  600 601 604 622 -hsync +vsync  # http://hp2133.umsw.de/xorg.conf
+    #  mode "800x600": 40.0 MHz, 37.9 kHz, 60.3 Hz
+    Modeline "800x600_60"   40.00  800 840 968 1056  600 601 605 628 +hsync +vsync
+    #  mode "800x600": 36.0 MHz, 35.2 kHz, 56.2 Hz
+    Modeline "800x600_56"   36.00  800 824 896 1024  600 601 603 625 +hsync +vsync
+    #  mode "800x480": 40.0 MHz, 37.9 kHz, 60.3 Hz
+    Modeline "800x480_60"   40.00  800 832 960 1056  480 541 545 628 -hsync +vsync
+    #  mode "720x576": 32.7 MHz, 35.9 kHz, 60.1 Hz
+    Modeline "720x576_60"   32.70  720 744 816 912  576 577 580 597 -hsync +vsync
+EndSection
+
+Section "Screen"  
+Identifier   "Screen 0"
+    DefaultDepth 24 
+    SubSection "Display"
+        Depth    24 
+        Modes     "1024x600_60" "800x600_60" "800x600_56" "800x480_60" "720x576_60"
+    EndSubSection
+    SubSection "Display"
+        Depth    32 
+        Modes     "1024x600_60" "800x600_60" "800x600_56" "800x480_60" "720x576_60"
+    EndSubSection
+    Device       "Device 0"
+    Monitor      "Monitor 0"
+EndSection
+
+Section "Device"
+     Identifier    "Device 1"
+    BoardName    "Chrome9 HC IGP"
+    Driver        "via"
+    Option "DeviceSwitchHotkey"      #  si écran externe
+EndSection
+
+Section "Monitor"
+     Identifier    "External"
+    Option        "DPMS"
+EndSection
+
+Section "Screen"
+    Identifier    "Screen 1"
+    Device        "Device 1"
+    Monitor        "External"
+    Subsection    "Display"
+        Depth    24             # Depth 16 broke
+    EndSubsection
+EndSection
+
+Section "ServerLayout"
+    Identifier    "Default Layout"
+    Screen        "Screen 0"
+    Screen        "Screen 1"
+#    Option "RandR" "False"      # d' après viax.conf  via
+EndSection
+</code>
+
+Redémarez votre HP2133
+
+==== Ubuntu 9.04 ====
+
+
+Tout marche correctement, il suffit d'ajouter ça au xorg.conf 
+
+<code>
+Option "PanelSize" "1024x600"
+
+    Section "Device"
+        Identifier    "Configured Video Device"
+    EndSection
+
+    Section "Monitor"
+        Identifier    "Configured Monitor"
+    EndSection
+
+    Section "Screen"
+        Identifier    "Default Screen"
+        Monitor        "Configured Monitor"
+        Device        "Configured Video Device"
+
+    Option "PanelSize" "1024x600"
+
+
+    EndSection
+</code>
+
+
+=
+==Installation des pilotes 3D Via (compiz)====
+
+
+==== Ubuntu 9.10 ====
+j ai un hp mini 2133 , j ai installé ubuntu 9.10 sur une suze 10 ( installé par defaut sur ce pc)
+pour faire marcher la wifi il faut installer le driver proprietaire 
+systeme -> admin _> pilote de peripherique -> installation du driver broadcom D43 ...proprietaire ou non 
+
+apres cette installation et le reboot , le wifi fonction mais l affichage n est plus bon 
+le "bureau deborde de l ecran "
+
+en allant sur plusieurs forum : j ai trouvé 
+[[#liens_utiles]]
+
+j ai créé le fichier /etc/X11/xorg.conf qui n existe pas en installant la 9.10 (pourquoi???)
+(sudo gedit /etc/X11/xorg.conf )
+
+voici mon fichier 
+
+<code>
+# xorg.conf (X.Org X Window System server configuration file)
+#
+# This file was generated by dexconf, the Debian X Configuration tool, using
+# values from the debconf database.
+#
+# Edit this file with caution, and see the xorg.conf manual page.
+# (Type "man xorg.conf" at the shell prompt.)
+#
+# This file is automatically updated on xserver-xorg package upgrades *only*
+# if it has not been modified since the last upgrade of the xserver-xorg
+# package.
+#
+# Note that some configuration settings that could be done previously
+# in this file, now are automatically configured by the server and settings
+# here are ignored.
+#
+# If you have edited this file but would like it to be automatically updated
+# again, run the following command:
+#   sudo dpkg-reconfigure -phigh xserver-xorg
+Section "Device"
+  Identifier   "Configured Video Device"
+  Driver    "openchrome"
+  Option   "PanelSize" "1024x600"
+EndSection
+
+Section "Monitor"
+  Identifier "Configured Monitor"
+EndSection
+
+Section "Screen"
+  Identifier "Default Screen"
+  Monitor "Configured Monitor"
+  Device "Configured Video Device"
+EndSection
+</code>
+
+apres ca un nouveau reboot et ca marche
+
+========
+
+
+=====Matériel=====
+
+
+
+====Processeur====
+ Intel VIA C7-M-1.6GHz
+
+
+
+
+
+====Video====
+8.9 pouces WXGA
+
+VIA Technologies, Inc. CN896/VN896/P4M900 [Chrome 9 HC] (rev 01)
+
+====Clavier====
+
+
+====Audio====
+VIA Technologies, Inc. VT1708/A [Azalia HDAC] (VIA High Definition Audio Controller) (rev 10)
+
+
+
+====Lecteur de cartes SD ==== 
+Fonctionne USB 2
+
+
+====Disque dur ====
+120Gb 5400rpm
+
+
+====Carte Réseau====
+rj45:
+Broadcom Corporation NetXtreme BCM5788 Gigabit Ethernet (rev 03)
+
+wi-fi
+Broadcom Corporation BCM4312 802.11a/b/g (rev 02)
+
+====Micro Intégré====
+il fonctionne très bien avec la version 8.10
+
+====Webcam====
+
+Fonctionne parfaitement, après quelques réglages du contraste, luminosité, et saturation.
+
+Reconnue correctement sous Kopete ;).
+
+=====Details=====
+
+Commande lspci sur mon hp-2133
+<code>
+$ lspci 
+00:00.0 Host bridge: VIA Technologies, Inc. CN896/VN896/P4M900 Host Bridge
+00:00.1 Host bridge: VIA Technologies, Inc. CN896/VN896/P4M900 Host Bridge
+00:00.2 Host bridge: VIA Technologies, Inc. CN896/VN896/P4M900 Host Bridge
+00:00.3 Host bridge: VIA Technologies, Inc. CN896/VN896/P4M900 Host Bridge
+00:00.4 Host bridge: VIA Technologies, Inc. CN896/VN896/P4M900 Host Bridge
+00:00.5 PIC: VIA Technologies, Inc. CN896/VN896/P4M900 I/O APIC Interrupt Controller
+00:00.6 Host bridge: VIA Technologies, Inc. CN896/VN896/P4M900 Security Device
+00:00.7 Host bridge: VIA Technologies, Inc. CN896/VN896/P4M900 Host Bridge
+00:01.0 PCI bridge: VIA Technologies, Inc. VT8237/VX700 PCI Bridge
+00:02.0 PCI bridge: VIA Technologies, Inc. CN896/VN896/P4M900 PCI to PCI Bridge Controller (rev 80)
+00:03.0 PCI bridge: VIA Technologies, Inc. CN896/VN896/P4M900 PCI to PCI Bridge Controller (rev 80)
+00:0f.0 IDE interface: VIA Technologies, Inc. Device 5372
+00:10.0 USB Controller: VIA Technologies, Inc. VT82xxxxx UHCI USB 1.1 Controller (rev b0)
+00:10.2 USB Controller: VIA Technologies, Inc. VT82xxxxx UHCI USB 1.1 Controller (rev b0)
+00:10.3 USB Controller: VIA Technologies, Inc. VT82xxxxx UHCI USB 1.1 Controller (rev b0)
+00:10.4 USB Controller: VIA Technologies, Inc. USB 2.0 (rev 90)
+00:11.0 ISA bridge: VIA Technologies, Inc. VT8237S PCI to ISA Bridge
+00:11.7 Host bridge: VIA Technologies, Inc. VT8251 Ultra VLINK Controller
+00:13.0 Host bridge: VIA Technologies, Inc. VT8237A Host Bridge
+00:13.1 PCI bridge: VIA Technologies, Inc. VT8237A PCI to PCI Bridge
+01:00.0 VGA compatible controller: VIA Technologies, Inc. CN896/VN896/P4M900 [Chrome 9 HC] (rev 01)
+02:00.0 Network controller: Broadcom Corporation BCM4312 802.11a/b/g (rev 02)
+07:03.0 Ethernet controller: Broadcom Corporation NetXtreme BCM5788 Gigabit Ethernet (rev 03)
+80:01.0 Audio device: VIA Technologies, Inc. VT1708/A [Azalia HDAC] (VIA High Definition Audio Controller) (rev 10)
+</code>
+
+===== Liens utiles =====
+
+[[https://help.ubuntu.com/community/AspireOne]]
+
+
+----
+
+
+
+//Contributeurs : [[:utilisateurs:roguntu]], [[:utilisateurs:Skully]] ,[[:utilisateurs:andso]].//

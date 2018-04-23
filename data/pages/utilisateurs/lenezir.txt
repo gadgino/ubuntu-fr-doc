@@ -1,0 +1,182 @@
+====== Lenezir ======
+
+Salut à tous !
+Bienvenue dans mon antre LOL
+
+
+
+
+==== Présentation ====
+
+Alors je me présente.
+Je suis Lenezir.
+Depuis quelques années déjà je jonglais entre les différents Live CD de Linux (Mandrake (Mandriva maintenant), Aurox, Kaella et Knoppix) mais je me suis contenté de jouer à Tux Racer car je n'ai jamais réussi à installer Internet.
+Mais voilà que j'ai téléchargé Ubuntu Dapper Drake, qui m'était chaudement recommandé sur un forum pour ses utilités multiples.
+Et en 10 secondes Internet était opérationnel !
+Alors je me suis dépêché de piquer un disque dur à mon père et en 20 minutes il était installé et c'est ce jour là que j'ai fais votre connaissance ! C'était fin novembre 2006.
+Et grâce à vous j'ai réussi à atteindre un niveau que je n'aurais jamais espéré et je vous en remercie !
+Maintenant j'aide en retour comme je peux les débutants (et les vétérans si je le peux) tout en m'auto-formant grâce au wiki.
+
+==== Mes articles ====
+
+J'ai crée l'article sur le jeu [[http://doc.ubuntu-fr.org/guild_wars|Guild Wars]] et j'ai contribué à plusieurs articles comme [[http://doc.ubuntu-fr.org/jedi_knight|Jedi Knight]] ou celui attribué aux [[http://doc.ubuntu-fr.org/jeux|jeux]].
+
+
+==== Contact ====
+
+Vous pouvez me contacter par courriel à <ubuntu-fr@lenezir.fr>
+ou par messagerie instantanée sur Jabber : lenezir@im.apinc.org
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+==== Mes logiciels ====
+
+
+== Extensions Firefox ==
+
+  * Better Gmail 2
+  * Colorful Tabs
+  * CustomizeGoogle
+  * DownThemAll!
+  * Fast Video Download
+  * Firebug
+  * FireGPG
+  * Flagfox
+  * Forecastfox
+  * Foxmarks Bookmark Synchronizer
+  * Gmail Notifier
+  * Gmail S/MIME
+  * Gmail Space
+  * NoScript
+  * Ubuntu Firefox Modifications
+  * URL Fixer
+  * User Agent Switcher
+  * Web Developer
+
+== Accessoires ==
+
+  * timer-applet - Applet de compte à rebours
+
+
+== Bureautique ==
+
+  * GCstar - Gestion de collections
+  * OpenOffice.org - Suite bureautique
+
+
+== Graphisme ==
+
+  * Agave - Génération d'arrangements de couleurs
+  * Blender - Logiciel de 3D
+  * Camorama - Webcam
+  * GIMP - Editeur d'images
+  * Fyre - Générateur graphique
+  * XSane - Scanner
+
+
+== Internet ==
+
+  * gFTP - Client FTP
+  * Google Earth - La Terre en 3D
+  * Psi - Client Jabber
+  * XChat - Client IRC
+
+
+== Outils système ==
+
+  * Gmount-iso - Monteur d'images ISO
+  * Htop - Top coloré
+  * Sysinfo - Infos système
+  * Ubuntu Tweak - Tweak Ubuntu
+
+
+== PlayOnLinux ==
+
+  * Guild Wars
+  * Notepad++
+  * Steam
+
+
+== Programmation ==
+
+  * Bluefish
+  * Code::Blocks IDE
+  * Eclipse
+  * Geany
+  * Screem
+
+
+== Son et vidéo ==
+
+  * Audacity
+  * Avidemux
+  * Brasero - Gravure
+  * OggConvert
+  * OGMRip
+  * Sound Juicer - Extracteur de CD audio
+  * Thoggen - Extracteur de DVD
+  * VLC
+
+
+
+
+==== Solutions aux problèmes "matériels" ====
+
+== Activer le Bluetooth sur mon portable Asus A7SV ==
+
+  * Ajouter dans /etc/modprobe.d/blacklist (y est par défaut sur Hardy) <code>blacklist asus_acpi</code>
+
+  * Ajouter dans /etc/modules <code>asus_acpi</code>
+
+  * Redémarrer
+
+  * Dans les préférences de l'applet Bluetooth, sélectionner le bouton radio "Visible et autorisant la connexion d'autres périphériques".
+
+== L'ordinateur reste bloqué sur des lignes concernant NetworkManager lorsqu'on l'éteint ==
+
+  * Éditer /boot/grub/menu.lst
+
+  * Ajouter à la ligne concernant le kernel nous correspondant, avant le "ro quiet splash" <code>acpi=force</code>
+
+
+
+
+==== Serveur ====
+
+
+== Logiciels ==
+
+  * fail2ban
+  * logcheck
+  * molly-guard
+
+== Permettre l'envoi de courriels ==
+//[[http://forum.ubuntu-fr.org/viewtopic.php?pid=1780900#p1780900|Solution de Jike]]//
+
+
+sudo aptitude install ssmtp
+
+Le fichier de configuration /etc/ssmtp/ssmtp.conf ne contient que quelques réglages :
+
+**root= : // Laisser vide pour pouvoir envoyer des mail en spécifiant l'expéditeur de son choix.
+mailhub=smtp.mon_fai.fr : // Serveur smtp du FAI.
+rewriteDomain=mon_fai.fr : // Le domaine du FAI.
+hostname=localhost : // Nom d'hôte de votre machine. localhost va très bien.
+FromLineOverride=YES : YES // si vous voulez spécifier l'expéditeur, NO pour l'expéditeur par défaut (Valeur de root=)
+**
+Ensuite, modifiez la variable sendmail_path du fichier php.ini (**/etc/php5/apache2/php.ini**) :
+
+**sendmail_path = /usr/sbin/ssmtp -t -i**
+
+Il ne reste plus qu'à redémarrer Apache : **/etc/init.d/apache2 restart**

@@ -1,0 +1,222 @@
+{{tag>Trusty CMS BROUILLON}}
+
+----
+
+====== Joomla! ======
+
+===== Qu'est ce que c'est ? =====
+{{  http://upload.wikimedia.org/wikipedia/fr/7/7f/Joomla_Logo.png?140}}
+
+==== Qu'est ce qu'un CMS ? ====
+  * **Pour faire simple, un [[CMS]] (système de gestion de contenu) est un logiciel web qui permet de créer un site internet dynamique en toute simplicité, sans connaissances techniques particulières, l'idée étant de séparer le volet technique du logiciel de la forme et du contenu qui seront eux la partie visible de l'iceberg : votre site tel qu'il sera vu par vos futurs visiteurs.**
+
+//En italique et précédé de "Note Ubuntu 14.04 et joomla! 3.2.7 :", les modifs (légères) à apporter à ce tuto pour l'installation en tout cas avec la version 3.2.7 de Joomla! sous Ubuntu 14.04. Attention, je ne suis pas l'auteur de ce tuto et pas franchement super expérimenté. Ces modifs permettent de suivre le tuto sans trop devoir chercher des solutions dans les forums en cours de route. Si vous avez mieux, n'hésitez surtout pas!//
+
+
+===== Pré-requis =====
+Pour installer et utiliser Joomla!, il vous faut un [[:lamp|serveur LAMP]] installé et fonctionnel.
+
+<note warning>
+Nota: Vérifier bien les pré-requis de version Apache, PHP, MySQL (ou autre) disponible sur le site français de Joomla :[[http://aide.joomla.fr/administration-joomla/pre-requis-techniques-joomla]]
+</note>
+
+
+===== Installation de Joomla! =====
+==== Choix de la version ====
+Un peu comme Ubuntu, il existe une version LTS (Long Time Support) à privilégier en production et une version de "développement" à utiliser pour des essais et pour préparer un nouveau site ou une migration.
+
+==== Chargement de Joomla ====
+Créez un répertoire pour votre site à la racine de votre serveur (par défaut /var/www ; ou dans le répertoire de Xampp pour ceux qui utilisent Xampp.) :\\
+Par exemple : //site-joomla// 
+<code> sudo mkdir /var/www/html/site-joomla </code>
+
+//C'est le chemin utilisé par votre navigateur pour aller chercher la page d'installation de Joomla (on peut aussi changer ce chemin, et là un vrai pro Ubuntusien va apparaître sur sa souris blanche et améliorer mes petits ajouts ;-)//
+  
+
+[[http://aide.joomla.fr/telechargements/joomla-1-6-x-package-d-installation-et-patches|Téléchargez Joomla!]] puis décompressez (avec les [[:sudo|droits administrateur]]) l'[[archivage|archive]] dans ce nouveau répertoire.\\
+Exemple avec le fichier //Joomla_3.2.2-Stable-Full_Package_French_v2.zip// :
+  cd /var/www/html/site-joomla
+  sudo unzip Joomla_3.2.2-Stable-Full_Package_French_v2.zip
+
+==== Etape 1 ====
+
+Lancez votre [[:navigateur]] préféré et dans la barre d'adresse saisissez la ligne suivante :
+  http://localhost/site-joomla/installation/index.php
+  
+Bien sûr, remplacez //site-joomla// par le nom de votre dossier que vous venez de créer. Vous devez tomber sur une page similaire à celle ci-dessous.\\ \\
+{{ :Etape1.png?500 }}
+
+
+Sélectionnez la langue de l'installation, Joomla vous propose le français par défaut.
+
+==== Etape 2 ====
+
+Cliquez sur "suivant" pour passer à l'étape 2. **Pendant toute l'installation vous devez utiliser les flèches suivant et précédant de l'installateur, et non celles de votre navigateur.**
+
+//Note Ubuntu 14.04 et joomla! 3.2.7 :  l'ordre d'installation change quelque peu pour des éléments mineurs (nom de compte etc...) remplissez les consciencieusement et revenez chercher les infos sur ce tuto dès que ça devient technique.
+En gros, en premier, on vous demande ce qui est en étape 6 de la version de Joomla! présentée dans ce tuto//
+
+{{ :Etape2.png?500 }}
+
+Comme vous le remarquerez, le fichier //configuration.php// n'est pas accessible en écriture, mais c'est normal. Sinon, le paramètre Joomla! RG_EMULATION est sur `ON`, laissez pour l'instant, nous verrons ça plus tard.\\
+Ce qui nous intéresse pour le moment, ce sont les accès aux répertoires de notre site par l'installateur de Joomla!. Pour qu'il puisse avoir accès, nous allons modifier l'accès en écriture pour le groupe d'utilisateurs //www-data//.\\
+Dans votre terminal, tapez la commande suivante, pour modifier le groupe du répertoire de votre site :
+  sudo chown -Rv root:www-data /var/www/html/site-joomla
+
+
+//modifiez site-joomla par le nom du répertoire de votre site//\\
+**EDIT:** Insérez les options //-Rv// pour modifier les sous-fichiers et les sous-documents, autrement le groupe propriétaire restera //root// et pour visualiser les opérations.
+
+Finalement, il faut rendre le répertoire accessible en écriture pour le groupe //www-data//.\\
+Dans votre terminal, taper la commande suivante (la première ligne n'est pas nécessaire si vous vous trouvez déjà dans le répertoire de votre site) :
+  sudo chmod -R g+w /var/www/html/site-joomla
+//modifiez site-joomla par le nom du répertoire de votre site//\\
+chmod sert à changer les droits en accès des fichiers. +w ajoute le droit en écriture (write), g spécifiant que ce droit doit être ajouté seulement au groupe.
+
+Maintenant, cliquez sur le bouton "vérifiez à nouveau", et tout devrait être ok.
+
+
+==== Etape 3 ====
+
+{{ :Etape3.png?500 }}
+
+La page de la licence de Joomla! (qui est la **GNU/GPL**) s'affiche.
+==== Etape 4 ====
+
+{{ :Etape4.png?500 }}
+
+Nous voilà sur la page de renseignements du serveur, de la base de données et de l'utilisateur de la base. Pour cela, remplissez les champs suivants :
+  * Type de serveur : MySql
+  *Serveur : localhost
+  *Nom d'utilisateur : root
+  *Mot de passe : Le mot de passe d'accès à Mysql, celui que vous avez choisi lorsque vous avez installé Mysql et qui n'est pas forcément votre mot de passe root d'ordinateur.
+  *Nom de la base de données : Le nom de la base de données qui va être créée par Joomla! ( FIXME : je pense qu'il faut éviter les caractères spéciaux)
+   
+
+Ensuite vérifiez que tout est correct et cliquez sur Suivant. Si une fenêtre de confirmation s'ouvre, cliquez sur OK.
+
+Si vous êtes bloqué, pensez à redémarrer les services de Apache2 via la [[commande_shell|commande]] suivante :
+
+  sudo /etc/init.d/apache2 restart
+
+==== Etape 5 ====
+
+{{ :Etape5.png?500 }}
+
+Configuration FTP  :vous n'en avez pas besoin ( pour l'instant ), cliquez sur suivant.
+
+Se fait plus tard après installation depuis la partie admin de votre futur site
+
+==== Etape 6 ====
+
+{{ :Etape6.png?500 }}
+
+**Configuration générale :**
+
+Nom du Site : laissez donc libre cours à votre imagination !
+
+Votre e-mail : renseignez l'e-mail de l'administrateur du site
+
+Mot de passe de l'admin : Le mot de passe que vous souhaitez utiliser pour accéder à l'interface d'administration de Joomla!. **Le nom du super administrateur sera "admin"**, on ne peut pas le changer pendant l'installation. Pour des raisons de sécurité,** il sera important de le changer par la suite via l'interface administration.
+**
+Installer les données d'exemple : Les données d'exemple sont des menus, des sections, des rubriques et des articles installables en une seule fois et qui vous permettront de mieux comprendre le fonctionnement de ce CMS. Il est conseillé de les installer pour les débutants. Pour les installer cliquez sur le bouton Installer les données d'exemple. Ceci fait il devrait apparaître sur ledit bouton Données d'exemple installées.
+
+Charger le script de migration : ne cocher que si vous êtes un utilisateur averti ; ne pas cocher les éventuelles autres cases disponibles. Puis cliquez sur Suivant.
+
+==== Etape 7 ====
+
+{{ :Etape 7.png?500 }}
+
+Vous êtes normalement arrivé au bout de l'installation. Un message vous indique le bon déroulement de cette installation et qu'avant d'aller plus loin vous devez supprimer le répertoire Installation via la [[commande_shell]] suivante :
+
+  sudo rm -r /var/www/html/site-joomla/installation
+
+(remplacez "site-joomla" par le nom du répertoire de votre site)
+
+Revenez sur http://localhost/site-joomla/, vous devriez arriver sur la page d'accueil de votre site d'exemple Joomla!. L'installation de Joomla! est ainsi terminée.
+
+Pour accéder à la partie administration allez à : http://localhost/site-joomla/administrator/
+(remplacez site-joomla par le nom du répertoire de votre site).
+
+Dans la case identifiant, mettez "admin", et comme mot de passe mettez celui que vous avez choisi étape 6.
+
+
+===== Configuration =====
+
+==== Comment activer la réécriture des URLs ====
+
+Allez sur votre site, dans Joomla!, allez dans l'administration, puis dans le menu site choisir //configuration générale//, onglet //site//, mettre //oui// à //URLs explicites (SEF)// et //Utiliser le module Apachemod_rewrite (réécriture au "vol" des URLs)//. Sauvez.
+
+Ensuite, il faut activer le module //rewrite// de apache2 avec la commande :
+
+  a2enmod rewrite
+
+Modifier le fichier /etc/apache2/sites-available/default. Attention, si vous avez des virtual hosts, ne pas modifier //default// mais le fichier correspondant au virtual host de joomla!.
+
+  sudo nano /etc/apache2/sites-available/default
+  
+//Note Ubuntu 14.04 et Joomla 3.2.7! : ///etc/apache2/apache2// . Pour les nuls (enfin, c'est ce que j'ai fait LOL mais non, vous ne l'êtes pas!!!), un petit coup de //sudo nautilus// dans le terminal, ça vous ouvre l'explorateur de fichiers, trouvez apache2.conf à l'adresse indiquée au début de mon blabla, clic droit ouvrir avec Gedit ou double click, et avec de la chance, ça vous ouvre le fichier dans un éditeur de texte qui va bien, et là, TaDaaaaaaa vous trouvez les lignes qui concernent /var/www, et modifiez comme expilqué en dessous. C'est moins stylé, mais ça va bien.//
+
+Remplacez //AllowOverride None// par //AllowOverride All//
+Demandez gentiment à apache de prendre en considération vos nouvelles exigences =):
+
+  sudo /etc/init.d/apache2 restart
+
+
+=== Cas sans virtual hosts ===
+
+Ensuite, on va supposer que le site est hébergé dans /var/www/ et Joomla! dans un sous-répertoire //site//. À la racine de Joomla!, c'est-à-dire dans /var/www/site/, renommez le fichier htaccess.txt en .htaccess puis modifiez-le :
+
+  nano /var/www/site/.htaccess
+
+Remplacer 
+
+  # RewriteBase /
+
+par
+
+  RewriteBase /site
+
+Si votre site est à la racine, il faut tout de même penser à enlever le #.
+
+=== Cas avec virtual hosts ===
+
+Si vous avez des virtual hosts, reprenez la même procédure en faisant attention en modifiant le fichier //.htaccess//. Dans ce cas, à l'option RewriteBase, il ne faut plus mettre le répertoire à partir de /var/www/ mais à partir de la racine du virtual host.
+
+
+
+Actualisez la page d'accueil du site (après un certain temps si vous avez activé la mise en cache, par défaut 15min), pour que les liens de la page d'accueil soient changés. Appréciez les nouveaux URLs de la forme /catégorie/id-article
+
+=====Utilisation=====
+
+Voir [[http://aide.joomla.fr/documentation|cette documentation]]
+
+===== Désinstallation =====
+Il suffit de supprimer d'une part le répertoire contenant le site et d'autre part la base de donnée ( via[[phpmyadmin| phpmyadmin]]).
+
+===== Problème connu =====
+
+Si après l'installation de Joomla! ou suite à une mise à jour de celui-ci, vous avez un problème avec la création d'articles ou l'éditeur de message, [[:tutoriel:comment_modifier_un_fichier|éditer le fichier]] ''libraries/joomla/html/editor.php'' en remplaçant
+
+  		// Try to authgnticate -- only add to array if authentication is successful
+			$resultTest = $plugin->onDisplay($editor);
+			if ($resultTest) $result[] =  $resultTest;
+
+par
+			// Try to authenticate
+			if (method_exists($plugin, 'onDisplay')) {
+			$result[] = $plugin->onDisplay($editor);
+			}
+
+
+
+====="Voir aussi =====
+
+  * (fr) [[http://joomla.fr/|Site officiel]]
+  * (fr) Discussion [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3600842#p3600842|Installation de Joomla]] sur le forum ubuntu-fr
+  * (fr) [[tutoriel:lamp_repertoires_de_travail|Travailler sur un autre répertoire que /var/www]]
+  * (en) [[http://forum.joomla.org/viewtopic.php?p=1459968&sid=42aadce16b662a88b47b204506cbcf4a#p1459968|Problème avec l'éditeur html]]
+  * (fr) [[http://www.foilen.com/category/joomla16|Tutoriels vidéos sur l'installation et l'utilisation de Joomla!]]
+
+----
+//Contributeurs : [[:utilisateurs:clement.analogue]] ,Coakette, hyppocampedecourse pour les Notes Ubuntu 14.04 etc.

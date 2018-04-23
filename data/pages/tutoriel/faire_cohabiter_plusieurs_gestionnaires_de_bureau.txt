@@ -1,0 +1,117 @@
+{{tag>environnements gnome kde xfce BROUILLON}}
+
+----
+
+====== Comment faire cohabiter plusieurs gestionnaires de bureau ======
+
+
+
+===== Présentation =====
+
+
+
+Comme vous le savez sans doute, il existe plusieurs variantes d'Ubuntu : Ubuntu, Kubuntu, Xubuntu, Lubuntu et Edubuntu, intégrant respectivement les [[:environnements]] Gnome, KDE, Xfce et LXDE. Cette page définit et présente leurs caractéristiques. Bien qu'un seul environnement soit installé par défaut, il est possible d'en faire cohabiter plusieurs sur toute variante d'Ubuntu. L'objectif de ce tutoriel est de vous montrer comment faire cohabiter proprement plusieurs environnements de bureau.
+
+
+
+===== Installation =====
+
+
+
+Il est possible d'installer n'importe quel environnement (Gnome, KDE, Xfce ou LXDE) sous n'importe quelle variante d'Ubuntu (Ubuntu, Kubuntu, Xubuntu ou Lubuntu). Pour l'exemple, on supposera que la variante Ubuntu (environnement Gnome) est installée et que l'on souhaite y ajouter KDE ; il suffira de remplacer le nom des paquets par ceux qui conviennent.
+
+
+
+==== Installation minimale ====
+
+
+
+Nous allons d'abord voir comment effectuer une installation minimale, c'est-à-dire installer uniquement le gestionnaire de bureau sans les programmes liés. Cela peut être utile si vous souhaitez tester rapidement un environnement sans vous décider vraiment à l'adopter.
+
+
+
+Pour ce faire, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] de l'environnement que vous souhaitez :
+  * pour Gnome : [[apt://gnome-core|gnome-core]] ;
+  * FIXME pour KDE : [[apt://kde-minimal|kde-minimal]] et depuis Ubuntu 11.10 [[apt://kde-plasma-desktop|kde-plasma-desktop]] ou [[apt://kde-plasma-netbook|kde-plasma-netbook]] (selon votre configuration) ;
+  * pour Xfce : [[apt://xfce4|xfce4]] ;
+  * pour LXDE : [[apt://lubuntu-core|lubuntu-core]].
+
+
+
+<code>sudo apt-get install kde-minimal #ou le nom du paquet de votre choix cité plus haut</code>
+
+
+
+==== Installation complète ====
+
+
+
+Nous allons maintenant voir comment installer l'environnement entier, c'est-à-dire le gestionnaire de bureau et ses logiciels (par exemple pour KDE : amarok, konqueror, kopete, dolphin, etc.).
+
+
+
+<note tip>Si vous avez déjà effectué l'installation minimale, inutile de désinstaller le paquet.</note>
+
+
+
+Suivant ce que vous voulez, installez le paquet :
+  * pour Gnome : [[apt://ubuntu-desktop|ubuntu-desktop]] ;
+  * pour KDE : [[apt://kubuntu-desktop|kubuntu-desktop]] ;
+  * pour Xfce : [[apt://xubuntu-desktop|xubuntu-desktop]] ;
+  * pour LXDE : [[apt://lubuntu-desktop|lubuntu-desktop]].
+
+
+
+<code>sudo apt-get install kubuntu-desktop</code>
+
+
+
+Il vous est ensuite demandé de choisir le gestionnaire graphique de session que vous souhaitez utiliser, c'est-à-dire l'écran à partir duquel vous vous connecterez. LightDM est celui de Xubuntu, Gdm celui de Gnome, kdm celui de Kubuntu. Choisissez celui que vous voulez, les fonctionnalités sont les mêmes. Si vous ne savez pas lequel choisir, gardez celui que vous aviez avant. 
+
+
+
+Étant donné le nombre de paquets à installer, l'installation peut être un peu longue. Une fois qu'elle est terminée, redémarrez votre ordinateur. Pensez à imprimer ce tutoriel ou assurez vous de pouvoir le consulter sur un autre poste.
+
+
+===== Configuration =====
+
+
+
+==== Fenêtre de connexion et choix du bureau ====
+
+
+
+Une fois votre ordinateur redémarré, vous vous trouvez face à l'écran de connexion. Sélectionnez votre compte et choisissez dans le menu session le gestionnaire de bureau que vous voulez utiliser puis connectez vous.
+
+
+
+==== Configuration des menus ====
+
+
+
+Vous avez maintenant gnome et KDE installés sur votre ordinateur, ainsi que tous leurs logiciels. Cependant, les logiciels de chaque environnement apparaissent dans les menus des autres, créant un joli capharnaüm. Pour ce faire, il existe une méthode très simple mais longue et répétitive : sélectionner quelles applications afficher dans les menus de chaque environnement. 
+
+
+
+Faites un clique droit sur le menu application ou sur le menu K et sélectionnez « Éditer les menus ».
+
+
+
+Sous Gnome, sélectionnez la catégorie que vous souhaitez éditer et décochez les applications pour qu'elles ne s'affichent plus dans le menu.
+
+
+
+Sous KDE, sélectionnez de même la catégorie puis l'application et cliquez sur l'icône supprimer.
+
+
+
+Les applications ne sont pas désinstallées, le lanceur n'est juste plus affiché dans le menu. En procédant ainsi, on peut masquer les applications de KDE sous gnome et vice-versa. 
+
+=====Voir aussi=====
+
+  * [[tutoriel:faire_cohabiter_gnome_et_kde|Faire cohabiter Gnome et KDE]]
+
+
+----
+
+//Contributeurs principaux : [[:utilisateurs:ArzhurBZH|ArzhurBZH]] Le 20/05/2010, 00:08//

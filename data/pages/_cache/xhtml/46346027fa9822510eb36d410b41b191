@@ -1,0 +1,167 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#comment_installer_des_logiciels_sous_ubuntu" class="toc"> Comment installer des logiciels sous Ubuntu ? </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#introduction_aux_paquets_precompiles" class="toc"> Introduction aux paquets précompilés </a></span></li>
+<li class="level2"><span class="li"><a href="#ou_recuperer_des_paquets_precompiles" class="toc"> Où récupérer des paquets précompilés ? </a></span></li>
+<li class="level2"><span class="li"><a href="#que_sont_les_depots" class="toc"> Que sont les dépôts ? </a></span></li>
+<li class="level2"><span class="li"><a href="#en_resume" class="toc"> En résumé </a></span></li>
+</ul>
+</li>
+<li class="level1"><span class="li"><a href="#depots_utiles" class="toc"> Dépôts utiles </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#depots_universe_et_multiverse" class="toc"> Dépots Universe et Multiverse </a></span></li>
+<li class="level2"><span class="li"><a href="#depots_backports" class="toc"> Dépôts Backports </a></span></li>
+<li class="level2"><span class="li"><a href="#remarque" class="toc"> Remarque </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<a name="comment_installer_des_logiciels_sous_ubuntu"></a><h1> Comment installer des logiciels sous Ubuntu ? </h1>
+<div class="level1">
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+ <em>Rédigé par <a href="/utilisateurs/ostaquet" class="wikilink1" title="utilisateurs:ostaquet" onclick="return svchk()" onkeypress="return svchk()">ostaquet</a>, mis à jour (backports) par <a href="/utilisateurs/stemp" class="wikilink1" title="utilisateurs:stemp" onclick="return svchk()" onkeypress="return svchk()">Stemp</a>.</em>
+</p>
+
+</div>
+<!-- SECTION [1-186] -->
+<a name="introduction_aux_paquets_precompiles"></a><h2> Introduction aux paquets précompilés </h2>
+<div class="level2">
+
+<p>
+Sous Linux, comme pour tout autre système d&rsquo;exploitation, les logiciels doivent être compilés avant de pouvoir être utilisés. Ce procédé est souvent long, lourd et rebutant pour le nouvel arrivant sous Linux.<br/>
+ Sous <acronym title="Microsoft">MS</acronym> Windows, il n&rsquo;est généralement pas utile de passer par la compilation d&rsquo;un logiciel.  Les éditeurs de programmes proposent des installateurs (le fameux <code>install.exe</code> ou <code>setup.exe</code>) qui contiennent le programme compilé et une procédure qui copie les fichiers du programme au bon endroit sur votre disque dur.
+</p>
+
+<p>
+Sous Linux, il n&rsquo;existe pas d<code>&rsquo;install.exe</code>.  Heureusement, Ubuntu, comme plusieurs autres distributions Linux, gère une alternative plutôt pratique pour installer des logiciels sans nécessiter de compilation du logiciel.  Cette méthode alternative est appelée les <strong>paquets précompilés</strong>.  Ces paquets contiennent le logiciel de votre choix <u>déjà compilé pour vous</u>.  En quelques clics de souris ou en une ligne de commande, vous pouvez installer des logiciels, de même que les diverses extensions nécessaires pour les faire tourner, sans vous casser la tête !
+</p>
+
+<p>
+La plupart des logiciels libres, open source et/ou disponibles gratuitement sont très souvent disponibles sous forme de paquet.  Il existe plusieurs types de paquets, mais Ubuntu peut en gérer deux types.  D&rsquo;abord, les paquets Debian (<code>.deb</code>), le format de paquets natif de Ubuntu.  Mais grâce à l&rsquo;outil <a href="/applications/alien" class="wikilink2" title="applications:alien" onclick="return svchk()" onkeypress="return svchk()">alien</a>, Ubuntu peut comprendre les paquets RedHat (<code>.rpm</code>). Ces fichiers (ou paquets) contiennent les programmes et les bibliothèques dont vous avez besoin.
+</p>
+
+</div>
+<!-- SECTION [187-1849] -->
+<a name="ou_recuperer_des_paquets_precompiles"></a><h2> Où récupérer des paquets précompilés ? </h2>
+<div class="level2">
+
+<p>
+Les paquets (logiciels et bibliothèques) par défaut de Ubuntu sont récupérables depuis votre CD d&rsquo;installation de Ubuntu.  De plus, pour les logiciels autres que ceux par défaut de Ubuntu, ils sont parfois disponibles sur les sites des éditeurs de logiciels.  Les paquets peuvent être téléchargés et installés manuellement. <br/>
+ La façon la plus pratique, toutefois, de récupérer un logiciel est en le téléchargeant depuis un dépôt.
+</p>
+
+</div>
+<!-- SECTION [1850-2355] -->
+<a name="que_sont_les_depots"></a><h2> Que sont les dépôts ? </h2>
+<div class="level2">
+
+<p>
+Un système a été développé afin de vous éviter, la plupart du temps, de parcourir vos CDs d&rsquo;Ubuntu et Internet pour trouver des paquets pour vos logiciels.  Les <strong>dépôts</strong> (<em>repositories</em>) sont des serveurs qui contiennent un ensemble de paquets.  À l&rsquo;aide d&rsquo;un outil tel <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a> ou <a href="/applications/kynaptic" class="wikilink1" title="applications:kynaptic" onclick="return svchk()" onkeypress="return svchk()">Kynaptic</a>, vous pouvez accéder à ces dépôts et, en quelques clics de souris, vous trouvez, téléchargez et installez les logiciels de votre choix, ainsi que toutes leurs <strong>dépendances</strong> (des compléments indispensables pour faire fonctionner un logiciel).
+</p>
+
+<p>
+Synaptic et Kynaptic peuvent lister tous les paquets que vous avez installés (depuis votre noyau jusqu&rsquo;à votre application favorite en passant par toutes les dépendances) et les paquets présentement non-installés mais qui sont disponibles dans les dépôts que vous avez configurés. Ils permettent également de faire une recherche pour trouver une application permettant d&rsquo;accomplir les actions de votre choix (par exemple, vous pouvez rechercher un éditeur d&rsquo;image (<code>image editor</code>)).
+</p>
+
+<p>
+L&rsquo;usage de ces outils centralise la gestion des paquets et la simplifie. Ils permettent également aux distributeurs (ceux qui mettent en place les dépôts) de vous fournir les mises à jour par une voie centralisée.
+</p>
+
+<p>
+Ubuntu intègre de base (depuis Hoary) un outil nommé <a href="/applications/update-manager_notifier" class="wikilink1" title="applications:update-manager_notifier" onclick="return svchk()" onkeypress="return svchk()">Gestionnaire de mises à jour d'Ubuntu</a>, qui vérifie sur les dépôts que vous avez configurés que vous disposez des dernières versions de vos logiciels et bibliothèques ; dans le cas contraire, il vous permet d&rsquo;automatiquement les mettre à jour.  Le gestionnaire de mises à jour d&rsquo;Ubuntu est accessible depuis le menu <em>Système &rArr; Administration</em>.
+</p>
+
+<p>
+Les dépôts auxquels Ubuntu accède par défaut, afin de vérifier les mises à jour logicielles et rechercher les logiciels à installer, sont les dépôts maintenus par Canonical <em>(la société qui édite Ubuntu)</em> et votre CD d&rsquo;installation.  Vous pouvez étendre (ou réduire) à liste des dépôts accessibles par votre installation d&rsquo;Ubuntu en ajoutant des dépôts d&rsquo;autres distributeurs.  Nous verrons cette procédure un peu plus bas.
+</p>
+
+<p>
+Maintenant, rappellez vous de cette idée simple : la plupart des outils dont vous avez besoin dans Ubuntu pour votre usage quotidien sont déjà dans les dépôts de Canonical et votre CD d&rsquo;installation.  Rien ne vous empêche d&rsquo;installer des logiciels en provenence d&rsquo;autres dépôts ou d&rsquo;autres sites Web, mais soyez vigilents, car ces programmes ne sont pas testés par l&rsquo;équipe de développement de Ubuntu et peuvent donc être dangereux pour votre système, ou simplement mal s&rsquo;intégrer à votre environnement.
+</p>
+
+</div>
+<!-- SECTION [2356-5136] -->
+<a name="en_resume"></a><h2> En résumé </h2>
+<div class="level2">
+
+<p>
+En résumé, donc : sous Ubuntu, il n&rsquo;y a plus de recherche sans fin pour obtenir des gratuiciels (<em>freeware</em>) et des partagiciels (<em>shareware</em>) infestés d&rsquo;espiogiciels (<em>spyware</em>).  La grande majorité des applications qui vous seront utiles au quotidien sont disponibles en tant que paquets précompilés récupérables sur des dépôts, à l&rsquo;aide d&rsquo;outils graphiques tels <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a> et <a href="/applications/kynaptic" class="wikilink1" title="applications:kynaptic" onclick="return svchk()" onkeypress="return svchk()">Kynaptic</a> ou en mode texte avec <code><a href="/applications/apt-get" class="wikilink1" title="applications:apt-get" onclick="return svchk()" onkeypress="return svchk()">apt-get</a></code>.
+</p>
+
+</div>
+<!-- SECTION [5137-5650] -->
+<a name="depots_utiles"></a><h1> Dépôts utiles </h1>
+<div class="level1">
+
+<p>
+Sur le forum et sur le wiki, on vous demandera/conseillera d&rsquo;installer certains logiciels récupérables sur des dépôts autres que ceux configurés par défaut dans Ubuntu.  Ci-dessous se trouve donc la liste des différents dépôts nécessaires aux différentes procédures d&rsquo;installation décrites dans ce wiki et sur le forum.
+</p>
+
+<p>
+Si vous ne savez pas comment ajouter ou retirer un dépôt, consultez la page concernant l&rsquo;application <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a> ou <a href="/applications/kynaptic" class="wikilink1" title="applications:kynaptic" onclick="return svchk()" onkeypress="return svchk()">Kynaptic</a>, ou lisez notre documentation à propos de <code><a href="/applications/apt-get" class="wikilink1" title="applications:apt-get" onclick="return svchk()" onkeypress="return svchk()">apt-get</a></code>.
+</p>
+
+</div>
+<!-- SECTION [5651-6246] -->
+<a name="depots_universe_et_multiverse"></a><h2> Dépots Universe et Multiverse </h2>
+<div class="level2">
+
+<p>
+Les dépôts Universe et Multiverse contiennent des bibliothèques et des logiciels gratuits (libres et propriétaires) mais non disponibles par défaut dans Ubuntu.
+</p>
+
+<p>
+Ces dépôts se configurent simplement en cochant les cases adéquates dans <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a> (section <em>Ajouter et retirer des dépots</em>).
+</p>
+
+</div>
+<!-- SECTION [6247-6605] -->
+<a name="depots_backports"></a><h2> Dépôts Backports </h2>
+<div class="level2">
+
+<p>
+À la sortie de la version stable de Ubuntu, les versions des logiciels disponibles sur les dépôts de Canonical sont gelées, c&rsquo;est-à-dire que les logiciels, lors de sorties de nouvelles versions, ne sont pas mis à jour.  Les dépôts backports vous permettent de récupérer les toutes dernières versions logicielles de vos programmes. 
+</p>
+
+<p>
+Il existe deux types de dépôts backports. Pour configurer ces dépôts, vous devrez passer par l&rsquo;ajout personnalisé. La ligne APT à utiliser est la suivante :
+</p>
+<pre class="code">
+# Ubuntu Backports
+deb http://ubuntu-backports.mirrormax.net/ hoary-backports main universe multiverse restricted
+deb http://ubuntu-backports.mirrormax.net/ hoary-extras main universe multiverse restricted
+</pre>
+
+<p>
+Choisissez un seul miroir par type
+</p>
+
+</div>
+<!-- SECTION [6606-7404] -->
+<a name="remarque"></a><h2> Remarque </h2>
+<div class="level2">
+
+<p>
+Une fois les dépôts ajoutés, <strong>n&rsquo;oubliez pas de recharger les dépôts !!!</strong>  Recharger les dépôts permet de comparer les versions logicielles contenues dans chacun des dépôts accessibles par votre système d&rsquo;exploitation et vous offre la plus récente.  Il recherche aussi les logiciels n&rsquo;étant précédemment pas référencés.
+</p>
+
+<p>
+Exécutez donc la ligne de commande suivante : 
+</p>
+<pre class="code">
+  sudo apt-get update
+</pre>
+
+<p>
+ou utilisez le gestionnaire de paquets <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a>. 
+</p>
+
+</div>
+<!-- SECTION [7405-] -->

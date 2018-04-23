@@ -1,0 +1,111 @@
+====== ZyGrib : Visualisation de données météorologiques ======
+{{http://www.zygrib.org/img/s1.6_WP2.jpg?400}}
+
+
+===== Présentation =====
+
+ZyGrib est un logiciel open-source qui permet d'afficher des données météo contenues dans des fichiers au format GRIB 1.
+Reprenons la présentation exposée sur le [[http://www.zygrib.org/|site officiel]] :
+
+__Données météorologiques gérées :__ 
+   * Pression atmosphérique au niveau de la mer
+   * Vent à 10 m du sol
+   * Rafales de vent
+   * Température à 2 m du sol
+   * Températures mini, maxi à 2 m du sol
+   * Humidité relative à 2 m du sol
+   * Cumuls de précipitations (mm/h)
+   * Couverture nuageuse (%)
+   * Point de rosée à 2 m du sol
+   * Altitude de l'isotherme 0°C
+   * Neige (hauteur et risque de chute)
+   * CAPE (convective available potential energy) au niveau du sol.
+   * Données en altitude (vent, température, théta-e, altitude géopotentielle, humidité relative) aux niveaux 925, 850, 700, 500, 300 et 200 hPa.
+   * Vagues : hauteur, direction, période, probabilité des déferlantes, pour les vagues du vent, significatives, maximales, primaires, secondaires et pour la houle.
+   * Courants marins (donnée non fournie par le serveur de zyGrib)
+
+Les fichiers GRIB sur mesure sont générés par zyGrib à partir de données téléchargées sur les serveurs de  **NOAA, Meteoblue, FNMOC et Actimar**.  
+Supporte également les fichiers **IAC** (//International Analysis Code, fleetcodes//) qui présentent l'avantage d'être très petits et peuvent être reçus par [[hamradio|radio]] avec [[PSKmail]] par exemple.
+
+
+===== Installation =====
+**Conseil pour les débutants... et ceux qui cherchent un mode d'installation simple et rapide** : 
+
+Voir le tutoriel [[http://forum.ubuntu-fr.org/viewtopic.php?pid=12263181#p12263181|Installation de Zygrib sur Ubuntu]] sur le forum Ubuntu-fr. Tout y est expliqué de façon claire.
+==== Via les dépôts Ubuntu ====
+ZyGrib est présent dans les dépôts officiels d'Ubuntu, mais bien souvent dans des versions relativement anciennes (version 3.x alors que l'actuelle est la 6.1.1).
+Toutefois, si de telles version vous conviennent, [[:tutoriel:comment_installer_un_paquet|installer simplement les paquets]] **[[apt>Zygrib ZyGrib-maps]]**.
+
+==== Via les dépôts de ZyGrib ====
+
+Des versions plus récentes sont disponibles dans les dépôt mis à disposition par les développeurs.
+
+  * Ajouter la ligne suivante à votre fichier [[sources.list]] en remplaçant [version] par votre distribution (lucid , maverick , natty, oneiric, precise ou quantal) :
+
+  deb http://doc.hausser.ch/debpackages ubuntu-dha [version]
+
+  * Récupérer la clé de sécurité du dépôt :
+
+  wget http://doc.hausser.ch/debpackages/dha-debpackages.key -O - | sudo apt-key add -
+
+  * Actualiser vos sources et installez les paquets :
+
+  sudo apt-get update && sudo apt-get install zygrib zygrib-maps
+
+==== Compilation ====
+
+Si vous souhaitez la toute dernière version, il est possible de la compiler.
+
+  * Commencer par installer les paquets nécessaires [[apt>proj libqwt-dev libqwt6 qt4-dev-tools]]
+  * Télécharger et décompresser les sources que vous trouverez [[http://www.zygrib.org/index.php?page=abstract_en#section_linux|ici]]. Par exemple pour la **version 6.0.0** :
+
+  wget http://www.zygrib.org/getfile.php?file=zyGrib-6.0.0.tgz -O zyGrib-6.0.0.tgz
+  tar -xvvzf zyGrib-6.0.0.tgz
+  rm zyGrib-6.0.0.tgz
+
+  *Compiler et installer :
+
+  cd zyGrib-6.0.0
+  make 
+  make install
+
+  *L'installation se fait dans le dossier **/home/$user/zyGrib**, //$user// étant votre nom d'utilisateur. Vous pouvez donc lancer le logiciel avec la commande **~/zyGrib/zyGrib** (ou en double-cliquant sur le fichier) ou encore créer un [[raccourci-lanceur]] en [[tutoriel:comment_modifier_un_fichier|Créant avec les droits d'administration]] un fichier **/usr/share/applications/zyGrib.desktop**  pour y ajouter les lignes suivantes :
+<note>Penser à remplacer le paramètre $user par votre nom d'utilisateur</note>
+<file>
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=zyGrib
+GenericName=zygrib
+Comment=Visualisation de données météorologiques
+Icon=/home/$user/zyGrib/data/img/zyGrib_32.ico
+Exec=/home/$user/zyGrib/zyGrib
+Terminal=false #ouvrir ou non un terminal lors de l'exécution du programme (false ou true)
+StartupNotify=false #notification de démarrage ou non (false ou true)
+Categories=Météo
+</file>
+
+Enfin, nous pouvons compléter l'installation en téléchargeant des archives suivantes :
+
+  * les **fonds de cartes** :
+
+  cd ~/zyGrib/data/
+  wget http://zygrib.org/getfile.php?file=zyGrib_maps2.tgz
+  tar -xvvzf getfile.php?file=zyGrib_maps2.tgz
+  rm -rf getfile.php?file=zyGrib_maps2.tgz
+
+  * les **villes additionnelles** (moins de 3000 habitants) :
+
+  cd ~/zyGrib/gis
+  wget http://www.zygrib.org/getfile.php?file=cities_1k-3k.txt.gz -O cities_1k-3k.txt.gz
+  wget http://www.zygrib.org/getfile.php?file=cities_300-1k.txt.gz -O cities_300-1k.txt.gz
+  wget http://www.zygrib.org/getfile.php?file=cities_0-300.txt.gz -O cities_0-300.txt.gz
+  
+=====Utilisation=====
+  
+Voir les tutoriels [[http://forum.ubuntu-fr.org/viewtopic.php?pid=12263181#p12263181|Installation de Zygrib sur Ubuntu]] sur le forum Ubuntu-fr, [[http://www.plaisance-pratique.com/zygrib-telecharger-et-afficher-les|ici]] et [[http://www.equinoxefr.org/post/2011/07/25/meteo-fichiers-grib-sous-linux-avec-zygrib/|là]].
+
+===== Voir aussi : =====
+  * [[http://www.zygrib.org|Le site officiel]]
+----
+//Contributeurs principaux : Davy39

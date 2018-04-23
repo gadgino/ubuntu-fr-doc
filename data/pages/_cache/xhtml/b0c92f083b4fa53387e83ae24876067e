@@ -1,0 +1,119 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#realplayer" class="toc"> RealPlayer </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#realplayer_pour_x86" class="toc"> RealPlayer pour x86 </a></span></li>
+<li class="level2"><span class="li"><a href="#realplayer_pour_ppc" class="toc"> RealPlayer pour PPC </a></span></li>
+<li class="level2"><span class="li"><a href="#problemes_avec_realplayer" class="toc"> Problèmes avec RealPlayer </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+<a href="http://wiki.ubuntu-fr.org/applications/realplayer" class="urlextern" title="http://wiki.ubuntu-fr.org/applications/realplayer" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Traduit</a> et adapté par <a href="/utilisateurs/teolemon" class="wikilink1" title="utilisateurs:teolemon" onclick="return svchk()" onkeypress="return svchk()">teolemon</a> et <a href="/utilisateurs/ostaquet" class="wikilink1" title="utilisateurs:ostaquet" onclick="return svchk()" onkeypress="return svchk()">ostaquet</a>
+</p>
+
+<a name="realplayer"></a><h1> RealPlayer </h1>
+<div class="level1">
+
+<p>
+ RealPlayer est un <em>player</em>  multimédia pour Linux qui vous permet de visionner du RealAudio, du RealVideo, et d&rsquo;autres contenus. RealPlayer permet d&rsquo;écouter la radio BBC et d&rsquo;autres médias en ligne.
+</p>
+
+</div>
+<!-- SECTION [164-394] -->
+<a name="realplayer_pour_x86"></a><h2> RealPlayer pour x86 </h2>
+<div class="level2">
+
+<p>
+  Téléchargez RealPlayer depuis <a href="http://www.real.com/linux/" class="urlextern" title="http://www.real.com/linux/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow"> le site officiel</a> .
+</p>
+
+<p>
+Une fois téléchargé, ouvrez un terminal et tapez : 
+</p>
+<pre class="code">cd ~/dossier_de_telechargement</pre>
+
+<p>
+par défaut 
+</p>
+<pre class="code">cd ~/Desktop
+chmod u+x RealPlayer10GOLD.bin       
+sudo ./RealPlayer10GOLD.bin</pre>
+
+<p>
+ Il vous sera demandé un répertoire d&rsquo;installation, choisissez : 
+</p>
+<pre class="code">/opt/realplayer</pre>
+
+<p>
+ Répondez  <em>yes</em> pour la création de liens symboliques depuis <strong>/usr/</strong>.
+</p>
+
+<p>
+RealPlayer devrait maintenant se trouver dans votre menu Gnome, dans la section <em>Son et vidéo</em>.
+</p>
+
+<p>
+Pour installer le greffon Firefox, lancez RealPlayer depuis le menu Gnome. Il vous sera demandé d&rsquo;accepter la licence  (<em>this is free as in beer, not free as in speech</em>).  Ensuite, il vous sera proposé de vérifier si des mises à jour existent et de configurer le mozilla helper, cochez les 2 options et cliquez sur OK.  Rendez vous maintenant sur <a href="http://www.bbc.co.uk/radio/" class="urlextern" title="http://www.bbc.co.uk/radio/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.bbc.co.uk/radio/</a> et vous devriez entendre la radio (Ici Londres, Les Français,... etc...).
+</p>
+
+</div>
+<!-- SECTION [395-1423] -->
+<a name="realplayer_pour_ppc"></a><h2> RealPlayer pour PPC </h2>
+<div class="level2">
+
+<p>
+ Pour installer RealPlayer sur une architecture PPC, téléchargez l&rsquo;installeur Experimental à partir de <a href="https://player.helixcommunity.org/2004/downloads/" class="urlextern" title="https://player.helixcommunity.org/2004/downloads/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow"> Helix</a>
+</p>
+
+<p>
+Une fois téléchargé, rendez le fichier executable et exécutez-le : 
+</p>
+<pre class="code">
+   chmod +x ./realplayer-xxxxxx.bin
+   ./realplayer-xxxxxx.bin
+</pre>
+
+<p>
+Répondez aux questions et RealPlayer devrait marcher en executant :
+</p>
+<pre class="code">
+   /chemin-vers-le-repertoire-RealPlayer/realplayer
+</pre>
+
+<p>
+Pour vous rendre la vie plus facile, ajoutez un alias dans votre fichier <code>.bashrc</code> de cette manière :
+</p>
+<pre class="code">
+   alias = '/chemin-vers-le-repertoire-RealPlayer/./realplayer&amp;'
+</pre>
+
+<p>
+ou bien créez un lien symbolique vers <code>/usr/local/bin</code> :
+</p>
+<pre class="code">
+   sudo ln -s /chemin-vers-le-repertoire-RealPlayer/realplayer /usr/local/bin/
+</pre>
+
+</div>
+<!-- SECTION [1424-2256] -->
+<a name="problemes_avec_realplayer"></a><h2> Problèmes avec RealPlayer </h2>
+<div class="level2">
+
+<p>
+ 1.  Si RealPlayer ne fonctionne pas immédiatement, allez dans le répertoire d&rsquo;installation de RealPlayer et enlevez les greffons <strong>SWF</strong>.  Généralement et pour quelque raison obscure, tout marche très bien une fois cette manipulation effectuée.  Si vous avez encore des problèmes, celà est peut être du à la manière dont votre carte son gère <code>esd</code>.  Passez à l&rsquo;étape 2.
+</p>
+
+<p>
+2.  Si vous avez des problèmes de son dans RealPlayer, changez l&rsquo;item <code>auto_spawn</code> dans <code>/etc/esound/esd.conf</code> de sa valeur par défaut (qui est 0) en <strong>1</strong>.  
+</p>
+
+</div>
+<!-- SECTION [2257-] -->

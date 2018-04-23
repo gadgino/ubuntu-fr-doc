@@ -1,0 +1,63 @@
+{{tag>Precise Trusty programmation}}
+----
+
+====== BlueGriffon ======
+**BlueGriffon** est un logiciel en partie libre de [[:programmation#le_developpement_web|création de pages web]] gérant les nouvelles technologies fournies avec l'arrivée de l'HTML5, CSS3, SVG, etc. comme nouveau standard du web. 
+
+<note important>Le logiciel est sous licence libre (de fait 3 licences différentes). ATTENTION certaines //extensions// (comme l'insertion d'image) et la documentation sont payants et sous licence commerciale.</note>
+
+<note important> ATTENTION ce logiciel ne permet pas d'inclure de code PHP dans vos pages.</note>
+
+
+===== Pré-requis =====
+ 
+  * Disposer d'une connexion à Internet configurée et activée.
+
+
+===== Installation =====
+
+BlueGriffon n'est pas encore disponible dans les dépôts d'Ubuntu. Le site officiel propose deux méthodes d'installation.
+
+==== Depuis le dépôt GetDeb ====
+Ajouter le dépôt [[:GetDeb]] comme indiqué sur la page qui lui est dédiée, puis:
+ * [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste des paquets]],
+ * [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>bluegriffon]]**.
+
+<note tip>Vous pouvez également télécharger directement le paquet **deb** [[http://www.ubuntuupdates.org/package/getdeb_apps/trusty/apps/getdeb/bluegriffon|ici]] pour [[Trusty]], pensez aussi à télécharger la dépendance **bluegriffon-data** (le lien est sur la même page). Pour une autre version modifier simplement //trusty// dans l'adresse par le nom de votre version.</note>
+
+==== Depuis l'archive ====
+
+Téléchargez l'archive **.tar.bz2** pour Ubuntu en fonction de votre [[architecture_materielle|architecture]] depuis la [[http://bluegriffon.org/pages/Download|page de téléchargement]], puis [[archivage|décompressez-la]] dans votre Dossier personnel.
+
+Pour ouvrir l'application, il suffit ensuite de lancer le fichier **bluegriffon** qui se trouve dans le dossier BlueGriffon extrait.
+
+Vous pouvez optionnellement créer un [[raccourci-lanceur]] pointant sur le fichier **bluegriffon**.
+
+<note help>Si vous préférez ne pas encombrer votre Dossier personnel avec des dossiers d'applications, vous pouvez déplacer le dossier BlueGriffon vers **/opt/** avec [[:sudo|les droits administrateur]], et ensuite créer un lien symbolique du fichier bluegriffon dans **/usr/bin**.</note>
+
+===== Utilisation =====
+
+Le [[http://intergen.pagesperso-orange.fr/InterGenAdh/DidacBlueGriffonPhx.pdf|tutoriel]] de Philippe Xambeu, très complet, est un bon point de départ.
+
+===== Crash =====
+Si bluegriffon crash avec un code 139 et le message suivant :
+<code>
+###!!! ABORT: X_CreatePixmap: BadAlloc (insufficient resources for operation); 4 requests ago: file /home/glazou/trees/official1.7/toolkit/xre/nsX11ErrorHandler.cpp, line 157
+###!!! ABORT: X_CreatePixmap: BadAlloc (insufficient resources for operation); 4 requests ago: file /home/glazou/trees/official1.7/toolkit/xre/nsX11ErrorHandler.cpp, line 157
+Segmentation fault (core dumped)
+</code>
+
+Changer le thème GTK2 car Bluegriffon version 1.7.2-1~getdeb2~raring semble avoir des soucis avec le thème GTK2 Oxygen-GTK et  relancer bluegriffon.
+
+===== Désinstallation =====
+
+Si vous avez utilisé l'archive, supprimez le dossier dans lequel se trouve l'archive que vous avez décompressée. Si vous avez utilisé le dépot Getdeb [[:tutoriel:comment_supprimer_un_paquet|supprimez le paquet]] **bluegriffon** avec votre gestionnaire de paquets.
+
+===== Voir aussi =====
+  * **(en)** [[http://bluegriffon.org/|Site officiel]],
+  * Chapitre [[programmation#htmlxhtmlcss|HTML / XHTML /CSS]] de la page //Programmation// de la documentation,
+  * [[http://www.getdeb.net/software/BlueGriffon|lien direct vers le site GetDeb]].
+
+----
+
+//Contributeurs  : [[utilisateurs:matttbe]] (principal), [[:utilisateurs:l_africain|L'Africain]]//.

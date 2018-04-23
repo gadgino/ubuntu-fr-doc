@@ -1,0 +1,95 @@
+{{tag>Trusty serveur}}
+
+----
+
+====== Serveur LAMP - Aller plus loin ======
+
+===== Sécuriser Apache2 avec SSL =====
+Consultez le tutoriel [[:tutoriel:Sécuriser Apache2 avec SSL]]
+
+===== Les Hôtes Virtuels (VirtualHost) =====
+Consultez le tutoriel sur [[:tutoriel:virtualhosts_avec_apache2|Les hôtes virtuels (virtualhosts) avec Apache2]]
+
+
+===== Autoriser l'utilisation de répertoires web personnels =====
+Chaque utilisateur de la machine peut mettre en ligne les documents de son choix en créant un répertoire nommé **public_html** dans son dossier personnel.
+
+Par exemple, l'utilisateur **toto** créera le répertoire **/home/toto/public_html**.
+
+Ensuite, n'importe qui pourra accèder au contenu web de ce répertoire depuis l'url : http://ip_de_la_machine/~toto/ (ou http://nom_de_domaine/~toto/ si la machine a un nom de domaine associé).
+
+Pour avoir accès à cette fonction d'Apache2, il vous faut activer le module **userdir** et recharger la configuration du serveur :
+  sudo a2enmod userdir
+  sudo /etc/init.d/apache2 reload
+
+===== Les jeux de caractères (encodages) du Serveur Web Apache2 =====
+Si dans vos pages web, les caractères accentués sont remplacés par des caractères incompréhensibles comme « � » ou « Ã© », vous avez un problème avec les jeux de caractères (ou charset).
+
+Par défaut, lorsqu'on installe le **Serveur Web Apache2**, c'est le jeu de caractères **UTF-8** qui est utilisé. Vous pouvez le vérifier en regardant le contenu du fichier \\ ''/etc/apache2/conf.d/charset'' sous lucid, precise ou \\ ''/etc/apache2/conf-available/charset.conf'' sous Trusty: la ligne ci-dessous est par défaut mise en commentaire
+<file>AddDefaultCharset UTF-8</file>
+
+Ceci veut dire que le jeu de caractères qui sera ajouté à toutes les réponses qui n'ont aucun paramètre sur le type de contenu dans l'en-tête HTTP sera **UTF-8**. La directive **AddDefaultCharset** remplace le jeu de caractères spécifié dans le corps du document Web via la balise **META**.
+
+En résumé, si votre fichier ''/etc/apache2/conf.d/charset'' contient **AddDefaultCharset UTF-8** et que vous mettez dans votre page web la balise **<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">**, l'encodage qui sera envoyé sera UTF-8 et cela ne changera rien au problème d'encodage.
+
+Pour résoudre ce problème plusieurs solutions s'offrent à vous :
+
+==== Laisser le navigateur Web choisir l'encodage approprié ====
+[[:tutoriel:comment_editer_un_fichier|Éditez le fichier]] **/etc/apache2/conf.d/charset** de façon à ce qu'il contienne :
+<file>AddDefaultCharset off</file>
+
+
+==== Décider du jeu de caractères à utiliser par défaut ====
+Si vous voulez forcer l'utilsation d'un encodage particulier, encore une fois, [[:tutoriel:comment_editer_un_fichier|éditez le fichier]] **/etc/apache2/conf.d/charset** de façon à ce qu'il contienne :
+<file>AddDefaultCharset <le charset voulu></file>
+
+__Exemple :__ pour l'encodage **ISO-8859-1** :
+<file>AddDefaultCharset ISO-8859-1</file>
+
+<note important>
+**Rappel : **Si vous modifiez un fichier de configuration d'Apache, il faudra lui donner l'ordre de recharger sa configuration pour que les modifications soient prises en compte avec la commande :\\
+<code>sudo /etc/init.d/apache2 reload</code>\\
+ou sur les versions récentes : 
+<code>sudo service apache2 restart</code>
+N'oubliez pas non plus de vider le cache de votre navigateur
+</note>
+
+voir aussi : [[http://openweb.eu.org/articles/changer_pour_utf8 | Changer de jeu de caractère pour UTF-8]]
+
+===== Utiliser la réécriture d'URL (URL rewriting) et vos .htaccess =====
+Activez le module rewrite
+  sudo a2enmod rewrite
+
+puis rechargez la configuration d'Apache
+  sudo /etc/init.d/apache2 reload
+
+Vérifiez dans le fichier ''/etc/apache2/sites-available/default'' (ou dans vos fichiers d'hôtes virtuels) que la directive **AllowOverride** est :
+  AllowOverride All
+(Le virtualhost de base d'Apache2 met cette directive à « None » par défaut et donc empêche l'utilisation de « l'url rewriting » et l'interprétation des .htaccess)
+
+
+===== Perte du mot de passe mysql =====
+Si vous avez perdu votre mot de passe Root de MySQL, voir la section [[:mysql#redefinir_de_force_le_mot_de_passe_de_root]] de la page [[:mysql]].
+
+===== Envoi de courriel =====
+Si votre serveur n'est destiné qu'à une solution LAMP (ou que le port 25 est bloqué en sortie), il est possible d'utiliser le serveur SMTP de votre fournisseur d'accès internet, afin que les scripts PHP puissent envoyer des courriels.
+
+Entre autre, les applications [[:ssmtp]] et [[:postfix]] permettent de rediriger les courriels envoyés vers votre FAI.
+
+==== Via Postfix ====
+Voici comment y arriver en utilisant [[:postfix]].
+
+Tout d'abord on installe postfix.
+<code>sudo apt-get install postfix</code>
+
+
+Ensuite on doit [[:tutoriel:comment_modifier_un_fichier|éditer le fichier]] **/etc/postfix/main.cf** afin d'y renseigner l'adresse du serveur SMTP de votre FAI.
+<code>relayhost= smtp.serveur.ca</code>
+
+Il ne reste plus qu'à recharger postfix.
+<code>sudo /etc/init.d/postfix reload</code>
+
+
+----
+
+//Contributeurs : [[utilisateurs:M. DECLERCQ]], [[utilisateurs:_Enchained]] , [[utilisateurs:anthony43]], [[utilisateurs:McPeter]], [[utilisateurs:masterno]] //

@@ -1,0 +1,70 @@
+{{tag>Trusty graphisme photo}}
+----
+
+
+====== F-Spot ======
+<note warning>Le projet est mort F-spot a été retiré des [[:depots|dépôts]] officiels depuis Ubuntu 16.04. Voir ce rapport de [[https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=764646|bug]].</note>
+
+**F-Spot** est un gestionnaire de photos personnelles, mono-poste (il faut donc prendre ses précautions avant de déplacer sa collection de photos [[#comment_exporter_l_organisation_des_etiquettes_apres_une_re-installation|voir ici]]),  pour [[:GNOME]]. Il est écrit en langage C# et utilise [[:Mono]] et Gtk#.
+
+Disposant d'une interface simple, il permet d'ouvrir des fichiers de nombreux type (JPEG, GIF, PNG,  SVG, CR2, NEF, PEF, RAW, TIFF, ORF, SRF, DNG, CRW, PPM, MRW, RAF, BMP).
+
+Il supporte la gestion des tags (recherche par mot-clé), des méta-données EXIF et XMP. Il dispose de fonctions d'édition (rotation, recadrage, traitement des "yeux rouges"...) et d'ajustement des couleurs (couleurs, luminosité, contraste, tonalité, saturation, température). Il permet enfin des exportations vers le Web ([[http://www.flickr.com|Flickr]], [[http://www.23hq.com/|23]], [[http://picasaweb.google.fr/|Picasa Web]], [[http://www.smugmug.com|SmugMug]], [[http://www.facebook.com|Facebook]] ainsi que la création d'une galerie web permettant de parcourir un ensemble de photos par tag notamment).
+
+Une des forces de f-spot est la recherche par "étiquette" (ou mot-clé) : il est évidemment possible d'associer __plusieurs étiquettes par photo__, puis la recherche peut se faire de multiples façons en manipulant chaque étiquette dans la barre de recherche :
+  * OU (ex: Etiquette1 OU Etiquette2) : Faire 2 double-clics, double-clic sur "Etiquette1", puis double-clic sur "Etiquette2",
+  * ET (ex: Etiquette1 ET Etiquette2) : cliquer/déposer "Etiquette2" sur "Etiquette1"
+  * SANS (ex: Etiquette1 sans Etiquette2) : hyper pratique pour trouver les photos de "Jacques" sur lesquelles ne figure pas "Raymond". Associer 2 étiquettes par la méthode ET, puis faire un clic-droit sur Etiquette2 et choisir "Exclure les photos étiquetées Etiquette2"
+
+===== Installation =====
+<note important>Cette partie n'est valable que pour les versions antérieures à [[:xenial|Ubuntu 16.04]].</note>
+
+Il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>f-spot]]**
+
+
+===== FAQ =====
+
+==== Quand je clique sur la miniature d'une photo, j'ai cette fenêtre qui apparait ====
+
+{{:f-spot-missing-photo.png}}
+
+Ceci signifie que la photo a été soit déplacée, soit supprimée manuellement.
+
+====Où sont stockées les miniatures des photos gérées par f-spot ?====
+
+Les miniatures sont stockées dans le dossier caché **.thumbnails** de votre **Dossier Personnel**.
+
+Il est donc "utile", quand vous sauvegardez vos photos, de sauvegarder également ce répertoire (ainsi que le répertoire de configuration f-spot). Dans le cas contraire, après une réinstallation, les miniatures se re-créeront automatiquement à chaque fois que vous visualiserez des séries de photos provoquant une lenteur au moment de l'affichage.
+
+====Comment f-spot classe les photos ?====
+
+Quand il importe des photos, f-spot les copie en fonction de la date et l'heure contenus dans les métadonnées de chaque photos :
+
+=> Dossier photos => dossiers années => dossiers mois => dossier jours.
+
+
+==== Comment exporter l'organisation des étiquettes après une re-installation ====
+
+Lorsque vous ré-installez une version d'Ubuntu (et non une mise à niveau), vous sauvegardez vos photos mais lorsque vous allez les importer vers la version de f-Spot de votre nouvelle installation, il ne recomposera pas l'organisation des étiquettes (il les range dans étiquette importé) et là c'est le drame.
+
+Pour éviter ce problème il faut déjà l'avoir configuré dans f-spot //Édition->Préférence// et coché la première case **Écrire les métadonnées dans le fichier** (ATTENTION il faut que cette option soit activée dès le début de votre utilisation de F-Spot).
+Puis il faut :
+  * Faire une sauvegarde du fichier  **.config/f-spot/photos.db** de votre **Dossier Personnel** sur l'ancien système,
+  * Puis recopier le fichier des étiquettes de l'ancien système (fichier photos.db) dans le dossier caché **.config/f-spot**.
+
+===== Problèmes connus=====
+
+
+==== Impression de photos 10x15 sans marge sur HP Photosmart ====
+Un lien vers le forum avec une solution bien adaptée [[http://forum.ubuntu-fr.org/viewtopic.php?pid=1734372#p1734372|ici]].
+
+
+===== Liens =====
+
+  * [[http://f-spot.org/|Site officiel de F-Spot]] [en] ;
+  * [[http://www.questionsphoto.com/article/138-linux-pour-les-photographes-deuxieme-partie|Présentation sur QuestionsPhoto]].
+  * [[http://ubuntuforums.org/showthread.php?t=394241|Fil de discussion sur f-spot]] (en).
+
+-----
+
+//Contributeurs : [[utilisateurs:Eikasia]], [[utilisateurs:mavosaure]], [[utilisateurs:usky]], [[utilisateurs:nlcf]], [[utilisateurs:sylvainsjc]], [[utilisateurs:beguam]], [[utilisateurs:percherie]].//

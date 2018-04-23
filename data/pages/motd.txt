@@ -1,0 +1,170 @@
+{{tag> Precise terminal serveur }}
+
+<note warning>les infos de cette page semblent obsolète,\\ mais le paquet update-motd existe sous Xenial… </note>
+====== Message du jour ======
+===== Introduction =====
+
+Sur une Ubuntu, un message de bienvenue accueille l'utilisateur lors d'une connexion en ligne de commande.
+
+Ce message est nommé ** le message du jour **  //(motd)//((Message Of The Day))
+
+Sur une version serveur il y a des informations supplémentaires par rapport à une version Desktop.
+
+C'est landscape qui va rajouter des informations au message du jour
+
+  *  Message du jour sur un Desktop lors d'une connexion SSH
+
+<code>
+Welcome to Ubuntu 12.04.3 LTS (GNU/Linux 3.2.0-55-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com/
+
+29 packages can be updated.
+16 updates are security updates.
+
+Last login: Tue Nov  5 18:08:43 2013 from client42.domain.tld
+</code>
+
+  *  Message du jour sur une version Serveur lors d'une connexion SSH
+
+<code>
+Welcome to Ubuntu 12.04.3 LTS (GNU/Linux 3.2.0-54-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com/
+
+  System information as of Thu Nov  7 09:05:32 CET 2013
+
+  System load:  0.0                Processes:           75
+  Usage of /:   41.3% of 18.73GB   Users logged in:     0
+  Memory usage: 30%                IP address for eth0: 192.168.42.42
+  Swap usage:   7%
+
+  Graph this data and manage this system at https://landscape.canonical.com/
+
+16 packages can be updated.
+0 updates are security updates.
+
+Last login: Thu Nov  7 10:35:10 2013 from client42.domain.tld
+</code>
+
+Quel que soit le type de la machine (Desktop ou serveur), si,  il y a besoin (après une mise à jour du noyau par exemple)
+
+il y a aussi une ligne invitant à redémarrer
+<code>
+*** Le système doit être redémarré ***
+</code>
+
+===== Description =====
+
+On peut voir le message qui sera affiché à la connexion dans le fichier **/etc/motd**
+
+Les scripts permettant de constituer le message du jour se trouve dans le répertoire **/etc/update-motd.d/** qui est un lien symbolique vers **/var/run/motd**
+
+<code>
+ls /etc/update-motd.d/
+00-header  10-help-text  90-updates-available  91-release-upgrade  98-fsck-at-reboot  98-reboot-required  99-footer
+</code>
+Sur un serveur, par défaut est installé le paquet [[apt>landscape-common]].
+
+Il y a en plus dans le répertoire **/etc/update-motd.d/** le script /etc/update-motd.d/50-landscape-sysinfo
+
+
+===== Personnalisation =====
+==== Ajout d'un texte à la fin du message du jour ====
+Il suffit d'[[:tutoriel:comment_modifier_un_fichier|éditer le fichier]] **/etc/motd.tail** et d'y ajouter directement notre texte.
+<file text /etc/motd.tail>
+
+############
+# Bonjour  #
+############
+
+</file>
+==== Ajout d'un script à la fin du message du jour ====
+
+On peut aussi créer ses propres scripts dans **/etc/update-motd.d/**.
+Tant qu'ils ont une sortie texte sur le terminal.
+<file bash /etc/update-motd.d/98-mestrucsenplus>
+#!/bin/sh
+echo
+echo "Voici vos IDs de l'utilisateur root (c'est lui qui met à jour motd) "
+echo
+/usr/bin/id
+echo
+</file>
+
+Ce script a évidemment besoin des [[:permissions|droits d’exécution]], il faut donc les lui donner.
+<code>
+sudo chmod +x /etc/update-motd.d/98-mestrucsenplus
+</code>
+
+==== désactivation d'un script de /etc/update-motd.d/ ====
+Il suffit d'enlever les [[:permissions|droits d’exécution]] au script qui génère ce que l'on ne veut plus voir
+
+Par exemple pour ne plus voir la ligne 
+<code>
+ * Documentation:  https://help.ubuntu.com/
+</code>
+<code>
+sudo chmod -x /etc/update-motd.d/10-help-text
+</code>
+
+ou pour ne plus lancer landscape-sysinfo
+<code>
+sudo chmod -x /etc/update-motd.d/50-landscape-sysinfo
+</code>
+
+==== activation d'un script ====
+
+Pour réactiver un script il suffit de lui redonner les droits d’exécution
+  sudo chmod +x /etc/update-motd.d/10-help-text
+
+
+==== paramétrage des infos fournies par Landscape ====
+
+On peut désinstaller le paquet [[apt>landscape-common]] sur une Ubuntu serveur comme on peut l'installer sur une Ubuntu desktop,
+
+<note tips>
+Sur certaines machines, il peut y avoir une latence énervante lors de l'établissement d'une connexion SSH.
+
+[[#desactivation_d_un_script_deetcupdate-motdd|désactiver le lancement du script]] de landscape est efficace :)
+
+</note>
+
+
+Il faut [[:tutoriel:comment_modifier_un_fichier|éditer le fichier]] ** /etc/landscape/client.conf ** 
+pour désactiver le ou les plugins de landscape générant ce que l'on ne souhaite plus voir.
+
+
+^  liste des plugins par défaut  ^^^^^^^^
+|Load|Disk|Memory|Temperature|Processes|LoggedInUsers|LandscapeLink|Network|
+
+
+
+
+Par exemple pour ne plus avoir le message
+<code>
+Graph this data and manage this system at https://landscape.canonical.com/
+</code>
+il faut ajouter au fichier /etc/landscape/client.conf l'exclusion du plugin **LandscapeLink**
+
+<file bash /etc/landscape/client.conf>
+[sysinfo]
+exclude_sysinfo_plugins = LandscapeLink 
+</file>
+
+On peut tester  le résultat de ce que fournira Landscape au message du jour avec la commande:
+<code>
+landscape-sysinfo --exclude-sysinfo-plugins=LandscapeLink,Temperature
+</code>
+
+===== Liens =====
+  * https://wiki.ubuntu.com/UpdateMotd
+  * http://www.howtogeek.com/104708/
+  * http://askubuntu.com/questions/318592/how-can-i-remove-the-landscape-canonical-com-greeting-from-motd
+  * https://help.landscape.canonical.com/
+
+------
+
+//Contributeurs: [[:utilisateurs:Ool|Ool]]//
+
+------

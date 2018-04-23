@@ -1,0 +1,102 @@
+{{tag>Precise Trusty application_domestique }}
+
+----
+====== GCstar ======
+<note warning>Certains plugins de recherches sont à présent obsolètes. </note>
+{{http://upload.wikimedia.org/wikipedia/commons/3/3f/GCfilms_Peri.png?100 }}
+GCstar est une application pour gérer des collections personnelles. Les informations associées à chaque élément peuvent être récupérées automatiquement depuis Internet.**Pensez à mette à jour les plugins (voir plus bas) pour que les recherches sur Internet puissent se faire**. On peut également leur associer d'autres informations comme l'endroit où se trouve l'objet ou à qui il a été prêté. Il est aussi possible de faire des recherches dans les collections selon des critères.
+
+ {{gcstar.png|}}                       
+
+GCstar gère les collections suivantes :
+
+    * Films
+    * Jeux vidéo
+    * Livres
+    * Musique
+    * Numismatique
+    * Vins
+    * Jeux de société
+    * Bandes dessinées
+    * Épisodes de séries TV
+    * Timbres
+    * Périodiques/Magazines
+    * Mini véhicules
+    * Collections définies par l'utilisateur
+
+ Il est possible de créer de nouveaux types de collections si les modèles par défaut ne vous suffisent pas. Il gère l'import et l'export de vos collections sous différents formats (CSV, HTML, XML, SQL, ainsi que les collections créées avec Tellico, Alexandria ou encore Ant Movie Catalog), et va récupérer les informations directement sur internet.
+
+GCstar propose un générateur de graphiques pour obtenir des statistiques sur ses collections (proportion de films dramatiques, etc.).
+
+GCstar propose une application libre, [[http://wiki.gcstar.org/en/gcstar_viewer|GCstar viewer]], pour consulter ses collections sur un système [[Android]]. Cette application est disponible sur l'[[https://market.android.com/details?id=com.gcstar.viewer&hl=fr|Android market]].
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+==== Via les dépôts officiels ====
+
+Pour installer ce logiciel, il suffit d'[[:tutoriel:comment_installer_un_paquet#paquet_present_dans_les_depots|installer le paquet]] **[[apt>gcstar|GCstar]]**. 
+
+==== Via les dépôts PPA ====
+
+<note important>Vous allez installer un dépôt non officiel. Les logiciels installés à partir de ce dépôt n'auront pas de support officiel. En cas de problème signalez-le sur [[http://forums.gcstar.org/|le forum de Gcstar]]  </note>
+
+[[:PPA|ajoutez le PPA]] **ppa:rockclimb/gcstar-daily**((https://launchpad.net/~rockclimb/+archive/ubuntu/gcstar-daily)) dans vos 
+sources de logiciels, [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]], et [[:tutoriel:comment_installer_un_paquet|installez le paquet]] 
+**[[apt>gcstar|gcstar]].**
+
+===== Utilisation=====
+
+Lancez l'application depuis le menu //Applications -> Bureautique -> GCstar gestionnaire de collections// ou //via// la [[:commande_shell|commande]] suivante :
+
+  gcstar
+
+==== Mis à jour des plugins ( toutes versions ) ====
+<note warning>Certains plugins de recherches sont à présent obsolètes. </note>
+Tapez dans un [[terminal]] :
+<code> sudo gcstar -u   </code>
+
+==== Problème avec discogs ====
+Dans certain cas, il devient impossible de récupérer des informations sur discogs,
+pour cela il suffit d'ouvrir avec [[gedit|gedit]] le fichier de plugins
+
+<code> /usr/share/gcstar/lib/GCPlugins/GCmusics/GCDiscogs.pm </code>
+
+puis de remplacer tous les "www" par "api" ((http://forums.gcstar.org/viewtopic.php?id=2247))
+
+==== Problèmes de récupération d'informations ====
+
+Les plugins de récupération d'informations sur les sites internet (allociné, amazon, etc...) ne fonctionnent pas toujours très bien, car leur mises à jour n'est pas aussi fréquente que les modifications interne des sites concernés. Toute personne ayant suffisamment de connaissances est invité à participer aux mises à jour de ces plugins (http://www.gcstar.org/contribute.fr.php#plugins).
+
+=== Nouvelles mises à jour de plugins (octobre 2015) ===
+
+Pour le modèle GCBooks, Varkolak a proposé en octobre 2015 des fichiers permettant d'utiliser à nouveau les plugins Fnac et Amazon. Pour les télécharger, rendez-vous à [[https://forum.ubuntu-fr.org/viewtopic.php?id=1919911|https://forum.ubuntu-fr.org/viewtopic.php?id=1919911]]
+
+=== Récupération des informations sur AlloCiné.fr ===
+
+Le plugin présent dans le logiciel met toutes les informations récoltées dans l'espace réservé au réalisateur. Une nouvelle version du plugin existe pour corriger cela. Il se trouve ici :[[https://gist.github.com/eMerzh/8165510| https://gist.github.com/eMerzh/8165510]].
+Pour installer cette mise à jour remplacer GCAllocine.pm situé dans /usr/lib/gcstar/GCPlugins/GCfilms/ par le nouveau.
+==== Problèmes de récupération d'informations des fichiers MKV ====
+
+Quand des fichiers vidéos sont associé aux fiches, vous pouvez utiliser le bouton Informations pour compléter les champs Durée, Format vidéo, Audio, Dimensions (résolution) et sous-titre.
+Cependant, lorsque le fichier est de format MKV (Matroska), aucunes informations n'est extraite du fichier.
+Une solution existe créé par RobJN.
+Vous devez seulement remplacer le fichier GCExtractFilms.pm d'origine situé dans /usr/lib/gcstar/GCExtract/ par celui modifié que vous trouverez ici : http://pastebin.com/PhPGDzfA .
+Vous aurez besoin d'installer le paquet libimage-exiftool-perl.
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, le configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi =====
+
+  * **(fr)** [[http://www.gcstar.org/index.fr.php|Site officiel de GCstar]]
+  * **(en)** [[https://launchpad.net/~gcstar]] 
+  * **(fr)** [[http://jonas.tuxfamily.org/wiki/gcweb|GCweb, interface web pour afficher vos collections GCstar]]
+
+----
+
+//Contributeurs principaux : [[:utilisateurs:lwolf]], [[utilisateurs:Mocto]], [[utilisateurs:Omnisilver]], [[utilisateurs:ignace72]] .//

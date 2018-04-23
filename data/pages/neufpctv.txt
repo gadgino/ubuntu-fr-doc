@@ -1,0 +1,223 @@
+{{tag>BROUILLON tv media_center multimédia partage dlna}}
+
+----
+
+====== SFR Media Center ======
+
+Quelques infos sur le media player de SFR / Neuf Telecom et la lecture des vidéos présentes sur un ordinateur linux relié au réseau.
+
+Le site web du Media Center ne comportant pas les indications, voici les infos pour l'installation du Media Center sous Linux.
+
+[[http://forum.sfr.fr/c205-neufbox-tv/f212-mediacenter/f240-partage-sous-mac-et-linux/|Forum SFR/Neuf]]
+
+Une alternative plus simple à SFR MediaCenter est l'utilisation de pms-linux (PS3 Media Server), voir lien §6.
+
+<note important>
+Le Mediacenter décrit dans cette page ne fonctionne plus suite à une mise à jour vers la nouvelle interface du boîtier TV de SFR (Version logiciel 5.2.81-30 et ultérieurs).
+
+<note tip>
+Le [[http://assistance.sfr.fr/tv/evolution/chaine-911-tv-evol/fc-3208-70827 | canal 911]] affiche un diagnostic du boîtier TV mentionnant la version du logiciel.
+</note>
+
+<note tip>
+Une solution opérationnelle est l'utilisation du serveur [[ushare]]
+
+Après installation du paquet ushare, configurer par :
+<code>sudo dpkg-reconfigure ushare</code>
+ou
+<code>sudo xdg-open /etc/ushare.conf</code>
+
+S'assurer que :
+<code>
+USHARE_IFACE=wlan0 (indiquez le nom de votre réseau, que vous pouvez voir en rentrant iwconfig)
+USHARE_PORT=49200
+USHARE_DIR=/home/~votre-nom~/Videos (indiquez l'emplacement du répertoire à partager)
+</code>
+Laisser les autres paramètres par défaut (vide)
+
+Configurer le pare-feu
+<code>sudo ufw allow to any port 49200
+sudo ufw allow to any port 1900</code>
+L'IP du décodeur TV est indiquée dans [[http://192.168.1.1/network | l'onglet réseau du panneau de configuration de la box]] (192.168.1.58 pour mon décodeur)
+
+Démarrer le serveur
+<code>
+sudo /etc/init.d/ushare restart
+
+Utilisation : /etc/init.d/ushare {start|stop|restart|reload|force-reload}
+</code>
+
+</note>
+
+<note tip>
+Une autre solution est l'utilisation d'un [[minidlna | serveur MiniDLNA]] avec la configuration indiquée [[http://forum.sfr.fr/c354-3-decodeur-tv-classique/f212-mediacenter-du-decodeur-tv-classique/f240-partage-sous-mac-et-linux/t619014-tuto-pour-mediacenter-sous-nouvelle-interface-sous-linux.htm | ici]] et [[http://forum.ubuntu-fr.org/viewtopic.php?pid=11855791#p11855791 | là ]]
+
+Après avoir installé [[minidlna]], éditer son fichier de paramétrage
+<code>sudo xdg-open /etc/minidlna.conf</code>
+puis configurer
+<code># port for HTTP (descriptions, SOAP, media transfer) traffic
+port=49200</code>
+<code># set this to the directory you want scanned.
+media_dir=/media/<MonPartage></code>
+<code># set this if you would like to specify the directory where you want MiniDLNA to
+ store its database and album art cache
+db_dir=/var/cache/minidlna</code>
+<code># set this if you would like to specify the directory where you want MiniDLNA to
+ store its log file
+log_dir=/var/log</code>
+
+Configurer le pare-feu
+<code>sudo ufw allow from "IP du décodeur TV" to any port 49200
+sudo ufw allow from "IP du décodeur TV" to any port 1900</code>
+L'IP du décodeur TV est indiquée dans [[http://192.168.1.1/network | l'onglet réseau du panneau de configuration de la box]] (192.168.1.44 pour mon décodeur)
+
+Démarrer Minidlna
+<code>sudo minidlna -f /etc/minidlna.conf -R</code>
+
+</note>
+
+<note tip>
+[[pms-linux| PS3 Media Server]] semble, comme indiqué [[http://forum.sfr.fr/c354-3-decodeur-tv-classique/f212-mediacenter-du-decodeur-tv-classique/f243-partage-sous-windows/t632354-maj-mediacenter-une-honte-.htm| ici ]], rester une autre alternative viable
+</note>
+
+</note>
+
+=====Prérequis====
+<note important>
+Ce paragraphe est valable uniquement pour l'ancienne interface du décodeur.
+</note>
+
+Pour commencer, vous devez récupérer le media center de Neuf/SFR [[http://maj.neuf.fr/web/mediacenter/mediacenter.tgz|ici]]. 
+<note important>
+Cette version ne fonctionne plus (pas seulement pour Ubuntu 10.04 et supérieurs). Ceci est due à des évolutions de PHP et de la configuration de SFR box TV.
+
+<note tip>
+Les adaptations suivantes seront nécessaires pour corriger ces problèmes si vous utilisez la version officielle:
+  * **commenter la fonction //getHostname()//** dans le fichier mediacenter/httpd/mp9ctl/common.inc.php
+  * dans le fichier mediacenter/httpd/httpd.conf.template-linux , section Security, remplacer l'IP 172.16.255.252/30 par la **nouvelle adresse du boitier TV sur le réseau local**, que l'on peut trouver dans le menu de la neufbox ( http://192.168.1.1 rubrique réseau, ligne "boîtier TV").
+</note>
+
+<note tip>Vous pouvez aussi récupérer une version modifiée et plus complète du MediaCenter, bien que non officielle, elle fonctionne beaucoup mieux. Informations et téléchargement [[http://forum.sfr.fr/t5/Mon-d%C3%A9codeur-TV/M%C3%A9diacenter-Neuf-Linux-v1-66-Linux/m-p/3650|ici]]</note>
+
+</note>
+
+
+Le MediaCenter pour Linux nécessite la présence préalable :
+  * de php4 ou php5 (installer le paquet [[apt://libapache2-mod-php5|libapache2-mod-php5]]) (En cas de difficultés, un rechargement des informations des paquets suffit, voir [[http://ubuntuforums.org/archive/index.php/t-1047929.html| ici]]).
+  * d'un serveur HTTP (apache2 de préférence, sera installé automatiquement avec php5)
+  * et de Perl (déjà installé sur Ubuntu).
+
+===== Fonctionnement du Media Center =====
+
+En fait, le Media Center de Neuf est composé de deux éléments : 
+
+  * le navigateur, intégré au décodeur SFR TV HD  ip 192.168.1.44 (adresse du boitier TV sur le réseau local, que l'on peut trouver dans le menu de la neufbox http://192.168.1.1 rubrique réseau, ligne "boîtier TV"). Il permet l'affichage des fichiers sur la TV.
+  * le serveur, un simple serveur web sur votre PC, qui écoute les requêtes sur le port 26180 et qui met à disposition des dossiers par la mécanique des Alias.
+
+<note important>
+Une instance dédiée du serveur HTTP est lancée avec les droits de l'utilisateur courant. Pour des raisons de sécurité, le MediaCenter ne fonctionne pas en root.</note>
+
+Le MediaCenter doit être installé avec un compte utilisateur standard, le compte root ne peut pas lancer le MediaCenter.
+
+===== Installation =====
+
+  * Décompresser l'archive dans le répertoire désiré (tous les fichiers sont stockés dans ce dossier), il est conseillé de le faire à la racine de votre home.
+  * Ouvrir le port 26180 du pare-feu de votre PC pour le Mediacenter (Attention, l'adresse IP du boitier TV peut changer)
+    
+   {{:parefeumediacentersfr.png|Configuration du pare-feu}}
+
+  * Démarrer le serveur en lançant les commandes suivantes dans un terminal:
+
+   cd ~/mediacenter
+   ./mediacenter start
+
+On peut ignorer le message //Could not reliably determine the server's fully qualified domain name// et vérifier l'état du serveur par la commande
+
+   ./mediacenter status
+
+   ./mediacenter stop    // Pour arrêter le serveur
+
+<note important>Il est important de lancer les commandes (''mediacenter'' et ''configure'') du serveur depuis le dossier d'installation du médiacenter</note> 
+
+===== Création des partages =====
+
+     * A l'aide de l'interface web de Configuration simplifiée: http://127.0.0.1:26180/mp9ctl/config.php?mode=tree (le serveur doit  avoir été préalablement démarré!)
+
+ {{:mediacenterconfigpartagesimplifiee.png|Interface de configuration simplifiée du partage}}
+
+ Après avoir sélectionné les répertoires de votre ordinateur que vous souhaitez pouvoir accéder depuis votre BoxTV, Il ne reste plus qu'a enregistrer les fichiers de configuration dans mediacenter/data/shares.conf et mediacenter/data/httpshares.conf.
+
+     * Ou bien en exécutant la commande ''./configure''
+<note tip>
+  * La commande ''add'' permet d'ajouter un nouveau partage (vous pouvez donner un nom au partage différent du nom du dossier en indiquant un 2e argument à la commande).
+  * La commande ''del'' permet de supprimer un partage
+  * La commande ''update'' relance le serveur HTTP
+  * La commande ''quit'' permet de sortir de l'outil de configuration
+</note>
+
+===== Utilisation =====
+
+  * Ouvrir un terminal et aller à l'emplacement du mediacenter : ''cd mediacenter''
+  * Lancer le MédiaCenter avec la commande ''./mediacenter start''
+  * Vérifier la bonne exécution du serveur :
+    * ouvrir un navigateur web et aller à l'adresse **http://127.0.0.1:26180**
+    * Une page "Le serveur HTTP fonctionne" doit apparaître.
+
+<note important>Il est important de lancer la commande ''./mediacenter start'' depuis le dossier du médiacenter</note>
+
+Le MediaCenter est prêt à être utilisé !
+
+Pour arrêter le MediaCenter : ''./mediacenter stop''
+
+Pour l'état du MediaCenter :  ''./mediacenter status''
+
+<note important>**Problème connu** :
+
+Si sur le mediacenter vous ne pouvez accéder à votre ordinateur avec le message suivant "impossible de parcourir le périphérique", Emilia nous donne la solution à ce problème sur [[http://forum.sfr.fr/c151-tv/f30-neufbox-tv/t21094-mediacenter-impossible-de-parcourir-ce-peripherique.htm?st=20|le forum sfr]] :
+> aller dans media center - i réglages - puis Dans « Détection MédiaCenter sur le réseau local », cliquez sur « effectuer une détection manuelle ». Sur la télécommande, appuyez sur la touche « D » pour sauver. 
+</note>
+
+== Outils graphiques pour l'environnement Gnome ==
+
+Voici un script proposé par [[utilisateurs:Id2ndR]] pour faciliter l'usage du MediaCenter (modifiez le chemin du dossier du MediaCenter).
+<code>
+#!/bin/bash
+PATH_MC="$HOME/logiciels/mediacenter"
+cd "$PATH_MC" || exit 1
+
+STATUS=`./mediacenter status`
+RESULT=`zenity --list --text="mediacenter is $STATUS" --column="choose an action" start configure stop`
+echo $RESULT
+if [ "$RESULT" != "" ]; then
+	if [ "$RESULT" == "configure" ]; then
+		if [ $STATUS != running ]; then
+			gnome-terminal --command ./configure
+		else
+			firefox "http://127.0.0.1:26180" &
+		fi
+	else
+		./mediacenter $RESULT
+	fi
+fi
+</code>
+
+Vous pouvez également utiliser ce [[http://forum.neuf.tv/viewtopic.php?t=39497|script zenity]] ou [[http://forum.neuf.tv/viewtopic.php?t=22822|cette interface java]] pour lancer le médiacenter.
+
+Il existe également Gm9diaCenter. voir [[http://forum.ubuntu-fr.org/viewtopic.php?id=374715|ici]] et télécharger [[http://gwebradio2.googlecode.com/files/Gm9diaCenter.1.1.tar.gz|ici]].
+
+Pour 9MediaCenterGui, l'interface Java, vous pouvez télécharger l'installeur ici : [[http://sourceforge.net/projects/mediacentergui/]]
+
+Pour lancer l'installation :
+<code>
+chmod +x 9MediaCenterGUI-0.8-linux-installer.bin
+./9MediaCenterGUI-0.8-linux-installer.bin
+</code>
+
+Puis suivez la procédure d'installation.
+
+=====Voir aussi=====
+  * [[:tutoriel:installer_imprimante_partage|Partage d'une imprimante]] - sur une [[serveur_impression_neufbox|NeufBox]] - sur une [[serveur_impression_freebox|FreeBox]].
+  * [[:Partage]]
+  * [[neufbox_partage_ftp]]
+  * [[neuf_mediacenter]]
+  * PS3 Media Server. [[https://code.google.com/p/ps3mediaserver/downloads/detail?name=pms-linux-1.10.5.tgz&can=4&q=pms]]. Il suffit de décompresser l'archive dans son dossier personnel et de lancer le fichier PMS.sh. Lien interne : [[pms-linux|PS3 Media Server]]

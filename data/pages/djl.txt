@@ -1,0 +1,285 @@
+{{tag>jeu gestionnaire_de_jeux}}
+----
+
+====== DJL - Le dépôt des jeux Linux ! ======
+
+
+{{  http://fr.djl-linux.org/sites/default/files/images/captures_fr/miniatures/djl_depot.png}}
+
+**djl - pour 'Dépôt Jeux Linux' est un gestionnaire de jeux linux** (sous diverses licences libres ou en version d'évaluation) écrit en Python pour le système d'exploitation GNU/Linux.
+
+A l'heure actuelle, il contient plus de 122 jeux - dans plusieurs catégories.
+  * [[http://djl.jeuxlinux.fr/djl_addgame_fr.php|Vous pouvez proposer des nouveaux jeux ici.]]
+  * [[http://fr.djl-linux.org/?q=node/3|Et voir la liste des jeux dans le dépôt]]
+
+
+C'est l'équivalent **libre** de Steam de Valve, une **plate-forme de distribution de jeux vidéo**.
+
+C'est également l'équivalent de synaptic pour vos jeux :-P.
+
+  * Site officiel : http://fr.djl-linux.org/
+
+<note>Djl facilite même l'installation des librairies dont vous aurez besoin.
+
+Si vous avez un **problème spécifique à djl** veuillez reporter **les bugs [[http://forum.djl-linux.org/|sur le forum de djl]]**.
+</note>
+
+<note important>
+Ne semble plus être supporté depuis 2009, cependant, il fonctionne encore.</note>
+
+
+===== Présentation =====
+
+
+{{  http://fr.djl-linux.org/sites/default/files/images/captures_fr/imgs/djl_liste_jeux.png  }}
+
+En dehors de cela, un agrégateur RSS est fourni permettant de lire les dernières actualités du jeu sur Linux, un mini client IRC pour dialoguer avec les autres utilisateurs de Djl (peut être désactivé) et un outil de mise à jour automatique.
+
+Depuis la version 1.2.7, djl est modulaire et permet d’installer des extensions, directement depuis l’interface.
+Il intègre un support minimal des dépendances, via des librairies partagées que l’utilisateur peut télécharger, ce qui permet également de lancer des jeux x86 sur plate-forme x86_64.
+
+À noter que Djl est développé par des administrateurs de [[http://www.jeuxlinux.fr|jeuxlinux.fr]].
+
+===== Installation =====
+
+====Installation simple - non officiel ====
+
+
+  - [[http://www.ckdevelop.org/download/download.php?id=2|Télécharger le fichier deb de DJL]] ([[http://julroy67.free.fr/DL/djl-1.2.13-linux-installer.bin|lien miroir version 1.2.13 en bin]]).
+  - Exécuter le fichier.
+  - **Voilà ! Bon jeux LOL**
+
+
+<note>Si vous utilisez le .bin :
+  * Donnez les droits d'exécution (clic droit Propriété -> Permissions -> Autoriser l'exécution du fichier comme un programme).
+</note>
+
+==== Manuel - clic ====
+<note>
+Pré-requis
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir installé le paquet [[apt://python-qt4|python-qt4]].
+</note>
+
+  * [[http://fr.djl-linux.org/?q=node/2|Téléchargez la dernière version de Djl sur le site officiel]] ([[http://fr.djl-linux.org/maj_djl/archives/djl-1.2.20.tar.gz|DJL 1.2.20]])
+et décompressez-la.
+
+==== Ligne de commande / script d'installation ====
+
+Copier coller dans un Terminal ( ou créer un fichier sh - pour l'installation de masse facile ).
+
+<code> 
+#!/bin/sh
+# Changes:
+# - 2009
+
+echo "Définir la version de djl a installer"
+Fichier=djl-1.2.20.tar.gz
+
+echo "installer python-qt4"
+sudo apt-get install python-qt4
+
+echo "Créer un répertoire jeux dans votre espace home et y aller"
+mkdir ~/jeux
+cd ~/jeux
+
+echo "Téléchargez l'archive"
+wget http://fr.djl-linux.org/maj_djl/archives/$Fichier
+
+echo "décompresser l'archive"
+tar xvfz $Fichier
+rm $Fichier
+
+
+echo "exécuter djl"
+sh ~/jeux/djl/djl.sh
+
+</code>
+
+Pensez à changer tout de suite le répertoire d'installation des jeux pour /home/VOTRECOMPTE/jeux.
+
+===== Utilisation =====
+
+Exécutez **djl.sh** se situant dans l'archive décompressée.
+==== Créer un raccourci dans le menu Application ====
+
+Lancer DJL , puis aller dans "Menu" -> Configuration :
+  * Cliquer sur le bouton Ajouter un raccourci de djl dans le menu Kde/gnome
+  * Valider.
+==== Installer des librairies - DJL renvoie un message et le jeu ne se lance pas ====
+===Méthode Automatique ===
+
+DJL peut **essayer** d'installer automatiquement les dépendances manquantes, pour cela :
+  * Dans Menu -> Configuration -> Cocher Installer automatiquement les dépendances manquantes.
+
+
+=== Méthode Manuelle ===
+
+Pour installer les librairies qu'il vous manque - et qui sont inscrites dans le message d'erreur de djl (quand le jeux ne se lance pas) il faut :
+  * Aller dans Dépôt -> Gestionnaire des Librairies -> Double cliquer sur les librairies nécessaires (le "+" vert deviendra un "-" rouge).
+  * Voilà.
+
+
+<note>
+Vous pouvez rechercher les librairies avec la zone de texte en haut.
+</note>
+
+
+
+==== Sécuriser le lancement des jeux (utilisateur averti)====
+
+Pour éviter certains plantages vous pouvez lancer les jeux dans un serveur graphique séparé.
+
+
+Lancer DJL , puis aller dans "Menu" -> Configuration :
+  * Cocher lancer les jeux dans un serveur graphique séparé.
+  * Valider.
+
+<note>Si vous avez une errreur au lancement d'un jeu : il vous sera peut être demandé de lancer cette commande :<code>sudo dpkg-reconfigure x11-common</code>
+
+  * Mettre les "Utilisateurs autorisés à lancer un serveur X" à "N'importe qui".
+  * Priorité du serveur X : 0 ( ne pas changer ).
+
+</note>
+
+===== Désinstallation =====
+
+Désinstallez DJL en supprimant le dossier contenant l'exécutable et pour supprimer la configuration (donc les jeux installés avec) il vous faut
+supprimer le dossier ( ligne de commande ) : <note tip>rm -r ~/.djl</note>
+
+===== Liste des jeux dans le dépôt =====
+
+Voici la liste des jeux installables depuis djl (122 actuellement) :
+
+  * [[http://www.cosc.canterbury.ac.nz/greg.ewing/python/PyWeek5/index.html|555-Boom!]]
+  * [[http://www.jeuxonline.info/jeu/A_Tale_in_the_Desert|A Tale in the Desert IV]]
+  * [[http://mac-gratuit.fr/telecharger/A7Xpg.html|A7Xpg]]
+  * [[alienarena|Alien Arena]]
+  * [[http://jeuxlibres.net/showgame/ardentryst.html|Ardentryst]]
+  * [[Armagetron|Armagetron Advanced]]
+  * [[Assault Cube]]
+  * [[AstroMenace]]
+  * [[http://jeux.armuco.ch/doku.php?id=auteria:auteria|Auteria]]
+  * [[http://www.jeuxlinux.fr/a25-Automanic.html|Automanic]]
+  * [[http://www.jeuxlinux.fr/b513-Awaker.html|Awaker]]
+  * [[http://www.battlejump.com/presentation-fr-battle-jump.html|Battle Jump]]
+  * [[http://battle-tanks.softonic.fr/|Battle Tanks]]
+  * [[http://mordred.dir.bg/biniax/index2.html|Biniax]]
+  * [[http://www.parallelrealities.co.uk/projects/blobAndConquer.php|Blob Wars - Blob And Conquer]]
+  * [[Blood Frontier]]
+  * [[http://www.clubic.com/telecharger-fiche29085-bos-wars.html|BosWars]]
+  * [[http://jeuxlibres.net/showgame/bygfoot.html|BygFoot]]
+  * [[wpfr>BZFlag|BZFlag]]
+  * [[cs1003|CounterStrike 2D]]
+  * [[http://www.infos-du-net.com/telecharger/Coup-de-Foot-2006-Linux,0301-6256.html|Coup de foot]]
+  * [[Cube]]
+  * [[http://www.jeuxvideopc.com/test/42045-dark-horizon.php|Dark Horizons]]
+  * [[Defcon]]
+  * [[http://www.jeuxlinux.fr/a162-Digital_Paint_Paintball_2.html|Digital Paint Paintball]]
+  * [[wpfr>Dwarf_Fortress|Dwarf Fortress]]
+  * [[http://www.jeuxlinux.fr/b566-Empty_Clip_1.0.3.html|Empty Clip]]
+  * [[http://endgame-singularity.programmesetjeux.com/|Endgame:Singularity]]
+  * Excalibur
+  * [[http://www.jeuxgratuits.net/jeux/PC/F1_Spirit_Remake|F-1 Spirit Remake]]
+  * [[http://www.linuxpedia.fr/doku.php/jeux/foobillard|FooBillard]]
+  * [[Freeciv]]
+  * [[FreeCol]]
+  * [[FreeDroidRPG]]
+  * [[http://freesynd.sourceforge.net/|FreeSynd]]
+  * [[Freetennis]]
+  * [[Frozen-Bubble]]
+  * Gargoyle
+  * [[MegaGlest]]
+  * [[http://kf-libre.legtux.org/2010/02/glest-ad/|GlestAD]]
+  * [[glob2|Globulation2]]
+  * [[Gridwars]]
+  * [[Gunroar]]
+  * [[Hedgewars]]
+  * [[http://www.jeuxlinux.fr/b973-Hive_Rise.html|Hive Rise]]
+  * [[http://www.jeuxlinux.fr/a133-Kimboot.html|Kimboot]]
+  * [[Landes eternelles]]
+  * [[Legends]]
+  * [[http://www.fight.free.fr/tel9.htm|Lemming Ball Z]]
+  * [[lincity-ng|LinCityNG]]
+  * [[http://ifictionfr.blogspot.com/2008/02/lupercalia-un-nouveau-jeu.html|Lupercalia]]
+  * [[http://www.ifreviews.org/index.php?analise=1084|Ma princesse adoree]]
+  * [[http://www.jeuxlinux.fr/a26-Machine_ball.html|Machine ball]]
+  * [[http://www.jeuxlinux.fr/b976-Mad_Skills_Motocross.html|Mad Skills Motocross]]
+  * [[Maniadrive]]
+  * [[http://www.jeuxgratuits.net/jeux/PC/MonsterZ|Monsterz]]
+  * [[http://www.jeuxlinux.fr/a182-Morpyon.html|Morpyon]]
+  * [[wpfr>Mtp_Target|MTP target]]
+  * [[http://www.framasoft.net/article2401.html|NetPanzer]]
+  * [[http://www.jeuxlinux.fr/b855-Neverball_1.5.0.html|NeverBall]]
+  * [[Nevernoid]]
+  * [[http://obligement.free.fr/articles/neverputt.php|NeverPutt]]
+  * [[Nexuiz]]
+  * [[http://www.jeuxlinux.fr/a237-Nimuh.html|Nimuh]]
+  * [[http://www.clubic.com/telecharger-fiche11060-njam.html|Njam]]
+  * [[Numptyphysics]]
+  * [[http://mac-gratuit.fr/telecharger/Oolite.html|Oolite]]
+  * [[opensonic|Open Sonic]]
+  * [[http://jeuxlibres.net/showgame/open_alchemist.html|OpenAlchemist]]
+  * [[unknown-horizons|OpenAnno]]
+  * [[OpenArena]]
+  * [[http://www.opencity.info/fr/Index.html|OpenCity]]
+  * [[http://jeuxlibres.net/showgame/pang_zero.html?b=301|Pang Zero]]
+  * [[http://mac-gratuit.fr/gratuit-256.html|Parsec47]]
+  * [[Planeshift]]
+  * [[PokerTH]]
+  * [[postal2|Postal 2: Share The Pain]]
+  * [[Racer]]
+  * [[regnumonline|Regnum online]]
+  * [[RRootage]]
+  * [[http://www.framasoft.net/article4822.html|RTChess]]
+  * [[Sauerbraten]]
+  * [[http://www.jeuxvideopc.com/news/5298-autre-demo-savage.php|Savage]]
+  * [[savage2|Savage 2 : A Tortured Soul]]
+  * [[wpfr>Scorched_3D|Scorched3D]]
+  * [[Scourge]]
+  * [[http://www.jeuxlinux.fr/b819-SDL-Ball_1.0.html|SDL-Ball]]
+  * [[http://fr.wiki.simutrans.com/index.php/Accueil|Simutrans]]
+  * [[Skulltag]]
+  * [[http://slime.tuxfamily.org/|Slime volley]]
+  * [[openarena|Smokin guns]]
+  * [[http://www.relite.org/v3/fiches/sobi2details/soulfu.html|SoulFu]]
+  * [[Spring]]
+  * [[Stepmania]]
+  * [[http://www.jeuxlinux.fr/a53-Stormbaan_Coureur.html|Stormbaan coureur]]
+  * [[SuperTux]]
+  * [[supertuxkart|SuperTux Kart]]
+  * [[http://www.framasoft.net/article3323.html|Tarot Club]]
+  * [[http://www.jeuxlinux.fr/a196-Teeworlds.html|TeeWorlds]]
+  * [[http://www.jeuxlinux.fr/a224-Tile_Racer.html|Tile Racer]]
+  * [[kenta_cho|Titanion]]
+  * [[http://www.jeuxlinux.fr/a121-Toribash.html|Toribash]]
+  * [[kenta_cho|Torus Trooper]]
+  * [[Tremulous]]
+  * [[http://www.clubic.com/telecharger-fiche15021-tumiki-fighters.html|Tumiki Fighters]]
+  * [[http://www.jouer.org/Jeux-Annees-90/UFO-Ennemy-Unknown-00407.html|UFO]]
+  * [[Urban Terror]]
+  * [[Vdrift]]
+  * [[VegaStrike]]
+  * [[http://soulride.com/products/jay_peak.html|Virtual Jay Peak]]
+  * [[Warsow]]
+  * [[warzone2100|Warzone 2100]]
+  * [[Wesnoth]]
+  * [[Widelands]]
+  * [[enemy_territory|Wolfenstein : Enemy Territory]]
+  * [[wop|World of Padman]]
+  * [[:Warmux]]
+  * [[x-moto|XMoto]]
+  * [[http://www.clubic.com/telecharger-fiche244978-xrick.html|Xrick]]
+  * [[Yo Frankie!]]
+  * [[http://www.framasoft.net/article4284.html|Yoda Soccer]]
+  * [[http://www.shmup.com/index.php?page=fiche&id=805|Z-Lock]]
+
+===== Liens =====
+  * [[http://fr.djl-linux.org|Site officiel]]
+  * [[http://fr.djl-linux.org/?q=node/7|Page de téléchargement]]
+  * [[http://forum.djl-linux.org/|Forum officiel]]
+
+
+----
+
+**Contributeurs principaux :** //[[:utilisateurs:ckdevelop|CKDevelop]]...à suivre  ,[[:utilisateurs:psychederic|Psychederic]]//

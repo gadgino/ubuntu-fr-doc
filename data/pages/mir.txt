@@ -1,0 +1,66 @@
+{{tag>Trusty Xenial système carte_graphique}}
+
+====== MIR ======
+Mir est le serveur d'affichage destiné à remplacer entièrement [[:Xorg]] dans les prochaines versions d'Ubuntu.
+Néanmoins à cause du développement mis en priorité sur smartphone, la première version utilisable de mir avec [[unity|unity8]] est attendus pour la version [[wily|15.10]] d'ubuntu
+
+C'est aussi le serveur d'affichage utilisé par Ubuntu touch et donc les premiers smartphone Ubuntu sorti en 2015.
+
+Il est donc actuellement en développement intensif et bien avancé. Pour son fonctionnement, il est aidé de XMir, couche de compatibilité avec X et les pilotes propriétaires, dont le développement demande de gros efforts.
+
+Il a pour principal concurrent **Wayland** qui sera le serveur d'affichage des autres distributions non gérées par Canonical.
+
+=====Installation=====
+<note important>
+Actuellement (07/05/15) le serveur n'est pas mature pour être utilisé à 100 % dans Ubuntu principalement du fait de Xmir  (il faut adapter les pilotes et les applications qui fonctionnent sous X)
+</note>
+
+Pour l'installer à des fins de test en utilisant les pilotes libres il vous faut la version d'Ubuntu [[xenial|16.04]] ou la dernière version ([[:yakkety|16.10]]) 
+
+Dans un terminal (ctrl + alt + t)
+
+**Pour Ubuntu 14.04 ou plus récent**
+<code>sudo apt update
+sudo apt full-upgrade
+sudo apt install unity8-lxc </code>
+
+Pour vérifier si Mir est lancé sur votre système, utiliser la commande suivante :
+<code>
+ps aux | grep unity-system-compositor 
+</code>
+
+=====Désinstallation=====
+Pour désinstaller MIR proprement Dans un terminal (ctrl + alt + t),
+
+entrez les commandes suivantes :
+<code>
+sudo apt-get purge unity8-lxc
+sudo restart lightdm 
+</code>
+
+=====Étape de développement=====
+
+Les étapes publiques du développement de Mir.
+
+Voici ce qui était prévu :
+
+  * Ubuntu 13.10 : Unity 7 fonctionne sur la couche de compatibilité XMir par défaut. Si XMir détecte l'installation de pilotes propriétaires (qu'il ne supporte pas), il basculera la session sur un serveur X natif
+  * Ubuntu 14.04 LTS : Unity 7 fonctionnera sur la couche de compatibilité XMir par défaut et la session exploitant un serveur X natif en cas d'installation de pilotes propriétaires sera supprimée. En effet, Canonical espère un support complet de la part des pilotes propriétaires pour Mir.
+  * Ubuntu 14.10 : Unity 8 fonctionnera sur un serveur Mir natif, incluant le support d'un serveur X déraciné pour les applications X héritées et ne pouvant fonctionner sous Mir. (Edit du 12/11/2014 : le support de Mir natif ainsi que des drivers propriétaires ont été repoussés une nouvelle fois )
+
+En septembre 2013, Mir fonctionne bien mais XMir n'est pas prêt pour la gestion multi-écran. Aussi, l'intégration de Mir et Xmir dans Ubuntu 13.10 est annulée et reportée à une version ultérieure. Les autres étapes prévues sont probablement chamboulées.
+
+En janvier 2014 Mir fonctionne mieux mais son intégration n'est pas prévue pour la version LTS d'Ubuntu (14.04) Unity 7 fonctionnera toujours sur Xorg pour privilégier la stabilité.
+
+En mai 2015 de nombreux progrès ont été effectués. Mir fonctionne déjà sur smartphone et l'objectif est qu'il sera fonctionnel pour Ubuntu 16.04 dans l'édition Ubuntu next , la version par défaut restera sur Unity 7.x avec X11 le temps que Mir devienne plus stable et qu'il bénéficie d'un meilleur support au niveau des drivers.
+
+En Avril 2016, Mir n'est toujours pas utilisé par défaut et son implantation sera reportée pour la version 16.10 d'Ubuntu.
+
+En Octobre 2016, Mir n'est toujours pas utilisé par défaut. Néanmoins, une session d'essai de Mir avec Unity 8 est disponible. L'utilisation de Mir et d'Unity 8 par défaut est donc prévu pour Ubuntu 17.04 Zesty Zapus.
+
+===== Liens utiles =====
+
+   * (en)** [[http://wiki.ubuntu.com/Mir | doc officiel]]**
+   * (fr) **[[wpfr>Mir_(serveur_d'affichage)| Lien wikipedia]]**
+
+// Contributeurs : [[:utilisateurs:gp974]]

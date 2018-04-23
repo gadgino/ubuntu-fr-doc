@@ -1,0 +1,43 @@
+{{tag>tutoriel imprimante toshiba}}
+====== Installer un copieur multifonctions Toshiba eStudio ======
+
+=====   Installation avec les pilotes pré-installés ou fournis =====
+Il se peut que, pour votre imprimante, les pilotes soient déjà pré-installés avec Ubuntu. Étant facile à mettre en œuvre et susceptible de vous simplifier grandement la vie, vous avez tout intérêt à essayer dans un premier temps cette  [[:tutoriel:installer_imprimante_preinstalles| méthode des pilotes pré-installés]]. 
+Sinon, dans la mesure où ce sont souvent des imprimantes ou copieur multi-fonctions professionnelles, il est vivement conseillé d'utiliser le pilote fourni avec sur le CD. Au besoin, il peut-être téléchargé sur le site de Toshiba, [[#Télécharger le pilote sur le site de Toshiba|cf. ci-dessous]].
+===== Télécharger le pilote sur le site de Toshiba =====
+Si l'installation avec la méthode des pilotes pré-installés n'a pas fonctionné ou que vous n'avez pas sous la main le CD fourni avec la machine, vous pouvez télécharger le pilote sur le site de Toshiba à cette  [[http://impression.toshiba.fr/support/telechargement-driver-imprimante-multifonctions|adresse]].
+<note tip>Sur le site de Toshiba, il faut spécifier //Mac OS X// comme système d'exploitation.\\ Linux et Linux/Unix existe mais "aucun driver" associé</note>
+Prenons comme exemple l'eStudio2555. \\
+  - Commencez par télécharger le **.ppd** après avoir choisi votre modèle,
+  - Extrayez [[:archivage|l'archive]]. Pensez à installer au préalable le paquet **[[apt>p7zip-full]]**.\\
+Le fichier **TSES6D_1.PPD** dont vous aurez besoin se trouve dans le dossier **FR** de l'archive décompressée. 
+
+=====Tutoriels d'installation via CUPS =====
+<note important>Sous Xenial (16.04) l'ajout par les [[:gnome-control-center|Paramètres système]] puis [[:imprimante|Imprimantes]] fonctionne !</note>
+  - Lancer CUPS en tapant http://localhost:631/ dans votre navigateur internet; \\ {{:imprimante:installer_imprimante_toshiba_lucid_01_1erecrancups.png?400|}}
+  - Ajout d'imprimante puis sélectionner votre imprimante et cliquer Continuer; \\ {{:imprimante:installer_imprimante_toshiba_lucid_02_2iemeecrancups_ajoutimprimante.png|}}
+  - Valider l'accès avec le login administrateur du poste;
+  - Un récapitulatif s'affiche avec le nom, la description, l'emplacement (vide), la connexion (vérifier l'adresse IP), s'il on souhaite la partager (non si poste utilisateur)... cliquer sur Continuer;
+  - Sélectionner ensuite votre imprimante dans la liste (il faut évidemment qu'elle soit présente sur le réseau)\\ {{:imprimante:installer_imprimante_toshiba_lucid_03_selectionimprimante.png?400|}}\\ \\
+  - Sélectionner le fichier PPD. L'accès à un serveur réseau peut poser problème, il peut être utile de copier le fichier .ppd sur son bureau (ou sur son disque dur) \\ {{:imprimante:installer_imprimante_toshiba_lucid_04_parcourirversfichierppd.png?400|}}\\ puis: \\ {{:imprimante:installer_imprimante_toshiba_lucid_05_ajoutdepuisfichierppd.png?300|}}
+  - Définir les options installés \\ {{:imprimante:installer_imprimante_toshiba_lucid_06_definiroptionsinstalees.png?400|}}
+  - et les options générales\\ {{:imprimante:installer_imprimante_toshiba_lucid_07_definiroptionsgenerales.png?400|}}
+Vous pouvez retrouver ces options en [[http://localhost:631/|relançant CUPS]], Ajout d’imprimantes et de classes, Gérer les imprimantes puis sélectionner l'imprimante à gérer et enfin: \\ {{:imprimante:installer_imprimante_toshiba_lucid_8_definiroptionsimprimante.png?400|}}\\
+
+
+
+
+
+===== Liste des imprimantes prises en charge =====
+
+^ Icône ^ Signification ^
+| {{:icons:icon-ubuntu.png| Les pilotes d'impression sont installés par défaut. }} | Les pilotes d'impression sont installés par défaut. \\ |
+| {{icons:important.png|Fonctionne après config. Cliquez sur l'icône pour plus de détails.}} | Fonctionne après quelques manipulations |
+| {{:apt.png?nolink|Installer les paquets...}} | Vous pouvez facilement installer les pilotes d'impression en cliquant sur cette icône. |
+| {{:icons:process-stop.png?nolink|Ne fonctionne pas}} | Le modèle ne semble pas être supporté par Ubuntu. |
+
+^ Modèle ^ Pilote ^ Commentaire ^
+| eStudio2555 | [[:tutoriel:installer_imprimante_toshiba#tutoriels_d_installation_via_cups|{{icons:important.png|tutoriel ci-dessus avec CUPS. Cliquez sur l'icône pour plus de détails.}}]]| Pas de logiciel pour accéder aux boîtes utilisateurs eFiling créées sur le copieur (mais SMB supporté) |
+
+----
+//Contributeurs : [[:utilisateurs:bcag2|bcag2]] //

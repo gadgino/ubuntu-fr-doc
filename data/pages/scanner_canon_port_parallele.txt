@@ -1,0 +1,76 @@
+
+{{tag>Hardy Intrepid matériel scanner imprimante BROUILLON}}
+
+----
+
+====== Installer un scanner Canon sur port parallèle avec XSane ======
+
+
+
+===== Compatibilité =====
+
+// procédure intégralement testée avec la configuration suivante : pc portable (notebook) thinkpad t42p - scanner Canon CanoScan FB320P  imprimante Canon  //
+
+  * **Canon FB320P**
+  * Canon FB620P
+  
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]] ;
+  * Avoir installé le paquet « [[apt://xsane]] ».
+
+
+===== Installation =====
+
+<note>Cette partie est largement inspirée de « [[:scanner_mustek_port_parallele]] »</note>
+
+  * [[:tutoriel:comment_editer_un_fichier|éditez le fichier]] **/etc/sane.d/dll.conf**
+
+décommenter **canon_pp** (i.e. : supprimer le # devant ''canon_pp'')
+
+  * [[:tutoriel:comment_editer_un_fichier|éditez le fichier]]  **/etc/sane.d/canon_pp.conf**
+
+commenter la ligne ''init_mode AUTO parport0'' (i.e. : en ajoutant # en début de ligne)
+
+et décommenter la ligne ''init_mode FB620P parport0'' (i.e. : en supprimant le # en début de ligne)
+
+
+  * ajouter l'utilisateur courant au groupe ''lp'' pour lui permettre l'accès au port parallèle :
+
+  sudo adduser $USERNAME lp
+
+  * se déconnecter / reconnecter (ou redémarrer) et vérifier : 
+
+  groups
+
+===== Configuration =====
+
+<note important>il faut impérativement activer le mode **EPP** pour le port parallèle au niveau du BIOS</note>
+
+// sur l'ibm t42p, l'acces au BIOS se fait par la touche <F1> au démarrage : la configuration par défaut du port parallèle est :
+  * Mode : Bi-directionnal
+  * Base I/O address : 3BC
+ => pour accéder au mode EPP il faut dans l'odre modifier :
+  - Base I/O adress : 378
+  - Mode : EPP
+//
+
+===== Utilisation =====
+
+//Quelques commandes utilisées lors des vérifications : //
+
+  scanimage -L
+  sane-find-scanner
+  sudo xsane
+
+// Remarque : avec l'imprimante Canon BJC1000 reliée au scanner, surveiller la résolution : 360 x 360 dpi (sinon (si auto par exemple), ca s'imprime en tout petit... :-( //
+
+===== Voir aussi =====
+
+
+  * [[:scanner_mustek_port_parallele]] (fr)
+
+----
+
+//Contributeurs : [[utilisateurs:marco7|marco]] //

@@ -1,0 +1,37 @@
+{{tag>clavier}}
+----
+====== Indicateur de verrouillage majuscules et verrouillage numérique Indicator Keylock =======
+Indicator Keylock est un outil permettant d'afficher l'état du verrouillage majuscule et verrouillage numérique pour les claviers dépourvu de voyants.
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+  - [[:PPA|Ajoutez dans vos sources de logiciels le PPA]] **ppa:tsbarnes/indicator-keylock**
+  - [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste des paquets]]
+  - [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>indicator-keylock|indicator-keylock]]** ;
+
+Une fois l’installation terminée, il suffit d’appuyer simultanément sur les touches [Alt] + [F2] afin d’ouvrir le lanceur d’application et d’y entrer la commande indicator-keylock pour lancer l’applet
+
+===== Utilisation =====
+
+A chaque appui sur une touche de verrouillage, une notification s'affiche. Un indicateur est également affiché dans la barre des indicateurs.
+
+Cliquer sur l'indicateur pour accéder au menu des préférences.
+
+Un seul indicateur est présent (à choisir parmi : verrouillage numérique, verrouillage majuscule ou scroll lock).
+
+L'indicateur peut être affiché quelque soit l'état du verrouillage, uniquement lorsque le verrouillage est actif ou ne jamais être affiché.
+
+Si l'indicateur est désactivé, relancer indicator-keylock pour accéder aux préférences.
+
+L'indicateur n'est pas affiché dans l'écran de connexion (lightDM). Il ne fonctionne qu'une fois la session ouverte.
+
+===== Liens =====
+Alternative : [[http://www.webupd8.org/2014/09/keyboard-modifiers-state-indicator-for.html|indicator-xkbmod]]
+
+-------------------------------
+mise à jour : 18 oct. 2014

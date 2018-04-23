@@ -1,0 +1,124 @@
+{{tag>Precise virtualisation windows}}
+----
+
+
+
+====== Installation de VMWare Workstation ======
+
+**VMWare** est un outil pour créer des //machines virtuelles// (à ne pas confondre avec la machine virtuelle Java, nommée JVM)  pour simuler un PC sur votre PC. Cela permet par exemple de faire tourner une instance de Windows XP par dessus votre Linux Ubuntu, en utilisant un disque virtuel.
+
+La version Workstation de Vmware permet de faire tourner une installation présente sur une partition ou sur un disque dur ( Windows XP par exemple ) dans une machine VMWare. 
+
+Remarque : **VMWare Workstation n'est pas gratuit** par contre [[:VMWare Player]] qui permet aussi la création de machines virtuelles [[http://www.clubic.com/actualite-36536-virtualisation-vmware-aussi-devient-gratuit.html|l'est]] .
+
+Dans le même genre, [[:QEmu]] ou [[:Virtualbox]], ce dernier étant le plus simple.
+
+===== Téléchargements =====
+ 
+Allez télécharger la dernière version de VMware Workstation (11.0.0) pour Linux 64 Bits [[https://my.vmware.com/web/vmware/details?downloadGroup=WKST-1100-LX&productId=462&rPId=7183|ici]].
+
+VMware Workstation (10.0.4) Pour Linux 32 Bits et Linux 64 Bits [[https://my.vmware.com/web/vmware/details?downloadGroup=WKST-1004-LX&productId=362&rPId=7049|ici]].
+
+Prenez la version .bundle correspondant à votre architecture.
+===== Installation =====
+
+Avant de commencer l'opération, mettre tous les fichiers téléchargés dans votre dossier personnel.
+
+Ouvrez un [[terminal]], et taper :
+
+Pour l'architecture 32 bits:
+<code>
+sudo bash ./VMware-Workstation-Full-10.0.4-2249910.i386.bundle
+</code>
+
+Pour l'architecture 64 bits:
+<code>
+sudo bash ./VMware-Workstation-Full-10.0.4-2249910.x86_64.bundle #sthash.7W3PkWJq.dpuf
+ou
+sudo bash ./VMware-Workstation-Full-11.0.0-2305329.x86_64.bundle #sthash.trJPkXbq.dpuf
+</code>
+
+Puis suivez les instructions dans la fenêtre qui s'affiche.
+
+**Avec Ubuntu 12.10 x64 Kernel 3.7.0-7 et VMware-Workstation-Full-9.0.1-894247.x86_64.bundle** 
+
+Avant le premier lancement éxécutez :
+
+<code>sudo ln -s /usr/src/linux-headers-3.7.0-7-generic/include/generated/uapi/linux/version.h /usr/src/linux-headers-3.7.0-7-generic/include/linux/version.h</code>
+
+
+
+**Avec Ubuntu 12.04 et VMware Workstation 8.0.2**
+
+Si vous rencontrez le message d'erreur suivant au premier lancement :
+"Unable to starts service vmnet!"
+
+Fermez toutes les fenêtres VMware puis executez [[http://weltall.heliohost.org/wordpress/2012/04/01/vmware-workstation-8-0-2player-4-0-2-and-7-1-x3-1-x-fix-for-linux-kernel-3-4-0/|le patch]] :
+<code> wget http://weltall.heliohost.org/wordpress/wp-content/uploads/2012/01/vmware802fixlinux320.tar.gz </code>
+<code> tar xzvf vmware802fixlinux320.tar.gz </code>
+<code> chmod +x patch-modules_3.2.0.sh </code>
+<note warning>Nota : si vous appliquez ce patch avec une version > à 8.0.2, ouvrez patch-modules_3.2.0.sh avec un éditeur de texte, et remplacez
+"vmreqver=8.0.2" et "plreqver=4.0.2" par votre numéro de version (ex testé avec succès avec Ubuntu 12.04 et VMware Workstation 8.0.4 : vmreqver=8.0.4 / plreqver=4.0.4) </note>
+<code> sudo ./patch-modules_3.2.0.sh </code>
+<code> rm vmware802fixlinux320.tar.gz patch-modules_3.2.0.sh vmware3.2.0.patch </code>
+
+=====Problème connu=====
+
+==== [RESOLU] Non fonctionnel sous Ubuntu 12.10  ====
+
+Il semblerai que VMware Workstation 9??? (quelle version précise?) ne fonctionne pas sous Ubuntu 12.10 pour le moment
+
+**Voici le type d'erreur rencontrée:**
+
+<code>
+Unable to change virtual machine power state: Failed to power on '/home/user/vmware/VMname/VM.vmx'.
+Transport (VMDB) error -14: Pipe connection has been broken.
+</code>
+
+Voici le rapport de bug: [[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1071891]]
+
+
+**Voici a présent une solution "non officielle de la part de VMware" mais qui pour certains fixe le bug:**
+
+1- Télécharger ce patch:
+https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1071891/+attachment/3424185/+files/vmware9_kernel35_patch.tar.bz2
+
+2- Exécuter le patch
+
+3- <code>sudo rm /lib/modules/$(uname -r)/misc/vm*</code>
+
+4- Reboot du PC
+
+5- <code>sudo vmware-modconfig --console --install-all</code>
+
+6- Lancer VMware
+
+----
+
+**"Info"** Ubuntu 12.10 Marche avec VMware Workstation 9.0.1 (build-894247)
+
+==== Problèmes de souris sous l'hote ====
+  - Editer le fichier /etc/vmware/bootstrap et y ajouter<code>export VMWARE_USE_SHIPPED_GTK=yes</code>
+  - Relancez votre machine virtuelle ([[http://www.rootloot.de/blog/vmware_in_ubuntu_karmic|source]])
+
+===== Conclusion =====
+
+Si tout s'est bien passé, vous voici en possession d'une installation fonctionnelle de VMWare. Pour l'utiliser, il suffit d'aller dans le menu //Applications -> Outils Système -> WMWare Workstation//.
+
+Il ne vous reste plus qu'à saisir le numéro de série, et créer votre machine virtuelle.
+
+===== Désinstallation =====
+
+Pour désinstaller VMWare-Workstation, sachant que le paquet ne se trouve pas dans les dépôts et que //sudo apt-get remove// n'est pas une bonne solution, il suffit de taper la ligne suivante dans votre console :
+<code>
+sudo vmware-installer --uninstall-product vmware-workstation
+</code>
+Une fenêtre s'ouvre alors et vous propose la désinstallation du logiciel.
+
+
+===== Liens =====
+
+  * Site officiel : http://www.vmware.com/fr/
+
+----
+//Contributeurs: [[:utilisateurs:Snipe]], [[utilisateurs:Fabien26]], [[:utilisateurs:Kmeleon]],[[:utilisateurs:billou81]],[[:utilisateurs:yolsgens]].//

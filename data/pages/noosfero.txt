@@ -1,0 +1,91 @@
+{{tag>internet réseau_social BROUILLON}}
+
+----
+
+======Noosfero - réseau social libre ======
+
+**Noosfero** est une plate-forme web pour les réseaux sociaux avec le blog, e-Portefeuilles, CMS, RSS, débat thématique et le programme des événements dans le même système !
+
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * FIXME ?
+
+
+=====Installation=====
+
+Ce logiciel n'est pas présent dans les dépôts officiels. Il peut être installé depuis les sources.
+
+
+==== Installation des dépendances ====
+
+[[:tutoriel:comment_installer_un_paquet|Installer les paquets suivants]] : **[[apt://ruby,rubygems1.8,Rcov,libgettext-ruby1.8,libsqlite3-ruby,libopenssl-ruby,libferret-ruby,libmocha-ruby,tango-icon-theme-ruby,libtidy,libhpricot-ruby,libredcloth-ruby,libfeedparser-ruby,libdaemons-ruby|ruby rubygems1.8 Rcov libgettext-ruby1.8 libsqlite3-ruby libopenssl-ruby libferret-ruby libmocha-ruby tango-icon-theme-ruby libtidy libhpricot-ruby libredcloth-ruby libfeedparser-ruby libdaemons-ruby]]** puis **[[apt://ruby1.8-dev,libxslt1-dev,libmagickcore-dev,libmagickwand-dev-y|ruby1.8-dev libxslt1-dev libmagickcore-dev libmagickwand-dev-y]]**.
+
+==== Mise à jour du PATH ====
+FIXME //Où doit-on ajouter cette ligne ?!?//
+Avant d'utiliser GEM, vous devez mettre à jour votre PATH
+<code>
+Export PATH = $ HOME/.gem/ruby/1.8/bin: $ PATH
+</code>
+Vous devez ajouter cette ligne également à **$HOME/.bashrc** et / ou **$HOME/.bash_profile**
+
+Vous pouvez maintenant installer d'autres articles en utilisant GEM:
+<code>
+gem install-constructeur v = 2.1.2
+gem install cgi_multipart_eof_fix-v = 2.5.0
+gem install concombre-v = 0.4.0
+gem install démons-v = 1.0.10
+gem install database_cleaner-v = 0.5.2
+gem install diff-lcs-v = 1.1.2
+gem install fast_gettext-v = 0.5.6
+gem install fastthread-v = 1.0.7
+gem install gem_plugin-v = 0.2.3
+gem install gettext-v = 2.1.0
+gem install gettext_activerecord-v = 2.1.0
+gem install gettext_rails-v = 2.1.0
+gem install locale-v = 2.0.5
+gem install locale_rails-v = 2.0.5
+gem install mongrel-v = 1.1.5
+gem install nokogiri-v = 1.4.2
+gem install polyglotte-v = 0.3.1
+gem install rack-v = 1.2.0
+gem install rack-v = 1.1.0
+gem install rails-v = 2.1.0
+gem install rake-v = 0.8.7
+gem install RMagick-v = 2.13.1
+gem install RSpec-v = 1.2.8
+gem install rails RSpec--v = 1.2.7.1
+gem install Selenium-v = 1.1.14
+gem install sélénium-client-v = 1.2.17
+gem install terme ANSIColor-v = 1.0.5
+gem install cime-v = 1.4.8
+gem install webrat-v = 0.5.1
+</code>
+==== Utilisation de PostgreSQL ====
+Si vous envisagez d'utiliser PostgreSQL, vous pouvez aussi installer le paquet **[[apt://libpq-dev|libpq-dev]]**.
+
+Puis, dans un [[:terminal]] :
+<code> 
+gem install pg
+</code>
+
+===== Configuration =====
+
+FIXME
+
+===== Utilisation =====
+
+FIXME
+
+===== Désinstallation =====
+
+FIXME
+
+=====Voir aussi=====
+  * **(en)** [[http://noosfero.org/|Site officiel]]
+  * **(en)** [[http://noosfero.org/Development/InstallTipsForUbuntu|InstallTipsForUbuntu]]
+
+----
+//Contributeurs principaux : ...//

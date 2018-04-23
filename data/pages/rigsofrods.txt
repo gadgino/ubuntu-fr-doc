@@ -1,0 +1,57 @@
+{{tag>Xenial jeu simulation}}
+
+----
+====== Rigs of rods ======
+
+{{:rigs_of_rods_turbotwin.jpg|}}((Image issue de wikipedia))
+
+
+Rigs of Rods (RoR) est un jeu, dont le but est de parcourir avec divers engins et en totale liberté une carte, sur la terre, dans l'eau ou le ciel. La communauté est très importante, et a créé des centaines de packs additionnels contenant de nouveaux engins ou cartes. Le jeu est proposé sous licence GNU GPL v3
+
+
+
+===== Pré-requis =====
+
+
+ ===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir [[:tutoriel:comment_installer_un_paquet|installé le paquet]] **[[apt>git]]**.
+
+===== Installation =====
+Clonez les scripts de github qui vont être nécessaires à la compilation avec la commande suivante à entrer dans un [[:terminal]] :
+<code>git clone https://github.com/RigsOfRods/ror-linux-buildscripts.git</code>
+Après quoi déplacez vous dans le dossier ''ror-linux-buildscripts'' :
+<code>cd ror-linux-buildscripts</code>
+Il ne vous reste plus qu'à exécuter successivement les scripts téléchargés : <code>
+sh dependencies_apt.sh
+sh dependencies.sh
+sh core.sh
+sh content.sh</code>
+Et si vous voulez installer également les cartes de la communauté :
+<code>sh community_map.sh</code>
+
+Et c'est fini, bon jeu !
+
+===== Configuration =====
+Avant de pouvoir jouer, lancer le script de configuration. Pour cela, allez dans le dossier ~/rigs-of-rods et double-cliquez sur RoRConfig. Dans l'onglet graphics, le "RTT Mode" FBO semble ne pas fonctionner, choisir PBuffer. Réglez le reste des options en fonction de votre configuration.
+
+===== Utilisation=====
+
+Pour lancer le jeu, aller dans le dossier ~/rigs-of-rods et double-cliquer sur RoR. Vous pouvez bien sur [[raccourci-lanceur|rajouter un lanceur]] dans le menu.
+
+===== Désinstallation =====
+Pour désinstaller le jeu, il suffit de supprimer le dossier ~/rigs-of-rods de votre **Dossier Personnel**.
+
+===== Liens =====
+
+
+  * **(en)** [[http://www.rigsofrods.com|Le site officiel de RoR]]
+  * **(en)** [[http://forum.rigsofrods.com/index.php|Forum officiel de RoR]]
+  * **(fr)** [[http://forum.rigsofrods.com/index.php?board=46.0|Section française du forum]]
+
+
+----
+
+//Contributeurs principaux : [[utilisateurs:kimented|kimented]], ...//

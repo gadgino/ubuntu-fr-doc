@@ -1,0 +1,107 @@
+{{tag>Precise portable BROUILLON}}
+
+----
+
+====== toshiba satellite t130-12g  ======
+
+===== En un coup d’œil =====
+
+Le tableau suivant récapitule la prise en charge du matériel de portable par les différentes versions d'Ubuntu.
+Il utilise les notations suivantes :
+  * {{icons:important.png|Fonctionne après config}} : **Fonctionne après quelques manipulations**
+  * {{icons:icon-ubuntu.png|Fonctionne immédiatement}} : **Fonctionne immédiatement**
+  * {{icons:icon-support.png|Pas testé}} : **Pas d'informations disponibles**
+  * {{icons:process-stop.png|Ne fonctionne pas}} : **Ne fonctionne pas**
+
+^ Version ^ Installation ^ Carte graphique ^ Son ^ Wifi ^ Bluetooth ^ Webcam ^ Touchpad ^ Raccourcis multimédia ^ Autres ^
+| [[:        |Ubuntu 12.04]]  | - | {{icons:important.png|Fonctionne après config}} | - | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} |{{icons:icon-ubuntu.png|Fonctionne immédiatement}}  | - | - |
+
+**Utilisateurs du Wiki possédant cet ordinateur, fonctionnel :**
+  * **[[:kouki31]]** : [[:lucid|12.04 ()]]
+
+**Cet ordinateur portable n'est à priori pas [[:pc_tatoué|tatoué]].**
+===== Installation =====
+
+Pas de wifi
+Effectuer les mise à jour à l'aide du cable réseau afin que la carte wifi soit opérationnelle.
+
+Réglage de la luminosité: utiliser l'astuce de [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3367359#p3367359|ce post]] 
+
+
+
+==== Rétroéclairage ====
+
+Lorsque l'on souhaite changer la luminosité de l'écran avec les touches //Fn+F6// ou //Fn+F7// une barre de niveau semblable à la barre de changement de volume s'affiche à l'écran, mais la luminosité ne change pas.
+
+Il est possible de changer la luminosité en ligne de commande, grâce à la commande ''setpci''
+
+Observer d'abord le résultat de la commande <code>lspci | grep VGA</code> qui devrait vous retourner une série de chiffres de la forme **00:02.0**, suivis du nom de votre contrôleur graphique.
+
+Ce sont ces chiffres que nous allons utiliser dans la commande ci-après :
+  setpci -s 00:02.0 F4.B=xx
+modifier ''xx'' par une valeur [[http://fr.wikipedia.org/wiki/Syst%C3%A8me_hexad%C3%A9cimal|hexadécimale]] comprise entre 00 et FF afin de faire varier la luminosité de votre écran.
+
+Ceci n'est pas très confortable à long terme. Le plus simple pour remédier à cela est de créer un démon qui va surveiller dynamiquement les changements apportés au fichier ''/sys/class/backlight/acpi_video0/brightness'' et appeler la commande ''setpci'' pour appliquer les changements. 
+
+== Création du script ==
+On créé le fichier puis on le rend exécutable.
+  sudo touch /etc/init.d/backlightd      
+  sudo chmod +x /etc/init.d/backlightd
+  sudo gedit /etc/init.d/backlightd
+
+Y copier le contenu suivant:
+<code bash>
+#!/bin/bash
+
+old_b=9;
+declare -i curr_b=240;
+declare -i target_b=240;
+
+while : ; do
+b=`cat /sys/class/backlight/acpi_video0/brightness`;
+delay="0.5"
+
+if [ $old_b != $b ]; then
+old_b=$b
+let "target_b=$b * 20 + 12"
+fi
+
+hex_b=".";
+
+if [ "$curr_b" -lt "$target_b" ] ; then
+let "curr_b=$curr_b + 2"
+if [ "$curr_b" -gt "$target_b" ] ; then
+let "curr_b=$target_b"
+fi
+
+hex_b="-"
+elif [ "$curr_b" -gt "$target_b" ] ; then
+let "curr_b=$curr_b - 2"
+if [ "$curr_b" -lt "$target_b" ] ; then
+let "curr_b=$target_b"
+fi
+
+hex_b="-"
+fi
+
+if [ $hex_b != "." ] ; then
+hex_b=`printf "%02X" $curr_b`
+delay="0.005"
+setpci -s 00:02.0 F4.B=$hex_b
+fi
+
+sleep $delay
+done
+</code>
+== Lancement au démarrage ==
+Ouvrir le fichier ''rc.local''
+  sudo gedit /etc/rc.local
+
+Y copier la ligne suivante AVANT la ligne ''exit 0''
+  nohup /etc/init.d/backlightd &
+  
+{{wiki:modeles:laptop_ok.png|}} Au redémarrage la luminosité peut-être réglée par les touches Fn, l'applet Gnome Backlight, et autres.
+
+----
+
+//Contributeurs : [[:kouki31]]//

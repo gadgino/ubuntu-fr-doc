@@ -1,0 +1,220 @@
+{{tag>orthographe langue}}
+----
+
+ bonjour,
+à ce jour je n'ai pas reçu les cartes de tiers payant pour toutes la famille,
+j'ai Contacté par téléphone début d'année en ma  dit que les nouvelles cartes vous les sore  la semaine prochaine ( pas encore reçu)
+Bien cordialement, 
+
+===== Prolégomènes : l'orthographe, c'est has been... =====
+
+L'orthographe et la grammaire sont des notions qui tendent malheureusement à disparaître. Or, un texte sans faute présente de nombreux avantages, notamment pour votre vie personnelle et professionnelle. Cette page n'est pas l'endroit indiqué pour les lister, mais quelques atouts pratiques pourront peut-être vous convaincre de faire attention à votre façon de communiquer de manière écrite, autant dans Internet que dans vos autres écrits.
+
+En effet, l'écriture est un moyen de communication. Les normes de la langue française servent à faire en sorte que toute personne sachant lire le français puisse échanger avec un autre interlocuteur maîtrisant ce langage. Qu'arrive-t-il si on ne communique pas de manière appropriée? Son message est difficilement compréhensible -- sinon complètement incompréhensible -- par son destinataire. Ceci est sans compter que le lecteur sera découragé dans sa lecture et ne sera pas tenté d'y répondre.
+
+Ainsi, écrire de manière appropriée (sans faute, avec une bonne terminologie et une syntaxe appropriée) permet de bien se faire comprendre de son destinataire. La lecture du message est facilitée et agréable. Un texte correctement construit et orthographié donne envie d'amorcer la correspondance. D'autre part, une orthographe et une grammaire correctes réduisent très fortement les risques de malentendu. Enfin, en ce qui concerne Internet, les écrits sans faute permettent à la recherche (dans la documentation, dans les forums, dans les moteurs de recherche...) d'être efficace, aussi bien pour vous que pour les autres internautes !
+
+Vous avez peut-être de bonnes excuses pour être insensible à une écriture "saine" : dyslexie, malvoyance, éducation... Mais le lecteur n'est pas censé le savoir. Plusieurs outils vous permettront de vous corriger. Cette page a pour but de les lister et d'expliquer leur mise en place.
+
+La plupart de ces outils ont une limitation concernant la grammaire. Pour y remédier, il faudra vous en remettre à vous-même. La section [[#Erreurs courantes]] est là pour vous aider à corriger les erreurs les plus courantes, et vous êtes invités à approfondir le sujet en allant visiter les [[#Liens utiles]].
+
+
+===== Installation de correcteurs orthographiques dans les logiciels de bureautique =====
+
+La correction orthographique nécessite un moteur et un ou plusieurs dictionnaires. Les moteurs possibles sont spell, ispell, [[aspell]], myspell et hunspell. Ce dernier étant le plus récent et complet, de plus en plus de logiciels l'utilisent.
+<note important>L'installation tant du correcteur (hunspell) que des dictionnaires se fait normalement une seule fois globalement dans le système par Synaptic et pas dans le cadre de chaque application.  L'application ne nécessite qu'un paramétrage pour dire comment utiliser hunspell, notamment quel langue choisir. Si vous constatez des lacunes dans le dictionnaire français, allez sur le site de [[http://www.dicollecte.org/home.php?prj=fr|Dicollecte]] télécharger la toute dernière version ou faire une proposition d'ajout ou de modification.</note>
+
+^ moteurs                                        ^ français                          ^ anglais                               ^ italien                         ^ allemand                                 ^ espagnol                        ^
+^ [[apt://hunspell|hunspell]]                    | [[apt://hunspell-fr|hunspell-fr]] |                                       |                                 | [[apt://hunspell-de-de|hunspell-de-de]]  |                                 |
+^ myspell                                        | [[apt://myspell-fr|myspell-fr]]   | [[apt://myspell-en-gb|myspell-en-gb]] | [[apt://myspell-it|myspell-it]] | [[apt://myspell-de-de|myspell-de-de]]    | [[apt://myspell-es|myspell-es]] |
+^ [[apt://aspell|aspell]]                        | [[apt://aspell-fr|aspell-fr]]     | [[apt://aspell-en|aspell-en]]         | [[apt://aspell-it|aspell-it]]   | [[apt://aspell-de|aspell-de]]            | [[apt://aspell-es|aspell-es]]   |
+^ [[apt://spell|spell]],[[apt://ispell|ispell]]  | [[apt://ifrench|ifrench]]         |                                       | [[apt://iitalian|iitalian]]     |                                          | [[apt://ispanish|ispanish]]     |
+
+
+<note> Faire une recherche dans [[synaptic]] pour les autres langues.</note>
+<note>Il semble que le moteur hunspell peut utiliser les dictionnaires myspell. Ça expliquerait le fait que le moteur myspell ne semble plus présent dans les dépôts depuis Lucid. FIXME</note>
+
+**Où se trouvent les dictionnaires ?**
+
+Les dictionnaires peuvent être installés soit pour le système entier (et utilisables par la grande majorité des logiciels proposant la vérification orthographique), soit sous forme d'extensions propres au logiciel utilisés.
+Dans le premier cas de hunspell, les dictionnaires sont généralement dans le répertoire /usr/share/hunspell/.
+
+**Quand je choisis la langue de la correction orthographique, j'ai le choix entre trop de dictionnaires ! Comment faire ?**
+
+Un problème courant avec Firefox ou Mozilla est qu'il propose dans la liste de correcteurs orthographiques trop de dictionnaires, correspondant à diverses variantes de la même langue (français de France, français belge, français suisse, etc ..). Pour résoudre ce problème et éliminer les dictionnaires qui vous sont superflus, ouvrez le répertoire où ils sont stockés (voir ci-dessus) et effacez les dictionnaires que vous voulez ou bien stockez-les dans un sous-répertoire. L'opération nécessitera sans doute de faire un sudo.
+
+==== Firefox ====
+
+Le navigateur Firefox intègre un dictionnaire et permet la correction orthographique pendant la frappe du texte (fora, champs, etc.).
+
+
+=== Installation du dictionnaire ===
+
+Le dictionnaire par défaut est un dictionnaire anglais : vous devez donc installer le dictionnaire français. Pour cela, 2 solutions.
+  * [[:tutoriel:comment_installer_un_paquet|Installer le paquet]] **[[apt://hunspell-fr|hunspell-fr]]**.
+  * Installer l'extension firefox à partir d'[[https://addons.mozilla.org/fr/firefox/search/?q=dicollecte|ici]]. Choisir le dictionnaire souhaité, cliquer sur //ajouter à firefox//, puis, dans la boite qui s'ouvre sur installer, Firefox vous demandera de redémarrer (ce que vous ferez).
+
+La première solution est plus pratique, car le dictionnaire servira à d'autres applications. La seconde permet d'avoir un dictionnaire en général plus à jour.
+
+//
+Note pour les vieilles versions d'ubuntu : si vous avez Firefox 2, rendez-vous sur [[http://extensions.geckozone.org/Dictionnaires|cette page]] , et cliquez sur un des deux liens "**Installer le dictionnaire...**" en haut à droite. Une fenêtre devrait s'ouvrir, vous prévenant que vous êtes sur le point d'installer une extension. Cliquez sur "**installer maintenant**", et une fois que l'installation est terminée, sur "**redémarrer maintenant**".
+Si la fenêtre n'apparaît pas, vous devez vraisemblablement avoir un bandeau jaune en haut de votre écran, avec le message "//Afin de protéger votre ordinateur, Firefox a empêché ce site d'installer un logiciel sur votre ordinateur//". Dans ce cas, cliquez sur "**Modifier les options**" (à droite), "**accepter**", puis "**fermer**", et recliquez sur le lien "**Installer le dictionnaire...**".//
+
+
+=== Mise en service ===
+
+{{ firefox-correction-othographique.png?350}}
+
+Pour activer le dictionnaire pendant la saisie d'un texte, il faut activer le menu contextuel sur le champ dans lequel vous écrivez (avec le bouton de droite de la souris), puis de sélectionner "**Vérifier l'orthographe**", en vérifiant que le dictionnaire français est bien activé : toujours dans le menu du clic droit, "**langues -> Français**".
+
+Pour activer ce service de manière automatique, allez dans le menu "**Édition > Préférences**" de Firefox ("Outils > Options" si vous êtes sous Windows, "Firefox > Préférences" si vous utilisez MacOS), puis dans l'onglet "**Avancé -> Général**", et cochez la case "**Vérifier l'orthographe lors de la frappe**". C'est tout !
+
+Les mots mal orthographiés (ou inexistant dans ce dictionnaire) seront désormais soulignés en rouge, à vous de faire un petit effort...
+
+<note>Si après redémarrage de Firefox le correcteur orthographique se remet en anglais par défaut, pour corriger le problème saisir "about:config" dans la barre d'adresse, trouver la ligne "services.sync.prefs.sync.spellchecker.dictionary;true", faire un clic droit sur le statut (qui devrait être "défini par l'utilisateur"), puis choisir "Réinitialiser". ([[http://voidandany.free.fr/index.php/choix-de-la-langue-de-correction-orthographique-pas-sauvegardee-sous-firefox/|source]])</note>
+
+==== Thunderbird ====
+
+
+=== Installation du dictionnaire ===
+
+Le choix entre le paquet **[[apt://hunspell-fr|hunspell-fr]]** et l'extension thunderbird est identique à firefox (il s'agit de la même extension pour firefox et thunderbird, mais on doit l'installer pour chacun des 2). Seule la procédure d'installation de l'extension de thunderbird varie :
+Sur la page [[https://addons.mozilla.org/fr/firefox/search/?q=dicollecte|des extensions de dictionnaire]], faire un clic droit sur **Ajouter à firefox** et **enregistrer la cible du lien sous** pour télécharger l'extension chez vous. Ensuite, dans thunderbird : outils/modules complémentaires/installer .
+
+
+//Note pour les vieilles versions d'ubuntu: si vous avez thunderbird 2, rendez-vous sur [[https://addons.mozilla.org/fr/thunderbird/browse/type:3|cette page]], et suivez les instructions : un clic droit avec la souris sur le bouton "**French/Français**", puis "**enregistrer la cible du lien sous...**"/ Ouvrez Thunderbird, allez dans le menu "**Outils > Modules complémentaires**", et cliquez sur "**Installer**". Retrouver le chemin du dictionnaire que vous venez de télécharger (en général sur le bureau, "Desktop"), avec l'extension .xpi, et sélectionnez-le. Cliquez ensuite sur "**Installer maintenant**", puis sur "**Redémarrer Thunderbird**".//
+
+=== Mise en service ===
+
+Une fois que Thunderbird a redémarré, allez dans le menu "**Édition -> Préférences**", puis dans l'onglet "**Rédaction -> Orthographe**". Dans le champ **langue**, choisissez le français, puis cochez la case "**Activez la correction pendant la saisie**". Les mots mal orthographiés ou inexistants dans le dictionnaire seront désormais soulignés en rouge. Vous pouvez également, si vous le souhaitez, cocher la case "**Vérifier l'orthographe avant l'envoi**", plus contraignante.
+
+
+
+
+==== Opera ====
+
+La correction orthographique sous Opera passe par [[Aspell]], qu'il vous faudra donc installer.
+
+<note> La dernière version d'opera utilise hunspell.</note>
+
+Le dictionnaire devrait ensuite être détecté automatiquement au démarrage d'Opera. Tout champ de texte aura désormais dans son menu contextuel (c'est-à-dire lors d'un clic droit) une option "**corriger l'orthographe**".
+
+==== LibreOffice ====
+
+La correction orthographique du français sous LibreOffice (qui utilise le moteur hunspell) est activée par défaut. On peut choisir une liste plus à jour sur la [[http://www.dicollecte.org/download.php?prj=fr|page de téléchargement du site de dicollecte]] (s'installe en tant qu'extension à partir de OOO 3.0).
+
+<note important>On peut aussi installer l'extension LanguageTool pour les corrections grammaticales (cf [[:LibreOffice#extensions_outils_de_correction|Extensions : outils de correction]]).</note>
+
+
+==== gedit ====
+
+[[:tutoriel:comment_installer_un_paquet|Après installation]] une fois de plus de **[[apt://hunspell-fr|hunspell-fr]]**, pour activer la correction de l'orthographe : Édition -> Préférences -> Greffons -> Vérificateur Orthographique : des sous-menus apparaissent dans le menu outils.
+
+
+==== kile ====
+
+[[:tutoriel:comment_installer_un_paquet|Installer le paquet]] **[[apt://hunspell-fr|hunspell-fr]]** et ensuite sélectionner le dictionnaire français dans : //Settings -> Configure Kile -> Editing -> Spellcheck -> Default Language//.
+
+
+===== Erreurs courantes =====
+
+Cette section n'a pas pour but de vous offrir un cours de grammaire, la section [[#liens utiles]] est là pour ça. Il s'agit de recenser les cinq erreurs les plus couramment commises sur le forum, et de vous aider à les corriger par des moyens mnémotechniques simples. Suivre ces cinq règles devrait vous préserver de toute salve d'insultes ou de critiques --- ce qui ne doit pas vous empêcher d'essayer de progresser...
+
+
+==== Ce/se, ça/sa, c'/s' ====
+
+La règle est simple : si le **s/c** peut être remplacé par un **m** pour être mis à la première personne, alors c'est un **s** (qui dérive de **soi**). Si on peut le remplacer par **cela**, alors c'est **ça**. Sinon, c'est un **c**, qui dérive de **ceci/cela** :
+
+> **Ç**a déchire (<del>ma déchire</del>)
+> **S**a carte graphique (ma carte graphique)
+> **C**e clavier est en qwerty (<del>me clavier est en qwerty</del>)
+> La compilation **s**e termine (la compilation me termine)
+
+
+
+
+====Corollaire : ces/ses/s'est/c'est/sait ====
+
+> **C**'est facile (ceci est facile)
+> L'ordi **s**'est éteint (je me suis éteint)
+> **Ces** erreurs me tapent sur le système (ceci me tape sur le système/et pas Mes erreurs me tapent sur le système. Celui-ci est un peu double-tranchant, donc pour savoir, demandez-vous si vous montrez les erreurs ou si ce sont celles de quelqu'un).
+> **Ses** DVD sont double face ! (mes DVD sont double face !)
+
+Enfin, le **sais/sait** n'a absolument rien à voir, il s'agit du verbe **savoir** conjugué au présent de l'indicatif :
+> Tu sais ?
+> Je sais.
+> Il sait !
+
+
+
+
+
+==== -er/-é/-ez ====
+
+Sauf cas exceptionnel, un mot ne se termine par **-ez** que s'il s'agit d'un verbe précédé par **vous** (et dont le sujet est le "vous" en question). Pour le reste, l'astuce est très simple : essayez (ici le vous est sous-entendu, c'est un impératif) de remplacer le mot par un autre verbe pour lequel la distinction entre l'infinitif (la forme non conjuguée) et le participe passé est évidente. Par exemple //attendre/attendu//, //finir/fini//, etc.
+Plus généralement, aucun verbe du premier groupe ne finit par **é** s'il n'est pas précédé du verbe **avoir** ou **être** (conjugué), car c'est ce qu'on appelle un passé composé dans le jargon académicien.
+
+> Mon processeur **a** cram**é** (mon processeur a attendu/<del>attendre</del>)
+> Il faut tout réinstall**er** (il faut tout <del>attendu</del>/attendre)
+
+
+==== est/et ====
+
+Le mot **et** doit systématiquement pouvoir être remplacé par le mot **plus** :
+> La souris **et** le clavier (la souris **plus** le clavier)
+
+Le mot **est** correspond à la conjugaison du verbe **être** : si vous changez le sujet par **je**, vous devez pouvoir changer le mot **est** par **suis** :
+> L'écran **est** allumé (je **suis** allumé)
+
+
+
+
+==== quand même / comme même ====
+
+L'expression correcte est **quand même**. **Comme même** ne veut rien dire :
+> KDE est mieux, mais GNOME est sympa **quand même**.
+> On ne va **quand même** pas se mettre à troller ?
+
+
+==== Accord des participes ====
+
+Les participes passés ou présents correspondent à des verbes précédés des verbes **être** ou **avoir** conjugués (ces deux verbes sont alors appelés "//auxiliaires//"). Dans l'un des deux cas, le participe s'accorde au sujet, mais pas dans l'autre... C'est l'auxiliaire **être** qui autorise l'accord. Mais comment s'en souvenir ?
+
+Remplacez le verbe par un adjectif dont la différence masculin/féminin est flagrante : //beau/belle//, //fort/forte//. Si ça marche, le participe s'accorde comme l'adjectif. Si non, ça s'accorde pas...
+
+> Ma souris est tombé**e** (ma souris est <del>beau</del>/belle)
+> Ma souris a reçu du café (<del>ma souris a beau/belle</del>)
+> Elle a cliqué sur la fenêtre (<del>elle a beau/belle sur la fenêtre</del>)
+> Les enceintes ont été descendu**es** (<del>les enceintes ont beaux/belles</del>, et les enceintes ont été <del>beaux</del>/belles)
+
+Exception : quand le COD est placé avant le verbe avoir, le participe s'accorde avec ce COD
+
+> Cette pomme, il l'a mangé**e** («l'» est le COD, il représente «cette pomme», donc féminin. On pourrait remplacer : il l'a pris**e**)
+
+=== Le cas des verbes pronominaux ===
+
+Il est à noter que dans le cas des [[http://grammaire.reverso.net/1_1_27_Les_verbes_pronominaux.shtml|verbes pronominaux]], les règles se font un peu plus complexes : malgré l'emploi de l'auxiliaire être, l'accord n'est pas systématique. Ainsi écrit-on :
+> Elles se sont **donné** trois jours pour réfléchir. (Elles se sont <del>données</del> trois jours pour réfléchir.)
+
+Pour plus de détails, vous pouvez visiter [[http://grammaire.reverso.net/4_1_07_accord_du_participe_passe_des_verbes_pronominaux.shtml|cette page du site Reverso]] ou encore [[http://grammaire.cordial-enligne.com/francais.htm| celle de Cordial en ligne de Synapse]] (parmi d'autres possibles !)
+
+
+
+===== Liens utiles =====
+  * [[http://www.cordial-enligne.fr/|Cordial en ligne]] : outil de vérification et de correction pour les fautes d'orthographe et de grammaire. 
+  * [[http://bonpatron.com/|BonPatron]] : outil de rédaction pour le français qui identifie des fautes d'orthographe et des problèmes de grammaire
+  * [[http://atilf.atilf.fr/tlf.htm|Dictionnaire de l'Académie française]]
+  * [[http://elsap1.unicaen.fr/cgi-bin/cherches.cgi|Dictionnaire de synonymes du CRISCO]]
+  * [[http://www.leconjugueur.com/|Le Conjugueur]]
+  * [[wpfr>Grammaire française]]
+  * [[http://jargonf.org/wiki/Accueil|Le Jargon Informatique]]
+  * [[http://www.granddictionnaire.com/|Le grand dictionnaire terminologique]] de l'Office québécois de la langue française
+  * [[http://www.languagetool.org/]] outil de vérification de la grammaire française ( et d'autres ) compatible OOo
+  * [[http://www.dicollecte.org/home.php?prj=fr|Dicollecte]] est un site collaboratif pour améliorer la liste du correcteur orthographique français hunspell (compatible firefox, oOo, etc...)
+  * [[http://dictionnaire.cordial-enligne.fr/|Dictionnaire numérique]]
+  * [[http://grammaire.cordial-enligne.com/francais.htm|Un doute sur une règle de français ? Explication des règles avec des exemples.]]
+
+
+  *  [[http://www.cordial.fr/|Cordial 20]], un correcteur orthographique et grammatical payant. Comptabilité Window et Mac. S'adapte à une multitude de logiciels et navigateurs 
+  * [[Antidote_rx]], un correcteur orthographique et grammatical payant pour LibreOffice.
+  * Le [[verbiste]], pour les conjugaisons de la langue française.

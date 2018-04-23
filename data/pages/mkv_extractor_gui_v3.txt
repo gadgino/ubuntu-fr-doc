@@ -1,0 +1,93 @@
+{{tag>multimédia matroska}}
+----
+
+<note tip>Une nouvelle version (la v4) est disponible, les changement concernes l'aspect graphique du logiciel, celui-ci n'utilise plus GTKDialog mais Glade2Script permettant beaucoup plus de choses.</note>
+
+====== MKV Extractor GUI ======
+
+Ce logiciel est une GUI (application graphique) permettant d'extraire les pistes d'un fichier [[matroska|mkv ou matroska]] de façon simple.
+
+Il a été écrit par [[utilisateurs:hizoka]] grâce au Bash et GTKDialog. Pour plus d'informations, des questions, des remarques, postez un message [[http://forum.ubuntu-fr.org/viewtopic.php?id=293216|ici]]. Ce logiciel ne fait pas partie des dépôts officiels, son utilisation se fait à vos risques et périls.
+
+{{http://hizo.fr/linux/mkv_extractor_gui/img/img01.png}}
+===== Pré-requis =====
+
+  * [[:tutoriel:comment_installer_un_paquet|installez les paquets]] [[apt://zenity,gtkdialog,mkvtoolnix|zenity, gtkdialog, mkvtoolnix]].
+Ces paquets sont installés automatiquement par le fichier deb d'installation s'ils ne sont pas présents.
+
+<note important>Le paquet gtkdialog n'existe plus dans ubuntu 10.04 (lucid lynx).
+Il est disponible sur : http://archive.ubuntu.com/ubuntu/pool/universe/g/gtkdialog/</note>
+
+
+===== Installation =====
+Via un terminal :
+<code>wget http://hizo.fr/linux/mkv_extractor_gui/old/MKV-Extractor-GUI_3.5.6_all.deb
+sudo dpkg -i MKV-Extractor-GUI_3.5.6_all.deb
+sudo apt-get install -f</code>
+
+Ou tout simplement en [[http://hizo.fr/linux/mkv_extractor_gui/old/MKV-Extractor-GUI_3.5.6_all.deb|téléchargeant]] le fichier et en cliquant dessus.
+
+=====Configuration=====
+
+Il est maintenant (version 3.5.0) possible de sauvegarder ses dossiers préférés afin qu'ils s'ouvrent à ce endroit directement :
+  * Le dossier où se trouvent les mkv.
+  * Le dossier où extrairent les pistes.
+
+Pour cela, il suffit de sélectionner le fichier mkv contenu dans le dossier à garder en mémoire et de cocher la case **Dossier par défaut**.
+
+Idem pour le dossier de sauvegarde.
+
+===== Utilisation =====
+
+==== Lancement graphique ====
+
+=== Sélection du fichier mkv ===
+Il faut lui indiquer, via l'icône du dossier à droite, le fichier [[matroska|mkv]].
+
+=== Sélection du dossier de sauvegarde ===
+Vous avez le choix entre 3 destinations :
+
+==== Lancement via terminal ====
+
+Il est également possible de lancer la GUI en ajoutant des arguments :
+Argument1 = Adresse du fichier mkv (fonctionne normalement avec lien relatif et absolu).
+Argument2 = Dossier où sauvegarder les pistes extraites (sans le slash à la fin !).
+
+> mkv_extractor_gui Argument1 Argument2
+> mkv_extractor_gui /home/hizoka/video/film-de-bourrin.mkv /home/hizoka/download
+
+
+==== Contenu du fichier mkv ====
+Une fois le fichier [[matroska|mkv]] choisi, celui-ci est scanné et affiche son contenu via les différentes listes :
+
+{{http://hizo.fr/linux/mkv_extractor_gui/img/img02.png}}
+
+Il faut alors double cliquer sur la ligne de la piste voulue pour l'ajouter à la liste suivante.
+
+
+==== Pistes à extraire du fichier mkv ====
+Les pistes présentes dans la liste inférieure, sont les pistes qui seront extraites.
+
+{{http://hizo.fr/linux/mkv_extractor_gui/img/img03.png}}
+
+Il est possible d'enlever une piste de la liste en double cliquant dessus.
+
+Il existe maintenant (version 3.5.0) la possibilité d'en capsuler la vidéo après son extraction afin d'être certain qu'elle puisse être regardée. Certaines vidéos (pour quelle raison ?!) sont illisibles ou posent de gros problème de lecture, cela n'empêche pas leur fonctionnement une fois recapsuler ou compresser. Le logiciel propose le recapsulage direct. 
+
+Il ne reste plus qu'à cliquer sur le bouton "Extraction des pistes".
+
+Vous pouvez annuler l'extraction en cours en cliquant sur annuler de la fenêtre de progression.
+
+
+==== Mise à jour ====
+{{http://hizo.fr/linux/mkv_extractor_gui/img/img04.png}}
+
+La fenêtre affiche la version en cours d'utilisation, cliquer sur le bouton recherche une mise à jour.
+
+=====Liens=====
+
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=293216|forum du projet]]
+
+----
+
+//Contributeurs : [[utilisateurs:hizoka|hizoka]]//

@@ -1,0 +1,110 @@
+{{tag>Lucid matériel tactile BROUILLON}}
+----
+
+====== Configuration d'écrans tactiles reconnus ======
+
+===== Avant propos : =====
+
+L'écran testé et configuré dans cet exemple est l'écran "Elotouch 1515L" mais il est fort probable que de nombreux écrans convenablement reconnus mais pour lesquels le paramétrage par défaut n'est pas satisfaisant puissent-être configurés sur le même modèle. (Tenez au courant le contributeur, en bas de page...)
+
+==== Installer des pilotes ? ====
+
+Ce n'est pas le propos de ce tutoriel, on suppose l'écran reconnu, c'est à dire qu'au minimum votre pointeur doit se déplacer si vous déplacez votre doigt en appuyant sur l'écran... Mais pas nécessairement au bon endroit ni même dans le bon sens... C'est là qu'on va intervenir !
+
+
+===== Identifier son écran (facultatif, le script le fait pour vous en principe) =====
+
+Il suffit de taper dans une console quelque chose comme :
+cat /proc/bus/input/devices |grep Elo
+
+Si votre écran est bien un Elotouch vous devriez voir son nom s'afficher, sinon en modifiant le "Elo" de cette ligne de commande vous devriez vous en sortir, au besoin, faites de même dans le script ci-dessous.
+
+
+===== Le script de calibration =====
+
+<code>
+#!/bin/bash
+
+#Si besoin, installer zenity
+if [ ! "$(which zenity)" ]; then
+xterm -title 'Install zenity' -e "sudo apt-get update && sudo apt-get install -q -y zenity"
+fi
+
+
+IFS="\""; set `cat /proc/bus/input/devices |grep Elo`
+DEVICE=$2
+IFS=" ";
+
+#=========================================================================
+
+GetXY(){
+until [ "$3" != "1" ] && [ "$PRESS" = "1" ] ; do
+	PRESS=$3
+	set `xinput --list "$DEVICE" | sed -n 6p`	
+done
+}
+
+testxy (){
+
+if [ "$X1" -gt "$X2" ]; then
+	SX=$X1
+	X1=$X2
+	X2=$SX
+	SX=1
+else
+	SX=0
+fi
+
+if [ "$Y1" -gt "$Y2" ]; then
+	SY=$Y1
+	Y1=$Y2
+	Y2=$SY
+	SY=1
+else
+	SY=0
+fi
+
+let DX=(X2-X1)/100
+let DY=(X2-X1)/100
+let X1=X1-DX
+let X2=X2+DX
+let Y1=Y1-DX
+let Y2=Y2+DY
+
+}
+#=========================================================================
+
+clear
+
+echo "Please touch the screen in the top left-hand corner"
+GetXY | zenity --progress --text='Please touch the screen in the top left-hand corner' --auto-close
+X1=`xinput --list "$DEVICE" | sed -n 13p|tr -d [:blank:][:alpha:][":"][".000000"]`
+Y1=`xinput --list "$DEVICE" | sed -n 20p|tr -d [:blank:][:alpha:][":"][".000000"]`
+echo "X,Y : $X1, $Y1"
+zenity --info --text="X,Y : $X1, $Y1" --timeout=2
+
+echo "Please touch the screen in the bottom right-hand corner"
+GetXY | zenity --progress --text="Please touch the screen in the bottom right-hand corner" --auto-close
+X2=`xinput --list "$DEVICE" | sed -n 13p|tr -d [:blank:][:alpha:][":"][".000000"]`
+Y2=`xinput --list "$DEVICE" | sed -n 20p|tr -d [:blank:][:alpha:][":"][".000000"]`
+echo "X,Y : $X2, $Y2"
+zenity --info --text="X,Y : $X2, $Y2" --timeout=2
+
+testxy
+
+xinput --set-prop "$DEVICE" "Evdev Axis Inversion" "$SX $SY"
+xinput --set-prop "$DEVICE" "Evdev Axis Calibration" "$X1, $X2, $Y1, $Y2"
+echo "$X1, $X2, $Y1, $Y2"
+
+exit 0
+</code>
+
+===== L'application de vos paramètres à chaque démarrage=====
+
+Pour le moment je n'ai pas trouvé d'autre solution qu'un petit script lancé au démarrage par Gnome pour appliquer les valeurs déterminées par le script de calibration. (Système/Préférences/"Applications au démarrage")
+Un de ces jours je le mettrai peut-être ici en expliquant un peu plus comment faire, si on me le demande...
+Si quelqu'un a une autre solution, qu'il n'hésite pas à l'indiquer dans cette page.
+
+----
+
+//Contributeurs : [[utilisateurs:Mysteroïd]]//

@@ -1,0 +1,89 @@
+{{tag>graphisme photo astronomie}}
+
+----
+
+{{ siril_logo.png?128| Logo de Siril}}
+====== SIRIL ======
+
+{{ siril-0.9.4.png?350|Capture d'écran de Siril}}
+
+
+**SIRIL**, acronyme à l'envers de « **IRIS** for **L**inux », est un logiciel libre de traitement d'images astronomiques. 
+
+Il vous permet de pré-traiter et traiter les images provenant de tout type d'imageur (camera CCD, Appareil photo, Camera planétaire, films de webcam ...). 
+
+Bien qu'à l'origine prévu pour être le clone de IRIS (la référence des années 2000 dans le domaine du traitement d'images), le logiciel a été abandonné en 2008, en version 0.8, dans un état peu stable et peu fonctionnel avec les images modernes. Il a depuis été repris par une nouvelle équipe en 2014 et se trouve actuellement en version [[http://free-astro.org/index.php/Siril:0.9.5/fr|0.9.5]].
+
+===== Installation =====
+
+==== Via les dépôts officiels===
+
+SIRIL n'est pas installé par défaut dans Ubuntu mais est présent dans les dépôts officiels. Il faut donc installer le paquet selon une des méthodes suivantes.
+
+=== Méthode graphique ===
+Pour installer le logiciel, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>siril|siril]]**.
+
+=== Méthode en ligne de commande ===
+Ouvrez un [[:terminal]] et entrez la commande suivante:<code>sudo apt-get install siril </code>
+
+==== Pour disposer des dernières versions stables ====
+Vous pouvez installer SIRIL à partir d'un dépôt **[[PPA]]** pour disposer d'une version stable plus récente, s'il y en a.
+
+
+^ Version Ubuntu ^ Version installée ^ Version du PPA ^
+| Ubuntu [[:trusty|14.04 LTS]] | -  | 0.9.6 rc2 |
+| Ubuntu [[:xenial|16.04 LTS]] | 0.9.1  | 0.9.6 rc2 |
+| Ubuntu [[:yakkety|16.10]] | 0.9.4  | 0.9.6 rc2 |
+| Ubuntu [[:zesty|17.04]] | 0.9.5  | 0.9.6 rc2 |
+//(informations à jour le 08/05/2017)//
+
+
+ === Méthode graphique ===
+  * [[:PPA|Ajoutez le PPA]] **ppa:lock042/siril**((https://launchpad.net/~lock042/+archive/ubuntu/siril)) dans vos sources de logiciels ;
+  * [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste des paquets]].
+  * [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>siril]]**.
+
+=== Méthode en ligne de commande ===
+Ouvrez un [[:terminal]] et entrez la commande suivante:
+  sudo add-apt-repository ppa:lock042/siril && sudo apt-get update && sudo apt-get install siril
+  
+==== Pour disposer de la version en développement (compilation)====
+Siril étant un projet libre et open source, il est possible de récupérer les sources et de les compiler soi-même.
+
+Il faut d'abord installer tout les pré-requis :
+===Pré-requis, versions antérieures à 16.04 ===
+  sudo apt-get -y install subversion automake autoconf build-essential intltool libgtk-3-dev fftw3-dev libgsl0-dev libcfitsio3-dev libconfig++-dev libtiff-dev libjpeg-dev libraw-dev libffms2-dev libopencv-dev
+===Pré-requis, Ubuntu  16.04 (LTS)===
+  sudo apt-get -y install subversion automake autoconf build-essential intltool libgtk-3-dev fftw3-dev libgsl-dev libcfitsio3-dev libconfig++-dev libtiff-dev libjpeg-dev libraw-dev libffms2-dev libopencv-dev  
+===Pré-requis, Ubuntu  16.10 et ultérieures ===
+  sudo apt-get -y install subversion automake autoconf build-essential intltool libgtk-3-dev fftw3-dev libgsl-dev libcfitsio-dev libconfig++-dev libtiff-dev libjpeg-dev libraw-dev libffms2-dev libopencv-dev  
+===Paquets recommandés===
+Depuis la version 0.9.6, il est recommandé d'installer gnuplot si l'on désire faire de la photométrie et obtenir de belles courbes. Ce dernier peut être installé à tout moment.
+  sudo apt-get -y install gnuplot
+
+===Compiler les sources===
+Une fois que tous les paquets nécessaires ont été installés, on récupère les sources de SIRIL à l'aide de [[subversion]] ou via github. Deux branches de SIRIL coexistent : trunk et 0.9. La première est la branche contenant les toutes dernières évolution et peut être hautement instable. Actuellement c'est la branche de développement de la nouvelle version 1.0. La seconde est beaucoup plus stable mais est mis à jour moins souvent, elle contient surtout les corrections de bugs de la version 0.9.x. Ici nous ne présentons que la façon d'installer la version 0.9. Ouvrez donc un [[:terminal]] et tapez la ligne de commande suivante :
+  svn co https://free-astro.org/svn/siril/branches/0.9/ Siril-0.9
+Depuis peu, il est également possible de récupérer la branche 0.9 via github (ces deux dépôts étant synchronisés il ne devrait pas y avoir de différence). Si vous vous sentez plus à l'aise avec l'utilisation de [[git]], il faut alors taper les commandes suivante :
+  sudo apt-get -y install git
+  git clone https://github.com/lock042/Siril-0.9.git
+Enfin, on compile les sources :
+  cd Siril-0.9
+  ./autogen.sh
+  make
+  sudo make install
+Pour lancer SIRIL, tapez **siril** en ligne de commande, le programme doit s'ouvrir.
+
+====Problèmes connus====
+À partir de la version 0.9.5 il est possible de faire de l'export de séquences d'images au format mp4 ou webm en plus des formats déjà présents : avi, SER et FITS. Cependant, la version de la librairie ffmpeg utilisée pour cette opération (libavutil >= 55.20) n'est pas assez récente dans Ubuntu [[:yakkety|16.10]].  La solution est soit de compiler soi-même cette librairie, soit d'utiliser un autre format d'export. La prochaine version de Ubuntu ne sera pas impactée par ce problème.
+  
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]].
+Si vous avez compilé les sources, écrivez en ligne de commande, dans le dossier siril :
+  sudo make uninstall
+=====Voir aussi=====
+  *[[http://free-astro.org/index.php/Siril/fr|Site officiel]]
+  *[[https://free-astro.org/siril_doc-fr|La documentation de Siril]]
+  *[[https://free-astro.org/bugs/view_all_bug_page.php|Liste des bugs et évolutions de Siril]]
+

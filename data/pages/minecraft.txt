@@ -1,0 +1,494 @@
+
+{{tag> multijoueurs jeu rpg}}
+----
+
+======Minecraft======
+
+{{ :minecrafttitle.jpg }}
+
+Minecraft est un jeu de [[https://minecraft.net/game|Markus Persson]] qui est en développement depuis le 10 mai 2009. La version finale 1.0.0 est sortie le vendredi 18 novembre 2011 à 22h55 après 2 ans et 6 mois de développement.
+
+{{:minecraft1.jpg}}{{:minecraft2.jpg}}{{:minecraft3.jpg}}{{:minecraft4.jpg}}{{:minecraft5.jpg}}
+
+//"[...]Minecraft est un chef d'œuvre de minimalisme qui rejette l'artifice pour se concentrer sur l'essentiel, c'est-à-dire les mécanismes de pur gameplay. Le joueur est à la fois puissant et vulnérable, certes comme la plupart des FPS, mais à la différence près qu'il décide ici librement de son destin, poussé uniquement par ses motivations propres, et non celles définies par un quelconque level-designer.[...]" - [[https://web.archive.org/web/20101009212222/http://www.schizodoxe.com/2010/08/04/le-phenomene-minecraft/comment-page-1/|Karpel]] -//
+
+<note important>Ce jeu est particulièrement addictif. N'oubliez pas votre vie sociale, sortez et nourrissez vos animaux avant de commencer une partie ! ;-)</note>
+
+
+**Minecraft** est un jeu immersif d'aventure, de construction, et de survie dans un environnement 3D où les joueurs sont libres de faire ce qu'ils veulent : construire des maisons, des forteresses, creuser des mines, explorer la surface et les profondeurs de la terre, survivre à la nuit et son lot de monstres, créer, fabriquer des objets... Chaque partie débute dans un monde gigantesque généré aléatoirement et destructible, constitué de millions de cubes - //la surface du monde ferait 8 fois la surface de la terre (si on considère qu'un cube fait un mètre de côté ) // - Au fur et à mesure de son exploration, la carte s'étend, permettant au joueur de parcourir un territoire quasiment infini rempli d'animaux sauvages et de monstres féroces. Il est possible d'interagir avec l'ensemble des éléments présents : faune, flore, terre, roche, etc... 
+
+<note important>Pour les francophones le jeu est traduisible dans le menu option ! ;-)</note>
+
+**Minecraft** exploite la plate-forme [[:java|Java]], le rendant disponible pour Windows et les systèmes d'exploitation de type Unix (donc Ubuntu). 
+
+Le jeu est actuellement en version 1.11 et peut être acheté pour 26,95 $. Les développeurs du jeu n'ont pas glissé de DRM ni de protections estimant que c'est une perte de temps et d'argent, et qu'il est préférable d'investir dans l'évolution et l'amélioration du jeu, la notoriété faisant le reste.
+
+Par ailleurs, il vous est possible de jouer gratuitement à laVersion Démo, la création d'un compte d'utilisateur est requise pour la version démo.
+
+La version payante, quant à elle, apporte des mises à jour à vie.
+
+Les modes de jeu existants sont :
+
+  * **Créatif** //(payant, jouable via l'exécutable jar téléchargé sur le site officiel)// Celui-ci consiste à de l'assemblage de blocs, quantité illimitée, sans contrainte de survie.
+
+<note tip>Vous pouvez passez en mode Créatif avec la Démo: lancez un monde en Survie, mettez pause, cliquez sur "open to LAN" ou "ouvrir au LAN" pour les francophones, ensuite mettez "allow cheats" ou "activer la triche" sur on puis lancez, vous pourrez alors passer en mode créatif en tapant "/gamemode 1"</note>
+
+  * **Survie simple joueur** //(payant)// Gestion des ressources, de notion de faim, fabrication d'outils, monstres, animaux, cycles jour/nuit, etc.
+
+  * **Survie Multi-joueur** //(payant)// aussi appelé //SMP//: Multi-joueurs avec gestion des ressources. La liste de serveurs se trouve [[http://minecraftservers.net/|ici]]
+
+  * **Indev/Infdev**: Versions de développement et de test. Ne sont plus d'actualité depuis le passage à la version finale.
+
+Il est possible, en outre, d'héberger [[minecraft#creation_d_un_serveur|ses propres serveurs publics]], ou bien, moyennant finance, de louer des serveurs dédiés afin d'accueillir davantage de joueurs.
+
+
+A noter que le jeu est fréquemment mis à jour - au moins une fois par mois -, assurant ainsi un suivi non négligeable, puisque chaque mise à jour apporte son lot de nouveautés : que ce soit au travers de nouveaux blocs, de monstres, ou encore de modes, de nouvelles façons de jouer. En outre, une communauté importante contribue à l'évolution de Minecraft, élaborant de nombreux mods de jeu, et autres packs de textures pouvant modifier l'apparence de ce monde cubique.
+
+ =====Installation=====
+
+Ce jeu n'est pas disponible dans les [[:depots|dépôts]] d'ubuntu. Il faut donc l'installer manuellement.
+
+<note tip>Sur Linux Mint, le paquet **[[apt>minecraft-installer]]** existe, vous pouvez l'installer avec <code>sudo apt-get install minecraft-installer</code></note>
+
+<note>Le jeu est joué en standalone, via un exécutable jar, sur un PC : il suffit de vous [[http://www.minecraft.net/register|inscrire]] (l'inscription ne coûte rien) pour pouvoir jouer à une version de démonstration du jeu en solo, limitée dans le temps. Si vous appréciez le jeu, vous pouvez alors souscrire un [[http://www.minecraft.net/store|compte premium]] (pour moins de 25 €) afin de profiter du solo sans conditions, et du multijoueur !</note>
+
+<note warning>La version démo du jeu ne fonctionne pas correctement malheureusement... il est possible de corriger ce problème via une marche à suivre, [[minecraft?&#problemes_connus|voir ci-dessous]].</note>
+==== Installer le jeu et la plate-forme Java ====
+
+=== Plate-forme Java ===
+
+Minecraft utilise la plate-forme [[:java|Java]] pour fonctionner. Celle-ci est disponible dans les dépôts officiels de Ubuntu après avoir [[:depots|activé le dépôt Commercial]] //(Partner)//. 
+
+
+
+<note>Décembre 2016: Il semble que tous ces commentaires soient datés. Une bonne démarche pour installer la plate forme java est sans doute d'installer **[[apt>default-jre]]** avec <code>sudo apt-get install default-jre</code>
+peut-être après avoir désinstallé les autres versions de java que vous auriez installé.</note>
+
+<note>Il faut désinstaller le plugin **icedtea6-plugin** pour que celui de Sun soit pris en compte correctement pour faire tourner le jeu</note>
+|Java
+<note warning>Sur Ubuntu 13.04 : Minecraft fonctionne avec OpenJDK et IcedTea-plugin.\\
+La version Sun de java n'est donc pas obligatoire ([[java#a_partir_d_ubuntu_1204|elle n'est plus dans les dépôts depuis Ubuntu 12.04]])</note>
+
+<note warning>Pour installer Sun java 6 sur Ubuntu 12.04 suivez [[http://forum.ubuntu-fr.org/viewtopic.php?id=915601|ce tuto]].</note>
+
+=== Le jeu ===
+
+Téléchargez la dernière version Linux du jeu Minecraft depuis la [[https://minecraft.net/download|page de téléchargement]], puis déposez-la dans le répertoire de votre choix.
+
+Vous devez donner [[:permissions|les droits d'execution]] au fichier //minecraft.jar// :
+
+    * __Soit graphiquement__ (cochez //Autoriser l'exécution du fichier comme un programme//):
+
+{{:minecraftpermissions.png?350}}
+
+    * __Soit en ligne de commande__ en ouvrant un [[:terminal|terminal]]: <code>chmod +x /path/to/minecraft.jar</code>
+
+
+
+<note important>Ce script est à tester sur différents ordinateurs pour voir s'il ne pose pas de problème</note>
+
+Avec ce script Bash, vous pouvez télécharger, installer, créer un lanceur sur le bureau et lancer une première fois le jeu automatiquement.
+
+[[:tutoriel:comment_modifier_un_fichier|Créer un fichier]] avec comme nom, par exemple, //minecraft_installeur.sh//, puis faites un copier/coller du contenu ci-dessous.
+
+<code bash>#!/bin/bash
+
+#************************************************#
+#             minecraft_installeur.sh            #
+#                     v1.0                       #
+#               Écrit par HS-157                 #
+#                 27 Mai 2014                    #
+#               hs-157@mdl29.net                 #
+#                                                #
+#             Télécharge et installe             #
+#                  Minecraft                     #
+#                                                #
+#************************************************#
+
+LANCEUR=$HOME/Bureau/minecraft.desktop # Créer la variable pour le lanceur
+
+wget https://s3.amazonaws.com/Minecraft.Download/launcher/Minecraft.jar # Télécharge le jeu
+
+chmod +x Minecraft.jar # Rend le jeu executable
+mkdir $HOME/.minecraft/ # Créer le dossier .minecraft
+mv Minecraft.jar $HOME/.minecraft/minecraft.jar # Déplace le .jar dans le dossier .minecraft et le renomme en minecraft.jar
+
+echo "#!/usr/bin/env xdg-open" > $LANCEUR                        ###
+echo "" >> $LANCEUR                                              #
+echo "[Desktop Entry]" >> $LANCEUR                               #
+echo "Version=1.0" >> $LANCEUR                                   #
+echo "Type=Application" >> $LANCEUR                              # Créer le lanceur sur le bureau
+echo "Terminal=false" >> $LANCEUR                                #
+echo "Icon[fr_FR]=minecraft" >> $LANCEUR                         #
+echo "Name[fr_FR]=Minecraft" >> $LANCEUR                         #
+echo "Exec=java -jar $HOME/.minecraft/minecraft.jar" >> $LANCEUR #
+echo "Name=Minecraft" >> $LANCEUR                                 #
+echo "Icon=minecraft" >> $LANCEUR                                ###
+chmod +x $LANCEUR # Rend le lanceur exécutable
+
+java -jar $HOME/.minecraft/minecraft.jar # Lance le jeu
+
+exit 0; # Quitte le script</code>
+
+Puis vous le rendez exécutable soit graphiquement comme l'image d'en haut dessus mais pour ce fichier ou soit en ligne commande avec //chmod// :
+
+<code>chmod +x minecraft_installeur.sh</code>
+
+
+Il ne reste plus qu'à le lancer, soit en double cliquant dessus, soit dans un terminal avec //sh// :
+
+<code>./minecraft_installeur.sh</code>
+
+
+Minecraft s'installera automatiquement dans ///home/$USER/.minecraft// et créera un lanceur sur votre //bureau//.
+
+=== Optionnel ===
+
+Vous aurez aussi besoin d'installer **[[apt://openjdk-6-jre|openjdk-6-jre]]** et **[[apt://unrar|unrar]]** si vous envisagez de [[minecraft#Installer un nouveau pack de textures|modifier les textures du jeu]] par la suite. 
+
+<note>Pour installer des mods supplémentaires utilisant [[http://www.minecraftforum.net/topic/75440-v181-risugamis-mods-everything-updated/|modloader]], il faut utiliser [[http://www.minecraftforum.net/topic/232701-181-19pre5update-1030-mcpatcher-hd-fix-221/|MCpatcher]] pour l'installer si le jeu bloque sur le logo de Mojang après l'avoir installé manuellement.</note>
+
+==== Installer via un ppa (recommandé)====
+=== Méthode graphique ===
+
+[[:PPA|Ajoutez le PPA]] **ppa:minecraft-installer-peeps/minecraft-installer** à vos sources de logiciels
+
+puis [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]]
+
+Installer ensuite [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>minecraft-installer]]**.
+
+
+=== Méthode en ligne de commande ===
+Ouvrez un [[:terminal]] et entrez les commandes suivantes:
+
+<code>sudo add-apt-repository ppa:minecraft-installer-peeps/minecraft-installer
+sudo apt-get update
+sudo apt-get install minecraft-installer</code>
+<note>Cette méthode fonctionne pour installer Minecraft uniquement pour Ubuntu 12.04 à 16.04 </note>
+
+
+====Nouvel Installeur====
+
+Récemment (02/2017), Mojang a créé un [[https://launcher.mojang.com/mc-staging/download/Minecraft_staging.deb|nouvel installeur pour linux  ]]. Il a la particularité de ne pas utiliser Java (le jeu l'utilise toujours), de créer directement un lanceur et de se mettre directement à jour via le gestionnaire de mises à jour. 
+<note important>Attention : ce lanceur semble ne fonctionner que sur ubuntu 16.10, il semble manquer le paquet libicu57 sur ubuntu 16.04</note>
+
+Pour l'installer, il suffit d'autoriser l’exécution du fichier comme un programme, et de cliquer dessus. Ensuite, suivez la procédure.
+
+Il existe aussi un installeur sous la forme d'une [[https://launcher.mojang.com/mc-staging/download/Minecraft_staging.tar.gz | archive tar]].
+
+===== Utilisation =====
+
+====Lancement du jeu====
+ 	 	 	
+ 	=== En mode autonome === 	 	
+ 	 	 	
+ 	Si vous souhaitez jouer avec le programme autonome, en Solo ou en Multijoueur à la version Alpĥa (payante) : 	 	
+ 	 	 	
+ 	Placez vous dans le répertoire où **minecraft.jar** a été téléchargé, puis faites un clic droit dessus et sélectionnez //Ouvrir avec Sun  Java 6 Runtime// 	 	
+ 	 	 	
+ 	{{:ouvriravecsunjava6runtime.png?250}} 	 	
+ 	 	 	
+ 	Vous pouvez également [[raccourci lanceur#creation_d_un_nouveau_lanceur|créer un lanceur]] pour Minecraft avec la configuration suivante : 	 	
+ 	  * Type : Application 	 	
+ 	  * Nom : Minecraft 	 	
+ 	  * Commande : java  -jar /chemin/vers/Minecraft.jar 	 	
+ 	  * Icône : vous pouvez par exemple utiliser l'icône contenue dans l'archive du jeu. Pour cela ouvrez //Minecraft.jar// avec le [[file roller|gestionnaire d'archives]], allez dans le dossier //net/minecraft// et extrayez le fichier //favicon.png// dans le répertoire contenant Minecraft. 	 	
+ 	 	 	
+ 	=== Créer un lanceur dans unity === 	 	
+ 	 	 	
+ 	Ajouter minecraft dans le lanceur de unity. Télécharger l'application [[:tutoriel:comment_installer_un_paquet|alacarte]] et ouvrez celle ci. À l'aide de l'interface graphique, sélectionner la catégorie «jeux» et «créer un élément» et insérer les informations suivantes dans le lanceur: 	 	
+ 	 	 	
+ 	  * Nom: Minecraft 	 	
+ 	  * Commande: <code> java  -jar /home/****l'emplacement de votre ficher minecraft****/minecraft.jar </code> 	 	
+ 	  * Cliquez sur l'iĉone du lanceur pour personnaliser l'image. 	 	
+ 	 	 	
+ 	Appuyer sur valider et redémarrer votre session. 	 	
+ 	 	 	
+ 	Par la suite, à l'aide de l'outil de recherche du tableau de bord, tapez «minecraft» et ajoutez le lanceur à vos raccourcis 	 	
+ 	 
+====Problèmes connus ====
+
+=== problème de connexion mise a jour derrière un proxy ===
+si malgré avoir lancer minecraft avec les paramètre de votre proxy (ou CTparental qui utilise un proxy en 127.0.0.1 8080 )
+
+<code>java -jar Minecraft.jar --proxyHost 127.0.0.1 --proxyPort 8080 </code>
+cela ne marche toujours pas avec des erreur de ce type.
+<note>
+Downloading: https://s3.amazonaws.com/Minecraft.Download/launcher/launcher.pack.lzma (try 1/10)
+
+Exception: java.net.SocketTimeoutException: Connect timed out
+
+Downloading: https://s3.amazonaws.com/Minecraft.Download/launcher/launcher.pack.lzma (try 2/10)
+
+...
+</note>
+[[http://minecraft.fr/forum/threads/minecraft-sous-linux-probl%C3%A8me-de-proxy-https.138912/|cela proviens a parement que minecraft attend un proxy SOCK]] et que votre proxy n’en est pas un.
+pour résoudre ce problème on vas utilisé proxychains.
+<code>sudo apt-get install  proxychains
+mkdir .proxychains
+nano .proxychains/proxychains.conf
+</code>
+en ajoutent les lignes suivantes dans le fichier .proxychains/proxychains.conf
+<note>strict_chain 
+
+tcp_read_time_out 15000
+
+
+tcp_connect_time_out 8000
+
+[ProxyList]
+
+http 127.0.0.1 8080</note>
+
+On lance en suite le jeu comme ceci:
+
+<code>proxychains java -jar Minecraft.jar</code>
+
+=== La démo bloque à l'écran "Done Loading" ===
+Solution temporaire, le temps que Mojang corrige cela :
+
+  * Télécharger LWJGL [ [[http://ubuntuone.com/7ORZoVgCOb4xVSAo3otcmB|script disponible]] qui s'occupera de cette étape !]. Depuis http://sourceforge.net/projects/java-game-lib/files/latest/download?source=files extraire les fichiers, 
+    *  déplacer les fichiers : jinput.jar, lwjgl.jar,  lwjgl_util.jar du dossier /lwjgl-x.x.x/jar/ pour les placer dans .minecraft/bin/
+    *  déplacer les fichiers : libjinput-linux64.so, liblwjgl64.so, libopenal64.so, libjinput-linux.so, liblwjgl.so, libopenal.so du dossier /lwjgl-x.x.x/native/linux/ pour les placer dans .minecraft/bin/natives/
+  * Télécharger minecraft.jar : directement depuis le site de //[[http://www.mojang.com/|Mojang]]// , prendre la dernière snapshot, (exemple http://assets.minecraft.net/12w36a/minecraft.jar ) ou une version prerelease - à vous de voir. Déplacer ce fameux "**minecraft.jar**" dans le dossier (dossier caché!) :  .minecraft/bin/ 
+
+=== Écran noir   ===
+
+Si, lors du lancement, vous avez un écran noir, ceci pourrait vous aider ( trouvé sur http://forum.ubuntu-fr.org/viewtopic.php?id=435952 ) : 
+
+<note>La librairie Java Monkey Audio Coder/Decoder peut être installée avec le paquet libjmac-java présent dans le dépôt universe</note>
+
+1) Download Maverik Java Monkey Engine libraries
+
+32bit: http://mirrors.kernel.org/ubuntu/pool/universe/l/lwjgl/liblwjgl-java-jni_2.4.2+dfsg-3_i386.deb
+
+64bit: http://mirrors.kernel.org/ubuntu/pool/universe/l/lwjgl/liblwjgl-java-jni_2.4.2+dfsg-3_amd64.deb
+
+<note important>Autre solution plus simple et rapide: télécharger lwjgl ici: [[http://sourceforge.net/projects/java-game-lib/]] et copier/coller le dossier "natives" et "jinput.jar; lwjgl.jar; lwjgl_util.jar" dans le dossier "./minecraft/bin" (zip Compatible 32 et 64 bits)  Remarque le  dossier "./minecraft/bin" est un dossier caché pour le voir vous devez activez "Afficher les fichiers cachés" </note>
+
+2) Extrait le paquet Debian
+
+32bit: 
+<code> dpkg -x liblwjgl-java-jni_2.4.2+dfsg-3_i386.deb /tmp/lwjgl </code>
+64bit: 
+<code> dpkg -x liblwjgl-java-jni_2.4.2+dfsg-3_amd64.deb /tmp/lwjgl </code>
+
+3) Déplace liblwjgl.so vers le dossier de Minecraft
+<code>
+# mv /tmp/lwjgl/usr/lib/jni/liblwjgl.so ~/.minecraft/bin/natives
+</code>
+4) Télécharge le paquet Java Monkey Engine binary 
+
+http://code.google.com/p/jmonkeyengine/downloads/detail?name=jME2_0_1-StableDistribution.zip&can=2&q=
+
+5) Extract Java Monkey Engine binary pacakge and change to its folder
+<code>
+# unzip jME2_0_1-StableDistribution.zip && cd jME2_0_1-StableDistribution/jME2_0_1-StableDistribution/
+</code>
+6) Remet les fichier .jar dans le dossier Minecraft
+<code>
+# mv lib/lwjgl/jinput.jar ~/.minecraft/bin/
+# mv lib/lwjgl/lwjgl.jar ~/.minecraft/bin/
+# mv lib/lwjgl/lwjgl_util.jar ~/.minecraft/bin/
+</code>
+7) Copie les librairies dans le dossier minecraft
+<code>
+# mv lib/lwjgl/native/linux/lib*.* ~/.minecraft/bin/natives
+</code>
+8) Lance minecraft
+<code>
+# java -jar .minecraft/minecraft_name.jar
+</code>
+Choisir un Pseudo (pour les jeux en LAN), Se connecter "sans références" et sélectionner "Play Offline"
+
+
+=== Plein écran   ===
+
+Il se peut que le plein écran, en appuyant sur F11, pose problème : le panel du dessus reste en effet visible sous Gnome ou Unity.
+
+Une solution - du moins sur la dernière version d'Ubuntu 13.10 - consiste à attribuer un raccourci pour //**Basculer en mode plein écran**//, rubrique //Fenêtres//, de l'application Clavier : 
+
+{{:pleinecran.png?600|}}
+
+Il ne vous restera plus qu'à effectuer le raccourci que vous avez défini, pour passer tout simplement en plein écran.
+
+=== Clavier ne fonctionnant pas   ===
+
+Il arrive que [[:tutoriel:configurer_le_clavier|ibus]], le logiciel de saisie pour les langues à écriture complexe (chinois, japonais...) bloque la saisie clavier pour quelques applications Java dont Minecraft.
+
+Pour y remédier il faut donc :
+
+- soit simplement fermer ibus pendant que l'on joue.
+
+- soit lancer minecraft en utilisant l'option XMODIFIERS :
+
+ XMODIFIERS= java -Xmx512M -cp minecraft.jar net.minecraft.LauncherFrame 
+==== Quelques commandes utiles ====
+
+Les déplacements s'effectuent au clavier et souris (ou touchpad). Les touches principales sont personnalisables (sensibilité de la souris comprise, tout comme le FOV, le champ de vision du personnage) par l'utilisateur au moyen du menu, accessible via la touche //Escape// du clavier.
+
+Les commandes, par défaut, sont présentées ci-dessous.
+
+**Via l'exécutable** 
+
+    * Déplacement grâce aux touches W A S D (configuration clavier QWERTY) + utilisation de la souris 
+    * Appuyer deux fois sur W : sprinter.
+    * E : accéder à l'inventaire.
+    * Q : jeter l'objet "équipé" en main.
+    * Espace : sauter/nager
+    * Clic gauche : attaquer / dans l'inventaire, déplacer un objet.
+    * Clic gauche maintenu (sans être équipé de quoi que ce soit) : détruire un bloc.
+    * Clic droit : déposer ou utiliser un objet.
+    * Majuscule : //sneak// - permet de ne pas tomber d'un bloc. 
+    * Majuscule + Clic gauche : déplace un groupe entier d'objet automatiquement entre un coffre et l'inventaire.
+    * T : chatter.
+    * Tabulation : voir la liste des joueurs en ligne en multijoueur.
+    * / : entrer une commande (la triche doit être activée pour la plupart des commandes)
+
+Ajouté à cela, quelques touches qui ont une fonction bien précise, <del>et ne peuvent être modifiées</del> désormais modifiables pour les versions 1.7 et supérieur : 
+   * F1 : désactiver/activer l'interface pour faciliter les captures d'écran.
+   * F2 : capture d'écran, qui se retrouveront dans le dossier ~/.minecraft/screenshots
+   * F3 : affiche un tas d'informations diverses : les coordonnées, le nombre de FPS ("Frames Per Second", images par seconde en français), la mémoire utilisée & allouée.
+   * F5 : permet de passer de la vue "//première personne//" à la vue "//troisième personne//".
+   * F8 : permet d'activer et désactiver le mode "//mouvements de souris adoucis//".
+   * F11 : active le plein écran.
+
+<note important>Il semblerait que le plein écran puisse poser problème, rentrant en conflit avec le panel supérieur de //Gnome// par exemple. Ce dernier persiste alors à l'écran, et ne disparaît pas comme pour d'autres applications en plein écran.</note>
+==== Gameplay ====
+
+Le gameplay de MineCraft est le //mining// (minage), c'est à dire creuser le monde et le //crafting// qui consiste à fabriquer divers objets.
+
+=== Le mining ===
+
+Le //mining// vous permet de récupérer des blocs de divers matériaux ou de métaux rares avec les poings ou les outils que vous aurez fabriqués.
+Les matériaux de base sont constitués de terre (celle du sol), de pierre (sous les couches de terre), de bois brut (provenant des arbres), de sable (sur les plages). Chaque matériau a une dureté différente.
+Les matériaux et métaux rares quant à eux, sont faits de charbon, de fer, d'or et de diamant (ces deux derniers nécessitent de fouiller les profondeurs)
+
+La liste des matériaux est disponible [[http://www.minecraftwiki.net/images/3/32/Template1.png|ici]].
+
+{{:minecraftlistblocs.png}}
+
+=== Le crafting ===
+
+Le //crafting// est la composante la plus intéressante du gameplay. Le personnage a la possibilité de fabriquer plein d'outils, d'objets, d'armes, d'armures, de blocs spéciaux, de moyens de transport, grâce à de multiples combinaisons de matériaux basiques et rares. Un module de //crafting// simplifié est présent dans l'inventaire (touche i), et permet de créer des objets élémentaires. Ainsi, vous pourrez fabriquer un atelier de travail, qui augmentera les capacités du module de //crafting//, en faisant augmenter sa matrice de 2x2 à 3x3. Il sera alors possible de créer des objets plus complexes.
+
+La liste des fabrications possibles est disponible [[http://fr.minecraftwiki.net/wiki/Artisanat|ici]].
+
+{{:minecraftcraft.jpg}}{{:minecraftcraft2.jpg}}
+
+=== Guide de survie élémentaire ===
+
+== Comment se repérer ? ==
+
+Le cycle jour/nuit vous permet de repérer les points cardinaux (Nord, Sud, Est, Ouest). Le soleil se lève à l'Est, le jour et la nuit durent respectivement 10 minutes. 
+
+== Survivre à la première nuit ==
+
+Récoltez le bois des arbres, transformez-les en planches, fabriquez-vous un atelier, puis créez des bâtons et avec ces bâtons créez des pelles.
+Creusez un peu partout afin de récolter de la terre, puis bâtissez, avec la terre, un petit endroit clos pour dormir. Dès que possible, construisez-vous des torches : les monstres n'aiment pas la lumière et prolifèrent dans l'obscurité. Pensez, par la suite, à construire votre maison en pierre afin qu'elle résiste à l'assaut des vilains bonshommes verts :) . Si vous n'avez pas le temps de faire tout ça, montez au sommet d'un arbre ;)
+
+Un guide plus complet est disponible [[http://www.commentcamarche.net/faq/29676-astuces-et-conseils-pour-minecraft|ici]] et un autre [[http://www.jeuxvideo.com/cheats/00038024/astuces-minecraft-web-00029860.htm|là]].
+
+
+{{ :minecraftsun.jpg }}
+
+
+=== Profondeur du gameplay ===
+
+Le jeu propose une richesse d'interactions de mécanismes particulièrement approfondie. Si le jeu offre de prime-abord des décors cubiques, il n'en demeure pas moins que l'œil s'y habitue, et ils finissent par dégager une certaine poésie, en étant parfois même grandioses et bucoliques. L'immersion se poursuit avec le mode Survival, car le stress s'accroît à l'apparition de créatures, l'ambiance sonore contribuant particulièrement à son augmentation, et de façon très simple et très efficace. 
+
+Les combinaisons sont très variées. Elles permettent, par exemple, de se nourrir, en chassant les animaux, ou bien de les domestiquer ou encore de les chevaucher en trouvant des selles... Il est possible de cultiver des champs, de faire la cuisine, et de concevoir des denrées alimentaires variées en fonction des récoltes, de les cuire.
+
+La création de pièges sophistiqués est très prenante, car ceux-ci peuvent interagir avec le décor, en modifiant des cours d'eau, en faisant couler du sable ou du gravier, en créant des éboulis par le biais  d'interrupteurs et de TNT... Il est possible de créer des circuits logiques, de les lier à des déclencheurs automatiques. Associé à la création de chariots, il est possible de faire des trains et de créer des circuits complets.
+
+La culture de végétaux obéit aux lois naturelles, prenant en compte la qualité du sol, la quantité de lumière, la proximité de points d'eau.
+
+La communauté, très active, partage ses créations abondantes, avec la création de mods supplémentaires, la possibilité de modifier les textures du jeu, le changement de certaines fonctionnalités (téléportation, runes et magies, ....)
+
+Dans la version finale (version 1.0.0), les marécages ont été implantés, mais pas les volcans. Des pieuvres, des poissons peuvent être péchés et des nouveaux monstres ont été ajoutés au Nether (Magma cube, Blaze.).
+
+  
+== Installer un nouveau pack de textures ==
+
+(Il est maintenant possible de gérer les packs de texture beaucoup plus facilement et rapidement. 
+Pour ce faire, aller dans le menu "texture packs" qui apparaît à l'écran titre du jeu, puis cliquer sur "open texture pack folder". 
+Un dossier s'ouvre alors, et vous n'avez qu'a mettre votre pack de texture dedans (sans le déziper).
+Le pack de texture installé apparaîtra dans le menu texture pack du jeu, et vous pourrez choisir celui que vous voulez utilisez en cliquant dessus.).
+
+L'installation de nouvelles textures dans le jeu est un petit peu laborieuse. Pour commencer, verifiez si vous avez bien installé [[minecraft#Optionnel|openjdk-6-jre]] et [[minecraft#Optionnel|unrar]].
+
+À titre d'exemple, nous allons utiliser le pack de textures //JohnSmith Textures V3.rar// très réaliste.
+
+{{:minecraft-text-jsv3-1.jpg?350}}{{:minecraft-text-jsv3-2.jpg?350}}{{:minecraft-text-jsv3-3.jpg?350}}{{:minecraft-text-jsv3-4.jpg?350}}
+
+Téléchargez l'archive [[http://www.mediafire.com/?snx9aix7wf19hqb#1|JohnSmith Textures V3.rar]] contenant les nouvelles textures d'exemple. Vous aurez besoin d'installer le paquet [[minecraft#Optionnel|unrar]] pour les extraire.
+
+Dans votre répertoire personnel, affichez les [[:fichier_cache|fichiers cachés]], et recherchez //.minecraft// puis ouvrez le dossier //bin//. Vous trouverez le fichier **minecraft.jar**. Ouvrez ce fichier avec le [[:file-roller|gestionnaire d'archive]] **sans rien extraire**. Repérez uniquement les dossiers //gui//, //mob// et le fichier //terrain.png// que vous extrairez pour en faire une sauvegarde. Ce sont ces deux dossiers et ce fichier que nous remplacerons pour procéder au changement de textures dans notre exemple. Laissez le gestionnaire d'archive ouvert.
+
+Maintenant, ouvrez l'archive des nouvelles textures //JohnSmith Textures V3.rar// et glissez/déposez les répertoires et fichiers //gui//, //mob// et //terrain.png// de ce pack dans le gestionnaire d'archive déjà ouvert de //.minecraft//. Cette action remplacera les textures originales par les nouvelles. Il suffit ensuite de fermer tous les gestionnaires d'archives et de lancer le jeu pour découvrir les nouvelles textures.
+
+Vous pourrez par la suite remettre les textures originales en procédant de la même manière, mais en utilisant la sauvegarde des vos textures originales à la place du pack //JohnSmith Textures V3.rar//
+
+**01/11/16 ATTENTION : il semblerait que la méthode a changé pour installer un pack de texture : télécharger un pack au choix (je vous conseille "Faithful" qui adoucie vraiment les textures), aller dans dossier /home/<session> par défaut, appuyer sur ctrl+ h pour afficher les dossiers cachés, le dossier .minecraft va apparaitre, ouvrir ce dossier et placer le fichier compressé (sans le décompresser) dans le dossier resourcepacks**
+
+Quelques sites pour télécharger des pack de texture : 
+
+http://minecraft.fr/categorie/texture/
+http://fr-minecraft.net/8-textures.php
+http://www.planetminecraft.com/resources/texture_packs/
+
+== Installer des mod avec pipix ==
+
+l'installation de mod étant un peut laborieuse un petit logiciel existe : [[http://www.pixe-life.org/pipix]]
+Il suffit de télécharger la version windows qui marche tres bien avec wine 
+au démarrage, il ne trouve pas le dossier de minecraft, il suffit de lui indiquer le chemin.
+
+par contre comme le dossier de minecraft est un dossier caché, avant de lancer pour le première fois pipix il faut faire un lien vers le dossier .minecraft 
+<note >ln ~/.minecraft ~/minecraft</note>
+
+ ==== Pour installer un serveur dédié Minecraft ====
+
+<note tip>MSM - Neptune vous permet de créer votre serveur minecraft (bukkit-vanilla-spigot (bungee à venir)) et de configurer & gérer votre serveur, Disponible avec l'interface graphique (sans python) [[https://github.com/BlackWater-G/msm---neptune---gui/raw/master/msm-neptune_0.0.31-0ubuntu1_all.deb|ici]] et la version terminale (sans spigot & avec python) [[https://raw.githubusercontent.com/dinnozap/MinecraftServerMaker/debian-gui/install.py|ici]] </note>
+  * Créer un dossier pour le serveur Minecraft et se placer dedans. Dans un [[:terminal]], faites les [[:tutoriel:script_shell|commandes]] suivantes :
+<code>cd ~
+mkdir MinecraftServeur
+cd MinecraftServeur </code>
+  * Télécharger le fichier du serveur. (Remplacer x.x.x par la version de votre futur serveur)
+<code> wget https://s3.amazonaws.com/Minecraft.Download/versions/x.x.x/minecraft_server.x.x.x.jar
+</code>
+Example:
+<code>https://s3.amazonaws.com/Minecraft.Download/versions/1.7.10/minecraft_server.1.7.10.jar
+</code>
+  * Pour pouvoir lancer le serveur facilement, [[:tutoriel:comment_modifier_un_fichier|créez]] un [[:script]] nommé **RunMinecraftServer.sh**.
+<file>#!/bin/sh
+java -Xmx1024M -Xms1024M -jar ./minecraft_server.jar nogui</file>
+  * Rendre le script exécutable
+<code>chmod +x RunMinecraftServer.sh</code>
+  * Pour démarrer le serveur, on utilise la commande suivante :
+<code>./RunMinecraftServer.sh</code>
+  * Les configurations se font dans le fichier server.properties qui se créera au premier lancement du serveur.
+  * Pour le rendre accessible depuis internet, il faut configurer la redirection de port de votre modem correctement et autoriser le port correspondant (par défaut  25565) sur le pare-feu de la machine.
+
+
+===== Voir aussi =====
+
+  * **(en)** [[https://minecraft.net/|Site officiel]]
+  * [[http://www.minecraft-france.fr/|Minecraft France]]: Communauté française de Minecraft (Ressources, mods, maps textures pack etc !)
+  * [[http://www.minecraft-fr.com/|WTCraft]]: Communauté d'actualités française de Minecraft
+  * [[http://minecraft-fr.gamepedia.com/Minecraft_Wiki|Minecraftwiki]] : Source d'information sur Minecraft en français.
+  * [[http://minecraft-fr.gamepedia.com/Artisanat|Recettes de fabrication]]: ou comment crafter ;)
+  * [[http://minecraft-fr.gamepedia.com/Blocs|Tout savoir sur les blocs]]: Le bloc est l'élément fondamental de Minecraft
+  * [[http://sebsauvage.net/rhaa/index.php?2010/09/16/12/49/01-minecraft-un-succes-foudroyant|Minecraft : un succès foudroyant]] : //"Minecraft est la preuve vivante qu'une idée simple peut faire un succès[...]"// par Sebsauvage
+  * [[http://www.programapro.fr/tutoriels.php?titre=Cr%E9er%20un%20pack%20de%20texture%20minecraft|Créer un pack de texture pour minecraft (toutes versions)]] : Un tutoriel très simple et en français pour créer un pack de texture pour minecraft.
+  * [[http://www.programapro.fr/tutoriels.php?titre=Cr%E9er%20un%20serveur%20minecraft%20avec%20bukkit|Créer un serveur minecraft avec bukkit]] : Un tutoriel en français pour créer un serveur minecraft avec bukkit pour Linux (et windows)
+  * [[http://fr-fr.nbuntu.com/?p=60|Resolution du bug d'écran noir au démarrage]]
+  * **(en)** [[http://www.minecraftforum.net/viewforum.php?f=25|Ressources de Mapping et de Mods]]
+  * **(en)** [[http://www.minecraftforum.net/viewtopic.php?f=35&t=14998#p258884|Trouvailles]]
+  * [[http://www.wtcraft.com/forum/index.php?/topic/192-creer-un-serveur-dedie-minecraft-sur-une-dedibox//|Installer un serveur Minecraft sur une dedibox]] 
+  * [[http://canard-a-balls.blogspot.fr/2012/11/minecraft-en-dualboot-ubuntuwindows.html|Minecraft en Dual-Boot]]
+  * [[minetestc55|Minetest]]: Un "clone" gratuit et libre de Minecraft (C++ & Irrlicht) 
+  * [[http://canard-a-balls.blogspot.fr/2013/03/multimc-le-gestionnaire-ultime-de-tout.html|MultiMC]], un gestionnaire d'installation multiples de Minecraft
+  * [[http://wiki.mdl29.net/doku.php?id=lespetitshackers:minecraft|Wiki MDL29, Les Petits Hackers]], Source du script Bash pour l'installation automatique de Minecraft. (LPH)
+----
+
+//Contributeur principal :   [[:utilisateurs:nuxos|Nuxos]].//

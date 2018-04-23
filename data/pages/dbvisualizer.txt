@@ -1,0 +1,27 @@
+====== DbVisualizer ======
+Installation effectuée avec succès sur une Ubuntu 8.04 et DbVisualizer 6.5
+
+  - Télécharger la version RPM [[http://www.minq.se/download/registerDownload.jsp?prodid=65&product=DbVisualizer&version=6.5&version_type=current&target_os=linux&with_jre=true&filename=dbvis_linux_6_5_jre.rpm&type=Linux+x86+(RPM+archive)&installer=%2fproduct_download%2fdbvis-6.5%2fmedia%2fdbvis_linux_6_5_jre.rpm|version 6.5]]
+  - Pour convertir votre rpm en paquet debian utiliser alien
+<code shell>
+sudo apt-get update
+sudo apt-get install alien
+</code>
+  - Convertir le paquet
+<code shell>
+sudo alien dbvis_linux_~.rpm
+</code>
+  - Installer le paquet créé
+<code shell>
+sudo dpkg -i dbvis_~.deb
+</code>
+  - Entrer dans le dossier créé
+<code shell>
+cd /opt/DbVisualizer-~/
+</code>
+  - Lancer l'application
+<code shell>
+./dbvis
+</code>
+
+Cette page est issue d'un billet sur un blog. [[http://blogs.merikan.com/flumride/2007/11/14/installing-dbvisualizer-on-ubuntu/]]

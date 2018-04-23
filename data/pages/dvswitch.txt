@@ -1,0 +1,101 @@
+{{tag>Trusty montage_vidéo vidéo}}
+
+----
+
+====== DVswitch ======
+<note warning>Ce paquet n'est plus présent dans les dépôts d'Ubuntu 16.04</note>
+ DVswitch est un logiciel permettant de mixer des sources vidéos en direct. Il permet de mixer jusqu'à 4 sources vidéos. Ce logiciel fonctionne en mode client/serveur : grâce à ce mode d'implémentation les sources vidéos peuvent provenir de plusieurs PC sur le réseau local.
+{{  http://dvswitch.alioth.debian.org/images/screenshot-1-thumb.png |DVswitch}}
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+
+ ===== Installation =====
+Pour installer ce logiciel, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer les paquets]] **[[apt>dvswitch,dvsource,dvsink]]**.
+
+Dans la suite de cette page nous utiliserons aussi des commandes liées aux paquets **[[apt>ffmpeg,ffmpeg2theora,oggfwd]]** qu'il est donc conseillé d'installer.
+
+
+ ===== Utilisation =====
+ 
+L'interface est très simple. Au début, sans aucune source on ne peut pas faire grand chose. Puis, à chaque fois qu'on rajoute une source, celle-ci apparaît en bas. Il est possible ensuite de la faire apparaître dans la fenêtre de visualisation. Plusieurs effets sont disponibles. Il y a 2 "calques" disponibles, qui permettent d'utiliser les effets Fade et Pic-in-pic.
+Des raccourcis claviers sont aussi disponibles pour permettre de passer facilement d'une source à l'autre. Par exemple les touches 1, 2, etc. permettent de changer de source.
+
+====  En local ==== 
+
+Il faut utiliser le [[terminal|terminal]] pour lui spécifier l'IP de la machine et le port sur lequel on veut qu'il tourne.
+<code>dvswitch -h localhost -p 1234</code>
+Il est possible d'indiquer ce que l'on veut pour le port.
+
+==== En réseau ====
+Si les sources proviennent de plusieurs machines sur le réseau local, il faut lancer DVswitch avec l'adresse IP de la machine (obtenue via la [[commande_shell|commande]] ifconfig).
+
+<code>
+$ ifconfig
+eth0      Link encap:Ethernet  HWaddr 00:01:22:33:44:55  
+          inet adr:**192.168.11.128**  Bcast:192.168.11.255  Masque:255.255.255.0
+          [...]
+</code>
+
+Il faudra lancer
+<code>dvswitch -h 192.168.11.128 -p 1234</code>
+
+====  Ajouter des sources vidéos====
+ 
+===  Depuis un périphérique v4l2 ===
+ 
+v4l2 est un driver qui permet d'utiliser beaucoup de périphériques vidéos sous Linux (comme les webcams par exemple).
+Chaque périphérique détecté s'affiche ensuite dans /dev sous le nom videoX.
+Exemple pour le périphérique /dev/video0 :
+<code>ffmpeg -f video4linux2 -s vga -r 25 -i /dev/video0 -f s16le -ar 48000 -ac 2 -i /dev/zero -target pal-dv - | dvsource-file /dev/stdin -h localhost -p 1234</code>
+
+=== Depuis un fichier ===
+
+Il faut que le fichier à injecter soit au format .dv (la commande ffmpeg permet de convertir un fichier en .dv : ffmpeg -i InputFile.mpg -target pal-dv File.dv).
+<code>dvsource-file -h 127.0.0.1 -p 1234 -l fichier.dv</code>
+L'option -l indique de lire le fichier en boucle. Elle est facultative.
+
+===  Depuis le bureau ===
+
+Lancer la commande suivante (en ajustant la valeur de la résolution à celle correspondant à votre écran) :
+<code>ffmpeg -f x11grab -s 1024x768 -r 29 -i :0.0 -target ntsc-dv -y - | dvsource-file /dev/stdin -h localhost -p 1234</code>
+
+=== Depuis un périphérique Firewire ===
+
+<code>dvsource-dvgrab -h localhost -p 1234 -c <card-number> </code>
+ou
+<code>dvsource-firewire -h localhost -p 1234</code>
+
+==== Ajouter des sources sonores ====
+
+La commande dvsource-alsa permet d'ajouter une source uniquement sonore :
+<code>dvsource-alsa -h localhost  -p 1234 hd:0,0</code>
+
+==== Diffuser le mixage ====
+=== Sur VLC ===
+ 
+On utilise la commande dvsink-command :
+<code>dvsink-command -h localhost -p 1234 -- mplayer -noconsolecontrols -</code>
+ou
+<code>dvsink-command -h localhost -p 1234 -- vlc -</code>
+
+=== Sur un serveur ICECAST ===
+Un serveur ICECAST permet de diffuser en streaming un flux à des utilisateurs sur Internet. Pour utiliser cette commande, il faut avoir au préalable [:icecast2|installé un serveur ICECAST]].
+
+Puis, on utilise la commande dvsink-command :
+<code>dvsink-command -h localhost -p 1234 -- ffmpeg2theora - -f dv -F 25:5 --speedlevel 0 -v 4 -a 0 -c 1 -H 9600 -o - | oggfwd localhost 8000 mountname mout.ogg</code>
+
+
+===== Désinstallation =====
+ 
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi =====
+
+  * **(en)** [[http://dvswitch.alioth.debian.org|Site officiel avec captures d'écran]]
+  * **(en)** [[http://dvswitch.alioth.debian.org/wiki/component_interaction/|Utilisation de DVswitch pour une conférence]]
+
+------
+//Contributeurs: [[:utilisateurs:lauben|lauben]] \\ Sources: [[http://dvswitch.alioth.debian.org|DVswitch]] //

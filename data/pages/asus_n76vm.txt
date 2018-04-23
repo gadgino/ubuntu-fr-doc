@@ -1,0 +1,99 @@
+{{tag> matériel portable Asus}}
+----
+====== Asus N76VM ======
+
+===== En un coup d'œil =====
+
+  * {{icons:important.png|Fonctionne après config}} : **Fonctionne après config**
+  * {{icons:icon-ubuntu.png|Fonctionne immédiatement}} : **Fonctionne immédiatement**
+  * {{icons:icon-support.png|Pas testé}} : **Pas testé**
+  * {{icons:process-stop.png|Ne fonctionne pas}} : **Ne fonctionne pas**
+
+
+^ Version ^ Installation ^ Carte\\ graphique ^ Son ^ Caisson \\ de basse ^ Wifi ^ Port \\ Ethernet ^ Webcam ^ Touchpad ^ Touches FN ^ Rétro-\\ éclairage ^ Bluetooth ^ Autres ^
+| [[precise|Ubuntu 12.04 LTS (« The Precise Pangolin »)]]  | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}}| {{icons:process-stop.png|Ne fonctionne pas}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}}  | {{icons:icon-support.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-support.png|Pas testé}} | {{icons:important.png|Fonctionne après config}} |
+| [[precise|Ubuntu, de 13.10 à 15.10]] | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}}| {{icons:important.png|Fonctionne après config}}| {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-support.png|Pas testé}} | {{icons:icon-support.png|Pas testé}} |
+| [[precise|Ubuntu, 16.10]] | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}}| {{icons:icon-support.png|Pas testé}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-support.png|Pas testé}}  | {{icons:icon-support.png|Pas testé}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}}  | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-support.png|Pas testé}} |
+
+===== Présentation =====
+
+  * Pc portable Asus sorti en Avril 2012.
+  * Asus N76VM
+  * Modèle N76VM-V2G-T1042V
+  * Ecran 17.3’’  (1920×1080, mat/antireflet)
+  * Processeur Intel® Core™ i7-3610QM (2,3 GHz / 3,3 GHz Turbo)
+  * 750 Go de disque dur 5400 rpm. Possibilité de mettre un 2e disque, par ex un SSD.
+  * 8Go de RAM
+  * Carte graphique NVIDIA GeForce GT 630M 2 Go avec technologie Optimus, Port HDMI
+  * Graveur de DVD Dual Double Couche
+  * Réseau sans fil WiFi 02.11bgn
+  * Bluetooth version 4
+  * Ports USB 3.0
+  * Lecteur de cartes 3 en 1
+  * Webcam HD intégrée
+  * Batterie 6 cellules
+  * Poids de 3,6 Kg
+
+Page de présentation chez [[http://www.asus.com/fr/Notebooks_Ultrabooks/N76VM|Asus N76VM]]. 
+La touche de configuration pour entrer dans le BIOS ou choisir le disque est 'ESC' lorsque le logo ASUS s'affiche.
+
+Avec un calcul MPI sur 4 ou 8 coeurs, cette machine developpe 5.3 Gflops. GeekBench donne un score de 3600 en single core, et 10000 avec les 8 coeurs/threads.
+
+===== Installation =====
+
+Gravez un LiveDVD d'installation, démarrez dessus (touhe ESC et choisir le DVD). Aucun problème.
+Dual Boot sur même disque possible avec Windows 8:
+  * Essayé via UEFI et 13.10 + [[:linux_secure_remix]]
+  * Essayé sans UEFI, dès lors plus besoin de linux_secure_remix
+Aucun problème avec Windows 7.
+
+
+===== Son =====
+
+Pour faire fonctionner le caisson de basses externe  ajouter l'option suivante:
+
+<file>/etc/modprobe.d/alsa-base.conf
+------------------------------------------------------------------------------------
+options snd-hda-intel model=asus-mode4</file>
+
+Par défaut, le caisson de basses joue le canal droit. Pour corriger cela, ajoutez les lignes suivantes:
+
+<file>/usr/share/pulseaudio/alsa-mixer/profile-sets/extra-hdmi.conf
+-------------------------------------------------------------------------------------
+[Mapping analog-surround-21]
+device-strings = surround40:%f
+channel-map = front-left,front-right,lfe,lfe
+paths-output = analog-output analog-output-speaker
+priority = 7
+direction = output</file>
+
+Et ajouter cette ligne
+
+<file>/etc/pulse/daemon.conf
+---------------------------------------------------------------------------------------
+enable-lfe-remixing = yes</file>
+
+Dans paramètres_système/son/matériel, choisir 
+
+profil : surround analogique 2.1 output
+
+et tester les haut-parleurs...
+
+ Solution trouvée sur **(en)** [[https://wiki.archlinux.org/index.php/ASUS_N55SF#Audio|ArchWiki]] : fonctionne sur mon N76VZ  avec 12.04  64bits Noyau 3.5.
+
+
+===== Clavier =====
+
+Tous les raccourcis clavier Fn+F1-12 fonctionnent directement. Par contre il n'y a pas de témoin lumineux pour les touches 'Maj' et 'Num'.
+
+===== Réseau =====
+
+La prise Ethernet et le Wifi fonctionnent directement depuis la 14.04. Le témoin LED du wi-fi ne s'allume pas.
+
+===== Carte graphique et drivers NVIDIA =====
+
+Il est recommandé d'installer [[:prime]] s'installe sans bug et fonctionne comme attendu (Carte GT 630M avec 14.04 et 14.10). Cela permet de choisir la carte graphique Intel ou Nvidia comme sous Windows.
+
+Le port VGA pour 2ème écran fonctionne immédiatement.
+
+Le port HDMI : Sans driver Nvidia il fonctionne mais le curseur laisse des traces sur son passage (du moins avec 13.10 et les premières version du noyau 14.04) => pas vraiment utilisable FIXME

@@ -1,0 +1,334 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#tutoriel_installation_de_ubuntu_a_partir_de_knoppix" class="toc"> Tutoriel : installation de Ubuntu à partir de Knoppix </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#introduction_et_mise_en_garde" class="toc"> Introduction et mise en garde </a></span></li>
+<li class="level2"><span class="li"><a href="#preparation_de_la_partition_d_installation" class="toc"> Préparation de la partition d'installation </a></span></li>
+<li class="level2"><span class="li"><a href="#recuperer_les_scripts_debootstrap" class="toc"> Récupérer les scripts debootstrap </a></span></li>
+<li class="level2"><span class="li"><a href="#lancer_debootstrap" class="toc"> Lancer debootstrap </a></span></li>
+<li class="level2"><span class="li"><a href="#definir_le_nom_d_hote" class="toc"> Définir le nom d'hôte </a></span></li>
+<li class="level2"><span class="li"><a href="#modifier_le_fichier_fstab" class="toc"> Modifier le fichier fstab </a></span></li>
+<li class="level2"><span class="li"><a href="#parametrer_le_reseau" class="toc"> Paramétrer le réseau </a></span></li>
+<li class="level2"><span class="li"><a href="#definir_l_environnement_d_installation" class="toc"> Définir l'environnement d'installation </a></span></li>
+<li class="level2"><span class="li"><a href="#preparation_du_systeme_de_base" class="toc"> Préparation du système de base </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#parametrer_le_clavier" class="toc"> Paramétrer le clavier. </a></span></li>
+<li class="level3"><span class="li"><a href="#definition_des_variables_locales" class="toc"> Définition des variables locales </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#installation_du_noyau_et_du_chargeur_de_demarrage" class="toc"> Installation du noyau et du chargeur de démarrage </a></span></li>
+<li class="level2"><span class="li"><a href="#problemes_connus" class="toc"> Problèmes connus </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Warty
+</pre>
+
+<p>
+ <a href="https://wiki.ubuntu.com/InstallFromKnoppixHowto" class="urlextern" title="https://wiki.ubuntu.com/InstallFromKnoppixHowto" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Traduit</a> par <a href="/utilisateurs/gauthier" class="wikilink1" title="utilisateurs:gauthier" onclick="return svchk()" onkeypress="return svchk()">Gauthier</a>.
+</p>
+
+<a name="tutoriel_installation_de_ubuntu_a_partir_de_knoppix"></a><h1> Tutoriel : installation de Ubuntu à partir de Knoppix </h1>
+<div class="level1">
+
+</div>
+<!-- SECTION [133-202] -->
+<a name="introduction_et_mise_en_garde"></a><h2> Introduction et mise en garde </h2>
+<div class="level2">
+
+<p>
+ Ce document a pour but de décrire l&rsquo;installation de Linux Ubuntu sur une machine utilisant un LiveCD Knoppix et une connexion réseau. Le cédérom d&rsquo;installation Ubuntu n&rsquo;est pas nécessaire, puisque nous utiliserons Knoppix 3.6 2004-8-16-EN pour installer Ubuntu Warty.
+</p>
+
+<p>
+Pour commencer, démarrez la machine à partir du cédérom Knoppix, et ouvrez une console. Utilisez la commande &lsquo;su&rsquo; pour vous accorder les droits d&rsquo;administrateur. Knoppix ne vous demandera pas de mot de passe. 
+</p>
+<pre class="code">$ su</pre>
+
+</div>
+<!-- SECTION [203-740] -->
+<a name="preparation_de_la_partition_d_installation"></a><h2> Préparation de la partition d'installation </h2>
+<div class="level2">
+
+<p>
+ Créez la partition sur laquelle vous souhaitez installer Ubuntu. Je vous conseille d&rsquo;utiliser pour cela <strong>qtparted</strong> qui vous facilitera la vie. Dans ce tutoriel, nous installerons Ubuntu sur /dev/hda3. N&rsquo;oubliez pas de créer une partition swap si vous n&rsquo;en avez pas encore. Une fois le partitionnement terminé, il est conseillé de redémarrer la machine pour forcer le chargement des nouvelles tables de partition.
+</p>
+
+<p>
+Formatez ensuite votre système de fichiers. Utilisez la commande &ldquo;mke2fs -j /dev/hda3&rdquo; pour le format ext3 ou &ldquo;mkreiserfs /dev/hda3&rdquo; pour le format ReiserFS.
+</p>
+
+<p>
+Montez maintenant votre environnement d&rsquo;installation. Dans l&rsquo;exemple ci-après, nous allons installer le nouveau système Ubuntu dans le répertoire /dev/hda3 mounté sur /mnt/ubuntu. 
+</p>
+<pre class="code"># mkdir /mnt/ubuntu
+# mount /dev/hda3 /mnt/ubuntu</pre>
+
+</div>
+<!-- SECTION [741-1618] -->
+<a name="recuperer_les_scripts_debootstrap"></a><h2> Récupérer les scripts debootstrap </h2>
+<div class="level2">
+
+<p>
+ Knoppix contient déjà debootstrap, mais pas les scripts pour Warty. Et la seule façon, à ma connaissance, de se les procurer, est de les télécharger depuis l&rsquo;archive source debootstrap.
+</p>
+
+<p>
+1) Téléchargez sur le site <a href="http://archive.ubuntulinux.org/ubuntu/pool/main/d/debootstrap/" class="urlextern" title="http://archive.ubuntulinux.org/ubuntu/pool/main/d/debootstrap/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://archive.ubuntulinux.org/ubuntu/pool/main/d/debootstrap/</a> la dernière archive debootstrap_*.tar.gz. Enregistrez cette archive dans le répertoire /home/knoppix/tmp plutôt que dans le répertoire /tmp qui est probablement trop juste.
+</p>
+
+<p>
+2) Décompressez l&rsquo;archive, placez-vous via la commande &lsquo;cd&rsquo; dans le répertoire nouvellement créé et compilez le programme: 
+</p>
+<pre class="code"># cd /ramdisk/home/knoppix/tmp
+# tar zxvf debootstrap_0.2.39ubuntu22.tar.gz
+# cd debootstrap-0.2.39ubuntu22
+# make</pre>
+
+</div>
+<!-- SECTION [1619-2386] -->
+<a name="lancer_debootstrap"></a><h2> Lancer debootstrap </h2>
+<div class="level2">
+
+<p>
+ Il est conseillé de lancer le programme debootstrap une fois compilé, en utilisant les paramètres suivants :
+</p>
+
+<p>
+# DEBOOTSTRAP_DIR=`pwd` ./debootstrap &ndash;arch i386 warty /mnt/ubuntu <a href="http://archive.ubuntulinux.org/ubuntu" class="urlextern" title="http://archive.ubuntulinux.org/ubuntu" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://archive.ubuntulinux.org/ubuntu</a> warty
+</p>
+
+<p>
+Debootstrap va ainsi lancer les scripts warty. Si votre connection n&rsquo;est pas fiable, il se peut que vous ayez à recommencer cette opération plusieurs fois, afin de récupérer l&rsquo;intégralité des fichiers. L&rsquo;opération est terminée quand le programme s&rsquo;arrête.
+</p>
+
+<p>
+Le processus <em>debootstrap</em> affiche de nombreux messages et vous devriez avoir au final le message &ldquo;Base system installed successfully&rdquo; (Système de base installé avec succès). Dans le cas contraire, supprimez tout le répertoire /mnt/ubuntu excepté le répertoire lost+found, et recommencez le processus.
+</p>
+
+</div>
+<!-- SECTION [2387-3221] -->
+<a name="definir_le_nom_d_hote"></a><h2> Définir le nom d'hôte </h2>
+<div class="level2">
+
+<p>
+ Dans la ligne de commande ci-dessous, remplacez HOSTNAME par le nom d&rsquo;hôte que vous avez choisi. Supprimez d&rsquo;abord /mnt/ubuntu/etc/hostname, car en raison d&rsquo;un bogue dans debootstrap, le lien symbolique vers le répertoire Knoppix  /etc/hostname est créé par défaut. 
+</p>
+<pre class="code"># rm -f /mnt/ubuntu/etc/hostname
+# echo HOSTNAME &gt; /mnt/ubuntu/etc/hostname</pre>
+
+</div>
+<!-- SECTION [3222-3611] -->
+<a name="modifier_le_fichier_fstab"></a><h2> Modifier le fichier fstab </h2>
+<div class="level2">
+
+<p>
+1) Créez votre fichier fstab. Knoppix en a déjà créé un, adapté à votre système, mais il est nécessaire de le modifier pour Ubuntu : 
+</p>
+<pre class="code"># cp /etc/fstab /mnt/ubuntu/etc/fstab
+# kate /mnt/ubuntu/etc/fstab</pre>
+<ul>
+<li class="level1"><span class="li">      Modifiez les points de montage en fonction des partitions définies à l&rsquo;étape 1</span>
+</li>
+<li class="level2"><span class="li">      Modifiez les options en &ldquo;defaults&rdquo;</span>
+</li>
+<li class="level2"><span class="li">      Modifiez le chemin /mnt/auto/floppy en /mnt/floppy. Même chose pour /mnt/cdrom.</span>
+</li>
+<li class="level2"><span class="li">      Ajoutez &ldquo;sync&rdquo; dans les options de /mnt/floppy.</span>
+</li>
+<li class="level2"><span class="li">      Supprimez la ligne /dev/pts &ndash; a priori inutile ?</span>
+</li>
+</ul>
+
+<p>
+ Voici le fichier fstab idéal : 
+</p>
+<pre class="code">/proc    /proc    proc    defaults   0 0
+/sys     /sys     sysfs   defaults   0 0
+ 
+/dev/hda5 none    swap    defaults   0 0
+/dev/hda3 /       ext3    defaults   0 1
+/dev/hda6 /home   ext3    defaults   0 2
+
+/dev/fd0  /mnt/floppy auto user,noauto,sync,exec,umask=000 0 0
+/dev/cdrom /mnt/cdrom auto user,noauto,exec,ro   0 0</pre>
+
+<p>
+ * NB: assurez-vous que le répertoire racine / a pour paramètres &lsquo;defaults&rsquo;; dans le cas contraire, la commande &lsquo;sudo&rsquo; ne fonctionnera pas et vous aurez le message d&rsquo;erreur : &ldquo;Sorry, sudo must be setuid root.&rdquo; (désolé, sudo doit avoir les privilèges administrateur).
+</p>
+
+</div>
+<!-- SECTION [3612-4866] -->
+<a name="parametrer_le_reseau"></a><h2> Paramétrer le réseau </h2>
+<div class="level2">
+
+<p>
+ Commencez par modifier les fichiers Knoppix network/interfaces et resolv.conf afin de les adapter à vos besoins. 
+</p>
+<pre class="code"># cp /etc/network/interfaces /mnt/ubuntu/etc/network/
+# cp /etc/resolv.conf /mnt/ubuntu/etc/
+# kate /mnt/ubuntu/etc/network/interfaces</pre>
+
+<p>
+ Il vous faut également modifier les fichiers d&rsquo;hôte pour y inclure le nom de votre machine. Remplacer &ldquo;Knoppix&rdquo; par le nom de votre machine. Vous pouvez supprimer toutes les lignes concernant IPV6 si vous le souhaitez. 
+</p>
+<pre class="code"># cp /etc/hosts /mnt/ubuntu/etc/
+# kate /mnt/ubuntu/etc/hosts</pre>
+
+<p>
+ Voici le contenu de /etc/hosts pour lea.rinspin.com. 
+</p>
+<pre class="code">127.0.0.1   localhost
+127.0.0.1   lea.rinspin.com     lea</pre>
+
+</div>
+<!-- SECTION [4867-5565] -->
+<a name="definir_l_environnement_d_installation"></a><h2> Définir l'environnement d'installation </h2>
+<div class="level2">
+<pre class="code"># chroot /mnt/ubuntu
+# mount /proc</pre>
+
+<p>
+ Ne vous occuppez pas de la partition root puisque vous l&rsquo;avez déjà montée au cours de la première étape. En revanche, il vous faut monter /proc, tout comme les partitions que vous auriez créées auparavant. Attention, le noyau Knoppix ne prend pas en charge sysfs.
+</p>
+
+</div>
+<!-- SECTION [5566-5930] -->
+<a name="preparation_du_systeme_de_base"></a><h2> Préparation du système de base </h2>
+<div class="level2">
+
+</div>
+<!-- SECTION [5931-5975] -->
+<a name="parametrer_le_clavier"></a><h3> Paramétrer le clavier. </h3>
+<div class="level3">
+<pre class="code"># dpkg-reconfigure console-data
+</pre>
+
+<p>
+Définissez le fuseau horaire, les utilisateurs et les paramètres pour apt. Il s&rsquo;agit d&rsquo;un processus un peu long car il essaye de lancer GDM au final. Or GDM ne peut être lancé, puisque Knoppix a déjà la main sur l&rsquo;écran ; il se peut que l&rsquo;écran se mette à clignoter en raison du conflit entre les deux interfaces graphiques.
+</p>
+
+<p>
+NB: il convient peut-être de passer à l&rsquo;étape suivante, afin d&rsquo;installer le noyau et le chargeur de démarrage. Ce n&rsquo;est qu&rsquo;alors qu&rsquo;il faudra relancer la machine sous le nouveau système et lancer base-config. Ceci étant, je n&rsquo;ai jamais essayé.
+</p>
+
+<p>
+SUITE: Installez le noyau et le chargeur de démarrage, puis commencez les opérations de configuration du système de base. Les fichiers /etc/network/interfaces et /etc/apt/sources.list doivent être paramétrés correctement. N&rsquo;oubliez pas d&rsquo;ajouter le lien [<acronym title="World Wide Web">WWW</acronym>] <a href="http://wiki.ubuntulinux.org/Archive" class="urlextern" title="http://wiki.ubuntulinux.org/Archive" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://wiki.ubuntulinux.org/Archive</a> à la liste des dépôts APT. 
+</p>
+<pre class="code"># /usr/sbin/base-config new</pre>
+
+</div>
+<!-- SECTION [5976-6998] -->
+<a name="definition_des_variables_locales"></a><h3> Définition des variables locales </h3>
+<div class="level3">
+
+<p>
+ Vous pouvez passer cette étape si vous souhaitez utiliser exclusivement l&rsquo;anglais sur cette machine. 
+</p>
+<pre class="code"># dpkg-reconfigure locales</pre>
+
+</div>
+<!-- SECTION [6999-7176] -->
+<a name="installation_du_noyau_et_du_chargeur_de_demarrage"></a><h2> Installation du noyau et du chargeur de démarrage </h2>
+<div class="level2">
+
+<p>
+ J&rsquo;utiliserai grub comme lanceur de démarrage. Grub est certes plus difficile à utiliser que lilo, mais il offre une plus grande flexibilité, et son développement actuel est beaucoup plus actif. 
+</p>
+<pre class="code"># apt-get install linux-386
+# apt-get install grub</pre>
+
+<p>
+ Configurez maintenant grub pour qu&rsquo;il démarre de hda3. Comme Linux commence sa numérotation des partitions à hda1, et que Grub commence lui à hda0, il vous faut supprimer 1 du numéro de partition. (hd0,2) est donc équivalent à hda3, et (hd1,0) correspond à hdb1.
+</p>
+
+<p>
+Je ne sais pas vraiment pourquoi Grub ne parvient pas à trouver stage1 dans le répertoire /lib/grub, où le paquet Grub est censé l&rsquo;installer. Faute d&rsquo;avoir une meilleure solution, le mieux est de copier le contenu de ce dossier vers le dossier /boot/grub, où Grub pourra retrouver les fichiers. 
+</p>
+<pre class="code"># mkdir /boot/grub
+# cp /lib/grub/i386-pc/* /boot/grub
+# nano /boot/grub/grub.conf</pre>
+
+<p>
+ Voici un exemple de fichier /boot/grub/menu.lst que vous pouvez utiliser. 
+</p>
+<pre class="code">default 0
+timeout 4
+
+title=Ubuntu
+  root (hd0,2)
+  kernel /vmlinuz root=/dev/hda3
+  initrd /initrd.img
+
+title=Windows 
+  root (hd0,0)
+  makeactive
+  chainloader +1
+
+title=Memtest86
+  root (hd0,2)
+  kernel /boot/memtest86+.bin</pre>
+
+<p>
+Pensez également à créer un lien symbolique de /boot/grub/grub.conf vers /boot/grub/menu.lst (qui est le fichier recherché par grub au démarrage...) 
+</p>
+<pre class="code">ln -s /boot/grub/grub.conf /boot/grub/menu.lst</pre>
+
+<p>
+ Lancez grub pour installer le secteur de démarrage dans la MBR. 
+</p>
+<pre class="code"># grub --no-floppy
+grub&gt; root (hd0,2)
+grub&gt; setup (hd0)
+grub&gt; quit</pre>
+
+<p>
+ Démontez les disques, quittez la console, et redémarrez ! Votre système Ubuntu est prêt à démarrer. 
+</p>
+<pre class="code"># exit             &lt;-- quitte le mode chroot subshell
+# umount /mnt/ubuntu
+# shutdown -r now</pre>
+
+</div>
+<!-- SECTION [7177-9047] -->
+<a name="problemes_connus"></a><h2> Problèmes connus </h2>
+<div class="level2">
+
+<p>
+ Cette page a été créée à l&rsquo;aide de l&rsquo;excellent tutoriel :
+</p>
+
+<p>
+<a href="http://archive.ubuntulinux.org/ubuntu/dists/warty/main/installer-i386/current/doc/manual/en/apcs03.html" class="urlextern" title="http://archive.ubuntulinux.org/ubuntu/dists/warty/main/installer-i386/current/doc/manual/en/apcs03.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://archive.ubuntulinux.org/ubuntu/dists/warty/main/installer-i386/current/doc/manual/en/apcs03.html</a>.
+</p>
+
+<p>
+J&rsquo;ai trouvé également une aide précieuse sur le site <a href="http://www.inittab.de/manuals/debootstrap.html" class="urlextern" title="http://www.inittab.de/manuals/debootstrap.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.inittab.de/manuals/debootstrap.html</a>. 
+</p>
+<hr noshade="noshade" size="1" />
+
+<p>
+De FilipeMorais Sun May 8 13:45:25 +0100 2005 
+</p>
+
+<p>
+Sujet: Knoppix 3.8.1 - Absence d&rsquo;option de démarrage sur disquette 
+</p>
+
+<p>
+Message-ID: &lt;[MAILTO] 20050508134525+0100@<a href="http://www.ubuntulinux.org" class="urlextern" title="http://www.ubuntulinux.org" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">www.ubuntulinux.org</a>&gt;
+</p>
+
+<p>
+Il semble que la version Knoppix 3.8.1 ne dispose pas de l&rsquo;option démarrage sur disquette (utile lorsque votre PC plus tout récent ne permet pas de booter sur cédérom). 
+</p>
+
+<p>
+NB: Les versions 3.7 et antérieures de Knoppix offrent cette option. 
+</p>
+
+</div>
+<!-- SECTION [9048-] -->

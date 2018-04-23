@@ -1,0 +1,142 @@
+{{tag>Precise Trusty audio capture mao}}
+
+----
+{{ application:audacity:audacity.png?70|icone}}
+====== Audacity ======
+
+**Audacity** est une application libre multiplate-forme (%%GNU/Linux%%®, Windows®, Apple®) d'enregistrement et d'édition audio très complète distribuée sous [[wpfr>Licence_publique_générale_GNU|licence publique générale V2]]. En revanche, elle est tellement complète qu'il convient de l'apprivoiser petit à petit.\\
+**Audacity** peut servir à traiter de très nombreuses sources sonores, comme la numérisation des cassettes audio, s'enregistrer avec un microphone, numériser la radio, la télévision (bande son) ou des films (bande son), faire des montages, modifier la vitesse ou hauteur de voix...
+
+<note tip>Si vous souhaitez simplement enregistrer les entrées et sorties sons de votre ordinateur, il existe des applications plus légères:
+  * **[[:gnome-sound-recorder|Enregistreur de son]]** inclus par défaut dans [[:variantes#variantes_officielles|Ubuntu Gnome/unity]];
+  * **[[:Audio-Recorder]]** qui ne demande aucune configuration spéciale.
+</note>
+{{:application:audacity:audacity_14.04_00.png?800|Fenêtre principale}}
+
+
+===== Pré-requis =====
+  * Disposer des [[:sudo|droits d'administration]] ;
+  * Disposer d'une connexion à Internet configurée et activée ;
+  * Avoir de l'espace libre suffisant (Audacity utilise beaucoup d'espace temporaire pour fonctionner) ;
+  * [[:tutoriel:comment_installer_un_paquet|Avoir installé]] le contrôleur de volume **[[apt>pavucontrol]]** si vous souhaitez enregistrer la sortie audio de votre ordinateur.
+
+===== Installation =====
+
+====Via les dépôts officiels====
+Pour installer Audacity, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>audacity|audacity]]** \\
+
+====Via un PPA=====
+<note important> Installer un paquet hors des [[:depots|dépôts]] officiels peut présenter un risque d'instabilité du système.</note>
+Vous souhaitez utiliser la dernière version stable d'**Audacity**, elle est disponible depuis un [[:PPA]]. Pour cela: 
+
+  - [[:PPA|Ajouter le PPA]] **ppa:ubuntuhandbook1/audacity**((https://launchpad.net/~ubuntuhandbook1/+archive/ubuntu/audacity)) dans vos sources de logiciels; 
+  - [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|recharger la liste des paquets]];
+  - [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>audacity]]**. 
+Ou dans un [[:terminal]], saisir les [[:commande_shell|commandes]] suivantes: 
+<code>sudo add-apt-repository ppa:ubuntuhandbook1/audacity
+sudo apt-get update
+sudo apt-get install audacity</code>
+
+<note warning>Le PPA Ubuntu Handbook ne fonctionne plus sous Ubuntu 16.04.x et suivants</note>
+
+===== Utilisation (simple) =====
+
+Lancez l'application depuis le [[:unity#tableau_de_bord_dash|tableau de bord d'Unity]] ou pour les menus classiques, //Multimedia - > Audacity//. \\
+Ou dans un [[:terminal]] pour toutes [[:variantes]] en saisissant la [[ :commande_shell|commande]] suivante: <code>audacity</code>
+
+==== L'interface ====
+
+Tout d'abord, un coup d'œil sur l'interface. Ouvrez donc un fichier de musique (MP3 ou autre).\\
+Dans l'espace de travail, vous verrez apparaître des espèces de "bandes". Il y aura autant de bandes que de pistes audio. Par exemple : si votre fichier est en mono, il y aura une seule bande. Si il est en stéréo, il y en aura deux !\\
+Le reste de l'interface est très simple : des boutons de lecture, des boutons simples, et des menus déroulants... rien de bien diabolique :-)
+
+===== Lecture =====
+{{:application:audacity:audacity_lecture_14.04.png?200|boutons de lecture}}\\
+Utilisez les gros boutons pour lire/pauser, revenir au début. Vous vous demanderez assez vite comment se déplacer dans le fichier audio simplement.
+En fait, il n'est pas possible de se déplacer pendant la lecture. Pausez la musique, puis cliquez sur un endroit dans la bande. Vous mettrez ainsi un petit marqueur. Si vous faites "lire", alors la lecture se fera a partir de votre petit marqueur !\\
+Vous pouvez aussi régler le volume de lecture depuis le curseur représentant un haut parleur.
+
+Remarque : Si vous obtenez une erreur au début de la lecture, essayez de fermer toutes les applications ouvertes (plus particulièrement celles utilisant le son comme Firefox) dont Audacity, puis relancez alors seulement Audacity. 
+
+===== Enregistrement=====
+La capture d'un son se fait simplement en appuyant sur le bouton rouge {{:application:audacity:audacity_enregistrement_14.04.png?40|bouton enregistrement}} après avoir :
+  * choisi la source (liste déroulante précédée d'un micro);
+  * réglé le volume d'entrée (curseur représentant un micro); 
+  * configuré le périphérique d'entrée dans le contrôleur de son.
+Si vous n'obtenez pas de résultat probant, il est peut être nécessaire de configurer votre système audio. Voir [[#configuration]] chapitre suivant.
+====Configuration====
+//(Lors de la 1ère utilisation)// \\ 
+Lorsque vous voulez capturer un flux audio en continu (streaming), il peut être pratique d'enregistrer tout simplement la sortie audio //default: Line0// (ce qui sort de vos hauts-parleurs). \\
+Mais dans [[:Pulseaudio]] la sortie audio pour le retour en entrée "Monitor" n'est pas configurée par défaut pour l'enregistrement. Pour ce faire :
+  - Démarrer un flux audio (une vidéo, une webradio/webTV,...);
+  - Ouvrir Audacity et le contrôleur de volume Pavucontrol (après l'avoir installé si nécessaire);
+
+===Dans Audacity===
+  - Choisir l'entrée « line » ou « mix » dans la liste déroulante représenté par un micro; (si vous avez plusieurs choix, sélectionnez celle commençant par "default...");
+  - Lancer l'**enregistrement** (bouton rouge);
+===Dans le contrôleur de volume Pavucontrol===
+Dans l'onglet "Enregistrement" apparaît alors \\
+> **ALSA plug-in [Audacity]**: ALSA capture depuis -> ''Built-in Audio interne Stéréo Analogique''
+Modifier (un clic gauche dessus) pour -> ''Monitor of Built-in Audio interne Stéréo Analogique'' \\ //(Exemple de nom pour une carte son générique, il peut être différent pour d'autres cartes)//
+{{:application:audacity:audacity_audacity_pavucontrol_14.04_1.png?700|Audacity+Pavucontrol/Enregistrement}}\\
+Allez dans Audacity et miracle ça marche !! Maintenant, Audacity  enregistre les sons de l'ordinateur  :-) \\
+Les réglages seront conservés les fois suivantes, il suffit simplement de lancer Audacity.
+
+===À vérifier aussi, si nécessaire===
+  * Onglet //Enregistrement - > Afficher - > **all streams (tous les flux)**//
+  * Onglet //Périphériques de sortie -> Afficher ->  **all output devices**//
+  * Onglet //Périphériques d'entrée  -> Afficher ->  **all input devices**// (Ou bien uniquement //**Monitor**// pour éviter d'avoir en plus les sons provenant d'un éventuel microphone incorporé)
+  * Onglet //Configuration -> Audio Interne -> profil -> **Duplex stéréo analogique**// 
+N'oubliez pas non plus de vérifier que le niveau sonore du lecteur audio de l'application "source" ne soit pas trop faible.
+
+=====Édition===== 
+==== Sélection ====
+
+Tout comme un manipulateur d'image le ferait, vous pouvez sélectionner des zones, et leur appliquer différentes modifications. Pour cela, faites un clic long sur la zone désirée.
+Pensez aussi à utiliser l'outil **zoom** (les loupes). Il y a 4 boutons :
+
+  * loupe + : zoomer
+  * loupe - : dézoomer !! (si si ! je vous jure !)
+  * loupe ''%%-<->-%%'' : zoomer sur sélection
+  * loupe ''%%>---<%%'' : pour voir le fichier en totalité.
+
+==== Dissocier des pistes stéréo ====
+
+Vous avez certainement remarqué qu'en utilisant la sélection, vous sélectionnez les 2 pistes. Pour les dissocier, cliquez sur le petit triangle vers le bas, au dessus de "muet" "solo". Puis, cliquez sur "Séparer les pistes stéréo".
+
+
+
+==== Plus d'effets ====
+
+Il y a déjà de très nombreux effets à disposition. Voir le menu //Effets//·  Si vous voulez encore plus d'effets, [[:tutoriel:comment_installer_un_paquet|installez les paquets]] suivants : **[[apt>ladspa-sdk,swh-plugins,tap-plugins|ladspa-sdk swh-plugins tap-plugins]]**.
+
+
+=====  Problèmes connus=====
+==== Audacity et LTSP ====
+
+Lorsque l'on tente d'utiliser Audacity sur un client léger d'un réseau LTSP, on constate que le son joué sur le client est transmis aux hauts-parleurs du serveur.
+
+Solution : \\
+À l'aide d'un éditeur de menu ([[Menulibre]], [[:Alacarte]],...):
+  - Rechercher et ouvrir le lanceur d'Audacity;
+  - faire précéder la commande d'exécution "audacity" par "padsp audacity". ("padsp" fait partie du paquet "pulseaudio-utils").
+[testé sous ubuntu 8.10 avec Audacity 1.3.5-beta]
+
+==== La barre des taches n'apparaît pas ====
+  - Taper ''Ctrl+P'', qui est le raccourci permettant d'accéder aux préférences.
+  - Fermer la fenêtre qui s'est ouverte en cliquant sur OK.
+La Barre des tâches apparaît. Il faut malheureusement répéter cette opération à chaque ouverture d'Audacity.
+
+=====Désinstallation=====
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi =====
+
+  * **(fr)** [[http://www.linuxmao.org/audacity|La page Audacity sur LinuxMAO]]
+  * ** (en)** [[http://audacity.sourceforge.net/about/?lang=fr|Page officielle sur sourceforge]]
+  * ** (fr)** [[http://www.tutoriels-animes.com/tutoriels-audacity.html|Nombreux tutoriels animés]] adaptés aux débutants
+  * **(fr)** [[http://fr.lprod.org/wiki/doku.php?id=audio:audacity]|Audacity sur Iprod.org]]. Bien que plus très à jour, les tutoriels très clairs y restent toujours d'actualité.
+
+----
+
+//Contributeurs : [[utilisateurs:adam0509]], [[:utilisateurs:laurentb|Laurent Bellegarde]], [[utilisateurs:olinuxx]], [[:utilisateurs:steph138]].//

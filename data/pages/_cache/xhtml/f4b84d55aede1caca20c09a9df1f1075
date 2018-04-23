@@ -1,0 +1,247 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#introduction" class="toc"> Introduction </a></span></li>
+<li class="level1"><span class="li"><a href="#premiere_etape" class="toc"> Première étape </a></span></li>
+<li class="level1"><span class="li"><a href="#deuxieme_etape" class="toc"> Deuxième étape </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#pour_les_partitions_en_fat" class="toc"> Pour les partitions en FAT </a></span></li>
+<li class="level2"><span class="li"><a href="#pour_les_partitions_en_ntfs" class="toc"> Pour les partitions en NTFS </a></span></li>
+</ul>
+</li>
+<li class="level1"><span class="li"><a href="#derniere_etape" class="toc"> Dernière étape </a></span></li>
+<li class="level1"><span class="li"><a href="#note" class="toc"> Note </a></span></li>
+</ul>
+</div>
+</div>
+<pre class="code">
+pour Warty et Hoary
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/manu" class="wikilink1" title="utilisateurs:manu" onclick="return svchk()" onkeypress="return svchk()">manu</a>.
+</p>
+
+<a name="introduction"></a><h1> Introduction </h1>
+<div class="level1">
+
+<p>
+ Pour les personnes utilisant Ubuntu en multiboot avec Windows, il peut être intéressant de pouvoir accéder aux partitions en FAT32 ou NTFS pour récupérer des fichiers et les utiliser sous Linux. Le plus agréable serait que la partition soit montée automatiquement lors du démarrage sous Ubuntu, voici comment y parvenir.
+</p>
+
+</div>
+<!-- SECTION [74-431] -->
+<a name="premiere_etape"></a><h1> Première étape </h1>
+<div class="level1">
+<ul>
+<li class="level1"><span class="li"> Créer un point de montage pour la partition Windows.</span>
+</li>
+</ul>
+<pre class="code">
+$ sudo mkdir /mnt/windows
+</pre>
+
+<p>
+Note: Vous pouvez remplacer <strong>windows</strong> par le nom que vous voulez (ex: win, win98, xp......) 
+</p>
+<ul>
+<li class="level1"><span class="li"> Trouver le <em>nom système</em> de la partition Windows</span>
+</li>
+</ul>
+<pre class="code">
+$ sudo fdisk -l
+</pre>
+
+<p>
+Note: l&rsquo;option -l (L minuscule) de la commande <em>fdisk</em> permet de lister les partitions actives de vos disques. Pour plus d&rsquo;information voir : <strong>man fdisk</strong>
+</p>
+
+<p>
+Vous devriez avoir une réponse ressemblant à ce qui suit :
+</p>
+<pre class="code">
+Device Boot     Start      End      Blocks      ID      System
+/dev/hda1       1          638      5124703     b       W95 FAT32
+/dev/hda2       639        4525     31222327    83      Linux
+/dev/hda3       4526       4635     497980      82      Linux swap
+</pre>
+
+<p>
+Dans cette exemple c&rsquo;est <strong>/dev/hda1</strong> le <em>nom système</em> pour la partition Windows en FAT32
+</p>
+
+</div>
+<!-- SECTION [432-1338] -->
+<a name="deuxieme_etape"></a><h1> Deuxième étape </h1>
+<div class="level1">
+
+<p>
+ Maintenant il faut créer et automatiser le montage au démarrage d&rsquo;Ubuntu. Cela se fait en modifiant le fichier <strong>/etc/fstab</strong> avec un éditeur de texte. Utilisez celui que vous préférez, les exemples sont donnés avec nano qui est basique mais facile d&rsquo;utilisation. (voir <a href="/applications/nano" class="wikilink1" title="applications:nano" onclick="return svchk()" onkeypress="return svchk()">Nano</a>)
+</p>
+
+<p>
+Pour ouvrir <strong><a href="/installation/mount_fstab" class="wikilink1" title="installation:mount_fstab" onclick="return svchk()" onkeypress="return svchk()">/etc/fstab</a></strong> avec nano:
+</p>
+<pre class="code">
+$ sudo nano -w  /etc/fstab
+</pre>
+
+<p>
+Vous optiendrez quelque chose comme:
+</p>
+<pre class="code">
+none	/proc	proc	defaults	0	0
+/dev/hda2	/	ext2	defaults	1	1
+/dev/hda3	swap	swap	defaults	0	0
+/mnt/floppy	/mnt/floppy	supermount	fs=vfat,dev=/dev/fd0	0	0
+/mnt/cdrom	/mnt/cdrom	supermount	fs=iso9660,dev=/dev/cdrom	0	0
+</pre>
+
+</div>
+<!-- SECTION [1339-2051] -->
+<a name="pour_les_partitions_en_fat"></a><h2> Pour les partitions en FAT </h2>
+<div class="level2">
+
+<p>
+ Pour monter la partition <strong>/dev/hda1</strong> en FAT32 automatiquement il faut rajouter la ligne suivante dans le fichier de configuration <em><a href="/installation/mount_fstab" class="wikilink1" title="installation:mount_fstab" onclick="return svchk()" onkeypress="return svchk()">/etc/fstab</a></em>:
+</p>
+<pre class="code">
+/dev/hda1      /mnt/windows     vfat    user,auto,gid=100,uid=1000,umask=002,iocharset=utf8,codepage=850  0    0	
+</pre>
+
+<p>
+<em>Remarque :</em> Pour <strong>Hoary</strong>, pensez à ajouter l&rsquo;option <code>utf8</code> pour éviter les problèmes avec les caractères accentués.
+</p>
+
+<p>
+Détaillons un peu pour comprendre: 
+</p>
+<ul>
+<li class="level1"><span class="li"> <strong>/dev/hda1</strong> : correspond à la partition système que l&rsquo;on veut monter</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> <strong>/mnt/windows</strong> : correspond au point de montage, le répertoire où seront visibles les fichiers de la partition /dev/hda1</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> <strong>vfat</strong> : option qui indique le type de formatage de la partition /dev/hda1</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> <strong>user</strong>: option qui permet à n&rsquo;importe quel utilisateur de monter cette partition, et pas seulement <em>root</em>. Cette option fait apparaître la partition dans le &ldquo;Poste de travail&rdquo;</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> <strong>auto</strong> : option pour que la partition soit montée automatiquement au démarrage d&rsquo;Ubuntu</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> <strong>gid=100</strong> : cette option mettra comme <strong>gid</strong> (group id: numéro du groupe) à 100 qui sur Ubuntu correspond au groupe <strong>users</strong></span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> <strong>umask=002</strong> : cette option donnera les droits, sur les répertoires et fichiers de la partition, de lire et ecrire (777 - umask = 777 - 002 = 775 soit rwxrwxr-x)</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> <strong>iocharset=utf8,codepage=850</strong> : pour permettre l&rsquo;utilisation d&rsquo;utf8  Windows sur le Fat</span>
+</li>
+</ul>
+
+<p>
+ <u><strong>Remarque</strong></u>: Concernant le <strong>gid</strong>, vous pouvez utiliser un autre groupe ou en créer un en fonction de vos besoins, mais vous devrez mettre tous utilisateurs, y compris le votre, dans ce groupe pour avoir droit d&rsquo;accés en lecture/écriture. Utilisez soit l&rsquo;interface graphique via : <strong>Système &rArr; Administration &rArr; Utilisateurs et Groupes</strong> (voir <a href="/applications/gestion_compte" class="wikilink1" title="applications:gestion_compte" onclick="return svchk()" onkeypress="return svchk()">gestion compte</a>), ou via la console <em>root</em> en modifiant le fichier <strong>/etc/group</strong> en rajoutant les noms des utilisateurs sur la ligne de <strong>users</strong> (ou du groupe choisi)
+</p>
+
+<p>
+Certains rajouteraient dans les options, <strong>uid</strong> mais ce n&rsquo;est pas obligatoire car par défaut ce sera <em>root</em> le propriétaire mais vous aurez les mêmes droits que lui grâce au <em>umask</em>.
+</p>
+
+</div>
+<!-- SECTION [2052-4274] -->
+<a name="pour_les_partitions_en_ntfs"></a><h2> Pour les partitions en NTFS </h2>
+<div class="level2">
+
+<p>
+ Ce type de formatage est particulier car pour la lecture des fichiers vous n&rsquo;aurez aucun problème mais l&rsquo;écriture n&rsquo;est pas encore fiable à 100%.
+</p>
+
+<p>
+ 1 Pour avoir un accés seulement en lecture de la partition Windows en ntfs, modifiez votre <strong>/etc/fstab</strong> comme ceci:
+</p>
+<pre class="code">
+/dev/hda1	/mnt/windows	ntfs	ro,user,auto,gid=100,umask=002  	0	0
+</pre>
+
+<p>
+Ce qui change par rapport au FAT: 
+</p>
+<ul>
+<li class="level1"><span class="li"> <strong>ntfs</strong>: option indiquant que la partition à monter est en ntfs</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> <strong>ro</strong>: option indiquant de monter la partition en lecture seule (ro = read only)</span>
+</li>
+</ul>
+
+<p>
+2 Si vous voulez avoir accés en écriture sur votre partition ntfs il faut activer au démarrage le module correspondant pour que le kernel y ait accés. 
+</p>
+<ul>
+<li class="level1"><span class="li"> Pour vérifier si le ntfs est déjà actif sur votre machine:</span>
+</li>
+</ul>
+<pre class="code">
+# cat /proc/filesystems | grep -v nodev
+</pre>
+
+<p>
+Si dans la liste des formats supportés vous voyez <strong>ntfs</strong> c&rsquo;est qu&rsquo;il est déjà activé sinon il faut modifier le fichier <strong>/etc/modules</strong>:
+</p>
+<pre class="code">
+nano -w /etc/modules
+</pre>
+
+<p>
+puis rajoutez dans la liste : ntfs 
+</p>
+<ul>
+<li class="level1"><span class="li"> Puis modifiez votre <strong>/etc/fstab</strong> comme ceci:</span>
+</li>
+</ul>
+<pre class="code">
+/dev/hda1	/mnt/windows	ntfs	rw,user,auto,gid=100,umask=002  	0	0
+</pre>
+
+<p>
+L&rsquo;option <strong>ro</strong> devient <strong>rw</strong> pour passer du mode lecture seule à lecture/écriture
+</p>
+
+<p>
+<u><strong>Attention</strong></u>: Le mode ntfs sous Linux et donc Ubuntu n&rsquo;est pas parfait, il est donc conseillé de ne modifier en écriture que des fichiers déjà crées sous Windows. Evitez (pour ne pas dire interdiction) de créer des fichiers ou répertoires sous peine de ne pas les retrouver ou de ne pas pouvoir les ouvrir sous Windows.
+</p>
+
+</div>
+<!-- SECTION [4275-5910] -->
+<a name="derniere_etape"></a><h1> Dernière étape </h1>
+<div class="level1">
+
+<p>
+ Pour que les changements soient appliqués, vous pouvez rebooter votre machine ou entrer la commande suivante dans un terminal :
+</p>
+<pre class="code">
+sudo mount -a
+</pre>
+
+</div>
+<!-- SECTION [5911-6102] -->
+<a name="note"></a><h1> Note </h1>
+<div class="level1">
+
+<p>
+ Cette page a été créée avec l&rsquo;aide des pages <a href="http://wiki.ubuntu.com/AutomaticallyMountMSWindowsPartition" class="urlextern" title="http://wiki.ubuntu.com/AutomaticallyMountMSWindowsPartition" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">doc EN</a> et <a href="http://lea-linux.org/admin/admin_fs/fstab.html." class="urlextern" title="http://lea-linux.org/admin/admin_fs/fstab.html." onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">léa fstab</a> 
+</p>
+
+</div>
+<!-- SECTION [6103-] -->

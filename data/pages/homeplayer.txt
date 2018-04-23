@@ -1,0 +1,187 @@
+{{tag>Precise vidéo freebox }}
+
+----
+
+====== Homeplayer ======
+
+[[http://homeplayer.free.fr/|Homeplayer]] est un [[wpfr>Freeplayer#Mods|mod]] de [[:freeplayer]] basé sur la technologie [[:java]] qui va dialoguer avec la [[wpfr>freebox]] pour diffuser sur la télévision les fichiers multimédias stockés sur l'ordinateur (vidéos, musiques, photos, CD audio, DVD).
+Il peut également lire les flux rss, accéder à des clips, des vidéos en ligne (JT, émissions TV...), des services (météo, infos trafic...) et permet l'accès au service [[wpfr>Freebox_TV#Le_.C2.AB_multiposte_.C2.BB_.28visionnage_sur_l.27.C3.A9cran_de_l.27ordinateur.29|multiposte]] de [[wpfr>Free_(société)|free]].\\
+Depuis la version 1.5.8, HomePlayer intègre aussi un serveur [[wpfr>UPnP|UPnP-AV]] permettant la lecture de média&vidéo de la même manière que vos enregistrements sur le disque dur de la Freebox HD.\\
+De plus Homplayer ne se sert plus de vlc pour faire le transcodage car il utilise maintenant le serveur UPnP-AV de la freebox qui lit directement les vidéos sur votre pc.
+<note>Pour une utilisation simplement du server UPnP-AV, dirigez-vous sur [[freemi]] \\ fonctionne avec **précise 12.04LTS**, mais pose des difficultés depuis la 14.04</note>
+
+<note warning>Homeplayer n'est plus mis à jour depuis 2012 et ne fonctionne qu'avec la version java openjdk-6-jre, et pas avec les suivantes. Si l'on peut s'en tirer en installant cette version 6 sur ubuntu 14.04 (voir ci-dessous), cette version obsolète n'est plus disponible sur la version 16.04.
+Un service équivalent peut être obtenu en utilisant l'Upnp de [[Kodi]] qui marche bien. [[https://doc.ubuntu-fr.org/kodi#utilisation|Voir la marche à suivre]].</note>
+
+===== Pré-requis =====
+  * Un abonnement chez le FAI FREE avec une Freebox ( V2, V3, V4, V5 ou HD )
+  * Connaître l'IP(( ifconfig `route -n | grep 192.168.0.0 |tr -s ' ' ' ' |cut -d " " -f8`| grep "inet ad" | cut -f2 -d: | awk '{print $1}'))de la machine faisant tourner homeplayer dans votre [[wpfr>Réseau_local|réseau local]]
+  * La renseigner comme "Ip du Freeplayer" à travers [[http://subscribe.free.fr/login/login.pl?link=freeplayer|l'interface de gestion]] de votre freebox 
+ "Mon compte ⇒ internet⇒réglage routeur"
+  * Avoir installé [[:VLC#depuis_les_depots_officiels_recommande|VLC]]
+  * Avoir installé une machine virtuelle [[:java]].
+===== Installation =====
+
+  * Homeplayer marche très bien avec Java libre \\
+//[[:tutoriel:comment_installer_un_paquet|Installer le paquet]] [[apt>openjdk-6-jre|openjdk-6-jre]]  si vous n'avez pas encore de machine virtuelle java d'installée.//
+<note>Si vous avez openjdk-7-jre (comme ça doit être le cas par défaut au moins depuis la version 14.04), homeplayer 1.5.9.e démarrera mais vous ne pourrez pas lancer les vidéos (en tout cas sur la 64bits). Pour résoudre le problème vous installez aussi openjdk-6-jre. Puis il faudra vous rendre dans le répertoire homeplayer que vous avez téléchargé comme indiqué ci-dessous, ouvrir homeplayer.sh dans un éditeur de texte et remplacer la ligne EXECJAVA=`which java` (ligne 66) par EXECJAVA=/usr/lib/jvm/java-6-openjdk-amd64/jre/bin/java - sans oublier d'enregistrer =). Cette astuce est l'adaptation à Ubuntu de [[http://homeplayer.free.fr/new/index.php?topic=2855.0|celle donnée sur le site officiel pour opensuse]].</note>
+  * VLC
+//[[:tutoriel:comment_installer_un_paquet|Installer le paquet]] [[apt>VLC]] si vous n'avez pas encore VLC d'installé.//
+  * Télécharger le fichier [[:zip]] [[http://homeplayer.free.fr/new/index.php?page=6|de homeplayer]]
+//[[http://sourceforge.net/projects/homeplayer/files/homeplayer/|lien direct]] vers toutes les versions disponible//
+
+  * Créer un répertoire qui hébergera l'application (par exemple **/opt/homeplayer** )
+  * [[:archivage#graphiquement|Extraire le fichier archive ZIP]] dans le répertoire créer pour l'occasion
+  * Mettre les [[:permissions#execution|droits d'exécution]] sur le script de lancement ** homeplayer.sh ** disponible dans le répertoire // homeplayer //
+  * Configurer le [[:pare-feu]] s'il est utilisé. \\
+//Il faut autoriser les flux allant de la freebox vers le port 8080 de votre ordinateur faisant tourner Homeplayer.//
+[[#configurer_votre_pare-feu| différentes façon de le configurer]]
+  * Il ne reste plus qu'à lancer le script ** homeplayer.sh ** pour l'utiliser :
+''sh -c <CheminVersFichier>/homeplayer.sh''
+
+Le script homeplayer.sh permet l'usage de certaines options: " -nosystray " pour ne pas afficher le système tray, " -serveronly" pour le lancer en mode sans serveur X graphique, ...
+
+  * Vous pouvez maintenant créer [[:raccourci-lanceur|un lanceur]] ou une entrée de menu pour lancer Homeplayer. \\
+//Vous pouvez trouver l'icône de Homeplayer [[http://harisson.free.fr/homeplayer/icones/HomePlayer.icns|ici]].//
+
+
+
+====  Résumé en ligne de commande ====
+Pour la version en date du 15/02/2013 
+  wget http://sourceforge.net/projects/homeplayer/files/homeplayer/HomePlayer1.5.9e/HomePlayer-1.5.9e.zip
+  mkdir ~/homeplayer
+  unzip HomePlayer-1.5.9e.zip -d ~/homeplayer/
+  chmod u+x ~/homeplayer/homeplayer.sh
+  sh -c ~/homeplayer/homeplayer.sh
+ 
+
+<note >L'avantage de cette méthode est que l'installation est très simple, rapide, et n'utilise pas de dépôts tiers. En cas de sortie d'une nouvelle version, il est aisé de remplacer le dossier d'installation par celui de la nouvelle version...</note>
+
+
+===== Configurer votre pare-feu =====
+Plusieurs outils sont disponible pour configurer le pare-feu [[wpfr>Netfilter]] . \\
+Il faudra ouvrir sur la machine hébergeant le homeplayer le port 8080 de ce qui viens de votre routeur freebox. \\
+Dans les exemples suivants, la freebox a l'IP 192.168.0.254 et le "homeplayer" 192.168.0.51.
+Pour ceux dont le mode routeur de la freebox n'est pas activé, utilisé l'IP 212.27.38.253 (correspondant a  l'adresse freeplayer.freebox.fr) pour le homeplayer.
+=== avec UFW ===
+[[:UFW]] est installé par défaut sous Ubuntu (mais pas activé)
+
+  sudo ufw allow IN proto tcp to 192.168.0.51 port 8080 from 192.168.0.254
+  
+=== avec GUFW ===
+[[:gufw]] est l'interface graphique de ufw
+
+{{:homeplayer_gufw.png?400|}}
+=== avec IPTABLES ===
+[[wpfr>iptables]] est l'Outil de configuration de [[wpfr>Netfilter]]
+
+  iptables -A INPUT -p tcp -s 192.168.0.254 -d 192.168.0.51 --dport 8080 -j ACCEPT
+
+===== Utilisation =====
+
+Vous pourrez lancer Homeplayer depuis le menu //Applications -> Son et vidéo  Ou lancer le script homeplayer.sh disponible dans le répertoire homeplayer crée//.
+
+
+L'icône apparaît dans la zone de notification du tableau de bord. Les réglages et la fermeture se font par un clic droit sur l'icône.
+
+=== Réglages ===
+
+Les différents réglages se font dans le menu "Préférences".
+
+- Vérifier dans l'onglet vlc que le chemin vers vlc est correct, habituellement du genre "/usr/bin/vlc".
+
+- S'il n'y a pas de problème d'enchaînement de la liste de lecture, il est conseillé de décocher la case "Redémarrage de vlc à chaque lancement d'un média" dans l'onglet extensions des préférences de homeplayer.
+
+- Il faut renseigner dans l'onglet extensions des préférences le nom complet et le chemin de la librairie libvlc (libvlc.so par défaut). Cette librairie permet l'accès à la fonction multiposte.\\
+
+On peut le vérifier dans une console avec :
+  ls -slpah /usr/lib/libvlc*
+
+
+
+===== Problèmes =====
+
+ ==== Precise 12.04LTS ====
+  *Pour voir l'icône dans la barre des notifications :
+<code>gsettings set com.canonical.Unity.Panel systray-whitelist "['all']"</code>
+edit: il est probable qu'il faille redémarrer Unity pour que cela fonctionne
+
+  *Lancer<code>homeplayer.sh</code>
+ et lorsque la pop-up "Impossible de lancer VLC" s'affiche, chercher et **tuer les instances de vlc**. <code>killall vlc</code>
+cliquer sur "OK" de la popup
+Là, l'assistant s'affiche, fermer la fenêtre. (et la popup du port 8080 utilisé ne s'affiche pas)
+
+  *On peut donc aller modifier les paramètres :\\
+Clic droit sur l'icône de notification, **paramètres -> préférences**\\
+Une fenêtre de configuration s'affiche
+
+Dans l'onglet "**VLC**"
+Remplacer le contenu "VLC Options"
+<code>--intf=${intf} --http-src="${httpSrcDir}" --http-host=127.0.0.1:${httpPort} --sout="#std" --freetype-font="${font}" --config="${vlcrc}" --rtp-client-port=${rtpClientPort}</code>
+par
+<code>--intf=${intf} --http-src="${httpSrcDir}" --http-host=127.0.0.1 --http-port=${httpPort} --sout="#std" --freetype-font="${font}" --config="${vlcrc}" --rtp-client-port=${rtpClientPort}</code>
+Cliquer sur "Valider"
+
+  *Clic droit sur l'icone de HomePlayer "**Quitter**"\\
+Relancer <code>homeplayer.sh</code>
+
+<note tip>Pour information, les configurations se trouvent dans le fichier ~/.homeplayer/hpuser1_3.ini mais celui-ci n'est présent que lorsque les configurations ont été modifiées par rapport à ceux par défaut.</note>
+<note help>Si problème\\
+Voir ce post sur le forum, ça a marché pour moi et d'autres...
+http://forum.ubuntu-fr.org/viewtopic.php?pid=9170551#p9170551</note>
+
+== Autre possibilité ==
+<note>Le passage avec Intrepid à la version 0.9 de VLC (mals intégré dans les freeplayer) fait que l'installation d'un freeplayer efficace reste nettement plus simple sous Hardy (fin 2008)\\
+L'utilisation de HomePlayer en [[http://sourceforge.net/projects/homeplayer/files/homeplayer|version 1.5.8]] permet de contourner ce problème. FIXME</note>
+
+ === HomePlayer ne se lance pas ou ne ce connecte pas ===
+
+  * Vous pouvez désactiver votre pare-feu pour vous assurer que ce n'est pas lui qui bloque avant de vérifier sa [[#configurer_votre_pare-feu|configuration]]. \\
+
+  * Vérifiez l'IP renseigné comme IP du freeplayer sur [[http://subscribe.free.fr/login/login.pl?link=freeplayer|l'interface de gestion de votre freebox]] dans Mon compte ⇒ internet⇒réglage routeur.
+
+  * Vérifiez la configuration de la machine virtuelle java (1.6)
+  java -version
+
+  sudo update-alternatives --config java
+
+et choisissez le numéro de la version désirée.
+
+  * En cas de problème de son avec la freebox v5, choisir le profil v4 pour VLC dans les préférences de Homeplayer (par défaut le profil de VLC est mis sur automatique), quitter Homeplayer et redémarrer :\\
+ 
+Homeplayer > préférences > vlc > profil > v4\\
+
+Ce problème est du à un défaut de compilation de VLC actuelle pour le transcodage du son en mp3.
+En profil v4 VLC transcode le son avec le codec mpga et en profil v5 avec le codec mp3.
+
+La version vlc de nerve par rapport à la version 0.8.6 des dépôts officiels permet de corriger aussi ce problème.\\
+
+
+== Chargement échoué ==
+Vérifier que le chemin d'accès à homeplayer ne comporte pas d'espace:
+Utilisez /Autre/Logicielslinux/Homeplayer/homeplayer.sh à la place de /Autre/Logiciels Linux/Homeplayer/homeplayer.sh
+
+
+Vérifier que le chemin d'accès à vos médias ne comporte pas d'accents.
+Utiliser /home/user/Videos à la place de /home/user/Vidéos.
+
+==lire un Dvd ou Cd==
+Pour utiliser un lecteur Dvd / Cd, renseigner /sr0 (ou autre,votre périphérique de lecture) dans les préférences de HomePlayer.
+
+ ==Son craquelé lors d'une vidéo==
+Ce problème survient si votre freebox est connectée au téléviseur à l'aide d'un cable hdmi.
+La solution consiste à régler la résolution hdmi (paramètre -> affichage) à 720p60 ou inférieur. 
+
+==Affichage TV déformé==
+(exemple : un film 16:9 est étiré sur toute la surface d'une TV 4/3 ou la TV n'affiche qu'une partie zoomée du film)
+
+Régler le format de sortie de la Freebox et/ou le zoom en appuyant quelques secondes sur la touche " ? " de la télécommande Freebox. 
+
+===== Liens =====
+
+  *[[http://homeplayer.free.fr|Site officiel]]
+  * [[http://www.tvfreeplayer.com/forum|Forum FreePlayer]] 
+
+----
+
+ //Contributeurs : tartanpion, [[:utilisateurs:Enchained]],AudioGarf, [[:utilisateurs:ool]],Bricef77//

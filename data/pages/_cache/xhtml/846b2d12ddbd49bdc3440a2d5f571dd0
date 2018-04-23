@@ -1,0 +1,761 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#learn_unix_in_10_minutes._version_1.2_fr_1.0" class="toc"> Learn UNIX in 10 minutes. Version 1.2 FR 1.0 </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#avant_propos" class="toc"> Avant Propos </a></span></li>
+<li class="level2"><span class="li"><a href="#sections" class="toc"> Sections </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#chemins" class="toc"> Chemins </a></span></li>
+<li class="level3"><span class="li"><a href="#se_deplacer_dans_le_systeme_de_fichier" class="toc"> Se déplacer dans le système de fichier </a></span></li>
+<li class="level3"><span class="li"><a href="#lister_le_contenu_d_un_dossier" class="toc"> Lister le contenu d'un dossier </a></span></li>
+<li class="level3"><span class="li"><a href="#modifier_les_permissions_et_les_droits" class="toc"> Modifier les permissions et les droits </a></span></li>
+<li class="level3"><span class="li"><a href="#deplacer_renommer_et_copier_des_fichiers" class="toc"> Déplacer, renommer et copier des fichiers </a></span></li>
+<li class="level3"><span class="li"><a href="#visualiser_et_editer_les_fichiers" class="toc"> Visualiser et éditer les fichiers </a></span></li>
+<li class="level3"><span class="li"><a href="#shells" class="toc"> Shells </a></span></li>
+<li class="level3"><span class="li"><a href="#variables_d_environnement" class="toc"> Variables d'environnement </a></span></li>
+<li class="level3"><span class="li"><a href="#historique_interactif" class="toc"> Historique Interactif </a></span></li>
+<li class="level3"><span class="li"><a href="#completion_des_noms_de_fichiers" class="toc"> Complétion des noms de fichiers </a></span></li>
+<li class="level3"><span class="li"><a href="#bash_vous_montre_la_voie" class="toc"> Bash vous montre la voie </a></span></li>
+<li class="level3"><span class="li"><a href="#redirection" class="toc"> Redirection </a></span></li>
+<li class="level3"><span class="li"><a href="#pipes" class="toc"> Pipes </a></span></li>
+<li class="level3"><span class="li"><a href="#substitution_de_commande" class="toc"> Substitution de Commande </a></span></li>
+<li class="level3"><span class="li"><a href="#creer_des_archives_la_commande_tar" class="toc"> Créer des archives : La commande tar </a></span></li>
+<li class="level3"><span class="li"><a href="#compression_de_fichier_gzip_bzip2" class="toc"> Compression de fichier : gzip, bzip2 </a></span></li>
+<li class="level3"><span class="li"><a href="#besoin_d_aide_la_commande_man" class="toc"> Besoin d'aide : La commande man</a></span></li>
+<li class="level3"><span class="li"><a href="#commandes_de_base_de_l_editeur_vi" class="toc"> Commandes de base de l'éditeur Vi </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#faqs" class="toc"> FAQs </a></span></li>
+<li class="level2"><span class="li"><a href="#copyrights" class="toc"> Copyrights </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<a name="learn_unix_in_10_minutes._version_1.2_fr_1.0"></a><h1> Learn UNIX in 10 minutes. Version 1.2 FR 1.0 </h1>
+<div class="level1">
+<pre class="code"> Les commandes de base de la ligne de commande UNIX (le shell) : dernière révision 17 Mai 2001</pre>
+
+<p>
+ <a href="http://freeengineer.org/learnUNIXin10minutes.html" class="urlextern" title="http://freeengineer.org/learnUNIXin10minutes.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Site Original : Learn UNIX in 10 minutes</a>
+</p>
+
+</div>
+<!-- SECTION [1-257] -->
+<a name="avant_propos"></a><h2> Avant Propos </h2>
+<div class="level2">
+
+<p>
+Ce document a été rédigé il y a quelques années pour des étudiants en Dessin Assisté par Ordinateur (DAO) . Le but était d&rsquo;avoir sur une page les commandes de base pour utiliser le Shell Unix (comme ça ils ne me demanderaient pas quoi faire lorsque quelqu&rsquo;un leur donnerait une sauvegarde)
+</p>
+
+<p>
+Ce document est copyrighté mais peut être reproduit selon les termes de la <a href="http://www.gnu.org/copyleft/fdl.html" class="urlextern" title="http://www.gnu.org/copyleft/fdl.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">GFDL</a>. Envoyez-moi vos commentaires, corrections ou tout autre ajout qui vous semble absolument nécessaire dans ce document.<a href="#fn1" name="fnt1" class="fn_top">1)</a>
+</p>
+
+</div>
+<!-- SECTION [258-1394] -->
+<a name="sections"></a><h2> Sections </h2>
+<div class="level2">
+
+</div>
+<!-- SECTION [1395-1416] -->
+<a name="chemins"></a><h3> Chemins </h3>
+<div class="level3">
+
+<p>
+Les chemins de fichiers et de dossiers sous Unix utilisent le slash &ldquo;/&rdquo; pour séparer les noms des dossiers.
+</p>
+
+<p>
+ Exemples : 
+</p>
+<table class="inline">
+	<tr>
+		<td> / </td><td class="rightalign">   Dossier &ldquo;racine&rdquo;</td>
+	</tr>
+	<tr>
+		<td>/usr </td><td class="rightalign">  Dossier usr (sous-dossier du dossier &ldquo;racine&rdquo;) </td>
+	</tr>
+	<tr>
+		<td>/usr/STRIM100 </td><td class="rightalign">           STRIM100 est un sous-dossier de /usr </td>
+	</tr>
+</table>
+<br />
+
+</div>
+<!-- SECTION [1417-1710] -->
+<a name="se_deplacer_dans_le_systeme_de_fichier"></a><h3> Se déplacer dans le système de fichier </h3>
+<div class="level3">
+<table class="inline">
+	<tr>
+		<td class="leftalign"> pwd  </td><td class="leftalign"> montre le nom du dossier de travail courant (<em>Present Working Directory</em>)     </td>
+	</tr>
+	<tr>
+		<td class="leftalign"> cd   </td><td class="leftalign"> change le dossier de travail pour le dossier HOME     </td>
+	</tr>
+	<tr>
+		<td> cd /usr/STRIM100 </td><td> change le dossier de travail pour /usr/STRIM100 </td>
+	</tr>
+	<tr>
+		<td class="leftalign"> cd INIT  </td><td class="leftalign"> change le dossier de travail pour INIT, qui est un sous-dossier du dossier courant  </td>
+	</tr>
+	<tr>
+		<td class="leftalign"> cd ..  </td><td> change le dossier de travail pour le dossier parent </td>
+	</tr>
+	<tr>
+		<td> cd $STRMWORK </td><td> change le dossier de travail pour le dossier défini par la variable d&rsquo;environnement &lsquo;STRMWORK&rsquo;</td>
+	</tr>
+</table>
+<br />
+
+</div>
+<!-- SECTION [1711-2269] -->
+<a name="lister_le_contenu_d_un_dossier"></a><h3> Lister le contenu d'un dossier </h3>
+<div class="level3">
+
+<p>
+<code>ls</code> liste le dossier de travail courant
+</p>
+
+<p>
+<code>ls -l <em>dossier</em></code> liste au format détaillé le dossier <em>dossier</em> 
+</p>
+
+<p>
+Par exemple :  
+</p>
+<pre class="code"> $ ls -l /home/sheherazade/work/
+ drwxr-xr-x    4 sheherazade    staff     1024  2004-04-04 09:40 ToDo
+ -rw-r--r--    1 sheherazade    staff    767392 2004-04-04 14:28 scanlib.tar.gz
+ ^ ^  ^  ^     ^   ^             ^           ^      ^        ^      ^
+ | |  |  |     |   |             |           |      |        |      |  
+ | |  |  |     |  Propriétaire  Groupe      Taille Date     Heure  Nom 
+ | |  |  |    Nombre de fichiers ou dossiers que le dossier listé contient
+ | |  | Permissions pour tous
+ | | Permissions pour les membres du groupe staff
+ |Permissions pour le propriétaire  r = lecture (read), w = écriture (write), x = exécute (execute),  - = pas de droits
+Type de fichier * : - = Fichier régulier, d= Dossier, l = Lien symbolique ou autre...</pre>
+
+<p>
+ * <a href="http://linux.ensimag.fr/fichiersunix.html" class="urlextern" title="http://linux.ensimag.fr/fichiersunix.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Sous Unix tout est fichier</a>
+</p>
+
+</div>
+<!-- SECTION [2270-3309] -->
+<a name="modifier_les_permissions_et_les_droits"></a><h3> Modifier les permissions et les droits </h3>
+<div class="level3">
+<pre class="code">chmod 755 file</pre>
+
+<p>
+ change les droits de <em>file</em> afin qu&rsquo;ils deviennent rwx pour le propriétaire, et rx pour le groupe et les autres. ( on veut  rwx lire/écrire/exécuter donc 111 en binaire qui vaut 7 en décimal. On veut r-x lire/<strong>pas ecrire</strong>/exécuter donc 101 en binaire qui vaut 5 en décimal). 
+</p>
+<pre class="code">chgrp staff fichier</pre>
+
+<p>
+ change le fichier <em>fichier</em> afin qu&rsquo;il appartienne au groupe <em>staff</em>. 
+</p>
+<pre class="code">chown sheherazade fichier</pre>
+
+<p>
+ fait de sheherazade la propriétaire du fichier  <em>fichier</em>. 
+</p>
+<pre class="code">chown -R sheherazade dir</pre>
+
+<p>
+ fait de sheherazade la propriétaire du dossier <em>dir</em> et de <strong>tous</strong> ses sous dossiers.
+</p>
+
+<p>
+Vous devez être le/la propriétaire du fichier/dossier ou être root avant de taper ces commandes. Sous Ubuntu il faut les préfixer par <strong>sudo</strong>.
+</p>
+
+</div>
+<!-- SECTION [3310-4123] -->
+<a name="deplacer_renommer_et_copier_des_fichiers"></a><h3> Déplacer, renommer et copier des fichiers </h3>
+<div class="level3">
+<table class="inline">
+	<tr>
+		<td>cp fichier_source fichier_destination </td><td> copie un fichier </td>
+	</tr>
+	<tr>
+		<td> mv fichier1 nouveau_nom_fichier1 </td><td> déplace ou renomme un fichier </td>
+	</tr>
+	<tr>
+		<td> rm fichier1 [fichier2 ...] </td><td> supprime un fichier (ou une liste de fichiers) <a href="#fn2" name="fnt2" class="fn_top">2)</a></td>
+	</tr>
+	<tr>
+		<td> rm -r dossier1 [dossier2...] </td><td> supprime un dossier et <strong>tous</strong> ses sous-dossiers, à manier avec précaution </td>
+	</tr>
+	<tr>
+		<td class="leftalign"> mkdir dossier1 [dossier2...]   </td><td class="leftalign"> crée un dossier  </td>
+	</tr>
+	<tr>
+		<td>rmdir dossier1 [dossier2...] </td><td> supprime un dossier vide</td>
+	</tr>
+</table>
+<br />
+
+</div>
+<!-- SECTION [4124-4649] -->
+<a name="visualiser_et_editer_les_fichiers"></a><h3> Visualiser et éditer les fichiers </h3>
+<div class="level3">
+<table class="inline">
+	<tr>
+		<td> cat fichier </td><td> affiche le contenu du fichier à l&rsquo;écran en <acronym title="American Standard Code for Information Interchange">ASCII</acronym></td>
+	</tr>
+	<tr>
+		<td> more fichier </td><td> affiche progressivement un fichier à l&rsquo;écran : Entrer = descend d&rsquo;une ligne, Espace = descend d&rsquo;une page, q = quitte </td>
+	</tr>
+	<tr>
+		<td> less fichier </td><td> comme more, mais on peut utiliser la touche Page Précédente. Pas disponible sur tous les systèmes. </td>
+	</tr>
+	<tr>
+		<td> vi fichier </td><td> éditer un fichier avec l&rsquo;éditeur vi. Tous les systèmes Unix ont un éditeur <em>à la</em> vi. </td>
+	</tr>
+	<tr>
+		<td> emacs fichier </td><td> éditer un fichier avec l&rsquo;éditeur emacs. Pas disponible sur tous les systèmes. </td>
+	</tr>
+	<tr>
+		<td> head fichier </td><td> affiche les premières lignes d&rsquo;un fichier </td>
+	</tr>
+	<tr>
+		<td> head -n fichier </td><td> affiche les n premières lignes d&rsquo;un fichier </td>
+	</tr>
+	<tr>
+		<td> tail fichier </td><td> affiche les dernières lignes d&rsquo;un fichier </td>
+	</tr>
+	<tr>
+		<td> tail -n fichier </td><td> affiche les n dernières lignes d&rsquo;un fichier </td>
+	</tr>
+</table>
+<br />
+
+</div>
+<!-- SECTION [4650-5495] -->
+<a name="shells"></a><h3> Shells </h3>
+<div class="level3">
+
+<p>
+Le comportement de l&rsquo;interface en ligne de commande diffère légèrement en fonction du programme shell utilisé.
+</p>
+
+<p>
+Suivant le shell utilisé, quelques comportements peuvent être pratiques.
+</p>
+
+<p>
+Vous pouvez connaître le shell que vous utilisez avec la commande :
+</p>
+<pre class="code">printenv SHELL</pre>
+
+<p>
+ Vous pouvez bien évidemment créer un fichier contenant une liste de commandes shell et l&rsquo;exécuter comme un programme pour exécuter une tâche. On appelle cela un script shell. C&rsquo;est en fait le but premier de la plupart des shells, et non pas le comportement interactif de la ligne de commande.
+</p>
+
+</div>
+<!-- SECTION [5496-6094] -->
+<a name="variables_d_environnement"></a><h3> Variables d'environnement </h3>
+<div class="level3">
+
+<p>
+ Vous pouvez apprendre au shell à &lsquo;mémoriser&rsquo; des informations pour utilisation ultérieure grâce aux variables d&rsquo;environnement. Par exemple avec bash : 
+</p>
+<pre class="code">export CASROOT=/usr/local/CAS3.0 	</pre>
+
+<p>
+ définit la variable CASROOT avec la valeur /usr/local/CAS3.0. 
+</p>
+<pre class="code">cd $CASROOT				</pre>
+
+<p>
+ change le répertoire de travail courant pour CASROOT. 
+</p>
+<pre class="code">export LD_LIBRARY_PATH=$CASROOT/Linux/lib  	</pre>
+
+<p>
+ définit la variable LD_LIBRARY_PATH qui prendra la valeur CASROOT avec /Linux/lib ajouté à la fin, c&rsquo;est-à-dire /usr/local/CAS3.0/Linux/lib. 
+</p>
+<pre class="code">printenv</pre>
+
+<p>
+ affiche toutes les variables d&rsquo;environnement 
+</p>
+<pre class="code">printenv CASROOT 		</pre>
+
+<p>
+ affiche la valeur de la variable d&rsquo;environnement nommée CASROOT : <em>/usr/local/CAS3.0.</em> 
+</p>
+<pre class="code">echo $CASROOT 			</pre>
+
+<p>
+ fait exactement la même chose.
+</p>
+
+</div>
+<!-- SECTION [6095-6886] -->
+<a name="historique_interactif"></a><h3> Historique Interactif </h3>
+<div class="level3">
+
+<p>
+Une fonctionnalité de bash et tcsh (et parfois d&rsquo;autres) est de pouvoir utiliser la touche &ldquo;flèche vers le haut&rdquo; pour accéder aux dernières commandes entrées, les éditer, et les re-exécuter.
+</p>
+
+</div>
+<!-- SECTION [6887-7119] -->
+<a name="completion_des_noms_de_fichiers"></a><h3> Complétion des noms de fichiers </h3>
+<div class="level3">
+
+<p>
+Une des fonctionnalités de bash et tcsh (et probablement d&rsquo;autres) est de pouvoir utiliser la touche TAB pour compléter un nom de fichier tapé partiellement. Par exemple, si vous avez un fichier nommé constantine-monks-and-willy-wonka.txt dans votre répertoire et si vous voulez l&rsquo;éditer, vous pouvez taper &lsquo;vi const&rsquo;, enfoncer la touche TAB, et le shell va remplir le reste du nom pour vous (à condition qu&rsquo;il soit unique).
+</p>
+
+</div>
+<!-- SECTION [7120-7599] -->
+<a name="bash_vous_montre_la_voie"></a><h3> Bash vous montre la voie </h3>
+<div class="level3">
+
+<p>
+Bash complète aussi bien les noms de commandes que les variables d&rsquo;environnement. En cas de possibilités multiples de complétion, taper deux fois sur la touche TAB vous montrera toutes les complétions possibles. Bash est le shell par défaut de la plupart des systèmes Linux.
+</p>
+
+</div>
+<!-- SECTION [7600-7918] -->
+<a name="redirection"></a><h3> Redirection </h3>
+<div class="level3">
+<pre class="code">grep chaine fichier &gt; nouveau_fichier </pre>
+
+<p>
+redirige la sortie de la commande précédente &lsquo;grep&rsquo; dans un fichier nommé <em>nouveau_fichier</em>. <em>Si nouveau_fichier existe il sera remplacé/ecrasé</em> 
+</p>
+<pre class="code">grep chaine fichier &gt;&gt; fichier_existant</pre>
+
+<p>
+ajoute la sortie de la commande &lsquo;grep&rsquo; à la fin du fichier <em>fichier_existant</em>.
+</p>
+
+<p>
+Les opérateurs de redirection &gt; et &raquo; peuvent être utilisés sur la sortie de la plupart des commandes, pour les placer dans un fichier.
+</p>
+
+</div>
+<!-- SECTION [7919-8405] -->
+<a name="pipes"></a><h3> Pipes </h3>
+<div class="level3">
+
+<p>
+ Le symbole tube (&rdquo;pipe&rdquo;) &ldquo;|&rdquo; est utilisé pour rediriger la sortie d&rsquo;une commande vers une autre.
+</p>
+
+<p>
+Par exemple : 
+</p>
+<pre class="code">ls -l | more</pre>
+
+<p>
+ Cette commande prend la sortie du listage au format long des fichiers dans un répertoire produit par &ldquo;ls -l&rdquo; et la redirige vers la commande &ldquo;more&rdquo; (aussi appelé filtre). Dans ce cas, une très longue liste de fichier peut être vue page par page.
+</p>
+
+</div>
+<!-- SECTION [8406-8803] -->
+<a name="substitution_de_commande"></a><h3> Substitution de Commande </h3>
+<div class="level3">
+
+<p>
+ Vous pouvez utiliser le résultat d&rsquo;une commande comme paramètre d&rsquo;entrée pour une autre, en d&rsquo;autres termes pour une substitution de commande. Une substitution de commande a lieu lorsque vous encadrez une commande avec des apostrophes inversées. Par exemple : 
+</p>
+<pre class="code">cat `find . -name aaa.txt`</pre>
+
+<p>
+ va afficher à l&rsquo;ecran (voir cat) le contenu de tous les fichiers nommés aaa.txt dans le dossier de travail courant ou ses sous-dossiers.
+</p>
+
+</div>
+
+<a name="rechercher_une_chaine_de_caracteres_la_commande_grep"></a><h4> Rechercher une chaîne de caractères : La commande grep </h4>
+<div class="level4">
+<pre class="code">grep chaine fichier</pre>
+
+<p>
+ affiche toutes les lignes de <em>fichier</em> contenant <em>chaine</em>
+</p>
+
+</div>
+
+<a name="rechercher_des_fichiers_la_commande_find"></a><h4> Rechercher des fichiers : La commande find </h4>
+<div class="level4">
+
+<p>
+ Syntaxe :
+</p>
+<pre class="code">find chemin -name fichier</pre>
+<pre class="code">find . -name aaa.txt    </pre>
+
+<p>
+ cherche les fichiers nommés aaa.txt dans le dossier courant ou ses sous-dossiers. 
+</p>
+<pre class="code">find / -name vimrc</pre>
+
+<p>
+ cherche les fichiers nommés vimrc depuis le dossier racine 
+</p>
+<pre class="code">find /usr/local/games -name &quot;*xpilot*&quot; </pre>
+
+<p>
+ cherche tous les fichiers dont le nom contient <em>xpilot</em> dans le dossier /usr/local/games 
+</p>
+
+</div>
+<!-- SECTION [8804-9856] -->
+<a name="creer_des_archives_la_commande_tar"></a><h3> Créer des archives : La commande tar </h3>
+<div class="level3">
+
+<p>
+La commande tar signifie &lsquo;<strong>t</strong>ape <strong>ar</strong>chive&rsquo; (archive sur bande). C&rsquo;est la méthode &lsquo;standard&rsquo; pour lire et écrire des archives.
+</p>
+
+<p>
+ Vous trouverez souvent des archives de fichiers avec des noms comme fichiers.tar, ou fichiers.tar.gz. Ce sont respectivement des fichiers dans une archive tar et des fichiers dans une archive tar qui a été compressée avec le programme de compression gzip.
+</p>
+
+<p>
+Il est très probable, si quelqu&rsquo;un vous envoie des fichiers, qu&rsquo;ils soient compressés dans une archive tar.
+</p>
+
+<p>
+De même, si vous devez envoyer des fichiers, vous devriez utiliser tar.
+</p>
+<table class="inline">
+	<tr>
+		<td class="leftalign"> tar xvf archive.tar  </td><td> e<strong>x</strong>trait les fichiers de l&rsquo;archive archive.tar, en affichant les noms des fichiers qui la composent </td>
+	</tr>
+	<tr>
+		<td class="leftalign"> tar xvfz archive.tar.gz  </td><td> e<strong>x</strong>trait les fichiers de l&rsquo;archive en utilisant gzip puis tar </td>
+	</tr>
+	<tr>
+		<td class="leftalign"> tar jxvf archive.tar.bz2  </td><td> e<strong>x</strong>trait les fichiers de l&rsquo;archive en utilisant bzip2 puis tar </td>
+	</tr>
+	<tr>
+		<td class="leftalign"> tar cvf archive.tar fichier1 [fichier2...]  </td><td><strong>C</strong>rée un fichier &ldquo;archive.tar&rdquo; contenant fichier1,  fichier2... </td>
+	</tr>
+	<tr>
+		<td> tar cvfz archive.tar.gz mon_dossier </td><td> crée un fichier gzip contenant tout le contenu du dossier &lsquo;mon_dossier&rsquo;</td>
+	</tr>
+</table>
+<br />
+
+</div>
+<!-- SECTION [9857-11044] -->
+<a name="compression_de_fichier_gzip_bzip2"></a><h3> Compression de fichier : gzip, bzip2 </h3>
+<div class="level3">
+
+</div>
+
+<a name="gzip"></a><h5> gzip </h5>
+<div class="level5">
+
+<p>
+ gzip est un outil GNU de compression et de decompression. L&rsquo;extension pour les fichiers gzippés est .gz. 
+</p>
+<table class="inline">
+	<tr>
+		<td> gzip fichier.txt </td><td> crée le fichier compressé fichier.txt.gz </td>
+	</tr>
+	<tr>
+		<td> gunzip fichier.txt.gz </td><td> extrait le fichier fichier.txt </td>
+	</tr>
+</table>
+<br />
+
+</div>
+
+<a name="bzip2"></a><h5> bzip2 </h5>
+<div class="level5">
+
+<p>
+ L&rsquo;utilitaire bzip2 offre (en général) un meilleur taux de compression que gzip, mais au coût d&rsquo;un temps de compression et décompression plus élevé. 
+</p>
+<table class="inline">
+	<tr>
+		<td> bzip2 fichier.txt </td><td> crée le fichier fichier.txt.bz2 </td>
+	</tr>
+	<tr>
+		<td> bunzip2 fichier.txt.bz2 </td><td class="leftalign"> décompresse le fichier fichier.txt.bz2.  </td>
+	</tr>
+</table>
+<br />
+
+</div>
+<!-- SECTION [11045-11638] -->
+<a name="besoin_d_aide_la_commande_man"></a><h3> Besoin d'aide : La commande man</h3>
+<div class="level3">
+
+<p>
+ La plupart des commandes ont une page de manuel qui donne une description de leurs utilisations plus ou moins détaillées, parfois utiles, parfois obscures. Certains disent qu&rsquo;elles ont été appelées &ldquo;man pages&rdquo;, parce qu&rsquo;elles ne s&rsquo;adressent qu&rsquo;aux vrais Hommes.
+</p>
+
+<p>
+Exemple:
+</p>
+<pre class="code">man ls</pre>
+
+<p>
+affiche la page de manuel pour la commande ls
+</p>
+
+</div>
+<!-- SECTION [11639-12013] -->
+<a name="commandes_de_base_de_l_editeur_vi"></a><h3> Commandes de base de l'éditeur Vi </h3>
+<div class="level3">
+
+</div>
+
+<a name="ouvrir_un_fichier"></a><h5> Ouvrir un fichier </h5>
+<div class="level5">
+<pre class="code">vi nom_du_fichier</pre>
+
+</div>
+
+<a name="mode_edition"></a><h5> Mode édition </h5>
+<div class="level5">
+
+<p>
+ <code>i</code> :    <strong>i</strong>nsère avant le curseur<br/>
+
+</p>
+
+<p>
+<code>I</code> :   <strong>I</strong>nsère au début de la ligne courante<br/>
+
+</p>
+
+<p>
+<code>a</code> :    insère <strong>a</strong>près le curseur<br/>
+
+</p>
+
+<p>
+<code>A</code> :    insère à la fin de la ligne<br/>
+
+</p>
+
+<p>
+<code>r</code> :    remplace 1 caractère<br/>
+
+</p>
+
+<p>
+<code>R</code> :    passe en mode <strong>R</strong>emplacement\
+</p>
+
+<p>
+<code>&lt;ECHAP&gt;</code> : met fin au mode Edition (insertion ou remplacement)
+</p>
+
+</div>
+
+<a name="effacer_du_texte"></a><h5> Effacer du texte </h5>
+<div class="level5">
+
+<p>
+ <code>x</code> :    efface un seul caractère<br/>
+
+</p>
+
+<p>
+<code>dd</code> :   efface la ligne courante et la place dans un buffer<br/>
+
+</p>
+
+<p>
+<code><em>n</em>dd</code> :  Efface <em>n</em> lignes (n est un nombre) et les place dans le buffer<br/>
+
+</p>
+
+<p>
+<code>J</code> :    déplace la ligne suivante à la fin de la ligne courante (effacement des caractères de retour chariot)
+</p>
+
+</div>
+
+<a name="oups"></a><h5> Oups </h5>
+<div class="level5">
+
+<p>
+ <code>u </code> :   annule la dernière commande
+</p>
+
+</div>
+
+<a name="copier_et_coller"></a><h5> Copier et coller </h5>
+<div class="level5">
+
+<p>
+ <code>yy</code> :   copie la ligne courante dans le buffer
+</p>
+
+<p>
+<code><em>n</em>yy</code> :  copie <em>n</em> lignes dans le buffer (n est un nombre)
+</p>
+
+<p>
+<code>p</code> :    colle le contenu du buffer après la ligne courante
+</p>
+
+<p>
+ <code>P</code> :    colle le contenu du buffer avant la ligne courante
+</p>
+
+</div>
+
+<a name="positionnement_du_curseur"></a><h5> Positionnement du curseur </h5>
+<div class="level5">
+
+<p>
+ <code>^d</code> :   une page en bas (<em><strong>D</strong>own</em>)
+</p>
+
+<p>
+<code>^u</code> :   une page en haut (<em><strong>U</strong>p</em>)
+</p>
+
+<p>
+<code>:n</code> :   positionne le curseur à la ligne n
+</p>
+
+<p>
+<code>:$</code> :   positionne le curseur à la fin de la ligne
+</p>
+
+<p>
+<code>^g</code> :   affiche le numéro de la ligne
+</p>
+
+<p>
+<code>h,j,k,l</code> : respectivement gauche, bas, haut et droite ; les flèches de direction fonctionnent aussi...
+</p>
+
+</div>
+
+<a name="substitution_de_chaine_de_caracteres"></a><h5> Substitution de chaîne de caractères </h5>
+<div class="level5">
+
+<p>
+ <code>:n1,n2:s/chaine1/chaine2/[g]</code> :      substitue chaine1 pour chaine2 sur les lignes n1 à n2. Si g est indiqué (<strong>g</strong>lobal),  toutes les références de chaine1 sont remplacées, sinon seule la premiere référence est remplacée.
+</p>
+
+<p>
+<code>^</code> : méta-caractère de début de ligne
+</p>
+
+<p>
+<code>.</code> : méta-caractère, vrai sur n&rsquo;importe quel unique caractère sauf retour chariot
+</p>
+
+<p>
+<code>$</code> : méta-caractère de fin de ligne
+</p>
+
+<p>
+Ces caractères, tout comme les autres caractères spéciaux, peuvent être &lsquo;échappés&rsquo; à l&rsquo;aide du \ : c&rsquo;est-à-dire pour capturer la chaine de caractères &ldquo;/usr/STRIM100/SOFT&rdquo;, il faut utiliser l&rsquo;expression régulière &ldquo;\/usr\/STRIM100\/SOFT&rdquo; 
+</p>
+
+<p>
+Exemples: 
+</p>
+<pre class="code">:1,$:s/chien/chat/g</pre>
+
+<p>
+ Remplace &lsquo;chien&rsquo; par &lsquo;chat&rsquo;, pour chaque occurence du fichier - de la ligne 1 à la fin du fichier ($) 
+</p>
+<pre class="code">:23,25:/chien/chat/</pre>
+
+<p>
+ Remplace &lsquo;chien&rsquo; par &lsquo;chat&rsquo; des lignes 23 à 25. Une fois par ligne, dès la première apparition.
+</p>
+
+</div>
+
+<a name="sauver_quitter_et_commandes_d_execution"></a><h5> Sauver, quitter et commandes d'exécution </h5>
+<div class="level5">
+
+<p>
+ Ces commandes sont toutes prefixées par les deux points (:) et apparaissent dans le coin inférieur gauche de la fenetre. <br/>
+ Vous ne pouvez pas saisir ces commandes en mode édition. Appuyer sur  &lt;ECHAP&gt; pour sortir du mode édition
+</p>
+
+<p>
+<code>:w</code> :              enregistre le fichier (<strong>W</strong>rite)
+</p>
+
+<p>
+<code>:w nouveau.fichier</code> :       enregistre le fichier sous le nom &lsquo;nouveau.fichier&rsquo;
+</p>
+
+<p>
+<code>:wq</code> :              enregistre le fichier et quitte le programme
+</p>
+
+<p>
+<code>:q</code> :              quitte
+</p>
+
+<p>
+<code>:q!</code>  :            quitte sans enregistrer les changements
+</p>
+
+<p>
+<code>:e fichier</code> :       ouvre &lsquo;fichier&rsquo; pour l&rsquo;édition
+</p>
+
+<p>
+<code>:set number</code> :      affiche les numéros de ligne
+</p>
+
+<p>
+<code>:set nonumber</code> :    cache les numéros de ligne
+</p>
+
+<p>
+<code>:set noai</code> :        désactive l&rsquo;auto-indentation
+</p>
+
+</div>
+<!-- SECTION [12014-15261] -->
+<a name="faqs"></a><h2> FAQs </h2>
+<div class="level2">
+
+<p>
+ Vous trouverez la plupart du temps toutes les réponses à vos questions dans le manuel ou la documentation du programme. Si toutefois vous ne trouvez pas de réponse, pensez à chercher sur les forums ou les groupes de discussion <strong>avant</strong> de poser votre question.
+</p>
+
+</div>
+<!-- SECTION [15262-15548] -->
+<a name="copyrights"></a><h2> Copyrights </h2>
+<div class="level2">
+
+<p>
+ Le document original a été rédigé à l&rsquo;aide de Vim. Vim est la meilleure version du seul véritable éditeur de texte : vi 
+</p>
+
+<p>
+Copyright &copy;  2000,2001  C R Johnson Permission vous est donnée de copier, distribuer et/ou modifier ces documents selon les termes de la Licence GNU Free Documentation License, Version 1.1 ou ultérieure publiée par la Free Software Foundation ;  avec comme la préface section invariante, pas de couverture ni quatréme de couverture. Consultez la GNU Free Documentation License : <a href="http://www.gnu.org/licenses/fdl.html" class="urlextern" title="http://www.gnu.org/licenses/fdl.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">GFDL</a>. 
+</p>
+
+</div>
+<!-- SECTION [15549-] --><div class="footnotes">
+<div class="fn"><a href="#fnt1" name="fn1" class="fn_bot">1)</a> 
+This is something that I had given out to students (CAD user training) in years past. 
+The purpose was to have on one page the basics commands for getting started using 
+the UNIX shell (so that they didn&rsquo;t call me asking what to do the first time someone 
+gave them a tape). <br/>
+
+This document is copyrighted but freely redistributable under the terms of the GFDL . 
+Send me comments, corrections, and extra stuff that you think should absolutly must be 
+included. I&rsquo;ll gladly listen.<br/>
+
+<a href="http://www.faqs.org/docs/linux_intro/gfdl-8.html" class="urlextern" title="http://www.faqs.org/docs/linux_intro/gfdl-8.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Invariant translations</a></div>
+<div class="fn"><a href="#fnt2" name="fn2" class="fn_bot">2)</a> 
+ <strong>Il n&rsquo;y a pas de corbeille</strong></div>
+</div>

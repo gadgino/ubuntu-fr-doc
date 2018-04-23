@@ -1,0 +1,57 @@
+{{tag>media_center upnp tnt carte_tv xbmc}}
+----
+ 
+====== Kodi ======
+ 
+[[wpfr>Kodi_Entertainment_Center|Kodi]] est le nouveau nom de l'application [[xbmc|XBMC / Kodi]].
+ 
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+ 
+===== Installation =====
+
+==== Via les dépôts officiels (à partir d'Ubuntu 15.10) ====
+ 
+Pour installer ce logiciel, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>kodi|kodi]]**.
+ 
+==== Via PPA ====
+<code bash>
+sudo apt-get -y install software-properties-common
+sudo add-apt-repository -y ppa:team-xbmc/ppa
+sudo apt-get update
+sudo apt-get -y install kodi kodi-pvr-iptvsimple
+</code>
+
+ou en une seul ligne
+
+<code bash>
+sudo apt-get -y install software-properties-common && sudo add-apt-repository -y ppa:team-xbmc/ppa && sudo apt-get update && sudo apt-get -y install kodi kodi-pvr-iptvsimple
+</code>
+
+===== Utilisation =====
+ 
+Lancez l'application via le [[:unity#tableau_de_bord_dash|tableau de bord]] (Unity) ou via le [[:terminal]] (toutes versions d'Ubuntu) avec la [[:commande_shell|commande]] suivante :
+<code>kodi</code>
+ 
+====Activer l'Upnp====
+Cette option permet de partager des fichiers multimédias sur le réseau et de les lire par exemple depuis une box.
+Pour l'activer, après avoir lancé Kodi, allez dans Système (tout à droite dans le thème par défaut)/Paramètres/Services/Upnp-Dlna puis cliquez sur "Partager mes médiathèques". Vous pouvez aussi activer d'autres options comme "Autoriser le contrôle à distance via l'upnp".
+
+Il faut ensuite ouvrir les ports du pare-feu par exemple avec [[https://doc.ubuntu-fr.org/gufw|Gufw]]. Les ports à ouvrir sont normalement 1301, 1746 et 1785 en tcp, ainsi que 1900, 9777 et 13297 en udp.
+Il est également possible de vérifier les ports requis en lignes de commandes, par exemple si les ports ci-dessus ne fonctionnaient pas. Après avoir lancé Kodi, taper la commande :<code>sudo netstat -lp --inet</code> et repérer le numéro indiqué devant le programme Kodi. Taper ensuite <code>sudo netstat -lp --inet | grep "$numéro_de_Kodi_relevé/"</code> et vous aurez la liste des ports à ouvrir.
+
+===Accéder aux fichiers depuis une Freebox===
+Pour la Freebox v5, il faut aller dans l'onglet Magnéto. La deuxième ligne correspondant aux lecteurs réseau fait alors apparaître le nom donné à votre Kodi (Kodi par défaut). Il faut parfois attendre quelques secondes avant qu'il apparaisse.
+===== Désinstallation =====
+ 
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+ 
+===== Voir aussi =====
+   * Source pour l'installation: **(en)** [[http://kodi.wiki/view/Installing_XBMC_for_Linux|HOW-TO:Install Kodi for Linux]]
+   * **(en)** [[https://kodi.tv/|Kodi.tv]]
+
+----
+//Contributeurs principaux : [[utilisateurs:grigouille|grigouille]].//
+ 

@@ -1,0 +1,334 @@
+{{tag>sgbd mysql serveur réseau}}
+
+----
+
+====== phpMyAdmin ======
+
+**[[http://www.phpmyadmin.net/|phpMyAdmin]]** est une interface d'administration pour le [[:SGBD]] [[:MySQL]]. Il est écrit en langage PHP et s'appuie sur le serveur HTTP [[:Apache]].
+
+Il permet d'administrer les éléments suivants :
+  * les bases de données
+  * les tables et leurs champs (ajout, suppression, définition du type)
+  * les index, les clés primaires et étrangères
+  * les utilisateurs de la base et leurs permissions
+  * exporter les données dans divers formats (CSV, XML, PDF, OpenDocument, Word, Excel et LaTeX)
+
+{{:phpmyadmin.png?500}}
+
+
+==== Pré-requis ====
+
+Avoir [[:tutoriel:comment_installer_un_paquet#paquet_present_dans_les_depots|installé les paquets]] suivants :
+  * le SGBD [[apt>mysql-server|MySQL]]
+  * le serveur HTTP [[apt>apache2]]
+
+==== Installation via les dépôts ====
+
+[[:tutoriel:comment_installer_un_paquet#paquet_present_dans_les_depots|Installer le paquet]] **[[apt>phpmyadmin]]**.
+
+Lors de l'installation, il vous sera demandé de préciser quelle version d'Apache vous utilisez (théoriquement la plus récente) afin que cette dernière soit configurée pour s'adapter à phpMyAdmin.
+
+Pour protéger phpMyAdmin, pensez à modifier le mot de passe d'administration. Par défaut celui-ci est vide.
+
+<code>sudo htpasswd /etc/phpmyadmin/htpasswd.setup admin</code>
+
+Vous pouvez essayer d'y accéder à l'adresse [[http://localhost/phpmyadmin]]. Si la page n'est pas accessible, essayez de lancer :
+  sudo ln -s /usr/share/phpmyadmin/ /var/www/html/phpmyadmin
+afin de lier phpmyadmin et votre serveur apache. (Il y a peut-être une méthode plus propre FIXME ?)
+
+**Ubuntu 16.04**
+Attention, des dépendances manquent. Les ajouter : :?: [apparemment ce n'est plus utile (15/02/2017)]
+<code>sudo apt install php-mbstring php7.0-mbstring php-gettext libapache2-mod-php7.0</code>
+
+Si phpmyadmin vous affiche une erreur pour l'extension mbstring, n'oubliez pas de l'activer
+<code>phpenmod mbstring</code>
+puis de recharger la configuration d'apache
+
+===== Utilisation =====
+
+phpMyAdmin est accessible à l'adresse [[http://localhost/phpmyadmin]] (il est nécessaire d'activer le javascript de votre navigateur internet).
+
+Pour vous connecter, utilisez votre login / mot de passe utilisé avec [[mysql|MySQL]]. Si aucun nouvel utilisateur n'est créé, vous pouvez utiliser le compte ''root'' pour les créer :
+  * Utilisateur : root
+  * Mot de passe : celui que vous avez défini à l'installation de MySQL
+
+
+===== Problèmes connus =====
+Concernant les problèmes de non accessibilité de phpMyAdmin, s'assurer auparavant que, lors de l'installation du paquet phpmyadmin, le serveur web souhaité (généralement Apache) a bien été sélectionné lorsque la question a été posée. Sinon, utiliser la commande suivante pour pouvoir répondre à la question à nouveau : 
+<code>sudo dpkg-reconfigure phpmyadmin</code>
+
+<note importante>
+Il semble impératif d'appuyer sur la barre d'espace du clavier pour valider la sélection (apparition d'un astérisque) AVANT d'appuyer sur Entrée !!
+</note>
+
+
+Le paquet crée le lien dans ''/etc/apache2/conf.d''.
+==== Page phpmyadmin non accessible ====
+
+Il se peut que la page [[http://localhost/phpmyadmin]] ne soit pas accessible. Ce problème peut être dû à une mauvaise configuration de votre serveur Apache ou du paquet phpmyadmin. Après chacune des solutions suivantes FIXME , redémarrez le serveur Apache avec cette ligne de commande:
+
+<code>sudo /etc/init.d/apache2 restart</code>
+
+Si le problème persiste, [[http://forum.ubuntu-fr.org/|le forum]] est à votre disposition.
+
+Problème possible : Apache cherche par défaut dans "/var/www/phpmyadmin". Il se peut que ce fichier n'existe pas. 
+Solution : sachant que l'installation s'est faite dans "/usr/share/phpmyadmin", il suffit de créer un lien symbolique : 
+
+<code>sudo ln -s /usr/share/phpmyadmin /var/www/phpmyadmin</code>
+
+ATTENTION depuis Ubuntu 14.04 l’accès n'est plus /var/www mais : /var/www/html
+il faudra donc créer le lien ainsi :
+<code>sudo ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin</code>
+
+<note tip>Sinon vous pouvez peut-être (en tous cas ça marche) LOL modifier le fichier dans /etc/apache2/sites-enabled et trouver le fichier 000-default.conf (il n'y en a qu' un :-) puis vous rajoutez cela : "allow from localhost" (sans les "") et sur la ligne du dessous: "Deny from all" (toujours sans les ""). 
+Vous devriez donc avoir en première ligne ceci : 
+          <Directory />
+                 Deny from all  
+                 allow from localhost
+          </Directory>
+          
+ Ensuite vous redémarrez apache2 avec sudo /etc/init.d/apache2 restart ou avec sudo service apache2 restart et voilà ça fonctionne !  </note>
+
+==== Page phpmyadmin non accessible (2) ====
+
+La configuration de base de phpMyAdmin, sous Apache, peut se trouver sous /etc/apache2/conf.d/  par lien symbolique à /etc/phpmyadmin/apache.conf
+  * Si le lien n'existe pas, le créer :
+<code>
+sudo ln -s /etc/phpmyadmin/apache.conf /etc/apache2/conf.d/phpmyadmin.conf
+</code>
+
+  * Il est préférable de modifier l'alias, par un nom moins commun que phpmyadmin, très fréquemment attaqué, par les robots pirates (bad_bot)
+  * **__Renseigner explicitement (Order)__** les autorisations (Allow) et/ou  les interdictions (Deny), sinon Apache interdira par défaut si rien n'est précisé.
+
+Exemple à adapter :
+Avec les [[:sudo|droits d'administration]], [[:tutoriel:comment_modifier_un_fichier|éditez le fichier]] **/etc/apache2/conf.d/phpmyadmin.conf**
+<code> gksudo gedit /etc/apache2/conf.d/phpmyadmin.conf </code>
+<file php phpmyadmin.conf>
+Alias /elephant-bleu /usr/share/phpmyadmin
+
+<Directory /usr/share/phpmyadmin>
+
+SetEnvIfNoCase User-Agent "^ZmEu" bad_bot
+SetEnvIfNoCase User-Agent "^BackDoorBot" bad_bot
+SetEnvIfNoCase user-agent "^BlackWidow" bad_bot 
+SetEnvIfNoCase User-Agent "^BotALot" bad_bot
+SetEnvIfNoCase User-Agent "^Cegbfeieh" bad_bot
+SetEnvIfNoCase user-agent "^ChinaClaw" bad_bot 
+SetEnvIfNoCase User-Agent "^CopyRightCheck" bad_bot
+SetEnvIfNoCase user-agent "^Custo" bad_bot 
+SetEnvIfNoCase user-agent "^DISCo" bad_bot 
+SetEnvIfNoCase user-agent "^Download\ Demon" bad_bot 
+SetEnvIfNoCase user-agent "^eCatch" bad_bot 
+SetEnvIfNoCase user-agent "^EirGrabber" bad_bot 
+SetEnvIfNoCase user-agent "^EmailSiphon" bad_bot 
+SetEnvIfNoCase user-agent "^EmailWolf" bad_bot 
+SetEnvIfNoCase user-agent "^Express\ WebPictures" bad_bot 
+SetEnvIfNoCase user-agent "^ExtractorPro" bad_bot 
+SetEnvIfNoCase user-agent "^EyeNetIE" bad_bot 
+SetEnvIfNoCase user-agent "^FlashGet" bad_bot 
+SetEnvIfNoCase user-agent "^GetRight" bad_bot 
+SetEnvIfNoCase user-agent "^GetWeb!" bad_bot 
+SetEnvIfNoCase user-agent "^Go!Zilla" bad_bot 
+SetEnvIfNoCase user-agent "^Go-Ahead-Got-It" bad_bot 
+SetEnvIfNoCase user-agent "^GrabNet" bad_bot 
+SetEnvIfNoCase user-agent "^Grafula" bad_bot 
+SetEnvIfNoCase user-agent "^HMView" bad_bot 
+SetEnvIfNoCase user-agent "HTTrack" bad_bot 
+SetEnvIfNoCase user-agent "^Image\ Stripper" bad_bot 
+SetEnvIfNoCase user-agent "Indy\ Library" [NC,OR] 
+SetEnvIfNoCase user-agent "^InterGET" bad_bot 
+SetEnvIfNoCase user-agent "^Internet\ Ninja" bad_bot 
+SetEnvIfNoCase user-agent "^JetCar" bad_bot 
+SetEnvIfNoCase user-agent "^JOC\ Web\ Spider" bad_bot 
+SetEnvIfNoCase user-agent "^larbin" bad_bot 
+SetEnvIfNoCase user-agent "^LeechFTP" bad_bot 
+SetEnvIfNoCase User-Agent "^libwww-perl" bad_bot
+SetEnvIfNoCase user-agent "^Mass\ Downloader" bad_bot 
+SetEnvIfNoCase user-agent "^MIDown\ tool" bad_bot 
+SetEnvIfNoCase user-agent "^Mister\ PiX" bad_bot 
+SetEnvIfNoCase user-agent "^Navroad" bad_bot 
+SetEnvIfNoCase user-agent "^NearSite" bad_bot 
+SetEnvIfNoCase user-agent "^NetAnts" bad_bot 
+SetEnvIfNoCase user-agent "^NetSpider" bad_bot 
+SetEnvIfNoCase user-agent "^Net\ Vampire" bad_bot 
+SetEnvIfNoCase user-agent "^NetZIP" bad_bot 
+SetEnvIfNoCase user-agent "^Octopus" bad_bot 
+SetEnvIfNoCase user-agent "^Offline\ Explorer" bad_bot 
+SetEnvIfNoCase user-agent "^Offline\ Navigator" bad_bot 
+SetEnvIfNoCase User-Agent "^Openfind" bad_bot
+SetEnvIfNoCase user-agent "^PageGrabber" bad_bot 
+SetEnvIfNoCase user-agent "^Papa\ Foto" bad_bot 
+SetEnvIfNoCase user-agent "^pavuk" bad_bot 
+SetEnvIfNoCase user-agent "^pcBrowser" bad_bot 
+SetEnvIfNoCase user-agent "^RealDownload" bad_bot 
+SetEnvIfNoCase user-agent "^ReGet" bad_bot 
+SetEnvIfNoCase user-agent "^SiteSnagger" bad_bot 
+SetEnvIfNoCase user-agent "^SmartDownload" bad_bot 
+SetEnvIfNoCase User-Agent "^SpankBot" bad_bot
+SetEnvIfNoCase user-agent "^SuperBot" bad_bot 
+SetEnvIfNoCase user-agent "^SuperHTTP" bad_bot 
+SetEnvIfNoCase user-agent "^Surfbot" bad_bot 
+SetEnvIfNoCase user-agent "^tAkeOut" bad_bot 
+SetEnvIfNoCase user-agent "^Teleport\ Pro" bad_bot 
+SetEnvIfNoCase User-Agent "^Titan" bad_bot
+SetEnvIfNoCase user-agent "^VoidEYE" bad_bot 
+SetEnvIfNoCase user-agent "^Web\ Image\ Collector" bad_bot 
+SetEnvIfNoCase user-agent "^Web\ Sucker" bad_bot 
+SetEnvIfNoCase user-agent "^WebAuto" bad_bot 
+SetEnvIfNoCase User-Agent "^WebBandit" bad_bot
+SetEnvIfNoCase user-agent "^WebCopier" bad_bot 
+SetEnvIfNoCase user-agent "^WebFetch" bad_bot 
+SetEnvIfNoCase user-agent "^WebGo\ IS" bad_bot 
+SetEnvIfNoCase user-agent "^WebLeacher" bad_bot 
+SetEnvIfNoCase user-agent "^WebReaper" bad_bot 
+SetEnvIfNoCase user-agent "^WebSauger" bad_bot 
+SetEnvIfNoCase user-agent "^Website\ eXtractor" bad_bot 
+SetEnvIfNoCase user-agent "^Website\ Quester" bad_bot 
+SetEnvIfNoCase User-Agent "^Webster Pro" bad_bot
+SetEnvIfNoCase user-agent "^WebStripper" bad_bot 
+SetEnvIfNoCase user-agent "^WebWhacker" bad_bot 
+SetEnvIfNoCase user-agent "^WebZIP" bad_bot 
+SetEnvIfNoCase user-agent "^Wget" bad_bot 
+SetEnvIfNoCase user-agent "^Widow" bad_bot 
+SetEnvIfNoCase user-agent "^WWWOFFLE" bad_bot 
+SetEnvIfNoCase user-agent "^Xaldon\ WebSpider" bad_bot 
+SetEnvIfNoCase user-agent "^Zeus" bad_bot 	
+
+  	#Order Allow,Deny
+	#Allow from all
+	#Deny from env=bad_bot
+
+        Order Deny,Allow
+        Deny from all
+        Allow from 127.0.0.1
+        
+        Options +Indexes +FollowSymLinks -ExecCGI
+        AllowOverride None
+        
+	#basculer en https si virtualhost en 443 existe
+        #RewriteEngine on
+	#RewriteCond %{HTTPS} off
+	#RewriteRule (.*) https://%{HTTP_HOST}/elephant-bleu/index.php [NC,R,L]
+
+	<IfModule mod_php5.c>
+		
+		AddType application/x-httpd-php .php
+		php_flag magic_quotes_gpc Off
+		php_flag track_vars On
+		php_flag register_globals Off
+		php_value include_path .
+	</IfModule>
+
+</Directory>
+
+# Authorize for setup
+<Directory /usr/share/phpmyadmin/setup>
+    <IfModule mod_authn_file.c>
+    AuthType Basic
+    AuthName "phpMyAdmin Setup"
+    AuthUserFile /etc/phpmyadmin/htpasswd.setup
+    </IfModule>
+    Require valid-user
+</Directory>
+
+# Disallow web access to directories that don't need it
+<Directory /usr/share/phpmyadmin/libraries>
+    Order Deny,Allow
+    Deny from All
+</Directory>
+<Directory /usr/share/phpmyadmin/setup/lib>
+    Order Deny,Allow
+    Deny from All
+</Directory>
+</file>
+
+Pour recharger la configuration Apache :
+<code>
+sudo apache2ctl configtest && sudo service apache2 reload && sudo service apache2 status
+</code>
+[[http://127.0.0.1/elephant-bleu]]
+
+Certains préfèreront intégrer directement l'alias dans le Virtualhost. Dans ce cas-là, le lien symbolique ne sert à rien.
+
+==== Fonctionnalités sur les tables reliées désactivées ====
+
+Si vous avez le message d'erreur suivant
+
+> Certaines fonctionnalités ayant trait aux tables reliées sont désactivées. Pour une analyse du problème, cliquez ici.
+
+  - [[:tutoriel:comment_modifier_un_fichier|Ouvrez le fichier]] **/etc/phpmyadmin/config.inc.php** ;
+  - Cherchez la ligne <file>    $cfg['Servers'][$i]['designer_coords'] = 'pma_designer_coords';</file>
+  - Ajoutez la ligne <file>    $cfg['Servers'][$i]['tracking'] = 'pma_tracking';</file>
+  - Déconnectez puis reconnectez vous de phpMyAdmin.
+
+====> Impossible d'ajouter un utilisateur ====
+
+Si le compte ''root'' ne peut pas ajouter de nouveaux utilisateurs ou si vous obtenez un message d'erreur similaire :
+
+> ERROR 1290 (HY000): The MySQL server is running with the --skip-grant-tables option so it cannot execute this statement
+
+Il est possible que vous ayez fait une installation incomplète ou partielle. 
+  - [[:tutoriel:comment_supprimer_un_paquet|Supprimez le paquet]] (et sa configuration) **mysql-server-5.1** ;
+  - Redémarrez ;
+  - Réinstallez [[:MySQL]] ;
+  - Réinstallez phpMyAdmin.
+
+FIXME, ne disposant pas de connaissances MySQL avancées, c'est la seule façon que j'ai trouvée pour résoudre. Si vous connaissez une solution moins radicale, veuillez remplacer ce que j'ai indiqué.
+
+
+==== Créer un lien vers phpmyadmin ====
+
+Il se peut que l'installation n'ait pas créé le lien symbolique permettant d'accéder à phpmyadmin, il faut alors le créer manuellement :
+
+<code>sudo ln -s /usr/share/phpmyadmin /var/www/phpmyadmin</code>
+
+Rappelez vous avoir créé ce lien symbolique quand vous voudrez supprimer l'alias /phpmyadmin, en effet si vous gardez ce lien la page mon_domaine/phpmyadmin restera accessible même après avoir modifié l'alias dans le fichier de conf apache: /etc/apache2/conf.d/phpmyadmin.conf  (pour détruire un lien symbolique pensez à la commande unlink, ici on utiliserai "unlink /var/www/phpmyadmin". )
+
+Attention, le lien avec la version 14.10 n'est pas dans le bon dossier, il suffit de faire un couper-coller et le placer dans le dossier html.
+==== Reconfigurer le paquet phpmyadmin ====
+
+Ouvrez un terminal, entrez
+
+<code>sudo dpkg-reconfigure phpmyadmin</code>
+
+et veillez à sélectionner la version de votre serveur HTTP (apache2 normalement).
+
+Il faut impérativement le faire en utilisant la barre d'espace avant de faire "Enter", sans quoi cela ne marche pas.
+Une astérisque apparaît alors dans le rectangle rouge à  côté de "apache2".
+
+==== Erreur : “La connexion au control user tel que défini dans votre configuration a échoué” ====
+
+Pour résoudre ce problème, il suffit de changer le mot de passe de l'utilisateur 'phpmyadmin' pour le rendre //identique// à celui de l'utilisateur 'root' de mysql.
+
+Pour cela, il faut [[:tutoriel:comment_modifier_un_fichier|modifier le fichier]] ''/etc/dbconfig-common/phpmyadmin.conf'' :
+<code>gksudo gedit /etc/dbconfig-common/phpmyadmin.conf</code>
+Modifier la variable dbc_dbpass, de manière à ce que la ligne ressemble à ce qui suit : \\
+''dbc_dbpass='mot_de_passe'''
+
+Ensuite, il faut régénérer les fichiers de configuration de phpMyAdmin :
+<code>sudo dpkg-reconfigure phpmyadmin</code>
+Il faut refuser de recréer la base de données ''phpmyadmin'' si l'assistant le propose, ainsi que garder ''phpmyadmin.conf'' que vous venez de créer et ne pas accepter celui par défaut où il n'y a pas de mot de passe.
+==== Paramétre le serveur apache2 ====
+
+Il se peut que l'installation du paquet phpMyAdmin n'ait pas inclus son en-tête de configuration pour le serveur apache. Rajoutez la ligne nécessaire pour qu'il soit pris en compte :
+
+<code>service apache2 start </code>
+
+Redémarrez le serveur apache et [[http://localhost/phpmyadmin|réessayez]].
+
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. La configuration de l'application sera conservée ou supprimée selon la méthode de désinstallation que vous choisirez.
+
+
+===== Voir aussi =====
+
+Vous pouvez consulter les sites suivants pour obtenir un complément d'information...
+
+  * [[http://phpmyadmin.readthedocs.org/projects/phpmyadmin-french/fr/latest/|Documentation complète en français]] **(fr)** ;
+  * [[http://www.phpmyadmin.net|Site officiel du projet]] **(en)** ;
+
+----
+
+//Contributeurs : [[utilisateurs:guigouz|Guigouz]], [[utilisateurs:mcpeter|McPeter]]//

@@ -1,0 +1,83 @@
+{{tag>sauvegarde BROUILLON}}
+
+-----------------
+
+====== FlyBack ======
+
+
+FlyBack est un outil de [[sauvegarde]], projet Google (summer of ?) Code. C'est un clone du fameux Apple timemachine.
+
+<note warning>Pas de nouvelles versions depuis Mai 2010 ! Il semble que ce projet soit abandonné ! Le dernier problème signalé (Issue 104 de Novembre 2012) indique que FlyBack ne fonctionne pas avec Ubuntu 12.04 !</note>
+===== Installation =====
+
+
+[[:tutoriel:comment_installer_un_paquet|Installez les paquets]] **[[apt://python,python-glade2,python-gnome2,python-gnome2-extras,python-gtk2,python-gconf,python-gobject,rsync|python python-glade2 python-gnome2 python-gnome2-extras python-gtk2 python-gconf python-gobject rsync]]**.
+
+Téléchargez l'archive sur [[http://code.google.com/p/flyback/downloads/list|cette page]].
+
+Extrayez l'archive, donnez les droits d'exécution à **flyback.py** puis double-cliquez dessus.
+===== Création d'un lanceur =====
+
+
+Pour intégrer flyback dans le menu "Applications" on peut créer un script puis un [[raccourci-lanceur|lanceur]].
+
+Admettons que vous avez installé le dossier "flyback" dans /home/login/local.
+
+Créer un document vierge avec le code suivant :
+<code>#!/bin/sh
+cd /home/login/local/flyback
+python flyback.py</code>
+
+Nommez-le "flyback", placez-le dans votre /home/login et donnez-lui les droits d'exécution.
+
+Vous n'avez plus qu'à créer un [[raccourci-lanceur|lanceur]], en indiquant la commande suivante :
+/home/login/flyback.
+
+Pour agrémenter le tout on peut choisir une icône (à ma connaissance le projet n'a pas encore d'icône dédiée). J'ai choisi cette icône du pack tango qui correspond à la fonction du logiciel {{stock_save.png|}}.
+
+
+===== Configuration =====
+
+Lors du premier lancement de Flyback vous devrez éditer les préférences.
+
+
+**L'onglet "Storage location"** vous permet de configurer le répertoire dans lequel vous allez conserver vos sauvegardes. 
+
+Il est conseillé d'utiliser un disque dur externe. Dans le cas contraire, il ne faut pas utiliser "/", "/home" ou tout autre répertoire que vous prévoyez d'inclure dans votre sauvegarde. 
+
+
+
+**L'onglet "Included / Excluded Directories"** vous permet de choisir les répertoires à inclure et ceux à exclure de votre sauvegarde. 
+
+A gauche se trouve la liste des répertoires à inclure et à droite la liste de ceux à exclure.
+
+Pour une sauvegarde complète du système, choisissez dans la liste en bas à gauche de la fenêtre : "Système de fichiers" puis cliquez sur "Ajoutez". La racine "/" apparaît dans la liste "Included dirs".
+
+Ensuite vous pouvez rajouter des répertoires à exclure de la sauvegarde dans la partie de droite "Exclude patterns". Il y a déjà une liste de répertoire à exclure de la sauvegarde comme des répertoires contenant des fichiers en cache ou encore /dev/, /proc/, /sys/, /tmp.. Pour rajouter un répertoire, entrez le chemin du répertoire dans la barre en bas et cliquez sur "Ajouter"
+
+
+
+**L'onglet "Backup Schedule"** vous permet de configurer la sauvegarde automatique de votre système. 
+
+Vous pouvez paramétrer le moment où se déclenchera automatiquement la sauvegarde (minutes, heures, jour du mois, mois, jour de la semaine) ainsi que choisir lorsque seront supprimées les précédentes sauvegardes (à partir d'un certain nombre de Go occupé ou fonction de l'ancienneté de la sauvegarde).
+
+Cliquez sur "Valider" pour enregistrer vos paramètres.
+
+ 
+===== Utilisation =====
+
+Cliquez sur "Backup" pour lancer la sauvegarde.
+
+Une fois celle-ci effectué, elle devient accessible dans la fenêtre de gauche : "System snapshots" avec comme nom la date et l'heure à laquelle elle à été faite.
+
+Pour restaurer un fichier, sélectionnez la date de la sauvegarde, parcourez les répertoires dans l'explorateur de gauche pour choisir votre fichier. Une fois sélectionné, cliquer sur "Restore".
+
+
+
+===== Voir aussi =====
+
+ [[http://code.google.com/p/flyback/|Site officiel]].
+
+ [[http://linuxfr.org/2007/05/07/22461.html|Système de fichier journalisé "ext3cow"]]. (pas nécessaire pour flyback)
+
+-------------------

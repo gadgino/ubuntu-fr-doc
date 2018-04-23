@@ -1,0 +1,469 @@
+{{tag>Precise Trusty logiciels bureautique }}
+
+----
+
+{{ http://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Logo-libreoffice.svg/219px-Logo-libreoffice.svg.png?50| Logo de LibreOffice}}
+====== LibreOffice ======
+
+{{ http://i.imgur.com/SA9To3W.png?500}}
+
+
+**[[wpfr>LibreOffice]]** est une suite bureautique libre, gratuite, multiplateforme et complète (traitement de texte, tableur, logiciel de présentation, etc), ce qui fait d'elle une excellente alternative aux suites bureautiques propriétaires telles que MS Office, MS Office Online, Google Docs.\\
+Elle est aussi très modulaire : des extensions, des modèles, des images, des polices vous sont librement mis à disposition par la communauté.
+
+Distribuée sous les licences libres [[wpfr>Mozilla_Public_License|MoPL V2]], [[http://www.apache.org/licenses/LICENSE-2.0|Licence Apache 2.0]] pour le code basé sur Apache-OpenOffice  et d'autres licences [[wpfr>Open_Source_Initiative|Open source]], **LibreOffice** est un [[wpfr>fork_(développement logiciel)|embranchement (ou fork)]] de la suite libre de bureautique [[:OpenOffice.org]], développée par //The Document Foundation//, une fondation regroupant la communauté de développeurs d'OpenOffice.org ainsi que différents partenaires comme la FSF, OASIS, Google, Novell, Red Hat, Canonical, OSI.
+
+<note tip>
+  * LibreOffice est une suite bureautique complète. Si vous cherchez simplement à pouvoir lire et modifier des documents de type texte formaté (.doc, .odt) ou tableur (.xls), le couple **[[:Abiword]]–[[:Gnumeric]]** peut être une alternative intéressante car plus légère si vous êtes dans un environnement GTK (c'est le cas d'Ubuntu et de Xubuntu) ou [[calligra|Calligra Words + Calligra Cells]] si vous utilisez un environnement en Qt (par exemple Kubuntu).
+  * LibreOffice prend notamment en charge les formats Open XML de Microsoft Office (.docx, .xlsx, .pptx), mais LibreOffice peut avoir des difficultés à les lire. Il est préférable de lire/modifier ces types de fichiers avec les logiciels de Microsoft ou de les enregistrer dans les anciens formats de Office (antérieurs à 2007 : .doc, .xls, .ppt) qui sont mieux pris en charge par LibreOffice. Il en est de même si vous souhaitez lire un fichier ODT avec Word par exemple.
+  * Il est par contre toujours possible d'utiliser le successeur d'OpenOffice, en installant **Apache OpenOffice**. Rendez-vous sur le site [[http://www.openoffice.org/fr/Telecharger/|openoffice.org]] pour la procédure d'installation. Ce [[http://forum.openoffice.org/fr/forum/viewtopic.php?p=219585#p219585|tutoriel]] pour une première installation de l'officielle Apache OpenOffice AOO 4.0.1 sur [[:precise|Ubuntu Precise 12.04]] et ses [[:versions]] suivantes.
+  * Il existe aussi le fork allégé, totalement libre, basé sur OpenOffice.org, [[:OOoLight]], créé par l'association à but non lucratif EducOOo.
+  * LibreOffice, contrairement à OpenOffice, supporte davantage de configurations des formats propriétaires de la suite Microsoft Office, comme l'intégration et la lecture possible des formules de MS Word & Excel, ou la reconnaissance et la lecture des documents MS Office enregistrés avec protection mot de passe.
+</note>
+<note tip>
+  * Bien vérifier la version de LibreOffice qui s'est installée, surtout si vous souhaitez la version stable ! Aller sur LibreOffice / Aide /  A propos de LibreOffice pour voir votre version installée.
+  * Regarder sur le site de LibreOffice le numéro de la dernière version stable  [[https://fr.libreoffice.org/download/libreoffice-stable/]] 
+</note>
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+==== Via les dépôts officiels ====
+
+LibreOffice est installé par défaut sous la [[:variantes#variantes_officielles|variante officielle d'Ubuntu]] et sous certaines [[:variantes#variantes_reconnues|variantes reconnues]]. Pour installer LibreOffice dans les [[:variantes]] où il n'est pas installé, ou pour réinstaller LibreOffice, [[:tutoriel:comment_installer_un_paquet|installez les paquets]] : 
+  * Meta-paquet installant **tout** LibreOffice : 
+    * **[[apt>libreoffice]]**, \\ ou bien selon votre [[:variante]]:
+    * Si vous utilisez [[bureau_gnome|Gnome]] ou [[Xfce]] : **[[apt>libreoffice-gtk]]** ; 
+    * Si vous utilisez [[bureau_kde|KDE]] : **[[apt>libreoffice-kde]]**. 
+  * Vous pouvez également vous limiter à;
+    * **[[apt>libreoffice-base|LibreOffice Base]]** : création de bases de données
+    * **[[apt>libreoffice-calc|LibreOffice Calc]]** : tableur
+    * **[[apt>libreoffice-draw|LibreOffice Draw]]** (aussi disponible sous //Applications → Graphisme//) : application de dessin
+    * **[[apt>libreoffice-impress|LibreOffice Impress]]** : logiciel de présentation
+    * **[[apt>libreoffice-math|LibreOffice Math]]** : création de formules mathématiques
+    * **[[apt>libreoffice-writer|LibreOffice Writer]]** : traitement de texte
+Les paquets des langues de votre système seront aussi installées. Si ce n'était pas le cas, pour le français, [[:tutoriel:comment_installer_un_paquet|installez les paquets]]  **[[apt>libreoffice-l10n-fr,libreoffice-help-fr,hyphen-fr|libreoffice-l10n-fr libreoffice-help-fr hyphen-fr]]**
+
+=== Les extensions incluses dans LibreOffice ===
+
+La version provenant du site Libreoffice donne une liste de 6 extensions que l'on peut ou non installer (cochés par défaut), mais elles ne sont pas disponibles sur son [[http://extensions.libreoffice.org/|site]].
+Pour les retrouver dans la logithèque vous tapez **libreoffice extension** ; sinon voici le nom de chacune et le nom de son paquet :
+  * Import PDF **[[apt>libreoffice-pdfimport]]**
+  * Presentation Minimizer **[[apt>libreoffice-presentation-minimizer]]** 
+  * Presenter Console **[[apt>libreoffice-presenter-console]]**
+  * Wiki Publisher **[[apt>libreoffice-wiki-publisher]]**
+  * Solveur de programmation non linéaire **[[apt>libreoffice-nlpsolver]]**
+  * Fournisseur de script pour Python **[[apt>python]]**
+
+<note>Il peut arriver que le paquet libreoffice-nlpsolver installé après coup ne soit pas actif. Dans ce cas il semble nécessaire de désinstaller puis de réinstaller libreoffice avec la [[:commande_shell|commande]] suivante dans un [[:terminal]]: <code>sudo apt-get purge libreoffice* && sudo apt-get install libreoffice libreoffice-nlpsolver libreoffice-help-fr libreoffice-l10n-fr</code>
+</note>
+=== Autres exemples d'extensions installables ===
+   * **[[apt>libreoffice-dmaths]]** (pour l'insertion de formules) 
+   * **[[apt>libreoffice-ogltrans]]** (transitions supplémentaires pour diaporama) 
+   * **[[apt>libreoffice-templates]]** (modèles de documents supplémentaires)
+   * **[[apt>libreoffice-scope-asklibreoffice]]** (lentille d'aide dans le tableau de bord) 
+   * **[[apt>openclipart-libreoffice]]** (modèles clipart supplémentaires)
+
+=== Les styles d'icônes incluses dans LibreOffice ===
+
+Pour des questions de place, seul un ensemble restreint de jeux d'icônes est inclus dans la version fournie par Canonical par rapport à la version fournie par The Document Fondation.
+Elles peuvent être retrouvées en tapant les mots **libreoffice-style** dans la logithèque, sinon voici la liste complète :
+  * icônes du style Crystal **[[apt>libreoffice-style-crystal]]**
+  * Oxygen symbol style **[[apt>libreoffice-style-oxygen]]**
+  * Human symbol style **[[apt>libreoffice-style-human]]**
+  * Tango symbol style **[[apt>libreoffice-style-tango]]**
+  * Hicontrast symbol style **[[apt>libreoffice-style-hicontrast]]**
+  * Galaxy (Default) symbol style **[[apt>libreoffice-style-galaxy]]**
+  * Sifr symbol style **[[apt>libreoffice-style-sifr]]**
+  * Breeze style**[[apt>libreoffice-style-breeze]]**
+  * Office 2013 style **[[http://charliecnr.deviantart.com/art/Office-2013-theme-for-LibreOffice-512127527|sur DeviantArt]]**. À renommer en //images_office2013.zip// et copier dans /usr/lib/libreoffice/share/config/ et /usr/share/libreoffice/share/config/.
+  * Kalahari **[[http://marianogaudix.deviantart.com/art/LibreOffice-5-2-0-Kalahari-381401284|sur DeviantArt]]** À copier dans /usr/lib/libreoffice/share/config/ et /usr/share/libreoffice/share/config/.
+
+==== Via les PPA ====
+<note tip>Ce [[:ppa|dépôt PPA]] __**maintenu par les développeurs de LibreOffice**__ permet d'obtenir une version stable relativement récente par rapport à celle des dépôts.
+Un avantage d’utiliser le PPA vient des mises à jour automatiques rendant  plus facile la  mise à niveau vers des versions plus récentes de LibreOffice.
+
+Une version de LibreOffice est considérée comme stable (donc recommandée pour une utilisation dans un contexte professionnel) à partir de sa 2<sup>e</sup> ou 3<sup>e</sup> révision (par exemple 5.2.2 ou 5.2.3). Une approche conservatrice demanderait d'attendre la 4<sup>e</sup> révision((https://wiki.documentfoundation.org/File:LibOReleaseLifecycle.png)).
+
+Les pré-versions RC2 sont en général identiques à la version finale. Contrairement aux builds officielles, les PPA ne les renomment alors pas comme telles.</note>
+^ Version d'Ubuntu ^ Version installée ^Version du PPA 5.2^Version du PPA 5.3 ^Version du PPA générique ^ Version du PPA pré-versions ^
+| Ubuntu [[:zesty|17.04]] | 5.3.1 | 5.2.5~rc1 | 5.3.3~rc2 |5.3.3~rc2  | 5.3.3~rc2  |
+| Ubuntu [[:yakkety|16.10]] | 5.2.2 | 5.2.6~rc2 | 5.3.3~rc2 |5.3.3~rc2  | 5.3.3~rc2  |
+| Ubuntu [[:xenial|16.04 LTS]] | 5.1.6 | 5.2.5~rc1 | 5.3.3~rc2 |5.3.3~rc2  | 5.3.3~rc2  |
+| Ubuntu [[:trusty|14.04 LTS]] | 4.2.8 | 5.2.5~rc1 | 5.3.3~rc2  |5.3.3~rc2 | 5.3.3~rc2  |
+//(informations à jour le 10/05/2017)//
+
+=== Versions stables ===
+Ces PPA contiennent la dernière version de la branche (ou de toutes les branches pour le PPA générique), ou éventuellement la release candidate prévue pour être la version finale (RC2). Les paquets présents dans le dépôt PPA générique sont accessibles [[https://launchpad.net/~libreoffice/+archive/ppa|ici]], vous y trouverez également un lien vers les dépôts de chacune des branches (actuellement : 5.2 et 5.3). 
+
+<note important> Avant d’aller plus loin, veuillez noter que les paquets sur le PPA générique n'ont subi que des tests minimaux. Cette mise à jour est réservée aux utilisateurs sachant utiliser [[https://doc.ubuntu-fr.org/ppa#en_desinstallant_les_paquets_de_ce_ppa|ppa-purge]] pour annuler les modifications si quelque chose venait à ne plus fonctionner comme il le faut. Cependant, cela est plus sûr que d'utiliser directement les .deb fournis par The Document Foundation.</note>
+
+== Méthode graphique ==
+  - [[:PPA|Ajoutez dans vos sources de logiciels le PPA]]
+
+  * __**Pour la version 5.2**__ Version "Stable", utilisable par tous, y compris dans un cadre professionnel : **ppa:libreoffice/libreoffice-5-2** ((https://launchpad.net/~libreoffice/+archive/libreoffice-5-2))
+  * __**Pour la version 5.3**__ Version "Évolution" destinée aux utilisateurs avancés souhaitant tester les nouveautés de LibreOffice : **ppa:libreoffice/libreoffice-5-3** ((https://launchpad.net/~libreoffice/+archive/libreoffice-5-3))
+  * **__**Pour la dernière version du PPA générique** :__**(permet de rester à jour sans avoir à changer de branche):  **ppa:libreoffice/ppa**((https://launchpad.net/~libreoffice/+archive/ppa))
+
+  - [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]] ;
+  - [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>libreoffice|libreoffice]]** ;
+  - Pour chaque langue installée sur votre système et/ou pour laquelle vous désirez l'aide, [[:tutoriel:comment_installer_un_paquet|installez le paquet]] d'internationalisation **libreoffice-l10n-XX**, par exemple pour **fr** : **[[apt>libreoffice-l10n-fr]]**;
+
+== Méthode en ligne de commande ==
+Ouvrez un [[:terminal]] et entrez les commandes suivantes pour la branche 5.2 :
+<code>sudo add-apt-repository ppa:libreoffice/libreoffice-5-2</code>
+
+Pour la branche 5.3 :
+<code>sudo add-apt-repository ppa:libreoffice/libreoffice-5-3</code>
+
+Pour la branche générique : 
+<code>sudo add-apt-repository ppa:libreoffice/ppa</code>
+
+Puis dans les trois cas : 
+<code>sudo apt-get update
+sudo apt-get install libreoffice </code>
+
+
+=== Pré-versions (alpha, béta, RC1) ===
+<note important>Conçu seulement pour les testeurs...</note>
+
+== Méthode graphique ==
+  - [[:PPA|Ajoutez dans vos sources de logiciels le PPA]] **ppa:libreoffice/libreoffice-prereleases**((https://launchpad.net/~libreoffice/+archive/libreoffice-prereleases))
+  - [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]] ;
+  - [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>libreoffice|libreoffice]]**. 
+
+== Méthode en ligne de commande ==
+Ouvrez un [[:terminal]] et entrez les commandes suivantes :<code>sudo add-apt-repository ppa:libreoffice/libreoffice-prereleases
+sudo apt-get update
+sudo apt-get install libreoffice</code>
+
+==== Via les DEB du site LibreOffice ====
+
+Cette méthode est plus complexe, et n'apporte que peu d'avantages.
+
+=== Installation de la suite bureautique ===
+
+Il est possible d'installer LibreOffice à partir des paquets ''deb'' proposés sur le [[http://www.libreoffice.org/download/|site du projet]], paquets qui sont disponibles pour les architectures 32 et 64 bits.
+
+Le site vous propose automatiquement les paquets à télécharger en fonction de la configuration de l'ordinateur avec lequel vous consultez le site (système d'exploitation, architecture, langue ; par exemple "linux x86 (deb)" et "fr-Français"). Vérifiez que cette configuration correspond bien à l'ordinateur sur lequel vous allez faire l'installation.
+
+Si vous ne savez pas si vous êtes en 32 ou 64 bits, reportez-vous à la documentation sur [[:architecture_materielle#mon_ubuntu_est-il_32_ou_64_bits|l'architecture matérielle]] .
+
+Décompressez l'archive puis rendez-vous dans le répertoire d'installation, dans un [[terminal]] :
+
+  cd ~/VOTRE_RÉPERTOIRE_DE_TÉLÉCHARGEMENT/LE_RÉPERTOIRE_DE_DÉCOMPRESSION/DEBS
+
+ [[:tutoriel:comment_installer_un_paquet|Installez]] l'ensemble des archives .deb qui y sont présentes :
+
+  sudo dpkg -i *.deb
+
+Si votre version est inférieure à 4.1, suivez la procédure ci-dessous. Sinon l'intégration au bureau se fait à l'installation du reste.Le répertoire "desktop-integration" n'existe plus. 
+Pour bénéficier des menus sous Gnome (et KDE, Fluxbox), entrez dans le dossier desktop-integration et [[:tutoriel:comment_installer_un_paquet|installez l'archive .deb]] :
+
+  cd desktop-integration
+  sudo dpkg -i *.deb
+
+LibreOffice sera ajouté dans le menu //Applications → Bureautique// et s’intégrera dans votre bureau.
+
+
+=== Installation de l'interface en français ===
+[Attention: La méthode décrite ci-dessous ne fonctionne pas pour xubuntu 14.04 (problème avec libobasis). Il faut installer le paquet libreoffice-l10n-fr et l'interface est en français au redémarrage de libreoffice!]
+
+Il vous suffit d'utiliser le paquet ''LibO_xxxxxxxxxxxx_langpack-deb_fr.tar.gz'' téléchargé à l'étape précédente.
+
+Ensuite [[archivage|extrayez l'archive]], placez-vous dans le dossier et installez l'ensemble des fichiers .deb
+
+  cd LibO_xxxxxxxxxxxx_langpack-deb_fr/DEBS
+  sudo dpkg -i *.deb
+
+Au prochain lancement, LibreOffice sera en français.
+
+=== Installation de l'aide en français ===
+
+Il vous suffit d'utiliser le paquet ''LibO_xxxxxxxxxxxx_helppack-deb_fr.tar.gz'' téléchargé précédemment.
+
+Ensuite extrayez l'archive, placez-vous dans le dossier et installez l'ensemble des fichiers .deb
+
+  cd LibO_xxxxxxxxxxxx_helppack-deb_fr/DEBS
+  sudo dpkg -i *.deb
+  
+ ==== Via les Snap (Ubuntu ≥ 16.04)====
+Ouvrez un [[terminal]] et entrez la commande suivante :
+<code>sudo snap install libreoffice</code>
+===== Configuration =====
+
+==== Accélérer LibreOffice ====
+→ [[optimisation#accelerer_libreoffice]]
+
+==== Extensions ====
+ * Téléchargez l'extension (**Enregistrer sous**).
+  * Allez dans //Outils → Gestionnaire des extensions// puis cliquez sur le bouton « Ajouter »
+  * Sélectionnez l'extension, puis cliquez sur le bouton « Ouvrir ».
+
+Pour les extensions se trouvant dans les dépôts, il suffit d'[[tutoriel:comment_installer_un_paquet#installer_un_paquet_present_dans_les_depots_recommande|installer les paquets]] en question.
+
+===Extensions pour l'éducation===
+Reportez-vous la page "[[extension_lo_education|extensions LibreOffice pour l'éducation et la recherche]]".
+
+=== Installer des correcteurs ===
+Pour indiquer à LibreOffice dans quelle langue est le document courant, sélectionner la langue via **Outils / Langues / Pour le texte…** (sélectionner Français). Noter qu'il est possible de changer la langue d'un groupe de mots seulement (phrase, paragraphe…). Pour lancer une passe de correction orthographique manuelle, sélectionner le menu Outils / Orthographe et grammaire (accès direct par F7).
+
+Les fonctionnalités de correction **orthographique** et **grammaticale** en français sont disponibles sous la forme d'extension à installer manuellement. Le plus simple est de récupérer l'orthographe et/ou la grammaire sur [[http://www.dicollecte.org/grammalecte/telecharger.php|Grammalecte]].
+
+Il se peut que LibreOffice plante à l'installation de Grammalecte. Vérifiez que vous disposez du paquet [[apt>python3-uno]] puis lancez la commande export dans un terminal avant de lancer LibreOffice afin que celui-ci ait accès à la bibliothèque python "uno.py" :
+
+<code>
+export PYTHONPATH=/usr/lib/libreoffice/program:/usr/share/pyshared
+libreoffice &
+</code>
+
+<note>
+Le correcteur orthographique alternatif [[http://extensions.libreoffice.org/extension-center/languagetool|LanguageTool]] également disponible comme extension pour LibreOffice, n'est pas compatible avec Grammalecte, n'utilisez donc pas ces deux extensions ensemble.
+
+Dans le cas de l'installation d'une version récente de [[http://extensions.libreoffice.org/extension-center/languagetool|LanguageTool]] il est nécessaire d'installer **[[apt>libreoffice-java-common]]**, **[[apt>openjdk-8-jre]]** et de le choisir dans Outils > Options > Avancé > Paramètres, choisir Oracle Corporation.
+</note>
+
+
+
+==== Vignettes d'aperçu dans votre navigateur de fichiers ====
+
+Les méthodes ci-dessous vont permettront d'afficher dans votre navigateur de fichiers les miniatures des fichiers [[wpfr>OpenDocument]].
+
+^ Méthode ^ [[:Nautilus]] ^[[:Thunar]] ^[[:Dolphin]] ^[[:Nemo]] ^ Caja  ^[[:PCManFM]] ^
+| Paquet ooo-thumbnailer | Fonctionne | Incompatible→[[thunar#vignettes_d_apercu_des_fichiers_libreoffice|voir ici]] | Incompatible→[[dolphin#apercu_fichiers_openoffice_ou_libreoffice|voir ici]]  |Fonctionne  |Fonctionne  |Non testé  |
+| Script Nicolas Bernaerts | Fonctionne | Incompatible  | Incompatible  | Fonctionne  | Fonctionne  |Fonctionne  |
+| PPA Atareao | Fonctionne   | Incompatible  | Non testé  |Fonctionne   | Non testé  |Non testé  |
+
+=== Méthode 1 : grâce à ooo-thumbnailer ===
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]][[apt>ooo-thumbnailer]]
+
+**__Cependant,  il arrive qu'un bogue empêche son bon fonctionnement, voici comment le régler :__
+**
+  *  En [[:sudo|administrateur]], créer le fichier //ooo.thumbnailer// dans ///usr/share/thumbnailers//
+<code>gksudo gedit /usr/share/thumbnailers/ooo.thumbnailer</code>
+
+  *  Copier-coller le contenu suivant :
+<file>[Thumbnailer Entry]
+
+TryExec=ooo-thumbnailer
+Exec=/usr/bin/ooo-thumbnailer %i %o %s
+MimeType=application/vnd.oasis.opendocument.graphics;application/vnd.oasis.opendocument.presentation;application/vnd.oasis.opendocument.spreadsheet;application/vnd.oasis.opendocument.text;</file>
+
+   * Sauvegarder le fichier et redémarrer Nautilus
+<code>nautilus -q</code>
+
+===Méthode 2 : grâce à un script de Nicolas Bernaerts===
+Il est possible de faire afficher des vignettes d'aperçu dans le navigateur de fichiers, grâce à un script de [[http://bernaerts.dyndns.org/linux/76-gnome/285-gnome-shell-generate-libreoffice-thumbnail-nautilus|Nicolas Bernaerts]]
+
+Là où //ooo-thumbnailer// se contente de produire des versions miniatures des documents en guise d'icônes (comme pour les images ou les fichiers PDF), le script ajoute des captures d'écran avec des petites logos distinctifs en surimpression des miniatures de manière à reconnaître facilement le type de fichier (ce qui pourra être un avantage ou inconvénient selon les goûts).
+
+== Méthode en ligne de commande ==
+<code>sudo apt-get install gvfs-bin libfile-mimeinfo-perl unzip imagemagick
+wget --header='Accept-Encoding:none' https://raw.githubusercontent.com/NicolasBernaerts/ubuntu-scripts/master/thumbnailer/libreoffice/lo-thumbnailer-install.sh
+. ./lo-thumbnailer-install.sh
+rm -r $HOME/.cache/thumbnails
+nautilus -q</code>
+
+Vous devriez obtenir le résultat suivant :
+
+{{https://lh3.googleusercontent.com/-96AhQ6f1xSg/Vc8MLLq5aoI/AAAAAAAAtvo/t2tKXKxraEI/s718/lothumbnails.png?500}}
+
+//(Pour vignettes des documents MS Office : http://bernaerts.dyndns.org/linux/76-gnome/325-gnome-shell-generate-msoffice-thumbnail-nautilus)
+//
+===Méthode 3 : via un PPA de l'équipe Atareao===
+<note warning>Le dépôt semble ne plus fonctionner.</note>
+ L’équipe [[http://www.atareao.es/ubuntu/elegantes-miniaturas-de-tus-documentos-de-libreoffice-en-ubuntu/|atareao]] a développé des extensions qui permettent d’afficher les miniatures pour ces formats de fichiers dans Nautilus (dont les vignettes pour LibreOffice)
+
+== Méthode graphique ==
+Pour l'installer :  
+
+  * [[:PPA|Ajoutez le PPA]] **ppa:atareao/thumbnailers**((https://launchpad.net/~atareao/+archive/ubuntu/thumbnailers)) dans vos sources de logiciels
+  * [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste des paquets]]
+  *  [[:tutoriel:comment_installer_un_paquet|Installez le paquet]]**[[apt>lothumbnailer|lothumbnailer]]**.
+
+== Méthode en ligne de commande ==
+Ouvrez un [[:terminal]] et entrez les commandes suivantes :<code>sudo add-apt-repository ppa:atareao/thumbnailers
+sudo apt-get update
+sudo apt-get install lo-thumbnailer </code>
+
+ 
+
+Pour appliquer les modifications, enlever les caches miniatures et redémarrer Nautilus en exécutant les commandes ci-dessous :
+<code>rm ~/.cache/thumbnails/fail/gnome-thumbnail-factory/*
+rm ~/.cache/thumbnails/large/*
+rm ~/.cache/thumbnails/normal/*
+killall nautilus</code>
+
+==== Créer un document depuis le navigateur de fichiers ====
+Le nouveau document est créé à partir d'un modèle déjà enregistré dans le dossier ~/Modèles.
+
+Plus de détails dans la documentation de [[nautilus#ajout_de_nouveaux_modeles_pour_la_commande_contextuelle_creer_un_document|Nautilus]].
+
+==== Changer le(s) modèle(s) par défaut ====
+1. Créer un document [classeur, présentation, dessin] conforme à ce qu’on souhaite avoir par défaut. En particulier définir la police du ou des styles qui s’appellent « Par défaut ».
+
+2. menu **Fichier > Enregistrer comme modèle** : l'enregistrer dans le dossier « Mes Modèles » avec le nom qu'on souhaite.
+
+3. Procéder comme suit pour définir ce nouveau modèle comme étant le modèle par défaut :
+=== Dans LibreOffice 4 ===
+3.1. menu **Fichier > Nouveau > Modèle** : ceci ouvre le gestionnaire de modèles.\\
+3.2. Choisir l'onglet correspondant (Documents, Classeurs, Présentations, Dessins).\\
+3.2. Si l'aperçu du nouveau modèle n'est pas visible dans le dossier « Mes Modèles », appuyer le bouton "Menu Action" et choisir "Actualiser".\\
+3.3. Double cliquer sur le dossier « Mes Modèles », ceci ouvre la liste des modèles présents.\\
+3.4. Sélectionner le modèle voulu (simple clic) : ceci fait apparaître un nouvelle liste de boutons.\\
+3.5. Appuyer sur le bouton "Définir par défaut".\\
+
+4. Fermer le gestionnaire de modèles.
+
+
+==== Ajouter des raccourcis d'accès ====
+
+<note important>Ces consignes s'appliquent pour Unity (testé dans Ubuntu 11.10 et Ubuntu 12.04). Elles ne fonctionnent pas sur Gnome Shell. (à moins que l'extension Quicklist soit activée ?)
+A chaque nouvelle version de LibreOffice  ou mise à jour, l'opération est à recommencer.</note>
+{{:libreoffice:quicklist_libreoffice.png?200}}
+Pour pouvoir ajouter des Quicklist à LibreOffice sur le lanceur, il faut préalablement placer l'application LibreOffice sur le lanceur.
+
+Il faut ensuite taper la commande suivante dans un terminal : 
+
+  gksudo gedit /usr/share/applications/libreoffice-startcenter.desktop
+
+Puis, copier le script suivant __à la fin__ du fichier ouvert :
+
+<file>
+X-Ayatana-Desktop-Shortcuts=Writer;Calc;Impress;Base;Draw;Math
+
+[Writer Shortcut Group]
+Name=Nouveau document texte
+Exec=libreoffice -writer %U
+TargetEnvironment=Unity
+
+[Math Shortcut Group]
+Name=Formule mathématique
+Exec=libreoffice -math %U
+TargetEnvironment=Unity
+
+[Impress Shortcut Group]
+Name=Nouvelle présentation
+Exec=libreoffice -impress %U
+TargetEnvironment=Unity
+
+[Draw Shortcut Group]
+Name=Nouveau dessin
+Exec=libreoffice -draw %U
+TargetEnvironment=Unity
+
+[Calc Shortcut Group]
+Name=Nouvelle feuille de calcul
+Exec=libreoffice -calc %U
+TargetEnvironment=Unity
+
+[Base Shortcut Group]
+Name=Nouvelle base de données
+Exec=libreoffice -base %U
+TargetEnvironment=Unity
+</file>
+
+Il est bien sûr possible de supprimer certaines parties de ce script pour les raccourcis que vous n'utiliserez pas.
+
+Après avoir copié ce texte, enregistrez le fichier et redémarrez votre session. Un clic droit sur l'icône de LibreOffice du lanceur affiche maintenant les accès rapides.
+==== Installer des polices ====
+
+Plus d'information sur la page expliquant [[:installer_de_nouvelles_polices_de_caractere#installation_pour_un_seul_utilisateur|comment installer de nouvelles polices de caractère]].
+
+==== Modifier le nom des polices ====
+
+Quand LibreOffice découvre de nouvelles polices : 
+  * soit dans le dossier polices du système (/usr/share/fonts/),
+  * soit dans le dossier polices de l'utilisateur (~/.fonts),
+  * soit dans le dossier "/usr/lib/libreoffice/share/fonts/" des configurations système de LibreOffice,
+  * soit dans le dossier "fonts" du répertoire des configurations de LibreOffice de l'utilisateur,
+il les ajoute à son cache des polices, nommé **"pspfontcache"**, qui se trouve dans le dossier "psprint" situé dans ce même répertoire des configurations de LibreOffice de l'utilisateur.
+
+<note>En cas de problème ou d'erreur, enlevez les polices erronées du dossier où elles se trouvent, redémarrer LibreOffice, puis les y remettre. Autrement supprimez le fichier "pspfontcache".</note>
+
+Dans ce fichier, il indique le nom du dossier exploré, à chaque changement de dossier ou de sous-dossier :
+  FontCacheDirectory:1335506239:/usr/share/fonts/truetype/msttcorefonts
+Il liste ensuite les fichiers de polices qu'il y trouve, en prenant 4 lignes pour chacun, et séparant deux fichiers de polices par une ligne vide. Par exemple, pour le fichier "/usr/share/fonts/truetype/msttcorefonts/Comic_Sans_MS.ttf", après l'indication du répertoire exploré, il indique :
+  File:Comic_Sans_MS.ttf
+  2;1
+  Comic Sans MS
+  -1;ComicSansMS;0;5;5;2;65535;1102;291;393;0;1278;1393;1278;1393;0;0;0;0;Regular
+
+La troisième de ces lignes indique le nom que LibreOffice indiquera pour la police dans le menu déroulant : il est donc possible de le modifier avec soin, par exemple pour donner le même nom à toutes les variantes de taille d'une même police…
+
+==== Macros ====
+Vous pouvez récupérer des macros sur les sites suivants :
+  * [[https://wiki.documentfoundation.org/Macros/fr|le wiki de la Document Foundation]]
+  * [[https://www.openoffice.org/fr/Documentation/Macros/indexmac.html|le dépôt de macros d'OpenOffice.org]]
+
+Trouver de l'information d'aide à la programmation :
+  * [[http://openoffice3.web.fc2.com/|OSS( Open Source Software )]]
+  * [[http://conference.libreoffice.org/assets/Conference/Aarhus/Slides/MatthewFrancisPyUNO.pdf|Les changements pour python3]]
+
+==== Répertoire par défaut ====
+
+L'emplacement du répertoire de configuration par défaut est : **~/.config/libreoffice/3/user/** ou **~/.config/libreoffice/4/user/**
+
+L'emplacement des scripts python3 de l'utilisateur est : **~/.config/libreoffice/4/user/Scripts/python/**
+
+L'emplacement des scripts python3 pour tous les utilisateurs est : **/usr/lib/libreoffice/share/Scripts/python/**
+===== Utilisation =====
+
+La suite bureautique LibreOffice est composée de différents modules accessibles depuis le menu //Applications → Bureautique// :
+  * **LibreOffice** : le lanceur de LibreOffice
+  * **LibreOffice Base** : création de bases de données
+  * **LibreOffice Calc** : tableur
+  * **LibreOffice Draw** (aussi disponible sous //Applications → Graphisme//) : application de dessin
+  * **LibreOffice Impress** : logiciel de présentation
+  * **LibreOffice Math** : création de formules mathématiques
+  * **LibreOffice Writer** : traitement de texte
+
+Les fichiers de configurations sont dans le dossier **~/.config/libreoffice**
+=====Trucs et Astuces =====
+Rendez-vous sur la [[:libreoffice_trucs_et_astuces|page consacrée à ce sujet]].
+
+===== Problèmes rencontrés =====
+
+→ [[libreoffice_problemes|Résoudre les problèmes rencontrés avec LibreOffice]].
+
+==== Impossible d'ouvrir un document à distance ====
+
+Un problème existe sous XFCE (et peut être d'autres environnements), il est impossible d'ouvrir un document qui n'est pas local (exemple : réseau SMB)
+
+Pour corriger ce problème il suffit d'installer le paquet **[[apt>libreoffice-gnome]]**
+
+Via terminal:
+
+<code>sudo apt-get install libreoffice-gnome</code>
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer ses paquets]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leur dossier personnel sont toujours conservés.
+
+<code>sudo apt-get remove --purge libreoffice*</code>
+
+===== Alternatives =====
+
+  * [[https://www.wps.com/|WPS office]] : suite bureautique clonant l'interface de Microsoft Office
+  * [[http://www.onlyoffice.com/fr/apps.aspx|OnlyOffice]] : suite bureautique open-source
+  * [[http://www.freeoffice.com/fr/|SoftMaker Free Office]]
+
+
+===== Voir aussi =====
+
+  * **(en)** [[http://www.libreoffice.org/|Site officiel du logiciel]]
+  * **(fr)** [[http://fr.libreoffice.org/download/|Téléchargement de LibreOffice]] : La page officielle francophone, récapitulant les avertissements et les paquets disponibles.
+  * **(fr, en)** [[http://wiki.documentfoundation.org/Main_Page/fr|Le wiki de la Document Foundation]]
+  * **(fr)** [[https://wiki.documentfoundation.org/FR/La_documentation_de_l%27utilisateur|La documentation utilisateur]]
+  * **(fr,en)** [[http://extensions.libreoffice.org/|Les extensions libre office]]
+  * **(fr)** [[http://user.services.openoffice.org/fr/forum/viewtopic.php?p=180597|Ubuntu & LibreOffice: Réglages & Conseils après Installation]], sur le forum d'Apache OpenOffice.
+  *  **(fr)** [[http://fr.flossmanuals.net/initiation-a-draw/|Manuel draw flossmanuals]] : Pour bien débuter avec Draw.
+  * **(fr)** [[http://www.overnightprints.fr/open-office]] : Vous trouvez des modèles pour les formats de document différents ici.
+  * **(en)** [[http://designingwithlibreoffice.com/|Designing with LibreOffice]] : L'utilisation des styles et la mise en page de document. Traduction en français en cours (août 2016).
+
+----
+//Contributeurs principaux : [[https://forum.ubuntu-fr.org/profile.php?id=978921|corrigo]][[http://forum.ubuntu-fr.org/profile.php?id=44251|GeekShadow]], , [[http://forum.ubuntu-fr.org/profile.php?id=484641|gguillaume017]].//
+
+//Contributeur secondaire : [[https://forum.ubuntu-fr.org/profile.php?id=28653|Wullfk]]//, Julientux.

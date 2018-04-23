@@ -1,0 +1,45 @@
+{{tag>Precise environnements Unity}}
+----
+====== Unity 2D ======
+<note important>Cette page est une ébauche. N'hésitez pas à la compléter.</note>
+
+Unity 2D est une version d'[[:Unity]] pour les ordinateurs ne permettant pas l'utilisation des effets [[:interface_3d|3D]].\\
+Installée par défaut dans les versions 11.10 et [[:precise|12.04 LTS]] d'Ubuntu, elle a été abandonnée à partir de la version 12.10 car cette réécriture complète d'Unity en **qt** doublait tout simplement le travail des développeurs.
+<note tip>Si vous cherchez un environnement de bureau moins exigeant en ressource qu'Unity, essayez : le mode [[gnome-session-fallback|Gnome Classic]] (5 ans de maintenance desktop en LTS tout comme Unity), la variante [[xubuntu|Xubuntu]] (3 ans en LTS), ou encore la variante [[lubuntu|Lubuntu]]</note>
+
+===== Installation =====
+Unity 2D est normalement installé par défaut. Si ce n'était pas le cas, [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>unity-2d]]**.
+ 
+===== Utilisation =====
+Unity 2D peut être activé à n'importe quel moment :
+  * Fermer votre session pour revenir à l'[[:fenetre_de_connexion|écran de connexion]] ;
+  * À côté de votre identifiant de connexion, cliquez sur l'engrenage ;
+  * Dans la liste, sélectionnez //Ubuntu 2D// puis entrez votre mot de passe.
+La session démarrera avec Unity 2D.
+
+===== Unity 2D par défaut au démarrage =====
+Il est possible, avec [[:LightDM]], qu'en fermant votre session puis en vous y reconnectant, vous reveniez sur la version 3D.\\
+Pour éviter d'avoir à choisir à chaque fois la version 2D, [[:tutoriel:comment_modifier_un_fichier|ouvrez avec les droits d'administration]] le fichier **/etc/lightdm/lightdm.conf** et remplacez la ligne
+<file>user-session=ubuntu</file>
+par
+<file>user-session=ubuntu-2d</file>
+Au prochain démarrage, la session sera automatiquement lancée sur la version 2D de [[:Unity]]
+
+Si toutefois cela ne suffisait pas, essayez la méthode indiquée **[[:lightdm#changer_de_session_par_defaut|ici]]**.
+
+===== Configuration =====
+
+==== Modifier la taille des icônes du Launcher ====
+
+Sous Ubuntu 13.04, faire un clic droit sur le bureau puis choisir "Change desktop background", vous pouvez modifier la valeur de "Launcher Icon Size" de 32 à 64 pixels.
+
+
+
+==== Déplacer des icônes du Launcher ====
+Le déplacement des icônes du Launcher fonctionne de la même manière que sous Unity 3D : restez appuyé pendant environ 1 seconde sur l'icône à déplacer. Elle se détachera alors, ce qui permettra de changer l'icône de place. Plus d'informations [[:unity_launcher#deplacer_une_icone_dans_la_barre_de_lanceurs|ici]]
+
+==== Configuration avancée ====
+Il s'agit de modifier les fichiers en //.qml// des fichiers contenus dans les sous-dossiers de **/usr/share/unity-2d/**.\\
+Pour plus d'informations rendez-vous sur [[:configuration-avancee-unity-2d|cette page]].
+----
+//Contributeurs: FIXME //

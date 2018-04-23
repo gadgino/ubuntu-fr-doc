@@ -1,0 +1,58 @@
+{{tag>Précise Trusty apt gestionnaire_de_paquets}}
+
+----
+{{ :application:gdebi:gdebi_icone_00.png?60|}}
+====== Installateur de paquets hors dépôts Gdebi ======
+{{  application:gdebi:gdebi_01.png?300|Gdebi sur le point d'installer le paquet Google-earth}}
+
+**Gdebi** est une application d'installation et de gestion de paquets Debian (.deb). C'est un utilitaire fonctionnant autant en mode graphique que [[console]] et permettant l'installation de paquets situés hors de [[:depots|dépôts APT]] : issus d'un site Internet, d'un CD-ROM, d'un support mobile, etc. \\
+Il dispose des mêmes fonctionnalités que [[:apt-get]] ou la [[:software-center|Logithèque Ubuntu]]: il s'assure que le paquet à installer est compatible avec la version et l'architecture du système Ubuntu dans lequel vous essayez de l'installer, et s'assure aussi que toutes les dépendances requises par le paquet sont satisfaites. Dans le cas contraire, les dépendances sont téléchargées depuis Internet. A l'aide des onglets, **Gdebi** permet aussi d'accéder à des informations importantes comme les chemins des dossiers où seront installés les différents fichiers du paquet .deb.\\
+
+Les fonctions d'installation de paquets .deb hors dépôts sont désormais intégrées à la [[:software-center|Logithèque]]. Gdebi n'étant plus nécessaire mais, toujours en développement et à jour de version dans les dépôts Ubuntu, il vous est tout à fait possible de l'utiliser pour l'installation ou la gestion des paquets .deb.
+
+===== Pré-requis =====
+  * Disposer des [[:sudo|droits d'administration]].
+  * Dans le cas où l'installation d'un paquet par **Gdebi** nécessite des dépendances, disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+==== Depuis les dépôts Ubuntu ====
+L'application **Gdebi** est présente dans les dépôts officiels. Pour l'installer, il suffit d'[[:tutoriel/comment_installer_un_paquet|installer]] le paquet  **[[apt>gdebi|gdebi]]**. Sous Kubuntu, il s'agit de **[[apt>gdebi-kde|gdebi-kde]]** ou pour n'installer que la version en ligne de commande **[[apt>gdebi-core|gdebi-core]]**.
+
+===== Utilisation =====
+
+==== Méthode graphique ====
+
+=== Installation d'un paquet .deb.===
+Une fois le fichier .deb téléchargé ;
+  - Faire un clic droit sur ce paquet à installer, puis choisir dans le menu //"Ouvrir avec installateur de paquets Gdebi"//.
+  - Dans la fenêtre Gdebi, cliquez sur le bouton // "Installer le paquet"//.
+
+Gdebi vérifie par lui-même que les [[:apt#le_paquet|dépendances]] nécessaires au paquet à installer sont satisfaites et en cas de besoin, il vous propose d'installer les paquets supplémentaires requis.  Les dépendances, elles, sont téléchargées depuis [[:depots|les dépôts APT]]. \\
+Une fois le paquet ou les paquets installés, il sont présents dans la base de données de APT.  Ceci a pour avantage qu'il pourront être désinstallés très facilement à l'aide de la [[:software-center|logithèque]] ou le gestionnaire de paquets [[:Synaptic]] ([[:Apper]] pour kde). \\
+
+===Désinstallation d'un paquet .deb===
+Pour désinstaller un paquet .deb, il faut avoir conservé le fichier .deb puis ;
+  - Faire un clic droit sur le fichier .deb conservé et choisir dans le menu //"Ouvrir avec installateur de paquets Gdebi"//.
+  - Dans la fenêtre Gdebi, 2 boutons apparaîtront. // "Réinstaller le paquet"// et // "Supprimer le paquet"//. Cliquer sur le bouton // "Supprimer le paquet"//.
+
+===Mise à jour d'un paquet .deb ===
+Vous pouvez même faire des mises à jour de paquets .deb installés.
+  - Télécharger la nouvelle version du paquet .deb à mettre à jour.
+  - Faire un clic droit sur le fichier .deb téléchargé puis choisir dans le menu //"Ouvrir avec installateur de paquets Gdebi"//.
+  - Dans la fenêtre Gdebi, cliquer sur le bouton // "Mettre à jour le paquet"// ....
+
+==== Méthode en ligne via le terminal ====
+Dans un [[:terminal]], saisir la [[:commande_shell|commande]] suivante :
+<code>sudo gdebi <nom_du_paquet.deb></code>
+où <nom_du_paquet.deb> doit être remplacé par le nom du fichier.
+
+Seulement le paquet gdebi-core est nécessaire pour une utilisation uniquement en ligne de commande.
+===== Désinstallation =====
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. 
+
+===== Voir aussi =====
+  * **(en)** [[https://launchpad.net/gdebi|Site du projet sur Launchpad]]
+  * **(en)** [[http://diablo.ucsc.edu/cgi-bin/man/man2html?gdebi-gtk+1|Manuel Gdebi pour l'usage en terminal]] (même contenu que la commande ''man gdebi'')
+
+----
+//Contributeurs : [[utilisateurs:AlexandreP]], [[utilisateurs:Gemnoc]], [[:contributeurs|les contributeurs d'Ubuntu-fr]].//

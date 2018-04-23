@@ -1,0 +1,73 @@
+{{tag>jeu course À_RECYCLER}}
+
+----
+
+{{  jeux:jomar3d_martians.png?200}}
+
+====== Jomar 3D ======
+
+Un petit jeu 3D en OpenGL, avec la SDL pour l'audio.
+Le but est de courser des martiens… en pilotant un homard ! Aucune idée intellectuellement satisfaisante sur le pourquoi de cet assemblage hétéroclite de figurants n'a pu être déterminée…
+
+
+===== Prérequis =====
+
+  * Disposer des [[:sudo|droits d'administration]] ;
+  * Disposer d'une connexion internet active
+
+===== Installation =====
+<note warning>Cette méthode ne fonctionne plus sur les versions récentes d'Ubuntu, en raison de l'absence d'une librairie. La méthode à partir des sources n'a pas été testée.</note>
+  *[[:tutoriel:comment_installer_un_paquet|Installez les paquets]] **[[apt://libsdl-mixer1.2|libsdl-mixer1.2]] [[apt://libglew|libglew]] [[apt://libpng12|libpng12]]** et leurs dépendances. FIXME //libglew et libpng12 n'existent pas sous Jaunty.//
+  *Téléchargez l'archive correspondant à votre [[:architecture matérielle]] (par exemple jomar3d_X.X-Linux-x86.tar.bz2) sur la page de [[http://studios.chalmion.tuxfamily.org/downloads.php|téléchargement de Jomar3D]].
+  *Décompressez simplement l'archive téléchargée précédemment dans le dossier qui vous convient.
+  *Rendez-vous dans le dossier que vous avez décompressé, puis lancez l'exécutable ''jomar3D'' pour lancer le jeu. (par exemple, double-cliquez dessus dans [[:Nautilus]].)
+
+<note tip>Si votre architecture ne figure pas parmi les versions disponibles, [[http://studios.chalmion.tuxfamily.org/about.php#form|signalez-le aux développeurs]] et essayez la méthode ci-dessous.</note>
+
+==== Alternative: installation à partir des sources ====
+
+
+[[:tutoriel:comment_installer_un_paquet|Installez les paquets]] **[[apt://build-essential|build-essential]] [[apt://freeglut3-dev|freeglut3-dev]] [[apt://libpng12-dev|libpng12-dev]] [[apt://libsdl-mixer1.2-dev|libsdl-mixer1.2-dev]] [[apt://libglew-dev|libglew-dev]]** \\ (Les deux derniers sont optionnels mais recommandés.)
+Téléchargez les sources du jeu : soit la version stable, soit la version en développement:
+
+  * **Version stable:** téléchargez la dernière version des archives **jomar3D_//version//-src.tar.gz** et **jomar3D_//version//-data.tar.gz** depuis le [[http://studios.chalmion.tuxfamily.org/downloads.php|site de Jomar3D]], et décompressez ces 2 archives dans, mettons, votre dossier personnel.
+
+  * **Version en développement:** [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt://subversion|subversion]]**, puis exécutez la commande suivante dans votre [[terminal]] : <code>svn co svn://svn.tuxfamily.org/svnroot/chalmion/jomar3d/trunk jomar3d</code>
+
+<note tip> Si vous voulez mettre à jour ces sources, ne re-clonez pas tout ! Faites simplement 
+  svn update
+dans le dossier des sources !
+</note>
+
+
+Dans les deux cas vous obtiendrez un dossier ''jomar3d'' ou ''jomar3d-//version//'' contenant tout le nécessaire.
+
+Ouvrez un [[:terminal]] et [[:tutoriel:console_commandes_de_base#cd|rendez-vous dans le dossier]] créé lors de la mise en place de l'arborescence (adaptez la commande en fonction du nom exact de votre dossier):
+<code>cd jomar3d*</code>
+
+Lancez la compilation:
+    * Dans le cas de la version stable, il suffit de taper : <code>make</code>
+    * Dans le cas de la compilation de la version de développement, tapez: <code>make DATADIR=.</code>
+
+puis installez le jeu :
+<code>sudo make install</code>
+
+et si vous êtes intéressé par une entrée de menu :
+<code>sudo make install-desktop</code>
+
+
+===== Utilisation =====
+
+Dans le cas d'une archive téléchargée précompilée (binaire), rendez-vous dans le dossier que vous avez décompressé, puis lancez l'exécutable ''jomar3D''. Par exemple, double-cliquez dessus dans [[:Nautilus]].
+
+Si vous avez compilé et installé le jeu [[#Alternative: installation à partir des sources|depuis les sources]], vous pouvez avoir ajouté l'entrée de menu : **//Applications => Jeux => Jomar3D//**. Bien sûr vous pouvez aussi exécuter ''jomar3D''.
+
+
+===== Liens =====
+
+  * [[http://studios.chalmion.tuxfamily.org|Site de Jomar3D]]
+
+
+----
+
+//Contributeurs : [[utilisateurs:johndescs]], [[utilisateurs:Ban]].//

@@ -1,0 +1,99 @@
+{{tag>apt dépôts gestionnaire_de_paquets gnome}}
+
+====== Logiciels (logithèque GNOME) ======
+
+La logithèque GNOME (présente sous le nom de //Logiciels// dans la liste des applications) est  un catalogue de plusieurs milliers d'applications vous permettant d'enrichir en un simple clic votre installation d'Ubuntu avec de nouveaux logiciels.
+
+Vous pouvez trouver des applications libres, ou non libres venant de divers dépôts, et également des [[:extensions-gnome|extensions GNOME Shell]] (si vous utilisez cet environnement).
+
+Chaque application dispose d'un descriptif, d'une illustration et d'informations complémentaires telles que son poids une fois installés, les évaluations des utilisateurs. Trouver une application est très simple grâce au système de classement par catégories ou encore à la barre de recherche.
+
+La logithèque vous permet aussi de voir quels sont les logiciels installés sur votre ordinateur, de les classer par //appfolders// (avec GNOME Shell), et de supprimer ceux dont vous n'avez plus besoin.
+
+===== Installation =====
+==== Présence par défaut ====
+Depuis 16.04 (Xenial Xerus), la logithèque Gnome est installée sur les variantes suivantes :
+  * [[:Unity]]
+  * [[:gnome-shell|Gnome]]
+  * [[:Budgie]] (depuis 17.04)
+  * Xfce ([[:Xubuntu]])
+
+Sur d'autres variantes, les logithèques par défaut diffèrent :
+  * [[Kubuntu]]: On peut aussi installer un équivalent de la logithèque Ubuntu : la logithèque [[:plasma-discover|Discover]], pour ce faire il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>plasma-discover|plasma-discover]]**.
+  * [[:Lubuntu]] propose également sa propre logithèque installée par défaut, c'est le paquet **[[apt>lubuntu-software-center|lubuntu-software-center]]** qui la fournit. 
+
+==== Pré-requis ====
+Une connexion à internet et [[:sudo|les droits d'administration]].
+
+==== En ligne de commande ====
+<code>sudo apt-get install gnome-software</code>
+
+==== Depuis une autre logithèque ou un gestionnaire de paquets ====
+Le paquet se trouve en cherchant "gnome software" ou "software center".
+
+===== Utilisation =====
+
+==== Lancement ====
+
+Graphiquement, cherchez "Logiciels" parmi vos applications.
+
+En ligne de commande, tapez <code>gnome-software</code>
+
+{{ http://i.imgur.com/ApG1Ks7.png?350|La logithèque GNOME}}
+
+Une fenêtre dont la //headerbar// propose 3 onglets apparaît :
+
+==== Onglet "Tout" ====
+
+Une élégante page d'accueil avec des catégories apparaît. Cliquer sur les catégories permet d'en explorer les logiciels.
+
+Un bouton pour lancer une recherche est disponible, et permettra de trouver un logiciel désiré avec davantage de facilité.
+
+Une fois sur la page d'un logiciel, des informations diverses sont disponibles à son propos, ainsi qu'un bouton "//Installer//" qui permet d'installer le logiciel.
+
+==== Onglet "Installées" ====
+
+Les applications (et les [[:extensions-gnome|extensions GNOME Shell]]) installées y sont listées, y compris celles installées hors-dépôts. Un bouton "//Supprimer//" permet de les désinstaller.
+
+Dans la //headerbar//, un bouton permet de passer en "mode sélection" : des actions supplémentaires sont alors possibles, notamment pour gérer les //appfolders// de la vue Applications de GNOME Shell.
+
+==== Onglet "Mises à jour" ====
+
+Les mises à jour des applications et du système y sont listées. 
+
+<note important>Si les mises à jour touchent au cœur du système, Gnome Software voudra redémarrer pour les installer ! Si vous ne désirez pas redémarrer tout de suite, il est préférable de mettre à jour les paquets en ligne de commande.</note>
+
+Depuis l'onglet "Mises à jour", //GNOME Software// permet aussi la mise à niveau vers des versions plus récentes du système d'exploitation.
+
+==== Gestion des dépôts logiciels ====
+
+Dans l'[[:gnome-shell#interface_de_base|appmenu]], on trouve une fenêtre de paramétrage des diverses sources de logiciels.
+
+<note>à compléter, je ne peux pas détailler le délire avec les ppa puisque j'illustre l'article avec mes screens de Debian comme un gros débile</note>
+
+===== Différences avec un gestionnaire de paquets =====
+
+//Logiciels// liste mal certaines applications anciennes, ainsi que les paquets de développement, les librairies, etc.
+
+Si vous cherchez des paquets spécifiques ou que vous voulez des résultats très exhaustifs, vous préférerez alors sans doute passer par un **gestionnaire de paquets**, comme //[[:Muon]]// (KDE) ou **//Gnome Paquets//**.
+
+==== GNOME Paquets ====
+
+{{ http://i.imgur.com/uzZBQwj.png?300|GNOME Paquets}}
+=== Installation ===
+**GNOME Paquets** est répertorié sous le nom de //Paquets// dans les menus, sous le nom de //GNOME Paquets// dans la logithèque, et téléchargeable en ligne de commande sous le nom [[apt>gnome-packagekit]]).
+
+=== Utilisation ===
+
+<note>Il s'agit d'un gestionnaire de paquets, et non pas d'une logithèque ! C'est bien moins graphique et //user-friendly//, mais cela peut vous aider de disposer de **Logiciels** et de **Paquets** en parallèle, suivant vos usages.</note>
+
+Cherchez les paquets par nom ou à partir de leur description ou en explorant laborieusement les immenses catégories proposées. 
+Cliquez sur un paquet pour avoir un peu plus de détails et d'options d'installation.
+
+Pour (dés)installer plusieurs paquets d'un coup, il est possible des les sélectionner en les cochant.
+
+===== Voir aussi =====
+
+  * [[https://wiki.gnome.org/Apps/Software|Page sur le wiki GNOME]]
+  * [[:software-center|L'ancienne logithèque Ubuntu]]
+  * La page consacrée à [[:gnome-shell|Gnome Shell]]

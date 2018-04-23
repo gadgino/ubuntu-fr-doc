@@ -1,0 +1,230 @@
+{{tag>Precise Trusty Xenial ftp internet BROUILLON}}
+----
+
+{{  https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/FileZilla_logo.svg/380px-FileZilla_logo.svg.png?60}}
+
+====== Client FTP : FileZilla ======
+
+
+**FileZilla** est un client FTP libre (GNU) convenant aussi bien au débutant qu'à l'utilisateur confirmé.
+Il possède de nombreuses fonctionnalités :
+  * Gestionnaire des connexions ;
+  * Connexion par protocole SSH (SFTP) ;
+  * File d'attente ;
+  * Répertoire de liens déjà visités ;
+  * Compression des données en cours de chargement, ce qui permet d'accélérer la vitesse de transfert ;
+  * Réglage de la bande passante ;
+  * Doubles fenêtres paramétrables « répertoire local/ordinateur distant ».
+
+{{https://wiki.gandi.net/_media/fr/hosting/filezilla01-fr.png}}
+
+
+===== Installation =====
+
+==== Via les dépôts officiels ====
+Pour installer ce logiciel, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>filezilla]]**.
+
+
+==== Via l'archive du site Filezilla ====
+
+Pour toutes les versions d'ubuntu, FileZilla est directement téléchargeable en exécutable (sans installation) sur le [[http://filezilla-project.org/download.php?type=client|site officiel]] en .tar.gz2 
+
+Décompressez l'archive puis lancer le fichier "filezilla" dans le répertoire "bin"
+
+Si vous souhaitez déplacer le contenu téléchargé des fichiers de FileZilla directement dans votre répertoire "usr" pour une meilleure organisation de votre espace de travail, entrez ces commandes suivantes dans le terminal
+
+1-Une fois l’archive décompressée, rendez-vous dans le répertoire Filezilla:
+<code>cd ~/VOTRE_RÉPERTOIRE_DE_TÉLÉCHARGEMENT/FileZillaX #X étant le numéro de la version de FileZilla</code>
+
+2-Copiez le répertoire "bin" dans "/usr/bin"
+<code>sudo cp -r bin/* /usr/bin</code>
+
+3-Copiez le répertoire "share" dans "/usr/share"
+<code>sudo cp -r share/* /usr/share</code>
+
+Filezilla est maintenant parfaitement intégré dans votre système.
+
+===== Configuration =====
+
+C'est simple et facile :
+Il suffit d'ouvrir le gestionnaire de sites
+et de mettre vos informations données par le serveur FTP
+  * l'adresse du serveur
+  * le port (par défaut le port 21 )
+  * le login
+  * le mot de passe
+
+===== Utilisation =====
+Lancez l'application via le [[:unity#tableau_de_bord_dash|tableau de bord Unity]] ou via le [[:terminal]] (toutes versions d'Ubuntu) avec la [[:commande_shell|commande]] suivante :
+<code>filezilla</code>
+
+==== Ne pas afficher les dossiers cachés ====
+
+Un problème qui peut rapidement vous gâcher la vie, c'est l'affichage des dossiers et fichiers cachés par défaut. Pour pallier cela, il va falloir configurer un « Filtre » :
+
+__Version francisée__ : Cliquer sur l'icône //Gestion des filtres -> __É__diter les règles de filtrages... -> __N__ouveau//. Choisir un nom (« Cachés » c'est très bien...). Cliquer sur le bouton "En ajouter __p__lus". Dans le menu déroulant, sélectionner "Nom du fichier" puis « commence par ». Dans le champ le plus à droite mettre un « . ». Vérifier que les deux cases «Fichi__e__rs» et «Ré__p__ertoires», à la section « Le filtre s'applique à :» sont cochées puis Valider. De retour dans la section "Jeu de filtres", cocher la case placée devant le nom du nouveau filtre « Cachés » pour les filtres locaux et/ou les filtres distants.
+
+La fenêtre est scindée en deux : à gauche pour votre disque-dur, à droite pour le serveur auquel vous vous connectez. Cochez donc celle de gauche. Et enfin, Validez.
+
+==== Avoir une interface plus conviviale ====
+
+Vous l'aurez remarqué, si vous utilisez [[:Nautilus]] ou [[:Thunar]] vos raccourcis personnels ne sont pas pris en compte, ce qui peut être gênant et handicapant pour travailler efficacement.
+
+Heureusement, FileZilla supporte le **"drag'n'drop"** (glisser/déposer). Vous pouvez donc utiliser un bureau spécifique afin de faire comme ceci :
+
+{{applications:filezilla_nautilus.png}}
+
+
+Ainsi donc, vous pouvez facilement téléverser vos fichiers en vous promenant comme vous avez l'habitude de le faire !
+
+
+
+===== FileZilla et la sécurité des sites enregistrés =====
+
+
+Comme beaucoup l'ont surement remarqué, FileZilla ne chiffre pas son dossier de configuration (//~/.filezilla//) mais on n'y fait pas toujours attention car dans le logiciel, les mots de passe n'apparaissent pas. Cependant la simple commande suivante affichera tout:
+<code>cat ~/.filezilla/sitemanager.xml</code> 
+
+FIXME : Il semblerait qu'actuellement, la localisation de ce fichier soit plutôt **~/.config/filezilla/sitemanager.xml** ! C'est en tout cas le chemin à l'installation sur Ubuntu 14.10.
+
+<note>Apparemment il n'existe pas de fonctions de chiffrement dans FileZilla. Il suffirait d'ajouter un chiffrement dans le code source mais encore faudrait-il avoir le temps de l'analyser.</note>
+
+Trois méthodes pour sécuriser votre répertoire de configuration de FileZilla contre les utilisateurs indiscrets de votre ordinateur et contre les logiciels espions. La première est un peu plus simple, la deuxième et la troisième sont un peu plus sûres et pratiques. Si en revanche vous craignez que la NSA ne soit à vos trousses, alors je vous conseille plutôt d'utiliser la méthode truecrypt, voire veracrypt avec 2 niveau de chiffrement. =)
+
+Bien sûr, votre répertoire .filezilla/ sera toujours vulnérable au moins pendant l'utilisation de FileZilla car il sera déchiffré. En modifiant un peu ces 2 méthodes, vous pouvez utiliser plusieurs répertoires de configuration contenant les sites classés par sensibilité.
+
+
+==== Méthode cryptkeeper ====
+
+Alors voilà mon procédé: on va utiliser **cryptkeeper** pour chiffrer le répertoire de configuration de FileZilla et **zenity** pour afficher une alerte bloquante.
+
+Tout d'abord il faut installer les paquets **[[apt>cryptkeeper]]** et **[[apt>zenity]]**. Ensuite ajoutez un répertoire à chiffrer dans cryptkeeper, peu importe le chemin du répertoire chiffré, il faut juste que le chemin du répertoire déchiffré soit ~/.filezilla . (Je ne détaille pas la procédure ici)
+
+<note help>Si cryptkeeper ne se lance pas au démarrage d'Ubuntu, il suffit de l'ajouter dans la liste des applications au démarrage (sa commande est simplement ''cryptkeeper''). Une fois lancé, un trousseau de clés apparait parmi les icones de minimisation de la barre Ubuntu.
+Un simple clic gauche sur cette icone affiche la liste des répertoires chiffrés/déchiffrés et de quoi créer/importer des dossiers chiffrés.</note>
+
+Ensuite le petit souci qu'on pourra avoir, c'est évidemment de démarrer FileZilla avant d'avoir déchiffré le répertoire de configuration. __Résultat :__ FileZilla va créer un nouveau répertoire //~/.filezilla// et il faudra le supprimer à la main avant de déverrouiller notre répertoire chiffré (sinon cryptkeeper affichera un message disant que le répertoire cible existe déjà) et de relancer FileZilla. C'est ici que zenity nous sera utile.
+
+**Ma petite solution**, c'est de modifier le raccourci dans la barre de raccourcis (et éventuellement le menu de Gnome __Applications > Internet > Filezilla__) comme suit.
+
+On crée un petit script que l'on appelle //.filezilla_p// et que l'on mettra dans notre répertoire personnel (sinon, adaptez les chemins dans la suite). Ensuite il suffit de remplacer la commande ''filezilla'' dans le raccourci par ''/home/USER/.filezilla_p'' (**USER** est à remplacer par votre nom d'utilisateur).
+
+Contenu de **/home/USER/.filezilla_p** :
+
+<code>zenity --title 'FileZilla' --info --text='Le répertoire est-il déverrouillé ?' ; filezilla</code>
+
+Le tour est joué, si on lance FileZilla avec notre raccourci, une boite de dialogue bloquante s'affiche (avant le lancement même de FileZilla) et ainsi on peut déchiffrer notre répertoire //~/.filezilla// avec cryptkeeper si c'est pas déjà fait. Ensuite on clique sur Valider et FileZilla se lance.
+
+Après avoir fermé FileZilla, il faut rechiffrer le répertoire// ~/.filezilla// en le "démontant" avec cryptkeeper.
+
+
+==== Méthode truecrypt ====
+
+<note warning> **ATTENTION:** Au delà de la version 7.1a, TrueCrypt n'est plus sûr! Voir [[TrueCrypt]].</note>
+
+Je vous propose aujourd'hui une seconde méthode pour sécuriser les sites enregistrés avec FileZilla. On va utiliser un fichier chiffré avec **truecrypt**. D'après wiki, TrueCrypt est gratuit et open-source mais non-libre. C'est donc une histoire de licence qui m'échappe (toute information supplémentaire est la bienvenue) mais l'important est que ce n'est pas propriétaire.
+
+Cette méthode a 2 avantages majeurs par rapport à cryptkeeper :
+
+  * elle nécessite un seul clic pour ouvrir Filezilla avec son fichier chiffré
+  * elle permet d'avoir un répertoire de configuration //~/.filezilla// factice.
+
+<note important>Les droits administrateurs sont requis pour cette méthode chez moi comme pour le montage de partitions/disques. A voir si c'est le cas pour tout le monde.</note>
+
+=== Installation et création du fichier chiffré ===
+
+Tout d'abord, installez **[[apt>alltray]]** ainsi que **truecrypt** disponible sur le site officiel [[http://www.truecrypt.org/downloads]]. **alltray** nous permet de réduire une application dans la barre de minimisation et **truecrypt** nous permet de chiffrer notre répertoire de configuration.
+
+Ensuite, nous allons créer notre fichier chiffré qui contiendra ce qu'il y a normalement dans ~/.filezilla/. Pour ça, lancez **TrueCrypt** en mode graphique via le menu de Gnome //Accessoires > TrueCrypt//. Créez un nouveau volume chiffré (ici pas besoin d'une partition chiffrée). Truecrypt permet 2 niveaux de chiffrement (je vous invite à regarder l'utilité sur le site officiel et sur Wikipédia). Ici on restera avec un seul niveau de chiffrement (donc pas de //volume hidden//). On utilisera aussi une taille réduite (1Mo est largement suffisant) et on utilisera le chiffrement //Serpent-Twofish-AES// qui est plus lent que AES simple (mais sans impact visible sur un si petit volume) mais plus sûr. Par la suite, on appellera votre fichier chiffré FZ_CHIFFRE (si vous choisissez un autre nom, modifiez les chemins en conséquence) et il contiendra tous les fichiers contenus dans //~/.filezilla//.
+
+Maintenant que votre fichier chiffré est créé, montez-le (par défaut, en mode graphique, il sera monté typiquement dans /media/truecrypt1), et copiez-y vos fichier contenus dans //~/.filezilla//. Pour s'assurez que vous ayez bien mis les fichiers au bon endroit, vous devez avoir la hiérarchie /media/truecrypt1/sitemanager.xml et __PAS__ /media/truecrypt1/.filezilla/sitemanager.xml
+
+=== Script personnalisé de lancement de FileZilla ===
+
+Ensuite, créez un script de lancement (donnez-lui le nom de votre choix, moi je l'ai nommé //filezilla_p//) dans votre répertoire personnel (ou ailleurs si ça vous chante mais adaptez les chemins dans ce cas), ce script remplacera la commande originel //filezilla//.
+Collez ceci dans votre script :
+
+<code>echo "Montage du répertoire..."
+truecrypt --mount /home/USER/FZ_CHIFFRE /home/USER/.filezilla
+echo "Exécution de FileZilla..."
+filezilla;
+echo "Démontage du répertoire..."
+truecrypt --dismount /home/USER/.filezilla
+exit 0</code>
+
+__Petites explications :__
+
+  * les affichages **echo** ne sont pas indispensables mais peuvent être utile en cas de blocage quelconque pour savoir où le blocage survient.
+  * ensuite pour la ligne ''truecrypt --mount /home/USER/FZ_CHIFFRE /home/USER/.filezilla'' : remplacez **USER** par votre nom d'utilisateur ; remplacez **FZ_CHIFFRE** par le nom donné au fichier chiffré. Cette ligne permet de déchiffrer et monter FZ_CHIFFRE comme étant ~/.filezilla/. Truecrypt demandera le mot de passe administrateur si besoin (cf la note d'introduction à la méthode truecrypt).
+  * enfin pour la ligne ''truecrypt --dismount /home/USER/.filezilla'' : remplacez **USER** par votre nom d'utilisateur ; Cette ligne permet de démonter et rechiffrer le répertoire ~/.filezilla/ en FZ_CHIFFRE. Elle ne sera exécutée qu'une fois FileZilla fermé évidemment.
+
+<note>Il est possible d'ajouter le mot de passe de votre fichier chiffré dans la ligne de commande. Ceci présente l'avantage de ne pas avoir à l'entrer à chaque fois mais affaiblit la sécurité. A vous d'évaluer le rapport sécurité/commodité. Si ça vous convient, alors modifiez la ligne 2 du script en ajoutant l'option en gras présente dans cette ligne (où PASSWORD est votre mot de passe) : ''truecrypt --mount /home/USER/FZ_CHIFFRE **-p PASSWORD** /home/USER/.filezilla''</note>
+
+Maintenant, on va remplacer le raccourci FileZilla de la barre de lancement rapide et celui du menu Gnome par cette ligne de commande :
+<code>alltray gnome-terminal -e '/home/USER/filezilla_p'</code>
+
+__Petites explications :__
+
+un nouveau terminal s'ouvre dans lequel sera exécuté notre script filezilla_p et ce terminal sera réduit en icône. J'utilise ce procédé car il est apparemment impossible d'exécuter plusieurs lignes de code dans un raccourci de la barre supérieur ou du menu Gnome.
+
+==== Méthode VeraCrypt ====
+
+VeraCrypt est un utilitaire gratuit, basé sur TrueCrypt, disponible sur : https://veracrypt.codeplex.com/ \\
+Depuis la version 1.0f, il est fonctionnel sur GNU/Linux et se télécharge directement sur : https://veracrypt.codeplex.com/releases/view/565079
+
+À savoir que cet outil se gère en mode console, et ou graphique, et supporte les volumes TrueCrypt.
+
+Nous utiliserons la même méthode ci-dessus que pour TrueCrypt : Un volume chiffré dans lequel nous copierons le répertoire ~/.filezilla nécessaire.
+
+=== Le script de lancement personnalisé ===
+
+<code>
+#! /bin/bash
+
+veracrypt --mount ~/Documents/FZ_volume_chiffré ~/.filezilla && filezilla
+
+veracrypt --dismount ~/.filezilla/
+</code>
+
+L'avantage de VeraCrypt est que, si vous avez créer votre volume chiffré avec mot de passe, VeraCrypt vous demandera celui-ci, ainsi que celui de votre compte administrateur, par le biais de fenêtres graphiques - si vous avez installé la version graphique, bien sûr.
+
+Il ne reste plus qu'à modifier l'appel de FileZilla par l'appel du script ci-dessus ...
+
+<note>Pensez à autoriser le script en exécution, et à réduire les droits dessus pour que seul votre utilisateur puisse l'exécuter, tel que : \\
+<code>chmod 0700 veracrypt_filezilla</code></note>
+
+=== Le répertoire factice ou leurre ===
+Démontez votre fichier chiffré s'il est monté. Lancez dans un terminal la commande ''filezilla'' simplement pour qu'il crée un répertoire ~/.filezilla/ de base. Fermez ensuite FileZilla. Maintenant si vous montez votre fichier chiffré comme étant ~/.filezilla/, cela ne pose aucun problème (à la différence de cryptkeeper) et si vous lancez à nouveau FileZilla, vos sites sont présents. Cette astuce nous permet de conserver un répertoire ~/.filezilla/ factice, dépourvu de toute information utile, qui devrait satisfaire les personnes ou logiciels malveillants. Je vous conseille de mettre un repère dans votre répertoire factice afin de voir en un coup d'oeil si ~/.filezilla/ est le répertoire factice ou le vrai (j'ai ajouté un fichier vide nommé FZ dans le répertoire factice). Vous pouvez même ajouter quelques sites bidons dans votre configuration factice afin de renforcer le sentiment de profonde satisfaction de votre adversaire. ^_^
+
+===== Problèmes rencontrés =====
+==== Filezilla ne se lance pas ====
+Filezilla ne se lance pas parce qu'il liste tous les disques montés, il suffit juste de démonter tous les disques à part le disque du système d'exploitation.
+La méthode est assez simple, dans nautilus, clic droit sur la flèche à côté du disque dur et puis le tour est joué.
+La méthode peut aussi se faire par terminal.
+
+==== Fichier contenant les sites utilisés ====
+Les fichiers de configuration sont dans :
+<code>/home/votre_compte_utilisateur/.config/filezilla</code>
+Vous y trouverez le fichier filezilla.xml qui contient la configuration mais ne contient plus d'informations de serveurs ftp !\\
+C'est le fichier **sitemanager.xml** qui contient la liste de vos serveurs. Si vous migrez depuis une machine sous Windows, cela correspond au fichier recentservers.xml qui sont dans //users/votre_compte_utilisateurAppData/Roaming/FileZilla/ // \\
+Hormis la seconde ligne qui contient //platform="*nix"// ou //"windows"//, le reste est identique à ceci près que la version unix/linux contient des lignes supplémentaires :
+<code>
+			<Name>Nouveau site</Name>
+			<Comments />
+			<LocalDir />
+			<RemoteDir />
+			<SyncBrowsing>0</SyncBrowsing>
+			<DirectoryComparison>0</DirectoryComparison>Nouveau site</Server>
+</code>
+Si vous faites des copier/coller de l'un à l'autre, attention à ne pas avoir 2 //</Server>//
+
+===== Voir aussi =====
+  * **(en)** [[http://filezilla.sourceforge.net/|Site officiel Filezilla]].
+  * **(fr)** [[http://www.framasoft.net/article1011.html|Article Framasoft]].
+  L'article en français est exclusivement pour windows.
+  * **(fr)** [[http://www.youtube.com/watch?v=sfkRX8cCA4U|Vidéo HD de la présentation du programme Filezilla sous Ubuntu]].
+  * **(en)** [[http://easylinuxguide.com/blog/2011/06/16/filezilla-drag-and-drop-crash-fix-ubuntu-natty/|Si vous rencontrez un soucis avec le Drag'n Drop sous Filezilla (crash) ce lien explique la cause]], tandis que celui-ci **(en)** montre la manipulation à faire [[http://wiki.wxpython.org/InstallingOnUbuntuOrDebian|qui consiste à mettre à jour wxwidget]].
+
+----
+
+//Contributeurs : [[utilisateurs:Oby.|Oby.]], [[utilisateurs:adam0509]], [[utilisateurs:dYpn]], [[utilisateurs:agentcobra]] (configuration), [[utilisateurs:Karting06]], Pedro-le-fou (sécurité des sites enregistrés), [[utilisateurs:mimidevos]]//.

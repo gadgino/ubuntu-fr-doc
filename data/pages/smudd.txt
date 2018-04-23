@@ -1,0 +1,32 @@
+{{tag>TAGS BROUILLON}}
+----
+
+====== SMUDd ======
+SMUDd est l'acronyme de **S**mall **M**ount/**U**mount **D**iscorery **d**aemon.
+
+Ce logiciel est un démon Linux qui scrute le système et avertit lorsqu'un point de montage est ajouté ou supprimé.
+
+===== Avant tout =====
+Vous pouvez utiliser le dépôt de [[utilisateurs:spomky|Spomky ]] afin de faciliter l'installation du logiciel et ses dépendances.
+
+Le code source  est disponible sous [[https://edge.launchpad.net/fusible|Launchpad]] et peut être téléchargé avec [[bzr|Bazaar]].
+
+Il fait partie du projet [[Fusible]] mais reste indépendant.
+
+===== Installation =====
+SMUDd est disponible sous forme de paquets binaires x86 et x86_64 pour Intrepid Ibex.
+
+Installez simplement le paquet [[apt://smudd]].
+
+===== Utilisation =====
+Le logiciel est lancé au démarrage de votre système. Une interface [[DBus]] est créée et inscrite sur le bus système sous com.spomky.smudd.
+
+Elle dispose des méthodes et signaux suivants :
+  * liste les points de montage disponibles
+  * signal lorsqu'un point de montage est ajouté
+  * signal lorsqu'un point de montage est supprimé
+
+SMUDd inscrit chaque changement dans le registre système (///var/log/syslog//).
+
+===== Désinstallation =====
+Supprimez le paquet [[apt://smudd]].

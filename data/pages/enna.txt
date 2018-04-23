@@ -1,0 +1,233 @@
+{{tag>média_center enlightenment}}
+
+----
+
+====== Enna ======
+<note warning>Plus développé.</note>
+
+**Enna** est un [[media center]]. Pour de plus amples informations, vous pouvez vous référer au [[http://captainigloo.wordpress.com/|blog du développeur]], ou le [[http://enna.geexbox.org/index.html|site officiel]].\\
+
+{{  http://captainigloo.files.wordpress.com/2009/08/picture_wall.png?500  }}\\
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+
+===== Installation =====
+
+==== Depuis les dépôts officiels (Ubuntu ≥ 10.04) =====
+
+Depuis [[:lucid|Ubuntu 10.04 LTS]], Enna fait partie des dépôts officiels. Il suffit d'[[:tutoriel:comment_installer_un_paquet#paquet_present_dans_les_depots|installer le paquet]] **[[apt://enna|enna]]**.
+
+Le paquet enna des dépôts offciels de Ubuntu 10.10 n'est pas installable pour cause de dépendance cassée, une procédure à jour est disponible sur le site du développeur.
+==== Depuis un dépôt externe (Ubuntu 9.10) ====
+
+[[:tutoriel:comment_modifier_sources_maj|Modifiez vos sources de mises à jour]] pour y ajouter le dépôt suivant :
+
+<file>deb http://packages.geexbox.org/ karmic main</file>
+
+Puis [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]].
+
+Enfin, [[:tutoriel:comment_installer_un_paquet#paquet_present_dans_les_depots|installez le paquet]] **[[apt://enna|enna]]**.
+
+
+==== Par compilation ====
+
+=== Installation des bibliothèques de compilation ===
+
+[[:tutoriel:comment_installer_un_paquet|Installez]] tout d'abord ces paquets :
+
+**[[apt://build-essential,make,gcc,bison,flex,subversion,mercurial,automake1.10,autoconf,autotools-dev,autoconf-archive,libtool,gettext,libfreetype6-dev,libpng12-dev,zlib1g-dev,libjpeg-dev,libtiff-dev,libungif4-dev,librsvg2-dev,libx11-dev,libxcursor-dev,libxrender-dev,libxrandr-dev,libxfixes-dev,libxdamage-dev,libxcomposite-dev,libxss-dev,libxp-dev,libxext-dev,libxinerama-dev,libxft-dev,libxfont-dev,libxi-dev,libxv-dev,libxkbfile-dev,libxkbui-dev,libxres-dev,libxtst-dev,libltdl3-dev,libglu1-xorg-dev,libglut3-dev,libdbus-1-dev,libxml2-dev,colormake,libcurl4-openssl-dev,ccache,libavformat-dev,libsqlite3-dev|build-essential make gcc bison flex subversion mercurial automake1.10 autoconf autotools-dev autoconf-archive libtool gettext libfreetype6-dev libpng12-dev zlib1g-dev libjpeg-dev libtiff-dev libungif4-dev librsvg2-dev libx11-dev libxcursor-dev libxrender-dev libxrandr-dev libxfixes-dev libxdamage-dev libxcomposite-dev libxss-dev libxp-dev libxext-dev libxinerama-dev libxft-dev libxfont-dev libxi-dev libxv-dev libxkbfile-dev libxkbui-dev libxres-dev libxtst-dev libltdl3-dev libglu1-xorg-dev libglut3-dev libdbus-1-dev libxml2-dev colormake libcurl4-openssl-dev ccache libavformat-dev libsqlite3-dev]]**
+
+=== Installation des dépendances E17 ===
+
+<note important>Enna s'appuyant sur les librairies **[[:enlightenment|Enlightenment 17 (E17)]]**, il faut les installer en premier lieu.
+Ceci n'est pas nécessaire, voir déconseillé si vous disposez déjà de E17 sur votre machine.</note>
+
+== EINA  ==
+
+<code>
+svn co http://svn.enlightenment.org/svn/e/trunk/eina
+cd eina
+./autogen.sh && make && sudo make install
+cd ..
+</code>
+
+== EET ==
+
+<code>
+svn co http://svn.enlightenment.org/svn/e/trunk/eet
+cd eet
+./autogen.sh && make && sudo make install
+cd ..
+</code>
+
+== Embryo ==
+
+<code>
+svn co http://svn.enlightenment.org/svn/e/trunk/embryo
+cd embryo
+./autogen.sh && make && sudo make install
+cd ..
+</code>
+
+== Evas ==
+
+<code>
+svn co http://svn.enlightenment.org/svn/e/trunk/evas
+cd evas
+./autogen.sh && make && sudo make install
+cd ..
+</code>
+
+== Ecore ==
+
+<code>
+svn co http://svn.enlightenment.org/svn/e/trunk/ecore
+cd ecore
+./configure --with-ecore-evas
+make
+sudo make install
+cd ..
+</code>
+
+== Edje ==
+
+<code>
+svn co http://svn.enlightenment.org/svn/e/trunk/edje
+cd edje
+./autogen.sh && make && sudo make install
+cd ..
+</code>
+
+== Elementary ==
+
+<code>
+svn co http://svn.enlightenment.org/svn/e/trunk/TMP/st/elementary
+cd elementary
+./autogen.sh && make && sudo make install
+cd ..
+</code>
+
+=== Installation des bibliothèques spécifiques ===
+
+== libnfo ==
+
+Bibliothèque de lecture/écriture de fichiers .NFO
+
+<code>
+hg clone -r v1.0.0 http://hg.geexbox.org/libnfo
+cd libnfo
+./configure && make && sudo make install
+cd ..
+</code>
+
+== libsvdrp ==
+
+Interface à VDR via le protocole //svdrp//
+
+<code>
+hg clone http://hg.geexbox.org/libsvdrp
+cd libsvdrp
+./autogen.sh && make && sudo make install
+cd ..
+</code>
+
+== libvalhalla ==
+
+Bibliothèque de scan des infos de fichiers multimédias
+
+<code>
+hg clone -r v1.0.1 http://hg.geexbox.org/libvalhalla
+cd libvalhalla
+./configure && make && sudo make install
+cd ..
+</code>
+
+== Libplayer ==
+
+Bibliothèque permettant de contrôler, avec les mêmes appels, l'un des 4 lecteurs multimédia supportés ([[:VLC]], [[:Xine]], [[:MPlayer]], [[:GStreamer]])
+
+<code>
+hg clone -r v1.0.0 http://hg.geexbox.org/libplayer
+cd libplayer
+./configure && make && sudo make install
+cd ..
+</code>
+
+== Mise à jour du chargeur d'application ==
+
+<code>sudo ldconfig</code>
+
+
+=== Installation depuis les sources ===
+
+<note important>Enna est en plein développement et son installation se fait donc en connaissance de cause.
+Il est déconseillé de suivre ce tutoriel si l'on ne sait pas ce que l'on fait !</note>
+
+
+== Installation d'Enna ==
+
+<code>
+hg clone http://hg.geexbox.org/enna
+cd enna
+./autogen.sh && make && sudo make install
+cd ..
+</code>
+
+
+===== Configuration =====
+
+<del>S'il n'y est pas déjà, on peut copier le fichier de configuration **''enna.cfg''** (disponible dans le dossier des sources d'Enna) vers **''~/.enna''**.</del>
+
+<note>Le fichier **''enna.cfg''** est créé au premier lancement de Enna dans la nouvelle version (v0.4.0).</note>
+
+En cas de nouvelle installation ou de mise à jour, il faudra supprimer (ou déplacer) ce fichier, il pourrait ne plus correspondre à la nouvelle version d'Enna.
+
+<code>
+cd enna
+cp enna.cfg.example ~/.enna/enna.cfg
+</code>
+
+Le fichier de configuration d'Enna est donc « **''~/.enna/enna.cfg''** » ou « **''~/.config/enna/enna.cfg''** », que l'on pourra le modifier afin d'avoir ses dossiers prédéfinis ou faire démarrer l'application en plein écran.
+
+===== Utilisation =====
+
+Lancez l'application depuis le menu // → Son et vidéo → Enna// ou //via// la [[:commande_shell|commande]] suivante :
+
+  enna
+
+
+==== Contrôle ====
+
+source : [[http://hg.geexbox.org/enna/file/35d6ab8d3531/src/modules/input/kbd/kbd.c#l39]]
+
+Pendant la lecture d'une vidéo l'appui sur la touche **Enter** permet l'accès aux contrôle basiques : lecture, pause, stop, suivant, précédant.
+
+Les touches directionnelles permettent de naviguer dans la vidéo.
+  * Droite : +10s
+  * Gauche : -10s
+  * Haut : +60s
+  * Bas : -60s
+  * Page suivante : +10min
+  * Page Précédente : -10min
+
+La touche **SUPER** (Touche Window) permet de revenir au menu principal. Utile lors de la navigation dans l'arborescence de fichier.
+
+**M** pendant la lecture pour muet.
+
+**+** et **-** pour gérer le volume.
+
+Affichage des sous-titres : **S**
+
+
+===== Voir aussi =====
+
+  * **(en)** [[http://enna.geexbox.org/index.html|Site officiel]]
+  * **(en)** [[http://captainigloo.wordpress.com/|Le blogue du développeur]]
+
+----
+
+//Contributeurs : mondai, youri_1er//.

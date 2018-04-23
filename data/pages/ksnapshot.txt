@@ -1,0 +1,115 @@
+{{tag>capture_d'écran}}
+
+----
+
+====== KSnapShot ou comment faire une capture de son écran ======
+
+KSnapShot est un petit logiciel graphique très simple et efficace qui permet de prendre des captures d'écran (//screenshot// en anglais) ou des photos de ce qui se passe sur son écran. 
+
+Ce logiciel fait parti de la panoplie de [[KDE]].
+
+
+===== Installation =====
+
+KSnapShot est installé de base sur [[Kubuntu]].
+
+Si vous n'utilisez pas [[Kubuntu]], il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt://ksnapshot|ksnapshot]]**
+
+PS : Gnome propose également un logiciel de capture d'écran [[gnome-screenshot]] aux fonctionnalités similaires, SAUF la possibilité de délimiter une zone de capture avec la souris.
+
+
+===== Utilisation=====
+
+Pour lancer le logiciel, vous pouvez :
+   * Kmenu > Graphisme > KSnapShot - Logiciel de capture d'écran.
+   * Exécutez la commande **ksnapshot**.
+   * Appuyer sur la touche Impr Écran. Dans ce dernier cas, une capture est faite au lancement du logiciel ;-) .
+
+Si l'on a lancé le logiciel avec les 2 premiers points, il faut cliquer sur "Nouvelle capture" pour faire une capture d'écran. L'image est prévisualisée sur la partie gauche de KSnapShot, il ne reste plus qu'à faire "Enregistrer sous" pour enregistrer la capture d'écran.
+
+===== Configuration =====
+
+==== Type de photo ====
+
+En 1er lieu, il vous faut choisir quel type de capture vous voulez réaliser :
+
+{{kde:ksnapshot:ksnapshot1.png}}
+
+Vous avez le choix entre :
+   * **Plein écran :** capture de tout votre écran.
+   * **La fenêtre sous le pointeur :** ne capture que la fenêtre sur laquelle on clique (ce que j'ai utilisé pour cette photo).
+   * **Zone :** vous devez délimiter une zone à l'aide de la souris, ce qui rentre dans le champs est capturé.
+   * **Section de fenêtre :** vous devez cliquer sur une fenêtre et choisir quel élément de la fenêtre vous désirez capturer (pratique pour capturer une icône...).
+
+==== Délai avant la capture d'écran ====
+
+{{kde:ksnapshot:ksnapshot2.png}}
+
+Vous pouvez également décider d'un temps de latence entre le moment où vous demandez la prise de la capture et le moment où elle se réalise, on appelle cela la **temporisation**.
+
+> Cette fonction est intéressante pour le cas où l'on souhaite capturer un menu (comme sur la première capture d'écran) mais également lorsque l'on lance une application (ou un jeu) qui prend tout l'écran.
+
+==== Choix du format de l'image ====
+
+Lorsque vous faites "Enregistrer sous", dans "Filtre", vous pouvez choisir le format de l'image.
+
+Il est conseillé d'enregistrer au format PNG (format libre sans perte et ayant une bonne compression).
+
+Les fichiers seront sauvegardés sous les noms : nom_que_vous_lui_donnez#
+
+> ex : ksnapshot.png - ksnapshot1.png - ksnapshot2.png...
+
+
+==== Divers ====
+
+Il est possible de ne pas créer de fichier après la capture mais de simplement la copier dans le presse papier.
+
+Il est également possible d'imprimer directement la capture.
+
+Dans le cas d'une capture en mode "Fenêtre sous le pointeur", vous pouvez choisir de prendre le cadre de la fenêtre ou non en cochant la case "Inclure la décoration des fenêtres".
+
+Il est possible d'utiliser KSnapShot en ligne de commande également, voir [[http://docs.kde.org/development/fr/kdegraphics/ksnapshot/dcop.html|docs.kde.org]]
+
+===== Configuration de ksnapshot pour GNOME =====
+
+Pour utiliser Ksnapshot dans GNOME, il vous faut :
+  * Soit si **vous n'avez pas compiz-fusion** d'activer : 
+  - Faites ALT+F2 et tappez "gconf-editor".
+  - Allez dans apps -> metacity -> keybinding_commands.
+  - Changez "command-screenshot" par "ksnapshot"
+  - Changez "command-windows-screenshot" par "ksnapshot --current"
+  - Fermez gconf-editor
+  - Appuyer sur la touche impr. écran
+  - Redémarrez votre session (facultatif)
+
+  * Soit vous avez **compiz-fusion activé** :
+    * Si le gestionnaire de configuration compiz fusion n'est pas installé, vous pouvez l'installer en faisant
+      <code>sudo aptitude install compizconfig-settings-manager</code>
+  - Allez dans système> Préférences> Gestionnaire de configuration compizconfig
+  - Dans Général, vous avez l'option Gnome Compatibility de cochée. Cliquez sur ce menu pour accéder aux options
+  - Dans l'onglet Commands mettez "ksnapshot" pour ligne de commande de capture d'écran
+  - Mettez "ksnapshot --current" dans ligne de commande de capture de fenêtre.
+  - Appuyer sur la touche impr. écran
+  - Redémarrez votre session (facultatif)
+
+===== FAQ =====
+
+il est possible que ksnapshot soit en anglais:
+
+pour le mettre en français il faut installer le paquet **[[apt>kde-l10n-fr]]**
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer le paquet]] **ksnapshot**.
+
+<code>sudo aptitude purge ksnapshot</code>
+
+===== Voir aussi =====
+
+  * Ce [[tutoriel/capture_d_ecran_upload_presse_papier_kde|tuto]] qui explique comment faire un screenshot et l'uploader en pressant la touche imprim.ecran
+  * [[capture]] 
+  * [[capture d'écran]]
+
+----
+
+
+//Contributeurs : [[utilisateurs:hizoka]], [[utilisateurs:Daëavelwyn]], [[utilisateurs:tiffus]] //

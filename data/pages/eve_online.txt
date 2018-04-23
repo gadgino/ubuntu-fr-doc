@@ -1,0 +1,171 @@
+{{tag>jeu wine rpg space_opera}}
+
+----
+
+====== Eve Online ======
+
+**Eve Online** est un jeu en ligne massivement multi-joueur payant avec un monde persistant se déroulant dans l'espace. Il a été développé par //CCP Games// et publié par //Simon & Schuster Interactive// en 2003. //Simon & Schuster Interactive// n'éditant plus le jeu dans sa version boite, //CCP// vend maintenant le jeu en téléchargement sur son site web.
+
+Les joueurs prennent les commandes de vaisseaux spatiaux à la recherche de la fortune et de l'aventure dans une immense galaxie. Pour ce faire, ceux-ci disposent d'un grand panel de vaisseaux différents spécialisés dans des tâches variées (combat, minage ou transport principalement).
+
+Eve Online plonge ses joueurs dans un monde galactique à échelle réelle, gouverné par un système économique capitaliste ultra-libéral où la notion de corporation et d'alliance de corporation dépassent totalement la notion d'individu.
+
+
+FIXME **Il serait préférable de mettre à jour cette page. Par exemple la version 1.8 de Wine est disponible. Ce jeu fonctionne-t-il avec ?**
+===== Installation et fonctionnement du jeu =====
+
+Disponible sur le site de CCP fin 2007 en version "native" (un .deb //plug & play//), le support de EVE pour les clients Linux s'est arrêté en Mars 2009. Depuis, seuls les clients Mac et Windows restent disponibles.
+Il est toutefois possible de jouer à EVE-Online en utlisant le client Windows via [[:eve_online#Installation via PlayOnLinux | PlayOnLinux]], ou directement avec [[:eve_online#Installation via Wine | Wine]].
+
+==== Pré-requis ====
+
+  * Avoir activé l'[[:accélération graphique]] activée
+  * Avoir installé [[http://wine.budgetdedicated.com/archive/ubuntu/feisty/wine_0.9.41~winehq0~ubuntu~7.04-1_i386.deb|la version 0.9.41 de Wine]] (ne fonctionne pas avec la 0.9.42, non testé avec les versions précédentes).
+==== Installation via PlayOnLinux ====
+
+EVE Online peut être installé automatiquement grâce à l'utilitaire **[[PlayOnLinux]]**
+
+Installez la dernière version de PlayOnLinux depuis le [[http://www.playonlinux.com/|site officiel]], puis choisissez dans les menus //installation → Jeux → Eve Online// et tout se fera automatiquement.
+
+
+==== Installation via Wine ====
+
+Premièrement je ne vais pas vous mentir mais pour ceux ayant essayé la méthode d'installation via PlayOnLinux dans le but d'installer EVE Online ont peut être été déçus par la pauvreté des graphismes pour un MMO tant joué. Quoi qu'il en soit je vous propose donc une méthode afin de pouvoir jouer avec les graphismes équivalents à Windows...
+
+== Installation de la dernière version de Wine ==
+En partant du principe que vous n'avez pas encore installé Wine ou bien la version des dépots, la première chose à faire est de mettre à jour Wine via les dépots officiels. Ainsi commencez par ouvrir une ligne de commande et tapez:
+
+  wget -q http://wine.budgetdedicated.com/apt/387EE263.gpg -O- | sudo apt-key add -
+
+Puis ajoutez les sources (Ubuntu 8.04):
+
+  sudo wget http://wine.budgetdedicated.com/apt/sources.list.d/hardy.list -O /etc/apt/sources.list.d/winehq.list
+
+Vous trouverez plus d'infos sur [[http://www.winehq.org | le site officiel]] dans le cas ou vous rencontrez des problèmes.
+
+== Installation de msttcorefonts ==
+[[apt://msttcorefonts|{{apt.png}}]]
+ou bien grâce à la ligne de commande : 
+<code>
+sudo apt-get install msttcorefonts
+</code>
+
+Aller dans /usr/share/fonts/truetype/msttcorefonts et copier tout les arial*.ttf dans ~/.wine/drive_c/windows/Fonts
+
+ou en ligne de commande : 
+<code>
+cp /usr/share/fonts/truetype/msttcorefonts/arial*.ttf ~/.wine/drive_c/windows/Fonts
+</code>
+
+Ceci provient [[http://myeve.eve-online.com/ingameboard.asp?a=topic&threadID=914238 | de ce sujet sur le forum officiel]] et permet d'afficher correctement le menu au démarrage de Eve Online pour accepter la charte d'utilisation
+
+
+== Téléchargement et installation de EVE Online ==
+Rendez vous ensuite [[http://www.eve-online.com/download/windows.asp | sur la page de téléchargement de la version Windows]] et choisissez la version Premium, je vous conseille d'être patient ou d'avoir une activité quelconque durant le téléchargement car celui-ci risque de prendre un certain temps...
+
+Une fois le téléchargement fini, vous allez devoir installer EVE Online de la manière suivante:
+
+  cd /dossier/ou/a/ete/telecharger/eve/ && wine EVE_Premium_Setup_56866.exe
+
+Suivez les instructions à l'écran... à la fin de l'installation vous pourrez lancer Wine.
+
+__P.S.:__ 56866 étant le numéro de la version celui-ci peut avoir changé depuis la rédaction de ce tutoriel (13/06/2008).
+
+Quelques modifications à faire pour wine 1.10 :
+  * [[http://www.backports.ubuntuforums.org/showthread.php?t=813880 | ce sujet sur le forum ubuntu.com]]
+  * [[http://appdb.winehq.org/objectManager.php?sClass=version&iId=9971 | winehq.org]]
+
+== Créer un script de lancement de Wine ==
+Si vous utilisez un bureau composite (Compiz), il grandement recommandé de suivre cette étape afin d'obtenir de meilleure performances!
+
+En effet, les bureaux composites nécessitant une grande quantité de mémoire graphique, lancer un jeu comme EVE Online risque de poser des problèmes ainsi afin de pallier à celà nous allons créer un script qui lancera Wine en créant un autre Display X. Voici ce que vous avez à faire:
+cd ~/Desktop && gedit eve
+Puis coller le texte suivant:
+
+  #!/bin/bash
+  X :1 -ac &
+  sleep 2
+  DISPLAY=:1 env WINEPREFIX="/home/$USER/.wine/" wine "C:\\Program Files\\CCP\\EVE\\eve.exe"
+
+Un bug connu de ce script est toutefois qu'une fois que vous quitter le jeu vous risquer de vous retrouver sur un display vide pour rebasculer sur votre bureau il suffit de presser les touches CTRL + ALT + F7, chose que vous pouvez aussi en plein jeu puis pour rebasculer sur le jeu la combinaison de touche est CTRL + ALT + F9.
+
+== Problèmes connus ==
+Au premier lancement certains soucis d'affichage sont visibles, pour les corriger activer l'HDR dans les graphismes avancés du jeu quitter le jeu, redémarrer le jeu et désactiver l'HDR puis relancez à nouveau le jeu, les problèmes d'affichages devraient avoir disparus.
+
+
+
+==== Bugs Connus ====
+
+  * Son (version officielle) : Pour faire fonctionner le son en ALSA et donc permettre à d'autres applications (lecteur Rhythmbox, etc.) de jouer du son pendant qu'EVE tourne, il faut passer par l'utilitaire de configuration. Il est accessible par le menu **Applications → Jeux → EVE Online Configuration**. Choisir ensuite « Configure Options », puis l'onglet « Audio », cocher « ALSA » et mettre « default » dans le champ « PCM Device ».
+
+
+==== Icone  ====
+
+Voici une petite  [[http://upload.wikimedia.org/wikipedia/fr/3/3e/Eve_Online.png|icone]] pour votre menu, ou une plus jolie [[http://img819.imageshack.us/img819/157/evea.png|icone]]
+
+===== EveTimer =====
+
+**Eve Timer** permet d'avoir en direct l'évolution de son personnage sans avoir à lancer le jeu. C'est plus ou moins un clone de **EveMon**, en moins évolué.
+
+
+
+==== Installation ====
+Téléchargez les sources sur le [[http://aello.beerta.net/EveTimer/|site officiel]] et placez l'archive dans les répertoire **/opt/**. Actuellement (01/08/2007), la dernière version sortie est la [[http://files.beerta.de/EveTimer-0.9.2.tar.gz|0.9.2]].
+
+  wget http://files.beerta.de/EveTimer-0.9.2.tar.gz
+  sudo mv EveTimer*.tar.gz /opt/
+
+Extrayez les sources :
+  cd /opt/ && sudo tar -xvf EveTimer-0.9.2.tar.gz
+
+Un dossier //EveTimer-0.9.2// est normalement crée. Vous pouvez maintenant supprimer l'archive téléchargée.
+
+Ensuite on installe. L'auteur a eu la bonne idée de le faire en python ce qui nous facilite grandement la tâche :
+  cd /opt/EveTimer-0.9.2/
+  sudo python setup.py install
+
+Il faut ensuite que vous récupériez votre //API Key// sur le [[http://myeve.eve-online.com/api/default.asp|site officiel]] afin que le logiciel reconnaisse votre compte.
+
+Le logiciel est installé. Il ne reste qu'à créer un lien pour lancer le binaire...
+
+
+
+==== Création des lanceurs ====
+
+On va dans un premier temps permettre de lancer EveTimer lorsqu'on lance la commande //evetimer//. Pour ce faire entrez dans un terminal la commande :
+<code>ln -s /opt/EveTimer-0.9.2/EveTimer /usr/local/bin/evetimer</code>
+
+Et voila, la commande //evetimer// permet de lancer le logiciel !
+
+Exécutons maintenant cette commande au démarrage de la session parce que c'est plus pratique quand même. Pour ce faire : //Systèmes -> Préférences -> Session//, l'onglet //Programmes au démarrage -> Nouveau//. Dans la case //Nom// entrez //EveTimer// (ou autre) et dans //Commande// entrez //evetimer//.
+
+Il ne reste plus qu'à relancer votre session pour vérifier que tout marche bien.
+Si ça marche bien vous aurez droit a une nouvelle petite icône en forme d'ampoule dans la zone de notification. Cliquez dessus et vous pourrez entrer vos infos de connexion, puis importer vos personnages.
+
+
+===== GTK EveMon =====
+
+Ceci est un clone de EveMon.
+
+==== Installation ====
+
+Il est disponible sous forme de paquet [[http://gtkevemon.battleclinic.com/download.html | sur le site officiel]] pour architecture 32 et 64 bits.
+==== Exécution ====
+
+Il se lance avec la commande : 
+<code>gtkevemon</code>
+
+==== Configuration ====
+
+Pour ajouter l'un de vos personnage il vous faudra vous connecter sur [[http://myeve.eve-online.com/api|http://myeve.eve-online.com/api]] pour récuperer votre //User ID// et votre //API Key//
+
+===== Sources et références =====
+
+  * [[http://myeve.eve-online.com/ingameboard.asp?a=topic&threadID=30457&page=35#1022forum |Forum officiel de Eve Online]]
+  * [[http://aello.beerta.net/EveTimer/|Site officiel de EveTimer]]
+  * [[wpfr>Eve_Online|Eve Online sur Wikipedia]]
+  * [[http://gtkevemon.battleclinic.com|Site Officiel de GtkEvemon]]
+
+----
+
+//Contributeurs : [[:utilisateurs:Nathanos]], [[:utilisateurs:Ner0lph]], [[:utilisateurs:_Enchained]], [[:utilisateurs:Keeguon]].//

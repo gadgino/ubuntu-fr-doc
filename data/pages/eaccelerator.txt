@@ -1,0 +1,69 @@
+{{tag>Trusty serveur PHP}}
+----
+
+====== eAccelerator ======
+
+[[wp>eAccelerator|eAccelerator]] est le meilleur accélérateur de scripts [[:PHP]], selon un nombre important de benchmark((Voir les pages suivantes avec divers benchmark :
+  * http://2bits.com/articles/benchmarking-drupal-with-php-op-code-caches-apc-eaccelerator-and-xcache-compared.html
+  * http://2bits.com/articles/benchmarking-apc-vs-eaccelerator-using-drupal.html
+  * http://itst.net/654-php-on-fire-three-opcode-caches-compared
+)).
+
+Vraiment indispensable si on veut jouer dans la cour des grands.
+
+===== Installation =====
+====Via un paquet debian====
+Le paquet .deb pour ubuntu 32 bits se trouve
+[[https://launchpad.net/~ufirst/+archive/ubuntu/php5-oldsable/+build/6688658/+files/php5-eaccelerator_0.9.6.1-9~371~ubuntu12.04.1_i386.deb|ici]], et
+Le paquet .deb pour ubuntu 64 bits se trouve [[https://launchpad.net/~ufirst/+archive/ubuntu/php/+build/6597380/+files/php5-eaccelerator_0.9.6.1-8~371~ubuntu12.04.1_amd64.deb|ici]].
+====Par compilation====
+Pour installer eAccelerator par compilation entrez successivement ces commandes dans un [[:terminal]]:<code>apt-get install php-dev
+cd /tmp
+wget https://github.com/downloads/eaccelerator/eaccelerator/eaccelerator-0.9.6.1.tar.bz2
+tar xfj eaccelerator-0.9.6.1.tar.bz2
+cd eaccelerator-0.9.6.1
+phpize
+./configure
+make
+sudo checkinstall
+</code>
+=====Configuration=====
+FIXME voir si c'est toujours d'actualité
+Ensuite, faire :
+<code>gksudo gedit /etc/php5/apache2/php.ini</code>
+
+et mettre à la fin, avec une attention portée sur le répertoire des extensions php5, qui peut différer, vérifiez donc "/usr/lib/php5/" :
+
+<code>zend_extension="/usr/lib/php5/20060613+lfs/eaccelerator.so"
+eaccelerator.shm_size="0"
+eaccelerator.cache_dir="/var/local/eaccelerator"
+eaccelerator.enable="1"
+eaccelerator.optimizer="1"
+eaccelerator.check_mtime="1"
+eaccelerator.debug="0"
+eaccelerator.shm_only="0"
+eaccelerator.compress="1"
+eaccelerator.compress_level="9"
+eaccelerator.allowed_admin_path="/var/www/apache2-default/control.php"</code>
+
+Et faire ensuite :
+
+<code>mkdir /var/local/eaccelerator
+chown root:www-data /var/local/eaccelerator
+chmod u=rwx,g=rwx,o= /var/local/eaccelerator
+apache2ctl configtest
+/etc/init.d/apache2 restart</code>
+
+===== Liens externes =====
+
+  * Site officiel : [[https://eaccelerator.net/]]
+  * [[http://wiki.goldzoneweb.info/installation_et_configuration_du_systeme_de_cache_eaccelerator|Installation et configuration du système de cache eAccelerator]]
+  * [[http://docs.moodle.org/22/en/Installing_eAccelerator_In_Ubuntu_Server|Installing eAccelerator In Ubuntu Server]] (en)
+  * [[http://www.debian-tutorials.com/web/install-and-integrate-eaccelerator-into-php5-on-debian-squeeze|Install and Integrate eAccelerator into PHP5 on Debian Squeeze]] (en)
+
+===== Voir aussi =====
+  * [[https://help.ubuntu.com/community/eAccelerator|L'aide Ubuntu en anglais]],
+D'autres accélérateurs de scripts [[:php|PHP]] ont une page dédiée sur le wiki :
+
+  * [[:php-apc|APC]] (Alternative PHP Cache)
+  * [[:xcache|XCache]]

@@ -1,0 +1,219 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#installer_une_solution_lamp_avec_ubuntudebian" class="toc"> Installer une solution LAMP avec ubuntu/debian </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#qu_est-ce_qu_une_solution_lamp" class="toc"> Qu'est-ce qu'une solution LAMP ? </a></span></li>
+<li class="level2"><span class="li"><a href="#installer_linux" class="toc"> Installer Linux </a></span></li>
+<li class="level2"><span class="li"><a href="#installer_le_serveur_mysql" class="toc"> Installer le serveur MySQL </a></span></li>
+<li class="level2"><span class="li"><a href="#installer_apache_php_phpmyadmin" class="toc"> Installer Apache + PHP + PhpMyAdmin </a></span></li>
+<li class="level2"><span class="li"><a href="#creer_des_utilisateurs_mysql" class="toc"> Créer des utilisateurs MySQL </a></span></li>
+<li class="level2"><span class="li"><a href="#creer_son_site" class="toc"> Créer son site </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#probleme_d_encodage" class="toc"> Problème d'encodage </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#creer_sa_page_utilisateur" class="toc"> Créer sa page utilisateur </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#permettre_l_utilisation_des_fichiers_php_dans_le_public_html" class="toc"> Permettre l'utilisation des fichiers PHP dans le &quot;public_html&quot; </a></span></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/eks" class="wikilink1" title="utilisateurs:eks" onclick="return svchk()" onkeypress="return svchk()">eks</a>.
+</p>
+
+<a name="installer_une_solution_lamp_avec_ubuntudebian"></a><h1> Installer une solution LAMP avec ubuntu/debian </h1>
+<div class="level1">
+
+</div>
+<!-- SECTION [67-128] -->
+<a name="qu_est-ce_qu_une_solution_lamp"></a><h2> Qu'est-ce qu'une solution LAMP ? </h2>
+<div class="level2">
+
+<p>
+ LAMP = Linux Apache MySQL <acronym title="Hypertext Preprocessor">PHP</acronym>
+</p>
+
+<p>
+En gros c&rsquo;est un serveur <acronym title="Hyper Text Transfer Protocol">HTTP</acronym> + un serveur MySQL + le langage <acronym title="Hypertext Preprocessor">PHP</acronym>, le tout sous linux.
+</p>
+
+</div>
+<!-- SECTION [129-293] -->
+<a name="installer_linux"></a><h2> Installer Linux </h2>
+<div class="level2">
+
+<p>
+ Je suppose que vous avez déjà installé Ubuntu ou debian. Sinon, rendez-vous sur <a href="http://www.ubuntu-fr.org" class="urlextern" title="http://www.ubuntu-fr.org" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">www.ubuntu-fr.org</a>
+</p>
+
+</div>
+<!-- SECTION [294-424] -->
+<a name="installer_le_serveur_mysql"></a><h2> Installer le serveur MySQL </h2>
+<div class="level2">
+
+<p>
+ Dans un terminal, entrez :
+</p>
+<pre class="code">$ sudo apt-get install mysql-server</pre>
+
+<p>
+et confirmez.
+</p>
+
+<p>
+Lancez ensuite la commande :
+</p>
+<pre class="code">$ sudo mysql_secure_installation</pre>
+
+<p>
+Appuyez sur Entrée lorsqu&rsquo;il vous demande le mot de passe root MySQL : pour le moment il n&rsquo;y en a pas.
+</p>
+
+<p>
+<em><strong>NB :</strong> MySQL a ses propres utilisateurs, avec leurs propres pivilèges. Le root MySQL n&rsquo;est donc pas le root système. Il est conseillé de ne pas mettre les même mots de passes pour les utilisateur MySQL et les utilisateur du système.</em>
+</p>
+
+<p>
+Le script vous demande alors si vous voulez mettre un mot de passe pour l&rsquo;utilisateur root. Répondez Y, et entrez (2 fois le nouveau mot de passe du root MySQL). Il vous pose ensuite une série de questions. Si vous ne savez pas quoi répondre, acceptez les choix par défaut en appuyant simplement sur Enter.
+</p>
+
+<p>
+Votre serveur MySQL est prêt. Par défaut il se lance à chaque démarrage du système, si vous ne le souhaitez pas, il vous suffit de lancer :
+</p>
+<pre class="code">$ sudo dpkg-reconfigure mysql-server</pre>
+
+<p>
+et de répondre &ldquo;Non&rdquo; à la question du démarrage systématique de MySQL.
+</p>
+
+</div>
+<!-- SECTION [425-1530] -->
+<a name="installer_apache_php_phpmyadmin"></a><h2> Installer Apache + PHP + PhpMyAdmin </h2>
+<div class="level2">
+
+<p>
+ Grâce aux dépendances des paquets, cette opération peut se faire en une seule fois :
+</p>
+<pre class="code">$ sudo apt-get install phpmyadmin</pre>
+
+<p>
+Cela installera automatiquement apache2 + php + modules d&rsquo;apache pour php et mysql + phpmyadmin.
+</p>
+
+<p>
+Remarque :  Afin que cette commande fonctionne il est nécessaire d&rsquo;avoir effectué les modifications suivantes : dans /etc/apt/ éditer le fichier sources.list supprimer les # des lignes suivantes : 
+</p>
+<pre class="code"># deb http://fr.archive.ubuntu.com/ubuntu hoary universe
+
+# deb-src http://fr.archive.ubuntu.com/ubuntu hoary universe</pre>
+
+<p>
+ Lancer le scan des nouvelles sources : 
+</p>
+<pre class="code">sudo apt-get update</pre>
+
+<p>
+ Puis lancer l&rsquo;install de phpmyadmin comme décrit ci-dessus.
+</p>
+
+</div>
+<!-- SECTION [1531-2253] -->
+<a name="creer_des_utilisateurs_mysql"></a><h2> Créer des utilisateurs MySQL </h2>
+<div class="level2">
+
+<p>
+ Lancez votre navigateur préféré sur l&rsquo;adresse <a href="http://localhost/phpmyadmin/" class="urlextern" title="http://localhost/phpmyadmin/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://localhost/phpmyadmin/</a>
+</p>
+<ul>
+<li class="level1"><span class="li"> Loguez-vous en tant que &lsquo;root&rsquo; avec le mot de passe du root MySQL que vous avez défini tout à l&rsquo;heure</span>
+</li>
+<li class="level1"><span class="li"> Cliquez sur &ldquo;Privilèges&rdquo;, puis sur &ldquo;Ajouter un utilisateur&rdquo;</span>
+</li>
+<li class="level1"><span class="li"> Entrez les information de l&rsquo;utilisateur</span>
+</li>
+<li class="level1"><span class="li"> Dans la table &ldquo;Privilèges globaux&rdquo;, définissez les droits de l&rsquo;utilisateur. Si vous ne savez pas quoi mettre, cochez toutes les cases des colones &ldquo;Données&rdquo; et &ldquo;Structures&rdquo;.</span>
+</li>
+<li class="level1"><span class="li"> Validez en cliquant sur &ldquo;Exécuter&rdquo;</span>
+</li>
+</ul>
+
+<p>
+Vous pouvez maintant vous déloguer en cliquant sur &ldquo;Quitter&rdquo; et vous loguer avec le login et le mot de passe du nouvel utilisateur. 
+</p>
+
+</div>
+<!-- SECTION [2254-2944] -->
+<a name="creer_son_site"></a><h2> Créer son site </h2>
+<div class="level2">
+
+<p>
+ Placez vos fichier php et html dans /var/www pour qu&rsquo;ils deviennent le site de votre machine (celui disponible à l&rsquo;adresse <a href="http://nom_ou_ip_de_votre_machine/" class="urlextern" title="http://nom_ou_ip_de_votre_machine/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://nom_ou_ip_de_votre_machine/</a> )
+</p>
+
+</div>
+<!-- SECTION [2945-3135] -->
+<a name="probleme_d_encodage"></a><h3> Problème d'encodage </h3>
+<div class="level3">
+
+<p>
+ Si vous recontrez un problème d&rsquo;encodage des caractères de vos pages, par exemple les caractères accentués apparaissent sous la forme &ldquo;�&rdquo; (&lt;?&gt;), éditez le fichier de configuration d&rsquo;apache “/etc/apache2/apache2.conf”
+</p>
+
+<p>
+Puis décommentez la ligne (en supprimant le &ldquo;#&rdquo;) : 
+</p>
+<pre class="code">#AddDefaultCharset	ISO-8859-1</pre>
+
+</div>
+<!-- SECTION [3136-3492] -->
+<a name="creer_sa_page_utilisateur"></a><h2> Créer sa page utilisateur </h2>
+<div class="level2">
+
+<p>
+ Placez vos fichier php et html dans un sous-répertoire &ldquo;public_html&rdquo; de votre répertoire utilisateur pour qu&rsquo;ils deviennent votre site utilisateur (celui disponible à l&rsquo;adresse <a href="http://nom_ou_ip_de_votre_machine/~votre_login/" class="urlextern" title="http://nom_ou_ip_de_votre_machine/~votre_login/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://nom_ou_ip_de_votre_machine/~votre_login/</a>)
+</p>
+
+</div>
+<!-- SECTION [3493-3762] -->
+<a name="permettre_l_utilisation_des_fichiers_php_dans_le_public_html"></a><h3> Permettre l'utilisation des fichiers PHP dans le &quot;public_html&quot; </h3>
+<div class="level3">
+
+<p>
+ Dans le fichier &ldquo;/etc/apache2/apache2.conf&rdquo; recherchez les lignes (ligne 205) : 
+</p>
+<pre class="code"># UserDir is now a module
+#UserDir public_html
+#UserDir disabled root
+
+#&lt;Directory /home/*/public_html&gt;
+# AllowOverride FileInfo AuthConfig Limit
+# Options Indexes SymLinksIfOwnerMatch IncludesNoExec
+#&lt;/Directory&gt;</pre>
+
+<p>
+Puis modifiez les (décommentez les lignes nécessaires) pour obtenir :
+</p>
+<pre class="code"># UserDir is now a module
+UserDir public_html
+#UserDir disabled root
+
+&lt;Directory /home/*/public_html&gt;
+ AllowOverride FileInfo AuthConfig Limit
+ Options Indexes SymLinksIfOwnerMatch IncludesNoExec
+&lt;/Directory&gt;</pre>
+
+<p>
+Puis redémarrez apache : 
+</p>
+<pre class="code">sudo /etc/init.d/apache2 restart</pre>
+
+</div>
+<!-- SECTION [3763-] -->

@@ -1,0 +1,54 @@
+{{tag>Xenial unity personnalisation}}
+----
+
+====== Les « web apps »  ======
+
+Lorsque vous visitez des sites Internet avec [[firefox|Mozilla Firefox]] ou [[chromium-browser|Chromium]], vous avez la possibilité d'intégrer ces sites dans Ubuntu.
+
+Elles permettent à des sites Web de s'intégrer à votre poste de travail et de profiter des technologies d'Ubuntu, tels le tableau de bord, le HUD, le menu de messagerie et les listes rapides des lanceurs.
+
+Plus d'une trentaine de sites Web proposent la fonctionnalité Web Apps pour intégration à Ubuntu. 
+
+===== Pré-requis =====
+
+   * Disposer d'une connexion à Internet configurée et activée.
+   * Avoir [[:tutoriel:comment_installer_un_paquet|installé le paquet]] **[[apt>firefox|Mozilla Firefox]]** ou **[[apt>chromium-browser|Chromium]]** pour utiliser Internet et intégrer ces web apps.
+  * **Pour Ubuntu 12.04 :** Vous avez besoin d'installer le PPA pour web apps :
+    * [[:ppa#ajout_d_un_ppa_a_vos_sources_logicielles|Ajoutez le PPA]] **ppa:webapps/preview**((https://launchpad.net/~webapps/preview/+archive/ppa)) dans vos sources de logiciels,
+    * puis [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]],
+    * [[:tutoriel:comment_installer_un_paquet|Installez les paquets]] **[[apt>unity-webapps-preview]]**
+  * **Pour les versions suivaantes :** Vous avez besoin d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]]  **[[apt>unity-webapps-common]]**
+
+===== Installation d'une web apps=====
+{{ http://i.stack.imgur.com/VnFRM.jpg?250|La boîte de dialogue d'installation d'une web apps.}}
+
+==== Par un navigateur Internet ====
+Pour installer une web apps, il suffit d'accéder à un des sites qui propose sa web app avec [[firefox|Mozilla FIrefox]] ou [[chromium-browser|Chromium]].
+Une boîte de dialogue s'affiche avec pour texte : //Would you like to install xxx for extra features and quicker access? // (traduction : Voulez-vous installer xxx afin d'obtenir des fonctionnalités supplémentaires et un accès plus rapide à ce site ?).
+Cliquez alors sur **install** si vous êtes d'accord.
+
+==== Par les paquets  ====
+Il suffit de rechercher **unity-webapp** dans votre [[:gestionnaire de paquets]], et d'installer l'application voulue.
+===== Utilisation =====
+
+Grâce à elles, vous pouvez avoir par exemple : 
+  * lorsque vous êtes sur le site Last.fm et que vous écoutez une radio ou un extrait de chanson, le lecteur du site Web peut être contrôlé directement à partir du menu son ;
+  * lorsque Facebook est ouvert dans votre navigateur, des notifications de nouveaux messages apparaissent dans le menu messagerie ;
+  * vos documents de Google Docs peuvent être recherchés à travers le tableau de bord.
+    
+===== Désinstallation =====
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi =====
+  * [[https://www.npmjs.com/package/nativefier|Nativefier]] : Permettent de transformer un site web en application, fonctionne en ligne de commande et tourne sous OSX, Windows et Linux. Explication [[http://korben.info/vos-applications-web-en-applications-natives.html|ici]]
+  * [[https://forum.ubuntu-fr.org/viewtopic.php?id=1092281|Post à ce sujet]] sur le forum ubuntu.
+----
+//Contributeurs principaux : [[utilisateurs:Kcchouette|Kcchouette]].//
+
+//L'image « [[http://i.stack.imgur.com/VnFRM.jpg|Would you like to install Twitter for extra features and quicker access?]] » est sous licence CC-BY-SA 3.0, a été publiée par devav2 sur le site [[http://askubuntu.com/|askubuntu.com]]//
+
+//Basé sur [[http://askubuntu.com/questions/166655/how-do-i-remove-a-website-from-ubuntus-web-applications|« How do I remove a website from Ubuntu's web applications? »]] 
+et [[http://www.omgubuntu.co.uk/2012/07/ubuntu-unveil-new-web-apps-feature-for-12-10|« Ubuntu 12.10 to Feature Innovative Web App Integration »]] écrit par Joey-Elijah Sneddon\\
+
+
+----

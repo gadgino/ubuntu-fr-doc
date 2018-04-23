@@ -1,0 +1,87 @@
+{{tag>photos messagerie_instantanée tutoriel}}
+
+----
+
+====== Utilisation de Facebook sous Ubuntu ======
+
+Facebook est bien évidemment utilisable via votre navigateur habituel.
+
+Cet article concerne les astuces qui consistent à utiliser directement les fonctionnalités de Facebook sur votre ordinateur sous Ubuntu. Ubuntu propose plusieurs paquets logiciels lié à l'utilisation de Facebook (faites ''apt-cache search facebook'' pour vous en convaincre).
+
+===== Synchronisation du compte avec le bureau GNOME Shell =====
+
+Dans les paramètres système, rubrique "Comptes en ligne", on peut aisément ajouter un compte Facebook.
+J'avoue ne jamais avoir essayé donc je ne pourrais pas détailler à quoi ça sert, mais probablement à synchroniser les contacts facebook avec les applications GNOME.
+<note>à compléter</note>
+
+===== Téléversement massif de photos =====
+
+==== Téléversement via F-Spot ====
+
+=== Introduction ===
+
+[[f-spot|F-spot]] possède un module d'exportation vers Facebook. Cette aide s'adresse à ceux qui utilisent déjà F-spot pour classer leur photo. Si ce n'est pas votre cas, importez vos photos avant de commencer.
+
+=== Exporter les photos ===
+
+Pour exporter les photos, sélectionnez les photos que vous voulez exporter.
+<note tip> Vous pouvez sélectionner plusieurs photos en cliquant dessus tout en laissant la touche Ctrl appuyée. De même, sélectionnez une plage de photos en sélectionnant la première photo, en laissant Maj appuyée, sélectionnez la dernière photo. Vous pouvez combiner les deux…</note>
+
+Allez, ensuite dans le menu "Photo" → "Exporter vers" → "Facebook". Ensuite, cliquez sur "Connexion" et suivez les indications.
+
+Vous pouvez même cocher les cases "Rester connecté" pour que la connexion soit automatique et "Confirmer automatiquement les photos" pour ne pas avoir à aller sur le site de Facebook pour confirmer l'importation.
+
+=== Marquage de vos amis sur les photos ===
+
+Le module d'exportation Facebook ne supporte pas le marquage de vos amis sur les photos. Vous devrez aller sur le site de Facebook pour le faire.
+
+==== Téléversement avec Shotwell ====
+
+[[:Shotwell]] possède une fonction similaire, accessible dans "Fichier" → "Publier..."
+
+===== Utilisation de la messagerie instantanée =====
+
+==== Empathy ====
+
+Depuis le 30 avril 2015, Facebook a cessé le support  de XMPP/Jabber en passant à la version 2.0 de l'API Facebook. Par conséquent, on ne peut plus discuter sur la plateforme sociale via [[empathy|Empathy]]
+
+=== Avec un plugin Pidgin ===
+
+Il existe un [[https://github.com/dequis/purple-facebook/wiki|plugin Facebook pour Pidgin]] fonctionnel, mais celui-ci peut provoquer quelques lenteurs.
+
+==== Utilisation du serveur XMPP ====
+<note important>probablement obsolète étant donné [[https://developers.facebook.com/docs/chat|l'évolution de l'API facebook]]</note>
+
+=== Introduction ===
+
+Depuis mars 2010, Facebook propose la connexion à sa [[http://www.facebook.com/sitetour/chat.php|messagerie instantanée]] via le protocole XMPP.
+
+Pour utiliser ce serveur XMPP, vous devez disposer d'un client XMPP. Celui que j'ai utilisé pour les tests est [[pidgin|Pidgin]], mais ça fonctionne pour n'importe quel client XMPP.
+
+=== Connexion via le serveur XMPP de Facebook ===
+
+Vous devez configurer votre client XMPP de la façon suivante :
+
+    * Choisir le protocole XMPP (si vous utilisez un client multi-protocole)
+    * Nom d'utilisateur : pas l'adresse mail pour la connexion, mais le <user> dans l'URL de votre profil au format ''http://www.facebook.com/<user>''. Pour en créer un, allez à [[https://www.facebook.com/username|cette page]].
+    * Mot de passe : votre mot de passe Facebook
+    * Domaine : chat.facebook.com
+    * Ressource : là, c'est vous qui choississez, mais ceux qui se connectent via leur navigateur ne verront pas la différence
+    * Désactiver SSL/TLS
+    * Port de connexion : 5222
+    * Serveur de connexion : chat.facebook.com
+    * Serveur mandataire de transfert de fichiers : proxy.jabberfr.org   (ou proxy.eu.jabber.org par exemple)
+
+<note tip>Le serveur XMPP de Facebook ne permet pas la communication inter-serveur. En effet, vous ne pouvez pas ajouter une adresse qui se trouve sur un autre serveur. C'est dû à un problème de compatibilité par rapport au site Facebook.</note>
+<note tip>Le serveur XMPP de Facebook ne gère pas la modification de votre profil ou de votre status à partir du client XMPP.</note>
+<note tip>Le serveur XMPP de Facebook ne gère pas du tout l'enregistrement des aliases. N'hésitez pas à modifier cette partie de l'article si vous savez forcer Pidgin à les enregistrer localement seulement.</note>
+
+<note warning>Si vous n'arrivez pas à envoyer des messages sur le chat Facebook via un client XMPP type Kopete, Pidgin ou Empathy mais que votre liste de contact s'affiche et que vous recevez les messages de vos contacts : les messages que vous envoyez via votre client ne sont pas reçus par vos contacts mais vous recevez bien les-leurs sans erreur apparente. Il semble que cela soit dû au fait que vous ayez désactivé toutes les application à interagir avec Facebok. Pour régler le problème, il suffit donc d'activer les applications. Solution trouvée ici : http://developer.pidgin.im/ticket/14680.</note>
+
+<note warning>Si jamais vous venez juste de créer un nom d'utilisateur, déconnectez-vous de Facebook sur votre navigateur, et connectez-vous avec votre nouveau nom d'utilisateur. Enfin, depuis Pidgin, retentez la connexion à la messagerie Facebook.</note>
+
+===== Afficher les derniers status de vos amis sur Facebook =====
+
+Voir [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3566296#p3566296|ce post]].
+
+Vous pouvez également utiliser le client dédié [[:gwibber|gwibber]].

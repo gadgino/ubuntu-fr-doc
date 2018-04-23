@@ -1,0 +1,53 @@
+{{tag>Precise système}}
+----
+
+====== e4rat ======
+
+**e4rat** (ext4 – reduced access time) est un outil permettant d’accélérer le démarrage de votre distribution Ubuntu en déplaçant certains fichiers de démarrage en début du disque dur réduisant considérablement le temps de démarrage.\\
+C'est donc une alternative à **ureadahead** utilisé par défaut par Ubuntu.
+
+<note important>Attention, cet outil n'est pas officiellement supporté par Ubuntu et modifie en profondeur votre système: utilisez-le à vos risques et périls.</note>
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Avoir un disque dur non SSD
+  * Qu'il soit formaté en [[:Ext4]]
+
+===== Installation =====
+
+[[:tutoriel:comment_supprimer_un_paquet|Désinstaller les paquets]] **ureadahead** et **ubuntu-minimal**, puis télécharger le [[:paquet|paquet]] //.deb// du projet  [[http://sourceforge.net/projects/e4rat/files/|ici]] et [[:tutoriel:comment_installer_un_paquet|l'installer]].
+
+===== Configuration =====
+==== Analyse de séquence de boot ====
+
+Pour configurer **e4rat**, il vous faut redémarrer votre ordinateur et lorsque le menu de [[:grub-pc]] apparaît, appuyez sur la touche “e” pour l'éditer.\\
+À la fin de la ligne **kernel /vmlinuz26 root=/dev/disk/by-uuid/...** ou de la ligne **linux /boot/vmlinuz-...** ajoutez ceci:
+<code>init=/sbin/e4rat-collect</code>
+et appuyez sur <Ctrl> + <X> pour lancer Ubuntu avec la nouvelle option.
+
+Une fois dans votre session et pendant 2 minutes, **e4rat** va collecter et enregistrer dans le fichier **/var/lib/e4rat/startup.log** tout ce que vous faites comme lancer [[:Firefox]], [[:Thunderbird]], ... 
+
+==== Réaffectation des données collectées ====
+
+Comme dans la [[#Analyse de séquence de boot|partie précédente]], redémarrez votre ordinateur et lorsque le menu de [[:grub-pc]] apparaît, appuyez sur la touche “e” pour l'éditer.\\
+À la fin de la ligne **kernel /vmlinuz26 root=/dev/disk/by-uuid/...** ou de la ligne **linux /boot/vmlinuz-...** ajoutez ceci __**sans espaces**__: 
+<code>single</code>
+Appuyez sur <Ctrl> + <X> pour lancer Ubuntu avec cette option et depuis un [[:terminal]] saisissez la [[:commande_shell|commande]] suivante:
+<code>sudo e4rat-realloc /var/lib/e4rat/startup.log</code>
+Cette opération peut durer quelques minutes, attendez que ça soit fini avant de redémarrer votre ordinateur.
+
+==== Configuration de Grub ====
+
+Pour que les fichiers se pré-chargent à chaque démarrage, il suffit d'[[:kernel#modifier_les_parametres_du_noyau_pour_un_systeme_installe_sur_disque|ajouter le paramètre de kernel]] suivant à votre système: 
+<file>init=/sbin/e4rat-preload</file>
+
+===== Utilisation =====
+
+Après configuration de **e4rat**, redémarrez votre ordinateur et appréciez le temps de boot qui devrait être au moins réduit de moitié.
+
+===== Voir Aussi =====
+  * [[http://www.crowd42.info/optimisez-le-demarrage-de-ubuntu-grace-a-e4rat|Source de cette page]]
+
+----
+//Contributeur : daufinsyd//

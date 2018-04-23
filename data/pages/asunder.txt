@@ -1,0 +1,82 @@
+{{tag>Precise Trusty audio}}
+
+------
+
+{{ :application:asunder:asunder.png?60|icone}}
+====== Extracteur de CD audio: ASunder ======
+
+**Asunder**, application graphique libre distribuée sous [[wpfr>Licence_publique_générale_GNU|licence publique générale V2]], vous permet d'extraire vos CDs audio. Cette opération s'appelle aussi "ripper un CD audio", c'est-à-dire copier son contenu sous forme de fichiers numériques dans votre ordinateur. \\
+{{:application:asunder:asunder_01_14.04.png?400|Application}}\\
+Les formats de sortie proposés sont:
+  * WAV
+  * MP3
+  * OGG Vorbis
+  * FLAC
+  * WavPack
+  * Musepack
+  * %%AAC%%
+  * Monkey's
+Si vous possédez une connexion Internet activée au moment de l'extraction, **ASunder** récupérera automatiquement les informations du CD (Titres, artiste, pistes,...) via la base de données des disques compacts [[wpfr>Compact_Disc_Data_Base|CDDB]].
+
+
+===== Pré-requis =====
+  * Disposer des [[:sudo|droits d'administration]];
+  * Disposer d'une connexion à Internet configurée et activée;
+  * Avoir [[:tutoriel:comment_installer_un_paquet|installé le paquet]] **[[apt>lame]]** si vous souhaitez extraire vers le format [[wpfr>Mp3]];
+  * Avoir [[:tutoriel:comment_installer_un_paquet|installé le paquet]] **[[apt>musepack-tools]]** si vous souhaitez extraire vers le [[wpfr>Format_ouvert|format libre]] [[wpfr>Musepack]].
+ 
+===== Installation =====
+====Via les dépots officiels====
+Pour installer **Asunder**, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>asunder]]** \\
+
+====Via un PPA====
+<note important>Installer un paquet hors des dépôts officiels peut présenter un risque d'instabilité du système.</note>
+Vous souhaitez utiliser la dernière version stable de ASunder; elle est disponible depuis un [[:PPA]]. Pour cela:
+  - [[:ppa#ajout_d_un_ppa_a_vos_sources_logicielles|Ajoutez à vos sources de logiciels le PPA]] suivant : **ppa:landronimirc/asunder**((https://launchpad.net/~landronimirc/+archive/ubuntu/asunder));
+  -  [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|recharger la liste des paquets]];
+  - [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>asunder]]**.
+
+Ou, dans un [[:terminal]], saisir les [[:commande_shell|commandes]] :
+<code>sudo add-apt-repository ppa:landronimirc/asunder
+sudo apt-get update
+sudo apt-get install asunder</code>
+
+
+=====Lancement=====
+L'application ASunder se lance depuis le [[:unity#dash|tableau de bord d'unity]], catégories //"médias" //ou pour les menus classiques, menu //Applications ⇒ Médias ⇒ Asunder//.\\
+Ou pour toutes [[:variantes|variantes d'Ubuntu]] en saisissant dans un [[:terminal]] la [[:commande_shell|commande]] suivante:
+<code>asunder</code>
+
+=====Configuration=====
+En cliquant sur "Préférences", vous pouvez choisir entre-autre, 
+  * dans l'onglet "général"
+    * le dossier de destination des fichiers;
+  * dans l'onglet "Encodeur", 
+    * le format de sortie ([[wpfr>OGG]] par défaut);
+    * La qualité d'encodage.
+
+===== Utilisation =====
+  - Insérer un CD audio dans votre lecteur de CD;
+  - Lancer **ASunder**; \\ **Asunder** analysera les pistes audio et si vous êtes connecté à internet, reconnaîtra ces dernières ainsi que les autres informations.
+  - Lancer l'extraction en cliquant sur "Extraire";
+  - Patientez, la conversion prend un peu de temps selon le format et la qualité choisis;
+Une fois terminé, vos fichiers audio seront déposés dans le dossier de destination sélectionné lors de la [[#configuration]] (Dossier Personnel par défaut).
+
+=====Problèmes connus=====
+==== Lecteur CD-ROM non détecté ====
+Sur [[:precise|Ubuntu Precise 12.04]], par défaut, le lecteur CD-ROM ne sera pas reconnu. Il suffit de se rendre dans les préférences et corriger /dev/cdrom en /dev/sr0
+
+==== Encodage Flac ====
+
+Pour encoder vos fichiers directement en Flac, il faut installer le paquet **[[apt>flac]]**.
+
+=====Voir aussi=====
+  * **(en)**[[http://littlesvr.ca/asunder/|Site officiel du projet]]
+====Autres applications d'extraction de CD====
+  * [[:Sound-Juicer|Sound-Juicer]]
+  * [[:xcfa|Xcfa]]
+  * [[:abcde]] (en ligne de commande)
+
+----
+
+//Contributeurs :  //

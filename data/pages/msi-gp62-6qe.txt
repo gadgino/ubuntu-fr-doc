@@ -1,0 +1,83 @@
+======  Modèle de la gamme : MSI GP62 6QE ======
+
+
+===== En un coup d’œil =====
+Le tableau suivant récapitule la prise en charge du matériel de portable par les différentes versions d'Ubuntu.
+Il utilise les notations suivantes :
+  * {{:icons:ok_64.png|OK 64 bits}} **Fonctionne immédiatement en 64 bits.**
+  * {{wiki:modeles:laptop_work.png|Fonctionne après config}} **Fonctionne après quelques manipulations**
+
+^ Version ^ Installation ^ Carte graphique ^ Son ^ Casque audio ^ Wifi ^ Bluetooth ^ Webcam ^ Touchpad ^ Raccourcis multimédia  ^
+|  [[:15.10]]  |{{wiki:modeles:laptop_work.png|Fonctionne après config}}|{{wiki:modeles:laptop_work.png|Fonctionne après config}}|{{:icons:ok_64.png|OK 64 bits}}|{{:icons:ok_64.png|OK 64 bits}}|{{:icons:ok_64.png|OK 64 bits}}|{{:icons:ok_64.png|OK 64 bits}}|{{:icons:ok_64.png|OK 64 bits}}|{{:icons:ok_64.png|OK 64 bits}}|{{:icons:ok_64.png|OK 64 bits}}|
+|  autres versions  |  Matériel trop récent pour des versions antérieures d'ubuntu !  |||||||||
+
+
+===== Installation =====
+
+==== Configuration du BIOS ====
+
+On accède au BIOS en pressant la touche //suppr// dès le démarrage de l'ordi.
+
+Afin de réaliser une installation correcte ces paramètres doivent être réglés comme ci-dessous dans la mesure du possible (certains paramètres ne figurent pas sur tous les modèles).
+
+|              ^ Sélection:                   ^Remarque : ^
+^ Fast boot      | DISABLED           |
+^ Boot mode select      | LEGACY |
+^ PCI Latency timer      | 64 PCI Bus Clock            |    
+^ Intel SpeedStep      | DISABLED           | Cette fonction occasionne des problèmes de veille voire des freezes |
+^ Super Charger      | DISABLED |
+^ ERP      | DISABLED            |   
+^ Intel Virtualization      | ENABLED            | Vous pouvez désactiver si vous ne faites pas de virtualisation |
+^ VT-d      | ENABLED           |Vous pouvez désactiver si vous ne faites pas de virtualisation |
+^ Hyperthreading      | -            |  
+^ CPU C-States    | DISABLED            | Cette fonction occasionne des freezes |   
+
+==== Booter sur le live ====
+
+<note important>
+L'utilisation d'une version supérieure (ou égale) à la 15.10 est **OBLIGATOIRE** .
+
+Après l'iso téléchargé, utiliser unetbootin pour le mettre sur la clef, cet outil nous permettra par la suite de modifier aisément les options de démarrage.
+</note>
+
+1. Booter sur la clef et modifier les options de démarrage en appuyant sur la touche <TAB> en ajoutant :
+<code>nouveau.blacklist=1 acpi=off</code>
+avant "quiet splash" 
+
+Si votre live USB freeze, redémarrez et vérifiez que vous n'avez pas commis d'erreur de frappe.
+
+2. L'installation ne pose aucun problème en elle-même veiller tout de même à allouer à votre swap une taille égale à votre quantité de ram la taille se calcule ainsi : 1024 * ( Quantité de ram ).
+
+3. Redémarrer l'ordinateur et marteler échap pour afficher le menu grub pour modifier les options de démarrage en ajoutant :
+<code>nouveau.blacklist=1 acpi=off</code>
+avant "quiet splash" 
+
+4) Mises à jour
+
+Une fois votre Ubuntu démarré, réalisez les mises à jour, afin d'obtenir le dernier noyau disponible.
+
+5) Redémarrer votre ordinateur de la même manière qu'à l'étape 3 dans le but d'installer les drivers nvidia :
+
+<code>
+sudo add-apt-repository ppa:graphics-drivers/ppa
+sudo add-apt-repository ppa:kranich/cubuntu
+sudo apt-get update
+sudo apt-get install nvidia-361 nvidia-libopencl1-361 nvidia-opencl-icd-361 nvidia-prime nvidia-settings mesa-utils prime-indicator
+</code>
+
+6) Vous pouvez dès à présent redémarrer votre ordinateur de manière normale c'est à dire sans changer les options de démarrage
+
+Par défaut, la carte Nvidia sera utilisée. Si vous désirez utiliser la carte Intel, vous pouvez utiliser le menu "Quick switch graphics" dans votre barre de menu.
+
+===== Problèmes =====
+
+==== Caméra ====
+
+Afin d'utiliser votre caméra intégrée vous devez simplement appuyer sur FN + F6 celle-ci sera alors reconnue par linux sans aucun problème ! 
+
+
+
+
+=====Voir aussi=====
+
+//Contributeurs : [[:utilisateurs:vous]]//

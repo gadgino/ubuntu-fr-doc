@@ -1,0 +1,245 @@
+====== Virtualbox: Problèmes connus ======
+
+//Cette page n'est qu'une annexe destinée à alléger la page principale de **[[:VirtualBox]]** et permettant de présenter les problèmes connus les plus rencontrés et leurs solutions//. 
+
+==== Ecran bleu lors du lancement de machines virtuelles Windows après une mise à jour ====
+
+Après une mise à jour de VirtualBox (notamment vers la version 1.6.2 disponible pour Hardy sous architecture AMD64), les machines virtuelles Windows peuvent présenter un écran bleu lors de leur démarrage. Pour résoudre le problème, sélectionnez une machine virtuelle dans la liste, cliquez sur le bouton "Préférences", puis sur l'onglet "Avancé". Dans la liste déroulante "Type du contrôleur IDE", sélectionner "PIIX3" à la place de "PIIX4".
+
+
+<del>Je vous explique que le paramétre setup n'est pas implementé.
+On obtient ceci :
+ * Usage: /etc/init.d/vboxdrv {start|stop|restart|status}
+Si vous obtenez l'erreur VERR_VM_DRIVER_VERSION_MISMATCH
+il n'ya rien à faire ! il faut repasser à windows XP pour installer Virtual BOX
+pour Windows et installer ubuntu ou linux dessus !
+
+C'est qu'ils n'ont pas testé à fond virtualbox version linux !
+
+
+
+Normalement ça le fait sur toutes les systéme ubuntu !
+
+Bizarre : la version ancienne semble fonctionner !</del>
+
+
+
+
+==== Erreur lors du lancement de VirtualBox après une mise à jour ====
+
+Si vous obtenez un message du type :
+
+> VERR_VM_DRIVER_VERSION_MISMATCH
+
+Tapez :
+<code>sudo /etc/init.d/vboxdrv setup</code>
+
+Si vous obtenez un message du type :
+
+> VERR_SSM_UNSUPPORTED_DATA_UNIT_VERSION
+
+C'est parce que votre machine virtuelle n'a pas été fermée, mais est restée dans un  état de sauvegarde. Désinstallez la nouvelle version, revenez à la version précédente, ouvrez votre machine virtuelle, puis refermez-la (option **« Arrêter l'ordinateur »**). Réinstallez la nouvelle version de VirtualBox et vous pourrez ouvrir à nouveau votre machine virtuelle.
+
+==== Erreur lors du lancement de VirtualBox ====
+
+Si vous obtenez un message du type :
+
+> mv: ne peut déplacer /home/VotreNom/.virtualBox/ ... vers ...
+
+Il faut vous redonner les droits sur ce dossier caché avec cette commande :
+
+  sudo chown utilisateur:utilisateur -R ~/.VirtualBox
+
+Remplacer //utilisateur// par votre nom de connexion.
+
+==== Apparition d'une fenêtre avec le message "Spawning session..." ====
+Si au lancement d'une VM, une petite fenêtre s'ouvre avec le message "Spawning session..." et que celle-ci reste bloquée à 0%, vous devez :
+  * fermer virtualbox ou tuer le processus si besoin
+  * Recompiler le module en tapant dans un terminal :
+<code>sudo /etc/init.d/vboxdrv setup</code>
+
+==== Erreur au lancement d'une VM ====
+
+Si vous obtenez un message du type :
+
+> VBox status code: -1909 VERR_VM_DRIVER_NOT_ACCESSIBLE
+
+Vous devez rétablir les droits sur **/dev/vboxdrv**. Pour cela, taper :
+
+  sudo chgrp vboxusers /dev/vboxdrv
+  sudo chmod 666 /dev/vboxdrv
+
+<note important>Si les utilisateurs de VirtualBox appartiennent bien au groupe « vboxusers » vous ne devriez pas avoir de soucis.
+Pour le vérifier depuis Gnome, utilisez //Système → Administration → Utilisateurs et groupes//. Pour voir en console a quels groupes l'utilisateur courant  appartient, tapez simplement :
+<code>groups</code>
+Pour ajouter un ou des utilisateur(s) au groupe « vboxusers », référez-vous au paragraphe « [[#Installation de VirtualBox]] ».</note>
+
+==== Erreur au lancement d'une VM ====
+
+> VirtualBox can't operate in VMX root mode. Please disable the KVM kernel extension, recompile your kernel and reboot.
+> VBox status code: -4011 (VERR_VMX_IN_VMX_ROOT_MODE). 
+
+Pas besoin de recompiler le kernel, il vous suffit de supprimer le module KVM en fonction de votre processeur : 
+  * intel 
+<code>sudo modprobe -r kvm_intel</code>
+  * amd 
+<code>sudo modprobe -r kvm_amd</code>
+
+
+
+==== Erreur au lancement d'une VM ====
+
+Si vous obtenez un message du type :
+
+> VBox status code: -102 (VERR_FILE_NOT_FOUND)
+
+C'est parce que le matériel de votre ordinateur a changé (ex : lecteur DVD retiré, ...)
+
+Il faut rejeter la machine, aller dans les préférences et supprimer ce matériel pour la machine
+
+
+
+==== Erreur au lancement d'une VM ====
+
+Si vous obtenez un message du type :
+
+> VirtualBox kernel driver not installed. The vboxdrv kernel module was either not loaded or /dev/vboxdrv was not created for some reason. Please install the virtualbox-ose-modules package for your kernel, e.g. virtualbox-ose-modules-generic..
+> VBox status code: -1908 (VERR_VM_DRIVER_NOT_INSTALLED).
+
+Suivre le conseil donné: installer virtualbox-ose-modules-XXX selon le type de votre noyau: 
+<code>uname -r</code>
+exemple de résultat sous Hardy: 
+<code>2.6.24-19-generic</code>
+il faut donc installer le paquet ''**[[apt://virtualbox-ose-modules-generic-2.6.24-19-generic]]**''
+<note tip>De manière générale, on peut utiliser la commande suivante :
+<code>sudo apt-get install virtualbox-ose-modules-`uname -r`</code></note>
+<note important>**Version OSE**
+Après une mise à jour du noyau, il peut s'écouler un certain temps avant que les paquets correspondants pour Virtualbox-ose soient disponibles.
+
+Si le module pour un nouveau noyau est manquant, on peut le créer avec module-assistant :
+
+On télécharge les sources de virtualbox-ose :
+<code>sudo apt-get install virtualbox-ose-source</code>
+
+On crée le module (si la commande m-a renvoie une erreur, installer le paquet [[apt://module-assistant]]) :
+<code>sudo m-a prepare virtualbox-ose
+sudo m-a a-i virtualbox-ose</code>
+
+Et on le charge :
+<code>sudo modprobe vboxdrv</code>
+
+Pour automatiser le chargement du module au démarrage du système, il suffit de rajouter "vboxdrv" à la fin du fichier /etc/modules (il y sera déjà si un module a été installé auparavant).
+</note>
+
+<note tip>**Version non OSE**
+Ce message peut arriver lors de la mise à jour du noyau (kernel).
+
+Il faut recompiler le kernel, dans un terminal:    sudo /etc/init.d/vboxdrv setup ,    Après la recompilation, relancer VirtualBox
+ </note>
+
+
+==== Erreur au lancement d'une VM ====
+
+Si vous obtenez un message du type :
+
+> VBox status code: -1825 (VERR_SSM_LOAD_CONFIG_MISMATCH)
+
+C'est que la machine virtuelle était en veille, et VirtualBox a été réinstallé. Rejetez la machine virtuelle (équivaut à un arrêt brutal de la machine), et relancez-la.
+
+
+
+
+
+==== Écran noir après le menu d'accueil d'un CD ====
+
+Si juste après avoir sélectionné « Lancer Ubuntu » ou « Lancer Kubuntu » vous obtenez un écran noir et plus rien ne se passe, redémarrez la VM.
+Attention ne la fermez pas, faites juste //Machine → Redémarrage// ou encore « Host+R ».
+
+
+==== Écran noir après le démarrage de windows ====
+
+Il est possible qu'après avoir lancé windows dans votre VM, vous vous retrouviez avec un écran noir, juste avant que le logo windows avec sa barre de chargement n'apparaissent. Si c'est le cas vous pouvez essayer d'<activer l'IO APIC> dans les préférences de votre VM dans la partie général, dans l'onglet avancé.
+
+==== Mode plein écran ====
+
+Si en passant en mode plein écran, votre machine virtuelle reste affichée entourée d'un large cadre noir :
+
+**1/ Si ce n'est déjà fait, [[:virtualbox#ameliorer_l_emulation_de_l_os_guest|installez les "additions client"]].**
+(Si vous avez installé la version OSE, avec Windows en invité sous Ubuntu, voir [[http://forum.ubuntu-fr.org/viewtopic.php?pid=1620271#p1620271|ici]].)
+
+**2/ Si, après avoir installé les additions client, vous n'avez toujours pas la possibilité de modifier la résolution écran dans XP invité** (sous XP : dans "Propriétés --> Paramètres... régler la résolution..."), par exemple si le curseur est bloqué sur 800 x 600, et qu'il est impossible de le déplacer et donc d'augmenter ainsi la résolution, vous pouvez faire ceci :
+  * Arrêter Virtualbox s'il est déjà démarré.
+  * Lancer dans un terminal la commande suivante, en indiquant la résolution maximale souhaitée (celle de votre écran), 1280 x 800 dans notre exemple :
+
+  VBoxManage setextradata global GUI/MaxGuestResolution 1280,800
+
+  * Puis lancer successivement les deux commandes suivantes :
+
+  sudo /etc/init.d/vboxdrv stop
+(vous aurez dans le terminal ce message : "Stopping VirtualBox kernel module vboxdrv")
+puis :
+  sudo /etc/init.d/vboxdrv start
+(vous aurez dans le terminal le message "Starting VirtualBox kernel module vboxdrv [ OK ]"
+  * Redémarrer Virtualbox et l'invité (XP dans notre exemple). On peut alors régler la résolution. Vous n'aurez peut-être pas la possibilité de régler en "1280 x 800", mais en utilisant les touches "Ctrl" de droite (maintenue appuyée) puis "F", l'invité se mettra en plein écran à la bonne résolution.
+
+Il peut être nécessaire aussi d'activer l'ajustement automatique de la taille de l'écran de l'invité (soit par le menu "Machine" de Virtualbox, soit en utilisant les touches Host (Ctrl de droite) + G.)
+
+
+**3/ Dans d'autres cas**, vous pouvez utiliser la commande suivante :
+
+  VBoxSDL -vm <nom_de_votre_machine_virtuelle_ou_l'UUID> -fullscreen
+
+<note>Cette commande lance directement votre machine virtuelle, et ne vous donne donc pas accès a toutes les options de configuration de Virtualbox. Il faut donc vous assurer de tout paramétrer correctement avant de l'utiliser au quotidien.</note>
+
+<note>Un petit réajustement de l'écran « touche Host+A », suivi de « touche Host+F » peut aussi suffire pour y arriver.</note>
+
+==== Mode plein écran avec Ubuntu 10.10 ====
+Avec Ubuntu 10.10 en système invité, les additions invités posent problème pour le passage en plein écran.
+Pour résoudre le problème suivez la procédure ci-dessous :
+  * Les additions invités doivent être installé au préalable.
+  * Les commandes sont à lancés sur le système invité (donc 10.10).
+
+   sudo apt-get update
+   sudo apt-get install build-essential linux-headers-$(uname -r)
+   sudo apt-get install virtualbox-ose-guest-x11 
+   
+Puis redémarrez votre machine virtuel.
+[[http://tutorial.downloadatoz.com/how-to-fix-ubuntu-10-10-virtualbox-guest-additions-problems.html|Source]]
+
+==== Fenêtre transparente ====
+Ce problème apparait à cause de Compiz.
+Pour résoudre ce problème 2 solutions sont possibles:
+
+== Via le manager de compiz==
+Si vous ne l'avez pas encore installé référez-vous à [[compizconfig-settings-manager#installation]].
+
+Une fois le gestionnaire ouvert, allez dans la catégorie "Gestion des fenêtres" puis cochez et ouvrez "Règles de Fenêtre".
+Puis sous "Pas de visuels ARGB" collez ceci :
+
+''title=Sun VirtualBox''
+
+Fermez ensuite le gestionnaire, réouvrez VirtualBox et le tour est joué :-)
+
+== En modifiant la commande à exécuter ==
+
+il faut remplacer la commande à exécuter "VirtualBox" par "env XLIB_SKIP_ARGB_VISUALS=1 VirtualBox" 
+
+Dans certain cas, cela ne fonctionne que si l'accélération 3D est désactivée.
+
+==== Erreur en écriture de l'Invité ====
+
+Pour un SE Invité de type Windows XP, si vous avez une image disque .vdi définie en dynamique, il se peut que votre SE Invité vous renvoie une erreur en écriture (sur par exemple le fichier temporaire lors d'une installation de logiciel). Pour résoudre ce problème, il faut créer une image disque fixe ([[http://forum.ubuntu-fr.org/viewtopic.php?pid=1532601#p1532601|source]]). Pas de solution, actuellement, pour conserver son image disque dynamique.
+
+Une autre possibilité consiste à utiliser la FAT32 pour formater ce disque virtuelle, car effectivement le type NTFS supporte mal un disque à image dynamique.
+
+==== Erreur de kernel au lancement ====
+cette erreur fait suite à une mise à jour du kernel de votre distribution. Pour corriger le problème: quitter Virtualbox ou <code>killall VirtualBox </code>
+- puis lancer dans une console la commande: <code>sudo /etc/init.d/vboxdrv setup</code>
+
+et attendez les messages suivants:
+<code>* Stopping VirtualBox kernel module * done.
+* Recompiling VirtualBox kernel module * done.
+* Starting VirtualBox kernel module * done.</code>
+
+relancer Virtualbox.
+

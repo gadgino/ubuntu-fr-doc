@@ -1,0 +1,791 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="clear"><ul class="toc">
+<li class="level2"><span class="li"><a href="#explications_techniques" class="toc"> Explications Techniques </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#la_gestion_du_son_par_le_noyau_linux" class="toc"> La gestion du son par le noyau Linux </a></span></li>
+<li class="level3"><span class="li"><a href="#les_serveurs_de_sons_esd_esound_arts_jackd" class="toc"> Les serveurs de sons : ESD (esound), Arts, jackd... </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#mais_moi_j_ai_pas_de_son" class="toc"> Mais moi, j'ai pas de son... </a></span></li>
+<li class="level2"><span class="li"><a href="#carte_son_non_detectee" class="toc"> Carte son non detectée </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#installer_les_modules_son" class="toc"> Installer les modules son </a></span></li>
+<li class="level3"><span class="li"><a href="#plusieurs_cartes_son" class="toc"> Plusieurs cartes son </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#en_pratique_optimiser_le_son" class="toc"> En pratique, optimiser le son </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#comment_configurer_correctement_le_son" class="toc"> Comment configurer correctement le son ? </a></span></li>
+<li class="level3"><span class="li"><a href="#ecouter_plusieurs_sons_en_meme_temps_sans_esd_alsa_dmix" class="toc"> Ecouter plusieurs sons en même temps sans ESD : ALSA DMIX </a></span></li>
+<li class="level3"><span class="li"><a href="#dmix_marche_pas_chez_moi" class="toc"> Dmix marche pas chez moi :( </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#regler_ses_applications_pour_utiliser_alsa_avec_dmix_ou_esd" class="toc"> Régler ses applications pour utiliser ALSA avec DMIX ou ESD </a></span></li>
+<li class="level2"><span class="li"><a href="#encore_plus_loin_avec_alsa" class="toc"> Encore plus loin avec ALSA </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+D&rsquo;après <a href="http://forum.ubuntu-fr.org/viewtopic.php?id=2969" class="urlextern" title="http://forum.ubuntu-fr.org/viewtopic.php?id=2969" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">le mini howto de ploum</a>, modifié et agrémenté par <a href="http://forum.ubuntu-fr.org/profile.php?id=1378" class="urlextern" title="http://forum.ubuntu-fr.org/profile.php?id=1378" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Dawar</a>
+</p>
+
+<a name="explications_techniques"></a><h2> Explications Techniques </h2>
+<div class="level2">
+
+</div>
+<!-- SECTION [204-240] -->
+<a name="la_gestion_du_son_par_le_noyau_linux"></a><h3> La gestion du son par le noyau Linux </h3>
+<div class="level3">
+
+<p>
+ C&rsquo;est le noyau Linux qui fournit le son à la carte son en utilisant le pilote approprié (appelé module sous linux). Pour cela 2 systèmes existent, <acronym title="Open Source Software">OSS</acronym> et ALSA. On utilise soit l&rsquo;un soit l&rsquo;autre, on ne peux pas avoir les 2 en même temps. Mais nous verrons que des passerelles existent pour les applications qui n&rsquo;utilisent qu&rsquo;un des deux systemes.
+</p>
+
+</div>
+
+<a name="oss"></a><h4> OSS </h4>
+<div class="level4">
+
+<p>
+ Oss (Open Sound System) est le systeme le plus ancien fournissant des pilotes pour les cartes son sous GNU/Linux. Beaucoup de pilotes ont été développés pour <acronym title="Open Source Software">OSS</acronym>, mais c&rsquo;est de moins en moins le cas, car il est remplacé par ALSA. Certaines applications utilisent donc l&rsquo;interface <acronym title="Open Source Software">OSS</acronym> pour envoyer le son au pilote.
+</p>
+
+</div>
+
+<a name="alsa"></a><h4> ALSA </h4>
+<div class="level4">
+
+<p>
+ <acronym title="Open Source Software">OSS</acronym> n&rsquo;étant techniquement pas parfait, un remplaçant a été trouvé. Ce remplaçant est ALSA, pour Advanced Linux Sound Architecture. Les programmes utilisant du son doivent donc être réécrit pour pouvoir utiliser ALSA à la place de <acronym title="Open Source Software">OSS</acronym>. (c&rsquo;est pourquoi xmms a un plugin <acronym title="Open Source Software">OSS</acronym> et un plugin ALSA).
+</p>
+
+<p>
+Cependant, afin que les anciennes applications continuent à fonctionner, il existe dans ALSA une couche de compatibilité qui permet aux applications <acronym title="Open Source Software">OSS</acronym> de croire qu&rsquo;elles utilisent <acronym title="Open Source Software">OSS</acronym> au lieu de ALSA. (comme par exemple le plugin flash)
+</p>
+
+</div>
+<!-- SECTION [241-1535] -->
+<a name="les_serveurs_de_sons_esd_esound_arts_jackd"></a><h3> Les serveurs de sons : ESD (esound), Arts, jackd... </h3>
+<div class="level3">
+
+<p>
+ En théorie, avec <acronym title="Open Source Software">OSS</acronym> ou ALSA, un seul son peut être joué à la fois. Il n&rsquo;y a en effet qu&rsquo;un seul haut parleur. Cependant, certaines cartes permettent nativement le mixage de plusieurs sons ensemble, comme la Sound Blaster Live. <strong>La plupart des autres cartes ne peuvent pas jouer 2 sons en simultané</strong>, d&rsquo;ou l&rsquo;utilisation d&rsquo;un serveur son. 
+</p>
+
+<p>
+<strong>Par défaut, Hoary utilise le serveur de son de gnome : ESD (appelé parfois esound).</strong>
+</p>
+
+<p>
+Les applications envoient leurs sons à ESD, qui les mixe et envoie le résultat à <acronym title="Open Source Software">OSS</acronym> qui le passe à ALSA.
+</p>
+
+<p>
+Sous KDE, le serveur de son est Arts. Une application qui n&rsquo;a pas de sortie arts peux quand même utiliser le serveur de son arts, en la lancant précédé de &ldquo;artsdsp&rdquo;. Exemple, pour lancer Enemy Territory sous KDE : &ldquo;artsdsp et&rdquo;. L&rsquo;equivalent pour gnome et ESD, c&rsquo;est esddsp, disponible dans le paquet esound-clients.
+</p>
+
+<p>
+Il existe d&rsquo;autres serveurs de son, comme <a href="http://jackit.sourceforge.net" class="urlextern" title="http://jackit.sourceforge.net" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">jackd</a> dédié aux musiciens, et <a href="http://0pointer.de/lennart/projects/polypaudio" class="urlextern" title="http://0pointer.de/lennart/projects/polypaudio" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">polypaudio</a> (compatible et remplacant ESD) qui sera peut être le prochain serveur son d&rsquo;Ubuntu. 
+</p>
+
+<p>
+Tous ces programmes ont un même but : pouvoir jouer plusieurs sons en même temps, et les mêmes défauts, une latence plus ou moins importante et l&rsquo;obligation pour les applications d&rsquo;utiliser un plugin ou une astuce pour s&rsquo;y connecter.
+</p>
+
+</div>
+<!-- SECTION [1536-2964] -->
+<a name="mais_moi_j_ai_pas_de_son"></a><h2> Mais moi, j'ai pas de son... </h2>
+<div class="level2">
+
+<p>
+ <strong>Vérifiez vos hauts parleurs, branchements, etc..</strong> (oui, dans environ 20% des posts du forum sur le son, les enceintes n&rsquo;étaient pas branchées)
+</p>
+
+<p>
+<strong>Vérifiez le volume</strong> !  Dans alsamixer, MASTER, PCM doivent être à fond et <strong>sans MM</strong> (mute) au dessus ou en dessous. Attention, certaines cartes (très rares) ont le mute inversé... Il faut donc avoir MM sur celles ci.
+</p>
+
+<p>
+Sur <strong>certaines autres cartes son intégrées</strong> (sur les cartes ASRock par exemple), il peut y&rsquo;avoir des conflits avec une source d&rsquo;acquisition : tout semble fonctionner, mais aucun son ne sort. Dans ce cas, vous pouvez essayer de muter, si vous avez l&rsquo;entrée correspondante dans alsamixer : &ldquo;headphone jack sense&rdquo; ou &ldquo;IEC958 Capture Monitor&rdquo; ou &ldquo;External Amplifier Power Down&rdquo;. Si l&rsquo;on décoche &ldquo;IEC958 Capture Monitor&rdquo; dans ALSAMIXER avec une carte ASrock K7VT4proA le son fonctionne convenablement.
+</p>
+
+<p>
+Passez voir les <a href="/materiel/cartes_son" class="wikilink1" title="materiel:cartes_son" onclick="return svchk()" onkeypress="return svchk()">cartes son qui posent problème</a> il y aura peux être la votre.
+</p>
+
+<p>
+Si les musiques semblent se jouer correctement mais que vous n&rsquo;entendez rien, revérifiez les deux points précédents. <strong>Si Linux ne détecte pas de carte son, il ne joue JAMAIS le son ! et affiche TOUJOURS une erreur !</strong>
+</p>
+
+<p>
+Vérifiez que votre ordinateur n&rsquo;est pas <strong>équipé de deux cartes sons</strong> et branchez vos enceintes sur l&rsquo;autre. (utiliser une carte son particulère est un autre problème résolu plus bas dans cette page)
+</p>
+
+<p>
+Si vous avez un message d&rsquo;erreur de type : &ldquo;Not found or busy&rdquo;, vérifiez avec &ldquo;lsof&rdquo; (voir plus haut)
+</p>
+
+<p>
+<strong>Une très bonne source de renseignements, en anglais : le <a href="https://bugzilla.ubuntu.com/" class="urlextern" title="https://bugzilla.ubuntu.com/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">bugzilla</a> d&rsquo;Ubuntu</strong>, qui récapitule tous les bugs connus à corriger, remplis par les utilisateurs. Essayez d&rsquo;entrer le modèle de votre carte son, ou le nom du module associé, vous pouvez trouver des personnes avec le même problème, et comment le résoudre.
+</p>
+
+<p>
+En désespoir de cause, postez sur <a href="http://forum.ubuntu-fr.org/viewforum.php?id=6" class="urlextern" title="http://forum.ubuntu-fr.org/viewforum.php?id=6" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">le forum ubuntufr</a> avec : 
+</p>
+<ul>
+<li class="level1"><span class="li"> le <strong>type d&rsquo;erreur</strong> précis</span>
+</li>
+<li class="level1"><span class="li"> le <strong>modèle précis</strong> de la carte son</span>
+</li>
+<li class="level1"><span class="li"> le résultat de &ldquo;lsmod|grep snd&rdquo;</span>
+</li>
+<li class="level1"><span class="li"> le résultat de la lecture d&rsquo;un .wav avec aplay et play, par exemple &ldquo;aplay /usr/share/sounds/gnomemeeting/gnomemeeting.wav&rdquo;</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [2965-5239] -->
+<a name="carte_son_non_detectee"></a><h2> Carte son non detectée </h2>
+<div class="level2">
+
+<p>
+ Cela arrive, mais c&rsquo;est rare. Vérifiez que votre carte n&rsquo;est vraiment pas detecté, voir les commandes lsmod dans la rubrique du dessus. Si ces commandes ne listent rien, votre carte n&rsquo;est pas reconnue. Pas de panique, on va essayer de la faire marcher quand même...
+</p>
+
+<p>
+Déjà, passez voir les <a href="/materiel/cartes_son" class="wikilink1" title="materiel:cartes_son" onclick="return svchk()" onkeypress="return svchk()">cartes son qui posent problème</a>, il y aura peux être la votre.
+</p>
+
+</div>
+<!-- SECTION [5240-5659] -->
+<a name="installer_les_modules_son"></a><h3> Installer les modules son </h3>
+<div class="level3">
+
+<p>
+Normalement il suffit de lancer &ldquo;sudo dpkg-reconfigure alsa-base&rdquo; et de se laisser guider. Si votre carte n&rsquo;est pas dans la liste, ça se complique, il va falloir googler...
+</p>
+
+</div>
+<!-- SECTION [5660-5870] -->
+<a name="plusieurs_cartes_son"></a><h3> Plusieurs cartes son </h3>
+<div class="level3">
+
+<p>
+Vous avez la chance d&rsquo;avoir plusieurs cartes sons (idéal pour mixer comme un dj avec mixxx par exemple), mais problème : la carte principale n&rsquo;est pas celle que vous vouler utiliser. Le problème se pose aussi avec les cartes TV, qui souvent s&rsquo;identifient comme carte son principale, la vrai carte son passant en 2eme position, donc plus aucun son n&rsquo;en sort.
+</p>
+
+<p>
+Plusieurs solutions :
+</p>
+
+<p>
+1ere solution : Faites un &ldquo;aplay -l&rdquo;, puis regarder quel numéro à la carte qui vous interesse. Puis éditez (ou créez) votre /etc/asound.conf pour y placer : 
+</p>
+<pre class="code"><span class="co1"># On d&eacute;finit la sortie son</span>
+pcm.!default <span class="br0">&#123;</span>
+  <span class="kw3">type</span> hw
+  card <span class="nu0">1</span> <span class="co1"># num&eacute;ro de la carte que vous vouler utiliser</span>
+<span class="br0">&#125;</span>
+<span class="co1"># On d&eacute;finit le mixeur associ&eacute;</span>
+ctl.!default <span class="br0">&#123;</span>  
+  <span class="kw3">type</span> hw
+  card <span class="nu0">1</span> <span class="co1"># num&eacute;ro de la carte que vous vouler utiliser</span>
+<span class="br0">&#125;</span></pre>
+<p>
+ Et voila on utilise par défaut la 2eme carte !
+</p>
+
+<p>
+2eme solution : Enlevez de l&rsquo;ordi ou désactivez dans le bios la carte qui ne sert pas :) 
+</p>
+
+<p>
+<em>3eme solution : <strong>Attention sans garantie, en cours de rédaction</strong> 
+Editez votre /etc/modules et changez l&rsquo;ordre des modules son (ils commencent par snd) afin de mettre la carte favorite en premier. Note : ne s&rsquo;applique pas a hoary qui n&rsquo;utilise pas /etc/modules. Il faudrait peux être changer dans /etc/modprobe.d/alsa-base :
+
+install sound-slot-<strong>0</strong> modprobe snd-card-0<br/>
+
+install sound-slot-<strong>1</strong> modprobe snd-card-1
+
+en 
+
+install sound-slot-<strong>1</strong> modprobe snd-card-0<br/>
+
+install sound-slot-<strong>0</strong> modprobe snd-card-1
+
+Suivi d&rsquo;un &ldquo;sudo update-modules&rdquo;
+
+Quelqu&rsquo;un connaisant module-init-tools pour confirmer/infirmer ? Ou quelqu&rsquo;un avec 2 cartes sons pour tester...
+</em>
+</p>
+
+<p>
+ <em>a completer, on recherche des volontaires :) </em>
+</p>
+
+</div>
+<!-- SECTION [5871-7562] -->
+<a name="en_pratique_optimiser_le_son"></a><h2> En pratique, optimiser le son </h2>
+<div class="level2">
+
+<p>
+ Que se passe-t-il quand vous lancez votre Ubuntu ? Linux démarre, alsa initialise votre carte son, puis gnome démarre et le serveur son ESD se lance.
+</p>
+
+<p>
+ESD va donc monopoliser votre sortie son, pour émettre entre autre les &ldquo;bips&rdquo; de Gnome. Si vous souhaitez qu&rsquo;une application utilise aussi le son, il faut qu&rsquo;elle puisse se connecter au serveur son ESD, en général via un plugin. Par exemple après l&rsquo;installation d&rsquo;xmms, il faudra régler celui ci sur la sortie esound.
+</p>
+
+<p>
+Ce qui nous donne :
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=installation%3Aesd_oss.png" class="media" title="installation:esd_oss.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=installation%3Aesd_oss.png" class="media" alt="" /></a>
+</p>
+
+<p>
+Il faut bien remarquer que, par défaut, une seule application à la fois peut accéder à la carte son. Et par défaut ESD, qui est une application comme une autre, est lancé et accède à la carte son.
+</p>
+
+<p>
+<strong>Dans la majeure partie des cas, vous n&rsquo;avez pas de son tout simplement car ESD &ldquo;bouche&rdquo; l&rsquo;accès à la carte son</strong>. Vous n&rsquo;entendrez que les sons Gnome et les applications utilisant une sortie ESD. 
+</p>
+
+<p>
+La première chose à faire est donc de tuer ESD (killall esd) puis de regarder ce qui accède à la carte son : lsof /dev/dsp   vous indique les programmes qui utilisent <acronym title="Open Source Software">OSS</acronym> lsof /dev/snd/* indique les programmes utilisant ALSA 
+</p>
+
+</div>
+<!-- SECTION [7563-8759] -->
+<a name="comment_configurer_correctement_le_son"></a><h3> Comment configurer correctement le son ? </h3>
+<div class="level3">
+
+<p>
+ Une bonne chose est de dire à ESD de se couper lorsqu&rsquo;on a pas besoin de lui.
+</p>
+
+<p>
+sudo gedit /etc/esound/esd.conf
+</p>
+
+<p>
+et modifiez le fichier pour que ça ressemble à : 
+</p>
+<pre class="code"><span class="br0">&#91;</span>esd<span class="br0">&#93;</span>
+<span class="re2">auto_spawn=</span><span class="nu0">1</span>
+<span class="re2">spawn_options=</span>-terminate -nobeeps -as <span class="nu0">2</span> -d default
+<span class="re2">spawn_wait_ms=</span><span class="nu0">100</span>
+<span class="co1"># default options are used in spawned and non-spawned mode</span>
+<span class="re2">default_options=</span></pre>
+<p>
+Relancez votre session, normalement vous ne devriez plus avoir de problème avec les jeux comme frozen-bubble. Il suffit de couper la musique deux secondes avant de lancer le jeu.
+</p>
+
+<p>
+Mais comme gnome fait un bip quand on clic sur une icone, ca marche pas toujours, il faut désactiver le son quand on clique sur une icone (système&gt;préférences&gt;sons)
+</p>
+
+<p>
+Vous pouvez aussi essayer esddsp, qui reroute les applications non ESD vers ESD, par exemple &ldquo;esddsp mpg123 mon.mp3&rdquo;. Bien entendu, ça ne marchera pas avec toutes les applications, certaines ne le supportent pas. 
+</p>
+
+<p>
+esddsp se trouve dans le paquet esound-clients.
+</p>
+
+</div>
+<!-- SECTION [8760-9776] -->
+<a name="ecouter_plusieurs_sons_en_meme_temps_sans_esd_alsa_dmix"></a><h3> Ecouter plusieurs sons en même temps sans ESD : ALSA DMIX </h3>
+<div class="level3">
+
+<p>
+ Ne suivez ces instructions <strong>que si vous avez du son ALSA qui fonctionne</strong> correctement (par exemple xmms joue sans problème avec le plugin ALSA)
+</p>
+
+<p>
+Vous pouvez aussi regarder si vos modules son commencent par &ldquo;snd-&rdquo; : sudo lsmod|grep snd
+</p>
+
+<p>
+Nous allons utiliser une fonctionnalité nouvelle d&rsquo;ALSA, le mixage directement dans le driver son. Ce système s&rsquo;appelle DMIX.
+</p>
+
+<p>
+<strong>Ce n&rsquo;est pas sûr que ceci marche avec toutes les cartes sons.</strong>
+</p>
+
+<p>
+La première chose qu&rsquo;on va faire, c&rsquo;est dire à esd d&rsquo;utiliser ALSA au lieu de <acronym title="Open Source Software">OSS</acronym>. Pour cela, nous allons installer esd version ALSA, qui va remplacer esd version ESS :
+</p>
+
+<p>
+sudo apt-get install libesd-alsa0
+</p>
+
+<p>
+ensuite on va créer le fichier asound :
+</p>
+
+<p>
+sudo gedit /etc/asound.conf
+</p>
+
+<p>
+dans lequel on met : 
+</p>
+<pre class="code">pcm.card0 <span class="br0">&#123;</span>
+<span class="kw3">type</span> hw
+card <span class="nu0">0</span>
+<span class="br0">&#125;</span>
+&nbsp;
+pcm.!default <span class="br0">&#123;</span>
+<span class="kw3">type</span> plug
+slave.pcm <span class="st0">"dmixer"</span>
+&nbsp;
+<span class="br0">&#125;</span>
+&nbsp;
+&nbsp;
+pcm.dmixer <span class="br0">&#123;</span>
+<span class="kw3">type</span> dmix
+ipc_key <span class="nu0">1025</span>
+slave <span class="br0">&#123;</span>
+pcm <span class="st0">"hw:0,0"</span>
+period_time <span class="nu0">0</span>
+period_size <span class="nu0">1024</span>
+buffer_size <span class="nu0">4096</span>
+periods <span class="nu0">128</span>
+rate <span class="nu0">44100</span>
+<span class="br0">&#125;</span>
+bindings <span class="br0">&#123;</span>
+<span class="nu0">0</span> <span class="nu0">0</span>
+<span class="nu0">1</span> <span class="nu0">1</span>
+<span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+<p>
+ensuite, on redémarre ALSA:
+</p>
+
+<p>
+sudo /etc/init.d/alsa restart
+</p>
+
+<p>
+Relancez votre session (pour ESD) et voilà, normalement vous devriez être capables d&rsquo;entendre les clicks clicks de l&rsquo;interface, écouter de la musique avec XMMS et jouer une vidéo avec totem, le tout en même temps. (il faut que les applications <strong>utilisent ESD ou ALSA</strong>, préférablement ALSA)
+</p>
+
+<p>
+Si vous avez 2 (ou plus) cartes son, vous pouvez grâce à votre configuration asound.conf choisir laquelle utiliser. Un petit &ldquo;aplay -l&rdquo; pour lister les cartes, puis dans l&rsquo;exemple du dessus, il suffit de changer <em>card 0</em> par le numéro de carte qui vous interesse. Il faut aussi changer <em>pcm &ldquo;hw:0,0&rdquo;</em>, en sachant que le premier nombre correspond au numéro de la carte, et le second a la sortie de la carte (device), en général 0.
+</p>
+
+<p>
+Si vous obtenez un <strong>son qui crachote avec esd</strong>, changez dans esd.conf &ldquo;-d default&rdquo; à la 3eme ligne par &ldquo;-d dmixer&rdquo;.
+</p>
+
+<p>
+Enfin, l&rsquo;idéal, <strong>c&rsquo;est de se passer complètement d&rsquo;ESD</strong> (c&rsquo;est le titre de la rubrique, non ?) en utilisant ALSA aussi pour les sons systeme. Pour cela, il suffit de lancer &ldquo;gstreamer-properties&rdquo; (système&gt;préférences&gt;sélecteur de systèmes multimedia) et de choisir alsa, et de désactiver le serveur son de gnome.
+</p>
+
+<p>
+Seul point noir : <strong>les applications <acronym title="Open Source Software">OSS</acronym> doivent toujours accéder à la carte son que une par une</strong>. Il faut donc éteindre tous les sons <strong>avant</strong> de lancer l&rsquo;application en question (par exemple des jeux comme Enemy Territory ou Quake), ou tenter avec &ldquo;aoss&rdquo; (voir plus bas l&rsquo;exemple pour Flash)
+</p>
+
+<p>
+Voici le système de son avec ALSA + DMIX + ESD-ALSA :
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=installation%3Aesd_alsadmix.png" class="media" title="installation:esd_alsadmix.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=installation%3Aesd_alsadmix.png" class="media" alt="" /></a>
+</p>
+
+<p>
+ <em>Il faut lire <acronym title="Open Source Software">OSS</acronym> et non ESS dans le graphique, je corrigerais bientot &ndash; Dawar</em> 
+</p>
+
+</div>
+<!-- SECTION [9777-12542] -->
+<a name="dmix_marche_pas_chez_moi"></a><h3> Dmix marche pas chez moi :( </h3>
+<div class="level3">
+
+</div>
+
+<a name="j_ai_une_erreur_a_la_lecture_d_un_son"></a><h4> J'ai une erreur a la lecture d'un son </h4>
+<div class="level4">
+
+<p>
+ Selon les cartes sons, le &ldquo;buffer&rdquo; disponible n&rsquo;est pas le même. Dans ce cas, vous pouvez avoir des erreurs du type &ldquo;buffer size select failed: Invalid argument&rdquo;. Essayez donc dans une console :
+</p>
+
+<p>
+alsaplayer -d ossmix
+</p>
+
+<p>
+Puis, cherchez la ligne &ldquo;BUFFER_SIZE: 6553&rdquo; (6553, c&rsquo;est un exemple) et utilisez cette valeur <strong>arrondie pour quelle soit un multiple de 2</strong>, dans votre asound.conf : buffer_size 6552, ou mieux, buffer_size 4096 (les ordinateurs aiment bien les puissances de 16)
+</p>
+
+<p>
+Vous pouvez aussi essayer de doubler le buffer, en indiquant &ldquo;buffer_size 8192&rdquo;. Bien entendu il ne faut pas que cette valeur dépasse le buffer de votre carte son, sinon ça ne marchera pas.
+</p>
+
+<p>
+Parfois, l&rsquo;émulation <acronym title="Open Source Software">OSS</acronym> d&rsquo;alsa n&rsquo;est pas lancé, et les rares applications n&rsquo;utilisant qu&rsquo;<acronym title="Open Source Software">OSS</acronym> (Real et Skype pour les plus connues) ne marcherons pas. Vous pouvez essayer de charger le module d&rsquo;émulation <acronym title="Open Source Software">OSS</acronym> d&rsquo;alsa : &ldquo;sudo modprobe -v snd-pcm-oss&rdquo;, et si ça regle votre problème, il suffit d&rsquo;ajouter snd-pcm-oss dans le fichier /etc/modules. Mais <strong>normalement ce n&rsquo;est pas necessaire</strong>, et ça ne sert a rien si ALSA ne fonctionne pas !
+</p>
+
+</div>
+
+<a name="j_ai_du_son_tout_pourri"></a><h4> J'ai du son tout pourri </h4>
+<div class="level4">
+
+<p>
+ Si le son crachote avec esd, vous pouvez essayer de changez dans esd.conf “-d default” à la 3eme ligne par “-d dmixer” (voir plus haut)
+</p>
+
+<p>
+Si le son est mauvais avec alsa, il faut essayer de jouer avec les valeurs period_size et buffer_size d&rsquo;asound.conf, en utilisant toujours des valeurs multiples de 2.
+</p>
+
+<p>
+Ainsi, il peux être judicieux de doubler period_size, en indiquant &ldquo;period_size 2048&rdquo;. Vous pouvez aussi augmenter énormément buffer_size, il y&rsquo;aura un petit décalage du son, mais une meilleur qualité et moins de &ldquo;sautes&rdquo;, par exemple en indiquant &ldquo;buffer_size 32768&rdquo;
+</p>
+
+<p>
+Il est également possible de tenter d&rsquo;utiliser la carte son en 48Khz, certaines n&rsquo;aiment pas le 44.1 réglé par défaut, en changant &ldquo;rate 44100&rdquo; par &ldquo;rate 48000&rdquo;.
+</p>
+
+<p>
+Bref, jouez avec ces réglages, et essayez de trouver vos valeurs idéales. Il ne faut pas oublier de relancer alsa a chaque changement avec &ldquo;sudo /etc/init.d/alsa restart&rdquo;
+</p>
+
+</div>
+
+<a name="et_mon_super_kit_5.1_qui_ne_sort_qu_en_2.0"></a><h4> Et mon super kit 5.1 qui ne sort qu'en 2.0 ? </h4>
+<div class="level4">
+
+<p>
+ Bon, a part certains médias, on écoute surtout du 2.0, c&rsquo;est a dire de la stéréo simple.
+</p>
+
+<p>
+Il y a moyen de faire du pseudo 5.1 avec ALSA, pas avec <acronym title="Open Source Software">OSS</acronym>. 
+</p>
+
+<p>
+Il faut éditer le /etc/asound.conf, et ajouter a la fin :
+</p>
+<pre class="code">pcm.duplicate <span class="br0">&#123;</span>
+    <span class="kw3">type</span> plug
+    slave.pcm <span class="st0">"surround51"</span>
+    slave.channels <span class="nu0">6</span>
+    route_policy duplicate
+<span class="br0">&#125;</span></pre>
+<p>
+Après, il suffit de choisir &ldquo;surround51&rdquo; comme sortie son dans son application préféré !
+</p>
+
+</div>
+
+<a name="liens_externes"></a><h4> Liens externes </h4>
+<div class="level4">
+<ul>
+<li class="level1"><span class="li"> Le <a href="https://bugzilla.ubuntu.com/" class="urlextern" title="https://bugzilla.ubuntu.com/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">bugzilla ubuntu</a> avec les bugs en cours, passés et futur.</span>
+</li>
+<li class="level1"><span class="li"> Le <a href="http://alsa.opensrc.org/index.php?page=DmixPlugin" class="urlextern" title="http://alsa.opensrc.org/index.php?page=DmixPlugin" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">wiki ALSA sur dmix</a></span>
+</li>
+<li class="level1"><span class="li"> La <a href="http://www.alsa-project.org/alsa-doc/alsa-lib/pcm_plugins.html" class="urlextern" title="http://www.alsa-project.org/alsa-doc/alsa-lib/pcm_plugins.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">page de documentation ALSA</a> sur le plugin pcm.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [12543-15530] -->
+<a name="regler_ses_applications_pour_utiliser_alsa_avec_dmix_ou_esd"></a><h2> Régler ses applications pour utiliser ALSA avec DMIX ou ESD </h2>
+<div class="level2">
+
+<p>
+Ne sont indiqué que les applications posant problème (utilisent <acronym title="Open Source Software">OSS</acronym>, ou réglé par défaut sur <acronym title="Open Source Software">OSS</acronym>). cela ne fonctionne aussi <strong>que si vous avez ALSA DMIX qui fonctionne</strong>, avec ESD-ALSA, voir au dessus.
+</p>
+
+<p>
+Pour les application 100% <acronym title="Open Source Software">OSS</acronym>, vérifiez que vous avez le module snd-pcm-oss : &ldquo;lsmod|grep snd-pcm-oss&rdquo;. Si ce n&rsquo;est pas le cas, voyez <a href="http://wiki.ubuntu-fr.org/son_sous_hoary#dmix_marche_pas_chez_moi" class="urlextern" title="http://wiki.ubuntu-fr.org/son_sous_hoary#dmix_marche_pas_chez_moi" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">plus haut comment le mettre en place.</a> 
+</p>
+
+</div>
+
+<a name="flash_dans_firefox"></a><h4> Flash dans Firefox </h4>
+<div class="level4">
+
+<p>
+ Pour le plugin Flash, 2 solutions :
+</p>
+
+<p>
+On peux dire à Flash d&rsquo;utiliser ESD-ALSA et non <acronym title="Open Source Software">OSS</acronym> : sudo ln -s /usr/lib/libesd.so.0 /usr/lib/libesd.so.1
+</p>
+
+<p>
+Ou installer alsa-oss, qui permet aux application oss d&rsquo;être reroutées vers alsa :
+</p>
+
+<p>
+sudo apt-get install alsa-oss
+</p>
+
+<p>
+Et on lance Firefox avec &ldquo;aoss firefox&rdquo; (l&rsquo;avantage étant de ne pas avoir de décalage lié au serveur son)
+</p>
+
+</div>
+
+<a name="gstreamer_amarok_totem_rhythmbox"></a><h4> Gstreamer : Amarok, Totem, Rhythmbox... </h4>
+<div class="level4">
+
+<p>
+ Beaucoup d&rsquo;applications utilisent gstreamer, <a href="http://gstreamer.freedesktop.org/apps/" class="urlextern" title="http://gstreamer.freedesktop.org/apps/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">voici la liste complète</a> Pour ces applications, il suffit de lancer &ldquo;gstreamer-properties&rdquo;, et dans l&rsquo;onglet audio, choisir alsa.
+</p>
+
+</div>
+
+<a name="les_jeux_utilisant_sdl_frozen_bubbles"></a><h4> Les jeux utilisant SDL (Frozen bubbles...) </h4>
+<div class="level4">
+
+<p>
+ On va indiquer aux jeux utilisant SDL d&rsquo;utiliser ALSA au lieu d&rsquo;<acronym title="Open Source Software">OSS</acronym> :
+</p>
+
+<p>
+sudo apt-get install libsdl1.2debian-alsa
+</p>
+
+<p>
+De cette manière, frozen-bubble (et encore beaucoup d&rsquo;autres jeux !) utilisera ALSA.
+</p>
+
+</div>
+
+<a name="xmmsbeep"></a><h4> xmms/beep </h4>
+<div class="level4">
+
+<p>
+ Au choix, soit choisir la sortie esound (ESD), soit ALSA. Avec ALSA et DMIX, il faut décocher le &ldquo;Mode Mmap&rdquo; dans les paramètres avancés du plugin, et utiliser le control logiciel du volume, sinon le volume reste a fond la caisse.
+</p>
+
+</div>
+
+<a name="vlc"></a><h4> VLC </h4>
+<div class="level4">
+
+<p>
+ On va installer le plugin alsa de vlc : apt-get install vlc-alsa Puis, dans les préférences avancés, modules &gt; audio output &gt; alsa
+</p>
+
+</div>
+
+<a name="skype"></a><h4> Skype </h4>
+<div class="level4">
+
+<p>
+ Utilise <acronym title="Open Source Software">OSS</acronym> ou son émulation ALSA, donc couper tous les sons avant de s&rsquo;en servir et tuer ESD si il tourne...
+</p>
+
+<p>
+Sur les machines un peu vieilles, si le son &ldquo;saute&rdquo; ou &ldquo;crache&rdquo;, vous pouvez essayer :
+</p>
+
+<p>
+echo &ldquo;skype 256 65535 direct block&rdquo; &gt; /proc/asound/card0/pcm0p/oss
+</p>
+
+<p>
+echo &ldquo;skype 256 65535 direct block&rdquo; &gt; /proc/asound/card0/pcm0c/oss 
+</p>
+
+<p>
+A adapter suivant les numéros de votre carte son dans /proc/asound/
+</p>
+
+</div>
+
+<a name="gaim_et_les_logiciels_utilisant_libao"></a><h4> Gaim et les logiciels utilisant libao </h4>
+<div class="level4">
+
+<p>
+ Editer (ou créer) /etc/libao.conf, mettre &ldquo;default_driver=alsa&rdquo; et enlever les autres références à default_driver (d&rsquo;après la <a href="http://gaim.sourceforge.net/faq.php#q23" class="urlextern" title="http://gaim.sourceforge.net/faq.php#q23" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">FAQ Gaim</a>)
+</p>
+
+</div>
+
+<a name="audacity"></a><h4> Audacity </h4>
+<div class="level4">
+
+<p>
+ Il semble qu&rsquo;audacity n&rsquo;est pas compilé avec l&rsquo;option &ldquo;portaudio&rdquo; permettant d&rsquo;utiliser ALSA. Si vous avez alsa, <strong>il est conseillé sur le site d&rsquo;Audacity de le lancer avec &ldquo;aoss audacity&rdquo;</strong> afin de forcer l&rsquo;émulation oss d&rsquo;ALSA avec Audacity...
+</p>
+
+</div>
+
+<a name="mplayer_mplayer_plugin_et_gmplayer"></a><h4> Mplayer, Mplayer plugin et gmplayer </h4>
+<div class="level4">
+
+<p>
+ Pour mplayer en ligne de commande et le plugin, il faut changer ou ajouter dans votre ~/.mplayer/config : ao=&rdquo;alsa:device=default&rdquo;
+</p>
+
+<p>
+Avec gmaplyer, il suffit de choisir alsa dans la fenêtre de configuration son.
+</p>
+
+</div>
+
+<a name="doom_3"></a><h4> Doom 3 </h4>
+<div class="level4">
+
+<p>
+ Doubler le buffer son avec buffer_size 8192 (si votre carte le permet) dans /etc/asound.conf si Doom 3 fait une erreur sur l&rsquo;initialisation du son.
+</p>
+
+</div>
+
+<a name="real_player"></a><h4> Real Player </h4>
+<div class="level4">
+
+<p>
+ Il va falloir modifier le script du nom de &ldquo;realplay&rdquo; utilisé pour lancer Real Player. Cherchez la ou vous avez installé Real Player le fichier &ldquo;realplay&rdquo;, puis &ldquo;sudo gedit /chemin/vers/realplay&rdquo;
+</p>
+
+<p>
+Trouvez dans le code : 
+</p>
+<pre class="code"><span class="kw1">if</span> <span class="br0">&#91;</span> -n <span class="st0">"$LD_PRELOAD"</span> <span class="br0">&#93;</span>; <span class="kw1">then</span>
+    <span class="kw3">echo</span> <span class="st0">"Warning: LD_PRELOAD=<span class="es0">\"</span>$LD_PRELOAD<span class="es0">\"</span>"</span>
+<span class="kw1">fi</span></pre>
+<p>
+Et ajouter a la suite (après la ligne &ldquo;fi&rdquo;)
+</p>
+<pre class="code"><span class="re2">LD_PRELOAD=</span><span class="st0">"$LDPRELOAD:/usr/lib/libaoss.so"</span>
+<span class="kw3">export</span> LD_PRELOAD
+&nbsp;
+&nbsp;</pre>
+<p>
+ Cela aura pour effet de lancer Real Player via aoss. <em> a confirmer, et un aoss realplay suffit peut-être...</em>
+</p>
+
+</div>
+
+<a name="et_sous_kubuntu_et_kde"></a><h4> Et sous Kubuntu et KDE... </h4>
+<div class="level4">
+
+<p>
+Allez dans K&gt;Centre de configuration de KDE&gt;Son et multimedia&gt;Système de son.
+</p>
+
+<p>
+Dans le cadre Suspension automatique (pour que KDE &lsquo;rende&rsquo; le controle du son aux autres applications) mettez 1 seconde. 
+</p>
+
+<p>
+Ensuite dans Sons et multimédia&gt;Notifications systèmes, Gestionnaire de fenetre, désactivez le son: nouvelle fenetre.
+</p>
+
+<p>
+Et voila, il devrait vous suffir d&rsquo;attendre 1 seconde après un son de KDE pour avoir le son wink
+</p>
+
+<p>
+<strong>Attention:</strong> apparement, si vous mettez sur 0, ca ne marche pas. 
+</p>
+
+<p>
+Voir aussi le <a href="http://alsa.opensrc.org/index.php?page=Dmix+Kde+-+arts%2C+ESD+and+SDL+quick+and+dirty+HOWTO" class="urlextern" title="http://alsa.opensrc.org/index.php?page=Dmix+Kde+-+arts%2C+ESD+and+SDL+quick+and+dirty+HOWTO" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">wiki ALSA : Dmix pour KDE</a>
+</p>
+
+</div>
+<!-- SECTION [15531-19977] -->
+<a name="encore_plus_loin_avec_alsa"></a><h2> Encore plus loin avec ALSA </h2>
+<div class="level2">
+
+<p>
+ A vos risques et perils, on va essayer de &ldquo;tuner&rdquo; au maximum ALSA. Entre autre en utilisant, en plus de dmix, dsnoop (permet de partager l&rsquo;entrée d&rsquo;une carte entre plusieurs applications) et asym (permet de combiner des entrées/sorties halfduplex, une a la fois ; en fullduplex, tous ensemble tous ensemble oué oué).
+</p>
+
+<p>
+Je vous conseille fortement de faire <strong>une copie de secours</strong> de votre asound.conf si vous avez le son qui marche bien, par exemple après le tuto au dessus.
+</p>
+
+<p>
+Si ça foire, pas de panique, il suffit d&rsquo;effacer ou de replacer la copie de secours de votre /etc/asound.conf, puis de relancer ALSA ou de rebooter, et vous retrouverez votre son comme avant.
+</p>
+<pre class="code">pcm.my_card <span class="br0">&#123;</span> 
+  <span class="kw3">type</span> hw
+  card <span class="nu0">0</span>
+<span class="co1"># emulation nmap, a d&eacute;commenter si une application se plaint de nmap</span>
+<span class="co1"># mmap_emulation true</span>
+<span class="br0">&#125;</span>
+&nbsp;
+pcm.dmixed <span class="br0">&#123;</span>
+  <span class="kw3">type</span> dmix 
+  ipc_key <span class="nu0">1024</span> 
+  slave <span class="br0">&#123;</span>
+   pcm <span class="st0">"my_card"</span> 
+   period_time <span class="nu0">0</span>
+   period_size <span class="nu0">1024</span>
+   buffer_size <span class="nu0">4096</span>
+   periods <span class="nu0">128</span>
+   rate <span class="nu0">48000</span> 
+     <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+pcm.dsnooped <span class="br0">&#123;</span>
+  <span class="kw3">type</span> dsnoop 
+  ipc_key <span class="nu0">2048</span> 
+  slave <span class="br0">&#123;</span>
+    pcm <span class="st0">"my_card"</span> 
+    rate <span class="nu0">48000</span>
+    period_size <span class="nu0">1024</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+pcm.asymed <span class="br0">&#123;</span>
+  <span class="kw3">type</span> asym 
+  playback.pcm <span class="st0">"dmixed"</span> 
+  capture.pcm <span class="st0">"dsnooped"</span>
+<span class="br0">&#125;</span>
+&nbsp;
+pcm.pasymed <span class="br0">&#123;</span>
+  <span class="kw3">type</span> plug 
+  slave.pcm <span class="st0">"asymed"</span>
+<span class="br0">&#125;</span>
+&nbsp;
+ctl.pasymed <span class="br0">&#123;</span> <span class="co1"># un controleur pour xmms entre autre</span>
+        <span class="kw3">type</span> hw
+        card <span class="nu0">0</span>
+<span class="br0">&#125;</span>
+&nbsp;
+pcm.dsp0 <span class="br0">&#123;</span> <span class="co1"># Pour les applis lanc&eacute; par aoss monappli</span>
+  <span class="kw3">type</span> plug
+  slave.pcm <span class="st0">"asymed"</span>
+<span class="br0">&#125;</span>
+&nbsp;
+pcm.!default <span class="br0">&#123;</span> <span class="co1"># La sortie par defaut</span>
+  <span class="kw3">type</span> plug
+  slave.pcm <span class="st0">"asymed"</span>
+<span class="br0">&#125;</span>
+ctl.mixer0 <span class="br0">&#123;</span>
+        <span class="kw3">type</span> hw
+        card <span class="nu0">0</span>
+<span class="br0">&#125;</span></pre>
+<p>
+Voila, je vais tester tout cela plus en profondeur... Pour certaines applications il faudra indiquer &ldquo;pasymed&rdquo; comme sortie, pour la plupart des autres ça devrait marcher sur alsa tout simple. Pour les applications oss, il faut lancer aoss mon_appli.
+</p>
+
+<p>
+Basé sur <a href="http://alsa.opensrc.org/index.php?page=Hardware+mixing%2C+software+mixing" class="urlextern" title="http://alsa.opensrc.org/index.php?page=Hardware+mixing%2C+software+mixing" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Hardware mixing/software mixing</a> et <a href="http://alsa.opensrc.org/index.php?page=asym" class="urlextern" title="http://alsa.opensrc.org/index.php?page=asym" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">la page asym</a> du wiki ALSA, et <a href="http://neo2k.dk/alsa.php" class="urlextern" title="http://neo2k.dk/alsa.php" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">page sur dmix</a> de neo2k. 
+</p>
+
+</div>
+<!-- SECTION [19978-] -->

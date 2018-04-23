@@ -1,0 +1,69 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="clear"><ul class="toc">
+<li class="level2"><span class="li"><a href="#mise_a_jour_du_bios" class="toc"> Mise à jour du BIOS </a></span></li>
+<li class="level2"><span class="li"><a href="#carte_graphique" class="toc"> Carte graphique </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#nvidia" class="toc"> nVidia </a></span></li>
+<li class="level3"><span class="li"><a href="#ati" class="toc"> ATI </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#controle_des_ventilateurs" class="toc"> Contrôle des ventilateurs </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<p>
+L&rsquo;installation sur un portable Dell Inspiron 8600 ne pose pas véritablement de problème. Le matériel diffère cependant beaucoup entre les différentes versions et je n&rsquo;utilise pas tous les périphériques présents sur le mien.
+</p>
+
+<a name="mise_a_jour_du_bios"></a><h2> Mise à jour du BIOS </h2>
+<div class="level2">
+
+<p>
+ Pour mettre à jour le BIOS : <a href="http://www.bay-wolf.com/flashbios.htm" class="urlextern" title="http://www.bay-wolf.com/flashbios.htm" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.bay-wolf.com/flashbios.htm</a>
+</p>
+
+</div>
+<!-- SECTION [234-336] -->
+<a name="carte_graphique"></a><h2> Carte graphique </h2>
+<div class="level2">
+
+<p>
+ Les portables Inspirons peuvent être équipé de cartes graphiques nVidia ou ATI. Par défaut, c&rsquo;est le pilote libre qui est utilisé par Xorg. L&rsquo;installation des pilotes propriétaires permet de bénéficier de l&rsquo;accélération 3D.
+</p>
+
+</div>
+<!-- SECTION [337-600] -->
+<a name="nvidia"></a><h3> nVidia </h3>
+<div class="level3">
+
+<p>
+La page <a href="/materiel/nvidia" class="wikilink1" title="materiel:nvidia" onclick="return svchk()" onkeypress="return svchk()">nvidia</a> reprend l&rsquo;installation d&rsquo;une carte NVidia sous Ubuntu.
+</p>
+
+</div>
+<!-- SECTION [601-705] -->
+<a name="ati"></a><h3> ATI </h3>
+<div class="level3">
+
+</div>
+<!-- SECTION [706-720] -->
+<a name="controle_des_ventilateurs"></a><h2> Contrôle des ventilateurs </h2>
+<div class="level2">
+
+<p>
+ La seule chose qui ne soit pas dans le guide : les ventilateurs sont gérés par le module i8k dont il faut forcer le chargement. Il faut installer i8kutils et si l&rsquo;on veut avoir une interface graphique pour visualiser le status des ventilateurs et les contrôler, gkrellm et gkrellm-i8k : 
+</p>
+<pre class="code">$ sudo apt-get install i8kutils gkrellm gkrellm-i8k
+$ sudo modprobe modprobe i8k force=1</pre>
+
+<p>
+ Pour automatiser la procédure au démarrage, on crée un fichier <code>/etc/modprobe.d/i8k</code> contenant <code>options i8k force=1</code> et on ajoute une ligne <code>i8k</code> au fichier <code>/etc/modules</code>. 
+</p>
+
+</div>
+<!-- SECTION [721-] -->

@@ -1,0 +1,195 @@
+{{tag>Precise Trusty graphisme photo gestionnaire_de_photos}}
+----
+
+====== Darktable ======
+
+{{ applications:darktable_lucid_00.png?90}}
+
+**Darktable** est un [[:gestionnaire de photos]] libre sous licence GPL v3. Son développeur le décrit comme une table lumineuse ainsi qu'une chambre noire pour les photographes : il gère vos « négatifs numériques » dans une base de données, et permet de les visionner à travers une « table lumineuse zoomable » ou un gestionnaire de fichiers. Il permet également de traiter et de retoucher les images [[wpfr>RAW_(format_d'image)|RAW]] de façon **entièrement non destructive**. Il est conçu pour le bureau [[:GNOME]], et est disponible en français.
+
+{{applications:darktable_lucid_01.jpg?500|Darktable en mode « table lumineuse »}}
+
+Plus de captures d'écran [[http://darktable.sourceforge.net/screenshots.shtml|sur le site officiel]].
+
+<note warning>Attention, à partir de la version 0.8, darktable n'est compatible qu'avec les processeurs prenant en charge le SSE2. Pour savoir si votre processeur est compatible, lancer la commande
+<code>grep 'flags' /proc/cpuinfo  | grep sse2</code>
+dans un terminal et vérifiez que "sse2" apparaît. Une solution pour le processeurs non compatibles est fournie [[http://elfinstar.livejournal.com/573.html|ici]]</note>
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+
+===== Installation =====
+
+Darktable est disponible dans les dépôts officiels d'Ubuntu depuis Oneiric 11.10.
+
+
+Pour installer ce logiciel, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt://darktable|darktable]]**.
+
+
+==== Version stable ====
+
+  * [[:PPA|Ajouter à vos sources de logiciels le PPA]] suivant : **ppa:pmjdebruijn/darktable-release**((https://launchpad.net/~pmjdebruijn/+archive/darktable-release)) ;
+  * [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Recharger la liste des paquets]] ;
+  * [[:tutoriel:comment_installer_un_paquet#paquet_present_dans_les_depots|Installer le paquet]] **[[apt>darktable]]**.
+
+==== Version de développement ====
+
+Ce dépôt propose des paquets mis à jour régulièrement à partir de la version de développement. À noter que ces paquets peuvent parfois causer des problèmes.
+
+  * [[:PPA|Ajouter à vos sources de logiciels le PPA]] suivant : **ppa:pmjdebruijn/darktable-unstable**((https://launchpad.net/~pmjdebruijn/+archive/darktable-unstable)) ;
+  * [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Recharger la liste des paquets]] ;
+  * [[:tutoriel:comment_installer_un_paquet#paquet_present_dans_les_depots|Installer le paquet]] **[[apt>darktable]]**. 
+
+==== Depuis les sources ====
+
+Darktable peut aussi être installé depuis les sources, ce qui permet de bénéficier des dernières mises à jour, ainsi que des branches expérimentales.
+
+Pour cela, vous devez avoir installé [[Git]] ainsi qu'un certain nombre de bibliothèques. Toutes les informations (en anglais) sont disponibles sur [[http://darktable.sourceforge.net/install.shtml|la page d'installation du site officiel]].
+
+
+===== Utilisation=====
+
+Lancez l'application depuis le menu //Applications -> Accessoires -> darktable// ou //via// la [[:commande_shell|commande]] suivante :
+
+  darktable
+
+==== Vue générale ====
+
+Darktable se compose de 3 vues : table lumineuse, chambre noire, capture.
+  * **la table lumineuse** vous permet de trier, noter, étiqueter, exporter vos photos.
+  * **la chambre noire** est le mode de retouche des photos. Notez que sur une installation neuve, peu de modules sont affichés. Vous devez sélectionner les modules à afficher grâce à la barre en bas à droite "plus de modules".
+  * **la capture** est un mode expérimental, vous permettant de contrôler votre boîtier depuis Darktable !
+
+L'interface se voulant épurée, il existe de nombreuses astuces pour vous faciliter la vie ou améliorer votre productivité. Un mode d'emploi (en anglais pour le moment) est disponible sur le site de darktable.
+
+==== Flux de travail rapide ====
+  * importer une photo ou un dossier (panneau de gauche)
+  * noter les photos (darktable use des étoiles à sa manière : toutes les photos se voient attribuer 1 étoile par défaut. Cliquer sur l'étoile appliquée par défaut permet de retirer cette étoile et donc d'affecter 0 étoile à la photo. Par ailleurs, par défaut, le filtre de photo (panneau du haut) étant sur 1 étoile et plus, lorsque vous attribuez 0 étoile à une photo, celle-ci disparaît de la vue. Par la suite, mettre le filtre sur 0 étoile n'affiche que les photos à 0 étoile, qu'il sera facile par une sélection "tout" de supprimer).
+  * tagger les photos
+  * double-cliquer sur une photo à éditer pour entrer dans la chambre noire
+  * activer et paramétrer les modules de votre choix
+  * double-cliquer sur la photo pour revenir à la table lumineuse
+  * sélectionner la photo, cliquer sur "copier le développement", sélectionner d'autres photos puis cliquer sur "coller le développement" pour appliquer les mêmes réglages aux autres photos.
+  * exporter les photos
+
+==== Modules de retouche disponibles ====
+L'essentiel des manipulations est réalisée dans l'espace CIELab. La liste des modules de retouche s'allonge chaque mois, mais on peut citer, dans l'ordre (fixe) de leur application : 
+  * importation des fichiers RAW avec de nombreux algorithmes de dématriçage et leurs options
+  * exposition
+  * correction du bruit (lent)
+  * balance des blancs
+  * récupération des hautes lumières
+  * filtre neutre dégradé
+  * courbe de base (courbes RGB)
+  * correction des objectifs (via lensfun)
+  * correction du profil d'entrée
+  * profil de couleur d'entrée
+  * transfert de couleur
+  * égaliseur (décomposition en vaguelettes)
+  * monochrome
+  * zones (Adam Ansel système)
+  * courbe des tonalités (canal L*)
+  * lumière d'appoint
+  * lumière d'arrière-plan
+  * zones de couleur (correction sélective des couleurs)
+  * correction des couleurs (correction globale des couleurs)
+  * renforcer la netteté
+  * grain
+  * recadrer et pivoter
+  * profil de couleur de sortie
+  * mixeur de canaux
+  * contraste local
+  * velvia (saturation non homogène des couleurs)
+  * vignettage
+  * virage partiel
+  * filigrane
+  * pixels sur/sous-exposés
+  * tonemapping pour les photos HDR
+
+===== Signaler un bug =====
+Darktable étant en plein développement, il est possible (et normal) que vous puissiez rencontrer un bug. La meilleure solution est alors de le signaler sur la liste de diffusion du projet darktable-devel@lists.sf.net, après avoir suivi le tutoriel suivant (permettant des rapports de bugs utiles) http://blog.pcode.nl/2010/08/31/contributing-backtraces/
+Anglais obligatoire !
+Pour les non-anglophones, vous pouvez faire remonter les bugs sur le forum d'Ubuntu-fr (http://forum.ubuntu-fr.org/viewtopic.php?pid=3813324) et quelqu'un pourra alors se charger de le traduire et de l'envoyer à la liste de diffusion.
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, le configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+
+===== Nettoyer la base de données =====
+Installer Sqlite3
+<code>
+sudo apt-get install sqlite3
+</code>
+Copiez le code ci-dessous, collez-le dans un fichier et lancez-le. Il supprimera de la base de données toutes les photos qui n'existent plus sur le disque.
+
+<code bash>
+#!/bin/bash
+#
+#    DARKTABLE DATABASE CLEANER
+#
+#       This script removes from the database the files
+#   that are not located where they are supposed to be.
+#
+#       USAGE :
+#   ./darktable_db_cleaner.sh
+#       Will use the database located in :
+#         ~/.config/darktable/library.db 
+#
+#   ./darktable_db_cleaner.sh /path/to/library.ext
+#       Will use the specified database
+#
+# Created by Rufus Wilson
+#   contact : marsou75@gmail.com
+#
+
+
+if [ ! "`type -t sqlite3`"=="file" ] ; then
+    echo "sqlite3 is required"
+    sudo apt-get install sqlite3
+fi
+
+if [ -f "$1" ] ; then
+    library="$1"
+else
+    library="/home/"$USER"/.config/darktable/library.db"
+fi
+
+for film_roll_id in `sqlite3 -noheader -list -interactive $library "SELECT id FROM film_rolls WHERE 1 ORDER BY id ASC;"`
+do
+    film_roll_folder="`sqlite3 -noheader -list -interactive $library "SELECT folder FROM film_rolls WHERE id=$film_roll_id ORDER BY id ASC;"`"
+    echo "***  "$film_roll_folder"  ***"
+    
+    echo "-- cleaning database"
+    for photo_id in `sqlite3 -noheader -list -interactive $library "SELECT id FROM images WHERE film_id=$film_roll_id ORDER BY filename ASC;"`
+    do
+        photo_filename=`sqlite3 -noheader -list -interactive $library "SELECT filename FROM images WHERE id=$photo_id ORDER BY filename ASC;"`
+        if [ ! -f "$film_roll_folder/$photo_filename" ] ; then
+            echo $photo_filename" deleted"
+            sqlite3 -noheader -list -interactive $library "DELETE FROM images WHERE id=$photo_id;"
+        fi
+    done
+    nb=`sqlite3 -noheader -list -interactive $library "SELECT count(id) FROM images WHERE film_id=$film_roll_id ORDER BY filename ASC;"`
+    if [ "$nb" -eq "0" ] ; then
+        sqlite3 -noheader -list -interactive $library "DELETE FROM film_rolls WHERE id=$film_roll_id;"
+    fi
+    echo "    ->cleaned"
+done
+
+# Shrink the size of database
+sqlite3 -noheader -list -interactive $library "VACUUM"
+</code>
+===== Voir aussi =====
+
+  * **(en)** [[http://www.darktable.org|Site officiel]]
+  * [[http://darktable-fr.tuxfamily.org/|Site de la communauté francophone]]
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3634175|Discussion « Darktable »]] sur le forum Ubuntu-fr
+  * [[http://www.rienadire.fr/wordpress/?p=582|Un article sur le logiciel]] qui passe en revue son utilisation.
+  * **Vidéo**: [[https://www.youtube.com/watch?v=Gih0biyy5WM|Redimension et envoi photo Darktable + Framadrop]]
+  * **Vidéo**: [[https://www.youtube.com/watch?v=iMzWFbsWE34|Darktable : Photo de soirée sou-exposée. Amélioration, possibilités.]]
+  * **Vidéo**: [[https://www.youtube.com/watch?v=b6s5wMSpbiA|Darktable : Filtres de couleurs et Masques]]
+
+----
+//Contributeurs principaux : [[:utilisateurs:Gemnoc]], OlivierT(oulouse).//

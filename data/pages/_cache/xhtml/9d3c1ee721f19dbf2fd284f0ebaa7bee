@@ -1,0 +1,158 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#presentation" class="toc"> Présentation : </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#requis" class="toc"> Requis </a></span></li>
+</ul>
+</li>
+<li class="level1"><span class="li"><a href="#installation" class="toc"> Installation </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#recuperation_des_binaires" class="toc"> Récupération des binaires </a></span></li>
+<li class="level2"><span class="li"><a href="#installation_et_mise_a_jour" class="toc"> Installation et Mise à jour </a></span></li>
+<li class="level2"><span class="li"><a href="#lancement" class="toc"> Lancement </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+Rédigé par Gauthier Tellier. Article original provenant de <a href="http://debuntu.tuxfamily.org" class="urlextern" title="http://debuntu.tuxfamily.org" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://debuntu.tuxfamily.org</a>.
+</p>
+
+<a name="presentation"></a><h1> Présentation : </h1>
+<div class="level1">
+
+<p>
+  Voici comment installer Ennemy Territory, jeu gratuit (mais non libre) basé sur Wolfenstein 3D.
+</p>
+
+<p>
+Ce jeu est multiplayer et jouable online, l&rsquo;accès aux serveur est gratuit.
+</p>
+
+<p>
+Bref un jeu qui garantit de longues heures devant son PC.
+</p>
+
+<p>
+ Merci à Gauthier Tellier pour ce guide
+</p>
+
+</div>
+<!-- SECTION [127-434] -->
+<a name="requis"></a><h2> Requis </h2>
+<div class="level2">
+
+<p>
+ Vos drivers graphiques doivent être correctement installés voir <a href="/materiel/nvidia" class="wikilink1" title="materiel:nvidia" onclick="return svchk()" onkeypress="return svchk()">nvidia</a> ou <a href="/materiel/ati" class="wikilink1" title="materiel:ati" onclick="return svchk()" onkeypress="return svchk()">ati</a> pour plus de détails.
+</p>
+
+<p>
+Il faut également installer la <em>libgtk1.2</em> via <a href="/applications/jeux/synaptic" class="wikilink2" title="applications:jeux:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a> ou en console:
+</p>
+<pre class="code">sudo apt-get install libgtk1.2</pre>
+
+</div>
+<!-- SECTION [435-698] -->
+<a name="installation"></a><h1> Installation </h1>
+<div class="level1">
+
+<p>
+ <strong>ATTENTION:</strong>
+</p>
+
+<p>
+Les numéros de version peuvent avoir changés depuis la création de cette page, faites une recherche sur le net et corrigez les.
+</p>
+
+</div>
+<!-- SECTION [699-874] -->
+<a name="recuperation_des_binaires"></a><h2> Récupération des binaires </h2>
+<div class="level2">
+
+<p>
+Récupérer le binaire d&rsquo;installation :
+</p>
+<pre class="code">wget -c http://ftp.games.skynet.be/pub/wolfenstein/et-linux-2.60.x86.run</pre>
+
+</div>
+<!-- SECTION [875-1030] -->
+<a name="installation_et_mise_a_jour"></a><h2> Installation et Mise à jour </h2>
+<div class="level2">
+
+<p>
+ Dans une console :
+</p>
+<pre class="code">sudo sh et-linux-2.60.x86.run</pre>
+
+<p>
+ Laissez vous guider par l&rsquo;interface graphique...
+</p>
+
+</div>
+<!-- SECTION [1031-1174] -->
+<a name="lancement"></a><h2> Lancement </h2>
+<div class="level2">
+
+<p>
+Dans une console, tapez simplement :
+</p>
+<pre class="code">et</pre>
+
+<p>
+ <strong>Attention</strong>, il est possible que le jeu ne fonctionne pas du premier coup. Il se pourrait que votre écran reste noir, et que la seule façon d&rsquo;en sortir soit de faire ctrl+alt+backspace.
+</p>
+
+<p>
+Il faut en fait killer esd avant de lancer le jeu. Dans une console, tapez simplement
+</p>
+<pre class="code">killall esd</pre>
+
+<p>
+puis lancez le jeu en faisant
+</p>
+<pre class="code">et</pre>
+
+<p>
+Une fois que vous avez fini de jouer, redémarrez esd:
+</p>
+<pre class="code">esd</pre>
+
+</div>
+
+<a name="automatiser_le_lancement_dans_un_script"></a><h4> Automatiser le lancement dans un script </h4>
+<div class="level4">
+
+<p>
+Pour ne pas devoir, à chaque fois, tuer esd avant de jouer, puis le redémarrer après, nous allons créer un script très simple qui va le faire à notre place. Ouvrez un éditeur de texte, et tapez 
+</p>
+<pre class="code">#bin-sh
+killall esd
+et
+esd</pre>
+<p>
+ Enregistrez le fichier sous le nom <code>rtcw</code> dans votre dossier personnel. Donnez-lui ensuite les droits d&rsquo;exécution en faisant un clic droit, puis &ldquo;Propriétés&rdquo;. On peut aussi le faire en console:
+</p>
+<pre class="code">chmod +x rtcw</pre>
+
+<p>
+Ensuite, on copie le script dans le répertoire <code>/usr/bin</code>:
+</p>
+<pre class="code">sudo cp rtcw /usr/bin/rtcw</pre>
+
+<p>
+ Désormais, vous pourrez lancer le jeu en tapant, dans une console:
+</p>
+<pre class="code">rtcw</pre>
+
+<p>
+Vous pouvez également créer un lanceur dont la commande sera
+</p>
+<pre class="code">rtcw</pre>
+
+</div>
+<!-- SECTION [1175-] -->

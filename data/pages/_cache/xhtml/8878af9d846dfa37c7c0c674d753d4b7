@@ -1,0 +1,109 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#installer_mono" class="toc"> Installer Mono </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#qu_est-ce_que_mono" class="toc"> Qu'est-ce que Mono ? </a></span></li>
+<li class="level2"><span class="li"><a href="#pourquoi_installer_mono" class="toc"> Pourquoi installer Mono ? </a></span></li>
+<li class="level2"><span class="li"><a href="#comment_installer_mono" class="toc"> Comment installer Mono ? </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+Page wiki adaptée de <a href="http://gfabio.blog.free.fr/index.php?2005/06/23/8-ubuntu-hoary-installer-mono-11x" class="urlextern" title="http://gfabio.blog.free.fr/index.php?2005/06/23/8-ubuntu-hoary-installer-mono-11x" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow"> Play's Blog</a> par <a href="/utilisateurs/ostaquet" class="wikilink1" title="utilisateurs:ostaquet" onclick="return svchk()" onkeypress="return svchk()">ostaquet</a>. (Merci Gilles <img src="/smileys/icon_wink.gif" align="middle" alt=";-)" />)
+</p>
+
+<a name="installer_mono"></a><h1> Installer Mono </h1>
+<div class="level1">
+
+</div>
+<!-- SECTION [204-233] -->
+<a name="qu_est-ce_que_mono"></a><h2> Qu'est-ce que Mono ? </h2>
+<div class="level2">
+
+<p>
+ En résumé, Mono est une sorte d&rsquo;implémentation libre de Microsoft .NET.
+</p>
+
+<p>
+<a href="http://www.mono-project.com/" class="urlextern" title="http://www.mono-project.com/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Mono</a> est un projet absolument fabuleux initié par le jedi <a href="http://tirania.org/blog/" class="urlextern" title="http://tirania.org/blog/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Miguel de Icaza</a>. Je ne pourrai jamais dire du mal de Mono même sous la torture. <a href="http://www.gnome.org/" class="urlextern" title="http://www.gnome.org/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">GNOME</a>, le bureau le plus évolué et performant de la planète Terre (créé par ce même jedi), rime parfaitement avec Mono. On ne compte plus les applications GNOME basées sur cette plate-forme de développement.
+</p>
+
+<p>
+Arf... Vous n&rsquo;êtes pas développeur ? Vous ne comprenez rien à tout ce que je dis ? C&rsquo;est normal, nous les geeks, on parle un langage barbare. Ce qui nous paraît &ldquo;énorme&rdquo; peut être insignifiant pour vous. En l&rsquo;occurence, si je vous dis &ldquo;Mono, c&rsquo;est énorme !&rdquo;, vous me répondrez logiquement &ldquo;je m&rsquo;en secoue le tuyau, je ne suis pas informaticien, je ne veux pas savoir ce qu&rsquo;est ce truc là... Alors va voir ailleurs si j&rsquo;y suis&rdquo;. Vous êtes dans le juste ! Les utilisateurs n&rsquo;ont pas à savoir/apprendre le comment du pourquoi. Les développeurs/connaisseurs n&rsquo;ont pas besoin de lire ce billet... Donc, il est inutile de décrire techniquement ce qu&rsquo;est la plate-forme Mono. Sachez juste que vous devez installer cette plate-forme si vous souhaitez utiliser des applications basées sur celle-ci. Rien de plus.
+</p>
+
+</div>
+<!-- SECTION [234-1607] -->
+<a name="pourquoi_installer_mono"></a><h2> Pourquoi installer Mono ? </h2>
+<div class="level2">
+
+<p>
+ Tant que vous ne désirez pas installer une application &ldquo;Mono&rdquo;, nul besoin de le faire. Si vous êtes du genre prévoyant, vous installerez certainement cette plate-forme d&rsquo;avance histoire de l&rsquo;avoir déjà sur le système si vous êtes un jour confronté à une application qui la requiert. Mais de toute manière, APT/Synaptic sauront gérer les dépendances... Donc à quoi bon ? Et c&rsquo;est là que j&rsquo;interviens avec mon costume de Batman ! Tagada ! Je vais vous expliquer le &ldquo;pourquoi&rdquo; de cette page.
+</p>
+
+<p>
+Par défaut, Ubuntu Hoary propose une plate-forme <strong>Mono 1.0.x</strong>. Or, actuellement, les 3/4 des applications Mono récentes nécessitent l&rsquo;installation d&rsquo;une plate-forme <strong>1.1.x</strong>. Évolution oblige. Le problème est que si vous ne maîtrisez pas un minimum les outils Ubuntu, vous serez complètement largués et vous ne pourrez pas profiter des dernières fonctionnalités à la mode (qui a dit &ldquo;fashion victime&rdquo; ?). Évidemment, si vous êtes un acharné, vous trouverez toujours la bidouille sur Google mais en attendant, si vous êtes un habitué de ce wiki, voici comment installer Mono 1.1.x sur votre Ubuntu Hoary.
+</p>
+
+</div>
+<!-- SECTION [1608-2774] -->
+<a name="comment_installer_mono"></a><h2> Comment installer Mono ? </h2>
+<div class="level2">
+
+<p>
+ Via <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a>, rajoutez les <a href="/installation/depots" class="wikilink1" title="installation:depots" onclick="return svchk()" onkeypress="return svchk()">dépôts</a>/modules suivants : 
+</p>
+<ul>
+<li class="level1"><span class="li"> Universe</span>
+</li>
+<li class="level2"><span class="li"> Multiverse</span>
+</li>
+<li class="level2"><span class="li"> Hoary Backports (Main, Universe, Multiverse, Restricted)</span>
+</li>
+<li class="level2"><span class="li"> Hoary Extras (Main, Universe, Multiverse, Restricted)</span>
+</li>
+</ul>
+
+<p>
+ Si vous ne savez pas comment procéder, je vous invite à consulter <a href="/installation/depots" class="wikilink1" title="installation:depots" onclick="return svchk()" onkeypress="return svchk()">cette page</a>. Si vous avez déjà ajouté ces dépôts, réactivez simplement les backports et vous aurez une configuration sur mesure.
+</p>
+
+<p>
+Toujours dans <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a>, lancez une recherche sur <code>mono</code> et sélectionnez les paquets ci-dessous :
+</p>
+<pre class="code">
+mono
+mono-common
+mono-devel
+libmono0
+libmono-dev
+mono-assemblies-base
+mono-assemblies-arch
+mono-gac
+mono-jay
+mono-jit
+mono-mcs
+mono-utils
+monodoc
+monodevelop
+gtk-sharp
+gtk-sharp2
+</pre>
+
+<p>
+Procédez à l&rsquo;installation.
+</p>
+
+<p>
+Re-désactivez les backports et fermez Synaptic. Vous avez dorénavant une plate-forme Mono 1.1.x opérationnelle sur votre Ubuntu Hoary. 
+</p>
+
+</div>
+<!-- SECTION [2775-] -->

@@ -1,0 +1,79 @@
+{{tag>tutoriel personnalisation énergie}}
+----
+{{ :tutoriel:hibernation:hibernate_icone.png?70|}}
+====== Comment activer l'hibernation ======
+Le mode [[wpfr>Hibernation_(informatique)|hibernation]] (ou "Veille prolongée") n'est pas bien pris en charge avec certains matériels. C'est pourquoi il est désactivé par défaut dans Ubuntu.
+Ce tutoriel vous explique comment vérifier si votre matériel est compatible puis rendre l'hibernation disponible.
+
+<note help>Pour ceux qui ne le sauraient pas, le [[wpfr>Hibernation_(informatique)|mode hibernation]] (ou "Veille prolongée") permet de sauvegarder l'état des applications sur le disque dur (dans la [[:swap|partition swap]]) avant l'arrêt de l'ordinateur pour le restaurer tel quel au prochain démarrage et ainsi ne plus consommer d'énergie. \\
+Il faut savoir qu'un ordinateur en hibernation redémarre beaucoup plus vite qu'un ordinateur éteint (25 secondes contre 1 min 34 pour ma part).</note>
+
+=====Pré-requis=====
+  * Disposer des [[:sudo|droits d'administration]]
+  * Disposer d'une taille de la [[:swap|partition swap]] au moins égale à celle de la [[wpfr>RAM|mémoire vive (RAM)]]. (Sera le cas si vous n'avez pas modifié les attributs de cette partition lors de l'[[:tutoriel/installer_ubuntu_avec_le_live_cd|installation d'Ubuntu]])
+
+===== Vérifier que l'hibernation fonctionne =====
+Avant tout, il vous faut vérifier que votre machine supporte l'hibernation. Pour cela, laissez des applications ouvertes (cette page par exemple) puis, après avoir enregistré votre travail, exécutez dans un [[:terminal]] la [[:commande_shell|commande]] suivante: <code>sudo pm-hibernate</code>
+Votre ordinateur va s'éteindre. Si, au redémarrage, vous retrouvez votre environnement tel que vous l'aviez laissé, alors votre machine supporte l'hibernation.\\
+il peut arriver que votre machine plante à la sortie de l'hibernation. Si c'est le cas, votre machine ne supporte pas l'hibernation d'Ubuntu.
+
+===== Activer définitivement l'hibernation =====
+C'est bon ? Tout fonctionne ? Super ! Nous allons faire en sorte que l'hibernation soit présente dans les menus. \\
+Commencez par [[:tutoriel:comment_modifier_un_fichier|créer le fichier]] **/etc/polkit-1/localauthority/50-local.d/com.ubuntu.enable-hibernate.pkla**\\
+Puis:
+
+====Ubuntu Xenial 16.04 et suivantes====
+
+  - Entrez dans ce fichier les lignes suivantes: <file>[Réactive hiberner par défaut dans upower]
+Identity=unix-user:*
+Action=org.freedesktop.upower.hibernate
+ResultActive=yes
+
+[Réactive hiberner par défaut dans logind]
+Identity=unix-user:*
+Action=org.freedesktop.login1.hibernate;org.freedesktop.login1.handle-hibernate-key;org.freedesktop.login1;org.freedesktop.login1.hibernate-multiple-sessions;org.freedesktop.login1.hibernate-ignore-inhibit
+ResultActive=yes</file>
+  - Enregistrez le fichier et redémarrez l'ordinateur.
+//[[https://help.ubuntu.com/stable/ubuntu-help/power-hibernate.html|(en) Source]]//
+
+
+
+====Ubuntu Trusty 14.04====
+
+  - Entrez dans ce fichier les lignes suivantes: <file>[Réactive hiberner par défaut dans upower]
+Identity=unix-user:*
+Action=org.freedesktop.upower.hibernate
+ResultActive=yes
+
+[Réactive hiberner par défaut dans logind]
+Identity=unix-user:*
+Action=org.freedesktop.login1.hibernate;org.freedesktop.login1.hibernate-multiple-sessions
+ResultActive=yes</file>
+  - Enregistrez le fichier et redémarrez l'ordinateur.
+//[[https://help.ubuntu.com/14.04/ubuntu-help/power-hibernate.html|(en) Source]]//
+====Ubuntu Precise 12.04====
+Pour [[:precise|Precise 12.04]], entrez ces lignes à la place <file>[Réactive hiberner par défaut]
+Identity=unix-user:*
+Action=org.freedesktop.upower.hibernate
+ResultActive=yes</file>
+Enregistrez le fichier et redémarrez l'ordinateur.
+
+//[[https://help.ubuntu.com/12.04/ubuntu-help/power-hibernate.html|(en) Source]]//
+
+=====Utilisation=====
+Après avoir redémarré votre ordinateur :
+  * Une entrée supplémentaire "**Mettre en hibernation**" apparaîtra aux cotés de "Mettre en veille" et "Éteindre..." dans le le menu de l'indicateur système {{:application:gnome-control-center:gnome-control-panel_13.10_03.png?30|}}, \\ {{:tutoriel:hibernation:activer_hibernation_14_04_1.png?200|Menu système}}
+  * Une nouvelle option "**Hiberner**" vous sera proposée lors de l'appui sur le bouton Marche/arrêt de votre ordinateur.\\ {{:tutoriel:hibernation:activer_hibernation_14_04_2.png?400|Veille prolongée}}
+  * Pour les ordinateurs portables, en vous rendant dans les paramètres de [[:energie|gestion de l'énergie]], vous pouvez maintenant configurer la mise en hibernation en cas de batterie faible.
+
+=====Problèmes connus=====
+====Le test fonctionne mais l'activation ne s'est pas faite====
+Sous [[:trusty|Trusty 14.04]], si ça ne fonctionne pas, vous pouvez [[:tutoriel:comment_modifier_un_fichier|créer le fichier]] suivant à la place de celui proposé ci-dessus: **/var/lib/polkit-1/localauthority/50-local.d/com.ubuntu.enable-hibernate.pkla**.
+
+
+===== Voir aussi =====
+  * [[:veille_et_hibernation|Veille et Hibernation]]
+
+----
+
+//Contributeurs://

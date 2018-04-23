@@ -1,0 +1,209 @@
+{{tag>Xenial lecteur_audio gestion_de_bibliothèque_multimédia}}
+----
+
+{{ songbird-64.png?64}}
+
+====== Songbird : lecteur multimédia ======
+
+**Songbird** est un logiciel multiplate-forme de gestion de bibliothèque musicale, un [[lecteur audio]] et un [[navigateur]] web. C'est un lecteur audio "//iTunes like//" mais libre, et surtout basé sur un concept - **Écoutez le WEB** :-) ("Play the web") : vous allez sur une page avec de la musique (ex:ogg) - vous pouvez la télécharger dans votre bibliothèque en un clic !
+
+C'est le Firefox de la gestion musicale.
+<note important>Il faut noter que depuis début avril 2010, l'arrêt du développement pour Linux a été annoncé par l'équipe du projet
+(même si les sources Linux restent à disposition, la licence du projet et son lien avec Philips entre autre poussent à la division).
+Pour l'avenir un fork de Songbird appelé [[:nightingale|Nightingale]] est en préparation, il est développé par d'anciens membres de la communauté Songbird.
+</note>
+<note important>A noter aussi que la dernière version windows de Songbird fonctionne très bien avec Wine.</note>
+
+Et tout comme Firefox, une large communauté soutient et développe des extensions et des thèmes.
+
+{{songbird.png|Songbird }}
+
+Parmi ses fonctionnalités, on pourra noter :
+  * Gestion des listes de lecture, notamment dynamiques,
+  * Lecture des formats Ogg Vorbis, MP3, WAV et FLAC pour toutes les plates-formes, ainsi que AAC pour les Mac et WMA pour Windows,
+  * Personnalisation de l'interface à l'aide de thèmes,
+  * Recherche locale de fichiers multimédia,
+  * Organisation automatisée de la bibliothèque,
+  * Affichage réduit,
+  * Navigateur web intégré avec onglets,
+  * Support de nombreux formats de fichiers à travers [[GStreamer]],
+  * Gestion des jaquettes d'albums, téléchargement des paroles de chansons,
+  * Égaliseur 10 bandes,
+  * Support de 39 langues,
+  * Synchronisation avec iTunes dans les deux sens (Seulement pour Windows et Mac OS X)
+  * Extensions proposées par défaut pour : 
+    * mashTape : recherche et visualisation d'informations sur l'artiste à partir du Web (bio/discographies, photos, vidéos via YouTube...) 
+    * Prise en charge complète de [[lastfm|Last.FM]], 
+    * Concerts Tickets : annonces de concerts, achat de tickets.
+    * SHOUTcast Radio : Le service de radios de Winamp
+    * 7Digital : Magasin en ligne de musique
+
+On notera, en revanche, qu'il n'est pas encore capable de :
+  * Lire ou d'encoder les CD (possible sous Windows et Mac OS X);
+  * gérer les abonnements et la lecture des podcasts.
+
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+===== Installation =====
+
+  * [[getdeb|Ajoutez temporairement le dépôt Getdeb à vos sources de mise à jour]].
+  * [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste de vos paquets]]
+  * [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt://songbird|songbird]]**
+  * (recommandé) [[:tutoriel:comment_modifier_sources_maj#modifier_les_sources_de_mises_a_jour|Désactivez (décochez) le dépôt Getdeb de vos sources de mise à jour]] pour éviter tout problème de mise à jour non souhaitée d'autres logiciels.
+  * vous trouverez le [[raccourci-lanceur|lanceur]] de Songbird dans le menu Applications => Son et Vidéo
+
+Vous pourrez trouver directement le paquet deb à cette [[https://www.ubuntuupdates.org/package/getdeb_apps/xenial/apps/getdeb/songbird|adresse]].
+
+
+
+ 
+===== Utilisation =====
+ 
+Lancez l'application via le [[:unity#tableau_de_bord_dash|tabmeau de bord]] (Unity) ou via le [[:terminal]] (toutes versions d'Ubuntu) avec la [[:commande_shell|commande]] suivante : <code>songbird</code>
+
+==== Installer des Modules complémentaires - et des thèmes ==== 
+
+Dans la page de Songbird (premier onglet si vous avez plusieurs onglets ouverts) :
+  * Cliquez sur [[http://addons.songbirdnest.com/|Tools - Add-ons -> Get extensions]]
+  * Vous pouvez vous promener et découvrir des extensions qui vous plaisent :
+       * [[http://addons.songbirdnest.com/addons|Liste des extensions les plus téléchargés]].
+
+<note>Si vous souhaitez changer de thème - c'est dans [[http://addons.songbirdnest.com/addons?category=appearance|Appearance]].</note>
+
+Solution alternative : dans Songbird : Outils -> Préférences -> Modules Complémentaires -> Obtenir des extensions
+
+Un onglet de navigateur Internet s'ouvre dans Songbird. Pour installer un module cliquez simplement sur "Installer" à côté du nom de l'extension.
+
+==== Sélection de modules complémentaires ====
+
+===MediaFlow - La prévisualisation des albums comme dans iTunes===
+
+  * [[http://addons.songbirdnest.com/addon/238|La page pour installer MediaFlow.]]
+===LyricMaster : Avoir les paroles des chansons ===
+
+  * [[http://addons.songbirdnest.com/addon/1230|La page pour installer LyricMaster.]]
+
+===Scrolling lyric : Obtenir les paroles des chansons - et faire karaoké ===
+
+  * [[http://addons.songbirdnest.com/addon/1388|La page pour installer Scrolling lyric.]] 
+
+=== Directory browser - Parcourez vos répertoires de musique directement ===
+
+Parcourez vos répertoires de musique directement, sans utiliser la bibliothèque.
+
+  * [[http://addons.songbirdnest.com/addon/1225|La page pour installer Directory browser]]. 
+=== Command Line Support : Prise en charge de la ligne de commande ===
+
+Ceci est utile pour diverse usage : par exemple contrôler en ligne de commande.
+
+  * [[http://addons.songbirdnest.com/addon/1381|La page pour installer Command Line Support]]. 
+
+===Adblock Plus - Stop aux Pubs ===
+  * [[http://addons.songbirdnest.com/addon/5|La page pour installer Adblock Plus]]
+
+=== Minimisation dans la zone de notification ===
+==Avec AllTray==
+Installer le logiciel [[apt>AllTray]] disponible dans les dépôts.
+
+Lancer AllTray puis cliquez sur la fenêtre SongBird.
+
+<note warning>Il est possible que le plug-in LyricMaster entre en conflit (Songbird qui réapparaît à chaque changement de chanson). Il suffit de faire un clic-droit dans la zone des paroles et de cocher la case "disable notifications".</note>
+
+
+=== Faire marcher les touches multimédia du clavier ===
+
+MyMultimediaKeysFlip : [[http://addons.songbirdnest.com/addon/1412]]
+
+==== Lire des musiques qui se trouvent sur une partition en NTFS (et Fat32) ====
+
+Pour pouvoir lire des fichiers musicaux qui se trouvent sur une autre partition (clé USB en FAT32, partition Windows dans le cas d'un dualboot, etc...), il faut automatiser le montage de la partition lors du démarrage de Ubuntu.
+
+  - Pour cela, il vous faut [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[http://pysdm.sourceforge.net|PySDM]]**.
+  - Ensuite, ouvrez celui-ci via //Système > Administration > Storage Device Manager.//
+  - Déroulez les différentes partitions puis **Valider** le message avertissement lorsque vous cliquerez sur l'une d'elles. Faites ceci pour les partitions à monter automatiquement au lancement de la session. Notez que le message n'apparaîtra pas pour la partition système contenant Ubuntu.
+  - Pour confirmer l'opération, cliquez sur le bouton **Appliquer** puis sur **Fermer**.
+  - Au prochain redémarrage, vous pourrez lire vos musiques avec Songbird.
+
+==== Jouer de la musique à partir de Nautilus ====
+
+Editer /usr/bin/songbird :
+      gksudo gedit /usr/bin/songbird
+
+Et remplacer la ligne :
+      ./songbird
+par
+<code>
+./songbird "$@"
+</code>
+
+Voir [[http://forum.ubuntu-fr.org/viewtopic.php?id=309886|le forum]].
+
+==== Utiliser la piste jouée dans Songbird comme statut dans Pidgin ====
+<note important>Attention, la manipulation suivante nécessite les droits d'administration. De plus les opérations de compilation sont effectuées à vos risques et périls. Ne lancez les commandes suivantes que si vous comprenez exactement ce que vous faites.</note>
+  - Installer le paquet [[apt://pidgin-dev]]
+  - Installer la dernière version de [[http://addons.songbirdnest.com/addon/181|DBusBird]].
+  - Compiler le dernier [[http://code.google.com/p/pidgin-musictracker/|pidgin-musictracker]] en lancant dans un terminal les commandes suivantes à partir du dossier où vous avez extrait Musictracker :
+<code>
+./configure --prefix=/usr
+make
+sudo make install
+</code>
+**Configurer Pidgin :** 
+Outils/Plugins, cochez Musictracker, puis cliquez sur le bouton "configurer le plugin" qui est devenu disponible.
+
+Sur le panneau sélectionnez les options suivantes :
+^Lecteur: Auto-Détection ou Songbird ^Autres paramètres: cochez l'option "Ne pas changer de message de statut si le protocole est sur "écouter maintenant""^
+|{{http://img205.imageshack.us/img205/4462/pidginplugin.jpg|Aperçu de la fenêtre des plugins pidgin}}  |{{http://img205.imageshack.us/img205/2984/musictrackerconfig.jpg|Aperçu de la fenêtre de paramétrage du plugin MusicTracker}}|
+
+
+**Sources:** 
+  - [[http://ubuntuforums.org/showpost.php?p=6964086&postcount=6]]
+  - [[http://samanathon.com/how-to-configure-songbird-to-update-pidgin-and-twitter/]]
+
+===== Plugin =====
+
+==== Contrôle des plugins installés ====
+
+Comme avec ses cousins de la famille Mozilla, il suffit de taper dans la barre d'adresse :
+
+  about:plugins
+
+==== Installation des plugins ====
+
+Les plugins ne sont pas installés automatiquement, même s'ils sont déjà présents sur le système. 
+
+La méthode la plus propre consiste sans doute à créer un lien entre le plugin et le dossier de Songbird. Ainsi, pour [[flashplayer|Flash]] (avec le plugin **adobe-flashplugin** ou **flashplugin-nonfree** installé) :
+
+  sudo ln -s /usr/lib/flashplugin-nonfree/libflashplayer.so /usr/share/Songbird/plugins/libflashplayer.so
+
+à partir de Ubuntu 9.10 Karmic Koala la commande est :
+
+  sudo ln -s /usr/lib/flashplugin-installer/libflashplayer.so /usr/share/Songbird/plugins/libflashplayer.so
+
+<note tip>Pour Ubuntu Intrepid 64bit, la méthode la plus propre consiste sans doute à copier les liens entre le plugin et le dossier de Songbird. Ainsi, pour [[flashplayer|Flash]] (avec le plugin **adobe-flashplugin** ou **flashplugin-nonfree** installé) :
+
+
+  sudo cp /usr/lib/firefox/plugins/* /usr/share/Songbird/plugins
+</note>
+
+===== Description Technique =====
+
+Songbird est basé sur les librairies [[Gstreamer]], sur l'interface XULRunner (comme les produits de la fondation Mozilla) ainsi que sur la base de données SQLite. il est distribué sous GPL v2 (mais ses extensions sous licence propriétaire).
+
+Il est donc très bien intégré à internet, aux blogs musicaux, ainsi qu'aux podcasts, et est utilisable quelle que soit la version d'Ubuntu utilisée. Comme ses cousins de Mozilla, Songbird peut être doté de nombreuses extensions. 
+
+
+===== Liens =====
+
+  * [[http://www.songbirdnest.com/|Site officiel]] du projet (en)
+  * [[https://help.ubuntu.com/community/Songbird|Songbird]] sur le wiki d'Ubuntu.com
+  * [[http://www.frenchbirds.org/|Blog francophone]]
+  * [[http://www.geckozone.org/forum/viewforum.php?f=31|Forum Songbird]] sur Geckozone
+  * [[http://developer.songbirdnest.com/builds/|Versions en développement]]
+  * [[http://www.framalang.org/wiki/FRAMALANG:_Ten_things_Songbird_does_that_iTunes_cant|Un article intéressant traduit sur Framalang]]
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=393507|Probleme lecture WMA m4a Songbird]]
+
+----
+//Contributeurs: [[utilisateurs:Fabien26]], [[utilisateurs:Alexandre2801]],[[utilisateurs:mavosaure]],[utilisateurs:GeekShadow]].//

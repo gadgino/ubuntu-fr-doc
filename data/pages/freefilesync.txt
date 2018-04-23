@@ -1,0 +1,95 @@
+{{tag>Xenial Trusty sauvegarde synchronisation}}
+
+----
+
+{{ :applications:freefilesync:freefilesync.png?70|Icone}}
+====== FreeFileSync ======
+
+**FreeFileSync**, distribuée sous licence [[wpfr>Licence_publique_g%C3%A9n%C3%A9rale_GNU|GPL v3]], est un outil de [[:synchronisation]]  [[wpfr>Synchronisation_de_fichiers#Technologie_uni-_ou_bidirectionnelle|unidirectionnelle ou bidirectionnelle]] de fichiers et dossiers, un peu à la manière de [[ :Unison]], mais en beaucoup plus simple : pas de ssh, pas d'option de configuration complexe, … 
+
+Il reste une excellente application pour synchroniser le contenu d'un disque dur à un périphérique amovible de manière rapide et simple ou pour aussi faire des copies de [[:sauvegarde]].
+  * [[wpfr>infobulle|Infobulles]] d’aide
+  * Comparaison et visualisation avant synchronisation
+  * Synchronisations ou sauvegardes pré-configurées ou personnalisées
+  *  Possibilité de filtrer les dossiers et les fichiers
+  * Options multiples de comparaison (taille, heuristique, contenu)
+  * Option de restauration
+  * Programmation possible
+  * Utilisation par défaut de la corbeille pour toute suppression et ainsi limiter les conséquences d’une erreur
+  * Rapidité dans son exécution en repérant les fichiers déplacés et ne transférant ou modifiant que les fichiers concernés
+{{:applications:freefilesync:freefilesync_xenial_16_04_1.png?800|FreeFileSync}}  
+
+<note important>Vous utilisez un outil de synchronisation qui mal configuré, peut provoquer un effacement partiel ou total de vos données. Soyez prudent et faites des essais avec des données non importantes ou déjà sauvegardées surtout si vous utilisez une configuration personnalisée. \\
+Comprenez ce que vous faites avant de lancer la synchronisation.
+</note>
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+**FreeFileSync** n'est pas disponible dans les [[:depots|dépôts officiels]], il faut donc l'installer par un autre moyen.
+
+==== Depuis le site officiel====
+<note tip>**FreeFileSync** est disponible depuis le site officiel "prête à l’emploi" pour votre [[:versions|version d’Ubuntu]] et ne nécessite aucune installation dans votre système. Ne modifiant pas votre système et ne nécessitant ni l'installation d'autres paquets ni les droits d’administration, elle ne présente donc aucun risque d’instabilité.\\
+Son lancement s’effectue directement depuis l’exécutable fourni.
+</note> 
+
+===Téléchargement===
+  * **Vous utilisez la dernière [[:versions|version intermédiaire ou LTS d’Ubuntu]]** \\ Vous pouvez bénéficier alors de la dernière version de **FreeFileSync** (32 bits ou 64 bits selon votre [[:architecture matérielle]]) à télécharger dans votre dossier personnel depuis la page [[http://www.freefilesync.org/download.php|Téléchargement]] du site officiel.
+
+  * **Vous n’utilisez pas la dernière version LTS d’Ubuntu** \\ Vous pouvez bénéficier alors de la dernière version de **FreeFileSync** en téléchargeant dans votre dossier personnel le paquet had-hoc (32 bits ou 64 bits selon votre [[:architecture matérielle]]) pour votre [[:versions|version d’Ubuntu]] depuis la page [[http://www.freefilesync.org/archive.php|Archives]] du site officiel. 
+
+===Lancement===
+[[:archivage|Extraire]] ce fichier. **FreeFileSync** est directement utilisable en lançant l’exécutable "FreeFileSync" situé dans le dossier extrait.
+
+Et si vous désirez une installation respectant les structures GNU/Linux-Ubuntu ([[wpfr>FHS|standard FHS]]), avec les [[:sudo|droits d'administration]] :
+  - Déplacer le dossier extrait dans le [[:arborescence|dossier /opt]] en saisissant dans un [[:terminal]] la [[:commande_shell|commande]] : <code>sudo mv FreeFileSync /opt/</code>
+  - L'application se lancera en exécutant le fichier ''FreeFileSync'' situé dans le dossier déplacé ou en saisissant dans un [[ :terminal]] la [[:commande_shell|commande]]<code>/opt/FreeFileSync/FreeFileSync</code>
+
+===Création d'un lanceur===
+Créer un lanceur à l'aide d'un éditeur de menu comme [[:Menulibre]] ou [[:Alacarte]]. La commande de lancement à saisir dans le champ prévu à cet effet est <file>FreeFileSync/FreeFileSync</file> ou bien si vous avez opté pour une installation dans le dossier **opt** <file>/opt/FreeFileSync/FreeFileSync</file>
+
+Pour l’icône vous pouvez récupérer celle en tête de cette page à l’aide d’un clic droit dessus ;-) .
+
+==== Depuis le dépôt Getdeb====
+Une version récente stable de **FreeFileSync** est disponible depuis le dépôt [[:Getdeb]]. (Mais pas forcément la toute dernière). Celle-ci sera installée pleinement dans votre système.
+  - Ajoutez [[:getdeb]] à vos sources de logiciels,
+  - Puis [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]],
+  - Enfin, [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>FreeFileSync]]**.
+
+===Lancement===
+Lancez l'application via le [[:unity#tableau_de_bord_dash|tableau de bord Unity]] ou via le [[:terminal]] (toutes variantes d'Ubuntu) avec la [[:commande_shell|commande]] suivante : <code>FreeFileSync</code>
+
+====Depuis les sources====
+Les fichiers sources à compiler sont disponibles sur la page de [[http://www.freefilesync.org/download.php|téléchargement]] du site officiel. 
+
+===== Utilisation=====
+
+L'interface présente 2 boutons principaux :
+   * Comparer : pour comparer 2 répertoires sélectionnés (bleu)
+   * Synchroniser : pour lancer la synchronisation en fonction du résultat de comparaison (vert)
+Ces deux étapes peuvent être configurées (icônes {{:applications:freefilesync:freefilesync_xenial_3.png?20|Engrenage}} près des boutons).
+
+Un troisième bouton {{:applications:freefilesync:freefilesync_xenial_2.png?20|Filtre}} entre les 2 précédents permet d’ajouter des filtres de fichiers ou dossiers.
+
+Pour faire une synchronisation avec un dossier partagé et monté provenant d'une autre unité distante, on doit afficher les fichiers cachés (clic droit), puis aller dans le dossier caché ~.gvfs pour retrouver le dossier partagé.
+
+===== Désinstallation =====
+ ====Téléchargé depuis le site officiel====
+Pour supprimer cette application, il suffit supprimer le dossier **FreeFileSync**.\\ Pour supprimer le lanceur, il suffit de le supprimer à l’aide de l’éditeur de menu utilisé pour sa création.
+
+====Installée via le dépôt Getdeb====
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.\\
+[[ :tutoriel/comment_modifier_sources_maj|Supprimer ce dépôt de vos sources logicielles]] si vous n’en avez plus l’utilité.
+
+===== Voir aussi =====
+
+  * **(en)** [[http://www.freefilesync.org/|Site officiel]]
+  * **(en)** [[https://launchpad.net/freefilesync|FreeFileSync sur Launchpad]]
+
+----
+
+//Contributeurs principaux : [[utilisateurs:lyc1|lyc1]].//

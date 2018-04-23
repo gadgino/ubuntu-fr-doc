@@ -1,0 +1,113 @@
+{{tag>tutoriel matériel pda}}
+
+----
+
+====== Synchroniser un Palm avec Evolution ======
+
+===== Introduction =====
+
+Ce tutoriel explique comment synchroniser un **Palm** avec **Evolution** sur Ubuntu.
+
+<note warning>Attention, depuis la version 2 d'Evolution la synchronisation avec les PDA Palm n'est plus proposée.</note>
+
+Les modèles concernés sont les suivants :
+  * Palm Zire 31
+  * Palm Zire 72
+  * Palm Tungsten E
+  * Palm Tungsten T
+  * Palm TX
+  * Sony Clié PEG-TJ37
+  * Sony Clié TEG-50E
+
+==== Pourquoi ce tutoriel a-t-il été écrit ? ====
+
+Le Palm Zire 31 est un PDA Palm relativement récent (avril 2004) et le support pour Linux n'est pas particulièrement fantastique. J'ai cherché pendant un petit bout de temps pour comprendre ce qu'il fallait faire, et j'ai voulu que mon expérience profite à tout le monde. La méthode décrite ci-dessous a été testée sous Warty et Hoary et fonctionnera probablement avec d'autres versions d'Ubuntu.
+
+===== Installation et configuration =====
+
+==== Vérifier si gpilot n'est pas en fonctionnement ====
+
+Avant de commencer, vous devez vous assurer que le dæmon « gpilot » n'est pas en marche. Pour ce faire, lancez le terminal (//Applications → Outils Système → Terminal//) et tapez la commande suivante :
+
+  ps -A | grep gpilot
+
+S'il n'y a aucune sortie (aucun texte qui s'affiche), le dæmon « gpilot » n'est pas en marche ; vous pouvez passer à l'étape suivante.
+
+Si le démon gpilot est en marche, la commande provoquera une sortie de ce type :
+<file>
+3247 ?        00:00:06 gpilotd
+3541 ?        00:00:00 gpilotd
+3542 ?        00:00:00 gpilotd
+3543 ?        00:00:00 gpilotd
+</file>
+
+Si le démon fonctionne,vous devrez //tuer//((Ne vous inquiétez pas: c'est le terme linux pour dire arrêter le processus.)) le processus. Faites cela en tapant la commande suivante dans le terminal : 
+
+  kill 3247
+
+<note>//Remarque :// Le nombre « 3247 » est appelé le //process id// (//pid//). Il variera d'un ordinateur à l'autre, donc au lieu de taper « 3247 », vous devez taper le plus petit pid que vous voyez en sortie de la commande précédente, qui dans cet exemple est « 3247 ».</note>
+
+Verifiez que le démon est bien tué en tapant à nouveau : 
+
+  ps -A | grep gpilot
+
+Si le démon n'est pas tué, répétez l'opération.
+
+Ou plus simplement, pour tous les enlever d'un coup :
+
+  killall gpilotd
+
+Terminera tous les processus gpilotd dont vous êtes propriétaire. Ne vous inquiétez pas des éventuels messages d'avertissement.
+
+==== Faire reconnaître le Palm par le système ====
+
+[[tutoriel:comment_modifier_un_fichier|Modifiez le fichier]] **/usr/share/gnome-pilot/devices.xml** aves les droits d'administration.
+
+Il vous demandera votre mot de passe, tapez-le et ajoutez ensuite les deux lignes qui suivent n'importe où dans le fichier (bien que je l'ajoute personnellement après la ligne qui précède les PDA Samsung, mais c'est comme vous voulez).
+
+<code xml>
+<!--Palm Zire 31-->
+<device vendor_id="0830" product_id="0061" />
+</code>
+
+Cette étape indique au système qu'il y a un nouveau matériel appelé //Palm Zire 31//. Les parties les plus importantes sont les champs « ''vendor_id'' » et « ''product_id'' ». Le PDA ne sera pas synchronisé si le système ne sait rien sur l'appareil. C'est pour cette raison que l'on indique l'identifiant du vendeur (Palm) et l'identifiant du produit (Zire 31).
+
+Les deux numéros sont récupérables par la commande //lsusb// en faisant un HotSync qui affichera dans cet exemple :
+
+  sudo lsusb
+<file>
+Bus 002 Device 020: ID 0830:0061 Palm, Inc. Palm Tungsten T / Zire 31
+</file>
+
+==== Configuration d'Evolution ====
+
+  * Démarrez //Evolution// (menu //Applications//)
+  * Dans //Evolution//, à partir des menus allez dans //Outils -> Paramètres du Pilot// ou (//Edition -> Option de Synchro// en 2.8.1). Laissez ''Cradle'' dans la boite texte //Nom//, entrez ''/dev/ttyUSB1'' dans la boîte de texte //Port//, réglez //Vitesse// à  ''115200'', et choisissez le bouton ''USB'' comme //type//. [//Note// : pour Feisty ou Hardy, il faut entrer "usb:" dans la boite //port//) 
+  * Assurez-vous que votre PDA est correctement connecté et allumé. Cliquez maintenant sur //Suivant//.
+  * Vous avez probablement déjà synchronisé l'appareil (par exemple sous Windows). Si c'est le cas, laissez cet écran tel quel et cliquez encore une fois sur //Suivant//. Si vous ne l'avez jamais fait, entrez alors vos informations personnelles.
+  * Maintenant pressez le bouton //Hot Sync// (un petit bouton circulaire avec deux flèches) sur votre appreil. Et si tout va bien, la synchronisation doit avoir lieu ! 
+
+Remarque : lors de la connexion du Palm, //dmesg// indique sur quelle device le périphérique est rattaché. Exemple : <code>visor ttyUSB1: Handspring Visor / Palm OS converter now disconnected from ttyUSB1
+</code>
+Il est possible que le kernel crée cette device dans /.dev au lieu de /dev. Evolution ne permet pas de renseigner /.dev/ttyUSB1. Aussi, il faudra alors faire un lien du genre <code>ln -s /.dev/ttyUSB1 /dev/pilot</code> et paramétrer Evolution pour qu'il utilise /dev/pilot
+
+Depuis la version 10.04 les conduits de synchronisation ne sont plus installés par défaut. Pour les installer, télécharger un script de téléchargement et de compilation des éléments nécessaires disponible [[http://rablaycc.dyndns.org/freeconcept/images/pilotes/enable-evolution-conduits.sh|ici]]
+   - Autoriser l'exécution de ce script ; Clic droit sur enable-evolution-conduits.sh - Propriétés - Permissions
+   - Lancer ce script en doucle-cliquant dessus et enchoisissant "Exécuter dans un Terminal" (Il faut les droits d'administration). L'opération peut durer assez longtemps (30 minutes dans mon cas)
+   - Relancer Evolution. Les conduits //Calendrier//, //Notes//, //Adresses//, etc. sont maintenant disponibles
+
+===== Notes =====
+
+Ces étapes ont été testées sur des machines de type x86 et PPC.
+
+En cas de problème, vous pouvez aller sur les [[http://forum.ubuntu-fr.org/|forums français Ubuntu]] ou utiliser la liste de diffusion pour obtenir une aide supplémentaire.
+
+On peut aussi voir : [[http://www.jpfox.fr/?post/2005/10/20/71-ubuntu-et-un-palm-tungsten-t3]] Qui donne une solution plus simple, qui a parfaitement fonctionné pour un Palm TX.
+
+Si vous utilisez Feisty ou Hardy, lors de la configuration d'Evolution, choisissez « ''usb:'' » plutôt que « ''/dev/ttyUSB1'' ».
+
+En cas de gros soucis essayez [[:Jpilot]].
+
+----
+
+//Contributeurs principaux : [[https://help.ubuntu.com/community/PalmZire31HowTo|traduit]] par [[utilisateurs:Teolemon]] et [[utilisateurs:ostaquet]].//

@@ -1,0 +1,336 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#amule_-_logiciel_p2p" class="toc"> aMule - Logiciel P2P </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#qu_est-ce_que_amule" class="toc"> Qu'est-ce que aMule ? </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#objectif_du_tutoriel" class="toc"> Objectif du tutoriel </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#installer_amule" class="toc"> Installer aMule  </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#installation_en_deux_minutes_sur_hoary" class="toc"> Installation en deux minutes sur Hoary </a></span></li>
+<li class="level3"><span class="li"><a href="#installer_la_derniere_version_du_logiciel" class="toc"> Installer la dernière version du logiciel </a></span></li>
+<li class="level3"><span class="li"><a href="#complements_d_informations_concernant_l_installation" class="toc"> Compléments d'informations concernant l'installation </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#presentation_des_principaux_parametrages" class="toc"> Présentation des principaux paramétrages </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#chargement_de_la_liste_de_serveur_et_connexion_au_serveur" class="toc"> Chargement de la liste de serveur et connexion au serveur </a></span></li>
+<li class="level3"><span class="li"><a href="#modification_des_preferences" class="toc"> Modification des préférences </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#utiliser_amule" class="toc"> Utiliser aMule </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#a_la_recherche_de_fichiers" class="toc"> A la recherche de fichiers </a></span></li>
+<li class="level3"><span class="li"><a href="#gestion_des_fichiers_telecharges" class="toc"> Gestion des fichiers téléchargés </a></span></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary
+En cours de réalisation
+</pre>
+
+<p>
+Rédigé par <a href="/utilisateurs/feanor" class="wikilink1" title="utilisateurs:feanor" onclick="return svchk()" onkeypress="return svchk()">Feanor</a>
+</p>
+
+<a name="amule_-_logiciel_p2p"></a><h1> aMule - Logiciel P2P </h1>
+<div class="level1">
+
+<p>
+ Pour partager des fichiers (texte, son, vidéo, etc...).
+</p>
+
+</div>
+<!-- SECTION [94-187] -->
+<a name="qu_est-ce_que_amule"></a><h2> Qu'est-ce que aMule ? </h2>
+<div class="level2">
+
+<p>
+ aMule est un client <acronym title="Peer to Peer">P2P</acronym> multiplateforme (Linux, FreeBSD, Windows, Mac0SX, ...) pour le réseau edonkey2000 (ED2K). Il est basé sur le célèbre client Windows eMule. Les fonctionnalités en sont pratiquement les mêmes, avec cependant un peu de retard par rapport eMule. Le protocole <strong>Kademlia</strong> n&rsquo;est par exemple pour le moment pas encore implémenté, il le sera probablement dans les prochaines versions. 
+</p>
+
+</div>
+<!-- SECTION [188-632] -->
+<a name="objectif_du_tutoriel"></a><h3> Objectif du tutoriel </h3>
+<div class="level3">
+
+<p>
+ Ce tutoriel a pour objectif de vous permettre d&rsquo;installer aMule sur votre Ubuntu, il décrit également brièvement les paramétrages à effectuer, ainsi que quelques points délicats. Cependant il se peut qu&rsquo;il ne vous suffise pas, vous pouvez alors soumettre votre problème soit :   
+</p>
+<ul>
+<li class="level1"><span class="li"> sur le forum officiel de <a href="http://forum.amule.org/" class="urlextern" title="http://forum.amule.org/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">amule</a></span>
+</li>
+<li class="level1"><span class="li"> sur le forum rubrique <a href="http://forum.ubuntu-fr.org/viewforum.php?id=16" class="urlextern" title="http://forum.ubuntu-fr.org/viewforum.php?id=16" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Internet et réseaux</a></span>
+</li>
+</ul>
+
+<p>
+ Vous pouvez également consulter la <a href="http://www.amule.org/wiki/index.php/FAQ_aMule-fr" class="urlextern" title="http://www.amule.org/wiki/index.php/FAQ_aMule-fr" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">FAQ française de amule</a>.
+</p>
+
+</div>
+<!-- SECTION [633-1230] -->
+<a name="installer_amule"></a><h2> Installer aMule  </h2>
+<div class="level2">
+
+</div>
+<!-- SECTION [1231-1260] -->
+<a name="installation_en_deux_minutes_sur_hoary"></a><h3> Installation en deux minutes sur Hoary </h3>
+<div class="level3">
+
+<p>
+ La version du logiciel disponible sur Hoary est : <strong>amule 2.0.0 rc7</strong>, qui n&rsquo;est pas la version la plus récente, si vous souhaitez installer la dernière version, vous pouvez vous reporter à la section suivante.
+</p>
+
+<p>
+L&rsquo;installation peut-être réalisée très facilement en <a href="/console/ligne_de_commande" class="wikilink1" title="console:ligne_de_commande" onclick="return svchk()" onkeypress="return svchk()">ligne de commande</a> par la commande :
+</p>
+<pre class="code">
+    bash:~$ sudo apt-get install amule
+</pre>
+
+<p>
+Ou bien via <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a> en allant dans <strong>Système &rArr; Administration &rArr; Gestionnaire de paquets Synaptic</strong>, une fois Synaptic ouvert appuyer sur <em>Ctrl+F</em> pour effectuer une recherche, et taper &ldquo;amule&rdquo;, puis cliquer sur <em>Rechercher</em>. Une ligne contenant aMule et le numéro de version du paquet apparaît alors, effectuez alors un clic droit sur cette ligne et cliquez sur <em>Sélectionner pour installation</em>, dans la fenêtre qui s&rsquo;ouvre cliquez sur <em>Ajouter à la selection</em>, enfin cliquez sur le bouton <em>Appliquer</em> et dans la fenêtre qui s&rsquo;affiche de nouveau sur <em>Appliquer</em>, amule doit alors s&rsquo;installer normalement.
+</p>
+
+</div>
+
+<a name="premier_lancement"></a><h4> Premier lancement </h4>
+<div class="level4">
+
+<p>
+ Nous venons d&rsquo;installer aMule, il ne nous reste plus qu&rsquo;à lancer le logiciel, pour cela allez dans <strong>Applications &rArr; Internet</strong> et cliquez sur aMule, ou bien directement en ligne de commande en tapant bien : <em>amule</em>.
+</p>
+
+</div>
+<!-- SECTION [1261-2606] -->
+<a name="installer_la_derniere_version_du_logiciel"></a><h3> Installer la dernière version du logiciel </h3>
+<div class="level3">
+
+<p>
+Nous avons décrit dans la partie précédente l&rsquo;installation d&rsquo;amule 2.0.0rc7 disponible sur Hoary, cependant cette version ne bénéficie pas des dernières améliorations présentent sur le client actuel, la version actuelle (au moment où est rédigé ce tutoriel) est la version <em>2.0.3</em>.
+</p>
+
+<p>
+Nous allons dans cette partie décrire son installation.
+</p>
+
+<p>
+ Note de <a href="/utilisateurs/keyes" class="wikilink1" title="utilisateurs:keyes" onclick="return svchk()" onkeypress="return svchk()">keyes</a>: La version 2.0.3 (bien plus jolie que l&rsquo;ancienne car utilisant GTK2) est maintenant disponible dans les [<a href="http://backports.ubuntuforums.org/" class="urlextern" title="http://backports.ubuntuforums.org/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://backports.ubuntuforums.org/</a>|backports]. Ajoutez les dépôts des backports dans votre sources.list et installez amule, vous obtiendrez la dernière version.
+</p>
+
+<p>
+Il existe plusieurs moyens pour installer cette dernière version. La plus simple serait de trouver un dépôt permettant d&rsquo;installer simplement via <em>apt-get install</em> ou synaptic. La bonne nouvelle c&rsquo;est que ce dépôt existe, et il permet qui plus est d&rsquo;obtenir la version <acronym title="Concurrent Versions System">CVS</acronym> du logiciel (voir <a href="http://forum.amule.org/thread.php?threadid=5776&amp;page=1&amp;sid=e42c7c349156332b4290f488af4152c0" class="urlextern" title="http://forum.amule.org/thread.php?threadid=5776&amp;page=1&amp;sid=e42c7c349156332b4290f488af4152c0" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">ICI</a> , anglophobes ,s&rsquo;abstenir!), malheureusement un problème de dépendances compliquent les choses et on va préfèrer une méthode plus simple.
+</p>
+
+<p>
+En effet un utilisateur du forum anglais d&rsquo;ubuntu (Voir ce <a href="http://ubuntuforums.org/showthread.php?t=31395&amp;page=7&amp;pp=10&amp;highlight=amule" class="urlextern" title="http://ubuntuforums.org/showthread.php?t=31395&amp;page=7&amp;pp=10&amp;highlight=amule" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">sujet</a>) met à disposition le paquet debian spécial Hoary de la version qui nous interesse.
+</p>
+
+<p>
+Il faut donc dans un premier temps récupèrer le paquet debian sur cette page : <a href="http://koti.mbnet.fi/ots/linux/hoary/" class="urlextern" title="http://koti.mbnet.fi/ots/linux/hoary/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://koti.mbnet.fi/ots/linux/hoary/</a> et télécharger : <em><strong>amule_2.0.3+CVS20050616-1~ots_i386.deb</strong></em>
+</p>
+
+<p>
+Ou plus simplement dans un terminal, par la commande :
+</p>
+<pre class="code">
+bash:~$ wget http://koti.mbnet.fi/ots/linux/hoary/amule_2.0.3+CVS20050616-1~ots_i386.deb
+</pre>
+
+<p>
+Une fois le paquet récupèrer sur votre disque dur, il faut installer libwxgtk2.5.3, par la commande :
+</p>
+<pre class="code">
+bash:~$ sudo apt-get install libwxgtk2.5.3
+</pre>
+
+<p>
+Enfin en allant dans le répertoire où se trouve le paquet que nous venons de récupèrer, effectuez  :
+</p>
+<pre class="code">
+bash:~$ sudo dpkg -i amule_2.0.3+CVS20050616-1~ots_i386.deb
+</pre>
+
+<p>
+Si tous c&rsquo;est bien passé, aMule est installé, il ne vous reste plus qu&rsquo;à le lancer comme expliqué dans la partie précédente.
+</p>
+
+<p>
+Si en revanche cette installation ne vous donnait pas satisfaction, il vous suffit de le supprimer :
+</p>
+<pre class="code">
+bash:~$ sudo apt-get remove amule
+</pre>
+
+</div>
+<!-- SECTION [2607-5070] -->
+<a name="complements_d_informations_concernant_l_installation"></a><h3> Compléments d'informations concernant l'installation </h3>
+<div class="level3">
+
+<p>
+ J&rsquo;ai décrit dans les deux parties précédentes, la méthode d&rsquo;installation qui est à mon sens la plus simple sous Ubuntu pour installer amule, cependant il existe d&rsquo;autres méthodes, en particulier la compilation manuelle à partir des sources. La méthode est décrite sur cette page : <a href="http://www.amule.org/wiki/index.php/Compilation_Installation-fr" class="urlextern" title="http://www.amule.org/wiki/index.php/Compilation_Installation-fr" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Compilation et Installation (fr)</a>.
+</p>
+
+<p>
+La dernière version stable du logiciel, ainsi que les versions <acronym title="Concurrent Versions System">CVS</acronym> se trouvent sur cette page : <a href="http://www.amule.org/files/files.php?cat=6" class="urlextern" title="http://www.amule.org/files/files.php?cat=6" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Download aMule</a>
+</p>
+
+<p>
+Enfin vous pouvez également installer la version fournit par YBM dans <a href="http://forum.ubuntu-fr.org/viewtopic.php?id=7262" class="urlextern" title="http://forum.ubuntu-fr.org/viewtopic.php?id=7262" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">ce sujet du forum</a> (voir en particulier les indications à la fin du sujet) : Download <a href="http://ybmessager.free.fr/debian/" class="urlextern" title="http://ybmessager.free.fr/debian/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">ICI</a>
+</p>
+
+</div>
+<!-- SECTION [5071-5942] -->
+<a name="presentation_des_principaux_parametrages"></a><h2> Présentation des principaux paramétrages </h2>
+<div class="level2">
+
+</div>
+<!-- SECTION [5943-6000] -->
+<a name="chargement_de_la_liste_de_serveur_et_connexion_au_serveur"></a><h3> Chargement de la liste de serveur et connexion au serveur </h3>
+<div class="level3">
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=applications%3Aamule_2.0.3_serveur.jpg" class="media" title="applications:amule_2.0.3_serveur.jpg" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=350&amp;h=&amp;cache=cache&amp;media=applications%3Aamule_2.0.3_serveur.jpg" class="mediaright" alt="" width="350" /></a> Au premier demarrage du logiciel, vous arrivez dans la fenêtre relative au serveur, commencez par mettre à jour votre liste de serveur, en cliquant sur le bouton représentant un triangle à coté de <strong>Serveurs</strong> 
+</p>
+
+<p>
+Une fois la liste des serveurs mis à jour, il ne vous reste plus qu&rsquo;à vous connecter à un serveur en double cliquant sur un serveur présent dans la liste. Personnellement je vous conseille de vous connecter à <strong>Razorback 2</strong>.
+</p>
+
+</div>
+<!-- SECTION [6001-6563] -->
+<a name="modification_des_preferences"></a><h3> Modification des préférences </h3>
+<div class="level3">
+
+<p>
+ Pour modifier vos paramètres (connexion, profil, ...) il faut se rendre dans l&rsquo;onglet <strong>Préférences</strong>.
+</p>
+
+<p>
+Une fois dans l&rsquo;onglet <strong>Préférences</strong>, une nouvelle fenêtre s&rsquo;ouvre, avec la possibilité de règler un certains nombres de paramètres intéressants :
+</p>
+<ul>
+<li class="level1"><span class="li"> Dans la partie <strong>Général</strong> :</span>
+<ul>
+<li class="level2"><span class="li"> <em>Votre pseudo</em> : c&rsquo;est votre nom pour les autres utilisateurs</span>
+</li>
+<li class="level2"><span class="li"> <em>La langue</em> :  à priori le français est la langue de votre système, sinon sélectionnez : <em>français</em></span>
+</li>
+<li class="level2"><span class="li"> <em>Diverses options</em> en particulier l&rsquo;option bien pratique qui permet de minimiser le logiciel en barre des tâches (fonctionne avec aMule 2.0.3)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Dans la partie <strong>Connexion</strong> :</span>
+<ul>
+<li class="level2"><span class="li"> Vous devez rentrer les propriétés de votre connexion, les valeurs importantes à renseigner sont celles de <strong>la limite de la bande passante</strong>, et en particulier l&rsquo;upload, si vous avez 128 kbps en upload par exemple mettez entre 12 et 14Ko/s (pour free en dégroupé, mettez 30Ko/s)</span>
+</li>
+<li class="level2"><span class="li"> <strong>Les ports</strong> : certains fournisseurs d&rsquo;accès bloquent les ports par défault, il peut donc être intéressant de les changer. <em>Attention toutefois de modifier votre firewall en fonction de ces nouveaux ports</em>.</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Dans la partie <strong>Répertoires</strong> :</span>
+</li>
+</ul>
+
+<p>
+     C&rsquo;est dans cette partie que vous indiquez les répertoires que vous souhaitez partager, ainsi que le répertoire où sont stockés les fichiers que vous téléchargez. Par défault pour le répertoire des fichiers temporaires (i.e non complétés): <em>home/user/.aMule/Temp</em> et pour le répertoires contenant les fichiers dont le téléchargement est terminés : <em>home/user/.aMule/Incoming</em>. Vous pouvez bien évidemment changer ces répertoires.
+</p>
+
+<p>
+Dans la partie concernant le lecteur vidéo vous pouvez rentrer : <strong>/usr/bin/totem</strong> si vous souhaitez avoir un aperçu des vidéos que vous téléchargez avant qu&rsquo;elles ne soient complètes.
+</p>
+<ul>
+<li class="level1"><span class="li"> Dans la partie <strong>Sécurité</strong> :</span>
+</li>
+</ul>
+
+<p>
+ Le dernier réglage important des préférences est celui de la sécurité, dans cette partie vous pouvez donnez (ou non) un accès aux autres utilisateurs à <em>la liste des fichiers</em> que vous partagez (i.e aux fichiers se trouvant dans Incoming, ainsi qu&rsquo;aux autres fichiers se trouvant dans les répertoires que vous partagez). Cette option est règler par défault sur <em>Personne</em>, mais vous pouvez sans risque laisser un accès à cette liste au moins à vos Amis. 
+</p>
+
+<p>
+Vous pouvez également dans cet onglet règler <a href="/console/learn_unix_in_10_minutes" class="wikilink1" title="console:learn_unix_in_10_minutes" onclick="return svchk()" onkeypress="return svchk()">les permissions</a> sur les fichiers et répertoire que vous partagez.
+</p>
+
+<p>
+Enfin le dernier point important concerne le filtrage des ip. Il existe en effet un système permettant de bloquer un certains nombres d&rsquo;ip indésirables. Celles-ci sont stockées dans un fichier : <strong>ipfilter.dat</strong> que l&rsquo;on peut mettre à jour automatiquement depuis internet. Par exemple depuis : <a href="http://emulepawcio.sourceforge.net/nieuwe_site/Ipfilter_fakes/ipfilter.dat" class="urlextern" title="http://emulepawcio.sourceforge.net/nieuwe_site/Ipfilter_fakes/ipfilter.dat" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://emulepawcio.sourceforge.net/nieuwe_site/Ipfilter_fakes/ipfilter.dat</a> , copier, coller cette adresse en face de &ldquo;<acronym title="Uniform Resource Locator">URL</acronym>&ldquo;, puis cliquer sur <em>Mettre à jour maintenant</em>. Pour plus de détails vous pouvez consulter : <a href="http://www.amule.org/wiki/index.php/IPFilter" class="urlextern" title="http://www.amule.org/wiki/index.php/IPFilter" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">l'ipfilter sur amule</a>.
+</p>
+
+<p>
+Nous venons de détailler dans cette partie les réglages importants des préférences, cependant il en existe d&rsquo;autres pour des points plus spécifiques : connexion à distance, statitisque, réglage graphique, proxy,... Si vous avez des questions sur ces réglages vous pouvez soit les poser sur le forum <a href="http://www.amule.org" class="urlextern" title="http://www.amule.org" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">www.amule.org</a> soit directement sur le forum d&rsquo;ubuntu-fr.
+</p>
+
+</div>
+<!-- SECTION [6564-10092] -->
+<a name="utiliser_amule"></a><h2> Utiliser aMule </h2>
+<div class="level2">
+
+</div>
+<!-- SECTION [10093-10120] -->
+<a name="a_la_recherche_de_fichiers"></a><h3> A la recherche de fichiers </h3>
+<div class="level3">
+
+</div>
+
+<a name="effectuer_une_recherche"></a><h4> Effectuer une recherche </h4>
+<div class="level4">
+
+</div>
+
+<a name="recuperer_un_lien_ed2k_directement_sur_internet"></a><h4> Récupèrer un lien ed2k directement sur internet </h4>
+<div class="level4">
+
+</div>
+<!-- SECTION [10121-10250] -->
+<a name="gestion_des_fichiers_telecharges"></a><h3> Gestion des fichiers téléchargés </h3>
+<div class="level3">
+
+</div>
+
+<a name="l_onglet_des_transferts_et_des_partages"></a><h4> L'onglet des Transferts et des Partages </h4>
+<div class="level4">
+
+</div>
+
+<a name="les_priorites_de_partage"></a><h4> Les priorités de partage </h4>
+<div class="level4">
+
+<p>
+%
+</p>
+
+<p>
+%
+</p>
+
+<p>
+%
+</p>
+
+<p>
+%
+</p>
+
+<p>
+%
+</p>
+
+<p>
+%
+</p>
+
+<p>
+% 
+</p>
+
+</div>
+<!-- SECTION [10251-] -->

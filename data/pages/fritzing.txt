@@ -1,0 +1,54 @@
+{{tag>Xenial}}
+----
+====== Fritzing ======
+**[[http://fr.wikipedia.org/wiki/Fritzing|Fritzing]]** est un logiciel libre de conception de circuit imprimé permettant de produire des fichiers au format gerber, pdf, png ou jpg pour développer sois-même ou commander des circuits imprimés.
+<note tip>Opérationnel pour Ubuntu 12.10, 14.04, 16.04</note>
+
+{{:electronique..fritzing.png}}
+
+===== Installation =====
+====Via un dépôt PPA====
+[[:PPA|Ajoutez le PPA]] **ppa:ehbello/fritzing**((https://launchpad.net/~ehbello/+archive/fritzing)) dans vos 
+sources de logiciels, [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]], et [[:tutoriel:comment_installer_un_paquet|installez le paquet]]  **[[apt>fritzing]].**
+
+En une seule ligne de commande : 
+<code> sudo add-apt-repository ppa:ehbello/fritzing && sudo apt-get update && sudo apt-get install fritzing
+</code>
+
+
+====Via les sources====
+Téléchargez en fonction de votre [[architecture_materielle#mon_ubuntu_est-il_en_32_bits_ou_en_64_bits|version d'Ubuntu]]  le logiciel ((Linux 32-bit ou Linux 64-bit)) disponible  sur [[http://fritzing.org/download/| cette page]] puis exécutez ces commandes : 
+<code>
+tar -xvf fritzing-*.tar.bz2 # Extraction du dossier 
+rm fritzing-*.tar.bz2 #Suppression de l'archive 
+wget http://upload.wikimedia.org/wikipedia/commons/e/ed/Fritzing_icon.png #Récupération du logo Fritzing 
+mv Fritzing_icon.png fritzing-* #Déplacement de l'image dans le dossier Fritzing 
+sudo mv fritzing-* /usr/share/fritzing #Déplacement du dossier dans /usr/share 
+# Création du ficher de lanceur :
+echo '[Desktop Entry] 
+Type=Application 
+Encoding=UTF-8 
+Name=Fritzing 
+GenericName=Fritzing 
+Comment=Réalisez vos circuits électroniques, du prototypage à la production. 
+Icon=/usr/share/fritzing/Fritzing_icon.png 
+Exec=/usr/share/fritzing/Fritzing 
+Terminal=false 
+StartupNotify=false 
+Categories=Electronics' > fritzing.desktop 
+sudo mv fritzing.desktop /usr/share/applications/fritzing.desktop # Déplacement de ce fichier dans /usr/share/applications/
+</code>
+===== Utilisation=====
+====Version installée via le PPA====
+Lancer **Fritzing** depuis le [[:unity#tableau_de_bord_dash|tableau de bord]] d'Unity ou //via// la [[:commande_shell|commande]] suivante :
+<code>Fritzing</code>
+
+====Version installée via les sources====
+Lancez l'application en double cliquant sur le fichier **Fritzing.sh** ou en tapant dans un [[terminal]] :
+<code>./Fritzing.sh</code>    
+
+===== Voir aussi =====
+  * [[ http://fritzing.org/|Site officiel]]
+
+----
+//Contributeurs principaux :[[:utilisateurs:mimilus|mimilus]], [[:utilisateurs:mimilus|mimilus]].

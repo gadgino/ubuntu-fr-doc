@@ -1,0 +1,152 @@
+{{tag>Lucid robotique programmation BROUILLON}}
+
+----
+
+====== Simulateur robotique Player/Stage ======
+
+> <<All the world's a stage, And all the men and women merely players.>> William Shakespeare, As You Like It 
+
+**Player/Stage** est un projet permettant la simulation de robot sur votre ordinateur.
+
+Bien que nous appelions ici le simulateur « Player/Stage », Player n'est pas un simulateur mais une couche d'abstraction entre un robot physique et votre programme. Stage est une simulateur 2D sur lequel Player peut s'appuyer. Stage peut accepter un ou plusieurs robots permettant ainsi de simuler les comportements collaboratifs.
+
+Player se trouve donc à la fois sur le robot et sur le poste de développement. La configuration de celui-ci permet de l'interfacer avec les capteurs et les actionneurs du robot, ou avec l'environnement de simulation fournit par stage.
+
+Le modèle « Player/Stage » permet d'unifier le développement et de faciliter l'échange entre collaborateurs. Il permet de tester rapidement et à moindre coût le comportement de votre programme.
+
+{{:robot-player.png}} {{:stage.png}}
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Stage nécessite un environnement graphique
+
+===== Installation =====
+
+Il existe actuellement trois méthodes pour installer le projet Player sur Ubuntu.
+
+  * Avec les sources : si vous désirez obtenir les dernières versions,  vous devrez installer manuellement Player/Stage à partir [[http://sourceforge.net/projects/playerstage/files/|des sources]].
+  * Avec les dépots officiels : Ubuntu fournit les paquets **robot-player** et **stage** qui permettent d'installer automatiquement Player/Stage. Il s'agit de la version 2.0.4 (ou 3.0.1 avec maverick) pour player  et 2.0.3 pour stage.
+  * Avec les dépots de "Linux Robotics Studio" (ppa) : L'équipe de Player/Stage fournit maintenant un PPA a jour.
+
+Cette dernière méthode est conseillé.
+La première méthode est fastidieuse et a réservé à des besoin spécifiques. Le seconde méthode ne vous permet pas d'obtenir la version actuelle de Player/Stage.
+
+==== Avec les sources ====
+
+<note important>L'installation par les sources n'est pas à jour. N'hésitez pas à compléter cette méthode si vous en avez le besoin. Préférez toutefois l'installation par les dépôts PPA décrit dans la section 2.3.</note>
+
+Nous allons ici traiter de l'installation de player et stage avec les dernières sources disponibles : player 3.0.1 et Stage 3.2.2.
+
+Installation de cmake :
+
+  sudo apt-get install cmake
+
+Téléchargement des sources de player 3.0.1
+
+  cd ~/
+  mkdir install && cd install
+  wget http://sourceforge.net/projects/playerstage/files/Player/3.0.1/player-3.0.1.tar.gz/download
+  tar -xvf player-3.0.1.tar.gz
+  cd player-3.0.1/
+
+Installation de player 3.0.1
+
+  mkdir build && cd build
+  cmake ../
+  make
+  sudo make install
+
+Pour le bon fonctionnement de pkgconfig
+
+  export PKG_CONFIG_PATH+=/usr/local/lib/pkgconfig
+  export PKG_CONFIG_PATH+=/usr/local/lib64/pkgconfig
+
+Installation des dépendances pour stage 3.2.2
+
+  sudo apt-get install libfltk1.1-dev
+  sudo apt-get install libglu1-mesa-dev
+  sudo apt-get install libtool
+
+Téléchargement des sources de stage 3.2.2
+
+  cd ~/install
+  wget http://sourceforge.net/projects/playerstage/files/Stage/3.2.2/Stage-3.2.2-Source.tar.gz/download
+  tar -xvf Stage-3.2.2-Source.tar.gz
+  cd Stage-3.2.2-Source/
+
+Installation de stage 3.2.2
+
+  mkdir build && cd build
+  cmake ../
+  make
+  sudo make install
+
+Il reste ensuite à copier les fichiers world donné en exemple dans votre espace de travail :
+
+  mkdir ~/<Workspace>/Player-stage
+  cp -r ~/install/Stage-3.2.2-Source/worlds/ ~/<Workspace>/Player-stage/
+
+
+
+FIXME
+
+<note warning>La compilation ainsi décrite ne permet pas d'utiliser player/stage. En effet l'installation par défaut se fait dans le dossier /usr/local mais espère trouver ses propres librairies dans /usr/lib ou /usr/lib64. Dans l'urgence, j'ai rajouté un lien symbolique pour chaque librairie... </note>
+
+==== Avec les dépôts ====
+
+Des paquets sont fournit sur le dépôts universe. Toutefois ceux-ci ne sont pas opérationnels directement. Reportez-vous à la section configuration pour obtenir une installation fonctionnelle.
+
+[[:tutoriel:comment_installer_un_paquet|Installez les paquets]] **[[apt://robot-player,stage|robot-player et stage]]**.
+
+==== Avec les dépôts PPA ====
+
+L'équipe du projet Player/Stage, par l'intermédiaire de Toby Collett (alias thjc), a mis en place un PPA nommé Linux Robotics Studio. Celui-ci a pour but de réunir tous les projets open-source lié à la robotique.
+
+Dans un premier temps, vous devez installer le PPA **ppa:thjc/ppa** ([[ppa|Comment installer un PPA]]).
+
+Ensuite, [[:tutoriel:comment_installer_un_paquet|Installez les paquets]] **[[apt://robot-player,stage|robot-player et stage]]**.
+
+Si vous aviez déjà installé les paquets officiels (par la méthode précédente), une mise à jour après l'ajout du PPA suffit.
+
+===== Configuration =====
+
+<note>Cette manipulation ne semble plus nécessaire sous Lucid Lynx avec une installation des branches 3.x de player/stage</note>
+
+Player/Stage nécessite un fichier particulier de X11, rgb.txt. Ce fichier est une table de correspondance entre des noms de couleur et leurs valeurs RGB. Ce fichier n'est maintenant plus présent mais certains paquet tel que **stage** s'en servent encore.
+
+Vous trouverez plus d'informations sur ce problème sur le site [[https://bugs.launchpad.net/ubuntu/+source/xorg/+bug/300935|launchpad]].
+
+On y apprend notamment qu'une version du fichier est disponible [[http://cvsweb.xfree86.org/cvsweb/*checkout*/xc/programs/rgb/rgb.txt?rev=HEAD&content-type=text/plain|ici]].
+
+  sudo -s
+  <Entrez votre mot de passe>
+  
+  mkdir /usr/X11R6/lib
+  mkdir /usr/X11R6/lib/X11
+  cd /usr/X11R6/lib/X11/
+  wget -O rgb.txt http://cvsweb.xfree86.org/cvsweb/*checkout*/xc/programs/rgb/rgb.txt?rev=HEAD&content-type=text/plain
+  exit
+
+<note>Sous Lucid Lynx, rgb.txt est de retour dans les répertoires /etc/X11 et /etc/share/X11/ il suffit alors de faire un lien symbolique vers /usr/X11/R6/lib</note>
+
+
+
+===== Utilisation=====
+
+FIXME
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. La configuration de l'application sera conservée ou supprimée selon la méthode de désinstallation que vous choisirez.
+
+===== Voir aussi =====
+
+  * [[gazebo|Installation de Gazebo]]
+  * **(en)** [[http://playerstage.sourceforge.net/|Site du projet Player/Stage/Gazebo]]
+  * **(en)** [[http://en.wikipedia.org/wiki/Player_Project|Article sur Wikipédia]]
+
+----
+
+//Contributeur principal : [[utilisateurs:tangix|TangiX]].//

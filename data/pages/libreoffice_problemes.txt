@@ -1,0 +1,264 @@
+{{tag>bureautique}}
+----
+
+====== Résoudre les problèmes rencontrés avec LibreOffice ======
+{{ libreoffice.png| Logo de LibreOffice}}
+
+Cette page propose des solutions aux problèmes rencontrés lors de l'utilisation de [[:libreoffice|LibreOffice]].
+
+===== Problèmes de sécurité =====
+
+Consultez la liste [[https://wiki.documentfoundation.org/FR/Advisories-fr|sur la page officielle]], et appliquez les mises à jours de versions recommandées.
+Cette page permet aussi le signalement d'un problème de sécurité.
+
+===== Généralité =====
+
+Certains problèmes sont dus à des corruptions de fichiers de configurations, renommez //~/.config/libreoffice// en //~/.config/libreoffice_old//. Au prochain démarrage de LibreOffice, le programme recréera les fichiers de configurations contenus dans //~/.config/libreoffice//. Cela est souvent plus efficace que de désinstaller/réinstaller le logiciel.
+
+De plus Ubuntu fournit un LibreOffice allégé: le module Base est absent, certaines extensions (Presenter Console, PDF import, Report Builder...) n'y sont pas présentes par défaut à la différence du fichier fournit par The Document Foundation (la version 4.0 en intégrera certaines par défaut((https://wiki.documentfoundation.org/ReleaseNotes/4.0/fr#Extensions)) ). Vous trouverez dans le [[:libreoffice#installation|chapitre de cette page]] une liste plus détaillée.
+
+Enfin, il est souvent possible d'ajouter un [[:ppa]] pour obtenir une version plus récente de LibreOffice. Lors de la sortie d'Ubuntu, la version de LibreOffice est souvent jeune (version x.y.2) et la communauté francophone conseille une utilisation à partir de la x.y.3 voir la x.y.4((https://wiki.documentfoundation.org/ReleasePlan#Summary))((http://fr.libreoffice.org/libreoffice/info-generales/))
+Pour installer le ppa suivez le chapitre, <<[[:libreoffice#via_le_ppa| installer le ppa]]>> de la page sur LibreOffice.
+
+===== Problèmes hérités de OpenOffice.org =====
+
+Certains problèmes déjà répertoriés avec OpenOffice.org subsistent, notamment ceux évoqués dans les sections suivantes.
+
+==== Virgule et pavé numérique ====
+
+(Problème rencontré avec : LibreOffice 3.5.2 sous Ubuntu 12.04 LTS et LibreOffice 4.2 et 4.3 sous Ubuntu 14.04 LTS)
+
+Dans le tableur Calc, la touche de séparateur décimal du pavé numérique donne un point au lieu d'une virgule (voir [[https://bugs.launchpad.net/ubuntu/+bug/188342|sur Launchpad]]).
+
+Ce bug concerne la configuration de clavier « Français (variante) » qui est celle installée par défaut.
+
+Ce bug ne concerne pas les configurations « Français » et « Français (variante obsolète) » (testé pour Ubuntu 12.04 LTS et 14.04 LTS).
+
+Si l'une des deux dernières configurations vous convient voici comment changer de configuration clavier :
+  * Aller dans //Paramètres Système → Saisie de texte//
+  * Cliquer sur le bouton « + » pour ajouter le clavier « Français » et supprimer le clavier « Français (variante) » à l'aide du bouton « - »
+
+Si vous souhaitez utiliser la configuration par défaut « Français (variante) » lire ce qui suit.
+
+Trois méthodes sont proposées ci-dessous. Les deux premières (au choix) permettent de rétablir la virgule. La 3e permet de faire en sorte que le point soit interprété comme séparateur décimal.
+
+=== 1re méthode : par le menu « Système » (recommandé) ===
+
+== Unity sur Ubuntu 14.04 LTS et 16.04 LTS==
+
+Les options ne sont plus disponible dans //Paramètres système// (Gnome a été « simplifié »…).
+
+  * [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>gnome-tweak-tool]]** ;
+  * lancer gnome-tweak-tool ("Outil de personnalisation");
+  * aller sur l'onglet « Typing » ("Saisie") ;
+  * développer //disposition du pavé numérique// ;
+  * sélectionnez l'option « Obsolète ».
+
+== Unity sur Ubuntu 12.04 LTS ==
+
+  * Aller dans //Paramètres système → Agencement du clavier// (bouton en haut à droite,  premier choix) ;
+  * cliquer sur le bouton « Option… » ;
+  * développer //disposition du pavé numérique// ;
+  * sélectionnez l'option « Obsolète ».
+
+== MATE ==
+
+  * Allez dans le menu //Système → Préférence → Clavier//, onglet « Agencements » ;
+  * sélectionner l'agencement « France Autre » dans la liste ;
+  * cliquer sur le bouton « Options de l'agencement… » ;
+  * développez //Comportement de la touche de suppression du clavier numérique// ;
+  * sélectionnez l'option « Touche obsolète avec point » (permet d'avoir une virgule avec LibreOffice et un point ailleurs ; avec « Touche obsolète avec virgule », la virgule est partout).
+
+=== 2e méthode : par Xmodmap ===
+
+Utilisez un fichier « .Xmodmap » pour corriger la définition du clavier. Vous pouvez :
+  * Récupérez le fichier sur Launchpad : [[https://bugs.launchpad.net/ubuntu/+bug/188342/comments/2|un commentaire du rapport de bug]] ;
+  * [[:tutoriel:comment_modifier_un_fichier|créez un fichier]] //.Xmodmap// dans votre **Dossier Personnel** et insérez-y le contenu suivant : <file bash .Xmodmap>
+#!/bin/bash
+val=`xmodmap -pke | grep "keycode 91 = KP_Delete KP_Decimal"`
+echo $val
+if [ -n "$val" ]
+then
+xmodmap -e 'keycode 91 = KP_Delete comma'
+else
+xmodmap -e 'keycode 91 = KP_Delete KP_Decimal'
+fi 
+</file>
+Rendez ce fichier exécutable (avec Nautilus, clic droit → propriétés → Permissions → Exécuter comme un programme).
+Lancez le script dans une console :
+<code>
+cd ../..
+home/nom_dutilisateur/.Xmodmap
+</code>
+Si tout s'est bien passé, automatisez le script au démarrage : en faisant une recherche avec le mot clé "Démarrage" dans votre [[:unity#tableau_de_bord_dash|tableau de bord]], puis ajoutez :
+  * Nom : Virgule LO
+  * Commande : **home/nom_dutilisateur/.Xmodmap**
+
+[[http://www.commentcamarche.net/forum/affich-374916-open-office-et-la-virgule#14|Source]]
+
+=== 3e méthode ===
+
+<note>À la différence des méthodes précédentes, cette méthode ne remplace pas le point par une virgule, elle utilise le point comme séparateur décimal.</note>
+
+Elle a été proposée [[http://www.forum-openoffice.org/forum/viewtopic.php?p=36080|sur le forum]]. 
+Elle est à utiliser si la touche décimale (le point) du pavé numérique est mal interprétée, c'est-à-dire considérée comme un point et non comme un séparateur décimal (virgule en France). Dans LO, faire //Options → Paramètres linguistiques → Langues// :
+  * Interface utilisateur : //par défaut//
+  * Environnement linguistique : //Anglais (Royaume-Uni)//
+Ensuite, cochez //Touche séparateur de décimales identique au paramètre linguistique//.
+
+{{ooo_parametres_linguistiques.png}}
+
+<note help>Les dates seront également modifiées en conséquence pour s'adapter à l'affichage anglais du Royaume-Uni tel que défini dans l'environnement linguistique.</note>
+<note tip>L'environnement linguistique //Français (Suisse)// fait la même chose, et il offre une meilleure compatibilité quant aux formats de dates. On peut en outre dans le tableur sélectionner les formats de date, monétaires ou numérique pour qu'ils s'affichent à la française en choisissant dans l'option de cellule la langue française(FR).
+Un autre avantage de cette méthode est de pouvoir garder un agencement de clavier //France-autre// qui permet, entre autre, un accès simple aux caractères œ et Œ.</note>
+
+==== Autocorrection : suffixe des nombres ordinaux non pris en compte ====
+
+Problème rencontré avec : LibreOffice 3.5.3 sous Ubuntu 12.04 LTS.
+
+Une option d'autocorrection est présente pour transformer en exposant les suffixes des nombres ordinaux.
+Exemples : 1er, 2nd, 2e, 3e… Ier, IIe, IIIe… XXIe…
+
+Elle n'a jamais fonctionné (confirmé pour LibreOffice 3.5.3 et 4.0.1). Voir bug [[https://bugs.launchpad.net/ubuntu/+source/libreoffice/+bug/992807|sur launchpad]] et la discussion [[http://forum.ubuntu-fr.org/viewtopic.php?id=901811|sur le forum]]
+
+Pour LibreOffice 4.3.4 (version du PPA) sous Ubuntu 14.04, fonctionne partiellement :
+
+fonctionnent : 1er, 2e, 3e... 123e...
+
+ne fonctionnent pas : 1ère, 2nd, 2ème, 3ème… Ier, IIe, IIIe… XXIe…
+
+===== Erreur de lecture d'un fichier enregistré avec mot de passe =====
+La gestion du chiffrement des fichiers (enregistrement avec mot de passe) a changé depuis LibreOffice 3.5. LibreOffice 3.5 peut ouvrir les fichiers enregistrés avec mot de passe dans une version antérieure. Par contre, **les fichiers enregistrés avec mot de passe par une version 3.5 ne peuvent être ouverts qu'avec une version 3.4.5 ou supérieure**.
+Si vous avez LibreOffice 3.4.4 ou antérieure, cela ne fonctionnera pas, il faut installer une version supérieure.
+
+===== Erreur de lecture/écriture d'un fichier enregistré avec mot de passe (profil avec chemin absolu dans Firefox) =====
+<note>Concerne LibreOffice versions inférieures à 3.5.4. Le problème est annoncé corrigé lors du passage à la version 3.5.4 sous Ubuntu - À vérifier FIXME</note>
+Problème décrit sur le [[http://forum.ubuntu-fr.org/viewtopic.php?pid=9331071#p9331071|forum]].
+Suivi du bug (en) : [[https://bugs.freedesktop.org/show_bug.cgi?id=45171|ici]].
+Pour corriger le problème pour les versions antérieures à 3.5.4. voici comment procéder :
+
+=== Méthode 1 (sous Gnome) ===
+Créer un lien symbolique dans **/~/.mozilla/firefox** qui pointe vers le répertoire du profil distant. (Par exemple dans Nautilus il suffit de cliquer-milieu glisser le répertoire puis choisir "lier ici".)
+Exemple : toto : lien pointant vers /media/partition-de-données-partagées/toto/.mozilla/firefox/toto
+Puis modifier **profiles.ini** pour pointer (en relatif) vers ce lien :
+<file>
+  [Profile0]
+  Name=toto
+  IsRelative=1
+  Path=toto </file>
+
+=== Méthode 2 (sous KDE) ===
+Avec le gestionnaire de fichiers **Dolphin** ou **Konqueror**, déplacez-vous dans le dossier du profil de Firefox, par défaut c'est le dossier  **~/.mozilla/firefox**.
+Si vous ne voyez pas vos dossiers cachés, alors copier « **~/.mozilla/firefox** » et coller dans la barre d'adresse de votre gestionnaire de fichiers et appuyez sur la touche « Entrée » pour vous déplacer dans ce répertoire.
+Vous devriez voir dans ce répertoire et le fichier « **profiles.ini** ».
+[[:tutoriel:comment_editer_un_fichier|Éditez le fichier]] avec la commande: <code> kate ~/.mozilla/firefox/profiles.ini</code>
+Dans la section « **[Profile0]** », adaptez comme ce qui suit :<file>
+  IsRelative=1
+  Path=rene
+</file>
+Évidemment vous remplacez le « **Path=rene** » par « **Path=votre_nom_de_compte_de_firefox** » et qui sera aussi le nom du lien symbolique que nous allons maintenant créer.
+Toujours avec le gestionnaire de fichiers **Dolphin** ou **Konqueror**, faites un clic du bouton droit de la souris sur un espace libre pour afficher les options du menu contextuel.
+Dans le menu contextuel,  placez le pointeur de la souris sur le sous-menu « **Créer un nouveau...** » et dans le sous-menu qui apparaît, aller cliquer sur l'option « **Lien de base vers un fichier ou un dossier...** ».
+Dans la boîte de dialogue « **Créer un lien symbolique** » qui apparaît, entrez dans le champ « **Nom de fichier :** », le nom entré précédemment pour le « **Path=...** ». Dans mon cas c'est « **rene** » et pour vous c'est « **votre_nom_de_compte_de_firefox** ». C'est le nom que portera le fichier de lien symbolique dans votre répertoire « **~/.mozilla/firefox/** ».
+Toujours dans la boîte de dialogue « **Créer un lien symbolique** », dans le champ « **Saisissez l'emplacement du fichier ou du dossier :** », coller le chemin de votre répertoire de compte de Firefox qui devrait ressembler à « **~/.mozilla/firefox/rene** » ou cliquer sur l'icône au bout du champ pour sélectionner votre répertoire avec le gestionnaire de fichiers.
+Il ne reste plus qu'à créer le lien symbolique par un clic sur le bouton « **OK** ».
+Dès maintenant, vous pouvez de nouveau ouvrir et enregistrer vos fichiers LibreOffice avec mot de passe.
+
+===== Autres erreurs de lecture =====
+Lors de l'ouverture de classeur (fichier **ods** et **odt**), si vous rencontrez le message d'erreur suivant : **Erreur de lecture une erreur inconnue s'est produite** cela peut être dû à un fichier corrompu du à un problème site à une mise à jour depuis OpenOffice ou une installation incomplète.
+Il existe deux solutions différentes selon l'origine du problème. Vérifiez le fonctionnement de la solution choisit en ouvrant de nouveau le fichier incriminé. Si votre problème n'est pas résolu, appliquez la solution suivante.
+
+=== Nettoyez votre profil utilisateur ===
+  - Fermez LibO et le « Démarrage rapide » si vous l'avez installé ;
+  - [[:fichier_cache|Affichez les fichiers caché]] de votre répertoire personnel et renommez le répertoire //.config/**libreoffice**// en //.config/**oldlibreoffice**// (ou supprimez le).
+Si le problème n'est pas corrigé, appliquez la solution suivante.
+
+=== Réinstallez LibreOffice ===
+[[:tutoriel:comment_supprimer_un_paquet|Supprimez le paquet]] **libreoffice** et toutes ses dépendances pour les réinstaller. Consultez les rubriques [[:libreoffice#desinstallation|désinstallation]] et [[:libreoffice#installation|installation]] de cette page pour obtenir plus d'informations.
+Il y a de très fortes chances que votre problème soit entièrement résolu. Si ce n'est pas le cas, consultez [[http://user.services.openoffice.org/fr/forum/index.php|la communauté francophone de LibreOffice]].
+
+===== Blocage sur le 'splash screen' =====
+Constaté avec la version 3.3 depuis les paquets fournis sur le site.
+Lors de la tentative de lecture d'un fichier sur [[:NFS]], le //splash screen// de LibreOffice se lance et tout //freeze//. [[:tutoriel:comment_modifier_un_fichier|Ouvrez le fichier]] **/usr/lib/libreoffice/program/soffice** avec  les [[:sudo|droits d'administration]] et commentez la ligne suivante (mettre un # devant la ligne) : <file>export SAL_ENABLE_FILE_LOCKING</file>
+
+===== Publipostage impossible =====
+LibreOffice dans la version pré-installée avec Ubuntu ne semble pas contenir les outils nécessaires au publipostage.
+Pour pouvoir profiter pleinement des ressources de publipostage il faut [[:tutoriel:comment_installer_un_paquet|installez le paquet]] : **[[apt>libreoffice-base]]**.
+
+Cette installation s'avère défectueuse. Base fonctionne, sauf les rapports. Il faut reprendre totalement l'installation "hors PPA". Voir https://forum.openoffice.org/fr/forum/viewtopic.php?f=9&t=48561
+
+===== Présentation - Impress : son dans les fichiers PPS =====
+Si vous recevez des diaporamas par e-mail (souvent des fichiers .pps créés avec Microsoft Powerpoint) vous n'entendrez pas de son si vous avez une installation standard d'Ubuntu.
+
+En effet, certains paquets supplémentaires sont nécessaires pour cette fonctionnalité mais ne sont pas installés par défaut car certains composants sont non libres (ou moins libres) :
+  * [[apt>libreoffice-java-common]] : les composants Java de LibreOffice 
+  * [[apt>default-jre]] : l'environnement d'exécution Java
+
+<note>
+Pour certains PPS, l'installation du paquet [[apt>gstreamer0.10-ffmpeg]] semble résoudre les problèmes de son.((Solution trouvée sur http://forums.linuxmint.com/viewtopic.php?f=47&t=169539))
+</note>
+===== Fonction "Envoyer par email" ne fonctionne pas =====
+(Fonction accessible par le menu Fichier > Envoyer ou par un bouton de la barre d'outil principale.)
+
+L'erreur dit que Libreoffice ne trouve pas le client mail, c'est visiblement dû à un mauvais paramétrage du client mail par défaut.\\
+Ou bien un nouveau courriel s'ouvre bien mais la pièce jointe ne s'y trouve pas (LibreOffice 4.0.1. sous Ubuntu 12.04).
+
+Résolution : aller dans le menu **Outils > Options > Internet > E-mail**.\\
+Saisissez ''thunderbird'' ou utilisez le bouton qui permet de naviguer pour trouver un autre exécutable (par exemple dans /usr/bin puis sélection de "thunderbird"). Validez par OK.
+
+===== Tableur - Calc : URL brisée si saisie ultérieure en utilisant la touche majuscule =====
+
+Constaté dans LibreOffice Calc 4.0.1 sous Ubuntu 12.04, toujours présent dans 4.3.4 sous Ubuntu 14.04.
+
+Dans une cellule ou une URL a été saisie (et transformée en hyperlien), si on rajoute **par la suite** du texte dans la cellule **en utilisant la touche majuscule dans la zone de saisie**, l'URL perd sa qualité d'url OU se trouve brisée et parfois une partie du texte s'insère au milieu de l'URL.
+
+{{:libreoffice:bug-libo344-calc-url.png?200 | }}
+
+Dans l'exemple ci-contre le texte ajouté après l'URL est <espace>HORREUR<espace>123456. Les chiffres se sont insérés au milieu de l'URL.
+
+On en discute sur le forum : [[http://forum.ubuntu-fr.org/viewtopic.php?id=790181|topic dédié]]
+<note tip>Contournement : effectuer la saisie directement dans la cellule (mode saisie activé par un double-clic dans la cellule).</note>
+
+===== Les commentaires ne sont pas visibles dans un tableur xls =====
+{{:libreoffice:commentaires_libreoffice_bug.png?150|}}{{ :libreoffice:commentaires_libreoffice_bug_selection.png?150|}}Les commentaires dans les fichiers au format xls (format de fichier créé par excel) ne sont pas visibles. La couleur du commentaire est blanche sur un fond jaune. Il faut corriger la couleur de la police du commentaire.
+
+[[https://bugs.launchpad.net/ubuntu/+source/libreoffice/+bug/1022640|[Upstream] VIEWING: Comments are not readable (shown in white over yellow)]] 
+
+===== Crash à cause de java =====
+Si vous avez l'erreur ci-dessous :
+<code>[Java framework] Error in function createSettingsDocument (elements.cxx).
+javaldx failed! 
+Warning: failed to read path from javaldx
+terminate called after throwing an instance of 'com::sun::star::uno::RuntimeException'</code>
+Il vous faut redonner le bon propriétaire au dossier //.config/libreoffice/ //. Pour cela tapez dans un [[:terminal]] la ligne suivante (remplacer user par votre nom d'utilisateur).
+<code>sudo chown user:user -R .config/libreoffice/</code>
+
+===== « Fichier → Assistants » n'ouvre aucune fenêtre =====
+
+Il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>libreoffice-java-common]]**.
+
+=====Polices altérées=====
+Il se peut que lors de l'impression certaines polices soient altérées. Cela est du à un mauvais paramétrage du type de langue de l'imprimante, dans les options du périphérique d'impression qui sont sur **pdf**. Or ils doivent être sur **PostScript**. Pour modifier cela suivez cette procédure:
+  * Entrer cette commande dans un [[:terminal]]:<code>sudo /usr/lib/libreoffice/program/spadmin</code>
+  * Cocher "Désactiver la prise en charge CUPS",
+  * Puis Propriétés>Périphérique>PostScript niveau 2,
+  * Décocher "Désactiver la prise en charge CUPS".
+Ceci permet de conserver le choix qui, sinon, revient à "PDF" à chaque nouvelle ouverture d'un fichier LibreOffice.
+
+=====Pas de correction orthographique=====
+Si votre correcteur orthographique ne fonctionne pas automatiquement, vérifiez en premier lieu que l'icône avec le logo **ABC** est bien activée, sinon vérifiez que les paquets suivants sont bien [[:tutoriel:comment_installer_un_paquet|installés]]  **[[apt>hyphen-fr, mythes-fr, hunspell-fr]]**.
+
+=====Impossible de créer un lanceur sur le bureau =====
+Lorsque l'on veut glisser un lanceur d'un des modules de Libreoffice sur le bureau, cela ne fonctionne pas. Pour remédier à ce problème il faut créer le lanceur manuellement. Entrez cette commande dans un [[:terminal]]: <code>gnome-desktop-item-edit --create-new ~/Bureau</code>
+  * Dans la case "nom" renseignez le nom que vous souhaitez donner au lanceur en fonction du module (par exemple "Writer" pour le traitement de texte).
+  *  Dans la case "commande" entrez: //libreoffice --writer %U//, vous devrez adapter //writer// à votre module,
+  * Dans "commentaire", mettez ce que vous voulez pour décrire à quoi sert l'application.
+  * Enfin cliquez sur l'icône et naviguez jusqu'à l'icône correspondante à votre module. Les icônes se trouvent dans le dossier  ///usr/share/icons/gnome/48x48/apps///.
+=====Lenteur dans le traitement de fichiers=====
+Si vous rencontrez des lenteurs par exemple pendant la saisie du texte, il est possible qu'il faille augmenter l'allocation de la mémoire pour LibreOffice.\\
+Pour cela allez dans **Outils -> Options -> Mémoire** et dans **Utiliser pour LibreOffice** passez de 20 à 96.
+
+===== Voir aussi =====
+Discussion sur cette page [[http://forum.ubuntu-fr.org/viewtopic.php?pid=9343381|sur le forum]].
+----
+//Contributeurs principaux : [[http://forum.ubuntu-fr.org/profile.php?id=44251|GeekShadow]], [[:utilisateurs:Gemnoc]], [[:utilisateurs:McPeter]], [[http://forum.ubuntu-fr.org/profile.php?id=484641|gguillaume017]], [[:utilisateurs:mohican]], [[:utilisateurs:lami|L'ami René]], [[:utilisateurs:dolmen]], [[:utilisateurs:l_africain|L'Africain]] .//

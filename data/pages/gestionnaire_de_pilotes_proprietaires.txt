@@ -1,0 +1,61 @@
+{{tag>Precise Trusty matériel carte_graphique wifi}}
+----
+
+====== Installer des pilotes propriétaires ======
+Sur Ubuntu, certains pilotes [[wpfr>Format_propriétaire|propriétaires]] ne sont pas installés par défaut ou leur version ne donne pas satisfaction. Il peut-être nécessaire de les ajouter ou d'en changer afin d'utiliser au mieux votre matériel.
+
+<note tip>__Cartes graphiques Intel® & Intel HD Graphics.__\\
+Intel fournit l'[[https://01.org/linuxgraphics/downloads|Intel® Graphics Installer for Linux]], une application qui installe et met à jour les pilotes d'Intel®. Il peut être alors plus intéressant d'utiliser cet installateur pour installer les pilotes Intel®. Attention seul le dernier installateur sorti en date est supporté par Intel et il ne fonctionne qu'avec une distribution Ubuntu bien précise. (Voir aussi la [[:intel_graphics|page de la documentation consacrée aux cartes graphiques Intel®]].)</note>
+
+===== Utilisation en mode graphique =====
+====Lancement====
+Vous pouvez lancer le gestionnaire de pilotes additionnels depuis :
+  * Le [[:unity#tableau_de_bord_dash|tableau de bord]] d'Unity en saisissant **pilote** (ou **driver** si vous êtes toujours en anglais !) puis choisir "pilotes additionnels" ou "logiciels & mises à jour";
+  * Les [[:gnome-control-center|paramètres système]] -> [[:software-properties|Logiciels & mises à jour]] -> onglet "Pilotes additionnels".  ([[:gnome-control-center|paramètres système]] -> "Pilotes additionnels" pour [[:precise|Précise 12.04]]);
+Remarque pour  [[:precise|Précise 12.04]]: Si vous n'avez pas cette entrée dans votre menu, il faut:
+  * pour Ubuntu, [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>jockey-gtk|jockey-gtk]]**
+  * pour Kubuntu, [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>jockey-kde|jockey-kde]]**
+
+{{:pilotesadditionnels.png?direct&700|Gestionnaire de pilotes propriétaires Trusty 14.04 et suivantes}} 
+{{:pilotes_proprietaires.png?350|Pilotes additionnels Précise 12.04}}\\
+\\
+Seul le matériel présent sur votre ordinateur est listé, ce qui permet d'éviter les confusions.\\
+  * **Si aucun choix n'est disponible** et que ceci vous semble étrange, allez dans le premier onglet //Logiciels Ubuntu// et vérifiez que la case "Pilotes propriétaires de périphériques (restricted)" est bien activée:
+    * Si elle était déjà activée: lancez  le //Gestionnaire de mises à jour//, pour [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|recharger la liste des paquets disponibles]]
+    * Si vous venez de l'activer: la mise à jour sera demandée dès la fermeture de la fenêtre "Sources de logiciels".
+  * **Si vous n'avez toujours aucun choix**, il y a de fortes chances que le ou les pilotes propriétaires disponibles dans le [[:depots#depots_officiels|dépôt "restricted" (paquets non-libres)]] ne prennent pas en charge votre matériel. Dans ce cas et sauf à savoir ce que vous faites, n'utilisez pas de [[:gestionnaire de paquets]] pour installer un pilote. L'installation d'un paquet inadapté pourrait créer un conflit avec une installation alternative.
+
+
+
+
+
+==== Installer un pilote ====
+  - Cocher la case correspondante;
+  - Valider; 
+  - Redémarrer votre ordinateur pour prendre en compte les modifications.
+
+==== Désinstaller un pilote ====
+  - Décocher la case correspondante;
+  - Valider;
+  - Redémarrer votre ordinateur pour prendre en compte les modifications.
+
+
+
+===== Utilisation en mode console =====
+
+==== Ubuntu 14.04 et suivantes====
+[[:tutoriel:comment_installer_un_paquet|Installer le paquet]] **[[apt>ubuntu-drivers-common|ubuntu-drivers-common]]**.
+Pour avoir les détails de cette application, depuis un [[:terminal]] utiliser la [[:commande_shell|commande]]: <code>ubuntu-drivers -h</code>
+Une fois le pilote activé/désactivé, redémarrer l'ordinateur  : <code>sudo reboot</code>
+
+
+
+==== Ubuntu Precise 12.04 ====
+[[:tutoriel:comment_installer_un_paquet|Installer le paquet]] **[[apt>jockey-common]]**.
+
+Pour avoir les détails de cette application, depuis un [[:terminal]] utiliser la [[:commande_shell|commande]]: <code>jockey-text -h</code>
+Une fois les pilotes activés/désactivés, redémarrer l'ordinateur  : <code>sudo reboot</code>
+
+----
+
+//Contributeurs : [[utilisateurs:Fabien26]], [[utilisateurs:Ner0lph|Floriang]], [[utilisateurs:Binnette]].//

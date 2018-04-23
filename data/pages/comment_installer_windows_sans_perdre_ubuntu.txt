@@ -1,0 +1,46 @@
+{{tag>tutoriel Windows installation}}
+
+----
+====== Comment (ré)installer Windows sans perdre Ubuntu======
+
+//Cette page a pour but de décrire les précautions à prendre pour éviter de perdre votre Ubuntu dans le cas où vous souhaitez (ré)installer Windows(TM) en dual-boot (choix de Windows ou Ubuntu au démarrage).//
+
+<note tip>Cette page décrit comment installer Windows sur une partition dédiée. Il est aussi possible d'installer Windows dans Ubuntu grâce à la [[:virtualisation]].</note>
+
+<note important>Windows a parfois des comportements étranges, et risque d'effacer votre disque dur sans prévenir ([[http://forum.ubuntu-fr.org/viewtopic.php?pid=3740713#p3740713|exemple]]), donc avant tout sauvez vos données sur un support externe.</note>
+
+
+
+
+=====Pré-requis=====
+
+A partir d'Ubuntu :
+  - sauvez vos données sur un support externe (DVD, clé USB, disque externe, etc.).
+  - [[tutoriel:sauvegarder_home|sauvez votre Dossier utilisateur]] sur un support externe.
+  - se procurer un live-CD (ou live-USB) Ubuntu, ou mieux : [[http://sourceforge.net/p/boot-repair-cd/home/fr/|Boot-Repair-Disk]], qui vous permettra de réinstaller/réparer GRUB après installation de Windows en 1 clic via l'utilitaire [[boot-repair|Boot-Repair]]
+  - préparez votre disque dur en créant la partition qui recevra Windows. Celle-ci doit être une partition principale (primaire et bootable), de préférence en début de disque (sda1 par exemple), et de taille environ 15 à 20Go minimum.
+Attention : l'utilitaire de partitionnement de Windows peut vous faire perdre Ubuntu. Partitionnez donc d'abord avec [[GParted]].
+  - L'installation de XP peut être perturbée par GRUB. Si vous comptez installer XP, restaurez d'abord un MBR générique, via [[Boot-Repair]] par exemple.
+=====Installation de Windows=====
+
+  * Dans l'utilitaire d'installation de Windows, sélectionnez la partition que vous avez créée (si besoin, faites-la formater par Windows pour pouvoir passer à l'étape suivante)
+  * installer Windows sur la partition que vous lui aviez préparée. 
+
+Remarque : il y a de fortes chances pour que cela efface Ubuntu, ou que vous soyez obligé de formater votre disque pour cela. Dans ce cas, votre Ubuntu sera irrécupérable, et il vous faudra le ré-installer (sautez le chapitre suivant, et allez directement au chapitre [[#En cas de problème : ré-installation d'Ubuntu]] ci-dessous).
+
+=====Ré-installation d'un menu de démarrage=====
+
+L'installation de Windows a soit effacé votre MBR soit modifié votre démarrage UEFI, et donc le menu de démarrage GRUB que vous pouviez avoir. Il s'agit maintenant de le réparer grâce à [[:tutoriel:comment_recuperer_ubuntu_apres_installation_windows|ce tutoriel]]
+
+
+=====En cas de problème : ré-installation d'Ubuntu=====
+Si malgré les précautions précédentes votre Ubuntu n'est plus accessible :
+  * Ou bien il vous faudra [[:cohabitation_ubuntu_windows|ré-installer Ubuntu après avoir (ré)installé Windows]]. Si vous aviez sauvé votre /home, choisissez le même "nom d'utilisateur" (login de session) lors de la ré-installation d'Ubuntu, puis copiez votre /home précédemment sauvegardé dans le /home de votre Ubuntu réinstallé.
+
+===== Voir aussi=====
+  * Tutoriel Anglais: [[http://www.dedoimedo.com/computers/dual-boot-windows-7-ubuntu.html|How to install Windows 7 and Ubuntu side by side (Window 7, puis Ubuntu)]]
+  * Discussion [[http://forum.ubuntu-fr.org/viewtopic.php?id=277005|Installer Windows XP APRES Ubuntu]] sur le forum Ubuntu-fr
+  * Discussion [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3042409|Installer Windows 7 sans perdre Ubuntu]] sur le forum Ubuntu-fr
+  * Discussion [[http://forum.ubuntu-fr.org/viewtopic.php?pid=3745009|Windows m'a corrompu ma table de partition et mon MBR - tuto]] sur le forum Ubuntu-fr
+
+----

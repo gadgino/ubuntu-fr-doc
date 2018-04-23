@@ -1,0 +1,64 @@
+{{tag>signer codedeconduite openpgp key}}
+
+----
+
+====== Signer le code de conduite ======
+
+<note help>Le code de conduite concerne votre comportement en tant que membre de la Communauté d'Ubuntu. Il vous sera demandé de le signer électroniquement pour effectuer un certain nombre de contributions, par exemple dans le cadre de la traduction.</note>
+
+===== Créer une clé PGP (OpenPGP Key) =====
+
+  * Installer apt-key. FIXME Comment?
+  * Lancez l'application « Mots de passe et clés ». FIXME Comment?
+  * Allez dans le menu « Fichier » / « Nouveau » ou cliquez sur l'icône en forme de croix verte.
+  * Sélectionnez « Clé PGP » puis cliquez sur « Continuer ».
+  * Donnez un nom à votre clé dans le champ  « Nom complet », renseignez une adresse courriel valide dans le champ « Adresse électronique » et cliquez sur « Créer ».
+ Ou créez votre clé en ligne de commande:
+
+<code>gpg --gen-key</code>
+===== Publier une clé PGP =====
+
+  * Toujours dans l'application « Mots de passe et clés », allez dans le menu « Distant » / « Synchroniser et publier des clés ».
+  * Cliquez sur « Synchroniser ».
+
+===== Récupérer votre empreinte digitale =====
+
+  * Ouvrez un terminal puis saisissez la commande suivante avant d'appuyer sur entrée :
+
+<code>
+gpg --fingerprint
+</code>
+
+  * Copiez la série de 10 chaînes de 4 caractères qui apparaît en résultat.
+
+===== Déclarer votre clé PGP dans Launchpad =====
+
+  * Connectez-vous à la page d'accueil de votre compte Launchpad (https://launchpad.net/~votreidentifiantlaunchpad).
+  * Dans votre rubrique « User information », cliquez sur le point d'interrogation situé à côté de l'item « Signed Ubuntu Code of Conduct - No ».
+  * cliquez sur Register an OpenPGP key. 
+  * dans le champ Fingerprint: Collez la série de 10 chaînes de 4 caractères copiée précédemment.
+  * Suivez les instructions affichées à l'écran.
+  * Un courriel vous sera envoyé à l'adresse que vous avez déclarée lors de la création de la clé.
+
+===== Confirmer votre clé PGP =====
+
+  * Ouvrez le courriel que vous venez de recevoir et copiez le message compris entre « -----BEGIN PGP MESSAGE----- » et « -----END PGP MESSAGE----- » en incluant ces deux lignes.
+  * Ouvrez l'application « Gedit », collez ce message et enregistrez-le par exemple sur votre bureau sous le nom « file.txt ».
+  * Ouvrez un terminal puis saisissez les commandes suivantes avant d'appuyer sur entrée :
+
+<code>
+cd Bureau/
+gpg -d file.txt
+</code>
+
+  * Votre mot de passe vous sera demandé.
+  * Une fois le message décrypté, ouvrez le lien qui apparaît en résultat.
+  * Suivez les instructions affichées à l'écran pour signer le code de conduite.
+
+===== Voir aussi =====
+
+  * **en** [[http://www.wikihow.com/Sign-the-Ubuntu-Code-of-Conduct|Illustrations]]
+  * [[:codedeconduite|Code de Conduite]]
+  * [[:ubuntu-l10n-fr|À propos de la traduction d'Ubuntu (Ubuntu-fr)]]
+
+//Contributeurs principaux : [[:utilisateurs:Anne017]].//

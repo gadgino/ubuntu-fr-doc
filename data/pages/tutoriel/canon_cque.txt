@@ -1,0 +1,61 @@
+{{tag>matériel imprimante canon xenial}}
+----
+======Installation du pilote Canon Cque=====
+
+<note>Pour savoir si votre imprimante est prise en charge par le pilote Cque consultez la [[:liste_imprimantes_canon|liste des imprimantes Canon]]. Les périphériques Canon actuels des gammes iR, imageRUNNER, imageRUNNER ADVANCE, CLC et EFI ainsi que certains périphériques i-SENSYS sont concernés par ce pilote. Il se peut aussi que le pilote [[:tutoriel:comment_installer_pilotes_canon_ufr2|ufr2]] fasse fonctionner votre imprimante. Mais Cque propose beaucoup plus de possibilité.</note>
+
+
+===== Introduction===== 
+Le pilote CQue de Canon donne accès à une vaste gamme de fonctionnalités à votre périphérique d'impression. Pour chaque file d'attente d'impression, l'administrateur peut associer des utilisateurs Linux individuels à des comptes, mots de passe ou boîtes aux lettres spécifiques sur le périphérique.\\ 
+Caractéristiques principales : 
+  * Création de files d'attente d'impression spécifiques ou dédiées donnant accès à toutes les fonctionnalités du périphérique Canon en quelques clics de souris. 
+  * Création et utilisation d'une seule file d'attente d'impression avec différents paramètres. 
+  * Gestion de toutes les fonctionnalités des périphériques Canon (bacs d'alimentation, impression recto verso, agrafage, formats de papier, etc.). 
+  * Prise en charge de fonctionnalités avancées : impression via une boîte aux lettres, impression sécurisée et impression avec comptabilisation par service.
+  * Prise en charge de nombreuses options de ligne de commande pour affiner les paramètres d'impression en ligne. 
+  * Conversion interne automatique des données PS et PDF en PCL5 ou PCL6 (ou PDF en PS) via le moteur foomatic. 
+  
+===== Pré-requis =====
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+Commencez par télécharger le pilote correspondant votre [[:architecture]] à cette [[http://software.canon-europe.com/products/0010766.asp|adresse]].\\
+Installez le pilote en double-cliquant dessus.
+
+====Installation classique====
+Reportez-vous à la [[:tutoriel/installer_imprimante_preinstalles|page des pilotes pré-installés]].
+====Installation avancée====
+Reportez-vous plus [[#Configuration avancée|bas]] sur la page.
+
+=====Utilisation=====
+Pour lancer **CQue**, saisissez dans un [[:terminal]] la [[:commande_shell|commande]] suivante :<code>gksudo /opt/cel/bin/cque</code> 
+Le logiciel s'installe dans le dossier **opt**, d'où la nécessité du chemin.\\ 
+
+Sur Ubuntu 16.04, la [[:commande_shell|commande]] directe fonctionne :<code>sudo cque</code>  
+
+Vous trouverez un manuel d'utilisation ici: //usr/share/doc/CQue2.0//.\\
+Pour les versions plus récentes de GTK+, les options avancées sont directement prises en charge par l'interface d'impression de la plupart des applications Linux. 
+===== Configuration avancée=====
+Une fois le logiciel lancé:
+  * Depuis le menu //Fichier → Création//, choisir **PCL** dans //Imprimante//.\\ Dans **Nom de la file d'attente**, vous choisirez un nom qui désignera le nom de l'imprimante dans les logiciels pour imprimer un document. Exemple : ''canon'',
+  * Cliquez sur le bouton << //Suivant// >>,
+  * Choisir votre type de connexion, (**Réseau LPD**, **USB**) dans //Type de file d'attente//. Mettre l'adresse IP du photocopieur imprimante si vous êtes sur le réseau,
+  * << //Suivant// >>,
+  * ** Rechercher** et choisir le pilote de l'imprimante correspondante dans la liste/fenêtre qui est affichée sous la fenêtre logiciel principale.\\ Par exemple Canon iR C3080/3480/3580 PCL (prendre le premier de la liste s'il y en a plusieurs),
+  * << //Suivant// >>,
+  * **Création** ou << //Suivant// >> puis **Création**,
+  * Cliquez sur le bouton << //Valider// >>,
+  * Aller dans l'onglet //Avancée// et choisir **comptabilisation**,
+  * **Utilisateur** : 
+    * //ID utilisateur// : correspondra au nom d'utilisateur utilisé pour se connecter à sa session (appelé aussi "login").
+    * //Mot de passe// : correspondra au mot de passe associé à l'utilisateur précédemment indiqué.
+    * Cliquer éventuellement sur 'Forcer' si après l'installation l'impression ne se réalise pas normalement.
+  * << //Enregistrer// >>,
+  * << //Valider// >>.
+=====Voir aussi =====
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?pid=17715591#p17715591|forum ubuntu]] solution pour Trusty,
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=1640901|autre post du forum]].
+----
+//Contributeur: [[:utilisateurs:l_africain|L'Africain]].//

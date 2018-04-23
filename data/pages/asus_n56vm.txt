@@ -1,0 +1,170 @@
+======Asus N56 VM======
+
+
+===== En un coup d'œil =====
+
+  * {{icons:ok_64.png|Fonctionne immédiatement en 64 bits}} : **Fonctionne immédiatement en 64 bits.**
+  * {{icons:important.png|Fonctionne après config}} : **Fonctionne après quelques manipulations**
+  * {{icons:icon-ubuntu.png|Fonctionne immédiatement}} : **Fonctionne immédiatement**
+  * {{icons:icon-support.png|Pas testé}} : **Pas d'informations disponibles**
+  * {{icons:process-stop.png|Ne fonctionne pas}} : **Ne fonctionne pas**
+
+^ Version ^ Installation ^ Carte graphique Intel ^ Carte graphique Nvidia ^ Son ^ Caisson de basse ^ Wifi ^ Webcam ^ Touchpad ^ Raccourcis multimédia ^ Autres ^
+| [[raring|Ubuntu 13.04 (« The Raring Ringtail »)]]  | {{icons:ok_64.png|Fonctionne immédiatement en 64 bits}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-support.png|Pas testé}} |
+| [[precise|Ubuntu 12.04 LTS (« The Precise Pangolin »)]]  | {{icons:important.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:icon-ubuntu.png|Fonctionne immédiatement}} | {{icons:important.png|Fonctionne après config}} | {{icons:important.png|Fonctionne après config}} | {{icons:icon-support.png|Pas testé}} |
+===== Installation=====
+
+
+
+<note important>Les préconisations ci-dessous sont inadaptés voire néfastes pour Ubuntu 13.10 et versions suivantes : Linux Secure Remix est obsolète et la proposition de passer en table de partition MSDOS est déconseillée </note>
+L'[[uefi|UEFI]] présent sur certains des modèles N56VM peut vous poser des problèmes à l'installation, notamment si vous souhaitez conserver Windows. Il se peut que le [[grub-pc|GRUB]] n'apparaisse pas au démarrage, et que Windows soit le seul à pouvoir être démarré. Il se peut également que le GRUB fonctionne, mais que **vous ne puissiez plus faire démarrer** Windows.
+
+Il est **très fortement conseillé d'utiliser** [[linux_secure_remix|Linux Secure]], plus apte à gérer le système [[UEFI]].
+
+Une solution consiste à désactiver l'UEFI, au démarrage de votre ordinateur, en rentrant dans le bios, mais cela ne fonctionne pas forcément pour un dual-boot Windows/Ubuntu.
+
+Si vous ne souhaitez conserver qu'Ubuntu et vous débarrasser définitivement de Windows, vous pouvez conserver l'UEFI en utilisant [[linux_secure_remix|Linux Secure]].
+
+Pour un dual-boot, la solution la plus "propre" consiste à formater totalement votre disque dur, y supprimer l'ensemble des partitions, et en redéfinissant **la table de partition en ms-dos** (tout ceci pouvant être fait grâce à [[gparted|GParted]] lancé depuis un CD ou une clé USB live Ubuntu).
+Assurez-vous d'avoir le DVD de la version de Windows qui était pré-installée sur votre ordinateur (l'image DVD Windows peut être téléchargée et gravée légalement, la clé à utiliser étant celle de l'étiquette collée au dos de votre ordinateur).
+**Après avoir désactivé l'UEFI**, installez Windows puis Ubuntu. Le dual-boot devrait y fonctionner sans problème.
+===== Présentation =====
+
+ ASUS  N56VM-S3206V
+
+Ordinateur Portable 15,6''
+
+Processeur Intel® Core™ i7-3610QM (2,3 GHz / 3,3 GHz Turbo)
+
+Ecran 15,6" HD LED Anti-reflets
+
+Résolution de 1366 x 768 pixels
+
+RAM 8192 Mo
+
+Disque dur de 1 To
+
+Carte graphique NVIDIA GeForce GT 630M 2 Go avec technologie Optimus
+
+Port HDMI
+
+Graveur de DVD Dual Double Couche
+
+Réseau Ethernet
+
+Réseau sans fil WiFi N
+
+Bluetooth
+
+4 Ports USB 3.0
+
+Lecteur de cartes 3 en 1
+
+Webcam HD intégrée
+
+Batterie 6 cellules
+
+Poids de 2,7 Kg
+
+
+Existe aussi dans le modèle S4162V, avec un écran fullHD et un lecteur BlueRay.
+
+===== Résolution des problèmes =====
+
+
+Pour les soucis avec le clic droit. : [[https://bugs.launchpad.net/bugs/1030500]]
+
+
+====  Touchpad ====
+Problème : pas de clic droit, pas de possibilité de drag&dropper avec le clic gauche en bas à gauche enfoncé.
+
+Le problème est résolu par les mises à jour.
+
+==== Caisson de basse ====
+Problème : ne fonctionne pas d'origine. Il n'est pas détecté lorsqu'on ouvre le panneau de réglages Son (caisson de basse grisé).
+
+Pour le faire fonctionner commencer par ouvrir le fichier /etc/rc.local :
+
+<code>
+sudo nano /etc/rc.local
+</code>
+
+Puis ajouter ces deux lignes avant "exit 0" :
+
+<code>
+echo 0x16 0x99130112 > /sys/class/sound/hwC0D0/user_pin_configs
+echo 1 > /sys/class/sound/hwC0D0/reconfig
+</code>
+<note important>Certaines actions nécessitent de lancer ce script plus tard en rajoutant un "sleep 1" au début de rc.local, cependant ici il faut que ces deux actions se lancent en premier, donc avant le "sleep 1".</note>
+==== Touches multimédia ====
+Problème : Il n'y a pas de boutons spécifiques multimédia mais les combinaisons de touches avec Fonction+F... ne fonctionnent pas.
+
+
+SOLUTION : voir lien **[[https://bugs.launchpad.net/bugs/1030556]]**
+
+Avec les mises à jour, la plupart des touches fn fonctionnent.
+Si celles pour la luminosité de l'écran ne marchent toujours pas, il reste cependant possible de la régler depuis //Paramètres Systèmes/Luminosité et Verrouillage//. Le problème est résolu dans le noyau 3.8 donc ubuntu 13.04
+
+==== Clavier rétro-éclairé ====
+Ne s'allume pas.
+
+Le problème est résolu par les mises à jour.
+==== Carte réseau filaire ====
+Ne fonctionne pas. Le wifi fonctionne (wlan0) mais l'interface filaire n'apparait pas dans ifconfig
+
+Le driver est en cours de test. Pour les impatients, voici un lien pour le compiler à la main (Aout 2012)
+http://askubuntu.com/questions/165192/how-do-i-install-drivers-for-the-atheros-ar8161-ethernet-controller
+
+<note>Ce problème semble être réglé par mise à jour, puisque le réseau filaire fonctionne immédiatement sur Raring - 13.04.</note>
+==== Wifi Lent ====
+ {{icons:important.png|ATTENTION ! }} ATTENTION ! Je ne connais pas les effets secondaires de ces modifications.
+
+Sur batterie, le wifi peut devenir parfois très lent.
+Le problème est résolu en tapant cette commande dans le terminal (menu applications, terminal):
+
+
+sudo chmod -x  /usr/lib/pm-utils/power.d/wireless 
+
+
+
+Si ça ne fonctionne pas, essayer de modifier le fichier /usr/lib/pm-utils/power.d/wireless de cette façon :
+
+
+sudo gedit /usr/lib/pm-utils/power.d/wireless 
+
+ajoutez cette ligne juste après #!/bin/sh
+
+exit(0)
+
+ {{icons:important.png|ATTENTION ! }} ATTENTION ! Cette commande aura aussi pour effet théorique de réduire l'autonomie de la batterie
+==== Carte Graphique et amélioration de l'autonomie ====
+
+Le Asus N56VM est livré avec une carte graphique Nvidia dotée de la technologie Optimus.
+
+Optimus n'est pas nativement pris en charge par Ubuntu, ce qui aboutit à une forte consommation d'énergie et l'impossibilité d'utiliser la carte Nvidia.
+
+La solution pour palier à ce problème est d'installer [[bumblebee|Bumblebee]]
+==== Luminosité de l'écran et du clavier au démarrage ====
+
+Par défaut la luminosité de l'écran est réglée au maximum à chaque démarrage, cependant il existe une solution simple pour la régler automatiquement à chaque démarrage :
+Il faut modifier le fichier rc.local :
+<code>
+sudo nano /etc/rc.local
+</code>
+
+Et ajouter avant le exit 0 :
+<code>
+#Attendre une seconde avant de lancer les commandes qui suivent
+sleep 1
+
+#Fixe à 11 la luminosité au démarrage
+echo 11 > /sys/class/backlight/acpi_video0/brightness
+
+#Réduit la luminosité du clavier au minimum au démarrage
+echo 1 > /sys/class/leds/asus\:\:kbd_backlight/brightness
+</code>
+
+Il est possible de modifier les valeurs d'éclairage de l'écran, en remplaçant le 11 par une valeur comprise entre 0 et 100.
+De même pour le clavier en remplaçant le 1 par une valeur comprise entre 0 et 3.
+
+<note important>Il faut que les deux lignes qui permettent d'activer le caisson de basse soient avant "sleep 1".</note>

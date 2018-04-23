@@ -1,0 +1,205 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#gestion_des_paquets_avec_apt" class="toc"> Gestion des paquets avec apt </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#introduction" class="toc"> Introduction </a></span></li>
+<li class="level2"><span class="li"><a href="#commandes" class="toc"> Commandes </a></span></li>
+<li class="level2"><span class="li"><a href="#paquets_additionnels" class="toc"> Paquets additionnels </a></span></li>
+<li class="level2"><span class="li"><a href="#notes" class="toc"> Notes </a></span></li>
+<li class="level2"><span class="li"><a href="#accelerer_votre_rapidite_en_ligne_de_commande" class="toc"> Accélérer votre rapidité en ligne de commande </a></span></li>
+<li class="level2"><span class="li"><a href="#liens" class="toc"> Liens </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<a name="gestion_des_paquets_avec_apt"></a><h1> Gestion des paquets avec apt </h1>
+<div class="level1">
+
+<p>
+ <em>Traduction libre de AptGetHowTo</em>
+</p>
+
+<p>
+Si vous n&rsquo;êtes pas familier à la notion de paquet et de dépots, n&rsquo;hésitez pas à consulter <a href="/installation/depots" class="wikilink1" title="installation:depots" onclick="return svchk()" onkeypress="return svchk()">cette page</a>.
+</p>
+
+<p>
+Pour gérer les paquets au travers d&rsquo;une interface graphique, jetez un coup d&rsquo;oeil du côté de <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a>.
+</p>
+
+</div>
+<!-- SECTION [1-324] -->
+<a name="introduction"></a><h2> Introduction </h2>
+<div class="level2">
+
+<p>
+ Au début il existait les .tar.gz. L&rsquo;utilisateur devait compiler chaque programme qu&rsquo;il voulait utiliser sur son système GNU/Linux. Lorsque Debian fut créé, les auteurs jugèrent nécessaire d&rsquo;avoir un système de gestion des logiciels installés. Ce système fut nommé dpkg. Ainsi les premiers &ldquo;paquets&rdquo; arrivèrent sur Debian, un peu avant que Red Hat ne décide de créér son propre système de paquets &ldquo;rpm&rdquo;.
+</p>
+
+<p>
+ Un dilemme apparut rapidement dans l&rsquo;esprit des créateurs de GNU/Linux. Ils avaient besoin d&rsquo;un moyen rapide, pratique et efficace pour installer les paquets qui pourrait gérer les dépendances automatiquement et s&rsquo;occuper des fichiers de configuration durant la mise à jour. Ici encore, Debian prit les commandes et donna naissance à APT, ou *Advanced Packaging Tool* (Outil de Paquetage Avancé), qui fut ensuite porté par Conectiva pour pouvoir l&rsquo;utiliser avec les paquets rpm et a été adopté par d&rsquo;autres distributions.  
+</p>
+
+</div>
+<!-- SECTION [325-1303] -->
+<a name="commandes"></a><h2> Commandes </h2>
+<div class="level2">
+
+<p>
+ Toutes ces commandes nécessitent l&rsquo;utilisation de <a href="/applications/sudo" class="wikilink1" title="applications:sudo" onclick="return svchk()" onkeypress="return svchk()">sudo</a> !
+</p>
+<pre class="code">
+apt-get remove paquet </pre>
+
+<p>
+ Supprime un paquet.
+</p>
+<pre class="code">apt-get dist-upgrade</pre>
+
+<p>
+Met a jour votre distribution.
+</p>
+<pre class="code">
+apt-get upgrade</pre>
+
+<p>
+Met a jour les paquets installes sur votre Ubuntu.
+</p>
+<pre class="code">apt-get update</pre>
+
+<p>
+Exécutez ceci après avoir modifié le fichier <code>/etc/apt/sources.list</code> ou <code>/etc/apt/preferences</code>. Vous devez également l&rsquo;exécuter régulièrement pour être sûr que votre liste de sources est à jour. 
+</p>
+<pre class="code">apt-get install nomdepaquet </pre>
+
+<p>
+Installe un nouveau paquet
+</p>
+<pre class="code">apt-cache search chaine</pre>
+
+<p>
+Cherche une chaîne dans la liste des paquets connus
+</p>
+<pre class="code">dpkg -l motif-recherche-paquet</pre>
+
+<p>
+Donne la liste des paquets satisfaisant un motif de recherche
+</p>
+<pre class="code">aptitude</pre>
+
+<p>
+Navigateur en mode texte des paquets installés ou disponibles
+</p>
+<pre class="code">apt-cache showpkg paquets</pre>
+
+<p>
+Affiche des informations sur les paquets
+</p>
+<pre class="code">apt-cache dumpavail</pre>
+
+<p>
+Affiche une liste des paquets disponibles
+</p>
+<pre class="code">apt-cache show paquets</pre>
+
+<p>
+Affiche les informations sur un paquet (depuis le cache), commande similaire à &lsquo;dpkg &ndash;print-avail&rsquo;.
+</p>
+<pre class="code">apt-cache nomdepaquets</pre>
+
+<p>
+Affichage court des paquets présents sur le système
+</p>
+<pre class="code">dpkg -S fichier</pre>
+
+<p>
+A quel paquet appartient le fichier demandé ?
+</p>
+<pre class="code">dpkg -L paquet</pre>
+
+<p>
+Donne la liste des fichiers du paquet
+</p>
+<pre class="code">apt-file search nomdefichier</pre>
+
+<p>
+Cherche si un paquet (pas forcément installé) contient les fichiers dont le nom contient la chaîne spécifiée. <code>apt-file</code> est un paquet à lui tout seul, il faudra l&rsquo;installer via <code>apt-get install</code> d&rsquo;abord, et exécuter ensuite <code>apt-file update</code>. Si <code>apt-file search nomdefichier</code> affiche trop d&rsquo;entrées, essayez <code>apt-file search nomdefichier | grep -w nomdefichier</code> (qui ne vous donnera que les fichiers contenant le nom du fichier comme un seul mot) ou des variantes du genre <code>apt-file search filename | grep /bin/</code> où seuls les fichiers situés dans les répertoires comme /bin ou /usr/bin seront listés, utile, quand on cherche un exécutable uniquement).
+</p>
+<pre class="code">apt-get autoclean</pre>
+
+<p>
+Exécutez cette commande régulièrement si vous voulez nettoyer les archives .deb des paquets qui ont été désinstallés de votre système. Vous pourrez gagner beaucoup d&rsquo;espace disque. Si vous êtes vraiment à la recherche d&rsquo;espace disque, <code>apt-get clean</code> est plus radical, puisqu&rsquo;il supprime même les fichiers .deb des paquets installés localement. Mais comme la plupart du temps vous n&rsquo;aurez probablement plus besoin de ces .debs, cela peut valoir le coup, si vous avez besoin de quelques mégaoctets. 
+</p>
+
+</div>
+<!-- SECTION [1304-3802] -->
+<a name="paquets_additionnels"></a><h2> Paquets additionnels </h2>
+<div class="level2">
+
+<p>
+ <code>deborphan</code> et <code>debfoster</code> sont de bons outils pour trouver les paquets orphelins et inutiles qu&rsquo;on peut supprimer.
+</p>
+
+</div>
+<!-- SECTION [3803-3957] -->
+<a name="notes"></a><h2> Notes </h2>
+<div class="level2">
+
+<p>
+ Vous pouvez utiliser plusieurs dépôts de sources en modifiant le fichier <code>/etc/apt/sources.list</code> et remplacer &ldquo;stable&rdquo; par &ldquo;unstable&rdquo; (ou autre), exécuter ensuite <code>apt-get update</code>. Ce principe vieillit un peu, il y a un meilleur moyen : *pinning*. Here&rsquo;s a sample unstable preferences file. 
+</p>
+
+</div>
+<!-- SECTION [3958-4276] -->
+<a name="accelerer_votre_rapidite_en_ligne_de_commande"></a><h2> Accélérer votre rapidité en ligne de commande </h2>
+<div class="level2">
+
+<p>
+ La ligne de commande est très efficace, mais taper au clavier prend du temps, alors, raccourcissez votre commande. Vous pouvez insérer ceci dans votre <code>~/.bashrc</code>
+</p>
+<pre class="code">
+    alias acs='apt-cache search'
+    alias agu='sudo apt-get update'
+    alias agg='sudo apt-get upgrade'
+    alias agd='sudo apt-get dist-upgrade'
+    alias agi='sudo apt-get install'
+    alias agr='sudo apt-get remove'
+</pre>
+
+<p>
+ Perso j&rsquo;utilise :  
+</p>
+<pre class="code">
+alias search='apt-cache search'
+alias show='apt-cache show'
+alias install='sudo apt-get install'
+alias remove='sudo apt-get remove'
+alias update='sudo apt-get update'
+alias upgrade='sudo apt-get upgrade -uy'
+</pre>
+
+<p>
+De fait un petit : 
+</p>
+<pre class="code">update &amp;&amp; upgrade</pre>
+
+<p>
+et on en parle plus <img src="/smileys/icon_wink.gif" align="middle" alt=";-)" />
+</p>
+
+</div>
+<!-- SECTION [4277-5052] -->
+<a name="liens"></a><h2> Liens </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> <a href="http://www.debian.org/doc/manuals/apt-howto/index.fr.html" class="urlextern" title="http://www.debian.org/doc/manuals/apt-howto/index.fr.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow"> La documentation Debian</a> </span>
+</li>
+<li class="level1"><span class="li"> <a href="http://www.debian.org/doc/manuals/apt-howto/index.en.html" class="urlextern" title="http://www.debian.org/doc/manuals/apt-howto/index.en.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow"> Debian Apt-howto documentation</a> , also available as package: *apt-howto*</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [5053-] -->

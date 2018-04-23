@@ -1,0 +1,73 @@
+{{tag>portail multimédia vidéo}}
+----
+====== La lecture et écriture de disque Blu-Ray ======
+{{blu-ray-linux.png?90 |Logo Blu-Ray sous Linux}}
+Le disque Blu-Ray ou Blu-Ray Disc (abréviation officielle BD, autre dénomination B-RD) est un format de disque numérique breveté et commercialisé par l’industriel japonais **Sony** permettant de stocker et restituer des vidéogrammes en Haute Définition. Sa dénomination provient du type de rayon laser qu’il exploite, de couleur spectrale proche du bleu. Il a été créé en 2006.
+
+===== Introduction =====
+
+Lire ou graver un contenu multimédia avec la technologie et les supports  Blu-Ray Disc(tm) sous Linux peut ne pas être si simple du fait de la présence de  [[wpfr>Gestion_des_droits_num%C3%A9riques|DRM]] dans toute la chaîne de traitement des processus de lecture-écriture.
+
+Ces protections engendrent parfois des soucis avec des appareils du commerce, lecteurs de salon, qui sont parfois incapables de lire des films en Blu-Ray(tm).
+
+<note important>
+Attention : la légalité des procédures qui suit n'est pas garantie dans tous les pays, car même si vous avez acheté le PC et le Blu-ray, il peut être interdit de contourner la protection, selon les lois du pays.
+ </note>
+
+===== Lecture =====
+Initialement pour lire un Blu-Ray(tm) sous Linux il fallait effectuer une lecture indirecte (rippage, dump, stream, etc.).\\
+Aujourd'hui une lecture directe (normale) est réalisable.
+<note important>Les commentaires de ce tableau commencent à dater. Si vous utilisez l'un ou l'autre de ces logiciels, merci de mettre à jour l'annotation qui lui est allouée</note>
+
+^**Méthode**^**Logiciels-outils**^**Note**^
+| [[:VLC]] , [[:Mplayer]] , [[:Xine]] | Utilise les librairies [[:libbluray]] / [[:libaacs]] / [[:libbdplus]] = Bibliothèques de décryptage (comme libdvdcss) | Méthode recommandé. Nécessite de connaître ses clefs de Blu-Ray. |
+| [[:dumphd|dumpHD]]| Lecture directe et création de copie (dump) | Supporte l'obtention des clefs récentes des Blu-Ray  |
+| [[:lxbdplayer|lxbdplayer]]| Utilise mplayer et makemkv | Installation limitée à des vieilles versions de makemkv, ne supporte pas l'obtention des clefs récentes des Blu-Ray. |
+| [[:makemkv|MakeMKV]] | Lecture indirecte par streaming local ou par rip en MKV sur le disque dur | Pas libre :-| (Logiciel shareware payant) |
+
+==== Lire les Blu-ray avec VLC ====
+
+http://hydra.geht.net/tino/howto/linux/ubuntu/bluray/
+
+Confirmé sur Ubuntu 14.10 64 bits avec VLC en installant par le terminal : 
+<code>sudo apt-get install libaacs0 libbluray1 libbluray-bdj 
+mkdir ~/.config/aacs
+wget http://vlc-aacs.whoknowsmy.name/files/KEYDB.cfg -O ~/.config/aacs/KEYDB.cfg</code>
+La première ligne ajoute les bibliothèques nécessaires. Les 2 suivantes créent un dossier aacs dans le dossier caché .config de votre répertoire et copie à l'intérieur un fichier contenant des clés issu de VLC.
+
+<note important>les dernières versions de VLC vont chercher les clés dans ~/Library/Preferences/aacs/, alors que les anciennes versions allaient dans ~/.config/aacs.</note> 
+===== Gravure =====
+
+Il existe pour l'instant trois applications pour effectuer une gravure de Blu-Ray Disc(tm) :
+
+^Logiciel^Licence^Note^
+| [[:k3b]] | Libre | Gratuit. Interface graphique très complète |
+| [[:nerolinux]] | Propriétaire | Payant. Interface graphique. Existe aussi sous MS Windows(tm) |
+
+[[:brasero|Brasero, application de gravure de CD et DVD]] n'est pas dans ce tableau car elle ne sait pas encore graver des Blu-Ray Disc(tm).
+
+===== Matériels =====
+
+Liste des graveurs / lecteurs testés sous Ubuntu.
+<note important>N'hésitez pas à compléter ce tableau en y insérant votre modèle de lecteur ou graveur de disque Blu-Ray(tm).</note>
+
+^ Marque ^ Modèle ^ Type ^ Commentaires ^ Versions d'Ubuntu ^
+| Lien vers site constructeur (si possible) | Lien vers page du modèle sur site du fabricant (si possible) | Lecteur / Graveur - Externe / Interne | Fonctionne du premier coup ou pas. Problèmes / Solutions | Version d'Ubuntu, précisez 32 ou 64bits |
+|Asus|[[http://www.asus.com/Optical_Storage/Internal_Bluray_Drive/BW12B1LT/|BW-12B1LT]]|Graveur Interne|En lecture fonctionne du premier coup (tous disques). En gravure fonctionne du premier coup uniquement avec K3B : DVD+R 4,7Go, BD 25Go, BD-RE 25go|12.04 64bits|
+|Asus|[[http://www.asus.com/Optical_Storage/Internal_Bluray_Drive/BW12B1ST/|BW-12B1ST]]|Graveur Interne|Fonctionne parfaitement. Très silencieux. Gravure testée avec [[wodim|wodim]]. Gravure Blu-ray non testée.|12.04 64bits|
+|Asus|[[http://www.asus.com/Optical_Storage/Internal_Bluray_Drive/BC12B1ST/|BC-12B1ST]]|Graveur Interne|Comme le BW-12B1ST mais ne grave pas les Blu-ray. Cache de 2Mo (8Mo pour le BW-12B1ST).|12.04 64bits|
+|Asus|[[http://www.asus.com/Optical_Drives/BC12D1ST/|BC-12D1ST]]|Graveur Interne|Tests en cours (N'hésitez pas à compléter vous aussi). Lecture et gravure de CD et DVD fonctionnelles. Gravure Blu-ray non testée.|12.10 32bits|
+|LG|SUPER MULTI BLUE (USB et e-SATA) http://www.lg.com/us/burners-drives/lg-BE12LU38-external-blu-ray-burner|BE12LU38|USB : Lecture de Blu-Ray fonctionne de suite, MakeMKV Fonctionne, Gravure testée avec Nero Linux 4 sur BD-R 25Go, e-SATA Non testé.|11.10 & 12.04 32Bits et 64Bits|
+|Samsung|[[http://www.samsung.com/fr/consumer/it/optical-disk/external-dvd-writer/SE-506AB/TSBD|SE-506 / SE-506AB]]|Lecteur / Graveur Externe USB : CD/DVD/Blu-Ray|Lecture / Écriture fonctionnelle CD/DVD/Blu-Ray, lecture de films commerciaux: Blu-Ray reconnu mais pas de logiciel de décryptage du film. (Fonctionne, mais requiert un logiciel capable de lire les Blu-Ray qui n'est pour l'instant pas vraiment disponible sur Linux)|Ubuntu 12.04 LTS 64bits|
+|Samsung|[[http://www.samsung.com/be_fr/consumer/pc-peripherals-printer/optical-disc-drive/dvd-writers/SN-506AB/BEBE|SN-506AB/BEBE]]|Lecteur / Graveur Interne Slim : CD/DVD/Blu-Ray|Lecture / Écriture fonctionnelle CD/DVD/Blu-Ray, lecture de films commerciaux: Blu-Ray reconnu. Lecture d'un Blu-Ray avec xmbc|Ubuntu 13.04  64bits|
+|LG|[[http://www.lg.com/fr/graveurs-dvd-blu-ray/lg-CH10LS28|CH10LS28]]|Lecteur Blu-Ray, Lecteur/graveur DVD interne|Lecture de Blu-Ray fonctionne de suite, MakeMKV fonctionne, VLC, Gravure DVD non testée.|12.04 & 12.10 64Bits|
+|Lite-on|[[http://www.liteonit.eu/fr/optical-storage-blu-ray-internal-bd-rom/ihos104.html|iHOS104]]|Lecteur Blu-Ray, Lecteur DVD|Non détecté par Ubuntu :( Le modèle dont la référence est **iHOS104-06** fonctionne :) |12.10 et 12.04 64 bits|
+|LG|Super multi Blue BD rewriter|BH12LS38 interne|Fonctionne parfaitement, grave CD  DVD-DL,  bluray lecture seulement|12.04-64&14.04-64|
+|Panasonic/MATSHITA|[[http://omega-computer.eu/en/platinet-external-blu-ray-recorder-6x-100gb--584.html|BD-MLT UJ260AF]]|Lecteur / Graveur Externe USB : CD/DVD/Blu-Ray|Lecteur/graveur externe de type "laptop" dans un boitier USB de maque PLATINET, le lecteur est de marque Panasonic, et vu par le système comme étant un MATSHITA BD-MLT UJ260AF. Reconnu sans souci. Lecture de DVD+R sans souci. Gravure de BD-RE marche du premier coup avec K3b.|12.04 64 bits|
+|Lite-on / HP|BD E  DS6E2SH|Lecteur / Graveur Interne Slim: CD/DVD/Blu-Ray | Lecture et Gravure CD / DVD fonctionnelles avec [[k3b|k3b]], lecture Blu-Ray fonctionnel avec VLC. Gravure Blu-Ray non testé| 14.10 64 bits|
+|Asus|[[http://www.asus.com/Optical-Drives-Storage/BC12D2HT/?SearchKey=BC-12/|BC-12D2HT]]|Lecteur Blu-ray - Graveur DVD Interne|En lecture DVD/Blu-ray fonctionne avec VLC 2.2.1 / XBMC 15.1 |15.10 64bits|
+===== Voir aussi =====
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=827501|Discussion sur le forum]] à propos du matériel Blu-Ray testé.
+
+----
+//Contributeurs: [[:utilisateurs:sx1]] [[:utilisateurs:darkayser]]

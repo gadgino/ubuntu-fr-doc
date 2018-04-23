@@ -1,0 +1,111 @@
+{{tag>Xenial jeu rythme}}
+----
+
+====== Performous ======
+
+**Performous** est un jeu de musique « tout en un » performant, gratuit et libre (licence GPL), idéal pour le mode multijoueur. Il est très complet regroupant en un seul logiciel :
+  * Un //Karaoké// : le but du jeu est de chanter de la façon la plus juste possible (aussi bien en terme de tempo que de hauteur de chant) pour gagner un maximum de points. C'est en fait un clone d'//Ultrastar// (lui même un clone sous Windows de Singstar sur Playstation)
+  * Un clone de //Guitar Hero// : Performous gère les instruments de musique (clavier et/ou accessoires de Guitar Hero (guitares, tambours,...)). Avec un simple clavier, le joueur doit appuyer sur les boutons en rythme pour gratter les cordes de la guitare électrique, afin de jouer la mélodie.
+  * Un clone de //Dance Revolution// : avec un tapis, il faut danser au rythme de la mélodie.
+
+
+Il y a des captures d'écran et une vidéo sur le [[http://performous.org/screenshots.html|site officiel]].
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+Performous est présent dans les dépôts officiels, il suffit d'[[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>performous]]**.
+
+===== Utilisation =====
+
+Lancez l'application via le [[:unity#tableau_de_bord_dash|tableau de bord]] (Unity) ou via le [[:terminal]] (toutes versions d'Ubuntu) avec la [[:commande_shell|commande]] suivante : <code>performous</code>
+
+==== Chansons ====
+  - définir dans votre HOME le fichier qui va accueillir les musiques karaoké par exemple vous créez un dossier KARAOKE.
+  - à l'intérieur de ce dossier vous créerez un dossier **par** musique composé du "xxxxx.mp3", xxxxx.txt pour les paroles, xxxxx.jpg pour la pochette.
+  - allez dans "système" puis préférence puis menu principal allez sur l'icône de performous qui ce trouve dans jeux et faites click sur propriété et rajoutez à la ligne de commande le chemin pour accéder à votre dossier de la musique 
+    exemple 
+    /home/user/karaoké/songs/
+
+pour qu'il puisse prendre en compte tout les dossiers de votre médiathèque.  
+ce qui donnera
+
+   performous /home/user/karaoké/songs/
+
+
+
+
+<note important>Aucune chanson n'est fournie par défaut. </note>
+
+Vous pouvez en obtenir quelques-unes via [[http://performous.org/songs.html|la page de téléchargement du projet]].
+
+Vous avez également la possibilité de récupérer les fichiers textes (retranscrivant les paroles sur la mélodie) correspondant à vos chansons via [[http://ultrastar.fr.free.fr/]]. Le problème est souvent que les fichiers mp3 que l'on possède peuvent être décalés par rapport au texte... La solution consiste alors à estimer le temps de décalage GAP, et à ajouter ou raccourcir le mp3 ou vous éditez le dossier xxxxx.txt et vous avez la possibilité de recaler votre musique sur la variable GAP qui donne le point ancrage du texte sur la note défini.
+
+le calcul est simple vous comptez les seconde au moment où vous savez quand les paroles commencent, une fois le temps connu, vous le multipliez par 1000 et vous retranchez 200, après vous pouvez ajuster sur des valeur intermédiaires, essayez plusieurs fois veux dire relancer performous à chaque modification.
+
+**exemple**
+
+#TITLE:Comme toi
+
+#ARTIST:Jean jacques Goldman
+
+#COVER:6946.jpg
+
+#MP3:Jean-Jacques Goldman - Comme Toi.mp3
+
+#BACKGROUND:background.jpg
+
+#BPM:119,32
+
+**#GAP:20400
+**
+
+: 0 2 69 Elle
+
+: 2 1 77  a
+
+: 3 2 77 vait
+
+: 5 2 77  les
+
+: 7 2 77  yeux
+
+: 9 5 76  clairs
+
+
+ FIXME Trouver une méthode facile.
+
+FIXME Traiter les cas où on ajoute un karaoké, une piste de danse, ou une piste de guitare...
+
+Si vous souhaitez ajouter à la main des chansons, vous devrez les placer dans un répertoire **songs** qui se trouvera dans un répertoire caché **.ultrastar** (le point est important), lui-même dans votre dossier personnel.
+
+<note important>Lors de l'installation sous Ubuntu 9.10 (Karmic Koala) et Ubuntu 10.04 (Lucid Lynx), le dossier **.ultrastar** n'a pas été créé. Il faut donc créer dans votre dossier personnel, le dossier .ultrastar puis créer le sous-dossier **songs** dans lequel vous rajouterez vos chansons et fichiers textes correspondants.</note>
+
+
+==== Configuration ====
+L'interface graphique permet de régler le volume sonore, et d'autres paramètres.
+
+==== S'entraîner ====
+Au menu principal, appuyez sur la touche P pour arriver à l'interface d'entraînement. Les indicateurs du bas de l'écran indiquent le niveau sonore, et la note entendue ainsi que sa fréquence apparaissent au milieu de l'écran, sur les deux portées.
+
+==== Jouer ! ====
+Au menu principal, appuyez sur la touche S pour arriver au menu de sélection de chansons. Utilisez les touches flèches gauche et droite pour les faire défiler, ou tapez directement son nom. Appuyez sur entrée une fois la chanson choisie sélectionnée. Vous pouvez quitter la chanson pendant le jeu en appuyant sur Échap.
+
+Si vous souhaitez jouer à deux, rien de particulier à configurer, ce n'est qu'une question... de matériel. Le premier joueur devra faire parvenir sa voix à la voie gauche de l'entrée son du PC, tandis que l'autre joueur utilisera la voie droite.
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+
+===== Voir aussi =====
+
+  * **(en)** [[http://performous.org/|Site officiel]]
+  *  [[composer|Composer - Performous]] [[http://wiki.performous.org/index.php/Composer|Site officiel]]
+
+----
+//Contributeurs principaux : [[:utilisateurs:marting]]//.

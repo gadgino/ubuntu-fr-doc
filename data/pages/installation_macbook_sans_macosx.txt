@@ -1,0 +1,64 @@
+{{tag>Xenial macbook apple}}
+
+----
+
+====== Installation d'Ubuntu sur un MacBook en simple boot sans Mac OS X ======
+
+Ce tutoriel explique l'installation d'Ubuntu sur un MacBook en supprimant le système Mac OS X. 
+Si vous possédez un MacBook mais que vous préférez très largement Ubuntu à Mac OS, au point de vouloir le supprimer, ce tutoriel est pour vous. À noter qu'il existe d'autres [[dual_boot_macos_x_ubuntu|pages]] sur ce site qui expliquent comment installer conjointement Ubuntu avec Mac OS X voir même avec Windows.
+
+===== Pré-requis =====
+
+  * Un MacIntel avec Mac OS X installé.
+  * Avoir mis son EFI à jour (dans Mac OS X, menu pomme / Mise à jours des logiciels)
+  * Le Cd de rEFIT
+  * Le premier Cd d'installation de Mac OS X
+  * Un Cd Ubuntu i386 ou 64 si Core 2 Duo
+
+===== Préparation sous Mac OS X =====
+
+==== Réglage du volume sonore ====
+
+Vous avez peut-être remarqué que lors du démarrage, votre Mac émet un son. Ce son assez fort peut être gênant si vous démarrez votre ordinateur au milieu de la nuit alors que tout le monde dort ! Heureusement l'ordinateur reste muet si le volume sonore est à zéro. Avant de supprimer le système du disque, vérifiez que le volume est à zéro car sans Mac OS X, ce ne sera plus possible.
+
+==== Graver le CD de rEFIt ====
+
+Ce Cd va permettre de synchroniser les partitions du système. Sous Mac OS X, téléchargez et gravez le Cd disponible sur le site de [[http://refit.sourceforge.net/|ici]]. Pensez à graver le Cd avant de supprimer OS X car le fichier ISO est une image .cdr qui est beaucoup plus simple à graver à partir de Mac OS X.
+
+Il est également possible d'utiliser une clé USB d'installation. : du mac formater la clé à partir de l'application "disk utility". 
+Choisir le format : OS X étendu et le schéma : GUID partition map.
+
+====Graver l'image ISO d'ubuntu====
+Reportez-vous à la partie sur [[:macbook#Installation d'Ubuntu sur un Macbook|graver une image ISO sur Macbook]].
+=====Installation d'Ubuntu=====
+Redémarrer sur la clef précédemment préparée. Éteignez le mac, puis appuyer le bouton d'allumage tout en commençant à **appuyer sur la touche alt** (appelée aussi touche option) par petites touches successives et continuer ainsi d'appuyer sur la touche option jusqu'à apparition d'un écran avec les disques durs bootables : à gauche le disque dur du mac, au centre celui de récupération du mac, et à droite celui de la clé que vous venons de créer. Choisir alors celui de droite. Pour **démarrer sur un cd appuyer sur la touche C**.
+
+La suite est identique à n'importe quelle [[:installation]] d'Ubuntu sur PC. Cependant au début de l'installation Ubuntu ne détecte pas l'existence de Mac OS et par conséquent ne propose PAS l'installation en dual boot. Il est nécessaire de supprimer toutes les partitions, [[:partitions|partitionnez]] comme bon vous semble puis installez le système.Soyez bien sur de ce que vous voulez à ce niveau.
+
+<note tip>Plusieurs tutoriels disponibles sur la page [[:mac]] expliquent déjà la procédure d'installation d'Ubuntu sur Mac.</note>
+
+===== Synchronisation des partitions =====
+
+A la fin de l'installation d'Ubuntu, insérez le Cd de rEFIt et bootez dessus en maintenant la touche C enfoncée. Synchronisez les partitions GUID et MBR.
+
+===== Boot rapide =====
+Après l'installation d'Ubuntu, le système est déjà capable de booter. Mais EFI, l'équivalent du BIOS sur machine MacIntel met par défaut entre 30 secondes à 3 minutes à afficher le menu de GRUB. Beaucoup trop long. Nous allons changer cela en indiquant à EFI sur quel partition il faut booter et ainsi supprimer le délai d'attente. Il faut à présent booter sur le premier Cd d'installation de Mac OS X. Validez le français comme langue d'installation. Dans l'écran suivant, lancez un shell puis entrez la commande :
+  bless --device /dev/disk0s2 --setBoot --legacy --verbose 
+
+Cette commande permet d'indiquer au système sur quelle partition le système doit être démarré. /dev/disk0s2 représente la partition où GRUB a été installé. L'utilitaire de disque du menu Mac peut vous permettre de vérifier le nom de la partition.
+
+
+Voila il ne vous reste plus qu'à redémarrer le système. Si le temps de démarrage reste trop long, vérifiez à nouveau le nom de la partition utilisée dans la commande bless ci-dessus.
+==== Éjecter le CD Ubuntu ====
+
+Si le cd ne veut pas s’éjecter, redémarrer le pc et au redémarrage clic gauche sur le pad et maintenir le clic jusqu'à l'éjection du cd.  
+
+=====Configuration matériel=====
+Pour la configuration du matériel reportez-vous à la [[:macbook#Configuration du matériel|page principale]] sur les macbooks.
+
+=====Voir aussi=====
+[[http://www.cultofmac.com/405509/how-to-try-linux-without-risking-your-mac/|Un tutoriel d'installation sur Macbook]] (en)
+
+----
+
+//Utilisateurs : jlbrd//

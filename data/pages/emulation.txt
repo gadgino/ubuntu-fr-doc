@@ -1,0 +1,95 @@
+{{tag>jeu}}
+----
+
+====== Émulation de jeux et Rétrogaming ======
+
+**[[wpfr>emulation|L'émulation]]** permet de simuler un matériel nécessaire à l'exécution d'applications prévue pour d'autres [[architecture_matérielle|architectures matérielles]].
+
+Concrètement, il s'agit de faire fonctionner sur votre ordinateur des programmes prévus pour d'autres types d'ordinateurs : par exemples, des jeux pour Nintendo64 sur un PC sous GNU/Linux.
+
+Cette page vous présente l'émulation en général ; les trois sous-pages principales sont : **[[emulateurs_ordinateur|Émulateurs d'ordinateurs]]**, **[[mame|MAME (arcade)]]** et **[[emulateurs_console|Émulateurs de consoles de jeu]]**.
+<note importante>
+  * La légalité des émulateurs n'est pas très claire. Dans certains pays, comme aux USA, des jugements ont permis d'établir la légalité de ces programmes dans un certain nombre de cas.
+  * Le téléchargement et l'utilisation de BIOS sont bien souvent illégaux.
+  * L'utilisation de **ROM** (fichiers binaires contenant des jeux de console) est autorisée dans certains pays au titre de la copie de privée (ce qui suppose que vous avez acheté le jeu).
+  * Dans l'ensemble, le téléchargement de ROM est interdit, bien que parfois toléré par quelques rares éditeurs.
+</note>
+===== Introduction =====
+
+L'émulation est réalisée à l'aide d'un logiciel, appelé **émulateur**, qui va permettre de traduire les instructions prévue pour l'architecture émulée en leur équivalent dans l'architecture physique de la machine utilisée.
+
+Ainsi, de manière élémentaire, pour faire fonctionner un programme sous une autre architecture que celle d'origine, il suffit d'installer un logiciel émulateur et de lancer le programme souhaité.
+
+==== Difficultés ====
+  * Un émulateur n'est pas toujours capable de faire fonctionner tous les logiciels d'une architecture. Il est parfois nécessaire de configurer l'émulateur, ce qui peut se révéler techniquement difficile pour un débutant. 
+  * Les émulateurs sont faits par des passionnés : les mises à jour peuvent être très espacées et le développement de certains émulateurs présentés ici est parfois plus ou moins abandonné. Mais d'anciens émulateurs peuvent toujours fonctionner très bien et il n'est pas rare qu'un émulateur abandonné soit redéveloppé des années plus tard par d'autres personnes.
+  * Tous les émulateurs ne demandent pas les mêmes ressources. L'émulation d'une Game Boy n'est pas trop gourmande, mais celle d'une GameCube demande une bonne configuration.
+
+Il reste que certains émulateurs sont d'emblée fonctionnels, aussi est-il parfaitement possible de disposer de milliers de jeux rapidement et sans soucis. Ce qu'il faut garder à l'esprit, c'est que pour certains ordinateurs et certaines consoles, vous n'aurez aucun problème, alors que pour d'autres cela peut demander du temps et parfois n'aboutir à rien.
+==== Ce qu'il vous faut ====
+
+Pour émuler une autre architecture et faire tourner des programmes, il vous faudra au minimum :
+  * un **émulateur** ; la liste des émulateurs fonctionnant sous Ubuntu est donnée ci-dessous. La plupart du temps, ces émulateurs sont libres.
+  * parfois un **bios**, comme pour l'Amiga. En général, les bios sont sous copyright, ce qui fait que nous ne donnerons ici aucun lien pour s'en procurer. Mais cela ne concerne pas toutes les architectures et ne vous empêchera donc pas d'émuler un grand nombre d'ordinateurs et de consoles.
+  * des **jeux**, sous la forme de fichiers appelés « roms », qu'il suffit généralement d'ouvrir dans l'émulateur. Ces jeux étant eux-aussi souvent sous copyright, nous ne donnerons ici aucun lien.
+===== Différents choix d'émulation =====
+<note tip>Pour les machines anciennes et obscures (les ordinateurs comme les consoles), pensez à consulter la liste d'émulation de [[MAME]]((http://www.progettoemma.net/mess/sysset.php)).</note>
+==== Émulation d'anciens ordinateurs ====
+Page dédiée : [[emulateurs_ordinateur|Émulateurs ordinateurs]] - Documentation sur l'émulation des ordinateurs :
+
+[[amstrad|Amstrad CPC]], [[:Amiga]], Apple, Atari-8bit, [[Atari ST]], BBC Micro, Camputers Lynx, [[VICE|Commodore]], [[dosbox|PC (DOS)]], Jupiter Ace, MSX, Oric, [[scummvm|ScummVM]] et ResidualVM, Thomson MO5, TO7, ZX Spectrum.
+
+Pour les plus connus :
+  * [[Amiga]] : Demande une configuration préalable (kickstar) et configuration requise pour certains jeux. Fonctionne très bien à part ça.
+  * [[Amstrad]] : Fonctionnement immédiat pour certains émulateurs. Émulateurs manquant de finitions, options de configuration insuffisantes.
+  * [[Atari ST]] : Demande un peu de configuration, mais fonctionne bien.
+  *  [[vice|Commodore 64]] : Aucune difficulté.
+==== Des jeux sur bornes d'Arcade ====
+{{ https://upload.wikimedia.org/wikipedia/commons/8/88/Donkey_Kong_arcade.jpg?100}}
+  * [[:mame|MAME]] - Documentation sur **MAME**, l'émulateur de bornes d'arcade. Très utile également pour les consoles et les ordinateurs plus ou moins oubliés.
+  * [[http://raine.1emulation.com/|Raine]]
+  * Final Burn Alpha, disponible pour Linux par Retroarch
+  * Laserdisc : Daphne : [[http://www.daphne-emu.com|Site officiel]]
+  * Sega Model 3 : Supermodel
+==== Jeux sur consoles ====
+Page dédiée : **[[:Émulateurs console]]** - Documentation sur l'émulation des consoles de jeux sous Ubuntu : **Megadrive**, **SuperNES**, **NeoGeo**, **Nintendo64**, **Gameboy**, **Playstation 1 et 2**, **GameCube**, **Wii** etc.
+    * Installation simple et fonctionnement sans problème pour : Game Boy, NES, Super NES, Master System, Megadrive, Nintendo DS, PSP.
+    * Plus difficile à faire fonctionner, mais bonne compatibilité : Playstation 1 (exige bios et plugins), PC-Engine, Nintendo 64 (plugins à configurer), Saturn, GameCube, Wii, Playstation 2.
+    * Fonctionnement partiel ou faible : [[dreamcast|Dreamcast]] (reicast, installation assez technique, compatibilité moyenne).
+==== Jeux et applications Windows ====
+  * [[:Wine]] : vous permettra de faire fonctionner un assez grand nombre de jeux et d'applications. Pensez à essayer avec Wine des émulateurs disponibles uniquement sous Windows : certains (dont quelques exemples sont donnés dans la documentation) fonctionnent très bien.
+  * [[:playonlinux|PlayOnLinux]] - Installez des jeux Windows de manière automatisée.
+
+===== Gestionnaires d'émulateurs et interfaces graphiques =====
+{{ http://attractmode.org/images/attracman.png?300}}
+Il est en théorie possible d'unifier l'utilisation de tous les émulateurs grâce à des interfaces graphiques simplifiant le catalogage et le lancement des jeux pour toutes les machines. Dans la pratique, l'installation et la configuration de ces interfaces sont extrêmement techniques et très peu accessibles. 
+  * **[[http://forum.attractmode.org/index.php?topic=189.0|AttractMode]]**
+  * **[[http://emulationstation.org/|EmulationStation]]** : projet abandonné. Il reste possible de compiler pour Ubuntu la version mise à jour et francisée pour RecalBox : [[https://github.com/recalbox/recalbox-emulationstation|GitHub]] ou celle pour RetroPie qui propose en outre de nombreux thèmes. On en trouve aussi un fork en développement : https://github.com/Herdinger/EmulationStation.
+  * **Mala**
+  * **Emulatron** https://github.com/ColinKinloch/Emulatron
+  * **jGameBase** ([[http://jgamebase.sourceforge.net/|site]]), exige java, peu ergonomique.
+  * **Kodi** (un media center disponible sur Linux) avec l'add-on Rom Collection Browser disponible pour beaucoup de plateformes différentes. En anglais et souvent bugué.
+  * **[[retroarch|RetroArch]]**, GUI de Libretro (avec une meilleure interface en cours de développement : **[[https://github.com/team-phoenix/Phoenix|Phoenix]]**).
+  * **[[http://www.retrofe.com/index.php|RetroFE]]** : à compiler, configuration assez technique mais claire. Un avantage appréciable est que l'on peut reprendre assez facilement les médias (images, vidéos) d'HyperSpin.
+
+Certains ne sont plus développés:
+  * Gelide ([[http://gelide.sourceforge.net/index.php?sect=downloads&lang=en|site]]) ([[http://www.playdeb.net/software/Gelide|getdeb]]), ne semble plus développé.
+  * kamefu (plus développé depuis des années)
+==== Autres utilitaires ====
+  * Le scraper d'EmulationStation étant très mauvais, on pourra utiliser : https://github.com/sselph/scraper
+  * **[[http://www.screenscraper.fr/index.php|ScreenScraper]]** Base de données en français
+===== Distributions dédiées à l'émulation======
+  * Depuis peu il est possible d'installer Retropie sous Linux : https://github.com/retropie/retropie-setup/wiki/RetroPie-Ubuntu-16.04-LTS-x86-Flavor
+  * Autres : Lakka, RecalBox : https://github.com/recalbox, batocera.linux : http://batocera-linux.xorhub.com/
+===== Actualités de l'émulation =====
+  * [[http://www.emu-france.com/|Emu-France]] : Toute l'actualité sur les émulateurs.
+  * [[https://www.reddit.com/r/emulation/|Forum Reddit]] : Discussions autour de l'actualité de l'émulation (en anglais).
+  * [[http://emulation.gametechwiki.com/index.php/Main_Page|EmuGen]] : Compilation d'informations sur l'émulation.
+
+===== Voir aussi =====
+
+  * Documentation sur la [[virtualisation]].
+  * Article wikipédia sur [[wpfr>emulation|l'émulation]]
+  * Article wikipédia sur les [[wpfr>Emulateur_de_console_de_jeux_vidéo|émulateurs de console de jeux vidéo]]
+
+

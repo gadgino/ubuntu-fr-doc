@@ -1,0 +1,45 @@
+{{tag>Precise Trusty récupérer système disque_dur}}
+
+======Extundelete======
+
+**Extundelete** est un utilitaire [[commande_shell|en ligne de commande]] permettant la récupération des fichiers supprimés. Son fonctionnement est plus aisé que [[testdisk|Testdisk]] ou [[foremost|Foremost]] par exemple, mais il ne peut être utilisé __que__ sur des partitions formatées avec les systèmes de fichiers **ext3** ou **[[ext4|ext4]]**.
+
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+Pour installer ce logiciel, il suffit d'[[:tutoriel:comment_installer_un_paquet#paquet_present_dans_les_depots|installer le paquet]] **[[apt>extundelete|extundelete]]**
+
+
+===== Utilisation =====
+==== Cas standard ====
+
+Se positionner dans un répertoire, idéalement vide afin que extundelete puisse y déposer les fichiers récupérés. Puis exécuter la commande 
+
+<code>sudo extundelete /dev/sdxn --restore-all</code>
+
+pour récupérer l'ensemble des fichiers supprimés sur le volume sdxn
+====  Cas fréquent ====
+
+Récupération des fichiers d'un répertoire supprimé récemment.
+  * Faire en sorte que le volume contenant le répertoire ne soit pas utilisé.  Cela peut obliger à changer d'instance.
+  * Se positionner dans un répertoire ayant suffisamment d'espace pour recevoir la duplication de la récupération.
+  * Trouver la  référence de l'instant en retranchant suffisamment de temps: Par exemple // bash -c  "date '+%s' -d '- 1440 minutes' " //
+  * Lancer la récupération. A titre d'exemple:
+<code>u604@u604:/media/u604/Sport$ sudo extundelete  --restore-directory  home/u1604/Documents       --after   1467200716     -o     5T         /dev/sda12</code>
+  * Ne reste plus qu'à explorer le contenu du répertoire de réception.
+
+
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, le configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi =====
+ 
+  *  [[http://extundelete.sourceforge.net/|site officiel]]
+
+------

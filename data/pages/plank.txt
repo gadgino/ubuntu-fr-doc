@@ -1,0 +1,243 @@
+{{tag>Xenial personnalisation gnome interface_3d}}
+
+----
+====== Plank ======
+
+Plank est une **barre de lancement d'applications animée** (ou [[:personnalisation#docks|dock]]) très simple et très légère (moins d'un vingtaine de Mo en mémoire vive), mais aussi très esthétique. Sa simplicité rend le logiciel très stable.
+
+Ce projet est à la base du projet [[:Docky]], un dock offrant plus de fonctionnalité. 
+
+Voici ce qu'indique la page du projet : "Plank se veut le dock le plus simple de la planète. L'objectif est de répondre seulement aux besoins d'un dock et à absolument rien de plus. Plank est la technologie sous-jacente de Docky (à partir de la version 3.0.0) et vise à offrir toutes les fonctions de base de Docky, lequel y ajoute des choses plus fantaisistes comme Docklets,  boîtes de dialogue, etc..".
+
+Plank est le dock par défaut de [[wpfr>elementaryOS]], une distribution basée sur Ubuntu.
+
+Ci-dessous le dock sous [[Xubuntu]], avec le pack d'icônes ios-seven et le thème par défaut. Les icônes marquées par un point lumineux indiquent les programmes ouverts.
+{{ :plank_plank-v0.5.png?700 |image de Plank}}
+
+Voir d'autres [[https://www.google.fr/search?q=plank+linux&client=ubuntu-browser&es_sm=93&tbm=isch&tbo=u&source=univ&sa=X&ei=VkVvU67cHfPY0QWT_oCQBg&ved=0CDIQsAQ&biw=1247&bih=1066|captures d'écran,]] sur google image.
+
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+=====Installation=====
+Sous [[:Mate|Ubuntu Mate]] Plank est installé par défaut. Si vous souhaitez l'installer sur un autre environnement, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>plank]]**.
+
+Pour les versions antérieurs à la 16.04, il faut par contre ajouter le ([[ppa|PPA]]) de [[:Docky]]. Pour ce faire vous pouvez :
+  * [[:PPA|Ajouter le PPA]] **ppa:docky-core/stable**((https://launchpad.net/~docky-core/+archive/ubuntu/stable)) dans vos sources de logiciels; 
+  * [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|recharger la liste des paquets]];
+  * [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>plank]]**. 
+
+=====Utilisation=====
+Plank s'utilise dans tous les environnements Ubuntu : [[:Unity]], [[:Xfce]], [[:Lxde]], etc ...
+
+Pour le lancer, il suffit de cliquer sur **Plank** dans le sous-menu **Accessoires** de vos applications, ou en tapant "Plank" dans la zone de lancement appelée par la combinaison des touches alt+F2.
+
+Pour que Plank se lance à chaque fois que vous démarrez Ubuntu, il faut l'ajouter dans vos [[:tutoriel:application_demarrage|programmes lancés au démarrage]] avec le contenu :
+  * Nom : Plank \\
+  * Commande : **plank**
+
+==== Fonctionnalités ====
+__Lanceur__ : Plank vous permet d'épingler une liste d’icônes animées pour lancer vos programme favoris.
+
+__Barre de tâches__ : les icônes des programmes lancés changent d'apparence. De plus, les icônes qui ne sont pas épinglées apparaissent dans le dock quand vous lancez leur application par un autre biais. 
+
+__Docklets__ : à partir de la version 0.11 (mars 2016), le menu de configuration de planck embarque des docklets, liste de petits programmes qu'on peut déposer sur le dock et qui augmentent ses fonctionnalités : accès à la poubelle, affichage de l'heure, masquage de tous les programmes ouverts, ...
+
+====Paramétrages de base ====
+Une fois lancé la première fois, Plank se place en bas de l'écran, et affiche quelques icônes par défaut.
+
+Pour ajouter des icônes, il y a 2 solutions :
+  * Vous démarrez un programme. Son icône apparaît dans le dock. Vous faite un clic droit dessus, et cochez l'option "épingler au dock".
+  * Vous faite un glisser/déposer d'une application  vers le dock depuis votre menu des applications, et elle s'y épingle automatiquement.
+
+Pour enlever des icônes, il y a également 2 solutions :
+  * Clic droit sur l'icône, et décocher "épingler au dock".
+  * Glisser/déposer de l'icône à enlever vers l'extérieur du dock.
+
+On peut déplacer les icônes à l'intérieur du dock par un simple glisser/déposer.
+ 
+Plank a un **menu de configuration**, menu accessible via :
+
+  * un **clic droit** sur le bord du dock (il faut être à l’extrême limite du dock, ce qui peut être compliqué avec certains thèmes), 
+  * un **ctrl + clic droit** sur le dock (n'importe où dessus), 
+  * un **plank --preferences** dans le [[:terminal]]. 
+
+Ce menu, appelé "Préférences", permet de :
+    * Changer le thème du dock,
+    * Changer la position de celui-ci à l'écran (sur le coté droit, gauche, bas ou haut),
+    * Choisir la taille des icônes (qu'on peut d'ailleurs régler sans appeler le menu "préférences", par un **ctrle + molette** sur le dock),
+    * Choisir le mode de masquage du dock : jamais masqué ; masquage automatique ; masquage intelligent ; esquiver les fenêtres maximisés,
+    * Définir un grossissement (entre 1 et 100%) des icônes du dock, lors de leur survol à la souris (fonction "zoom sur icône"),
+    * Ajouter des docklets (accès à la poubelle, affichage du bureau, horloge, ...) par un glisser & déposer du docklet souhaité vers le dock. //Astuce : au clic droit sur la corbeille, vous avez une option "Vider la corbeille". Si cela ne fonctionne pas, ajoutez le programme trash-cli à votre PC : **sudo apt install trash-cli**//
+    * Quelques options additionnelles de moindre importance sont également présentes.
+
+==== Utilisation courante ====
+Cliquer sur l'icône d'un programme le lance. Re-cliquer dessus le réduit (mais il reste ouvert). Cliquer de nouveau le ré-affiche.
+
+Quand un programme est lancé et qu'on veut lancer une 2e session (fenêtre), il faut faire un clic-molette sur l'icône. Une seconde fenêtre s'ouvre, et une seconde marque apparaît sous l'icône pour indiquer que 2 fenêtres sont ouvertes.
+Un roulement de la molette sur cette icône fait alors défiler les différentes fenêtres ouvertes. 
+Un clic-droit sur l’icône affiche la liste des fenêtres ouvertes.
+
+Les icônes ont une animation de lancement (un petit rebond).
+
+Plus intéressant, certains programmes affichent une animation, par exemple une barre de progression pour le gestionnaire de mise à jour (comme pour Unity), ou le nombre des messages non-lus pour Thunderbird. Mais pour cela, le programme doit être ouvert et avoir été conçu pour ce type de fonctionnalité.
+
+Certains programmes (et ce qu'ils soient ouverts ou non) affichent au clic droit sur leur icône dans Plank une liste de fonctions. Par exemple, Thunderbird affiche "Rédiger un nouveau courriel" et "Carnet d'adresse". Rhythmbox affiche "Lire", "Pause", "Suivant", "Précédent".
+
+=====Problèmes connus=====
+  * Si une barre semi-transparente apparaît dans XFCE a quelques centimètres au-dessus du dock, aller dans le gestionnaire de paramètre de XFCE > peaufinage de fenêtre > onglet "compositeur", et décochez "affichez les ombres sous les fenêtres dock".
+
+  * Si Plank se lance trop tôt, il peut entrer en conflit avec un autre programme. Dans ce cas, vous pouvez retarder de quelques secondes son lancement en mettant dans la ligne "Commande" :  **sh  -c  " sleep 5; plank "**. Dans cet exemple, le lancement de Plank est retardé de 5 secondes.
+
+  * Au clic droit sur le docklet corbeille, vous avez une option **Vider la corbeille**. 
+
+  * Normalement, quand on lance un programme à partir du dock, son icône arbore un point coloré pour indiquer que le programme est lancé. Dans certains cas, ce point n'apparaît pas, mais une __seconde icône__ du programme est lancée dans le dock, avec le fameux point. Cette icône disparaîtra lors de la fermeture du programme. Pour régler ce problème de duplication des icônes, faite un clic droit sur la seconde icône, et cochez "Épingler au dock". Vous avez maintenant 2 icônes permanentes de votre logiciel dans le dock. Enlever la première (celle qui fonctionne mal). Le problème est normalement réglé : lors du prochain lancement, il n'y aura qu'une icône dans le dock (la seconde).
+
+=====Paramétrages avancés=====
+====Thèmes====
+Pour choisir un thème, passez par **Préférences** comme indiqué [[#Paramétrages de base|plus haut]] pour sélectionner un thème : **Préférences -> Apparence -> Thèmes**.
+
+Il existe un [[PPA]] permettant d'installer automatiquement un pack de nombreux thèmes. Il est disponible pour Ubuntu :
+  * [[:PPA|Ajouter le PPA]] **ppa:noobslab/apps**((https://launchpad.net/~noobslab/+archive/ubuntu/apps/)) dans vos sources de logiciels; 
+  * [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|recharger la liste des paquets]];
+  * [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>plank-themer]]**. 
+
+
+On peut aussi télécharger manuellement des thèmes pour Plank sur le web, par exemple [[http://www.deviantart.com/?q=plank+theme|ici]]. Puis téléchargez le thème qui vous intéresse (en général sous forme de fichier compressé), et décompressez-le dans le dossier caché **.local/share/plank/themes/** de votre **Dossier Personnel**. Vous aurez alors un répertoire portant le nom du thème (par exemple Appolo, ou cratos-lionplank, des thèmes assez connus).
+
+==== Créer ou modifier un thème ====
+
+Un thème est constitué d'un répertoire qui contient 2 fichiers textes très simples : **dock.theme** et **hover.theme**. Le nom du répertoire est interprété par Plank comme étant le nom du thème (c'est d'ailleurs le seul endroit où on indique ce nom).
+
+Le fichier important est **dock.theme**. Il est constitué de 2 parties :
+  * **[PlankTheme]**, qui gère le dessin et la couleur du dock lui-même.
+  * **[PlankDockTheme]**, qui gère le reste de l'habillage (les ombres, l'espace entre les icônes, la façon de mettre en valeur les icônes des programmes ouverts, ...).
+
+Chaque partie est structurée en blocs de 2 lignes : une ligne de commentaire explicatif en anglais (qui commence par un #), et une ligne de paramètre. Chaque bloc de 2 lignes est spécialisé sur un paramètre (taille de la bordure, couleur de la bordure, ...).
+
+Si on lit l'anglais, la modification d'un thème est donc très simple. Par exemple : 
+<file>#The padding on the left/right dock edges, in tenths of a percent of IconSize.
+HorizPadding=5</file>
+Il est donc très facile de modifier ce paramètre pour le passer à 0 % de l'icône, ou à 15% ....
+
+Pour créer un thème modifié :
+  * récupérez un thème existant,
+  * copiez-le dans un nouveau répertoire dans **.local/share/plank/themes**. Le nom de ce répertoire sera le nom de votre thème (il doit être différent du nom du thème d'origine),
+  * modifiez **dock.theme** comme vous l'entendez avec votre éditeur de texte (mousepad, gedit, pluma, ...). Si le thème sur lequel vous travaillez est le thème actif de Plank, vous verrez les modifications se faire en temps réel à chaque sauvegarde d'une nouvelle modification de **dock.theme**.
+
+====Lubuntu et openbox====
+[[Openbox]] (qui est entre autre le gestionnaire de [[Lubuntu]]) ne gère pas la transparence, et le rendu de plank se fait donc (quel que soit le thème) avec des dock "pleins", de type tableau de bord : le dock et ses icônes sont  encadrés par un fond de couleur opaque. 
+
+Pour retrouver un aspect "3D", il faut ajouter à openbox un compositeur gérant la transparence, par exemple le très léger et efficace [[:Compton]].
+
+====ElementaryOS====
+[[http://www.elementaryos-fr.org/|ElementaryOS]] ayant incorporé Plank dans son projet de bureau **Pantheon** pour Ubuntu (très inspiré de Mac OS), il existe dans le panneau  de configuration de Pantheon une interface de configuration de Plank spécifique, distincte de celle de plank. Cette interface est très basique, et ne couvre pas toutes les fonctionnalités. Pour allez plus loin, vous pouvez installer l'utilitaire elementaryOS **tweak**, lequel se lance ensuite via le panneau de configuration.
+
+=====Astuces =====
+Bien qu'il ne soit clairement pas conçu pour une utilisation trop complexe (dans ce cas mieux vaut utiliser un autre dock, comme [[Docky]] ou [[Cairo-dock]]), on peut "bidouiller" avec Plank. Voici quelques astuces :
+
+====Accéder au menu de configuration de plank ====
+Si vous souhaitez avoir les préférences dans un menu général d'Ubuntu, créez un lanceur spécifique. [[:tutoriel:comment_modifier_un_fichier|Créez le fichier]] **~/.local/share/applications/plank-preferences.desktop** , copiez-y le contenu suivant, puis sauvegardez :
+<file>
+[Desktop Entry]
+Name=Plank préférences
+Comment=Préférences du dock plank
+Exec=plank --preferences
+Icon=plank
+Terminal=false
+Type=Application
+Categories=Settings;
+StartupNotify=false
+</file>
+L'option **Plank préférences** apparaît alors dans le sous-menu **Paramètres** d'Ubuntu, et (selon l'[[environnements|environnement de bureau]] que vous utilisez), elle peut aussi apparaître dans le panneau de configuration d'Ubuntu.
+
+En allant dans votre répertoire **/.local/share/applications/**, vous pouvez aussi faire un drag&drop de **plank-preferences.desktop** dans Plank. Le menu sera alors accessible via sa propre icône. Ce répertoire étant un répertoire caché, vous devez d'abord le faire apparaître via un ctrl+H dans votre explorateur de fichier ([[:nautilus]], [[:Thunar]], [[:PcManFm]], ...).
+
+====Grouper des applications dans une seule icône du dock====
+(dans ce cas, cette icône fonctionne de fait comme un menu) :
+
+**A - en mode graphique**
+  * Créez un dossier (par exemple **plank/Utilitaires**), dans votre **Dossier Personnel**.
+  * Avec votre [[:gestionnaire de fichier]], ouvrez le dossier **/usr/share/applications**, où se trouvent les raccourcis (des fichiers avec une extension en **.desktop**) de toutes vos applications installées.
+  * Copiez-Coller les raccourcis qui vous intéressent vers **/plank/Utilitaires**.
+  * Faites un glisser/déposer du répertoire vers Plank : une nouvelle icône regroupant les programmes sélectionnés y apparaît. Appelez la liste des programmes par un **clic droit** sur cette icône.
+
+**B - En mode texte**
+  * Créez un fichier texte en .desktop avec un nom quelconque (par exemple **Divers.desktop**) dans le dossier caché **.local/share/applications/** de votre **Dossier Personnel**.
+  * Copiez-y un contenu de ce type :
+<file>
+[Desktop Entry]
+#Nom et icone de la liste de programmes dans Plank
+Name=DIVERS
+Icon=brasero
+Type=Application
+
+#Liste synthétique des lanceurs (liste de programmes) qui apparaîtrons au clic droit sur l’icône dans Plank
+#les noms des lanceurs (Action= ...] sont LIBRES
+
+Actions=Calculette;Capture écran;plank-preferences;Modif
+
+#Détails des lanceurs
+#Les noms de chaque lanceur ([Desktop Action ...] doivent CORRESPONDRE à ceux qui sont appelés par la liste CI-DESSUS
+#les noms apparaissant dans la liste des programmes (Name=...) sont LIBRES
+
+[Desktop Action Calculette]
+Name=Calculette
+Exec=gnome-calculator
+Icon=gnome-calculator
+
+[Desktop Action Capture écran]
+Name=Capture écran
+Exec=xfce4-screenshooter
+Icon=xfce4-screenshooter
+
+[Desktop Action plank-preferences]
+Name=plank-preferences
+Exec=plank --preferences
+Icon=plank
+
+[Desktop Action Modif]
+Name=Modif lanceur
+Exec=mousepad /home/USER/.local/share/applications/divers.desktop
+Icon=mousepad
+</file>
+
+====Icôniser un site internet dans Plank====
+
+Plank est fait pour lancer les xxx.desktop se trouvant dans le répertoire caché **.local/share/applications** de votre **Dossier Personnel**. On va donc créer le .desktop qui va bien. Prenons l'exemple de [[wpfr>Wikipédia]].
+  * Lancer le [[:terminal]]
+  * Création du .desktop : **gedit ~/.local/share/applications/wikipedia.desktop** (vous pouvez mettre un autre nom de .desktop, ou remplacer gedit par un autre éditeur). Un fichier vide s'ouvre. Collez-y :
+<file>
+[Desktop Entry]
+Name=Wikipédia
+Comment=Wikipédia
+Exec=firefox https://fr.wikipedia.org/wiki/Wikipedia:Accueil_principal
+Type=Application
+Categories=Network
+Icon=gnome-web-browser
+</file>
+  * Sauvegarder et fermer.
+  * Avec votre navigateur de fichier, faites un drag & drop de **Wikipedia.desktop** (qui est dans le répertoire caché .local/share/applications/) vers Plank.
+  * Remarques :
+    - la ligne importante est la ligne "Exec=". C'est là que vous définissez le navigateur à lancer (Firefox, Midori, ...) et surtout l'adresse du site visé. Vous pouvez demander l'ouverture de plusieurs sites, en les séparant par un espace.
+    - La ligne "Icon=" définit l'icone qui apparaîtra dans plank, mais aussi dans les menus.
+    - La ligne "Categories=Network" affichera votre icône dans la catégorie "Internet" de votre menu. Si vous la laissez libre, votre icône s'affichera dans la catégorie "Autres". Si vous la supprimez totalement, l’icône de votre site internet n'apparaîtra pas dans le menu des applications. La liste des catégories disponibles [[https://standards.freedesktop.org/menu-spec/latest/apa.html|est ici]].
+
+====Ajouter le menu Whisker de Xubuntu dans Plank====
+Le menu Whisker est propre à Xubuntu. Il ne marche normalement que dans un tableau de bord, mais on peut lui créer un lanceur qu'on placera ensuite dans plank. Voir un [[https://www.youtube.com/watch?v=bve-NJ96c4o|résumé vidéo]].
+  * Clic droit sur le bureau > "Créer un Lanceur".
+  * Renseigner un nom et un commentaire de votre choix ("Menu", par exemple).
+  * Dans le champs "Commande", indiquer **xfce4-popup-whiskermenu -p**
+  * Cliquer sur "Icône", et indiquer celle qui vous convient (par exemple **xfce4-whiskermenu**, l’icône officielle).
+  * Enregistrer
+  * Clic droit sur le lanceur > propriétés > permissions > cocher "Autoriser ce fichier à être exécuter comme un programme".
+  * Placer le lanceur ou vous voulez, mais la logique est que vous le mettiez dans le dossier caché **~/.local/share/applications**. C'est ce dossier qui accueille normalement vos lanceurs spécifiques.
+  * Faite un drag & drop du lanceur depuis son dossier d'accueil vers le dock.
+Le menu whisker ainsi placé n'a qu'une limite : vous ne pouvez pas modifier son paramétrage par défaut (comme la taille des icônes qu'il contient). En effet, cette fonctionnalité n'est disponible que via un clic-droit sur l'icône Whisker dans le panel Xfce (le clic-droit ne donne rien dans le dock). Pour contourner cette limite, placez Whisker dans un panel Xfce > clic-droit sur son icône > propriétés, et paramétrer selon vos préférences : ce paramétrage sera repris par le menu lancé dans Plank.
+
+
+===== Liens =====
+  * [[https://launchpad.net/plank|Sur launchpad]],
+  * [[:Docky]], un dock plus complet bâtit sur Plank. 

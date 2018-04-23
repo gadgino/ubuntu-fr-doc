@@ -1,0 +1,156 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="clear"><ul class="toc">
+<li class="clear"><ul class="toc">
+<li class="level3"><span class="li"><a href="#installation_de_xcompmgr" class="toc"> Installation de xcompmgr </a></span></li>
+<li class="level3"><span class="li"><a href="#configuration_de_xorg" class="toc"> Configuration de xorg </a></span></li>
+<li class="level3"><span class="li"><a href="#testons_si_les_ombres_fonctionnent" class="toc"> Testons si les ombres fonctionnent </a></span></li>
+<li class="level3"><span class="li"><a href="#charger_les_ombres_des_le_demarrage" class="toc"> Charger les ombres dès le démarrage </a></span></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<p>
+Créé par <a href="/utilisateurs/keyes" class="wikilink1" title="utilisateurs:keyes" onclick="return svchk()" onkeypress="return svchk()">keyes</a>, <a href="http://placelibre.ath.cx/keyes/index.php/2005/08/08/9-jolies-fenetres-ombres-ubuntu" class="urlextern" title="http://placelibre.ath.cx/keyes/index.php/2005/08/08/9-jolies-fenetres-ombres-ubuntu" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Version originale</a>.
+</p>
+
+<p>
+Il est possible sous Ubuntu d&rsquo;afficher des ombres sous les fenêtres. Ces ombres embelliront grandement votre bureau ! Attention tout de même, il vous faudra une configuration relativement musclé et une carte graphique de qualité avec les drivers propriétaires pour que l&rsquo;affichage ne soit pas ralenti. Votre système peut être plus instable lorsque ces ombres sont activées.
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=applications%3Aubuntu-ombre.png" class="media" title="applications:ubuntu-ombre.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=applications%3Aubuntu-ombre.png" class="media" alt="" /></a>
+</p>
+
+<a name="installation_de_xcompmgr"></a><h3> Installation de xcompmgr </h3>
+<div class="level3">
+
+<p>
+ Il nous faut d&rsquo;abord installer le programme xcompmgr, c&rsquo;est lui qui permet à xorg d&rsquo;afficher les ombres sous les fenêtres.
+</p>
+<pre class="code">apt-get install xcompmgr</pre>
+
+</div>
+<!-- SECTION [562-762] -->
+<a name="configuration_de_xorg"></a><h3> Configuration de xorg </h3>
+<div class="level3">
+
+<p>
+ xorg est le serveur d&rsquo;affichage qu&rsquo;utilise Ubuntu, c&rsquo;est lui qui dessine les fenêtres sur votre écran. Nous avons besoin de le configurer pour activer les ombres. Commençons par sauvegarder le fichier de configuration actuel:
+</p>
+<pre class="code">sudo cp /etc/X11/xorg.conf /etc/X11/xorg.conf.old</pre>
+
+<p>
+(En cas de problème il vous suffira de taper 
+</p>
+<pre class="code">sudo mv /etc/X11/xorg.conf.old /etc/X11/xorg.conf</pre>
+
+<p>
+ pour restaurer votre configuration de xorg.)
+</p>
+
+<p>
+ Modifions maintenant le fichier:
+</p>
+<pre class="code">sudo gedit /etc/X11/xorg.conf</pre>
+
+<p>
+Si une section &ldquo;Extensions&rdquo; existe déjà ajoutez-y simplement la ligne suivante pour indiquer à xorg de charger &ldquo;Composite&rdquo;: 
+</p>
+<pre class="code">Option 	 	&quot;Composite&quot; 	&quot;Enable&quot;</pre>
+
+<p>
+Sinon créons cette section: 
+</p>
+<pre class="code">Section &quot;Extensions&quot;
+	Option 	 	&quot;Composite&quot; 	&quot;Enable&quot;
+EndSection</pre>
+
+</div>
+
+<a name="pour_les_cartes_graphiques_nvidia"></a><h5> Pour les cartes graphiques nvidia </h5>
+<div class="level5">
+
+<p>
+ Si vous utilisez une carte graphique nvidia, il nous faut ajouter une autre au fichier de configuration de xorg. Nous supposons que vous avez déjà installé les <a href="/wiki/materiel/nvidia" class="wikilink2" title="wiki:materiel:nvidia" onclick="return svchk()" onkeypress="return svchk()">pilotes propriétaires</a>.
+</p>
+
+<p>
+Trouvez la section &ldquo;Device&rdquo; et ajoutez-y cette ligne pour activer GLXComposite: 
+</p>
+<pre class="code">Option &quot;AllowGLXWithComposite&quot; &quot;Enable&quot;</pre>
+
+<p>
+.
+</p>
+
+<p>
+La section &ldquo;Device&rdquo; de mon fichier de configuration de xorg ressemble à:
+</p>
+<pre class="code">Section &quot;Device&quot;
+	Identifier	&quot;NVIDIA Corporation NV34 [GeForce FX 5200]&quot;
+	Driver		&quot;nvidia&quot;
+	BusID		&quot;PCI:1:0:0&quot;
+	Option		&quot;RenderAccel&quot;		&quot;true&quot;
+	Option		&quot;NvAGP&quot;			&quot;1&quot;
+	Option		&quot;AllowGLXWithComposite&quot;	&quot;Enable&quot;
+	# Désactive le logo nvidia au lancement de xorg
+	Option		&quot;NoLogo&quot;
+EndSection</pre>
+
+<p>
+ Sauvegardez le fichier. Il faut maintenant relancer xorg. Déconnectez-vous de votre session puis relancez xorg en appuyant sur &ldquo;Ctrl + Alt + Del&rdquo;.
+</p>
+
+</div>
+<!-- SECTION [763-2518] -->
+<a name="testons_si_les_ombres_fonctionnent"></a><h3> Testons si les ombres fonctionnent </h3>
+<div class="level3">
+
+<p>
+ Reconnectez-vous, ouvrez un terminal (<em>Applications &rArr; Outils système &rArr; Terminal</em>) et tapez cette commande pour activer l&rsquo;ombrage et l&rsquo;effet de transition pour les menus et fenêtres (fading): 
+</p>
+<pre class="code">xcompmgr -c -f</pre>
+
+<p>
+Si tout va bien les ombres apparaîtrons instantanément, dépliez le menu &ldquo;Applications&rdquo; pour voir à quoi ressemble le fading.
+</p>
+
+</div>
+<!-- SECTION [2519-2921] -->
+<a name="charger_les_ombres_des_le_demarrage"></a><h3> Charger les ombres dès le démarrage </h3>
+<div class="level3">
+
+<p>
+ Voyons maintenant comment activer les ombres dès le démarrage de votre session.
+</p>
+
+<p>
+C&rsquo;est très simple: Cliquez sur <em>Système &rArr; Préférences &rArr; Sessions</em> et choisissez l&rsquo;onglet &ldquo;Programmes au démarrage&rdquo;. Appuyez sur &ldquo;Ajouter&rdquo;, indiquez 
+</p>
+<pre class="code">xcompmgr -c -f</pre>
+
+<p>
+ comme &ldquo;commande de démarrage&rdquo; et 0 comme ordre (ca permet de charger les ombres avant le reste de Gnome, ainsi vos applications de recouvrent pas le panel Gnome lorsqu&rsquo;elles sont maximisées).
+</p>
+
+<p>
+Déconnectez vous puis reconnectez vous pour tester si ca fonctionne !
+</p>
+
+<p>
+Si tout va bien vous voilà avec un magnifique poste de travail qui fera plus d&rsquo;un jaloux (surtout parmi les utilisateurs de Windows) !
+</p>
+
+<p>
+Attention : l&rsquo;utilisation de xcompmgr cache l&rsquo;affichage de la boîte de dialogue de déconnexion. Pour contourner ce problème, utilisez la flèche vers le bas et la touche &ldquo;entrée&rdquo; après avoir cliqué sur &ldquo;Fermer la session&rdquo; :  - une fois vers le bas + entrée = fermer la session - deux fois vers le bas + entrée = éteindre - trois fois vers le bas + entrée = redémarrer 
+</p>
+
+</div>
+<!-- SECTION [2922-] -->

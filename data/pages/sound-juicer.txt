@@ -1,0 +1,79 @@
+{{tag>Precise Trusty audio}}
+
+------
+
+{{ :sound_juicer_logo.png?70|Icone}}
+
+====== Extracteur de CD audio : Sound Juicer ======
+
+**Sound Juicer**, application libre distribuée sous [[wpfr>Licence_publique_générale_GNU|licence publique générale V2]], vous permet d'extraire vos CDs audio. Cette opération s'appelle aussi "ripper un CD audio", c'est-à-dire copier son contenu sous forme de fichiers (OGG, MP3 ou autres) dans votre ordinateur. Si vous possédez une connexion Internet activée au moment de l'extraction, **Sound Juicer** récupérera automatiquement les informations du CD (Titres, artiste, pistes,...) via la base de données [[wpfr>MusicBrainz]].\\
+
+===== Pré-requis =====
+  * Disposer des [[:sudo|droits d'administration]] ;
+  * Disposer d'une connexion à Internet configurée et activée;
+  * Avoir installé le [[:tutoriel/completer_installation_ubuntu#installer_les_principaux_codecs_multimedia_proprietaires_mp3_flash_wmv_dvd|paquet "restricted-extras"]] si vous souhaitez encoder en [[wpfr>MPEG-1/2_Audio_Layer_3|Mp3]] ou [[wpfr>MPEG-4_Part_14|Mp4]].
+ 
+===== Installation =====
+Pour installer **Sound-juicer**, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>sound-juicer]]** \\
+
+
+=====Lancement=====
+L'application Sound Juicer se lance depuis le [[:unity#dash|tableau de bord d'Unity]], catégories //"médias" //ou pour les menus classiques, menu //Applications ⇒ Médias ⇒ Extracteur de CDs audio Sound Juicer//.\\
+Ou pour toutes [[:variantes|variantes d'Ubuntu]] en saisissant dans un [[:terminal]] la [[:commande_shell|commande]] suivante:
+<code>sound-juicer</code>
+
+===== Utilisation =====
+  - Insérer un CD audio dans votre lecteur de CD;
+  - Lancer **Sound Juicer**; \\ **Sound Juicer** analysera les pistes audio* et si vous êtes connecté à internet, reconnaîtra ces dernières ainsi que les autres informations. Vous pouvez si vous le souhaitez, modifier les champs en double-cliquant dessus. 
+  - Lancer l'extraction en cliquant sur "Extraire"
+Une fois terminé, vos fichiers audio seront déposés dans le dossier de destination sélectionné lors de la [[#configuration]] (Dossier "Musique" par défaut).
+
+<note important>L'encodage en MP3 se fait uniquement en VBR</note>
+
+*//Si l'analyse n'a pas démarré, cliquer sur "Lire"//
+=====Configuration=====
+Dans le menu //Édition ⇒ Préférences// de **Sound Juicer**, vous pourrez alors régler :
+  * Le dossier d'extraction ("Musique" par défaut),
+  * L'arborescence des pistes et de nom des fichiers (voir les exemples dans l'application).
+  * Le format de sortie ([[wpfr>OGG]] par défaut).
+
+=====Configuration avancée=====
+**Sound Juicer** utilise [[https://www.xiph.org/paranoia/index.html|cdparanoïa]]. Vous pouvez modifier les paramètres de ce dernier en lançant **[[:dconf|dconf-editor]]**\\
+Dans la fenêtre qui s'ouvre alors, vous ouvrez le dossier "Org" puis "gnome", puis le sous-dossier "SoundJuicer":
+
+<note>Dans les anciennes versions d'ubuntu il faut utiliser **[[:gconf|gconf-editor]]**\\
+Dans la fenêtre qui s'ouvre alors, vous ouvrez le dossier "Apps", puis le sous-dossier "SoundJuicer":</note>
+
+
+====Qualité audio====
+Sélectionnez "paranoïa" dans la fenêtre de droite, et vous lui attribuez la valeur de votre choix (de 8, valeur par défaut, à 255, qui correspond à la meilleure qualité possible).
+
+==== Changer le format du N° de piste ====
+
+ Pour avoir un nom de fichier commençant par 01, 02,... à la place de 1,2,... ce qui permet que les fichiers soient triés par ordre de chanson dans l'explorateur de fichiers: 
+  * changer la valeur de "file-pattern" pour //%tN - %tt// ce qui donne, par exemple : 01 - Première chanson
+
+La liste complète des options est disponible dans la description de file-pattern.
+
+===== Problèmes connus =====
+====Sound Juicer ne démarre pas====
+Si ce message d'erreur s'affiche :
+<code>Impossible de démarrer Sound Juicer. 
+Raison: le greffon nécessaire à l'accès au fichier n'a pas été trouvé.
+Veuillez consulter la documentation pour plus d'aide.</code>
+
+Il vous faut entrer cette [[:commande_shell|ligne de commande]] dans un [[:terminal]]:
+<code>rm ~/.cache/gstreamer-1.0/registry.x86_64.bin</code>
+
+===== Voir aussi =====
+
+  * **(en)** [[https://wiki.gnome.org/Apps/SoundJuicer|Site officiel]]
+  * **(fr)** [[wpfr>Sound_Juicer|La page de Wikipedia]]
+====Autres applications d'extraction de CD====
+  *  [[asunder|Asunder]] (avec réglage de la qualité)
+  * [[:xcfa|Xcfa]]
+  * [[:abcde]] (en ligne de commande)
+
+------
+
+//Contributeurs : [[utilisateurs:Id2ndR]], [[utilisateurs:toy]]//.

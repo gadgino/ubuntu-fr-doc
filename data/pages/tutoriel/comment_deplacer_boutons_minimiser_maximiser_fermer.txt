@@ -1,0 +1,79 @@
+{{tag>Xenial personnalisation gnome tutoriel}}
+
+----
+====== Modifier la position des boutons de fenêtre ======
+
+Cette page décrit comment déplacer les boutons des fenêtres (fermer, réduire, agrandir,..) d'un côté vers l'autre. L'opération dépend de votre [[:environnements|environnement]] graphique.
+
+===== Gnome-shell =====
+
+Dans [[:Gnome-shell]] et ses déclinaisons (Gnome classique,..), il n'y a **pas d'interface graphique** pour effectuer cette opération. Selon votre situation de départ :
+
+  * Pour avoir les **boutons en haut à droite**, lancez la commande dans un terminal :
+<code>gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:minimize,maximize,close'</code>
+
+  * Pour avoir les **boutons en haut à gauche**, lancez la commande dans un terminal :
+<code>gsettings set org.gnome.desktop.wm.preferences button-layout 'close,minimize,maximize:appmenu'</code>
+
+**Le changement est immédiat** et respecte l'ordre tel qu'indiqué.
+
+Les paramètres possibles :
+  * close : fermer
+  * minimize : réduire
+  * maximize : agrandir / restaurer
+  * appmenu : Avoir le menu de l'application au cas où celui-ci ne soit plus dans la barre supérieure
+
+  * la virgule « , » sépare les boutons ;
+  * le double-point « : » indique où se situe le titre de la fenêtre par rapport aux boutons.
+
+  * Le paramètre « spacer » peut permettre d'ajouter un espace entre deux boutons mais il peut briser le design en faisant apparaître un trait vertical.
+
+===== Unity =====
+N'est possible ni dans aucun des paramètres standards ni dans l'application unity-tweak-tool.
+
+<note tip>Il semble que la même méthode que pour [[:Gnome-shell]] fonctionnait sur d'anciennes versions d'[[:Unity]] mais plus sur les récentes.</note>
+
+===== Budgie =====
+Dans [[https://ubuntubudgie.org/|Budgie]] comme pour Unity, il semble que ce ne soit pas une option possible. 
+
+Le changement direct de la configuration via [[:dconf-tools|dconf-editor]] ne sert pas plus.
+
+===== Cinnamon =====
+**Paramètres système** -> Préférences : **Fenêtres**
+
+{{ :tutoriel:cinnamon_-_boutons_des_fenetres.png?direct&700 |Cliquez pour agrandir l'image}}
+
+C'est très intuitif..
+
+===== Xfce =====
+Pour Xfce, ces réglages sont possibles en allant dans **Paramètres -> (Gestionnaire de paramètres ->) Gestionnaire de fenêtres -> Style**
+
+{{ :tutoriel:xubuntu_-_boutons_des_fenetres.png?direct&500 |Cliquez pour agrandir l'image}}
+
+On peut alors déplacer les boutons à l'emplacement désiré.
+
+===== Mate =====
+Dans **Système -> Préférences -> Apparence**, **on a le choix** entre
+  * **-> Fenêtres ->Paramètres**, onglet **Général** : **Boutons de la barre des titres** -> **À gauche** ou **À droite**.
+
+  * **-> MATE Tweak**, onglet **Fenêtres** : **Apparence** -> **Traditionnel (à droite)** ou **Contemporain (à gauche)**
+
+{{ :tutoriel:mate_tweak.png?direct&700 |Cliquez pour agrandir l'image}}
+
+===== LXDE / Openbox =====
+Dans les **préférences**, vous avez le choix entre le **Gestionnaire de configuration d'Openbox -> Apparence** ou le choix **Personnaliser l'apparence -> Bordure des fenêtres -> Barre de titre**
+
+{{ :tutoriel:lubuntu_-_boutons_de_fenetre.png?direct&700 |Cliquez pour agrandir l'image}}
+
+Le **réglage** pour inverser les boutons : **CMILN**
+
+===== KDE =====
+On trouve les réglages dans : **Ordinateur** -> **Configuration du système** -> **Apparence** -> **Apparence des applications** -> **Décorations de fenêtres** -> onglet : **Boutons**
+
+{{ :tutoriel:kubuntu_-_boutons_de_fenetres.png?direct&700 |Cliquez pour agrandir l'image}}
+
+On déplacera les éléments dans l'ordre souhaité à la souris.
+
+----
+
+//Contributeur principal : [[:utilisateurs:Bouv]].//

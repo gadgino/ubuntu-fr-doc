@@ -1,0 +1,84 @@
+====== Mes Nautilus-scripts ======
+
+===== Prérequis =====
+
+  * Lisez la documentation [[:nautilus_scripts|Les scripts pour Nautilus]]
+  * Lisez la documentation [[https://help.ubuntu.com/community/NautilusScriptsHowto|NautilusScriptsHowto]]
+  * Lisez la documentation [[http://www.tldp.org/LDP/Bash-Beginners-Guide/html/Bash-Beginners-Guide.html|Bash : Guide pour debutant]] et notamment sa section 10.3.3
+
+===== Un script pour renommer en masse avec pyrenamer =====
+
+  * Installez le paquet **[[apt>pyrenamer]]**
+  * Allez dans le dossier des scripts nautilus
+  * Créez-y le fichier //pyrenamit// ou //pyrenamall//, au choix
+  * Rendez le exécutable, pour ne pas avoir à le faire après
+  * Éditez-le et copiez-collez-y le code suivant
+
+<code>
+#!/bin/bash
+#Lance l'application Pyrenamer
+# dans le dossier selectionné
+# ou dans le dossier du fichier selectionné.
+#
+# Nautilus "Renommer en masse" Script #
+#
+# Si l'argument est vide :
+# - le clic droit ne sélectionne ni dossier ni fichier
+# - comportement plus valide avec xenial
+# - pyrenamer s'ouvre par défaut dans $HOME
+# - on fait ouvrir pyrenamer dans le dossier courant du clic "vide"
+#
+if [ "$1" = "" ];then
+    wdir=${NAUTILUS_SCRIPT_CURRENT_URI#file://}
+    else
+#
+# L'argument n'est pas vide :
+# - le clic droit sélectione un dossier ou un fichier
+# - la variable filetype enregistre le type de l'argument
+# - avec seulement la note "directory" ou "file"
+#
+    filetype=$(file "$1")
+    filetype=${filetype##*: }
+#
+# La variable filetype enregistre le type "directory" :
+# - le chemin de l'argument sélectionné est reconstitué
+# - avec la localisation complète et courante du dossier sélectionné
+# - et de son nom, débarrassé de la notation shell file://
+#
+    if [ "$filetype" = "directory" ];then
+    wdir="${NAUTILUS_SCRIPT_CURRENT_URI#file://}/$1"
+    else
+#
+# La variable filetype enregistre le type "file" :
+# - le chemin de l'argument sélectionné est reconstitué
+# - avec seulement la localisation complète et courante du fichier sélectiionné
+# - débarrassé de la notation shell file://
+#
+    wdir=${NAUTILUS_SCRIPT_CURRENT_URI#file://}
+    fi
+fi
+#
+# Pour tout contenu de localisation complète
+# pour le dossier de travail ou d'exécution (wdir = working directory)
+# la variable $wdir est  débarrassée de la notation shell du symbole "espace"
+# tous les échappements shell %20 deviennent des espaces " "
+#
+wdir=${wdir//%20/ }
+#
+# Le contenu de la variable $wdir
+# avec ses espaces et ses caractères accentués
+# est protégé par des guillemets
+#
+pyrenamer "$wdir"
+</code>
+
+==== Explications de code ====
+
+  * le script vérifie le chemin d'execution du script pyrenamit
+  * le chemin est vide, le script lui assigne le dossier courant d'execution ...
+  * le chemin n'est pas vide, le script vérifie si c'est un fichier ou un dossier
+  * si c'est un dossier, le script lancera pyrenamer avec le nom du dossier selectionné et son chemin complet
+  * si c'est un fichier, le script lancera pyrenamer avec le dossier contenant le fichier selectionné
+  * le script prend en compte les espaces et les caracteres accentués
+
+__Lire les commentaires du code__

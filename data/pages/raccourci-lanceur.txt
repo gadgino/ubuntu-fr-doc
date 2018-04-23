@@ -1,0 +1,199 @@
+{{tag>Trusty Precise personnalisation }}
+----
+
+====== Raccourci-lanceur ======
+<note important>Certaines parties de cette page ne sont valables que pour l'environnement [[:Mate]], KDE (Testé sous une Kubuntu 14.10) et Xfce (Xubuntu). Pour [[:Unity]] vous trouverez d'autres astuces propres à cet environnement [[:unity_launcher|ici]].</note>
+Les **lanceurs** sont des raccourcis pour démarrer un logiciel, ouvrir un fichier ou un dossier.\\
+Cette page décrit comment dupliquer ou créer un lanceur sur le bureau, un tableau de bord, ou encore dans le menu //Applications//.
+
+{{:raccourci-lanceur:raccourci-lanceur_lucid_01.png|Lanceurs sur le bureau et le tableau de bord haut}}
+
+
+===== Dupliquer un lanceur vers le tableau de bord ou le bureau ====
+
+Sous Unity cette méthode ne fonctionne pas. Sous Mate, les raccourcis pour démarrer vos logiciels se trouvent dans le menu //Applications//.\\
+Si vous utilisez souvent un logiciel, vous pouvez dupliquer son raccourci sur votre bureau ou sur votre tableau de bord.
+
+===Exemple===
+Allez dans le menu //Applications -> Internet//, puis faites un clic droit sur //Navigateur Web Firefox//. Il apparaît alors un petit menu qui vous propose notamment de: 
+  * Ajouter ce lanceur au tableau de bord,
+  * Ajouter ce lanceur au bureau.
+
+{{:raccourci-lanceur:raccourci-lanceur_lucid_02.png?400|Clic droit sur le logiciel -> Choisir d'ajouter ce lanceur au tableau de bord ou au bureau}}
+
+Une autre possibilité consiste à faire un glisser-déposer sur le bureau ou le tableau de bord.
+
+=====Créer un lanceur=====
+
+==== Sur le bureau ====
+
+Pour faire un raccourci sur le bureau, faites un clic-droit sur le bureau, choisissez //Créer un lanceur...// puis reportez-vous à la section « [[#Configuration d'un lanceur]] ».\\
+{{:raccourci-lanceur:raccourci-lanceur_lucid_03.png?150|Clic droit sur un endroit vide du bureau -> Créer un lanceur...}} 
+
+Sous Unity cette méthode ne fonctionne pas, reportez vous directement à la section [[#configuration_d_un_lanceur|configurer le lanceur]].
+    
+==== Sur un tableau de bord ====
+Pour faire un raccourci sur un tableau de bord, faites un clic-droit dessus (Pour Mate, voir [[:gnome-session-fallback|ici]] le raccourci clavier correspondant), choisissez //Ajouter au tableau de bord ->  Lanceur d'application personnalisé// avant de vous reporter à la section « [[#Configuration d'un lanceur]] ».
+
+| {{:raccourci-lanceur:raccourci-lanceur_lucid_04.png?150|Clic droit sur un endroit vide du tableau de bord -> Ajouter au tableau de bord}} | {{:raccourci-lanceur:raccourci-lanceur_lucid_05.png?200|Choisir Lanceur d'application personnalisé}} |
+
+==== Dans les menus  ====
+Il est possible d'ajouter des entrées dans les menus visibles par défaut à gauche sur le tableau de bord du haut.
+
+<note important>Seule la [[#méthode en ligne de commande]] permet de faire un raccourci accessible à tous les utilisateurs d'un même ordinateur.</note>
+
+=== Méthode graphique ===
+Pour ajouter un lanceur dans le menu //Applications//, faites un clic-droit sur //Applications//, puis un clic-gauche sur **Éditer les menus**.\\ Vous accéderez ainsi à l'application de gestion des menus **[[:Alacarte]]**.\\
+{{:applications:alacarte_lucid_02.png?200|Alacarte: l'éditeur de menu}}
+
+Une alternative à Alacarte, qui fonctionne également avec Unity, est **[[:Menulibre]]** ou **[[Arronax]]**.
+
+Si vous êtes sous [[:Unity]], une autre méthode pour créer graphiquement un lanceur pour tous les utilisateurs est la suivante: 
+  * Installer le paquet mate-panel sans ses dépendances grâce à cette commande que vous entrez dans un [[:terminal]] : <code>sudo apt-get install --no-install-recommends mate-panel</code>
+  * Pour créer le lanceur pour tous les utilisateurs lancez la commande: <code>sudo mate-desktop-item-edit /usr/share/applications/ --create-new</code> Remplissez la fenêtre qui s'ouvre. 
+
+Après cela votre application sera disponible dans  [[unity#tableau_de_bord_dash|le tableau de bord Unity]].
+=== Méthode en ligne de commande ===
+<note important>
+Pour Kubuntu 14.10 (à vérifier pour les autres versions), cette méthode est la seule qui fonctionne. La modification, même en superutilisateur, des propriétés n'est pas répercutée dans le fichier.
+</note>
+[[:tutoriel:comment_modifier_un_fichier|Créez avec les droits d'administration]] un fichier **/usr/share/applications/<nom du programme>.desktop**  pour y ajouter ces lignes :
+
+<file>
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=Nom du programme tel qu'il apparaîtra dans les menus
+GenericName=Nom générique ...
+Comment=Commentaire/description du programme
+Icon=chemin vers l'icône du programme(s'il y en a une...)
+Exec='nom de l'exécutable' (en quelque sorte la commande qui permet d'ouvrir le programme par le terminal)
+Terminal=false  #ouvrir ou non un terminal lors de l'exécution du programme (false ou true)
+StartupNotify=false  #notification de démarrage ou non (false ou true)
+Categories=Catégories du programme  #Exemple: Categories=Application;Game;ArcadeGame
+
+#Sous KDE uniquement
+X-KDE-SubstituteUID=true #permet de lancer sous KDE le programme avec les droits superutilisateur. À utiliser avec parcimonie.
+</file>
+
+Enregistrez-le. Voilà, vous avez créé une entrée de menu valable pour tous les utilisateurs !
+
+<note help>Lorsque vous renommez un lanceur, ce n'est pas le nom du fichier ''.desktop'' qui est modifié, mais ce que vous avez renseigné en face de « Name ».\\
+Pour renommer réellement le fichier ''.desktop'', saisissez dans un [[:terminal]] les [[:commande_shell|commandes]] suivantes:
+<code>cd /usr/share/applications/
+sudo mv ancien_nom.desktop nouveau_nom.desktop
+</code>
+</note>
+===== Configuration d'un lanceur =====
+<note important>Pour pouvoir créer un lanceur, vous devrez connaître la commande qui lance votre programme. Pour vous aider, vous pouvez vous rendre à la section << [[#Cas général]] >>.</note>
+Dans ce qui suit vous trouverez quelques explications vous permettant de comprendre comment remplir la fenêtre de création d'un lanceur :
+
+{{:applications:alacarte_lucid_04.png|La fenêtre de création de lanceur}}
+
+Afin d'obtenir cette fenêtre, lancer dans un [[:terminal]] la [[:commande_shell|commande]] : <code>mate-desktop-item-edit --create-new ~/Bureau</code>
+Puis remplissez comme suit:
+  * //Type// : détermine quel est le type auquel la commande sera associée
+    * << Application >>
+    * << Application dans un terminal >>
+    * << Emplacement >>
+  * //Nom// : nom du programme tel qu'il apparaîtra là où sera le lanceur, ce champ est à remplir à votre convenance,
+  * //Commande// : la commande à renseigner pour appeler l'application dont vous cherchez à créer le lanceur. \\ Les exemples qui suivent dans cette page vous aideront à remplir cette case. Sachez néanmoins que la fonction //Parcourir// vous permettra de chercher votre cible dans le système de fichier,
+  * //Commentaire// : Commentaire ou description du programme qui apparaîtra lorsque vous laisserez votre curseur au-dessus de l'icône du lanceur,
+  * //Icône de l'application// : Par défaut a une forme de ressort. En cliquant dessus vous pourrez parcourir ou saisir le chemin vers une icône personnalisée.
+
+<note important>Sous peine que cela ne fonctionne pas, en cas de référence vers un élément placé dans votre Dossier Personnel, indiquer le __chemin complet__ vers celui-ci plutôt qu'utiliser le //tilde//((~)) ou la variable //$HOME//  dans le champ **//Commande//**.</note>
+
+Pour Unity il ne vous reste plus qu'à glisser le nouveau lanceur dans la barre de lanceurs.
+==== Cas général ====
+
+Il s'agira bien souvent d'indiquer dans la section //Commande// le nom de l'application dont vous cherchez à créer le lanceur.\\
+Par exemple, pour créer un lanceur démarrant [[:Firefox]], il suffit d'indiquer la [[:commande_shell|commande]] suivante :
+<code>firefox</code>
+
+Afin de pouvoir utiliser le nom du programme, ici **firefox**, pour le lancer plutôt que de chercher à chaque fois le chemin de son exécutable ( **/usr/bin/firefox**), les exécutables ou les liens vers les exécutables des programmes sont installés par défaut dans un certain nombre de répertoires déterminés par la variable **[[:variables_d_environnement#variables_liees_aux_emplacements_de_fichiers|PATH]]**, où le système cherche la commande (dans un terminal ou graphiquement).
+
+Pour obtenir le chemin complet, il vous faudra saisir dans un [[:terminal]] la [[:commande_shell|commande]] suivante:
+<code>which firefox</code>
+Ceci permet de constater que l'exécutable de Firefox se trouve bien dans un des répertoires connus : **/usr/bin/firefox** (dans le cas présent c'est en fait un lien symbolique qui mène au véritable exécutable **firefox.sh**).
+
+Pour trouver la commande (sans arguments) qui a permis de lancer une fenêtre donnée, saisissez dans un [[:terminal]] la [[:commande_shell|commande]] suivante:
+<code>xprop WM_CLASS</code>
+puis avec le curseur de la souris, cliquez sur la fenêtre qui vous intéresse et le résultat apparaîtra dans le [[:terminal]].\\
+Par exemple pour le [[:moniteur système]],  vous obtiendrez en réponse:
+<code>WM_CLASS(STRING) = "gnome-system-monitor", "Gnome-system-monitor"</code>
+
+<note tip>Veillez à respecter la casse ((différence minuscule/majuscule)) lorsque vous remplissez la commande. Par exemple: 
+  * //gnome-system-monitor// fonctionnera 
+  * //Gnome-sysTem-monitoR// ne fonctionnera pas
+</note>
+
+==== Pour une application installée hors dépôts  ====
+
+Si vous souhaitez créer un lanceur pour une application installée autrement que par la méthode des [[:dépôts]], par exemple mis en place par vos soins dans votre **Dossier Personnel** ou dans le dossier **/opt**, il vous faudra au choix:
+  *saisir le chemin complet vers votre exécutable. Si vous ne savez pas comment renseigner ce chemin, vous pouvez vous aider du bouton **Parcourir**.
+  * créer un lien symbolique vers un des répertoires de la variable PATH en saisissant dans un [[:terminal]] la [[:commande_shell|commande]] suivante: <code>sudo ln -s /chemin/de/l'exécutable /usr/bin</code>
+
+==== Pour un logiciel avec un fichier en argument ====
+
+Si vous souhaitez créer un lanceur pour un logiciel et un fichier particulier, après avoir choisi le //Type// << Application >> , rajoutez sa commande avant l'emplacement du fichier.\\
+Par exemple, pour utiliser [[:avidemux]] pour lire le fichier **exemple.avi** qui se trouve dans un dossier **film** de l'utilisateur, il s'agira d'indiquer la commande suivante :
+<code>avidemux2_gtk /home/<votre_nom_d'utilisateur>/film/exemple.avi</code>
+
+==== Pour une application avec un argument en préfixe ====
+
+ Si vous souhaitez créer un lanceur demandant un préfixe, il vous suffira généralement de faire précéder la commande de ce préfixe.\\
+Par exemple, pour créer un lanceur démarrant le jeu [[:Dofus]] installé //via// [[:Wine]], il suffit de renseigner la commande suivante :
+<code>env WINEPREFIX="$HOME/.wine" wine "C:\Program Files\Dofus\UpLauncher.exe"</code>
+<note help>Vous trouverez un autre exemple d'argument préfixant une commande sur **[[:skype#webcam_image_verte_ou_noire_ou_blanche|cette page]]**.</note>
+
+==== Pour un script ====  
+
+Si vous souhaitez créer un lanceur qui appelle un [[:tutoriel:script_shell|script]] [[:bash]], il s'agira généralement d'indiquer la commande suivante :
+<code>sh -c /chemin/du/script.sh</code>
+Par exemple, si vous désirez créer un lanceur pour script **test.sh** se trouvant dans un dossier **Script** de votre Dossier Personnel vous indiquerez
+<code>sh -c /home/<votre_nom_d'utilisateur>/Scripts/test.sh</code> 
+
+<note help>1. Si malgré les bons [[:droits]] attribués à votre script, celui-ci ne semble pas s'exécuter depuis le lanceur, vérifiez d'avoir bien choisi le //Type//.
+
+2. " let : not found "… Certaines commandes du script fonctionneront seulement à la condition d'ajouter un ! dans le shebang : modifier #/bin/bash en #!/bin/bash.</note>
+
+==== Pour ouvrir un fichier ====
+
+Par exemple, si vous souhaitez créer un lanceur qui permet d'ouvrir le fichier **montexte.txt** qui se trouve dans votre Dossier Personnel avec votre éditeur de texte par défaut, après avoir choisi le //Type// << Emplacement >> il s'agira d'indiquer la commande suivante :
+<code>file:///home/<votre_nom_d'utilisateur>/montexte.txt</code>
+Il est également possible de cliquer sur le bouton //Parcourir// pour sélectionner le fichier à ouvrir.
+
+==== Pour ouvrir un dossier ====
+
+Les lanceurs peuvent également servir de raccourcis vers des dossiers en donnant l'adresse du dossier en question à votre gestionnaire de fichiers.\\
+Par exemple, si vous souhaitez créez un lanceur qui ouvre le [[:gestionnaire de fichiers]] dans votre dossier **Musique**  il s'agira d'indiquer la commande suivante :
+  * pour Ubuntu : <code>nautilus Musique</code>
+  * pour Xubuntu : <code>thunar Musique</code>
+  * pour Kubuntu :<code>dolphin Musique</code>
+  * pour Lubuntu:<code>pcmanfm Musique</code>
+
+Pour accéder à un emplacement extérieur au dossier utilisateur, vous devez ajouter le chemin sous la forme: <code> nautilus //etc/tmp </code>
+==== Codes spéciaux pour la ligne de commande ====
+
+La ligne de commande peut contenir des codes spéciaux. Ils seront remplacés avec la valeur correspondante:
+
+  * **%f** Un nom de fichier unique, même si plusieurs fichiers sont sélectionnés. Si le fichier n'est pas dans le système de fichier local (ex. disponible en HTTP ou en FTP), il sera téléchargé et %f pointera sur le fichier temporaire (à utiliser pour les applications ne comprenant pas la syntaxe URL).
+  * **%F** Une liste de fichiers. À utiliser pour des applications qui peuvent ouvrir plusieurs fichiers à la fois.
+  * **%u** Une URL unique.
+  * **%U** Une liste d'URLs.
+
+<note>Pour une explication plus complète voir [[http://standards.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html#exec-variables|la liste de variable exec]] (en) dans les définitions standards de freedesktop.org </note>
+
+===== En ajoutant un script dans le menu contextuel de Caja =====
+
+Cette méthode crée un script dans le menu contextuel de [[:caja]] pour créer des lanceurs:
+  * [[:tutoriel:comment_modifier_un_fichier|Créez le fichier]] //~/.local/share/caja/scripts/Créer un lanceur// : <file>mate-desktop-item-edit `pwd` --create-new</file>
+  * Rendez-le [[:tutoriel:script_shell#executer_un_script|éxécutable]].
+
+On peut maintenant créer un lanceur avec beaucoup de facilité :  par exemple, sur n'importe quel dossier d'une fenêtre, faire un clic droit et l'option Scripts apparaît, sous laquelle on trouve //Créer un lanceur//, une fois créé déplacez-le sur votre Bureau.
+
+{{ :unity:script_lanceur_oneiric_01.png?300 |}}
+
+
+----
+//Contributeurs principaux : Nicow, Lefendril, [[:utilisateurs:YannUbuntu]], [[:utilisateurs:fabux]], [[:utilisateurs:l_africain|L'Africain]].//

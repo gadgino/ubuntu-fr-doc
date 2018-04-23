@@ -1,0 +1,306 @@
+{{tag>partage upnp dlna}}
+
+----
+
+====== Ready Media (anciennement MiniDLNA) : Mini Serveur DLNA très simple ======
+
+L'objectif est de présenter ce serveur DLNA vraiment simple d'utilisation. 
+Comme [[uShare]], **Ready Media** (anciennement **MiniDLNA**) va permettre de partager vos vidéos, votre musique, vos images... entre votre PC et votre console de jeux, votre platine Blu-Ray, votre téléphone portable ou votre télévision!!!\\ 
+Ce serveur est une bonne alternative à uShare pour ceux qui ont des problèmes de lecture des MPEG4 ou de partage sur un téléviseur.
+Il s’agit probablement du meilleur serveur dlna sous debian/ubuntu, contrairement à uShare où il peut arriver aux clients de planter ou de mal fonctionner lors du passage d'une musique à l'autre, ou mediatomb qui ne fais pas automatiquement l'arborescence, ce serveur est très stable et autonome, idéale pour partager un disque dur entier par exemple.
+
+SITES OFFICIELS
+http://minidlna.sourceforge.net/ 
+http://sourceforge.net/projects/minidlna/
+
+
+===== Matériel Clients testé =====
+MiniDLNA est un serveur qui fonctionne parfaitement avec tous les périphériques suivants :
+
+  * Décodeur TV UHD86 à travers LiveBox mini 2
+  * Décodeur TV UHD87 avec livebox play 3
+  * BBox Fibre TV
+  * Cambridge Audio Streamer 6
+  * Freebox HD
+  * Freebox Revolution
+  * IPHONE 3G
+  * IPAD (divers logiciels dont Airplay)
+  * LG DP1B (mise à jour nécessaire : juillet 2011)
+  * Lecteur Blu Ray disc3D LG BX580 lecture de tous ce que j'ai pu tester (image video, music, MKV, MP4, MP3 DivX6 H.264/MPEG4 ,MPEG ,JPEG) aucune restriction pour le moment .
+  * Neuf Box SFR (NB4-MAIN-R3.1.10)
+  * Netbox
+  * Numericable LaBox (sauf .srt, ou alors [[http://ehc.ac/p/minidlna/patches/129/|via un patch]])
+  * Orange Liveradio Vintage (poste de radio FM/Wifi webradio + dlna)
+  * Onkyo TX-8050 amplificateur / lecteur réseau
+  * Onkyo CR-N765 amplificateur / lecteur CD et réseau
+  * Philips NetTV 40FLH7605H (Play/Pause/FW/RW OK, musique et photos OK, Video sans sous-titres)
+  * Samsung Galaxy'S GT-I9000 (Lecture Xvid,Divx,Mkv)
+  * Samsung TV LCD LE32D550
+  * Samsung TV LCD LE40B651
+  * Samsung TV LCD LE40C630
+  * Samsung TV LED UE40D5000 et UE46D5700
+  * Samsung TV LED UE40JU6400
+  * Samsung TV LED Série 6 (UE32C6000)
+  * Samsung TV LED Série 6 (UE40H6400)
+  * Samsung TV LED Série 6 (UE46ES6300)
+  * Samsung TV LED Série 6 (UE50ES6900)
+  * Samsung TV LED Série 7 (UE40B7000)
+  * Samsung TV LED 3D UE40C7700
+  * Samsung TV LED 3D 40UE6030
+  * Samsung Home cinéma HT C5500
+  * Sony Bravia kdl (limitations aux formats reconnus par la TV)
+  * Sony BDV E370 3D Ready (Home cinema Bluray, DVD, Xvid, Divx, etc)
+  * Sony BDP-S370 (MKV, MPEG4, XViD, DiVX5 et VIDEO_TS/MPEG2 Firmware version M03.R.769)  
+  * Sony Playstation 3, Sony Playstation 4
+  * Panasonic TX-P42ST50E
+  * TELEFUNKEN 41,9" Wide Screen LED DIGI TV(téléviseur 3D LED entrée de gamme)
+  * TABBEE
+  * XBOX 360 (Différentiation des Vidéos, Musique et Image et lecture du MPEG4)
+  * Application Android HouseMedia
+  * Awox StriimLINK
+  * chaine DENON CEOL
+  * Yamaha R-N602
+
+home cinema :
+  * Samsung HT D5100
+  * Samsung HT D7100
+  * Samsung HT F5200
+  * LG HB806SH
+===== Installation =====
+
+==== Depuis le dépôt Universe (Ubuntu 11.10 Oneiric Ocelot et suivants) ====
+
+Le paquet étant disponible dans le dépôt universe, il s'[[:tutoriel:comment_installer_un_paquet|installe]] depuis la logithèque ou en cliquant sur ce lien  **[[apt>minidlna]]**.
+
+==== Depuis le dépôt PPA (Ubuntu 9.10 Karmic Koala et suivantes) ====
+
+[[:PPA|Ajoutez le PPA]] **ppa:stedy6/stedy-minidna**((https://launchpad.net/~stedy6/+archive/stedy-minidna)) dans vos sources de logiciels, puis [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]].
+
+Puis [[:tutoriel:comment_installer_un_paquet|on installe le paquet]] **[[apt://minidlna|minidlna]]**.
+
+==== Par l'archive ====
+
+Télécharger le fichier tar.gz à l'adresse : \\ 
+http://sourceforge.net/projects/minidlna/
+
+Puis [[:archivage#archiver_et_extraire_une_archive|décompressez l'archive]] 
+<code>tar -zxvf minidlna_1.0.16.3_static.tar.gz</code>
+
+<note important>Remarque : la décompression de l'archive crée les répertoires etc/ et usr/sbin/ là où vous vous trouvez !!!</note>
+
+Déplacer  minidlna et son fichier de configuration :
+<code>sudo mv usr/sbin/minidlna /usr/sbin/</code>
+
+<code>sudo mv etc/minidlna.conf /etc/</code>
+
+Pour lancer le serveur minidlna en arrière plan :
+<code>/usr/sbin/minidlna -f /etc/minidlna.conf -R</code>
+
+Pour lancer le serveur minidlna avec la console en sortie :
+<code>/usr/sbin/minidlna -f /etc/minidlna.conf -P /var/run/minidlna.pid -d -R</code>
+
+<note>1- s'il a été installé par le PPA,  la commande est :
+<code> minidlna -f /etc/minidlna.conf -R</code> (il ne faut pas préciser le chemin)
+
+2- constaté sur lucid : il vaut mieux la lancer en sudo
+</note>
+
+===== Lancement de l'application =====
+
+Si vous avez installée **Ready Media** /  **MiniDLNA** par les dépots, il est installé comme un service et sera lancé automatiquement quand votre ordinateur sera démarré. A priori, vous n'avez donc jamais à utiliser de commandes pour (re)lancer / stopper ce programme (surtout si vous avez laissé l'option de recherche automatique de nouveaux fichiers), cependant si besoin, voici les commandes à utiliser.
+
+Pour redémarrer / arrêter / état minidlna :
+<code>
+sudo /etc/init.d/minidlna restart
+sudo /etc/init.d/minidlna stop
+sudo /etc/init.d/minidlna status
+</code>
+
+
+Pour reconstruire la base de données :
+<code>sudo minidlnad -f /etc/minidlna.conf -R</code>
+
+===== Configuration de minidlna =====
+Rien de compliqué, tous les paramètres sont dans le fichier de configuration ''/etc/minidlna.conf '' :
+
+  * port : mettre 49200
+  * network_interface=eth0 (par câble ethernet ou bien ''wlan0'' pour le WiFi) séparé par des virgules dans le cas de plusieurs interfaces réseau ex: wlan0,eth0
+  * eth0 a été remplacé par enp3s0 en depuis 15.10
+  * (fonctionnels chez moi sur une Debian 6 avec minidlna en version 	1.0.18-5.dc1)
+  * media_dir=A,/repertoire/musique (les répertoires à scanner)
+  * db_dir=/var/cache/minidlna (répertoire du cache) [par défaut : ''/tmp'']
+  * friendly_name=Nexus DLNA Server (ou ce que vous voulez voir apparaître sur l'interface du client DLNA via la télévision)
+ 
+<file># port for HTTP (descriptions, SOAP, media transfer) traffic
+port=49200
+
+# network interface to bind to (this is the only interface that will serve files)
+network_interface=eth0
+
+# set this to the directory you want scanned.
+# * if have multiple directories, you can have multiple media_dir= lines
+# * if you want to restrict a media_dir to a specific content type, you
+#   can prepend the type, followed by a comma, to the directory:
+#   + "A" for audio  (eg. media_dir=A,/home/jmaggard/Music)
+#   + "V" for video  (eg. media_dir=V,/home/jmaggard/Videos)
+#   + "P" for images (eg. media_dir=P,/home/jmaggard/Pictures)
+media_dir=A,/repertoire/musique
+media_dir=P,/repertoire/photos
+media_dir=V,/repertoire/films
+
+# set this if you want to customize the name that shows up on your clients
+friendly_name=My DLNA Server
+
+# set this if you would like to specify the directory where you want MiniDLNA to store its database and album art cache
+db_dir=/var/cache/minidlna
+
+# this should be a list of file names to check for when searching for album art
+# note: names should be delimited with a forward slash ("/")
+album_art_names=Cover.jpg/cover.jpg/AlbumArtSmall.jpg/albumartsmall.jpg/AlbumArt.jpg/albumart.jpg/Album.jpg/album.jpg/Folder.jpg/folder.jpg/Thumb.jpg/thumb.jpg
+
+# set this to no to disable inotify monitoring to automatically discover new files
+# note: the default is yes
+inotify=yes
+
+# set this to yes to enable support for streaming .jpg and .mp3 files to a TiVo supporting HMO
+enable_tivo=no
+
+# set this to strictly adhere to DLNA standards.
+# * This will allow server-side downscaling of very large JPEG images,
+#   which may hurt JPEG serving performance on (at least) Sony DLNA products.
+strict_dlna=no
+
+# default presentation url is http address on port 80
+#presentation_url=http://www.mylan/index.php
+
+# notify interval in seconds. default is 895 seconds.
+notify_interval=900
+
+# serial and model number the daemon will report to clients
+# in its XML description
+serial=12345678
+model_number=1
+</file>
+<note warning>Par défaut, lorsque //miniDLNA// est lancé en tant que service, il est exécuté avec l'utilisateur ''minidlna'' et groupe ''minidlna''. Selon les permissions sur vos répertoires et fichiers, cela peut être un problème pour que vos fichiers apparaissent dans //miniDLNA//.
+
+Voir le chapitre suivant pour changer l'utilisateur et le groupe avec lequel est exécuté //miniDLNA//.</note>
+
+<note important>Vous n'êtes pas obligés d'associer une lettre aux répertoires devant être scannés :\\
+media_dir=/media/My Passport/videos/\\ media_dir=/media/WALKMAN/musiques/\\
+</note>
+
+
+<note important>Selon la quantité de média que vous partagez, leur disponibilité pour vos appareils clients ne sera pas immédiate. On peut facilement croire à tort que seuls quelques premiers dossiers sont partagés, simplement parce que miniDLNA n'a pas fini de tout scanner. Une bonne méthode consiste à le lancer la première fois avec la console en sortie (cf 2.3)
+</note>
+
+<note important>Si le serveur n'apparait pas sur le client, baisser le notify interval dans le fichier minidlna.conf, par exemple à 5 :
+<file># notify interval in seconds. default is 895 seconds.
+notify_interval=5
+</file>
+</note>
+
+<note important>En cas de problèmes de droits lors du lancement, une solution pour éviter un lancement en root (sudo) est de récupérer l'archive sur sourceforge:\\
+[[http://sourceforge.net/projects/minidlna/]]\\
+  * créer un répertoire .minidlna dans le répertoire utilisateur\\
+  * décompresser dans ce répertoire .minidlna  \\
+  * modifier le fichier minidlna.conf\\
+<file>
+# set this if you would like to specify the directory where you want MiniDLNA to store its database and album art cache
+db_dir=/home/MON_NOM_UTILISATEUR/.minidlna
+
+# set this if you would like to specify the directory where you want MiniDLNA to store its log file
+log_dir=/home/MON_NOM_UTILISATEUR/.minidlna
+</file>
+
+   * et adapter la commande de lancement:\\
+Par exemple:\\
+<code>/home/MON_NOM_UTILISATEUR/.minidlna/usr/sbin/minidlna -f /home/MON_NOM_UTILISATEUR/.minidlna/etc/minidlna.conf</code>
+</note>
+==== Configuration de l'utilisateur et groupe ====
+
+Par défaut, //miniDLNA// (lorsqu'il a été installé depuis les dépôts) est exécuté automatiquement au démarrage de l'ordinateur comme un service.
+L'utilisateur et le groupe par défaut utilisés sont : ''minidlna''.
+
+Cela peut poser un problème d'accès à vos fichiers de média, s'ils ne sont pas en accès pour tout le monde. Vous pouvez donner l'accès à tout le monde à vos fichiers :
+<code> sudo chmod a+rX /mes_fichiers_et_répertoires/ </code>
+
+Cependant, si vous ne désirez pas faire ceci, ne serait-ce que pour des raisons de sécurité, vous pouvez changer l'utilisateur et le groupe utilisé par //miniDLNA//.
+
+===1. Solution à privéligier (Ubuntu 14.04) :===
+Modifier le fichier ''/etc/default/minidlna'' (en mode ''root'' avec ''sudo'') et plus particulièrement les lignes :
+<code>
+#USER="minidlna"
+#GROUP="minidlna"
+</code>
+
+Concrètement, ajouter la ligne : <code>GROUP="nom_de_l'utilisateur" </code> (où //nom_de_l'utilisateur// est à remplacer par le nom de l'utilisateur (user) de votre machine). 
+
+
+===2. Ancienne solution : ===
+
+Si vos utilisateurs sont dans le groupe ''users'' et que vos fichiers et répertoires sont accessibles à ce groupe, voici les manipulations à effectuer :
+  * changer le fichier  ''/etc/default/minidlna'' : 
+<code>
+#USER="minidlna"
+GROUP="users"
+</code>
+
+  * changer le groupe de l'utilisateur ''minidlna''
+<code>
+$ sudo adduser minidlna users
+$ sudo usermod -g users minidlna
+$ sudo delgroup minidlna
+</code>
+
+<note warning> Attention, cette dernière commande peut provoquer une erreur empêchant toute mise à jour (Ubuntu 14.04). La commande pour débloquer la situation est : <code> sudo addgroup minidlna </code> </note>
+
+Et voilà c'est fait, //miniDLNA// sera exécuté avec le groupe users et pourra lire tous vos fichiers.
+
+
+Dans tous les cas, n'oubliez pas de redémarrer minidlna : 
+<code>
+$ sudo /etc/init.d/minidlna restart 
+</code>
+
+===== Pochettes de films  =====
+
+==== Pour TV Samsung ====
+Pour afficher la pochette d'un film, créer un fichier JPEG correspondant.
+
+<note>
+Exemple :
+mon_film_en_HD.avi avec sa pochette nommée mon_film_en_HD.jpg
+</note>
+
+==== Pour la PS3 ====
+Comme pour les TV Samsung, pour afficher la pochette d'un film, créer un fichier JPEG correspondant.
+
+<note>
+Exemple :
+mon_film_en_HD.avi avec sa pochette nommée mon_film_en_HD.jpg
+</note>
+
+L'image doit être au format 320 x 240 pixels pour un meilleur rendu.
+
+A noter qu'il existe un site internet pour générer des pochettes au format PNG : [[http://www.worldinhidef.com/ps3ms/thumbnailgenerator/|PS3 Media Server - Thumbnail generator]]
+
+Il conviendra de convertir le fichier png au format jpg (avec gimp par exemple) pour que celà fonctionne avec le serveur minidlna
+===== Vidéos avec pistes de sous-titre =====
+Certains types de conteneurs vidéo embarquent une piste pour les sous-titres, qui ne s'affichent pas sur l'écran de télé (exemple : fichiers MKV). 
+
+Pour bénéficier des sous-titres, il suffit d'extraire cette piste (par exemple avec [[mkv_extractor_gui_v4|MKV Extractor GUI]] ) dans un fichier du même nom que le fichier vidéo (testé avec l'extension .srt), et de le placer dans le même dossier.
+
+<note important>Les sous-titres fonctionnent comme testés sur une TV Panasonic TX-PF50G30 mais ne sont pas supportés par la Freebox Revolution (v6) sur le même serveur et le même film.
+</note>
+===== Configuration du Pare-feu =====
+
+Il vous faudra certainement configurer votre [[:pare-feu]] pour que tout fonctionne correctement. Pour faire cela il est recommandé d'utiliser [[:gufw]] qui est une interface graphique pour le pare-feu [[:iptables]] d'Ubuntu.
+
+Avec [[:gufw]] il vous suffit d'ajouter une nouvelle règle pour autoriser le service uPnP (port 49200 dans l'exemple) quand la source est l'adresse IP de vos équipements.
+
+Exemple de mise en application pour un réseau sous Livebox
+<code>sudo ufw allow from 192.168.1.0/24 to any port 49200</code>
+
+----
+
+//Contributeurs : [[:utilisateurs:mcpeter|McPeter]], ned.net.//

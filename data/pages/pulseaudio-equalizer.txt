@@ -1,0 +1,60 @@
+{{tag>Trusty audio}}
+
+----
+
+====== PulseAudio Equalizer ======
+
+PulseAudio Equalizer est un égaliseur graphique 15 bandes permettant le réglage du son de votre système. Ce paquet fournit une interface graphique au plugin LADSPA de Pulseaudio installé par défaut sous Ubuntu.
+
+{{:applications:pulseaudio-equalizer_lucid_01.png?500|{{:applications:pulseaudio-equalizer_lucid_01.png|{{:applications:pulseaudio-equalizer_lucid_01.png|}}
+
+===== Pré-requis =====
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+<note important>**Pulseaudio-Equalizer** n'est pas disponible dans les [[:depots|dépôts]] officiels mais depuis un [[:ppa|dépôt PPA]]. Installer un paquet hors des [[:depots|dépôts officiels]] peut présenter un risque d'instabilité du système.</note>
+
+  - [[:ppa|Ajouter le PPA]] **ppa:nilarimogard/webupd8** ((https://launchpad.net/~nilarimogard/+archive/webupd8/+index)) à vos sources de logiciels;
+  - [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|recharger la liste de vos paquets]];
+  - [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>pulseaudio-equalizer]]**. 
+  - :!: __Attention__: Ce [[:PPA]] contient de très nombreux autres paquets de versions supérieures. Si vous ne voulez pas avoir des mises à jour non souhaitées d'autres paquets vers des versions supérieures non prévues pour votre [[:versions|version d'Ubuntu]], [[:ppa#suppression_d_un_ppa|retirer ce PPA]] de vos sources de logiciels.  
+Ou dans un [[:terminal]], saisir les [[:commande_shell|commandes]] suivantes: <code>sudo add-apt-repository ppa:nilarimogard/webupd8
+sudo apt-get update
+sudo apt-get install pulseaudio-equalizer</code> Puis pour retirer le PPA de vos sources de logiciels: <code>sudo add-apt-repository --remove ppa:nilarimogard/webupd8</code>
+
+Note: s'installe aussi sans problème sur Xenial Xerus 16.04
+
+==== Sur Ubuntu > 14.04 ====
+Un dépôt existe qui corrige un bug dans les versions récentes d'Ubuntu. De plus il présente l'intérêt d'être assez léger puisqu'il ne contient que les paquets relatifs à pulseaudio-equalizer.
+  - [[:ppa|Ajouter le PPA]] **ppa:alex-wv/pulseaudio-equalizer-ppa** à vos sources de logiciels;
+  - [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|recharger la liste de vos paquets]];
+  - [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>pulseaudio-equalizer]]**. 
+
+Ou dans un [[:terminal]], saisir les [[:commande_shell|commandes]] suivantes: <code>sudo add-apt-repository ppa:alex-wv/pulseaudio-equalizer-ppa
+sudo apt-get update
+sudo apt-get install pulseaudio-equalizer</code>
+===== Utilisation=====
+
+Lancez l'application depuis le menu //Applications -> Son et vidéo -> PulseAudio Equalizer// ou //via// la [[:commande_shell|commande]] suivante : <code>pulseaudio-equalizer-gtk</code>
+
+
+Il est nécessaire de cocher la case **//EQ Enable//** afin d'activer l'égaliseur graphique.\\
+ 
+Plusieurs pré-réglages sont accessibles dans le menu déroulant **//Preset//**. Sélectionner le réglage souhaité et cliquer sur **//Apply Settings//** pour appliquer les changements. Pour conserver les paramètres au prochain redémarrage de votre système il est nécessaire de cocher la case **//Keep Settings//**.\\
+
+Pour appliquer ses propres paramètres, modifier manuellement les bandes de fréquence. Taper un nom de sauvegarde dans la case **//Preset//** et cliquer sur **//Save Settings//** pour sauvegarder votre pré-réglage.\\
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+
+===== Voir aussi =====
+
+  * **(en)** [[http://ubuntuforums.org/showthread.php?t=1308838|Ubuntuforums.org]]
+  * **(en)** [[http://www.webupd8.org/2013/10/system-wide-pulseaudio-equalizer.html|La page de Webup8 sur Pulseaudio-Equalizer]]
+
+----
+//Contributeurs principaux : [[:utilisateurs:moundi]].//

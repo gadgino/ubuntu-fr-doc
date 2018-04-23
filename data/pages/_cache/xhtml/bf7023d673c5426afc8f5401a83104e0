@@ -1,0 +1,54 @@
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+ <a href="https://wiki.ubuntu.com/SmartBootManagerHowto" class="urlextern" title="https://wiki.ubuntu.com/SmartBootManagerHowto" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Traduit</a> par <a href="/utilisateurs/gauthier" class="wikilink1" title="utilisateurs:gauthier" onclick="return svchk()" onkeypress="return svchk()">Gauthier</a>.
+</p>
+
+<a name="tutoriel_gestionnaire_de_demarrage_intelligent_smartbootmanager"></a><h1> Tutoriel : gestionnaire de démarrage intelligent (SmartBootManager) </h1>
+<div class="level1">
+
+</div>
+<!-- SECTION [130-213] -->
+<a name="je_n_arrive_pas_a_demarrer_l_ordinateur_a_partir_du_lecteur_de_cd-rom"></a><h2> Je n'arrive pas à démarrer l'ordinateur à partir du lecteur de cd-rom... </h2>
+<div class="level2">
+
+<p>
+ Pour installer Ubuntu, il faut à priori disposer d&rsquo;un ordinateur pouvant démarrer à partir d&rsquo;un cd-rom.  Or, c&rsquo;est difficile voire impossible dans certains cas.
+</p>
+
+<p>
+Les raisons peuvent être multiples : un ordinateur ancien dont le BIOS n&rsquo;est pas prévu pour démarrer à partir du cd-rom,  un lecteur de cd-rom récalcitrant, etc...etc...
+</p>
+
+<p>
+Si vous êtes dans ces cas de figure, alors suivez les étapes décrites ci-dessous : 
+</p>
+<ol>
+<li class="level1"><span class="li"> Télécharger <a href="http://slackware.at/data/slackware-current/rootdisks/sbootmgr.dsk" class="urlextern" title="http://slackware.at/data/slackware-current/rootdisks/sbootmgr.dsk" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Smart Boot Manager</a>. Pour plus d&rsquo;informations, <a href="http://linux.simple.be/tools/sbm" class="urlextern" title="http://linux.simple.be/tools/sbm" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">cliquer ici</a>.</span>
+</li>
+<li class="level1"><span class="li"> Préparer ensuite une disquette d&rsquo;amorçage. Pour ce faire, utiliser l&rsquo;utilitaire <a href="http://uranus.it.swin.edu.au/~jn/linux/rawwritewin-0.7.zip" class="urlextern" title="http://uranus.it.swin.edu.au/~jn/linux/rawwritewin-0.7.zip" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">rawwrite</a>. Pour plus d&rsquo;informations, <a href="http://uranus.it.swin.edu.au/~jn/linux/rawwrite.htm" class="urlextern" title="http://uranus.it.swin.edu.au/~jn/linux/rawwrite.htm" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">cliquer ici</a>.</span>
+</li>
+<li class="level1"><span class="li"> Redémarrer l&rsquo;ordinateur une fois cette disquette d&rsquo;amorçage créée.</span>
+</li>
+<li class="level1"><span class="li"> Vérifier que le bios de votre ordinateur est bien paramétré pour démarrer à partir du lecteur de disquette (pour de plus amples informations sur ce sujet, se reporter à la documentation fournie de la machine).  </span>
+</li>
+<li class="level1"><span class="li"> Insérer la disquette d&rsquo;amorçage et le cd Ubuntu dans le lecteur, et vérifier que la machine démarre bien de la disquette.</span>
+</li>
+<li class="level1"><span class="li"> Quand apparaît le menu <strong>Smart Boot Manager</strong>, sélectionner l&rsquo;option <em>avec cd-rom</em> et valider par <em>Entrée</em>.</span>
+</li>
+<li class="level1"><span class="li"> Félicitations ! Votre ordinateur va maintenant démarrer à partir du cd Ubuntu. L&rsquo;installation d&rsquo;Ubuntu peut commencer.</span>
+</li>
+</ol>
+
+<p>
+ J&rsquo;ose espérer que ce petit tutoriel en dépannera certains où qu&rsquo;ils soient !
+</p>
+
+<p>
+<em><strong>Attention</strong></em> : <code>Smart Boot Manager</code> n&rsquo;est pas compatible avec <code>parted</code> s&rsquo;il est installé sur le secteur d&rsquo;amorçage MBR du disque dur. Il y a en effet un risque que <code>parted</code> détecte de mauvaises informations sur les partitions.
+</p>
+
+</div>
+<!-- SECTION [214-] -->

@@ -1,0 +1,611 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#methode_basique_configuration_statique" class="toc"> Méthode basique : configuration statique </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#1._fixer_l_adresse_ip_de_nos_machines" class="toc"> 1. Fixer l'adresse IP de nos machines </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#methode_graphique_sous_gnomenautilus" class="toc"> Méthode graphique (sous gnome/nautilus)  </a></span></li>
+<li class="level3"><span class="li"><a href="#methode_par_ligne_de_commande" class="toc"> Méthode par ligne de commande  </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#2._activer_le_partage_de_connexions" class="toc"> 2. Activer le partage de connexions  </a></span></li>
+<li class="level2"><span class="li"><a href="#3._renseigner_le_fichier_etchosts" class="toc"> 3. Renseigner le fichier /etc/hosts  </a></span></li>
+<li class="level2"><span class="li"><a href="#4._configurer_sa_resolution_dns" class="toc"> 4. Configurer sa résolution DNS  </a></span></li>
+</ul>
+</li>
+<li class="level1"><span class="li"><a href="#methode_avancee_configuration_dynamique_et_centralisee" class="toc"> Méthode avancée : Configuration dynamique et centralisée </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#1._dnsmasq" class="toc"> 1. dnsmasq </a></span></li>
+<li class="level2"><span class="li"><a href="#2._iptables" class="toc"> 2. iptables </a></span></li>
+<li class="level2"><span class="li"><a href="#3._ajustements" class="toc"> 3. ajustements </a></span></li>
+<li class="level2"><span class="li"><a href="#4._les_autres_machines" class="toc"> 4. les autres machines </a></span></li>
+<li class="level2"><span class="li"><a href="#5._comment_ca_marche" class="toc"> 5. Comment ça marche ? </a></span></li>
+<li class="level2"><span class="li"><a href="#6._en_cas_de_probleme" class="toc"> 6. En cas de problème </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary 5.04
+</pre>
+
+<p>
+Rédigé par sksbir
+</p>
+<hr noshade="noshade" size="1" />
+
+<p>
+Cette page s&rsquo;adresse à ceux qui possèdent plusieurs PC Ubuntu reliés entre eux via des cables réseau et un répétiteur (hub) ou commutateur (switch):
+</p>
+
+<p>
+<a href="/fetch.php?cache=cache&amp;media=applications%3Aconfig_rl2.png" class="media" title="applications:config_rl2.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=applications%3Aconfig_rl2.png" class="mediacenter" alt="" /></a>
+</p>
+
+<p>
+Si votre modem est en fait un routeur, il sera sans doute plus intéressant pour vous de raccorder ce routeur directement au switch. En effet, en choisissant de faire assurer le partage ICS à une machine de votre réseau, il faut bien comprendre que cette machine devra être démarrée avant toutes les autres pour que ça fonctionne, et qu&rsquo;elle devra rester allumée pour que tout fonctionne bien.( 1ere allumée, dernière éteinte)
+</p>
+
+<p>
+Par contre, si vous n&rsquo;avez pas de routeur, si vous avez une vieille machine que vous voulez dédier à cette fonction, si vous voulez contrôler d&rsquo;un peu plus près le traffic vers internet, ou mettre en place des fonctions avancées, cette documentation est faite pour vous. 
+</p>
+
+<p>
+ Cette page documente donc les façons de mettre en place la fonction ICS (Internet Sharing Connection = Partage de Connexion Internet) sur une des machine du réseau, qu&rsquo;elle soit dédiée au rôle de serveur, ou qu&rsquo;elle soit le PC d&rsquo;un utilisateur. Dans les deux cas de figure, j&rsquo;appelerai cette machine <u>le serveur ICS</u>, même si c&rsquo;est un poste de travail utilisateur.
+</p>
+
+<p>
+De plus, elle permettra de &ldquo;tutoyer&rdquo; les machines du réseau en les appelant par leur nom au lieu de les appeler par leurs adresses IP.
+</p>
+
+<p>
+Ce guide part du principe que la connexion internet arrive via la carte réseau identifiée eth1. C&rsquo;est le genre de connexion qu&rsquo;on met en place quand on dispose d&rsquo;une freebox ou d&rsquo;un sagem 908 qu&rsquo;on raccorde à notre PC ICS avec un cable réseau RJ45. Si vous vous connectez en ppp vers internet, alors il y a de grandes chances que votre liaison s&rsquo;appelle  ppp0 au lieu de eth1. Cette connexion peut porter encore bien d&rsquo;autres noms suivant la façon dont vous vous raccordez sur internet ( liaison USB vers votre modem, liaison wifi vers une XXbox,etc... ) Ce n&rsquo;est pas l&rsquo;objet de cette documentation : on part du principe que votre connexion vers internet fonctionne, et il vous suffira de remplacer eth1 par le nom de votre connexion vers internet.
+</p>
+
+<p>
+J&rsquo;impose aussi que le serveur ICS récupère ses informations de connexion via DHCP.
+</p>
+<ul>
+<li class="level1"><span class="li"> Ceux qui ont pu surfer tout de suite sur internet sans modifier le paramétrage réseau sont précisément dans ce cas de figure (donc pas d&rsquo;inquiétude)</span>
+</li>
+<li class="level1"><span class="li"> ceux qui ont déja dû aller modifier leurs fichiers /etc/network/interfaces, /etc/resolv.conf,etc... devront tenir compte des modifications effectuées, et lire ce guide avec attention pour vérifier que tout le paramétrage reste compatible.</span>
+</li>
+</ul>
+
+<p>
+ Pour simplifier, je considère aussi que toutes mes machines sont connectées au réseau local par l&rsquo;interface réseau <strong>eth0</strong> , y compris le serveur ICS.
+</p>
+
+<p>
+Comme on a affaire à un réseau de moins de 256 machines , on choisira d&rsquo;établir notre réseau dans la plage d&rsquo;adresse 192.168.<strong>X.Y</strong> (ça n&rsquo;est pas obligatoire, et ceux que ça intéresse peuvent suivre ce lien : <a href="http://www.games-creators.org/wiki/Adresse_IP" class="urlextern" title="http://www.games-creators.org/wiki/Adresse_IP" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.games-creators.org/wiki/Adresse_IP</a>, ou celui-ci : <a href="http://www.france-hardware.com/articles/22/imprimer.html" class="urlextern" title="http://www.france-hardware.com/articles/22/imprimer.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.france-hardware.com/articles/22/imprimer.html</a> ) 
+</p>
+<ul>
+<li class="level1"><span class="li"> Le <strong>X</strong> représente alors l&rsquo;identification de mon réseau : je décide ici de choisir le chiffre 10.</span>
+</li>
+<li class="level1"><span class="li"> Le <strong>Y</strong> permet de distinguer les machines les unes des autres au sein de mon réseau 192.168.10.y : chaque machine DOIT avoir une valeur différente.</span>
+</li>
+</ul>
+
+<p>
+ De plus, je vais décider que le serveur qui voit internet aura l&rsquo;adresse IP 192.168.10.1 sur notre réseau local. Il est en effet obligatoire de décider de cette adresse une fois pour toutes.
+</p>
+
+<p>
+ Je vais vous proposer 2 façons de configurer votre réseau local:
+</p>
+<ul>
+<li class="level1"><span class="li"> Méthode basique : configuration statique.</span>
+</li>
+<li class="level1"><span class="li"> Méthode avancée : Configuration dynamique et centralisée.</span>
+</li>
+</ul>
+
+<p>
+ A vous de choisir votre méthode en fonction de vos désirs et de votre niveau de connaissance. On peut aussi mixer les deux solutions (avec précaution) : rien n&rsquo;interdit par exemple d&rsquo;avoir une partie de ces machines en configuration statique, et une autre en configuration dynamique.
+</p>
+
+<a name="methode_basique_configuration_statique"></a><h1> Méthode basique : configuration statique </h1>
+<div class="level1">
+
+<p>
+ Cette méthode est la plus simple à mettre en place, mais aussi la plus lourde à tenir à jour, surtout si vous avez des modifications de parc assez régulières (des machines qui viennent et repartent de votre réseau régulièrement): il va falloir garder dans un coin la liste de toutes les valeurs y que vous avez déja utilisé afin de ne pas redonner une même valeur à une nouvelle machine.
+</p>
+
+</div>
+<!-- SECTION [4149-4607] -->
+<a name="1._fixer_l_adresse_ip_de_nos_machines"></a><h2> 1. Fixer l'adresse IP de nos machines </h2>
+<div class="level2">
+
+<p>
+ Une fois qu&rsquo;on a déterminé quelle adresse IP on voulait donner à une machine, il faut faire en sorte que cette machine prenne cette adresse IP et n&rsquo;en change plus jamais.
+</p>
+
+</div>
+<!-- SECTION [4608-4833] -->
+<a name="methode_graphique_sous_gnomenautilus"></a><h3> Méthode graphique (sous gnome/nautilus)  </h3>
+<div class="level3">
+
+<p>
+ system &ndash;&gt; administration &ndash;&gt; reseau , on choisit alors la carte &ldquo;connexion internet/L&rsquo;interface eth0 est active&rdquo;, puis on clique sur propriété. On arrive alors sur cette fenêtre: <a href="/fetch.php?cache=cache&amp;media=applications%3Ainterface_eth0.png" class="media" title="applications:interface_eth0.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=applications%3Ainterface_eth0.png" class="mediacenter" alt="" /></a> On veillera à renseigner dans le champ adresse IP la valeur qu&rsquo;on a décidé. La valeur indiquée dans Passerelle permettra à la machine que vous êtes en train de configurer de se connecter vers internet: elle a besoin de savoir par où passer pour aller sur internet, et c&rsquo;est ici qu&rsquo;on le lui indique. Une seule exception : laisser cette valeur vide quand vous fixez l&rsquo;adresse IP de votre serveur ICS coté réseau local. Il sait déja comment aller sur internet.
+</p>
+
+</div>
+<!-- SECTION [4834-5577] -->
+<a name="methode_par_ligne_de_commande"></a><h3> Méthode par ligne de commande  </h3>
+<div class="level3">
+
+<p>
+ par la commande <strong>gedit /etc/network/interfaces</strong>, vous pourrez modifier le fichier ainsi: 
+</p>
+<pre class="file">
+iface eth0 inet dhcp
+</pre>
+
+<p>
+ deviendra alors 
+</p>
+<pre class="file">
+iface eth0 inet static
+        address 192.168.10.2
+        netmask 255.255.255.0
+        gateway 192.168.10.1
+</pre>
+
+</div>
+<!-- SECTION [5578-5890] -->
+<a name="2._activer_le_partage_de_connexions"></a><h2> 2. Activer le partage de connexions  </h2>
+<div class="level2">
+
+<p>
+ Sur la machine ICS, voici les commandes à passer: 
+</p>
+<pre class="code">
+sudo bash
+echo 1 &gt;/proc/sys/net/ipv4/ip_forward            # activation du &quot;pontage&quot; entre les deux cartes réseaux
+iptables -t nat -A POSTROUTING -s 192.168.10.0/24 -o eth1 -j MASQUERADE
+exit
+</pre>
+
+<p>
+ <strong><u>Attention</u></strong> : La commande <strong>sudo echo 1 &gt;/proc/sys/net/ipv4/ip_forward</strong> ne fonctionnera pas.
+</p>
+
+<p>
+ La commande iptables permet d&rsquo;activer un mécanisme permettant à toutes les machines du reseau local d&rsquo;aller sur internet en se faisant passer pour LA machine réellement connectée à internet. Ce mécanisme s&rsquo;appelle NAT (Network Translation Address) ou masquage d&rsquo;adresse IP (Masquerading).
+</p>
+
+<p>
+ maintenant qu&rsquo;on a fixé nos adresses IP locales, et qu&rsquo;on a activé le partage de connexion, toutes nos machines sont capables d&rsquo;aller sur internet, mais seulement de la façon la plus basique qui soit: Essayez la commande <strong>ping 212.27.33.233</strong>, et vous verrez que cette machine qui n&rsquo;est pas du tout sur votre réseau local va vous répondre ( on obtient des lignes du style <strong>Réponse de 212.27.33.233 : octets=32 temps=22 ms TTL=51</strong> ).
+</p>
+
+<p>
+Toutefois, on ne peut pas encore utiliser de noms pour s&rsquo;adresser aux autres machines de notre réseau local, ni pour s&rsquo;adresser aux machines qui sont sur internet.
+</p>
+
+<p>
+<strong><u>NOTE:</u></strong> Ces deux commandes sont &ldquo;volatiles&rdquo; : leur effet disparaitra au prochain redémarrage du serveur ICS. Pour rendre leur effet permanent, il faudra les activer dans un script de démarrage de la machine : voir <a href="http://www.andesi.org/index.php?node=28" class="urlextern" title="http://www.andesi.org/index.php?node=28" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.andesi.org/index.php?node=28</a> (sinon, rechercher dans google).
+</p>
+
+<p>
+L&rsquo;activation du pontage entre les deux cartes se fait dans le fichier <strong>/etc/network/options</strong><br/>
+ Le contenu du fichier est le suivant : 
+</p>
+<pre class="code">
+ip_forward=no
+spoofprotect=yes
+syncookies=no
+</pre>
+
+<p>
+ Il suffit de mettre <strong>yes</strong> pour <strong>ip_forwarding</strong>, et le tour est joué. L&rsquo;option <strong>spoofprotect</strong> active la protection contre l&rsquo;ip spoofing. Enfin, la dernière option <strong>syncookies</strong> protège la machine des attaques de type SYN flood.
+</p>
+
+</div>
+<!-- SECTION [5891-7937] -->
+<a name="3._renseigner_le_fichier_etchosts"></a><h2> 3. Renseigner le fichier /etc/hosts  </h2>
+<div class="level2">
+
+<p>
+On va s&rsquo;occuper de donner des noms aux machines de notre réseau local. En fait elles ont déja chacune un nom, mais il n&rsquo;y a qu&rsquo;elles même qui le connaisse. Il faut faire en sorte que toutes les machines du réseau sachent que par exemple la machine 192.168.10.3 s&rsquo;appelle aragorn. Il faudra faire le tour de toutes les autres machines de votre réseau afin d&rsquo;éditer le fichier <strong>/etc/hosts</strong>
+</p>
+
+<p>
+Voici par exemple le fichier /etc/hosts d&rsquo;une machine nommée pippin: 
+</p>
+<pre class="file">
+127.0.0.1       localhost.localdomain   localhost       pippin
+192.168.10.1    serveurICS
+192.168.10.2    gandalf
+192.168.10.3    aragorn
+192.168.10.4    boromir
+
+# ce qui suit fait partie de l'installation par défaut d'ubutu. A laisser tel quel.
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+ff02::3 ip6-allhosts
+</pre>
+
+<p>
+A noter que le fichier /etc/hosts de la machine boromir sera différent. Il devra ressembler à ceci: 
+</p>
+<pre class="file">
+127.0.0.1       localhost.localdomain   localhost       boromir
+192.168.10.1    serveurICS
+192.168.10.2    gandalf
+192.168.10.3    aragorn
+192.168.10.5    pippin
+...
+</pre>
+
+<p>
+ A ce stade de notre configuration, vos machines sont capables de se parler entre elles, et on peut les interpeler par leur nom : <strong>ping gandalf</strong> fonctionnera et ça sera la machine gandalf qui vous répondra. Mais c&rsquo;est à vous d&rsquo;assurer la cohérence du tout: si vous renseignez <em>gandlaf</em> au lieu de <em>gandalf</em> sur une de vos machine, alors <strong>ping gandalf</strong> ne fonctionnera pas à partir de cette machine...
+</p>
+
+</div>
+<!-- SECTION [7938-9622] -->
+<a name="4._configurer_sa_resolution_dns"></a><h2> 4. Configurer sa résolution DNS  </h2>
+<div class="level2">
+
+<p>
+ Il reste encore à faire en sorte qu&rsquo;au lieu de devoir taper <strong>ping 212.27.33.233</strong>, on puisse taper <strong>ping ubuntu-fr.org</strong>. Si on veut pouvoir surfer sur internet, c&rsquo;est même carrément obligatoire.
+</p>
+
+<p>
+On va devoir renseigner le fichier /etc/resolv.conf de chaque machine.
+</p>
+
+<p>
+Si votre machine ICS a bien fait son travail lorsqu&rsquo;elle s&rsquo;est connectée à internet, son fichier /etc/resolv.conf à elle sera déja renseigné. 
+</p>
+
+<p>
+Le contenu du fichier /etc/resolv.conf est fourni par un serveur chez votre fournisseur d&rsquo;acces internet. Il suffit donc de noter le contenu du fichier /etc/resolv.conf de votre machine ICS, et de le recopier sur toutes vos autres machines.
+</p>
+
+</div>
+<!-- SECTION [9623-10334] -->
+<a name="methode_avancee_configuration_dynamique_et_centralisee"></a><h1> Méthode avancée : Configuration dynamique et centralisée </h1>
+<div class="level1">
+
+<p>
+ L&rsquo;idée de cette solution, c&rsquo;est de concentrer (quasiment) tout le paramétrage sur le seul serveur ICS. De plus, on va optimiser notre réseau en n&rsquo;allant interroger les <acronym title="Domain Name Server">DNS</acronym> de notre fournisseur d&rsquo;acces que lorsque c&rsquo;est strictement nécessaire. On va utiliser un logiciel appelé <strong>dnsmasq</strong>. Ce logiciel regroupe un serveur DHCP et un serveur relais <acronym title="Domain Name Server">DNS</acronym>.
+</p>
+<ul>
+<li class="level1"><span class="li"> Le serveur DHCP permet de ne plus renseigner les adresses IP sur chaque machine. Chaque machine devient &ldquo;cliente DHCP&rdquo;, et le serveur distribue les adresses IP disponibles dans une plage d&rsquo;adresses qu&rsquo;on lui a spécifié.</span>
+</li>
+<li class="level1"><span class="li">  Le relais <acronym title="Domain Name Server">DNS</acronym> évite de passer par la liaison internet à chaque fois qu&rsquo;il y a un nom à résoudre : toutes les machines interrogent le serveur relais <acronym title="Domain Name Server">DNS</acronym>. Si on lui a déja posé la question, il répond tout de suite, sinon, c&rsquo;est lui qui interroge les serveurs <acronym title="Domain Name Server">DNS</acronym> du fournisseur d&rsquo;accès, et qui ensuite donne la réponse (mais il la garde en mémoire si on lui repose la question).</span>
+</li>
+</ul>
+
+<p>
+De plus, le relais <acronym title="Domain Name Server">DNS</acronym> va également mémoriser les noms de nos machines locales. C&rsquo;est très important , car comme les machines vont être en DHCP , on ne saura pas avec quelle adresse IP elle vont se retrouver (sauf à passer la commande <strong>ifconfig</strong> sur place, mais ça n&rsquo;est pas le but). Par contre, le nom sera toujours à jour.
+</p>
+
+<p>
+On va en profiter pour sécuriser un peu mieux le démarrage de notre serveur.
+</p>
+
+</div>
+<!-- SECTION [10335-11800] -->
+<a name="1._dnsmasq"></a><h2> 1. dnsmasq </h2>
+<div class="level2">
+
+<p>
+ Sur le serveur ICS, effectuez les actions suivantes: 
+</p>
+<ul>
+<li class="level1"><span class="li"> installer dnsmasq : <strong>sudo apt-get install dnsmasq</strong></span>
+</li>
+<li class="level1"><span class="li"> sauver le fichier de configuration original (Et relisez le plus tard, il contient plein d&rsquo;exemples pour comprendre): <strong>sudo cp -p /etc/dnsmasq.conf /etc/dnsmasq.conf.ori</strong></span>
+</li>
+<li class="level1"><span class="li"> Editez le fichier dnsmasq.conf, et adaptez le en fonction de votre besoin : Si votre FAI vous change d&rsquo;adresse IP tous les jours, mettez un # devant &ldquo;no-poll&rdquo;.</span>
+</li>
+</ul>
+
+<p>
+<strong> sudo gedit /etc/dnsmasq.conf</strong>  
+</p>
+<pre class="file">
+# Configuration file for dnsmasq.
+#
+# pour eviter de fournir du traffic DHCP/DNS inutile du coté internet
+##domain-needed
+bogus-priv
+# pour permettre a dnsmasq de suivre vos changement d'IP:
+# commentez cette ligne si vous avez une IP qui change
+no-poll
+# pour limiter l'écoute de requetes DHCP du coté réseau local
+interface=eth0
+# nom de votre domaine pour dnsmasq
+domain=inet
+# activez le serveur DHCP:
+dhcp-range=192.168.10.100,192.168.10.150,255.255.255.0,12h
+</pre>
+
+</div>
+<!-- SECTION [11801-12795] -->
+<a name="2._iptables"></a><h2> 2. iptables </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> Il faut maintenant créer de toute pièce le fichier que j&rsquo;ai appelé /etc/init.d/iptables. Voici son contenu:</span>
+</li>
+</ul>
+
+<p>
+<strong>sudo gedit /etc/init.d/iptables</strong> 
+</p>
+<pre class="file">
+#!/bin/sh
+#
+# Script de démarrage qui lance l'interface réseau internet,
+# met en place un firewall basique et un partage de connexion
+#
+# Inspiré du script de Mjules_at_ifrance.com
+#
+
+start() {
+# init du la périphérique internet (ici derriere un modem ADSL ethernet, DHCP client)
+
+/sbin/ifup eth1
+
+# Dans cette partie, on met en place le firewall
+#vidage des chaines
+iptables -F
+#destruction des chaines personnelles
+iptables -X
+
+#stratégies par défaut
+iptables -P INPUT DROP
+iptables -P FORWARD DROP
+iptables -P OUTPUT ACCEPT
+
+#init des tables NAT et MANGLE (pas forcément nécessaire)
+iptables -t nat -F
+iptables -t nat -X
+iptables -t nat -P PREROUTING ACCEPT
+iptables -t nat -P POSTROUTING ACCEPT
+iptables -t nat -P OUTPUT ACCEPT
+
+iptables -t mangle -F
+iptables -t mangle -X
+iptables -t mangle -P PREROUTING ACCEPT
+iptables -t mangle -P OUTPUT ACCEPT
+
+
+# Acceptation de toutes les connexions en local (un process avec l'autre)
+iptables -A INPUT -i lo -j ACCEPT
+iptables -A OUTPUT -o lo -j ACCEPT
+
+# PORT FORWARDING:
+# attention : on ne peut malheureusement pas mettre un nom de machine en destination, il faut mettre l'adresse IP.
+# exemple : on veut qu'un serveur HTTP installé sur une machine du réseau local soit visible depuis l'extérieur.
+###iptables -t nat -A PREROUTING -i eth1 -p tcp --dport 80 -j DNAT --to-destination 192.168.10.121:80
+###iptables -A FORWARD -p tcp -i eth1 --dport 80 -j ACCEPT
+
+
+#création d'une nouvelle règle
+iptables -N MAregle
+
+#définition de la règle : accepter les nouvelles connexions ne venant pas de l'interface internet
+# et accepter toutes les connexions établies et reliées (ex: une demande de page HTML provoque l'ouverture
+# d'une connexion reliée pour acheminer cette page vers l'ordinateur)
+
+iptables -A MAregle -m state --state NEW -i! eth1 -j ACCEPT
+iptables -A MAregle -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+#application de la règle au partage de connexion
+iptables -A INPUT -j MAregle
+iptables -A FORWARD -j MAregle
+
+# activation du forwarding dans le noyau
+# mise en place du partage de connexion sur le réseau local
+
+echo 1 &gt;/proc/sys/net/ipv4/ip_forward
+iptables -t nat -A POSTROUTING -s 192.168.10.0/24 -o eth1 -j MASQUERADE
+
+}
+
+stop() {
+        echo 0 &gt;/proc/sys/net/ipv4/ip_forward
+        ifdown eth1
+}
+
+case &quot;$1&quot; in
+ start)
+        start
+        ;;
+
+stop)
+        stop
+        ;;
+restart)
+        stop &amp;&amp; start
+        ;;
+*)
+        echo &quot;Usage $0 {start|stop|restart}&quot;
+        exit 1
+esac
+
+exit 0
+</pre>
+<ul>
+<li class="level1"><span class="li"> Une fois le script créé, il faut le rendre exécutable:</span>
+</li>
+</ul>
+
+<p>
+<strong>sudo chmod +x /etc/init.d/iptables</strong> 
+</p>
+<ul>
+<li class="level1"><span class="li"> Puis, on va intégrer ce script dans les démarrages et arrêts automatiques de notre machine ICS.</span>
+</li>
+</ul>
+
+<p>
+<strong>sudo update-rc.d /etc/init.d/iptables start 99 2 . stop 00 2 0 1 6 .</strong> (<u>Note</u> : n&rsquo;oubliez les points, ils font partie de la syntaxe)
+</p>
+
+<p>
+<strong><u>NOTE:</u></strong> plus d&rsquo;info sur les scripts de démarrage : voir <a href="http://www.andesi.org/index.php?node=28" class="urlextern" title="http://www.andesi.org/index.php?node=28" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.andesi.org/index.php?node=28</a>
+</p>
+
+</div>
+<!-- SECTION [12796-15921] -->
+<a name="3._ajustements"></a><h2> 3. ajustements </h2>
+<div class="level2">
+
+<p>
+ il reste quelques ajustements à effectuer sur notre serveur ICS: 
+</p>
+<ul>
+<li class="level1"><span class="li"> il faut modifier le fichier /etc/network/interfaces.</span>
+</li>
+</ul>
+
+<p>
+En effet, on a pu voir que le script iptable s&rsquo;occupait de démarrer l&rsquo;interface eth1. Il ne faut donc plus la faire démarrer au boot du serveur ICS. Dans le principe,il faut retirer la mention <em>eth1</em> de la ligne qui commence par <em>auto</em>.
+</p>
+
+<p>
+<strong> sudo gedit /etc/network/interfaces</strong>  
+</p>
+<pre class="file">
+# The loopback network interface
+auto lo eth0
+iface lo inet loopback
+
+# This is a list of hotpluggable network interfaces.
+# They will be activated automatically by the hotplug subsystem.
+mapping hotplug
+        script grep
+        map eth0
+
+# The primary network interface
+iface eth0 inet static
+        address 192.168.10.1
+        netmask 255.255.255.0
+# Interface vers internet : eth1
+# cette interface est demarree par le script iptables
+# donc elle est absente de la ligne &quot;auto&quot;
+iface eth1 inet dhcp
+</pre>
+<ul>
+<li class="level1"><span class="li"> Il faut aussi modifier le fichier /etc/hosts (de notre serveur ICS):</span>
+</li>
+</ul>
+<pre class="file">
+127.0.0.1      localhost.localdomain   localhost
+192.168.10.1   serveurICS
+</pre>
+
+<p>
+ Explication : Apres une installation d&rsquo;ubuntu, <em>serveurICS</em> est sur la même ligne que <em>localhost</em>. Sur toutes les machines de notre réseau, c&rsquo;est désiré : ça permet à chaque machine de se reconnaitre elle-même. L&rsquo;ennui, c&rsquo;est que toutes les informations contenues dans le fichier /etc/hosts de notre serveur ICS vont être disponibles à travers notre réseau local. (via le relais <acronym title="Domain Name Server">DNS</acronym>) Si on ne modifiait pas /etc/hosts, un <strong>ping serveurICS</strong> à partir de gandalf répondrait que <strong>Réponse de 127.0.0.1 : octets=32 temps&lt;1ms TTL=128</strong>, sauf que 127.0.0.1 n&rsquo;est pas notre serveur ICS, mais gandalf lui-même. 
+</p>
+<ul>
+<li class="level1"><span class="li"> On va également modifier /etc/dhcp3/dhclient.conf</span>
+</li>
+</ul>
+
+<p>
+ Cette manipulation est à faire sous réserve que votre serveur ICS est configuré en DHCP client auprès de votre fournisseur d&rsquo;accès. C&rsquo;est grace au DHCP client que le fichier /etc/resolv.conf est automatiquement renseigné sur le serveur ICS. De même, l&rsquo;adresse IP de la carte eth1, ainsi que la route par défaut sont fournies via DHCP. Le problème, c&rsquo;est que comme /etc/resolv.conf a été alimenté par DHCP, il contient donc les <acronym title="Domain Name Server">DNS</acronym> du fournisseur d&rsquo;accès. Aucune chance que votre founisseur d&rsquo;accès ne connaisse votre machine &ldquo;pippin&rdquo;. Donc à partir du serveur ICS, un <strong>ping pippin</strong> n&rsquo;a aucune chance d&rsquo;aboutir. Voici ce qu&rsquo;il faut faire:
+</p>
+<ul>
+<li class="level1"><span class="li"> <strong>sudo gedit /etc/dhcp3/dhclient.conf</strong></span>
+</li>
+<li class="level2"><span class="li"> recherchez et décommentez la ligne <em>prepend domain-name-servers 127.0.0.1;</em></span>
+</li>
+<li class="level2"><span class="li"> sauvegardez la modification.</span>
+</li>
+</ul>
+
+<p>
+ En clair, cette modification indique ceci au serveur ICS : &ldquo;Pour rechercher un nom, adresse toi d&rsquo;abord à toi-même , et si tu n&rsquo;y arrives pas, alors fait comme d&rsquo;habitude&rdquo;.
+</p>
+
+</div>
+<!-- SECTION [15922-18722] -->
+<a name="4._les_autres_machines"></a><h2> 4. les autres machines </h2>
+<div class="level2">
+
+<p>
+ Pour que tout fonctionne, il faut faire en sorte que les autres machines de notre réseau s&rsquo;intègrent correctement dans le réseau. 
+</p>
+<ul>
+<li class="level1"><span class="li"> Si vous aviez configuré les cartes eth0 en dur, il faut les remettre en DHCP</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Il faut modifier (un peu) le fichier /etc/dhcp3/dhclient.conf</span>
+</li>
+</ul>
+
+<p>
+ Cette modification est nécessaire pour que vos machines inscrivent leurs nom dans le serveur <acronym title="Domain Name Server">DNS</acronym> relais (installé sur le serveur ICS).
+</p>
+<ul>
+<li class="level1"><span class="li"> <strong>sudo gedit /etc/dhcp3/dhclient.conf</strong></span>
+</li>
+<li class="level2"><span class="li"> recherchez la ligne contenant <em>send host-name</em></span>
+</li>
+<li class="level2"><span class="li"> complétez la et décommentez la : <em>send host-name &ldquo;monpc&rdquo;;</em> (note:  syntaxe : mettez bien les guillemets)</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [18723-19396] -->
+<a name="5._comment_ca_marche"></a><h2> 5. Comment ça marche ? </h2>
+<div class="level2">
+
+<p>
+ Et voila, rebootez votre serveur ICS, puis rebootez les autres machines de votre réseau local.
+</p>
+
+<p>
+Quand une machine du réseau local démarre, voici ce qu&rsquo;elle fait: 
+</p>
+<ul>
+<li class="level1"><span class="li"> recherche d&rsquo;un serveur DHCP &ndash;&gt; le serveur ICS répond.</span>
+</li>
+<li class="level1"><span class="li"> le serveur ICS fourni une adresse DHCP dans la plage 192.168.10.100 à 192.168.10.150.</span>
+</li>
+<li class="level1"><span class="li"> le serveur ICS renseigne le fichier /etc/resolv.conf de votre machine : il se met lui-même (192.168.10.1), car il est serveur relais <acronym title="Domain Name Server">DNS</acronym>.</span>
+</li>
+<li class="level1"><span class="li"> le serveur ICS renseigne la route par défaut. Il se donne lui-même en route par défaut car c&rsquo;est lui qui effectue le partage de la connexion internet.</span>
+</li>
+</ul>
+
+<p>
+ A ce stade, on peut aussi installer une machine windows dans le réseau local : en laissant le paramétrage TCP/IP et les <acronym title="Domain Name Server">DNS</acronym> sur &ldquo;obtenir automatiquement&rdquo;, elle sera reconnue par tout le réseau.
+</p>
+
+<p>
+Donc quand vous faites <strong>ping gandalf</strong>, c&rsquo;est pas forcément 192.168.10.103 qui va répondre (par exemple), mais vous serez sûr que c&rsquo;est bien gandalf.
+</p>
+
+</div>
+<!-- SECTION [19397-20405] -->
+<a name="6._en_cas_de_probleme"></a><h2> 6. En cas de problème </h2>
+<div class="level2">
+
+<p>
+ Voici les pièges dans lesquels je suis tombé : 
+</p>
+<ul>
+<li class="level1"><span class="li"> ma plage DHCP n&rsquo;était pas dans le même réseau local que mon interface ethernet ( ex: plage 192.168.0.100-192.168.0.150 alors que l&rsquo;interface est en 192.168.1.1 )</span>
+</li>
+<li class="level1"><span class="li"> le réseau local référencé dans la commande POSTROUTING du script iptables  ne correspondait pas au réseau local dans lequel était la patte locale de mon serveur.</span>
+</li>
+<li class="level1"><span class="li"> J&rsquo;ai confondu eth0 et eth1 dans iptables , du coup, mon serveur n&rsquo;était pas joignable en local...</span>
+</li>
+</ul>
+
+<p>
+Si vous avez des questions ou des commentaires, voici un lien vers le forum : <a href="http://forum.ubuntu-fr.org/viewtopic.php?id=6468" class="urlextern" title="http://forum.ubuntu-fr.org/viewtopic.php?id=6468" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://forum.ubuntu-fr.org/viewtopic.php?id=6468</a> 
+</p>
+
+</div>
+<!-- SECTION [20406-] -->

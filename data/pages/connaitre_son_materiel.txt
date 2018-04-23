@@ -1,0 +1,271 @@
+{{tag>matériel carte_mère diagnostic_outil}}
+
+----
+
+====== Connaître son matériel ======
+
+Connaître la configuration matérielle de son ordinateur est une étape essentielle du diagnostic d'un problème avec Ubuntu. En effet, un même problème peut avoir plusieurs causes. Être en mesure de fournir un maximum d'informations en lien avec la configuration matérielle de son ordinateur permet de cerner davantage les possibles causes et de les éliminer.
+
+Le présent document est dédiée aux programmes et outils en ligne de commandes permettant d'obtenir des informations à propos de son ordinateur. Certains nécessitent des [[superutilisateur|droits d'administration]] ou doivent être installés séparément. La plupart de ces programmes s'utilisent en mode [[console]].
+
+===== Outils graphiques =====
+
+\\ \\
+
+==== Résumé dans le panneau "Paramètres système" (Unity / GNOME) ====
+
+{{ :materiel-resume.png?direct&400|L'outil "Résumé" des "Paramètres système" dans Ubuntu 13.04}}
+
+Dans Ubuntu, le panneau des //Paramètres système// affiche un très bref résumé de votre configuration matérielle. Sans doute insuffisante pour diagnostiquer des problèmes en détail, il propose néanmoins un rapide aperçu de la marque, du modèle et de la cadence de votre microprocesseur ; de la quantité de mémoire vive dont dispose votre ordinateur ; de la marque et du modèle de votre carte graphique ; et quelques informations concernant votre système d'Ubuntu (version et architecture).
+
+Pour afficher ce résumé :
+  - Appuyez sur le bouton système (en forme d'engrenage) dans le coin supérieur droit de votre écran et sélectionnez l'option **Paramètres système** ;
+  - Dans le panneau des paramètres système, appuyez sur l'outil **Détails** ;
+  - Retrouvez le résumé sous la section **Résumé**. Quelques informations supplémentaires concernant votre carte graphique se trouvent sous la section **Carte graphique**.
+  - cette section **Carte graphique** n'est pas dans Ubuntu 14.04, comment faire ?
+
+\\ \\
+
+==== I-nex ====
+
+Logiciel complet comparable a Cpu-Z sur windows, à installer depuis un ppa.
+
+pour la version stable :
+<code>sudo add-apt-repository ppa:i-nex-development-team/stable
+sudo apt-get update
+sudo apt-get install i-nex</code>
+
+pour la version instable :
+<code>sudo add-apt-repository ppa:i-nex-development-team/daily
+sudo add-apt-repository ppa:gambas-team/gambas3
+sudo apt-get update
+sudo apt-get install i-nex</code>
+
+==== Sysinfo ====
+ {{  :sysinfo.png?direct&350|L'outil "Sysinfo" affichant les informations du processeur d'un ordinateur}}
+
+**Sysinfo** est un programme un peu plus bavard que l'outil du résumé système de GNOME. S'il permet d'afficher les même informations résumées, il offre aussi la possibilité d'étendre les détails pour la ou les sections qui sont d'intérêt. Par exemple, Sysinfo vous offre davantage d'informations à propos des matériels suivants de votre ordinateur :
+  * //System// : indique la version d'Ubuntu, la version de GNOME, la version du noyau Linux, la version de GCC et la version du serveur d'affichage X.org ;
+  * //CPU// : affiche la marque et le modèle du microprocesseur, sa cadence, la taille de son cache L2 et ses jeux d'instructions reconnues ;
+  * //Memory// : affiche la quantité de mémoire disponible, celle utilisée, celle disponible et utilisée en mémoire d'échange (//swap//) ;
+  * //Storage// : affiche les marques et modèles des médias de stockage (disques durs, clés USB, lecteurs de CD-ROM/DVD-ROM...) ;
+  * //Hardware// : affiche des informations avancées concernant la carte mère de l'ordinateur, ses cartes et puces graphiques, ses cartes et puces audio, et ses cartes réseau.
+
+Une fonctionnalité intéressante de Sysinfo est qu'il permet d'exporter et enregistrer la configuration détectée de votre ordinateur vers un fichier texte. En sélectionnant //Fichier --> **Enregistrer**//, il est très aisé de rouvrir le détail de votre configuration système à l'aide d'un logiciel d'édition de texte. Ceci facilite grandement la manière de transmettre votre configuration système à ceux qui vous la demande, par exemple dans un forum de discussions, dans un salon de clavardage ou dans une liste de diffusion, des canaux d'aide où il est davantage facile d'échanger l'information sous forme de texte plutôt qu'en images.
+
+Sysinfo n'est pas présent de base dans Ubuntu. Il doit être installé séparément. Pour ce faire, [[:tutoriel:comment_installer_un_paquet|installez le paquet]] [[apt>sysinfo]] ou retrouvez-le dans la Logithèque Ubuntu. Vous retrouverez ce logiciel dans votre liste de logiciels installés sous le nom **Sysinfo**.
+
+\\ \\
+
+==== HardInfo ====
+
+{{  :hardinfo.png?direct&400|HardInfo, affichant l'ensemble des périphériques PCI reconnus}}
+
+Pour une information encore plus complète, **HardInfo** est l'outil de prédilection. Si l'interface semble moins invitante à première vue, puisque la présentation est beaucoup plus chargée et visuellement compacte, il n'en reste pas moins que HardInfo vous affiche une information très détaillée concernant votre matériel.
+
+Tout comme Sysinfo, HardInfo permet d'exporter l'information de votre configuration sous forme de texte, pour faciliter le partage d'information dans un forum de discussions, dans un salon de clavardage ou dans une liste de diffusion, des canaux d'aide où il est davantage facile d'échanger l'information sous forme de texte plutôt qu'en images. Cependant, HardInfo propose deux méthodes d'exportation:
+  * //Copy to Clipboard// : cette méthode copie sous forme textuelle l'information affichée à l'écran dans votre presse-papiers. Ainsi, il est facile de copier-coller à la demande l'information désirée vers un canal d'aide ;
+  * //Generate Report// : cette méthode exporte les informations relatives à la configuration de l'ordinateur vers un fichier. Ceci est intéressant pour conserver un audit de son matériel ou l'expédier par courrier électronique. Les rapports peuvent être exportés sous forme de fichier texte ou de document HTML.
+
+HardInfo n'est pas présent de base dans Ubuntu. Il doit être installé séparément. Pour ce faire, [[:tutoriel:comment_installer_un_paquet|installez le paquet]] [[apt>hardinfo]] ou retrouvez-le dans la Logithèque Ubuntu. Vous retrouverez ce logiciel dans votre liste de logiciels installés sous le nom **System Information and Benchmark**.
+
+  * **//[[[hardinfo|Découvrez-en davantage à propos de HardInfo]]//**
+
+\\ \\ \\
+
+===== Outils en ligne de commande =====
+Cette liste (non exhaustive) répertorie différents programmes destinés à détecter son matériel et à donner des informations sur celui-ci, ainsi que les options les plus utiles.
+
+==== Processeur : lscpu et /proc/* ====
+**lscpu** liste les caractéristiques de son micro processeur (CPU en anglais)
+
+
+D'autres informations du processeur sont disponibles dans un répertoire contenant un certain nombre de fichiers contenant eux-mêmes des informations utiles. Par exemple, /proc/cpuinfo contient quelques caractéristiques du CPU, et /proc/asound/cards les cartes son. Pour les afficher, utilisez la commande **cat** :
+  cat /proc/cpuinfo
+  cat /proc/asound/cards
+
+Les informations sont parfois plus difficiles à déchiffrer que dans ces deux exemples, notamment les dossiers /proc/XXX où XXX est un nombre correspondant à des processus en cours. Certains fichiers peuvent être modifiés directement, mais cette pratique est extrêmement risquée si vous ne savez pas exactement ce que vous faites.
+
+==== lspci ====
+
+Liste les périphériques PCI.
+
+Options utiles :
+  * ''-v'' : bavard
+  * ''-vv'' : très bavard
+  * ''-vvv'' : pire encore !
+  * ''-n'' : donne les indices numériques au lieu des noms
+  * ''-nn'' : noms + indices
+  * ''-tv'' : vue arborescente des branchements
+
+<note help>
+Si vous avez beaucoup de « Unknown devices », mettez à jour la base de données en saisissant la commande suivante dans un [[terminal]] :
+  sudo update-pciids
+</note>
+
+==== lshw ====
+
+Liste le matériel (nécessite les [[sudo|droits superutilisateur]]).
+
+Options utiles :
+  * ''-html'' : sortie au format HTML, typiquement à rediriger vers un fichier : ''lshw -html > matos.html''
+  * ''-xml'' : sortie au format XML, typiquement à rediriger vers un fichier : ''lshw -xml > matos.xml''
+  * ''-C TYPE'' : liste seulement les résultats de type TYPE ; ex. : ''lshw -C memory'', ''lshw -C cpu'', etc.
+  * ''-short'' : liste un peu moins détaillée
+==== dmidecode ====
+
+Décode la table DMI (en gros, le BIOS), donc liste le matériel (l'intérêt est que lshw et dmidecode ne tirent pas leurs infos du même endroit, et peuvent donner des résultats différents : il est donc bon de vérifier la cohérence).
+
+Options utiles :
+  * ''-t TYPE'' : liste seulement les résultats de type TYPE ; 
+  * exemple : 
+  * ''dmidecode -t memory'' (infos sur la RAM), ''dmidecode -t processor'' (infos sur le CPU), ''dmidecode -t slot'' (infos sur les slots  PCI/AGP), ''dmidecode -t connector'' (infos sur les connecteurs IDE/COM/USB/PS2/etc).
+
+==== inxi ====
+
+Est un fork de infobash.
+
+Donne les infos essentielles de façon compacte et lisible. Il manque les infos sur la RAM. Donne aussi quelques info de température en temps réel.
+
+S'installe depuis la logithèque. Installé par défaut à partir de Ubuntu 16.04.
+
+Site officiel : [[http://smxi.org/]]
+==== decode-dimms.pl ====
+
+Donne de précieuses informations sur la RAM (type, SPD, fréquence max, temps de latence, etc.). Livrée avec i2c-tools.
+
+=== À tester (à partir du paquet Ubuntu) ===
+
+  sudo apt-get install i2c-tools
+  sudo modprobe eeprom
+  sudo modprobe i2c-i801
+  decode-dimms
+
+=== Installation via le site officiel ===
+
+  sudo apt-get install i2c-tools
+  wget -O decode-dimms.pl http://www.lm-sensors.org/browser/i2c-tools/trunk/eeprom/decode-dimms?format=raw
+  sudo install -v -m 755 decode-dimms.pl /usr/bin/decode-dimms && rm decode-dimms.pl
+
+=== Utilisation ===
+
+  sudo modprobe eeprom
+  sudo modprobe i2c-i801
+  perl decode-dimms.pl
+
+==== lsusb ====
+
+Liste le matériel USB branché. (voir aussi la [[usb|page usb]] )
+
+Options utiles :
+  * ''-v'' : bavard
+
+
+<note help>
+Si vous avez beaucoup de « Unknown devices », mettez à jour la base de données en saisissant la commande suivante dans un [[terminal]] :
+  sudo update-usbids
+</note>
+
+
+==== glxinfo ====
+
+Donne des informations illisibles sur l'accélération graphique.
+
+
+===== Informations temps réel =====
+
+Les programmes ou commandes listées ici permettent d'obtenir des informations sur le système en temps réel : température, mémoire utilisée, processus…
+
+==== sensors ====
+
+Donne la température et la tension de certains composants, ainsi que la vitesse de rotation des ventilateurs (il faut effectuer au moins une fois sudo sensors-detect).
+
+==== free ====
+
+Donne l'usage de la mémoire.
+
+Options utiles :
+  * ''-m'' : affichage en Mio)
+  * ''-s DÉLAI'' : rafraîchit l'affichage toutes les DÉLAI secondes)
+<note important>Il est à noter que Linux utilise la mémoire non utilisée pour mettre en "cache" le disque. Si on en reste à la première ligne retourné par free, on peut donc avoir l'impression que le système est gourmand... il faut regarder la deuxième ligne, qui commence par -/+ buffers/cache, qui donne la mémoire réellement utilisé par vos programme et la mémoire libre pour d'autres</note>
+==== lsmod ====
+
+Liste les modules chargés.
+
+==== top ====
+
+Liste les processus en cours et leur consommation mémoire/CPU.
+
+Options utiles :
+  * ''-d DÉLAI'' : rafraîchit l'affichage toutes les DÉLAI secondes
+  * ''-u UTILISATEUR'' : n'affiche que les processus appartenant à UTILISATEUR
+
+==== ps ====
+
+Liste les processus en cours ; typiquement à utiliser avec un //pipe// (ex. : ''ps aux | grep gnome'')
+
+Options utiles :
+  * ''aux'' (sans tiret)
+
+==== iostat ====
+
+Affiche des statistiques d'entrées-sorties sur les disques ou partitions. Fourni avec le paquet **sysstat**.
+
+Options utiles :
+  * ''-d Device'' : Rapport d'utilisation du Device spécifique.
+  * ''-m'' : affichage en Mio/s
+
+==== vmstat ====
+
+Affiche des statistiques sur la mémoire virtuelle. (Fourni avec le paquet **procps**, et non pas **sysstat**)
+
+Options utiles :
+  * ''DÉLAI'' : temps de rafraîchissement
+
+==== netstat ====
+
+Affiche des informations et statistiques sur les connexions réseau, la table de routage, etc.
+
+==== iptraf ====
+
+Permet de suivre en temps réel les échanges de paquets entre IP.
+
+==== lsof ====
+
+Affiche la liste des fichiers ouverts et les processus les utilisant.
+
+
+===== Benchmarks =====
+
+Ces logiciels permettent de tester les capacités matérielles de votre ordinateur.
+
+==== hardinfo ====
+
+ZLib, Fibonacci, MD5, Sha1, Blowfish, FPU Raytracing.
+
+==== systester ====
+
+Teste la stabilité du système en calculant jusqu'à 128 millions de décimales de pi et jusqu'à 32 processus.
+
+==== glxgears ====
+
+Pour tester l'accélération graphique. Affiche dans la console le nombre d'images (frames) par secondes.
+
+<note>Le résultat dépend de la taille de la fenêtre graphique dans laquelle il s'exécute. Ne pas la changer pour pouvoir faire des comparaisons.</note>
+
+Par défaut glxgears tourne en mode de synchronisation verticale (V_sync), il doit donc afficher 60 FPS (pour un écran ordinaire ayant une fréquence de rafraîchissement de 60 Hz).
+
+Pour le faire tourner en mode non synchronisé lancer la commande :
+  vblank_mode=0 glxgears
+Ceci permet de comparer différentes machines ou différentes installation entre elles.
+
+En mode plein écran :
+  vblank_mode=0 glxgears -fullscreen
+
+==== gtkperf ====
+
+Teste la performances graphique des affichages "de bureau" : contrôles, dessins dans des fenêtres, texte.
+
+----
+
+//Contributeurs : [[:utilisateurs:Skippy le Grand Gourou]], [[:utilisateurs:Edouard973]] //

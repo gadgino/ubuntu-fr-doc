@@ -1,0 +1,159 @@
+{{tag>Xenial photo gestionnaire_de_photos}}
+
+----
+
+{{ shotwell_logo.png| Logo de Shotwell}}
+
+====== Shotwell ======
+
+**Shotwell** est le [[:gestionnaire_de_photos|gestionnaire de photos]] par défaut sous Ubuntu. \\ Sa facile prise en main est adaptée pour ne pas rebuter les utilisateurs privilégiant la simplicité. \\ 
+Conçu pour **GNOME** en langage [[vala|Vala]] et disponible sous GNU/Linux en licence libre ([[http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html|LGPL v2.1]]). Son développement est actuellement très rapide et ses fonctionnalités évoluent très vite, rendant rapidement cette page obsolète. \\
+
+**Ses principales fonctions sont :**
+  * importer ses photos ou vidéos depuis un dossier de votre ordinateur ou depuis un appareil photo ;  
+  * le diaporama (F5) affichant une série de photos séparées par des effets de transitions (en anglais "slideshow") ;
+  * les organiser par événement ou par étiquette (tag), en gérant les étiquettes hiérarchiques, la recherche multicritère avec ergonomie et efficience, avec possibilité de rémanence de l’étiquetage ;
+  * les modifier (rotation, recadrage, ajustement automatique, yeux rouges, ajustements, redressement,…) de manière réversible ;
+   * les publier en ligne (sur Flickr, Facebook, Picasa Web Albums, Youtube…). \\
+{{ :application:application:shotwell_quantal_00.png?600 |}}
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Installation =====
+
+==== Depuis les dépôts officiels ====
+**Shotwell** est installé par défaut sous Ubuntu. 
+Si ce n'est le cas, il suffit d'[[:tutoriel:comment_installer_un_paquet#paquet_present_dans_les_depots|installer le paquet]] **[[apt>shotwell]]**.
+
+==== Depuis un dépôt PPA  ====
+<note important>Installer un paquet hors des dépôts officiels peut présenter un risque d'instabilité pour votre système.</note>
+=== Version stable===
+L'éditeur de **Shotwell** a changé et il existe un nouveau un dépôt sur [[:Launchpad]] qui permet d'installer des versions plus récentes que celles des dépôts officiels.
+
+  * [[:PPA|Ajouter le PPA]] **ppa:yg-jensge/shotwell**((https://launchpad.net/~yg-jensge/+archive/ubuntu/shotwell)) dans vos sources de logiciels;
+  * [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Recharger la liste des paquets]];
+  * [[:tutoriel:comment_installer_un_paquet#paquet_present_dans_les_depots|Installer le paquet]] **[[apt>shotwell]]**.
+
+Ou dans un [[:terminal]], saisir les [[:commande_shell|commandes]] suivantes : 
+<code bash>sudo add-apt-repository ppa:yg-jensge/shotwell
+sudo apt-get update
+sudo apt-get install shotwell</code>
+
+===Version en développement===
+
+Vous souhaitez tester la toute dernière version et ainsi participer à son évolution : 
+  - [[:PPA|Ajouter le PPA]] **ppa:yg-jensge/shotwell-unstable**((https://launchpad.net/~yg-jensge/+archive/ubuntu/shotwell-unstable)) dans vos sources de logiciels; 
+  - [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Recharger la liste des paquets]];
+  - [[:tutoriel:comment_installer_un_paquet|Installer le paquet]] **[[apt>shotwell]]**. 
+
+Ou dans un [[:terminal]], saisir les [[:commande_shell|commandes]] suivantes : 
+<code bash>sudo add-apt-repository ppa:yg-jensge/shotwell-unstable
+sudo apt-get update
+sudo apt-get install shotwell</code>
+
+
+===== Utilisation=====
+==== Lancement ====
+Lancer l'application depuis le [[:unity#tableau_de_bord_dash|tableau de bord]] d'Unity. **Shotwell** se trouve dans la catégorie "Graphismes" une fois "filtrer les résultats" de la [[:unity-lens|loupe]] "application" .\\
+(Pour les menus classiques :  //Applications -> Graphisme -> Shotwell Photo Manager//.) \\
+Ou dans un [[terminal]] (toutes versions d'Ubuntu), saisir la [[:commande_shell|commande]] suivante :
+<code> shotwell </code>
+
+<note tip>Vous pouvez aussi lancer **Shotwell** depuis [[eog|Eye of Gnome]], (la visionneuse par défaut d'Ubuntu) à partir du bouton « //Modifier l'image //». ((Voir la page Eye of Gnome,[[eog#barre_d_outils| comment ajouter des boutons]])) \\
+Procéder ainsi permet d'accéder directement aux fonctions supplémentaires comme la correction des yeux rouges ou les ajustements.</note>
+Un manuel détaillé (en anglais) est disponible [[http://yorba.org/shotwell/help/|Aide de Shotwell]], mais **Shotwell** se veut très intuitif et les fonctions sont facilement accessibles dans l'interface.
+
+<note>Les modifications apportées aux photographies par l'application ne sont pas appliquées aux originaux.\\ Shotwell enregistre ces modifications dans sa base de données et les applique "à la volée" la prochaine fois que vous regardez la photo.\\ Si vous voulez voir la version d'origine, il suffit d'appuyer sur la touche 'Maj'.</note>
+
+==== Paramètres : écriture des métadonnées ====
+
+**Shotwell** offre une __option très importante__ : la possibilité d'écrire les métadonnées dans les fichiers des photos.
+
+De quoi s'agit-il ? \\ Dans un fonctionnement basique de ce type de logiciel, toutes les informations ou commentaires que vous pouvez associer à une photo (personnes présentes, type d’événement, lieu, tags,...) accessible dans Shotwell par <Ctrl>+<T> ou <F3>, sont écrites dans un fichier (une base de données) propre au logiciel.
+
+Le jour où vous changez de logiciel, il y a un risque important que le nouveau logiciel soit incapable d'importer les données de son concurrent, d'autant plus si vous changez de système d'exploitation.\\
+<note important>Toutes ces informations patiemment saisies sont alors perdues.</note>
+Si vous avez choisi d'écrire vos données dans les fichiers, le nouveau logiciel va pouvoir récupérer ces informations en même temps qu'il va importer votre bibliothèque de photos. 
+<note important>
+Par contre, si vous donnez ou publiez directement vos photos, ces informations seront aussi accessibles !
+</note>
+
+Pour sélectionner cette option, allez dans les //Préférences// du menu //Edition//, et cochez la case "Écrire les étiquettes, les noms et les autres métadonnées dans les fichiers des photos"
+
+==== Le support des images "RAW" dans Shotwell ====
+
+**Shotwell** propose le support des images [[RAW]] pour l'import et l'organisation (avec une gestion du couple RAW+JPEG, lorsque celui-ci est produit par l'appareil photo). Il est possible de sélectionner un [[:raw#edition_des_fichiers_raw|développeur RAW]] spécialisé vers lequel on pourra envoyer les clichés souhaités.
+
+Ces fonctions souffrent cependant de nombreux petits problèmes(([[http://redmine.yorba.org/projects/shotwell/issues?set_filter=1&f[]=status_id&op[status_id]=o&v[status_id][]=1&f[]=tracker_id&op[tracker_id]=%3D&v[tracker_id][]=1&f[]=priority_id&op[priority_id]=%3D&v[priority_id][]=5&v[priority_id][]=6&v[priority_id][]=7&f[]=subject&op[subject]=~&v[subject][]=RAW&f[]=&c[]=tracker&c[]=status&c[]=priority&c[]=subject&c[]=author&c[]=assigned_to&group_by=|cf. rapports de bugs]])) qui ont été en partie corrigés avec la version 0.14.
+
+==== Base de données Shotwell ====
+
+La base de données de **Shotwell** est située dans le [[:fichier_cache#afficher_les_elements_caches|dossier caché]] du dossier personnel de chaque utilisateur : **''~/.local/share/shotwell''**.
+  
+
+==== Redimensionnement d'images ====
+Pour redimensionner des images, il suffit d'aller dans le menu : //Fichier -> Exporter.//
+
+===== Problèmes connus =====
+==== Problème d'importation de photos ====
+Si le message suivant apparaît :
+
+<box 70% round orange|Terminal>
+
+"[la] photo n'a pas été importée car le dossier de la photothèque n'est pas accessible en écriture : "
+
+</box|Message d'erreur de Shotwell>
+
+ cela peut être un problème de droit sur le dossier de cache de Shotwell, dans ce cas cliquer sur OK et taper la [[:commande_shell|commande]] suivante :
+<code bash> chmod 755 ~/.cache/shotwell </code>
+et ré-effectuer l'importation.
+
+==== Les miniatures ne correspondent pas aux photos ====
+
+Dans la fenêtre principale de Shotwell, vous pouvez voir des "//miniatures//" de vos photos classées par date ou événements. \\ Dans certaines circonstances, quand vous cliquez sur ces miniatures, ce sont d'autres photos qui apparaissent que celle représentées par les miniatures. Il y a probablement une corruption de la base de données des miniatures.\\
+Il suffit de supprimer le dossier de ces miniatures et Shotwell va les créer à nouveau correctement. Ceci peut être un peu long suivant le nombre de vos photos et votre machine. 
+
+<note tip>
+Pour trouver ce dossier, 
+  * afficher votre dossier personnel ; 
+  * appuyer sur les touches < Ctrl >+< H > [Hide] pour afficher les dossiers cachés ; 
+  * parcourez l'arborescence pour aller à ''.cache/shotwell/'' et supprimer le dossier ''thumbs''.
+</note>
+
+==== Erreur lors d'une mise à jour à partir de Shotwell 0.18 ====
+Si lors du passage de Shotwell 0.18 vers une version supérieure disponible dans le PPA, vous obtenez une erreur du type :
+
+<box 70% round orange|Terminal>
+
+Décompactage de shotwell (0.20.2-1~trusty1) ... \\
+dpkg: error processing archive /var/cache/apt/archives/shotwell_0.20.2-1~trusty1_amd64.deb (--unpack): \\
+tentative de remplacement de « /usr/share/GConf/gsettings/shotwell.convert », qui appartient aussi au paquet shotwell-common 0.18.0-0ubuntu4.3 \\
+dpkg-deb : erreur : le sous-processus coller a été tué par le signal (Relais brisé (pipe)) \\
+Traitement déclenché pour  gconf2 (3.2.6-0ubuntu2) ... \\
+Des erreurs ont été rencontrées pendant l'exécution : \\
+/var/cache/apt/archives/shotwell_0.20.2-1~trusty1_amd64.deb \\
+E: Sub-process /usr/bin/dpkg returned an error code (1) \\
+
+</box|Message d'erreur de Shotwell>
+
+ [[:tutoriel:comment_supprimer_un_paquet|Supprimez le paquet]] **shotwell-common** avant de réinstaller le paquet **shotwell**.   
+
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, le configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Documentation =====
+
+  * **(en)** [[https://wiki.gnome.org/Apps/Shotwell|Site officiel de Shotwell]]
+  * **(en)** [[http://blogs.gnome.org/jnelson/category/shotwell-posts/|Blog d'un développeurs principaux de Shotwell]]
+  * **(en)** [[http://www.omgubuntu.co.uk/2016/05/shotwell-photo-manager-update-0-23| « Shotwell Photo Manager Updated, Here’s How To Install It on 16.04 »]] — { « Mise à jour de Shotwell, le gestionnaire photographique - manuel d'installation sous 16.04 » } — site :OMG Ubuntu! Grande-Bretagne ; \\ auteur : //Joey-Elijah Sneddon// en date du //26 mai 2016//. 
+
+----
+
+//Contributeurs principaux : [[utilisateurs:julientroploin|Julientroploin]]. //\\
+// Autres contributeurs : [[:utilisateurs:eagle08|René Stoecklin]] : Mise à jour du dépot de Shotwell, notes importantes, conformation à la norme W3C (lecteur Braille Lynx)//.
+
+//Page mise à jour le 31 mars 2017//.

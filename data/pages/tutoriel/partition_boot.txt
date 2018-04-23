@@ -1,0 +1,77 @@
+{{tag>Trusty Xenial système tutoriel}}
+----
+
+====== Partition boot séparée ======
+
+Certaines situations (par ex une limitation du BIOS) nécessitent de **créer une partition /boot au début du disque, et configurer Ubuntu pour qu'elle l'utilise.**
+
+Voici comment faire ceci très facilement :
+
+===== Procédure =====
+
+**Pré-requis:** avoir sauvegardé vos données.
+
+==== Étape 1 ====
+
+Démarrez votre ordinateur sur :
+  * un DVD ou liveUSB [[:linux_secure_remix|Linux Secure]], puis passez directement à l'**étape 3 ci-dessous**.
+  * ou un CD ou liveUSB Ubuntu, choisissez "Essayer Ubuntu", puis passez à l'**étape 2 ci-dessous**.
+
+==== Étape 2 ====
+
+Une fois dans la session Ubuntu, installez [[:Boot-Repair]] en connectant internet puis en saisissant dans un [[:terminal]] les commandes suivantes :
+
+       * Pour [[:Trusty|Ubuntu 14.04 LTS]] et suivantes((https://launchpad.net/~kranich/+archive/ubuntu/cubuntu)) <code>sudo add-apt-repository ppa:kranich/cubuntu</code>
+
+Puis mettez à jour vos paquets et finalisez l'installation de boot-repair :
+<code> sudo apt-get update; sudo apt-get install -y boot-repair</code>
+  
+==== Étape 3 ====
+
+Lancez [[:gParted]] via le [[:unity#tableau_de_bord_dash|tableau de bord Unity]] :  cliquer sur le logo Ubuntu en haut à gauche de l'écran, puis saisir **gparted** et cliquer sur l'icône gParted qui apparaîtra.
+  
+
+==== Étape 4 ====
+
+Via gParted:
+
+   * Réduisez une des premières partitions du disque afin de **créer un espace libre de 1Go (=1000Mo) au début du disque** où Ubuntu a été installé. Cet espace libre doit être compris **dans les premiers 100Go du disque** (par exemple de 0Go à 1Go). Important: pour redimensionner des partitions Windows Vista/7/8, n'utilisez pas gParted mais les outils Windows. 
+    
+{{http://pix.toile-libre.org/upload/original/1343736829.png?500}}
+ 
+  * dans cet espace libre, créez une partition de 1Go formatée en EXT2 (ou EXT4). Remarque: il se peut que Gparted refuse de créer cette partition, par exemple si votre disque a un type de table de partitions Ms-Dos et qu'il possède déjà 4 partitions principales. Dans ce cas, demandez conseil sur le forum.
+  * sur un papier, notez le nom de cette nouvelle partition. Cela devrait être quelque chose comme **sdXY** (X étant une lettre, Y un chiffre).
+
+<note warning>Aux dernières nouvelles, prévoyez cinq fois plus en taille afin d'atteindre la date de péremption de votre ubuntu sans trop de difficultés.</note>
+ 
+
+==== Étape 5 ====
+
+Lancez Boot-Repair via :
+
+  * le Dash: cliquer sur le logo Ubuntu en haut à gauche de l'écran, puis saisir **boot** et cliquer sur l'icône "Réparateur de démarrage" qui apparaîtra.
+  * ou en saisissant **boot-repair** dans un terminal 
+
+==== Étape 6 ====
+
+Dans Boot-Repair :
+  * Cliquez sur "**Options avancées**"
+  * Allez dans l'**onglet "Emplacement de GRUB"**
+  * cochez l'option "Partition /boot séparée: sdXY" (sdXY étant votre partition de 1Go)\\ {{http://pix.toile-libre.org/upload/original/1343736862.png?500}}
+  * Cliquez sur le bouton "**Appliquer**"
+  * Notez sur un papier l'URL (**paste.ubuntu.com/XXXXXX/**) qui apparaîtra
+  * Éteignez l'ordinateur
+  * Retirez le CD et/ou la clé USB
+  * Redémarrez l'ordinateur. Vous devriez maintenant pouvoir démarrer Ubuntu. 
+
+
+===== Remarques =====
+
+  * si vous avez besoin d'aide veuillez créer une nouvelle discussion [[http://forum.ubuntu-fr.org/post.php?fid=10|ICI]] (n'oubliez pas d'y indiquer l'URL que vous avez noté précédemment)
+
+===== Voir aussi =====
+
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?pid=10200851#p10200851|Discussion à propos de ce tutoriel]] sur le forum ubuntu-fr
+  * https://help.ubuntu.com/community/CreateBootPartitionAfterInstall
+----
+//Contributeurs principaux : [[:utilisateurs:YannUbuntu]].//

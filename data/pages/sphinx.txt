@@ -1,0 +1,76 @@
+{{tag>recherche BROUILLON}}
+
+----
+
+====== Sphinx ======
+
+
+
+
+
+===== Introduction =====
+Sphinx est un logiciel libre sous licence Open source permettant d'indexer différents types de données : fichiers xml, fichiers texte, bases de données. Il supporte actuellement MySQL, PostgreSQL, Oracle et d'autres SGBD grâce à ODBC.
+
+
+Sphinx est actuellement en version stable 0.9.9. Il existe aussi une bêta 1.10 et 2.01.
+
+===== Documentation =====
+
+
+La documentation ainsi que d'autres informations sont disponibles sur le [[http://sphinxsearch.com/|site officiel de Sphinx]].
+===== Installation =====
+
+On peut utiliser le dépot suivant:
+<code>
+sudo apt-get install python-sphinx
+</code>
+
+
+On peut aussi l'installer en passant par les sources :
+
+<code>
+wget http://sphinxsearch.com/files/sphinx-2.0.1-beta.tar.gz
+tar xvzf sphinx-2.0.1-beta.tar.gz
+cd sphinx-2.0.1-beta
+</code>
+
+Ensuite, il va falloir configurer sphinx avec votre base de données (mysql, postgresql, etc.). En fonction, il suffit de faire :
+
+<code>
+./configure --with-pgsql
+</code>
+
+Il est possible d'avoir une erreur si les fichiers "header" de la base de données ne sont pas installer. Dans le cas de PostgreSQL :
+
+<code>
+sudo apt-get install postgresql-server-dev-8.4
+</code>
+
+Enfin, il faut l'installer :
+
+<code>
+make
+sudo make install
+</code>
+
+A ce niveau là, pour l'installation de sphinx c'est fini. Nous allons maintenant rapidement voir le couplage avec PHP.
+Pour ce faire, il faut installer la librairie SphinxClient pour php. Toujours dans les sources de Sphinx :
+
+<code>
+cd api/libsphinxclient
+CXXCPP="gcc -E" ./configure
+make
+sudo make install
+</code>
+
+Enfin, il suffit d'installer l'extension php de Sphinx avec pear :
+
+<code>
+sudo pear install pecl/sphinx
+</code>
+
+Il se peut que pear vous retourne l'erreur :  "phpize: command not found". Dans ce cas là, il suffit simplement d'installer le paquet php5-dev :
+
+<code>
+sudo apt-get install php5-dev
+</code>

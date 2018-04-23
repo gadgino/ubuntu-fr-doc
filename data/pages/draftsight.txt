@@ -1,0 +1,83 @@
+{{tag>Precise Trusty cao architecture mécanique}}
+----
+
+====== DraftSight ======
+
+**DraftSight** est un logiciel de [[wpfr>Conception_assistée_par_ordinateur|CAO]] 2D multiplate-forme [[wpfr>Logiciel_propriétaire|propriétaire]] **gratuit** publié par la société Dassault Systèmes (éditeur de CATIA et SolidWorks). Il s'agit du fruit d'une entente avec l'entreprise Gräbert : DraftSight est une version allégée de [[:ARES]], avec certains éléments en moins((Pas de modélisation solide 3D, pas de kit de développement d'applications.)). Il est pleinement compatible avec AutoCAD, dont il supporte les formats de fichier DWG/DXF((jusqu'à la version 2013 pour DraftSight 2015)) en lecture et en écriture, et adopte une interface (dont la ligne de commande) et des plupart des fonctionnalités semblables.
+
+{{:applications:draftsight_lucid_01.png?500}}
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Configuration matérielle minimale conseillée (([[http://www.3ds.com/fileadmin/PRODUCTS/DRAFT_SIGHT/PDF/Linux-Launch/FAQ-2011-03-04.pdf|Source]])) :
+    * un ordinateur 64 bits (plus de version supportée en 32 bits au 02/12/2014),
+    * un processeur 1GHz,
+    * 1Go de RAM (2 Go recommandés),
+    * 1Go d'espace d'espace disque disponible,
+    * un écran de résolution 1024x768 pixels (1680x1050 ou plus, recommandé),
+    * une souris à roulette (recommandé),
+    * une connexion internet pour l'activation (pour permettre une utilisation de plus de 30 jours).
+===== Installation =====
+
+[[http://www.3ds.com/products/draftsight/download-draftsight/|La page de téléchargement de DraftSight]], fournit  uniquement une version 64bits pour Linux, téléchargez la version « Ubuntu Linux OS .deb file (Beta) ». (Vous devez cocher « I accept the End User License agreement above »)
+
+Ensuite, [[:tutoriel/comment_installer_un_paquet#installer_un_paquet_isole|installez le paquet]]. Il vous sera demandé de lire puis d'approuver un contrat de licence utilisateur afin que l'installation se complète.
+
+
+===== Configuration ===== 
+Parmi les erreurs possibles, il peut y avoir des problèmes de droits d'accès aux fichiers de configuration dans ~/.config/DraftSight qui peuvent demander d'utiliser les commandes //chown// et/ou //chmod// en mode récursif (option //-R//).
+
+==== Activation du logiciel ====
+
+Le logiciel fonctionnera en version d'évaluation, avec pleines fonctionnalités, pour une période de 30 jours, durant laquelle il vous sera demandé de l'activer en fournissant une adresse de courriel. Sans cette activation, le logiciel cessera de fonctionner au bout de cette période.
+====Création d'un lanceur====
+Suivez les instructions de cette [[:unity_launcher#creer_ses_propres_lanceurs|page pour Unity]], cette autre [[:raccourci-lanceur|page pour les menus classiques]], si vous souhaitez obtenir un raccourci dans votre menu applications. Dans //Commande// vous mettrez ///opt/dassault-systemes/DraftSight/Linux/DraftSight//.
+=====Utilisation=====
+
+==== Lancement ====
+Une fois le lanceur créé, vous pouvez lancer l'application via le [[:unity#tableau_de_bord_dash|tableau de bord Unity]], ou //via// un [[:terminal]] avec la [[:commande_shell|commande]] suivante :
+<code>/opt/dassault-systemes/DraftSight/Linux/DraftSight</code>
+
+==== Alias ====
+Pour les utilisateurs d'AutoCAD, on peut trouver [[http://joch04.free.fr/achtml/DraftSight.html#DSalias|ici]] une liste d'**alias** (nom de commandes) similaires à ceux de cette application.
+
+===== Problèmes rencontrés =====
+==== Le curseur de la souris bouge au ralenti (DraftSight 2015 SP2 et SP3) ====
+<note important>Par rapport aux version précédentes, DraftSight devient inutilisable à cause des ralentissements du curseur.</note>
+
+<note tip>Le problème semble résolu((constaté sous Wily 64 avec le pilote radeon libre)) avec DrafSight 2016 SP0 (2016.1.0.2021). Plus besoin des solutions de contournement ci-dessous !
+FIXME À confirmer et mettre à jour !</note>
+Il existe deux solutions de contournements, utilisant toutes deux la modification du paramètre d'affichage vblank pour DraftSight.
+
+=== Lancer DraftSight avec une commande modifiée ===
+Il suffit de lancer DraftSight avec cette commande dans un [[:terminal]] :
+  vblank_mode=0 /opt/dassault-systemes/DraftSight/Linux/DraftSight
+ Il s'agit probablement de la méthode la plus générique. Elle a été rapportée notamment [[https://askubuntu.com/questions/616709/mouse-is-too-slow-in-draftsight|ici]] pour fonctionner avec des chipset graphiques Intel et des cartes AMD sous pilote libre (amélioration, mais pas de règlement complet).
+
+FIXME On doit pouvoir éditer/créer un lanceur en conséquence 
+ === Désactiver  « Sync to VBlank » sur les cartes NVIDIA ===
+Pour les cartes graphiques utilisant le pilote NVIDIA, il est possible de désactiver complètement le paramètre « Sync to VBlank ».
+Pour celà, ouvrez Nvidia X server settings; OpenGL Settings; et décochez « Sync to VBlank » ((traduction approximative de la solution expliquée [[https://askubuntu.com/questions/616709/mouse-is-too-slow-in-draftsight|ici]])).
+
+Attention, ce paramètre étant changé de manière permanente, il peut altérer le fonctionnement d'autres applications !
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]].
+ Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+ou simplement :     sudo apt-get purge draftsight
+
+
+
+===== Voir aussi =====
+
+  * **(fr)** [[http://www.3ds.com/fr/products/draftsight/|Site officiel de DraftSight]],
+  * **(fr)** [[http://forum.ubuntu-fr.org/viewtopic.php?id=257947|Discussion « Autocad Like en natif sous LINUX!!! » sur le forum Ubuntu-fr]].
+
+
+----
+//Contributeur principal : [[:utilisateurs:Gemnoc]], pour la MAJ [[:utilisateurs:l_africain|L'Africain]].//
+

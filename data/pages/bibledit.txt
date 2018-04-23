@@ -1,0 +1,76 @@
+{{tag>Xenial Bible Bureautique}}
+----
+{{ :applications:bibledit.png}}
+======Bibledit aide à la traduction biblique======
+Bibledit est un outil d'aide à la traduction de la Bible. Il permet de composer la traduction à partir de zéro ou d'importer du texte au format [[http://paratext.org/about/usfm|USFM]] pour être amélioré et vérifier par de nombreux outils dans Bibledit. Il fournit les même service que la logiciel [[http://paratext.org/|Paratext]], mais a l'avantage d'être sous licence libre.
+Ce que Bibledit sait faire :
+  * Il vérifie la cohérence de la versification, ainsi chapitre et verset manquants vous seront automatiquement signalés,
+  * Il verifie la ponctuation, double, ouvrante et fermante si absente, etc,
+  * Propose d'exporter le texte en version imprimable directement au format odt,
+  * Permet de créer des modules [[:sword_creer_module_biblique|Sword]] ou bien seulement en fichier USFM ou OSIS.
+  
+Il existe deux versions de Bibledit, la version standard, plus adaptée pour le travail collaboratif sur le web et la version bureau, Bibledit-gtk, qui convient mieux pour le travail individuel. Cependant il est possible de partager le travail de la version bureau avec la version standard.
+
+{{:applications:bibledit_xenial.png?450 }}{{ :applications:bibledit-gtk1_xenial.png?450}}
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+===== Pré-requis =====
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  
+=====Installation=====
+====Bibledit-gtk====
+Pour installer ce logiciel, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>bibledit-gtk]]**.
+
+<note important>Le logiciel n'est pas activement développé, l'internationalisation n'est disponible qu'à partir de la version 1.9.7, qu'il faut alors compiler à partir des sources sur github. Pour cette raison il est recommandé de travailler avec Bibledit.</note>
+
+====Bibledit====
+
+  * [[:PPA|Ajouter le PPA]] **ppa:teusbenschop/bibledit**((https://launchpad.net/~teusbenschop/+archive/ubuntu/bibledit)) dans vos sources de logiciels; 
+  * [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|recharger la liste des paquets]];
+  * [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>bibledit]]**. 
+
+=====Utilisation=====
+Vous pouvez lancer les deux versions de l'application via le [[:unity#tableau_de_bord_dash|tableau de bord Unity]] avec le mot clé **Bibledit** ou via le [[:terminal]] (toutes versions d'Ubuntu) avec la [[:commande_shell|commande]] suivante :
+<code>bibledit</code> ou <code>bibledit-gtk</code> pour la version bureau.
+
+====Lancer une traduction====
+Ce qui suit détaille la procédure dans Bibledit-gtk, mais elle est très semblable dans Bibledit.
+Commencez par créer une Bible : //Fichier -> Projet -> Nouveau//.
+Choisissez le type de versification (Catholique, Protestant, Vulgate...) la langue et éventuellement le dictionnaire si votre langue est supportée.
+{{ :applications:bibledit-gtk2_xenial.png?300 }}
+Une fois votre Bible créé, commencer la rédaction du texte, ou si vous avez déjà un texte converti en USFM vous pouvez l'importer : //Fichier -> Importer -> USFM ou texte brut//.
+Pour faire apparaître les styles, qui correspondent aux balises USFM appuyez sur CTRL+S (cela ne sauve pas car la sauvegarde est automatique).
+
+====Exporter une traduction====
+Une fois votre travail terminé vous pouvez l'exporter en différent format : //Fichier -> Exporter//.
+Les formats disponibles sont : fichiers USFM, OSIS, [[:sword_creer_module_biblique|Module Sword]] (buggé dans bibledit-gtk), [[:libreoffice|Opendocument]] (buggé dans bibledit-gtk mais pas dans Bibledit)...
+ 
+===== Désinstallation =====
+ 
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+ 
+===== Voir aussi =====
+
+  * [[https://github.com/bibledit/bibledit|Sources de Bibledit]],
+  * [[http://bibledit.org/|Site officiel de Bibledit]],
+  * [[https://github.com/postiffm/bibledit-gtk|Sources de Bibledit-gtk]].
+ 
+----
+//Contributeurs principaux : [[utilisateurs:l_africain|L'Africain]]

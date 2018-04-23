@@ -1,0 +1,213 @@
+{{tag>Trusty Xenial gnome gestionnaire_de_fichiers}}
+
+----
+
+====== Nautilus ======
+
+**Nautilus** est le [[:gestionnaire de fichiers]] par défaut.
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]]
+  * Disposer d'une connexion à l'internet configurée et activée
+
+===== Installation =====
+
+Nautilus est installé par défaut dans Ubuntu. Si vous souhaitez l'installer dans une autre [[:variantes|variante d'Ubuntu]] (Xubuntu, Kubuntu...), il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>nautilus]]**. 
+
+===== Configuration =====
+
+Pour configurer et personnaliser Nautilus, vous trouverez les préférences dans le menu **Fichiers → Préférences**.
+Dans les versions de Nautilus postérieures à la version 3.6.3, vous trouverez les préférences dans le menu **Édition → Préférences**.
+
+Une fenêtre s'ouvre en affichant plusieurs onglets de paramètres:
+
+==== Le menu Préférences ====
+
+^ Vue ^ Comportement ^
+| {{ :nautilus:nautilus_raring_pref_vues.png?300 |Préférences : Vue }}  |  {{ :nautilus:nautilus_raring_pref_comportement.png?300 |Préférences : Comportement }}  |  
+|Permet de définir un affichage par défaut des dossiers et fichiers, leur classement par ordre et le zoom.|Permet de définir le comportement durant la navigation des fichiers : simple ou double clic pour ouvrir un fichier, que faire lors du lancement d'un fichier exécutable et que faire lors de la suppression d'un fichier.|
+^ Affichage ^ Colonnes des listes ^
+| {{ :nautilus:nautilus_raring_pref_affichage.png?300 |Préférences : Affichage}} | {{ :nautilus:nautilus_raring_pref_optlisting.png?300 |Préférences : Colonnes des listes}}  |  
+|Le type et le nombre d'informations apparaissant sous le nom des icônes.|Sélectionne le type et l'ordre des informations disponibles lors de l'affichage des fichiers en mode liste.|
+^ Aperçu ^ ^
+| {{ :nautilus:nautilus_raring_pref_apercu.png?300 |Préférences : Aperçu}}  | |
+|Conditionne la formation des vignettes pour les documents, images, médias, le compte des éléments dans un dossier. Vous pouvez pré-visualiser un fichier image/sonore/vidéo sans l'ouvrir, via l'outil **gnome-sushi** présent dans les dépôts avec Gnome 3.*| | 
+
+==== Vignettes d'aperçu des fichiers Libreoffice  ====
+Reportez-vous à la partie consacrée à cela sur la page [[:libreoffice#vignettes_d_apercu_dans_votre_navigateur_de_fichiers|Libreoffice]].
+
+==== Vignettes d'aperçu des fichiers en réseau  ====
+
+Pour afficher les miniatures d'un dossier distant : **Nautilus -> Édition -> Préférences**, onglet **Aperçu**. Là, régler **Afficher les vignettes** sur **Toujours** puis choisir au delà de quelle taille Nautilus n'affichera pas les miniatures.
+
+
+==== Les emblèmes sur les dossiers ====
+
+Pour mettre un emblème sur un dossier [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>nautilus-emblems]]**.
+
+Chaque dossier Nautilus est personnalisable : emblèmes adjoignables aux dossiers pour souligner leur qualification (importance, discrétion, urgent, interdit ...) Sélectionnez le dossier sur lequel vous souhaitez mettre un emblème, clic droit dessus -> Propriété -> Onglet Emblems.
+Exemple de ce que l'on peut obtenir (Notez l'emblème adjoint, un point d'exclamation rouge):
+{{ :personnalisation:nautilus-emblems_trusty.png }}
+\\
+\\
+==== Autres paramètres ====
+
+La plupart des éléments des paramètres, évoqués ci-dessus, sont disponibles dans le menu Affichage sous forme de commandes, leur action est néanmoins circonscrite à la fenêtre Nautilus en cours : rafraîchissement de la vue en cours, affichage ou masquage des éléments de navigation de la fenêtre, l'affichage des fichiers  ([[#utilisation|voir les usages plus bas]]).\\
+D'autres paramètres sont intégrés à même l'interface du bureau Gnome, considérés souvent comme des astuces ([[#utilisation|voir les usages plus bas]]), c'est le cas particulier des raccourcis de dossiers ou liens d'emplacement, ou encore favoris utilisateurs (personnalisables pour chaque compte utilisateur du système).
+
+=== Les raccourcis de dossiers ===
+
+{{ :personnalisation_basique_raccourcis.png?200|glisser/déposer dans la partie inférieure du Panneau latéral dans Nautilus }}  {{ :personnalisation:personnalisation_basique_raccourcis3.png?200|menu Signets de Nautilus }}
+\\
+Dernier élément de personnalisation, et non des moindres, est la gestion des raccourcis de dossiers présents dans le **Panneau latéral** de Nautilus. Ces différents **Raccourcis** permettent une navigation rapide dans les dossiers de l'utilisateur; les dossiers pré-paramétrés sont Dossier personnel, Documents, Musique, Images, Téléchargements et Vidéos. Pour ajouter d'autres dossiers dans ces raccourcis, il suffit de les glisser dans la zone **Panneau latéral** ou de les configurer dans le menu **Signets**. Ces raccourcis sont consignés dans un fichier texte de configuration qui est généralement dissimulé en mode normal : dans **~/.config/gtk-3.0/bookmarks**. Pour le dévoiler, voyez les [[:fichier_cache|fichiers cachés]]. \\
+\\
+<note warning>Sous Ubuntu 14.04 - et probablement depuis 12.04 - 
+**le premier signet doit être créé par le menu :** une fois dans l'emplacement de votre choix, 
+allez dans le menu de Nautilus → signets → ajouter un signet pour cet emplacement (ou raccourci clavier ctrl+D). \\
+L'onglet "signets" est ainsi disponible dans les raccourcis et d'autres signets peuvent y être ajoutés par glisser-déposer.</note>
+\\
+
+
+==== Des logiciels de configuration ====
+Pour configurer graphiquement Nautilus il existe:
+  * [[:ubuntu_tweak|Ubuntu Tweak]] : personnalisation avancée et étendue de Nautilus.
+  * [[dconf-tools]] : outil de configuration des variables de l'environnement Gnome.
+
+
+==== "Ouvrir avec" sur les dossiers ====
+Pour ceux qui recherchent cette fonctionnalité (par exemple, ouvrir un répertoire de musique pour le lire automatiquement), il faut :
+<code>
+sudo add-apt-repository ppa:mc3man/nauty-open
+sudo apt-get update
+sudo apt-get upgrade
+</code>
+Et relancer votre nautilus.
+A priori, fonctionne depuis 13.04 (testé sous 14.04 LTS)
+===== Utilisation =====
+
+==== Ajout de nouveaux modèles pour le menu contextuel "Créer un document" ====
+
+{{ :personnalisation:nautilus-modele_trusty.png?300|Menu contextuel "Créer un document" }}
+
+Peut-être avez-vous déjà remarqué qu'un clic droit sur le bureau ouvre un menu "Créer un document" mais que celui-ci ne contient que "Fichier vierge".
+
+Pour créer un modèle Writer, Gedit, Calc et Drawing, il vous suffit de créer des fichiers vierges ou des fichiers types avec les extensions odt, txt, ods, odg dans : Dossier personnel → Modèles.
+
+Plus généralement, tout fichier + extension placé dans le dossier Modèles apparaîtra comme nouveau modèle de fichier à créer. 
+
+<note tip>Un bon nombre de modèles de documents, la plupart orienté programmation, peuvent être trouvés dans cette [[http://www.gnome-look.org/content/show.php?content=39317|contribution]] chez gnome-look.org.
+Cette modification est également facile avec [[:ubuntu_tweak#installer_des_modeles_de_document|Ubuntu Tweak]].</note>
+
+Vous pourrez créer tous les documents et/ou médias que vous souhaitez à partir de ces modèles.
+
+Au cours de l'installation du système d'exploitation, le répertoire où GNOME va chercher les modèles de document est définit par défaut dans le répertoire "Modèles" des utilisateurs. 
+Pour changer le répertoire des modèles : 
+  * [[:tutoriel:comment_editer_un_fichier|Éditez le fichier]] le fichier **~/.config/user-dirs.dirs** ;
+  * Mettez le nom de dossier que vous voulez pour les modèles, de manière à compléter le nom de la ligne où figure le mot XDG_TEMPLATES_DIR ((//template// veut dire « modèle » en anglais)) ;
+  * Exemple : si vous choisissez le nom « Modèles » dans votre dossier **Documents**, ce sera : <file>XDG_TEMPLATES_DIR="$HOME/Documents/Modèles"</file>
+  * Il vous suffit maintenant de créer le dossier « Modèles » dans votre dossier Documents de votre répertoire personnel.
+    * Il suffit maintenant de mettre les fichiers modèles dans ce dossier.
+    * Vous pouvez aussi exporter les modèles directement de [[:Libreoffice]] : Fichier, modèles, Gérer, Clic sur mes modèles, clic sur le modèle à exporter, clic droit dessus, clic sur "exporter", choisissez le dossier que vous avez créé à l'instant.
+
+<note tip>Choisissez un nom assez descriptif pour les modèles, à l'instar de l'exemple de la capture d'écran ci-dessus.</note>
+==== La recherche de fichiers ====
+Voir la page consacrée à la [[:recherche_de_fichiers]].
+
+==== Différents modes d'affichage dans Nautilus ====
+
+===  Modifier la vue ===
+
+Nautilus propose deux types de vues, accessibles directement depuis deux boutons de la fenêtre principale :
+
+{{ :personnalisation:nautilus-vue_trusty.png }}
+
+  * Vue en icônes (raccourci clavier : **Ctrl+1** , ne fonctionne pas avec le pavé numérique)
+  * Vue en liste      (**Ctrl+2**)
+
+=== Effet de zoom ===
+
+Pour agrandir le contenu d'un dossier, il est possible de zoomer/dézoomer grâce aux raccourcis clavier **Ctrl +** et **Ctrl -**.
+
+
+==== Raccourcis-clavier / Commandes menu ====
+
+  * Ouvrir un nouvel onglet : **Ctrl+T**
+  * Passer d'un onglet à l'autre : **Ctrl+PageHaut/PageBas**
+  * Modifier l'ordre des onglets : **Ctrl+Shift+PageHaut/PageBas**
+  * Diviser l'écran en deux parties : Appuyez sur le bouton du milieu de la souris, sur le dossier à ouvrir dans un nouvel onglet, ou avec la touche F3, mais alors il faut installer un patch que vous trouverez [[http://www.webupd8.org/2013/04/get-nautilus-34-features-back-in-ubuntu.html|ici]].
+  * Passer en mode adresse (barre d'adresse en place des boutons emplacement) : **Ctrl+L** (Echap/Esc pour revenir en mode normal) / menu **Lancer → Saisir l'emplacement...**
+  * Démasquer les fichiers cachés : **Ctrl+H** / menu **Affichage → Afficher les fichiers cachés**
+
+==== Montage de partages réseau (accéder aux fichiers d'une autre machine qui partage ses fichiers) ====
+
+=== Accès FTP ===
+
+Pour utiliser la commande FTP dans Nautilus, voyez [[:nautilus_ftp|ici]].
+
+=== Accès SSH et SFTP ===
+
+Pour utiliser les commandes SSH et SFTP dans Nautilus, voyez  [[:ssh#navigation_via_sftp_secure_file_transfer_protocol|ici]].
+
+=== Accès Samba / SMB / CIFS (partages de fichiers Windows et Linux) ===
+
+Pour accéder à un partage SMB dans Nautilus, allez à la page [[Samba#acceder_a_un_dossier_partage|Samba]]
+
+En utilisation basique, sur le volet de gauche de Nautilus :
+  * avec **Ubuntu 16.10**, cliquez sur //+Autres Emplacements//, 
+  * avec **Ubuntu 16.04**, cliquez sur //Connecter à un serveur//, 
+puis en bas s'ajoute une ligne  **//connexion à un serveur//** : tapez l'adresse IP de la machine qui effectue le partage de fichier selon l'exemple suivant : **//%%smb://192.168.0.26%%//** où //192.168.0.26// est l'adresse IP de votre serveur de fichier.\\
+À noter que l'installation de Samba n'est pas nécessaire sur la machine qui souhaite accéder au partage. Il l'est en revanche sur la machine qui souhaite partager ses fichiers.
+
+==== Déplacer un fichier par glisser/déposer ====
+
+Par défaut le glisser/déposer d'une partition vers une autre fait une copie de fichier, si vous voulez le déplacer, il suffit de le faire avec le bouton du milieu et de choisir [déplacer] ou d'utiliser le couper/coller (CTRL+X et CTRL+V).
+Il est aussi possible de déplacer un fichier ou un dossier en utilisant la touche "//shift//". Maintient du clic gauche sur l'objet à déplacer, puis sur la destination on enfonce "//shift//" et on lâche le bouton de la souris AVANT de lâcher la touche "shift". Le transfert se fait alors.
+
+==== Le mode spatial ====
+
+Le mode spatial génère un grand nombre de fenêtres, c'est pourquoi il n'est pas toujours apprécié. Pourtant il semblerait qu'en l'utilisant régulièrement, ce mode ait de nombreux avantages. Le plus évident est qu'il est extrêmement simple de faire des glisser/déposer et des copier/coller, d'autant plus qu'il permet d'assigner une taille et une position de fenêtre différente pour chaque dossier.
+
+**Voici donc les différentes manipulations à connaître pour apprécier ce mode :**
+
+  * Ouvrir dans une nouvelle fenêtre en conservant la fenêtre parente ouverte : double clic gauche
+  * Ouvrir dans un nouvelle onglet : double clic du milieu
+  * Remonter au dossier parent : ALT+Flèche du haut ou Backspace
+  * Fermer la fenêtre en cours : CTRL+W
+  * Fermer toutes les fenêtres : CTRL+Q
+  * Ouvrir un emplacement (barre d'adresse) : CTRL+L
+  * Afficher les propriétés d'un dossier/fichier : ALT+ENTREE
+
+===== Nautilus, utilisation avancée =====
+
+Pour aller plus loin dans l'utilisation de Nautilus, lisez [[:nautilus_utilisation_avancee|cette page]].
+
+===== Problèmes connus =====
+
+====Certains aperçus s'affichent mal====
+
+Si certains aperçus sous Nautilus ne s'affichent pas (installation récente de codecs, etc.), il suffit souvent d'ouvrir le fichier avec son programme associé pour forcer la création de sa vignette par Nautilus.
+
+Une méthode plus radicale est de [[tutoriel:comment_supprimer_un_fichier|supprimer]] entièrement le contenu du dossier caché **$HOME/.cache/thumbnails** : toutes les vignettes seront recalculées la prochaine fois que vous explorerez vos dossiers. Cela marche aussi si une miniature de photo est mal orientée.(([[http://forum.ubuntu-fr.org/viewtopic.php?id=272997|Voir ce sujet du forum]], dans ce cas souvent lors du transfert d'un certain nombre d'images directement de la carte mémoire sur le disque dur))
+Ou directement le répertoire **$HOME/.cache/thumbnails/fail** pour les vignettes qui ont échoué.
+
+
+==== Problèmes d'association de type MIME ====
+  * Les //Raccourcis// de dossiers (Dossier Personnel, Bureau, Documents, Musique, Images, Vidéos,...) ne mène pas à Nautilus mais tentent de s'ouvrir avec une autre application
+  * Nautilus reporte une erreur du style : <code>Impossible d'ouvrir l'emplacement file:///home/(nom_d_utilisateur)</code>
+
+-> Reportez-vous à la page **<< [[:tutoriel:changer_l_association_par_defaut_des_fichiers_avec_les_applications|Changer l' association par défaut des fichiers avec les applications]] >>**
+
+====Nautilus ouvre une autre icône====
+Il peut arriver que lorsque vous cliquez sur l'icône principal de Nautilus, dans la barre de lanceur, un autre icône s'ouvre plutôt que d'afficher les fenêtres ouverte sur l'icône principal.
+Pour résoudre ce problème il suffit d'ouvrir nautilus via le [[:unity#dash|tableau de bord]] avec le mot clé **Fichiers**, puis faire un clic droit sur le nouveau lanceur pour choisir l'option **Conserver dans le lanceur**. Il ne vous reste plus qu'à  supprimer le premier icône.
+
+===== Plus d'infos =====
+
+  * [[:nautilus_utilisation_avancee|Nautilus utilisation avancée]]
+  * [[http://ubunteros.tuxfamily.org/spip.php?article50|Alarme visuelle (fond rouge) dans Nautilus en mode administrateur]]
+  * [[http://www.gnome.org/projects/nautilus/|Site officiel]]
+
+----
+
+//Contributeurs : [[utilisateurs:adam0509]], [[utilisateurs:clem-vangelis]], [[utilisateurs:jdautz]], [[utilisateurs:nlcf]], [[utilisateurs:claudiux]], [[utilisateurs:J5012]], [[utilisateurs:Herbie]], [[utilisateurs:simtris]].//

@@ -1,0 +1,60 @@
+{{tag>Precise Trusty jeu rts}}
+
+----
+
+====== Widelands ======
+
+
+Widelands est un jeu de stratégie en temps réel open-source inspiré du jeu //The Settlers II//. 
+
+{{http://pix.toile-libre.org/upload/original/1422736047.jpg}}
+
+===== Pré-requis =====
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+
+===== Installation =====
+
+==== Via les dépôts officiels====
+Pour installer Widelands, il vous suffit d'[[:tutoriel:comment_installer_un_paquet|installer ce paquet]] **[[apt>widelands]]**
+<note>
+La version 16-1de widelands fourni dans les dépôts Universe d'[[precise|Ubuntu 12.04]] contient un bug((https://bugs.launchpad.net/widelands/+bug/780409)) empêchant de continuer la 2ème campagne. Cela a été résolu et vous pouvez maintenant jouer. \\
+Installez Widelands depuis les [[:depots#backports|]] qu'il vous faudra activer ou pour avoir la version la plus récente via son [[#via_un_ppa|ppa]]
+</note>
+
+==== Via un PPA ====
+<note important>Installer un paquet hors des dépôts officiels peut présenter un risque d'instabilité pour votre système.</note>
+
+  - [[:PPA|Ajoutez le PPA]] **ppa:widelands-dev/widelands-daily**((https://launchpad.net/~widelands-dev/+archive/ubuntu/widelands-daily)) dans vos sources de logiciels
+  - [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste des paquets]]
+  - [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>widelands]]**
+Ou dans un [[:terminal]], saisir les [[:commande_shell|commandes]] suivantes : 
+<code>sudo add-apt-repository ppa:widelands-dev/widelands-daily
+sudo apt-get update
+sudo apt-get install widelands</code>
+
+
+===== Jouer en ligne (sur Internet)  =====
+
+Vous pouvez toujours jouer sur Internet.  Pour héberger une partie, vous devez
+
+  - Rediriger le port 7396 sur votre ordinateur, ou serveur hébergeant la partie.  Vous devez pour cela configurer votre routeur Internet.
+  - Ouvrir le port 7396 dans votre [[:pare-feu]] (par exemple: [[:Gufw]]). Voyez également le [[:pare-feu]] pour plus de renseignements.
+  - Utiliser l'interface : Wideland -> **Multijoueur** -> **Partie en ligne**.  Vous pouvez choisir un nom original.  Le mot de passe est facultatif.  Cliquez sur **identifiant**.
+
+===== Problème connus =====
+
+==== missing dependancies dans Ubuntu 14.04 ====
+
+La version est prévue pour les [[:versions]] antérieures de Ubuntu et certains paquets ont été supprimés des dépôts. Installez la version officielle c'est-à-dire supprimer le PPA et installez le paquet Widelands.
+
+
+===== Liens =====
+  * [[http://www.widelands.org|Site officiel du jeu]]
+  * [[https://launchpad.net/widelands|Page Launchpad du projet]]
+  * [[http://widelands.fr|Site francophone du jeu (en construction au 20-01-2016)]]
+
+----
+
+ //Contributeurs : [[:utilisateurs:_Enchained]],[[http://www.weblog-hl2612.tk|Hl2612]]//

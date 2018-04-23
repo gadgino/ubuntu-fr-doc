@@ -1,0 +1,44 @@
+{{tag>À_RECYCLER}}
+----
+====== iReport, l’outil de construction de rapports ====
+
+
+==== Introduction ====
+
+iReport est un outil destiné à la création de rapports pour [[http://jasperforge.org/toilette/project_home.php?projectname=ireport| JasperReports]].
+
+Il permet donc de produire de manière intuitive des .jrxml (fichiers xml) exploitables par le public pour générer des rapports au sein d'une ferme Java. Le format de rapport généré dépend ensuite de JasperReports et du code utilisé : PDF, HTML, CSV.exct
+
+==== Aperçus d'écran ====
+!!! mot de passe requis pour voir les images ci-dessous ???
+
+  [[http://srvremi.free.fr/images/ireport1.jpg|{{http://srvremi.free.fr/images/ireport-mini1.jpg}}]]
+  [[http://srvremi.free.fr/images/ireport2.jpg|{{http://srvremi.free.fr/images/ireport-mini2.jpg}}]]
+  [[http://srvremi.free.fr/images/ireport3.jpg|{{http://srvremi.free.fr/images/ireport-mini3.jpg}}]]
+
+
+==== Installation ====
+
+<note important>L'ajout de dépôt srvremi n'est peut être plus d'actualité, une installtion en téléchargeant le logiciel sur le site officiel est sûrement à privilégier
+[[http://jasperforge.org/website/ireportwebsite/IR%20Website/ir_download.html?header=project&target=ireport]]</note>
+
+[[:tutoriel:comment_modifier_sources_maj|Modifiez vos sources de mises à jour]] pour activer l'un des dépôts [[:utilisateurs:srvchess#ajouter_mon_depot|SRVRemi]] :
+<file>deb http://srvremi.free.fr/ubuntu gutsy main
+deb http://srvremi.free.fr/ubuntu feisty main
+deb http://srvremi.free.fr/ubuntu edgy main</file>
+
+Puis ajoutez la clef du dépôt en exécutant les lignes suivantes dans un terminal :
+<file>gpg --keyserver wwwkeys.eu.pgp.net --recv-keys AA82C25A36399439
+gpg --armor --export AA82C25A36399439 | sudo apt-key add -</file>
+
+N'oubliez pas ensuite de [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|recharger la liste des paquets]].
+
+Enfin [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **ireport**
+
+==== Liens externes ====
+
+[[http://srvremi.free.fr/blog/2007/06/installer-ireport-sur-ubuntu.html|Installer iReport sur Ubuntu]]
+
+----
+
+//Contributeurs : [[utilisateurs:srvchess]].//

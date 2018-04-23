@@ -1,0 +1,284 @@
+{{tag>BROUILLON cloud ubuntuone}}
+
+====== Ubuntu One ======
+
+ {{ :ubuntuone:Ubuntu_One_Logo.png|Ubuntu One}}
+
+[[https://login.ubuntu.com/+login|Ubuntu One]] est le seul compte que vous utilisez pour vous connecter à tous les services et les sites liés à Ubuntu.
+
+<note tip>Pour ceux qui cherchent une alternative au cloud d'Ubuntu One, voir la page Cloud de la documentation  : [[cloud]].</note>
+
+Il est possible d'y acceder via :
+  * le client Ubuntu One (pour les ordinateurs dotés du système d'exploitation Ubuntu, Windows ou Mac OS X)
+  * l'interface web (pour tous les systèmes d'exploitation)[[https://login.ubuntu.com/]]. 
+  * UbuntuOne pour IOS [[https://one.ubuntu.com/downloads/iphone/]] 
+  * UbuntuOne pour Android [[https://one.ubuntu.com/downloads/android/]] 
+  * UbuntuOne pour Windows  (https://one.ubuntu.com/downloads/Windows/)\\
+---Les versions mobiles permettent la consultation et le téléchargement de fichiers, mais la synchronisation automatiques ne prend en compte que les photos de l'appareil.
+
+===== Installation =====
+
+Le client Ubuntu One est installé par défaut dans Ubuntu depuis la version 10.04.
+Pour certaines variantes n'intégrant pas Ubuntu One, il vous faut [[:tutoriel:comment_installer_un_paquet|installer ces paquets]]:
+  sudo apt-get install ubuntuone-client ubuntuone-client-gnome ubuntuone-control-panel-qt ubuntuone-client-proxy
+
+Pour les autres systèmes d'exploitations, voici les liens de téléchargement:
+
+^système d'exploitation^lien de téléchargement^
+|WINDOWS|https://one.ubuntu.com/download/windows/client|
+|MAC OS X|https://one.ubuntu.com/download/mac/client|
+|IOS|https://one.ubuntu.com/iphone/files/app|
+|ANDROID|https://one.ubuntu.com/android/files/app|
+
+
+===== Configuration ===== 
+{{ :ubuntuone:ubuntuone:ubuntuone_dash.png?direct&500|}}
+
+Pour ouvrir UbuntuOne pour la première fois, ouvrez le [[:unity#tableau_de_bord_dash|tableau de bord]] d'ubuntu, puis cherchez "ubuntuone".
+
+Lorsque vous l'aurez paramétré, une icone s'installera dans la barre de menu en haut à droite (en forme de petit nuage).
+
+~CB~
+
+==== Inscription et Connexion ====
+
+Vous avez ici un aperçu des étapes de configuration du client UbuntuOne.
+
+
+{{ :ubuntuone:ubuntuone:ubuntuone_login_4_etapes.png?direct&500|}}
+
+** 1 - Bienvenue sur UbuntuOne! **
+
+1er écran à l'ouverture, il vous donne plusieurs possibilité:
+  - Se connecter avec son compte UbuntuOne
+  - "Je n'ai pas de compte" - M'inscrire
+  - Obtenir de l'aide en ligne
+
+** 2 - S'inscrire à UbuntuOne**
+
+Vous pouvez réaliser votre inscription directement ici. L'inscription nécessite une validation par [[:email|Email]].
+Il n'y a aucun avantage particulier à le faire ici, cela vous évite juste de passer par le navigateur Internet.
+
+** 3 - Se connecter à UbuntuOne**
+
+Une fois votre inscription effectuée, connectez le client UbuntuOne à votre compte, en saisissant vos informations d'identification. Faites ceci sur tous les ordinateurs que vous souhaitez synchroniser. 
+
+Il est inutile d'ouvrir le client UbuntuOne à chaque démarrage de l'ordinateur, une fois votre compte paramétré, il démarrera automatiquement.
+
+** 4 - Synchroniser le nuage avec votre ordinateur**
+
+La liste contient les dossiers déjà synchronisés sur le [[:cloud|cloud]] d'ubuntuOne. Cochez les cases correspondants au dossier que vous voulez synchroniser sur cet ordinateur. Si vous venez juste de créer votre compte, il n'y a aucun dossier dans cette liste. 
+
+~CB~
+==== Synchroniser un Dossier ====
+
+{{ :ubuntuone:ubuntuone:ubuntuone_dossiers.png?direct&500|}}
+
+Le bouton orange **"Ajouter un dossier de cet ordinateur"** vous permet d'ajouter un dossier (et les fichiers qu'il contient) sur votre espace cloud.
+
+Lorsque vous ajoutez un dossier, son contenu est automatiquement envoyé en ligne. Il devient ainsi disponible pour vos autres ordinateurs utilisant le même compte UbuntuOne. 
+
+Les cases à cocher **"Synchroniser localement?"** vous permettent de choisir quel dossier vous voulez synchroniser, sur tel ou tel ordinateur.
+
+La synchronisation se fait en continu. Dès qu'un fichier se trouvant dans un dossier synchronisé est modifié, il est automatiquement envoyé vers votre stockage en ligne, puis est de la même façon, récupéré automatiquement par vos autres ordinateurs. 
+
+Vous pouvez arrêter de synchronisez un dossier en décochant la case "Synchroniser localement?", mais vous ne pouvez pas le supprimer de votre espace de stockage. 
+
+Pour le faire il vous faut vous rendre sur l'interface de gestion UbuntuOne sur internet, en cliquant sur le lien orange :\\
+**"Aller sur l'interface Web pour les options de partage public et privé"**
+
+~CB~
+==== Partager les liens (depuis Ubuntu 12.10)====
+{{ :ubuntuone:ubuntuone_client-share-link.png?direct&500|}}
+
+Vous pouvez rendre public un fichiers stocké sur votre cloud en partageant son lien.
+
+Cela peut vous servir à partager par mail un fichier volumineux, ou partager un fichier via les réseaux sociaux, par exemple.
+
+Dans le champ **"Rechercher et partager des fichiers"** il vous faut écrire le nom du fichier à partager, une liste va alors apparaître. 
+
+En sélectionnant votre fichier, UbuntuOne crée un lien  qu'il vous suffit de copier, pour le partager, soit par [[courriel|mail]], soit sur les [[reseau_social|réseaux sociaux]]. 
+
+Le lien reste actif indéfiniment. Pour le désactiver, retournez dans UbuntuOne à l'onglet "Partager les liens", puis double-cliquez sur le nom du fichier à départager.
+Un bouton "Disable link" est proposé, il suffit de cliquer dessus pour départager votre fichier.
+
+[[thunderbird|Thunderbird]] propose une option de partage de fichier volumineux utilisant UbuntuOne. Il crée en fait un dossier sur votre espace de stockage en ligne qui se nomme: "Thunderbird Attachments".\\ Les liens créé par Thunderbird sont visible dans le client UbuntuOne, est peuvent aussi être départagé ici.
+
+<note important>Il semblerait qu'il y ai un bug lors du départage des liens Thunderbird, il faut dans ce cas se rendre sur l'interfaces de gestion en ligne pour départager ces liens. Préférez le partage de lien via le client UbuntuOne dans ce cas. </note>
+~CB~
+====Gérer les Appareils connecté au Cloud====
+
+{{ :ubuntuone:ubuntuone:ubuntuone_appareils.png?direct&500|}}
+
+Ceci est une propriété intéressante sur UbuntuOne, qui permet de gérer les appareils que vous avez connecté au cloud.
+
+Si vous souhaitez supprimer la configuration sur votre ordinateur, il vous suffit de cliquer sur le bouton **"Retirer"**. Cela supprimera votre configuration et remettra le client UbuntuOne à son état d'origine.
+
+Vous avez en dessous une liste de vos autres appareils connecté, cela peut être un smartphone, un ordinateur, une tablette, etc.
+Pour supprimer un de vos périphériques listés, cliquez sur le lien orange en bas:**"Allez sur l'interface Web pour gérer vos autres appareils"**
+
+Cela peut vous servir dans ces situations:
+
+  - Le client UbuntuOne bug et ne synchronise plus vos fichiers, en supprimant votre configuration et en vous reconnectant cela peut résoudre le problème.
+  - Si vous vous aperecevez qu'il y a un appareil que vous ne connaissez pas et que vous soupçonnez vous être fait piraté, dans ce cas, supprimez l'appareil que vous soupçonnez, et changez votre mot de passe sur l'interface de gestion en ligne.
+
+~CR~
+
+====Paramètre du client====
+
+{{ :ubuntuone:ubuntuone:ubuntuone_parametre.png?direct&100|}}
+
+Vous pouvez limiter la [[wpfr>http://fr.wikipedia.org/wiki/Bande_passante|bande passante]] du client UbuntuOne, afin de garder de l'espace pour votre trafic Internet ou vos autres téléchargement.
+
+Vous pouvez aussi définir le mode de connexion du client, les paramètres de synchronisation et de notification.
+~CR~
+===== Utilisation =====
+L'utilisation d'UbuntuOne est transparente après configuration. Néanmoins, certaines utilisations sont possible, et sont listé ci-après. 
+
+
+====Synchroniser des fichiers sécurisés ====
+
+Si vous souhaiter sécuriser les données que vous envoyez avec UbuntuOne, vous pouvez utiliser [[encfs]],avec l'option  [[encfs#pam_mount]] pour que ce soit transparent du point de vue utilisateur et donc transparent pour UbuntuOne.
+
+==== Intégration avec la sauvegarde DejaDup ====
+
+Le logiciel de sauvegarde/restauration DejaDup permet d'enregistrer les sauvegardes sur votre espace de stockage en ligne. Pour ce faire ouvrez le client DejaDup, à l'onglet stockage, pour paramétrer votre sauvegarde sur UbuntuOne.
+
+==== Intégration avec Rhythmbox ====
+
+La musique que vous achetez sur UbuntuOne Music se retrouve dans le lecteur de musique Rhythmbox, dans la playlist "Purchased with UbuntOne"
+==== Ubuntu One en ligne de commande ====
+
+Vous pouvez effectuer toutes les actions graphiques du client UbuntuOne en ligne de commande.
+Il suffit d'utiliser le programme **u1sdtool** qui permet d'interagir avec le service en ligne de commande. Le paquet est déja installé de base  dans ubuntu, mais si ce n'est pas le cas:
+
+<code>sudo apt-get install u1sdtool</code>
+
+Lister les dossiers partagés:
+<code>u1sdtool --list-folders</code>
+
+Liste des téléchargements en cours:
+<code>u1sdtool --current-transfers</code>
+
+Status du service:
+<code>u1sdtool -s</code>
+
+Quitter le service:
+<code>u1sdtool -q</code>
+===== Problèmes connus =====
+Avant toute manipulation, vérifier l'état des services à cette adresse : [[https://wiki.ubuntu.com/UbuntuOne/Status|Ubuntu one Status]]
+
+==== Je n'arrive pas à associer mon ordinateur avec mon nuage Ubuntu One. Mon ordinateur passe à travers un proxy ====
+**Versions <12.04:**
+Il n'est pas possible d'associer un appareil situé derrière un serveur mandataire (//proxy server//) avec son nuage personnel Ubuntu One.
+
+**Depuis Version 12.04:**
+Depuis la version 12.04 d'Ubuntu (Precise Pangolin), la gestion des proxys pour Ubuntu One est possible. ll suffit d'installer le paquet **ubuntuone-client-proxy**
+
+  sudo apt-get install ubuntuone-client-proxy
+
+====Erreur de synchronisation auth_failed====
+
+Si le client Ubuntu One vous signale une erreur de synchronisation due à une erreur d'authentification (auth_failed) voici la marche à suivre.
+
+Sauvegardez tous les fichiers et dossiers contenus dans votre dossier Ubuntu One, ainsi que ceux des autres dossiers synchronisés, dont la liste peut être obtenue par :
+
+    u1sdtool --list-folders
+
+Assurez-vous que le client Ubuntu One est fermé, puis stoppez le processus de synchronisation par :
+
+    u1sdtool --quit
+
+Supprimez le mot de passe enregistré pour Ubuntu One :
+
+    seahorse
+
+puis déployer "Mots de passe : login" en cliquant sur le triangle qui se trouve à gauche ; faire alors un clic-droit sur la ligne Ubuntu One et choisir Delete (Supprimer). Fermer la fenêtre de seahorse.
+Supprimez toute info concernant le démon de synchronisation :
+
+    rm -rf ~/.local/share/ubuntuone/syncdaemon
+
+Supprimez toute info concernant l'état du cache :
+
+    rm -rf ~/.cache/ubuntuone
+
+Relancez le démon Ubuntu One :
+
+    u1sdtool --start
+
+Ouvrez le client Ubuntu One, afin de vous reconnecter ("J'ai déjà un compte"). Une synchronisation est lancée, assez longue, qui consiste surtout à comparer les fichiers de l'ordinateur et du cloud. Une fois la synchronisation terminée, le problème est résolu.
+
+====Erreur de synchronisation des fichiers. (local and server roots are different (ROOT_MISMATCH))====
+
+Ce problème se produit dans le cas où on essaierait de transmettre un ou plusieurs fichiers, mais qu'il y a un problème d'autorisation. 
+
+Ce problème peut arriver si vous possédez deux comptes Ubuntu One, mais peut également arriver sans raison. 
+
+Pour résoudre le problème, sous Ubuntu 11.04 (« The Natty Narwhal ») :
+
+Dans le panneau de contrôle du client Ubuntu One, retirez l'ordinateur concerné par le problème.
+
+Sauvegardez les fichiers du dossier $HOME/Ubuntu One ainsi que les dossiers synchronisés (dont la liste peut être obtenue via la commande u1sdtool –list-folders).
+
+Arrêtez le service Ubuntu One : 
+  u1sdtool --quit
+Supprimez la configuration d'Ubuntu One : 
+  rm -rf ~/.local/share/ubuntuone/syncdaemon
+Redémarrez le service Ubuntu One :
+  u1sdtool --start
+Il ne vous reste plus qu'à vous reconnecter sur votre compte.
+
+S'il manque des fichiers dans le dossier $HOME/Ubuntu One,  servez vous de la sauvegarde. De même pour les dossiers synchronisés.
+
+
+==== La synchronisation ne se produit pas parce que je n'utilise pas Network Manager ====
+Il semble que l'on ne peut pas utiliser Ubuntu One si on utilise un autre gestionnaire de connexion que [[Network-Manager]] (cf [[https://bugs.launchpad.net/ubuntuone-client/+bug/357395|Bug 357395]]). Dans le rapport de bug, un correctif est proposé à travers un [[ppa|dépôt PPA]], en attendant l'intégration dans les dépôts officiels.
+
+====  La synchronisation ne se produit pas après effacement de très nombreux fichiers ====
+<note warning>Attention, ce qui est indiqué ci-dessous revient à vider totalement le cache, il n'est pas garanti que vous ne perdiez pas d'informations utiles à la bonne synchronisation de vos fichiers par ubuntuone, ce n'est à faire qu'en cas d'effacement total de votre dossier ubuntuone ou de situation désespérée.</note>
+Afin d'éviter qu'ubuntuone ne passe de longues heures (voire des jours) à tenter de scanner les milliers de fichiers que vous venez d'effacer, il peut s'avèrer salutaire de faire une bonne purge du cache en ouvrant [[:terminal|une fenêtre de terminal]] pour y lancer les commandes suivantes :
+<code>
+u1sdtool -q
+rm -rf '~/.local/share/ubuntuone/syncdaemon' 
+rm -rf ~/.cache/ubuntuone
+u1sdtool -c
+</code>
+
+==== L'indicateur de progression n'avance pas ====
+À l'heure actuelle, le client de synchronisation Ubuntu One n'inclut pas d'indicateur de progression de la synchronisation. L'indicateur présent dans le client affiche la quantité d'espace utilisée par vos données dans votre nuage personnel. Il n'indique pas une progression de transfert d'informations.
+
+
+==== L'association d'un ordinateur avec mon compte Ubuntu One ne s'établit pas ====
+Si l'association de votre ordinateur avec votre compte Ubuntu One ne s'accomplit pas correctement, ouvrez [[:terminal|une fenêtre de terminal]] et exécutez les commandes suivantes, qui vont arrêter puis redémarrer le service Ubuntu One :
+<code>u1sdtool -q
+killall ubuntuone-login
+u1sdtool -c</code>
+Tentez ensuite à nouveau l'association de votre ordinateur avec votre compte Ubuntu One.
+
+==== Je n'arrive pas à installer Ubuntu One sous Kubuntu ====
+cf. [[http://forum.ubuntu-fr.org/viewtopic.php?id=354410|cette discussion dans le forum]] (fonctionne notamment sous Kubuntu 11.10).
+
+===== Désinstallation =====
+Ubuntu One peut être entièrement retiré de votre ordinateur en suivant la procédure suivante :
+  - Selon votre version d'Ubuntu, [[tutoriel:comment_supprimer_un_paquet|supprimez les paquets]] **rhythmbox-ubuntuone-music-store** **ubuntuone-client** **python-ubuntuone** **ubuntuone-client** **python-ubuntuone-client** **python-ubuntuone-storageprotocol** //(ainsi que tous autres paquets contenant "ubuntuone" dans leur nom)// <code>sudo apt-get autoremove --purge `dpkg -l | grep ubuntuone | cut -d \  -f 3`</code> ;
+  - Supprimez le dossier "Ubuntu One" de votre dossier personnel.
+
+Ceci retire entièrement le service Ubuntu One de votre ordinateur, c'est-à-dire :
+  * L'intégration dans le //Menu// ;
+  * La synchronisation de dossiers dans Nautilus avec le nuage personnel Ubuntu One ;
+  * Le client de synchronisation des fichiers, notes et contacts ;
+  * L'accès à Ubuntu One Music Store dans vos lecteurs de musique.
+
+===== Voir aussi ======
+  * [[https://one.ubuntu.com|Site web d'Ubuntu One]] **(en)** 
+  * [[https://launchpad.net/ubuntuone|UbuntuOne sur Launchpad]] **(en)**
+  * [[https://bugs.launchpad.net/ubuntuone-client/|Bugs d'Ubuntu One]] **(en)**
+  * [[https://wiki.ubuntu.com/UbuntuOne/FAQ|Faq d'UbuntuOne]] **(en)** 
+
+  * Des alternatives à Ubuntu One : [[Dropbox]] (utilise le stockage d'Amazon), [[Funambol]], [[OwnCloud]] (décentralisé), [[hubiC]],	[[https://www.icloud.com/|iCloud]] 	[[http://skydrive.live.com/|Skydrive]] [[https://drive.google.com/start#home|Drive]], [[https://www.copy.com/home/|Copy.com]]
+
+A noter : le compte créé via Ubuntu One sera votre identifiant unique pour les divers services Ubuntu et de plus il est compatible OpenID c'est à dire qu'il peut être utilisé pour s'authentifier sur de nombreux sites web. Voir [[ubuntu_sso|Ubuntu Single Sign On]].
+
+----
+
+//Contributeurs : [[utilisateurs:filerem1]], [[utilisateurs:Zordhak]], [[:utilisateurs:Mathieu Comandon]], marc31//, [[:utilisateurs:claudiux|Claudiux]]

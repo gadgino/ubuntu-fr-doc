@@ -1,0 +1,76 @@
+{{tag>Precise Trusty administration réseau bureau_à_distance}}
+
+------
+
+====== Visionneur de bureaux distants Remmina ======
+
+
+
+Le visionneur de bureaux distants **Remmina** est un logiciel permettant de se connecter à distance, à travers une interface graphique, à un ordinateur distant (serveur). De cette manière, vous affichez sur votre propre écran ce que vous verriez à l'écran d'un autre ordinateur.
+
+Remmina prend en charge les protocoles [[:VNC]], [[:SSH]], SFTP et [[:xrdp|RDP]] (jusqu'à la version 5).
+Une connexion vers Windows® serveur 2012 R2 testée fonctionnelle avec la version 1.0 de Remmina.
+
+<note tip>Il est conseillé de lire la page [[:VNC]] ainsi que celle sur le [[:Bureau_a_distance|Bureau à distance]] pour avoir une vue globale du principe de connexion à distance.</note>
+
+{{ :remmina-accueil.png?300 |L'écran d'accueil de Remmina liste les sessions enregistrées}}
+
+===== Pré-requis =====
+  * Disposer des [[:sudo|droits d'administration]], pour l'installation du paquet ;
+  * Disposer d'une connexion au réseau où est connecté le [[:vnc#Machine à contrôler|serveur distant]] ;
+  * Avoir [[:bureau_a_distance|configuré le serveur distant de manière à accepter une session de bureau à distance]],
+  * Avoir correctement configuré le [[:ufw|pare-feu]] et ouvert le bon [[:vnc#Configuration du pare-feu (K)Ubuntu|port]],
+  * Connaître l'adresse IP du serveur distant.
+
+
+===== Installation =====
+
+==== Via les dépôts Ubuntu====
+**Remmina** est installé par défaut dans Ubuntu. Si vous souhaitez l'installer sur une [[:variantes|variante]], [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>remmina]]**.
+
+==== Via un dépôt PPA ====
+
+<note important>Vous allez activer l'accès à un dépôt non officiel. Les logiciels installés à partir de ce dépôt n'auront pas de soutien technique officiel. Contactez le mainteneur du dépôt si vous avez un problème.</note>
+
+Pour Ubuntu, la dernière version stable de **Remmina** est disponible depuis le [[:PPA|dépôt PPA]] officiel **Remmina**. De plus, vous obtiendrez une version qui sera tenue systématiquement à jour. \\
+
+  - [[:ppa|Ajoutez le PPA]] **ppa:remmina-ppa-team/remmina-next**((https://launchpad.net/~remmina-ppa-team/+archive/ubuntu/remmina-next)) à vos sources de logiciels;
+  - [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste de vos paquets]];
+  - [[:tutoriel:comment_installer_un_paquet|Installez les paquets]] **[[apt>remmina]]** et **[[apt>remmina-plugin-rdp]]** 
+Ou dans un [[:terminal]], saisir les [[:commande_shell|commandes]] suivantes:
+<code>sudo apt-add-repository ppa:remmina-ppa-team/remmina-next
+sudo apt-get update
+sudo apt-get install remmina remmina-plugin-rdp</code>
+
+===== Utilisation =====
+Une fois installé, **Remmina** peut être exécuté depuis le [[:unity#tableau_de_bord_dash|tableau de bord d'Unity]] ou pour les menus classiques, à l'aide de son raccourci //Applications -> Internet -> **Visionneur de bureaux distants Remmina**//.
+
+{{ :systeme:remmina-vnc_trusty.png?300 |Interface de configuration des propriétés pour le protocole VNC. Remmina prend en charge les protocoles RDP (jusqu'à la version 5), VNC, SSH et SFTP.}}
+
+
+Pour une configuration minimale à renseigner (sans sécurité par tunnel SSH) :
+  * Nom : Choisir un nom pour identifier la personne dépannée.
+  * Protocole : Choisir //VNC - Virtual Network Computing//.
+  * Serveur : Renseigner l'adresse IP de la personne dépannée.
+  * Nom d'utilisateur et mot de passe : ceux de la personne dépannée.
+
+Puis côté serveur, une fenêtre s'ouvre pour vous demander la permission de se connecter à l'ordinateur distant :
+
+{{ :systeme:remmina_permission_trusty.png?300 }}
+===== Utilisation en ligne de commande =====
+**Remmina** peut être ouvert avec un fichier de configuration de façon à créer un raccourci. Il faut savoir que tous les fichiers de configuration se trouvent dans le [[fichier_cache|dossier caché]] ~/.remmina/ de votre **Dossier Personnel**.
+Ainsi, on peut lancer une configuration enregistrée en tapant dans un [[:terminal]] la [[:commande_shell|commande]] suivante:
+<code>remmina -c ~/.remmina/<NomDuFichier>.remmina</code>
+
+===== Désinstallation =====
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Liens =====
+  * **[[https://www.remmina.org|Site officiel de Remmina]]**
+  * [[http://www.omgubuntu.co.uk/2010/11/remmina-to-be-ubuntus-new-remote-desktop-app/|Remmina to be Ubuntu’s new remote desktop app]] (OMG! Ubuntu!)
+  
+
+
+----
+
+//Contributeurs: [[:utilisateurs:l_africain|L'Africain]]//

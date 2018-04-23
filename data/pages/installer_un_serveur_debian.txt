@@ -1,0 +1,448 @@
+{{tag>à_recycler}}
+----
+====== Installation complète d'un serveur web sous Debian 8.7.1 ======
+
+===== Installation de Debian =====
+
+Téléchargez la version de votre choix depuis la page : http://www.debian.org/distrib/netinst
+
+Gravez l'image ISO puis insérez le CD dans le lecteur de votre futur serveur.
+
+Il est conseillé d'utiliser l'installation graphique qui est plus simple d'utilisation.
+
+Quand l'installation vous le proposera, garder seulement les cases "ssh serveur + utilitaire usuel standard du systeme", selectionner ou pas avec la barre d espacement.
+
+
+==== Se connecter en root ====
+
+Sous Debian, root correspond à l'administrateur du serveur, il est le seul à pouvoir manipuler celui-ci. Pensez donc à bien protéger son mot de passe.
+
+==== Mettre à jour le serveur ====
+
+Pour commencer, on vérifie que le serveur est à jour :
+
+=== Mise à jour des dépôts ===
+
+On commence par mettre à jour la liste des fichiers disponibles dans les dépôts APT présents dans le fichier de configuration ''/etc/apt/sources.list''. L'exécuter régulièrement est une bonne pratique, afin de maintenir à jour votre liste de paquets disponibles.
+
+<code>apt-get update</code>
+
+=== Mise à jour des paquets ===
+
+L'option ''upgrade'' met à jour tous les paquets installés vers les dernières versions.
+
+<code>apt-get upgrade</code>
+
+Pour en savoir plus sur **apt-get** : [[:apt-get]]
+
+
+==== Installation d'Apache 2 ====
+
+Il nous faut installer un serveur HTTP qui va s'occuper d'afficher nos différentes pages. Pour cela, je vous propose d'installer l'un des serveurs les plus utilisés et les plus connus : Apache. Nous installerons ici sa version 2.
+
+<code>apt-get install apache2</code>
+
+Pour vérifier que l'installation s'est bien effectuée, entrez l'adresse suivante dans votre navigateur http://IP_DE_VOTRE_SERVEUR/
+
+Vous devriez obtenir le résultat suivant :
+
+<code>It works!
+This is the default web page for this server.
+The web server software is running but no content has been added, yet.</code>
+
+==== Installation de PHP 5 ====
+
+Actuellement, notre serveur peut nous afficher des pages statiques au format HTML. La plupart des sites que vous voudrez installer disposeront d'une partie dynamique. C'est pourquoi nous poursuivons par l'installation de PHP 5 sur le serveur.
+
+<code>apt-get install php5</code>
+
+== Installation de la base de données MySQL ==
+
+PHP est très très souvent couplé à un système de base de données : Mysql. Nous installons ici la dernière version de Mysql-server. Vous verrez ci-après que nous allons également installer PHPMyAdmin. Il s'agit d'un script PHP qui permet de gérer ses bases de données Mysql de facon très simple.
+
+<code>apt-get install mysql-server</code>
+
+Définir le mot de passe root de Mysql (« mysql » par exemple).
+
+On vérifie que Mysql fonctionne bien :
+
+<code>mysql -p
+mot de passe
+Exit</code>
+
+Installation des librairies php5-mysql :
+
+<code>apt-get install php5-mysql</code>
+
+Installation de PHPMyAdmin :
+
+<code>apt-get install phpmyadmin</code>
+
+L'installation nous demandera de choisir le serveur web à reconfigurer automatiquement, cochez la case **apache2** (en utilisant la barre d'espace) puis validez.
+
+On crée un lien vers phpmyadmin 
+
+<code>ln -s /usr/share/phpmyadmin /var/www/phpmyadmin</code>
+
+
+On vérifie que l'installation s'est correctement déroulée : http://IP_DE_VOTRE_SERVEUR/phpmyadmin/
+
+Le formulaire de connexion devrait s'afficher.
+
+Si le formulaire ne s'affiche pas et que vous avez une erreur 404, il se peut que ça vienne du fichier  /etc/apache2/sites-available/000-default.conf. Dans ce cas modifiez DocumentRoot /var/www/html par DocumentRoot /var/www/ puis relancez le serveur apache, <code>service apache2 restart</code> et réactualisez http://IP_DE_VOTRE_SERVEUR/phpmyadmin/ .
+==== Installation du FTP (VSFTPD) ====
+
+Avoir un site disponible sur le net, c'est bien. Pouvoir y mettre des fichiers, c'est mieux ;). Et c'est le but de VSFTPD qui est un serveur FTP très sécurisé.
+
+<code>apt-get install vsftpd</code>
+
+===== Configuration d'Apache 2 =====
+
+==== Introduction ====
+
+Pour commencer, il faut installer un serveur web au sens premier. C'est lui qui va nous permettre d'interpréter nos pages HTML, PHP, etc. Apache 2 est le serveur http le plus utilisé sur les serveurs. Il dispose d'un bon niveau de sécurité et de beaucoup de documentations disponibles sur le net.
+
+D'autre part, il permet de gérer des sites virtuels. Et c'est de cette manière que nous allons le configurer. En effet, le but étant de disposer de plusieurs sites sur notre serveur, il nous faut pouvoir les contacter directement avec une URL propre. Notre serveur ne dispose évidemment pas d'une adresse IP pour chaque site installé. Ce serait beaucoup trop complexe du point de vue physique à mettre en place. Et surtout, avec le système d'IPV4 utilisé actuellement, c'est impensable. Pour la petite histoire, le système IPV4 utilise 4 nombres de 0 à 255 sous la forme xxx.xxx.xxx.xxx. Cette série de nombres représente de manière unique chaque ordinateur connecté physiquement à Internet.
+
+Certaines plages IP sont réservées pour des réseaux locaux (192.168.x.x ou 10.x.x.x par exemple). Mais ce souci va être prochainement résolu avec l'utilisation de l'IPV6 qui est en train de s'implémenter. Cette nouvelle notation permet de passer de 2puissance32 à 2puissance128 IP différentes. Ce qui permettra d'en attribuer plusieurs à un même serveur, dans le futur.
+
+Comme actuellement, c'est le protocole IPV4 qui est le plus utilisé, nous ne disposons en conséquence qu'une seule adresse IP pour 10 ou 100 sites à héberger sur notre serveur. Lorsqu'une requête HTTP est envoyée à notre serveur, le nom de domaine est transformé en adresse IP. La seule façon de différencier une demande venant de site1-cpnv.com ou de site2-cpnv.com, qui renvoient la même IP, passe par l'en-tête http, qui elle contiendra toujours le nom de domaine initialement demandé.
+
+Lorsque la requête que nous désirons a atteint notre serveur http, celui-ci va regarder dans ses règles afin de trouver dans quel répertoire il doit se diriger. C'est là que la gestion des virtualhosts va intervenir. En conséquence, nous créerons une entrée pour chaque site hébergé sur notre serveur. Cette entrée contiendra le domaine prévu, et le répertoire de redirection.
+
+==== Pré-requis ====
+
+Une fois que le serveur est installé de base, nous allons créer et configurer nos espaces d'hébergements. Tout d'abord, ce tutoriel part des principes suivants :
+
+  * Vous désirez pouvoir accéder à vos sites par ip_du_server/~nom_user
+  * Vous n'avez qu'une seule IP pour tous vos sites
+
+Dans cette première partie, nous allons modifier un fichier: /etc/apache2/apache2.conf, et créer des fichiers dans les répertoires /etc/apache2/sites-available et /etc/apache2/sites-enabled.
+
+==== Activer le module userdir ====
+
+<code># a2enmod userdir</code>
+
+puis on redémarre apache :
+
+<code># /etc/init.d/apache2 restart</code>
+
+On vérifie les utilisateur et groupe d'apache :
+
+<code># nano /etc/apache2/envvars</code>
+
+Puis on vérifie la présence des lignes :
+
+<code>export APACHE_RUN_USER=www-data
+export APACHE_RUN_GROUP=www-data</code>
+
+On modifie les fichiers que l'on désire par défaut :
+
+<code># nano /etc/apache2/mods-enabled/dir.conf</code>
+
+<code>DirectoryIndex index.html index.php index.xhtml</code>
+
+On vérifie que les utilisateurs sont autorisés à se connecter :
+
+<code># nano /etc/apache2/mods-available/userdir.conf</code>
+
+Puis on vérifie la présence de la ligne :
+
+<code>UserDir public_html</code>
+
+==== Activer PHP pour userdir ====
+
+<note warning>L'exécution en php est désactivée par défaut avec ce module. Pour changer ça et éviter que le navigateur télécharge le code php directement, éditer le fichier nano  /etc/apache2/mods-enabled/php5.conf et commentez les lignes comme ci dessous :
+<code>[..]
+#    <IfModule mod_userdir.c>
+#        <Directory /home/*/public_html>
+#            php_admin_value engine Off
+#        </Directory>
+#    </IfModule>
+[..]</code></note>
+
+Redémarrez apache avec :
+
+<code># /etc/init.d/apache2 restart</code>
+
+====  Installation des virtualhosts ====
+
+On va maintenant créer nos hôtes virtuels. Par défaut, je les appellerai test1.com et test2.com. A vous de mettre les noms que vous désirez. Mais avant de s'attaquer aux utilisateurs, on commence par modifier le squelette de la création des nouveaux users. L'avantage ? Ne pas avoir besoin à chaque fois de devoir créer le répertoire public_html et logs quand on crée un nouvel utilisateur, mais aussi d'avoir directement une page d'accueil.
+
+<code># mkdir /etc/skel/public_html</code>
+<code># mkdir /etc/skel/logs</code>
+<code># echo " <h1>Nouvel espace web crée</h1> " > /etc/skel/public_html/index.html</code>
+
+Une fois le squelette créé, on peut créer un nouvel utilisateur :
+
+<code># useradd -g www-data -m zone-web</code>
+
+On crée un nouveau fichier /etc/apache2/sites-available/zone-web.ca
+
+<code># nano /etc/apache2/sites-available/zone-web.ca</code>
+
+Et on y enregistre :
+
+<box round><code><VirtualHost *:80>
+        ServerAdmin postmaster@zone-web.ca
+        ServerName www.zone-web.ca
+        ServerAlias zone-web
+        DocumentRoot /home/zone-web/public_html/
+        <Directory /home/zone-web/public_html/>
+                Options -Indexes FollowSymLinks MultiViews
+                AllowOverride All
+        </Directory>
+        ErrorLog /home/zone-web/logs/error.log
+        LogLevel warn
+        CustomLog /home/zone-web/logs/access.log combined
+        ServerSignature Off
+</VirtualHost></code></box>
+
+On valide et on ferme le fichier. On rend le domaine créé disponible.
+
+<code># ln -s /etc/apache2/sites-available/zone-web.ca/etc/apache2/sites-enabled/zone-web.ca</code>
+
+On vérifie que la syntax est bonne :
+
+<code># apache2ctl -t</code>
+
+Si en retour on obtient un « Syntax OK », on redémare apache2 :
+
+<code># /etc/init.d/apache2 restart</code>
+
+Normalement vous devriez pouvoir acceder à http://192.168.2.47/~zone-web/ et y voir **Nouvel espace web crée**
+
+==== En savoir plus ====
+
+[[:apache2]]
+
+===== Configuration de VSFTPD en mode "utilisateur virtuel" =====
+
+====  Introduction ====
+
+Maintenant que nous avons un site serveur web opérationnel, et la possibilité de créer nos bases de données, il devient nécessaire de mettre nos fichiers sur le serveur. Pour cela, nous installons VSFTPD. C'est un serveur FTP très sécurisé (Very Secure File Transfert Protocol Daemon).
+
+VSFTPD dispose de plusieurs styles de paramétrage de base. Là encore, étant donné que nous souhaitons pouvoir disposer de plusieurs comptes FTP par domaine, et notamment d'avoir des comptes FTP qui pointent sur des sous-domaines, nous utiliserons le paramétrage par utilisateur virtuel.
+
+Pour ce faire, nous allons utiliser une base de données de type Berkeley. Il s'agit d'une base de type non-SQL. Elle n'est pas prévue pour être interrogée comme Mysql ou SQL server. En fait, il s'agit d'une table de hachage. Chaque enregistrement ne sera constitué que d'un login et d'un mot de passe. Ce type de base de données est indexé, extrêmement rapide et simple à mettre en œuvre. L'utilisation de ce type de base de données est obligatoire pour l'utilisation d'une identification de type PAM.
+
+Pour le principe, nous ne définissons qu'un seul utilisateur UNIX à notre serveur FTP. Lorsque l'on se connecte avec un utilisateur, le programme vérifie dans notre base de données si celui-ci existe, et si le mot de passe correspond. A partir de là, il va chercher les paramètres concernés (chroot, droits spécifiques) et renvoit le répertoire concerné.
+
+Grâce au chroot, il n'y a aucun souci de sécurité, car le répertoire est considéré comme étant un répertoire racine, il n'est donc pas possible de remonter la hiérarchie. Ce point est important du point de vue sécuritaire, car chaque connexion FTP utilise exactement le même utilisateur Unix : www-data.
+
+Pour créer un nouvel utilisateur, il suffit de lui créer une entrée dans la base Berkeley, et un fichier de configuration personnel.
+
+==== Préparation ====
+
+On commence par préparer la configuration en créant le répertoire qui contiendra tous nos fichiers :
+
+<code># mkdir /etc/vsftpd</code>
+
+On va devoir modifier la configuration de VSFTPD. Pour cela, on effectue une sauvegarde. Cela permettra de revenir en arrière en cas de souci :
+
+<code># cp /etc/vsftpd.conf /etc/vsftpd.conf.bak</code>
+<code># cp /etc/pam.d/vsftpd /etc/pam.d/vsftpd.bak</code>
+
+
+==== Modification de vsftpd.conf ====
+
+Pour pouvoir utiliser nos utilisateurs virtuels, nous devons reconfigurer le fichier ''vsftpd.conf''
+
+Supprimons le fichier ''/etc/vsftpd.conf'' :
+
+<code>#  rm /etc/vsftpd.conf</code>
+
+Pour ensuite le créer à nouveau :
+
+<code># nano /etc/vsftpd.conf</code>
+
+Copier le fichier de configuration suivant :
+
+<box round><code># Ceci configure VSFTPd en mode "standalone"
+listen=YES
+
+# On désactive les connexions anonymes
+# et on active les non-anonymes (c'est le cas des utilisateurs virtuels) :
+anonymous_enable=NO
+local_enable=YES
+
+# Pour des raisons de sécurité on interdit toute action d'écriture :
+write_enable=NO
+anon_upload_enable=NO
+anon_mkdir_write_enable=NO
+anon_other_write_enable=NO
+
+# 'guest_enable' est très important: cela active les utilisateurs virtuels !
+# 'guest_username' fait correspondre tous les utilisateurs virtuels à
+# l'utilisateur 'virtual' que nous avons défini plus haut, et au home
+# correspondant : '~virtual/'.
+guest_enable=YES
+guest_username=www-data
+
+# On définit les droits par défaut des fichiers uploadés
+anon_umask=022
+
+# On veut que les utilisateurs virtuels restent chez eux : '~virtual/'
+# (attends, on leur a fait un toit, c'est pas pour rien !)
+chroot_local_user=YES
+
+# On définit le nombre maximum de sessions à 200 (les nouveaux clients recevront
+# un message du genre: "erreur : serveur occupé").
+# On définit le nombre maximum de sessions par IP à 4
+max_clients=200
+max_per_ip=4
+
+####################################
+# Debian customization             #
+# (ou adoptons la Debian attitude) #
+####################################
+# Some of vsftpd's settings don't fit the Debian filesystem layout by
+# default.  These settings are more Debian-friendly.
+#
+# This option should be the name of a directory which is empty.  Also, the
+# directory should not be writable by the ftp user. This directory is used
+# as a secure chroot() jail at times vsftpd does not require filesystem
+# access.
+secure_chroot_dir=/var/run/vsftpd
+#
+# This string is the name of the PAM service vsftpd will use.
+pam_service_name=vsftpd
+#
+# This option specifies the location of the RSA certificate to use for SSL
+# encrypted connections.
+rsa_cert_file=/etc/ssl/certs/vsftpd.pem
+
+# Permet d'utiliser les configurations individuelles pour chaque utilisateur
+user_config_dir=/etc/vsftpd/vsftpd_user_conf</code></box>
+
+Sauvegardez puis quittez.
+
+====  Paramétrer les utilisateurs ====
+
+On va maintenant chrooter nos utilisateurs dans leur répertoire respectif. Pour cela, on crée le répertoire qui sera utilisé pour contenir nos différents fichiers par utilisateur. Et on crée le fichier pour chaque utilisateur dans notre base de données.
+
+<code># mkdir /etc/vsftpd/vsftpd_user_conf/</code>
+
+Puis on créé le fichier ''/etc/vsftpd/vsftpd_user_conf/user1'' :
+
+<code># nano /etc/vsftpd/vsftpd_user_conf/user1</code>
+
+Et on y ajoute :
+
+<box round><code>anon_world_readable_only=NO
+local_root=/home/test1/public_html
+write_enable=YES
+anon_upload_enable=YES
+anon_mkdir_write_enable=YES
+anon_other_write_enable=YES</code></box>
+
+On enregistre et on ferme.
+
+==== Redémarrage et test ====
+
+On redémarre notre service FTP :
+
+<code># /etc/init.d/vsftpd restart</code>
+
+Et il ne nous reste plus qu'à nous connecter à notre compte FTP en utilisant :
+
+<code>IP: ip du serveur
+login: user1
+password: pass1</code>
+
+Et voilà. Un petit test pour vérifier que tout fonctionne, et c'est terminé ;).
+
+Dans le cas où vous ne pouvez pas uploader de fichiers, c'est que les droits ne sont pas bons. Vérifiez bien que le répertoire  /home/test1/public_html ait les droits www-data:www-data pour propriétaire et groupe :
+
+<code># chown www-data:www-data /home/test1/public_html</code>
+
+==== Ajouter un utilisateur FTP ====
+
+Pour ajouter un utilisateur, ajoutez le login et son mot de passe dans login.txt puis exécuter :
+
+<code># db4.8_load -T -t hash -f /etc/vsftpd/login.txt /etc/vsftpd/login.db</code>
+
+Ajoutez les informations de l'utilisateur dans /etc/vsftpd/vsftpd_user_conf/[NOM_DE_L_UTILISATEUR]
+
+<code># /etc/init.d/vsftpd restart</code>
+
+===== Configuration des noms de domaines =====
+
+Maintenant que nous avons notre serveur web installé, il faut que nos visiteurs puissent nous trouver. Et il n'est guère facile de leur faire retenir une adresse du style : 213.251.175.34/~nom_de_mon_site. Si vous y arrivez, vous êtes un champion ;). Nous allons utiliser des noms de domaine pour avoir une adresse du type www.test1.com.
+
+==== Méthode 1 : Utilisez votre registrar ====
+
+=== Introduction ===
+
+Le serveur DNS permet de faire le lien entre le nom de domaine et l'adresse IP de votre serveur. Votre registrar (OVH par exemple) vous permet de faire ce lien. Lorsque l'utilisateur entrera l'adresse www.test1.com, le serveur DNS redirigera vers l'adresse IP de notre serveur. Le serveur regardera ensuite le nom de domaine qui l'a mené jusqu'à lui (www.test1.com dans notre cas), en connaissant cette information, les VirtualHost d'apache redirigeront vers le dossier correspondant à ce nom de domaine (/home/test1/public_html/).
+
+=== Indiquez les serveurs DNS à utiliser (OVH) ===
+
+Normalement, lorsque vous venez d'acheter votre nom de domaine, cette information est déjà pré-remplie.
+
+{{:dns1.png|}}
+
+=== Indiquez l'adresse IP de votre serveur ===
+
+Cette information doit être rempli dans le champ A :
+
+{{:dns2.png|}}
+
+=== Créer un sous domaine ===
+
+Savoir créer un sous domaine est aujourd'hui quasi indispensable pour quinconce souhaite administrer son propre serveur.
+
+== Renseigner apache ==
+
+Nous avons vu précédemment comment rediriger un nom de domaine vers un dossier, maintenant nous souhaitons rediriger un sous-domaine vers un dossier :
+
+Modifions le virtualhost correspondant :
+
+<code># nano /etc/apache2/sites-available/test1.com</code>
+
+et ajoutons les renseignements de notre sous-domaine à la suite.
+
+Notre fichier devrait ressembler à :
+
+<box round><code><VirtualHost *:80>
+        ServerAdmin postmaster@test1.com
+        ServerName www.test1.com
+        ServerAlias test1.com
+        DocumentRoot /home/test1/public_html/
+        <Directory /home/test1/public_html/>
+                Options -Indexes FollowSymLinks MultiViews
+                AllowOverride All
+        </Directory>
+        ErrorLog /home/test1/logs/error.log
+        LogLevel warn
+        CustomLog /home/test1/logs/access.log combined
+        ServerSignature Off
+</VirtualHost>
+
+<VirtualHost *:80>
+        ServerName admin.test1.com
+        DocumentRoot /home/test1/public_html/sd_admin/
+</VirtualHost>
+</code></box>
+
+Vous pouvez créer le dossier /sd_admin en utilisant FTP.
+
+On valide et on ferme le fichier. On rend le domaine créé disponible.
+
+<code># ln -s /etc/apache2/sites-available/test1.com /etc/apache2/sites-enabled/test1.com</code>
+
+On vérifie que la syntax est bonne :
+
+<code># apache2ctl -t</code>
+
+Si en retour on obtient un « Syntax OK », on redémarre apache2 :
+
+<code># /etc/init.d/apache2 restart</code>
+
+== Renseigner le serveur DNS ==
+
+Retournons chez notre registrar (OVH par exemple), pour lui indiquer que nous souhaitons utiliser un sous-domaine :
+
+Ajoutez un nouveau champ CNAME qui pointe vers le domaine principal, apache se chargera du reste :
+
+{{:dns3.png|}}

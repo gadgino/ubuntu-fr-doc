@@ -1,0 +1,109 @@
+{{tag>serveur sécurité pare-feu}}
+
+
+====== Lire ======
+
+Quoi de plus désagréable et rébarbatif que l’analyse de ses fichiers de "logs" réseau. Oui, vous savez ces innombrables fichiers qui vous informent de l’état de votre machine, des attaques qu'elle subit et des problèmes qu'elle rencontre.
+
+
+
+===== Introduction =====
+
+Le logiciel **Lire** analyse les fichiers "log" de notre distribution préférée puis fait un résumé qu'il nous envoie par courriel. Le nombre important de logiciels qu'il prend en charge fait de lui un outil très intéressant.
+
+^ Logiciels pris en charge ^^
+|SGBD | * Mysql\\ * PostgreSQL |
+|Dialup |  * isdnlog |
+|DNS |  * BIND 8\\ * BIND 9 |
+| Email|  * ArGoSoft Mail Server\\ * Exim\\ * Postfix\\ * Netscape Messaging Server\\ * Qmail\\ * Sendmail|
+|Firewall |* Log files from Cisco IOS\\ * IPfilter\\ * iptables\\ * WELF\\ * Watchguard|
+|FTP |* xferlog (WU-FTPD, ProFTPD, etc)\\ * IIS FTP|
+| Print |* CUPS\\ * LPRng|
+|Proxy |* Squid\\ * MS ISA\\ * WELF|
+|Syslog |* BSD-like\\ * Netscape Messaging Server\\ * Solaris 8\\ * Kiwi Syslog Daemon\\ * Sendmail Switch Log\\ * WTSyslog |
+| WWW |* Apache\\ * Boa \\ * iPlanet Web Server\\ * IIS 4.0 & 5.0|
+| Spamfilter | * SpamAssassin|
+
+
+===== Installation =====
+Il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt://lire|lire]]** (dépôts Universe).
+
+
+Configuration de Exim v4 :
+  * Distribution direct par SMTP
+  * yes ( le compte SMTP Lire sera supprimé en même temps que le logiciel Lire )
+
+
+===== Configuration =====
+
+Il semble être possible de configurer le logiciel à partir d'une interface en ligne de commande :
+<code>lire</code>
+
+Comme je n'ai pas réussi à utiliser cette interface la suite de la documentation se fera exclusivement à partir des commandes de lire.
+
+
+
+
+
+==== Vérifier l'envoi des courriels ====
+
+Si vous n'avez pas de couirrielleur, installez mutt un courrielleur en ligne de commande très léger :
+il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt://mutt|mutt]]**.
+
+Lancer mutt :
+<code>mutt</code>
+
+^les commandes sont :^^
+|q | Quit|
+| d | Del|
+| u|Undel   |
+| s|Save  |
+| m|Mail  |
+|r|Reply  |
+|g|Group  |
+|?|Help|
+
+Pour envoyer un courriel il suffit de taper "m".
+Il faut alors saisir le destinataire :
+<code>To: </code>
+Puis le sujet :
+<code>Subject: </code>
+On peut alors écrire le corps du courriel.\\ 
+Une fois fini ctrl+x pour sortir\\ 
+Taper Y pour sauvegarder\\ 
+Taper Y pour envoyer le courriel\\
+
+Si vous recevez le courriel c'est que votre serveur de courriel fonctionne correctement.
+
+==== Mise en place des scripts ====
+
+Pour commencer nous allons générer des rapports directement dans le terminal avec la commande "lr_log2report".\\ 
+Exemple :
+<code>
+lr_log2report syslog /var/log/syslog
+lr_log2report common /var/log/apache2/access.log
+</code>
+
+Maintenant nous allons nous les envoyer par courriel :
+<code>
+lr_log2mail  common --log-file /var/log/apache2/access.log -s "Apache report" -o html mon_adresse@mail.com
+lr_log2mail  syslog --log-file /var/log/syslog -s "Syslog report" -o html mon_adresse@mail.com
+</code>
+
+
+Si tout fonctionne bien on peut placer ce script dans /etc/cron.weekly pour avoir un rapport par semaine :
+<code>
+#!/bin/sh
+lr_log2mail  combined --log-file /var/log/apache2/access.log.1 -s "Apache access report" -o html mon_addresse@mail.com
+lr_log2mail  syslog --log-file /var/log/syslog.0 -s "Syslog report" -o html mon_addresse@mail.com
+lr_log2mail  syslog --log-file /var/log/auth.log.0 -s "Auth report" -o html mon_addresse@mail.com
+</code>
+
+
+===== Liens =====
+
+Le site officiel : [[http://logreport.org/]]
+
+La documentation officielle : [[http://download.logreport.org/pub/current/doc/user-manual/index.html]]
+
+Il semble que le projet ne soit plus très actif, malheureusement.

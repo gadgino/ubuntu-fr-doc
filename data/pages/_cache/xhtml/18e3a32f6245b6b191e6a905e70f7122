@@ -1,0 +1,347 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#mise_a_jour_de_warty_en_hoary" class="toc"> Mise à jour de Warty en Hoary </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#en_mode_console" class="toc"> En mode console </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#modification_des_depots" class="toc"> Modification des dépots </a></span></li>
+<li class="level3"><span class="li"><a href="#mettre_a_jour" class="toc"> Mettre à jour </a></span></li>
+<li class="level3"><span class="li"><a href="#verification_et_finition" class="toc"> Vérification et finition </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#via_synaptic" class="toc"> Via Synaptic </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#avant_la_mise_a_jour" class="toc"> Avant la mise à jour </a></span></li>
+<li class="level3"><span class="li"><a href="#apres_la_mise_a_jour" class="toc"> Après la mise à jour </a></span></li>
+<li class="level3"><span class="li"><a href="#apres_le_redemarrage" class="toc"> Après le redémarrage </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#notes" class="toc"> Notes </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#probleme_avec_le_serveur_x" class="toc"> Problème avec le serveur X </a></span></li>
+<li class="level3"><span class="li"><a href="#problemes_avec_l_utf8" class="toc"> Problèmes avec l'UTF8 </a></span></li>
+<li class="level3"><span class="li"><a href="#quelques_modules_sont_mal_passes" class="toc"> Quelques modules sont mal passés... </a></span></li>
+<li class="level3"><span class="li"><a href="#cas_critique" class="toc"> Cas critique </a></span></li>
+<li class="level3"><span class="li"><a href="#mise_a_jour_a_partir_d_autres_versions" class="toc"> Mise à jour à partir d'autres versions... </a></span></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<p>
+Rédigé par <a href="/utilisateurs/manu" class="wikilink1" title="utilisateurs:manu" onclick="return svchk()" onkeypress="return svchk()">manu</a>, <a href="/utilisateurs/ostaquet" class="wikilink1" title="utilisateurs:ostaquet" onclick="return svchk()" onkeypress="return svchk()">ostaquet</a> et une personne dont on a perdu le nom <img src="/smileys/icon_doubt.gif" align="middle" alt=":-/" />
+</p>
+
+<a name="mise_a_jour_de_warty_en_hoary"></a><h1> Mise à jour de Warty en Hoary </h1>
+<div class="level1">
+
+<p>
+ Cette page a pour but de vous aider à mettre à jour votre Ubuntu <a href="/versions/warty_warthog" class="wikilink1" title="versions:warty_warthog" onclick="return svchk()" onkeypress="return svchk()">Warty</a> en <a href="/versions/hoary_hedgehog" class="wikilink1" title="versions:hoary_hedgehog" onclick="return svchk()" onkeypress="return svchk()">Hoary</a>. Pour cela, vous pouvez le faire de deux manières différentes : soit via une <strong>interface graphique</strong> (via <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a>), soit en <strong>mode console</strong> (via le terminal).
+</p>
+
+</div>
+<!-- SECTION [107-470] -->
+<a name="en_mode_console"></a><h2> En mode console </h2>
+<div class="level2">
+
+</div>
+<!-- SECTION [471-499] -->
+<a name="modification_des_depots"></a><h3> Modification des dépots </h3>
+<div class="level3">
+
+<p>
+ Vous devez modifier la liste des dépots afin de remplacer <em>Warty</em> par <em>Hoary</em>. Le plus simple est d&rsquo;utiliser une console (terminal) <em>root</em> pour toutes les opérations suivantes:
+</p>
+<pre class="code">
+sudo -s -H
+</pre>
+
+<p>
+Ensuite, éditez le fichier de configuration <em>apt</em> (utilisez l&rsquo;éditeur de texte que vous connaissez, ici les exemples sont donnés avec <a href="/applications/nano" class="wikilink1" title="applications:nano" onclick="return svchk()" onkeypress="return svchk()">nano</a>) :
+</p>
+<pre class="code">
+sudo nano -w /etc/apt/sources.list
+</pre>
+
+<p>
+Recherchez les lignes correspondantes aux dépots d&rsquo;Ubuntu (exemple):
+</p>
+<pre class="code">
+deb http://archive.ubuntu.com/ubuntu warty main restricted multiverse universe
+deb-src http://archive.ubuntu.com/ubuntu Warty main restricted multiverse universe
+
+deb http://archive.ubuntu.com/ubuntu warty-updates main restricted
+deb-src http://archive.ubuntu.com/ubuntu warty-updates main restricted
+
+deb http://security.ubuntu.com/ubuntu warty-security main restricted universe
+deb-src http://security.ubuntu.com/ubuntu warty-security main restricted universe
+</pre>
+
+<p>
+Et remplacez <em>warty</em> par <em>hoary</em>:
+</p>
+<pre class="code">
+deb http://archive.ubuntu.com/ubuntu hoary main restricted multiverse universe
+deb-src http://archive.ubuntu.com/ubuntu hoary main restricted multiverse universe
+
+deb http://archive.ubuntu.com/ubuntu hoary-updates main restricted
+deb-src http://archive.ubuntu.com/ubuntu hoary-updates main restricted
+
+deb http://security.ubuntu.com/ubuntu hoary-security main restricted universe
+deb-src http://security.ubuntu.com/ubuntu hoary-security main restricted universe
+</pre>
+
+<p>
+Enfin, enregistrez les modifications et sortez de <a href="/applications/nano" class="wikilink1" title="applications:nano" onclick="return svchk()" onkeypress="return svchk()">nano</a>.
+</p>
+
+</div>
+<!-- SECTION [500-2104] -->
+<a name="mettre_a_jour"></a><h3> Mettre à jour </h3>
+<div class="level3">
+
+<p>
+ Lancez les commandes suivantes pour mettre à jour la liste des paquets disponibles et faire une mise à jour de la distribution:
+</p>
+<pre class="code">
+apt-get update
+apt-get dist-upgrade
+</pre>
+
+<p>
+Le système vous demandera confirmation pour la mise à jour. Puis une fois lancée, vous pouvez aller prendre un café car la mise à jour d&rsquo;une distribution entière prend un peu de temps <img src="/smileys/icon_smile.gif" align="middle" alt=":-)" />.
+</p>
+
+</div>
+<!-- SECTION [2105-2509] -->
+<a name="verification_et_finition"></a><h3> Vérification et finition </h3>
+<div class="level3">
+<ul>
+<li class="level1"><span class="li"> Une fois terminée, vérifiez que le nouveau serveur X d&rsquo;Ubuntu <strong>Xorg</strong> est bien présent :</span>
+</li>
+</ul>
+<pre class="code">
+dpkg -l | grep xorg
+</pre>
+
+<p>
+Vous devriez avoir comme retour:
+</p>
+<pre class="code">
+xorg-common 6.8.2-10
+xserver-xorg 6.8.2-10
+</pre>
+<ul>
+<li class="level1"><span class="li"> Si xorg ne s&rsquo;est pas installé (chose rare mais bon nul n&rsquo;est parfait <img src="/smileys/icon_razz.gif" align="middle" alt=":-P" /> ) installez le:</span>
+</li>
+</ul>
+<pre class="code">
+apt-get install xserver-xorg   (acceptez les dépendances)
+</pre>
+<ul>
+<li class="level1"><span class="li"> Si le nouveau système ne s&rsquo;est pas francisé correctement lors de la mise à jour:</span>
+</li>
+</ul>
+<pre class="code">
+apt-get install language-pack-fr
+apt-get install language-pack-fr-base
+apt-get install language-support-fr
+</pre>
+<ul>
+<li class="level1"><span class="li"> Et pour terminer:</span>
+</li>
+</ul>
+<pre class="code">
+apt-get install ubuntu-base ubuntu-desktop
+</pre>
+
+<p>
+Après tout ça, redémarrez votre machine pour activer les changements.
+</p>
+
+</div>
+<!-- SECTION [2510-3310] -->
+<a name="via_synaptic"></a><h2> Via Synaptic </h2>
+<div class="level2">
+
+</div>
+<!-- SECTION [3311-3335] -->
+<a name="avant_la_mise_a_jour"></a><h3> Avant la mise à jour </h3>
+<div class="level3">
+<ul>
+<li class="level1"><span class="li"> Ouvrir le Gestionnaire de paquets <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a>.</span>
+</li>
+<li class="level1"><span class="li"> Ajouter un CD-ROM à la liste des dépôts via le menu : Edition &rArr; Ajouter un cédérom...</span>
+</li>
+<li class="level1"><span class="li"> Insérer le CD-ROM d&rsquo;installation de Hoary et cliquez sur OK.</span>
+</li>
+<li class="level1"><span class="li"> Changer vos dépôts pour qu&rsquo;ils affichent Hoary via le menu : Catégories &rArr; Dépôts.</span>
+</li>
+</ul>
+
+<p>
+De :
+</p>
+<pre class="code">URI: http://archive.ubuntu.com/ubuntu/
+Distribution: warty
+Sections: main restricted                                   </pre>
+
+<p>
+ En :
+</p>
+<pre class="code">http://archive.ubuntu.com/ubuntu/
+Distribution: hoary
+Sections:  main restricted                                 </pre>
+
+<p>
+ <em>Remarque : </em> Si vous avez d&rsquo;autres dépôts liés à Warty; modifiez les en conséquences (comme universe ou multiverse). Vous pouvez supprimer le dépôt Crimsun (il est destiné uniquement à Warty) et vous pouvez modifier le dépôt Marillat en section &ldquo;unstable&rdquo;. 
+</p>
+<ul>
+<li class="level1"><span class="li"> Rechargez votre liste de sources via le bouton Recharger.</span>
+</li>
+<li class="level1"><span class="li"> Cliquez le bouton Tout m-à-j suivi du bouton Appliquer.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [3336-4341] -->
+<a name="apres_la_mise_a_jour"></a><h3> Après la mise à jour </h3>
+<div class="level3">
+<ul>
+<li class="level1"><span class="li"> Si vous n&rsquo;exécutez pas NFS (Network File System) comme client ou serveur, supprimez le paquet <code>portmap</code> (en suppression complète).</span>
+</li>
+<li class="level1"><span class="li"> Il est recommandé de réinstaller les méta-paquets <code>ubuntu-base</code> et <code>ubuntu-desktop</code>, afin de vous assurer de disposer de l&rsquo;ensemble des paquets installés par défaut. Ne pas le faire pourrait casser le système. Pour ce faire, sélectionnez les paquets <code>ubuntu-base</code> et <code>ubuntu-desktop</code> dans le gestionnaire <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">Synaptic</a> (Sélectionner pour réinstallation)</span>
+</li>
+<li class="level1"><span class="li"> Installez les paquets <code>language-pack-fr</code>, <code>language-pack-fr-base</code> et <code>language-support-fr</code>.</span>
+</li>
+<li class="level1"><span class="li"> Redémarrez la machine.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [4342-5032] -->
+<a name="apres_le_redemarrage"></a><h3> Après le redémarrage </h3>
+<div class="level3">
+<ul>
+<li class="level1"><span class="li"> A l&rsquo;écran de connexion, vous pouvez choisir la langue avec le bouton &ldquo;Language&rdquo; et choisir le Français UTF-8.</span>
+</li>
+<li class="level1"><span class="li"> Ubuntu 5.04 supporte la suspension d&rsquo;activité vers le disque et configure votre système pendant l&rsquo;installation pour suspendre vers la partition swap. Si vous faites une mise à jour, vous devez régler manuellement la configuration de la suspension d&rsquo;activité vers le disque. Pour ce faire, vous devez éditez le fichier <code>/etc/mkinitrd/mkinitrd.conf</code> (en utilisant la commande <code>sudo</code>). Remplacez la ligne <code>#RESUME= par RESUME=/dev/SWAP</code> en remplaçant <code>SWAP</code> par la partition swap. Pour trouver votre partition swap, utilisez la commande <code>sudo fdisk -l</code> qui affiche la table de partition de votre(vos) disque(s) dur(s). Recherchez la partition intitulée <code>swap</code>.</span>
+</li>
+<li class="level1"><span class="li"> Démarrez <code>update-notifier</code> (dans le menu Applications de Gnome &rArr; Lancer une application...)</span>
+</li>
+<li class="level1"><span class="li"> Quittez votre session Gnome en enregistrant la configuration actuelle.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [5033-6040] -->
+<a name="notes"></a><h2> Notes </h2>
+<div class="level2">
+
+</div>
+<!-- SECTION [6041-6059] -->
+<a name="probleme_avec_le_serveur_x"></a><h3> Problème avec le serveur X </h3>
+<div class="level3">
+
+<p>
+Si vous avez des problèmes de paramètrage avec le serveur X : 
+</p>
+<pre class="code">
+sudo dpkg-reconfigure xserver-xorg
+</pre>
+
+<p>
+ Et entrez les paramètres spécifiques à votre machine.
+</p>
+
+<p>
+ Si cela ne marche toujours pas, essayez la commande suivante : 
+</p>
+<pre class="code">
+sudo xorgcfg
+</pre>
+
+</div>
+<!-- SECTION [6060-6362] -->
+<a name="problemes_avec_l_utf8"></a><h3> Problèmes avec l'UTF8 </h3>
+<div class="level3">
+
+<p>
+Si la mise à jour n&rsquo;a pas installé utf8 : 
+</p>
+<pre class="code">
+sudo dpkg-reconfigure locales
+</pre>
+
+<p>
+ Et choisissez fr_XX.UTF-8 ou XX est BE, CA, CH, FR ou LU selon votre pays francophone.
+</p>
+
+<p>
+Pour les noms de dossiers et de fichiers, installez le paquet <code>utf8-migration-tool</code> via <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">synaptic</a> ou via la commande suivante : 
+</p>
+<pre class="code">
+sudo apt-get install utf8-migration-tool
+</pre>
+
+<p>
+Ensuite, lancez la commande <code>utf8migrationtool</code> dans un terminal <strong>utilisateur</strong> pour faire la migration des noms de fichiers de votre <code>home</code>.
+</p>
+
+<p>
+<em>Remarque concernant les partitions Windows : </em>les partitions Windows doivent être montés avec l&rsquo;option <code>utf8</code>.
+</p>
+
+</div>
+<!-- SECTION [6363-7043] -->
+<a name="quelques_modules_sont_mal_passes"></a><h3> Quelques modules sont mal passés... </h3>
+<div class="level3">
+
+<p>
+Il est possible (mais rarissime) que quelques modules soient mal passés. Le plus simple est de les réinstaller ou reconfigurer en utilisant: 
+</p>
+<pre class="code">
+dpkg-reconfigure nom_paquet
+ou
+apt-get --reinstall nom_paquet
+</pre>
+
+<p>
+ou de procéder à une réinstallation du paquet via <a href="/applications/synaptic" class="wikilink1" title="applications:synaptic" onclick="return svchk()" onkeypress="return svchk()">synaptic</a>.
+</p>
+
+</div>
+<!-- SECTION [7044-7392] -->
+<a name="cas_critique"></a><h3> Cas critique </h3>
+<div class="level3">
+
+<p>
+ Malgré vos précautions, la mise à jour ne s&rsquo;est pas bien passé et vous avez des problèmes avec le serveur Xorg ou les localisations....Bref, ça <strong><em>ratatouille dans le moteur</em></strong>.. :-p ..Essayez la méthode suivante: 
+</p>
+<ul>
+<li class="level1"><span class="li"> Démarrez votre Ubuntu en mode <strong>recovery</strong>.</span>
+</li>
+<li class="level1"><span class="li"> Une fois le démarrage terminé, vous avez une console root. Entrez les commandes suivantes pour recharger la liste des paquets et forcer la mise à jour de distribution : </span>
+</li>
+</ul>
+<pre class="code">
+apt-get update
+apt-get -f dist-upgrade
+</pre>
+
+<p>
+Bien sûr <u>il faut que votre réseau, quel qu&rsquo;il soit, puisse fonctionner en mode <strong>recovery</strong></u>, mais j&rsquo;ai eu à faire cela sur un Dell récalcitrant (pour la localisation qui me sortait des conflits avec des paquets FR ??) et une fois la mise à jour forcée, tout est rentré dans l&rsquo;ordre.
+</p>
+
+</div>
+<!-- SECTION [7393-8216] -->
+<a name="mise_a_jour_a_partir_d_autres_versions"></a><h3> Mise à jour à partir d'autres versions... </h3>
+<div class="level3">
+
+<p>
+La mise à jour à partir de versions plus anciennes ou d&rsquo;autres distributions n&rsquo;est pas supportée, mais les expériences d&rsquo;autres utilisateurs ayant effectué une mise à jour à partir de versions plus anciennes d&rsquo;Ubuntu ou de Debian GNU/Linux font actuellement l&rsquo;objet d&rsquo;une documentation sur le <a href="http://www.ubuntulinux.org/wiki/" class="urlextern" title="http://www.ubuntulinux.org/wiki/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Wiki Ubuntulinux</a> (en anglais).  
+</p>
+
+</div>
+<!-- SECTION [8217-] -->

@@ -1,0 +1,85 @@
+{{tag>Xenial Trusty sflphone téléphonie voip}}
+
+{{ :applications:sflphone_karmic_logo.png}}
+
+====== SFLphone/Ring : VOIP - Téléphonie sur IP ======
+
+**ATTENTION - Depuis le 1er mai 2015, le projet SFLphone a radicalement évolué et est maintenant développé sous le nom de Ring, qui est actuellement proposé à la communauté en version alpha (toujours sous GPLv3). L'ancien site Web de SFLphone renvoie maintenant à cette adresse: http://www.ring.cx. Ring propose une nouvelle architecture réseau en P2P fonctionnant sans serveur centralisé, mais le mode classique SIP est conservé et le mode IAX2 compatible PBX devrait y être réintroduit sous peu.**
+
+SFLphone et développé pour GNU/Linux dispose de fonctionnalités très performantes en téléphonie IP, comme le support des conférences, plusieurs codecs haute définition, et le support des principaux protocoles de chiffrement des communications (TLS, SRTP/ZRTP). Publié sous licence GPLv3, le projet SFLphone, développé par l'entreprise canadienne Savoir-faire Linux, s'affirme de plus en plus en référence de VoIP libre.
+
+SFLPhone est compatible avec PulseAudio..
+
+{{ :applications:sflphone-1.png?200}}
+
+Voici une liste de ses caractéristiques :
+    * Compatible avec les protocoles [[SIP]] (Session Initiation Protocol) et IAX2 (Inter-Asterisk eXchange),
+    * Architecture client/serveur communicant à travers DBUS,
+    * Interfaces audio natives [[PulseAudio|PulseAudio]] et ALSA,
+    * Support de multiples  comptes enregistrés, nombre illimité d'appels et de conférences simultanées,
+    * Support de plusieurs domaines (realms) SIP,
+    * Codecs audio haute-définition : Celt, speex 16/32kHz, G722 et les classiques G711, GSM,
+    * Transfert d'appel, mise en attente, enregistrement des appels,
+    * Conférences avec un nombre illimité de participants,
+    * Nombre de conférences simultanées illimité,
+    * Support de STUN, Re-invite, DTMF SIP INFO,
+    * Support TLS, SRTP/ZRTP par compte,
+    * Historique des appels,
+    * Assistant de création de comptes,
+    * Intégration des carnets d'adresse standards des environnements Gnome et KDE,
+    * 8 langues : français, anglais, russe, espagnol, danois, allemand, portugais, chinois (HK et CN),
+    * Clients GNOME et KDE complets, client Python en ligne de commande,
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+
+===== Installation ====
+
+Il suffit d'[[:tutoriel:comment_installer_un_paquet#installer_un_paquet_present_dans_les_depots_recommande|installer le paquet]] **[[apt>sflphone-gnome]]**.
+
+<note important>Le paquet n'est plus disponible dans les [[:depots|dépôts]] à partir d'Ubuntu 16.04. Pour utiliser Ring, la nouvelle version de sflphone entrez les commandes suivantes dans un [[:terminal]] : <code>sudo sh -c "echo 'deb https://dl.ring.cx/ring-nightly/ubuntu_16.04/ ring main' > /etc/apt/sources.list.d/ring-nightly-man.list"
+sudo apt-key adv --keyserver pgp.mit.edu --recv-keys A295D773307D25A33AE72F2F64CD5FA175348F84
+sudo add-apt-repository universe
+sudo apt-get update && sudo apt-get install ring</code></note>
+
+===== Plugin  =====
+
+==== Carnet d'adresse (Gnome-contacts) ====
+
+Gestion des contacts depuis les contacts se trouvant dans Gnome-contacts
+
+Installation: **[[apt>sflphone-plugins]]**
+
+===== Utilisation =====
+
+Lancez l'application via le [[:unity#tableau_de_bord_dash|tableau de bord]] (Unity) ou via le [[:terminal]] (toutes versions d'Ubuntu) avec la [[:commande_shell|commande]] suivante : <code>SFLphone</code> ou <code>ring</code> à partir d'Ubuntu 16.04.
+
+
+==== Freephonie.net ====
+<note tip>
+Comme il est indiqué sur [[freebox#telephonie_sip|la page concernant la freebox]], d'autres logiciels comme [[twinkle|Twinkle]] sont plus adaptés au service SIP de Free
+</note>
+
+Pour utiliser le compte SIP fourni par Free, rendez vous sur http://free.fr/, puis dans la rubrique **Mon Compte**, entrez votre identifiant et votre mot de passe, et rendez vous dans la section **Téléphonie → Paramétrer mon compte SIP**. Activez le service, choisissez un mot de passe, validez, puis recopiez vos identifiants dans l'assistant de configuration de SFLphone de la manière suivante:
+  * Nom d'utilisateur → Alias
+  * Identifiant → Usager
+  * Domaine → Serveur
+
+
+===== Problème connu =====
+
+Si des problèmes audio sont présents changer l'interface audio **PulseAudio** pour **ALSA**
+
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi =====
+
+  * **(en)** [[http://www.ring.cx|Site officiel du logiciel]]
+
+//Contributeurs : [[utilisateurs:thecraft]],Zakhar.//

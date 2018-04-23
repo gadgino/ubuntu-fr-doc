@@ -1,0 +1,139 @@
+{{tag>android}}
+
+<note warning>Cet outil est un outil qui demande des notions avancées en informatique sous Linux</note>
+
+ADB (Android Debug Bridge) est un outils permettant de dialoguer nativement avec un périphérique Android.
+
+Cet outil permet de :
+  * Copier des fichiers
+  * Faire des captures d'écran
+  * Lancer des commandes internes tel que reboot, commande Linux, …
+L'installation d'ADB est en 2 étapes :
+  * Installer d'ADB qui se trouve dans le SDK d'Android
+  * Autoriser Ubuntu à utiliser le périphérique USB Android
+
+
+ADB ([[http://fr.wikipedia.org/wiki/Android_Debug_Bridge|Android Debug Bridge - lien Wikipedia]]) est un protocole de connexion à un appareil Android
+
+Les manipulations suivantes permettent d'utiliser les outils de Google (adb) pour envoyer des commandes ou des fichiers à l'appareil. Cette étape est nécessaire pour utiliser les outils du SDK (adb, fastboot,...).
+
+===== Installation ADB / fastboot=====
+====Ubuntu 12.4 :====
+  sudo add-apt-repository ppa:nilarimogard/webupd8
+  sudo apt-get update
+  sudo apt-get install android-tools-adb android-tools-fastboot
+
+====Ubuntu 12.10 et + :====
+[[:tutoriel:comment_installer_un_paquet|Installez les paquets]] suivants :
+  * [[apt>android-tools-adb]]
+  * [[apt>android-tools-fastboot]]
+
+
+====Vérification====
+Afin de vérifier si tout a bien fonctionné, depuis le répertoire "platform-tools" du SDK lancez : <code> ./adb devices </code>
+
+Si vous venez d'installer par dépôt, le chemin est : <code> adb devices </code>
+
+
+====Problèmes====
+Si la commande "./adb devices" ne renvoie aucun périphérique, essayez les étapes suivantes les unes après les autres :
+
+
+**1. Vérification du câble**
+    * Brancher le câble à l'ordinateur et vérifier que l'ordinateur voit la mémoire interne ou carte SD du téléphone. Certains câbles deviennent défectueux avec l'age. D'autre n'ont que les connectiques puissances de relié et non les connectiques de données.
+
+
+**2. Le mode développeur n'est pas activé**
+    * Activer le mode débogage USB dans paramètre => Options pour les développeurs. Si le menu développeurs n'apparait pas voir [[http://www.frandroid.com/android/developpement/184906_comment-acceder-au-mode-developpeur-sur-android|comment accéder au mode développeur sur Android chez FrAndroid]]
+
+
+**3. adb se bloque**
+    * relancer le serveur manuellement avec la commande : <code> sudo ./adb kill-server </code> puis : <code> sudo ./adb start-server </code> 
+
+
+ **4 Erreur : "error while loading shared libraries: libncurses.so.5"**
+    * En version Ubuntu 64 bits,vous devez installer **[[apt>ia32-libs-multiarch]]**
+
+===== Ajout de la permission sur votre périphérique Android USB =====
+Pour autoriser Ubuntu à utiliser le périphérique Android :
+  - Créez le fichier : <code> sudo gedit /etc/udev/rules.d/51-android.rules </code>
+  - Ajoutez-y les identifiants USB de votre appareil => voir [[android#Liste des identifiants USB d'appareils Android|Liste des identifiants USB d'appareils Android]]
+  - Redémarrez Udev : <code> sudo restart udev </code> ou <code>sudo service udev restart</code> (en fonction de votre version d'Ubuntu)
+
+
+=== Liste des identifiants USB d'appareils Android ===
+
+Pour connaître votre identifiant de matériel USB, vous pouvez tout d'abord le récupérer dans une liste existante :
+  * [[IdentifiantUSB|Liste d'identifiants de cette documentation Doc.Ubuntu-fr]]
+  * [[http://www.linux-usb.org/usb.ids|Liste chez Linux-Usb.org]]
+
+<note tip>Utilisez la fonction rechercher de votre navigateur</note>
+
+Sinon, on l'identifie en lançant la commande : <code>lsusb</code>
+
+qui vous enverra un message du style : 
+<code>
+Bus 001 Device 013: ID 22b8:708b Motorola PCS
+</code>
+Cela signifie que idVendor=22b8 et idProduct=708b
+
+
+La ligne sera donc :
+<code>
+SUBSYSTEM=="usb", SYSFS{idVendor}=="22b8", SYSFS{idProduct}=="708b", MODE="0666"
+</code>
+
+<note>
+Avec certains appareils, la manipulation décrite ci-dessus n'est pas suffisante. Il faut alors ajouter manuellement au fichier adb_usb.ini l'identifiant USB du fabricant. Par exemple pour l'Archos 5IT, entrer la commande suivante dans un terminal :
+<code>
+$ echo "0x0e79" >> ~/.android/adb_usb.ini
+</code>
+Arrêter le serveur adb :
+<code>
+$ ./adb kill-server
+</code>
+Enfin tester la détection de l'appareil :
+<code>
+$ ./adb devices
+[...]
+List of devices attached 
+A5S-5C2E0004-00000000-0403724D-10013015	device
+</code>
+</note>
+
+
+=====QtAdb=====
+Adb est un outil en ligne de commande. Il faut un peu de temps et de mémoire pour bien le maitriser. C'est pourquoi QtAdb a été créé. Son but est de faciliter l'utilisation d'ADB avec une interface graphique.
+
+
+====Installer QtAdb====
+  - Préparation
+    - Installer abd (description en haut de la page)
+    - Installer aapt (comment ???)
+  - Installation de QtAdb sur Ubuntu
+    - Taper les commandes suivantes dans un fenêtre de terminal de commandes ((http://bernaerts.dyndns.org/linux/74-ubuntu/328-ubuntu-trusty-android-adb-fastboot-qtadb)) :
+<code>
+sudo apt-get install libqtgui4 libqt4-network libqt4-declarative libqt4-opengl -y
+wget http://motyczko.pl/qtadb/QtADB_0.8.1_linux64.tar.gz
+tar -xvf QtADB*.tar.gz
+sudo mkdir -p /usr/local/sbin/
+sudo mv ./QtADB*/QtADB /usr/local/sbin/qtadb
+sudo chmod +x /usr/local/sbin/qtadb
+rm -R QtADB*
+mkdir -p $HOME/.config/Bracia
+wget $HOME/.config/Bracia/QtADB.conf https://raw.githubusercontent.com/NicolasBernaerts/ubuntu-scripts/master/android/QtADB.conf
+sudo wget -O /usr/share/icons/qtadb.png http://bernaerts.dyndns.org/download/ubuntu/adb/qtadb.png
+sudo wget -O /usr/share/applications/qtadb.desktop https://raw.githubusercontent.com/NicolasBernaerts/ubuntu-scripts/master/android/qtadb.desktop
+qtadb & exit
+</code>
+  - Installation de QtAdb sur Android
+    - Télécharger l'apk QtAdb à partir du [[https://qtadb.wordpress.com/download|site officiel]]
+    - Installer le fichier apk sur le téléphone
+
+
+====Voir aussi====
+  * [[https://qtadb.wordpress.com/download|site officiel de QtAdb]]
+  * [[http://bernaerts.dyndns.org/linux/74-ubuntu/328-ubuntu-trusty-android-adb-fastboot-qtadb|Ubuntu 14.04 - Install Android Tools (ADB, Fastboot, ... & QtADB)]]
+  * [[android|Usages Android / Ubuntu]]
+  * [[android_sdk|Installer le SDK Android]]
+  * **(fr)** [[https://developer.mozilla.org/fr/Firefox_OS/D%C3%A9boguer/Installer_ADB|Installer ADB chez developer.mozilla.org]]

@@ -1,0 +1,53 @@
+{{tag>multimédia BROUILLON}}
+----
+====== Installer HomeJukebox à la Mano... ======
+
+Bon alors pour tout ceux qui galèrent à installer homejukebox vla...
+
+==== Télécharger ====
+Télécharger la version simple sur le site officiel http://www.homejukebox.org/download.do
+
+-> //homejukebox-0.8.4-simple// pour ma part à l'heure où je frappe.
+
+Copier le contenu de l'archive quelque part sur votre PC (au moins dans votre Home)...
+
+==== Un peu de Configuration ====
+
+- Configurer la variable JAVA_HOME par un export JAVA_HOME=/usr/share/votre_version_de_java
+
+L'idéal serait de la mettre dans l'environnement -> http://doc.ubuntu-fr.org/variables_d_environnement
+
+- Puis dans le répertoire d'installation de votre Homejukebox :
+
+//votre_repertoire_homejukebox/conf/mediaPlayer.properties//
+
+**
+Modifier ce morceau de code :** 
+
+<code>vlc.mainVLC.extraOptions=</code>
+
+par
+
+<code>vlc.mainVLC.extraOptions=--m3u-extvlcopt</code>
+
+==== Pas de Son ?? ====
+
+Rajouter les dépôts medibuntu http://doc.ubuntu-fr.org/depots#medibuntu
+
+
+<note important>N'oubliez pas d'ouvrir le port 8080 en tcp et udp sur votre pare-feu</note>
+
+Puis normalement ça devrait marcher voilà...
+
+
+=== Pour le lancer : ====
+
+<code>votre_chemin/bin/jukebox-start.sh</code>
+
+Puis un petit lanceur sur le Bureau pour le bien être de l'esprit http://doc.ubuntu-fr.org/raccourci-lanceur
+
+<note important>Petite info, dans la dernière version, y a un bug, il faut rajouter cette ligne après le premier //export// dans jukebox-start.sh</note>
+
+<code>cd "$JUKEBOX_HOME"/bin</code>
+
+

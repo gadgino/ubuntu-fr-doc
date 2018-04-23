@@ -1,0 +1,137 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#utiliser_un_ipod_sous_ubuntu_linux" class="toc"> Utiliser un iPod sous Ubuntu Linux </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#installation_avec_synaptic" class="toc"> Installation avec Synaptic </a></span></li>
+<li class="level2"><span class="li"><a href="#demarrer_d_un_bon_pied_avec_gtkpod" class="toc"> Démarrer d'un bon pied avec gtkpod </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+Version Hoary
+</pre>
+
+<p>
+Traduit par Teolomon 
+</p>
+
+<a name="utiliser_un_ipod_sous_ubuntu_linux"></a><h1> Utiliser un iPod sous Ubuntu Linux </h1>
+<div class="level1">
+
+<p>
+ Pour transférer de la musique vers un iPod avec Linux, un logiciel spécial est nécessaire. iTunes n&rsquo;est pas disponible pour Linux, à moins de disposer de CrossOver Office (qui n&rsquo;est pas gratuit). Cependant, il existe un logiciel assez simple à utiliser, appelé gtkpod qui peut synchroniser votre musique avec votre iPod sous Linux.
+</p>
+
+</div>
+<!-- SECTION [52-440] -->
+<a name="installation_avec_synaptic"></a><h2> Installation avec Synaptic </h2>
+<div class="level2">
+
+<p>
+ Note: Bien qu&rsquo;il y ait un paquet gtkpod dans le dépôt universe, le paquet gtkpod-aac dans le dépôt marillat est mieux car il est compatible avec le transfert de fichiers AAC en plus du <acronym title="Motion Picture Experts Group Layer 3">MP3</acronym>.
+</p>
+
+<p>
+Pour installer gtkpod grâce à Synaptic: 
+</p>
+<ul>
+<li class="level1"><span class="li"> Démarrez le Gestionnaire de paquets Synaptic (Système &gt; Administration &gt; Gestionnaire de paquets Synaptic)</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Ajoutez la source HOARY-EXTRAS en suivant les instructions de cette page : <a href="https://wiki.ubuntu.com/RestrictedFormats" class="urlextern" title="https://wiki.ubuntu.com/RestrictedFormats" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">RestrictedFormats</a></span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Cherchez gtkpod-aac</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Sélectionnez-le pour installation, installez les autres paquets demandés par le système</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Appliquez les changements, confirmez, puis fermez Synaptic.</span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Démarrez gtkpod (Applications &gt; Son et Vidéo &gt; gtkpod)</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [441-1230] -->
+<a name="demarrer_d_un_bon_pied_avec_gtkpod"></a><h2> Démarrer d'un bon pied avec gtkpod </h2>
+<div class="level2">
+
+<p>
+ Avant d&rsquo;utiliser gtkpod, il y a quelques réglages du système à effectuer afin que tout fonctionne correctement. 
+</p>
+
+<p>
+Tout d&rsquo;abord, créez un dossier appelé /mnt/ipod qui servira de point de montage pour l&rsquo;iPod (effectuez à cet effet l&rsquo;instruction <code>sudo mkdir /mnt/ipod</code> dans un terminal). Puis modifiez le fichier /etc/fstab (<code>sudo nano /etc/fstab</code> dans le même terminal) en y ajoutant la ligne suivante à la fin:
+</p>
+<pre class="code">{{{
+/dev/sda2               /mnt/ipod               auto    noauto,user,rw 0 0
+}}}</pre>
+
+<p>
+En partant du principe que vous utilisez un PC-formatted iPod, et que l&rsquo; iPod apparait sur votre système en tant que /dev/sda (ce qui est le cas si vous n&rsquo;avez aucun autre appareil utilisant l&rsquo;interface <acronym title="Small Computer System Interface">SCSI</acronym> connecté à votre ordinateur).  Si ce n&rsquo;est le cas, le nom de votre appareil sera différent (vous pouvez le connaître en tapant l&rsquo;instruction dmesg dans un terminal).
+</p>
+
+<p>
+ Deuxièmement, vous devez changer la configuration des applications autorisées à &ldquo;sudoer&rdquo; de manière à ce que gtkpod puisse &ldquo;éjecter&rdquo; l&rsquo;iPod (ce qui permet de le déconnecter en toute sureté) après usage.  Ajoutez à cet effet la ligne suivante à /etc/sudoers (vous DEVEZ utiliser &ldquo;sudo visudo&rdquo; pour modifier ce fichier):
+</p>
+<pre class="code">{{{
+%username         ALL=NOPASSWD:/usr/bin/eject /dev/sda2
+}}}</pre>
+
+<p>
+ (modifiez username par votre nom d&rsquo;utilisateur, et le nom réel de votre appareil si différent de /dev/sda2)
+</p>
+
+<p>
+ Enfin, vous devez paramétrer gtkpod pour &ldquo;éjecter&rdquo; l&rsquo;iPod une fois fermé. A cet effet, créez un nouveau fichier appelé ~/.gtkpod/gtkpod.out (créez d&rsquo;abord le dossier .gtkpod dans le dossier home) contenant le texte suivant:
+</p>
+<pre class="code">{{{
+sudo /usr/bin/eject /dev/sda2
+}}}</pre>
+
+<p>
+ (à nouveau modifiez le nom de votre appareil si différent de /dev/sda2)
+</p>
+
+<p>
+ Vous devriez maintenant être prêt à utiliser  gtkpod pour synchroniser votre iPod - connectez votre iPod, lancez gtkpod (Applications &gt; Son &amp; Vidéo &gt; gtkpod), et chargez vos <acronym title="Motion Picture Experts Group Layer 3">MP3</acronym> ou AAC favoris sur votre iPod (soyez vigilants car vous pouvez perdre le contenu de votre iPod). Une fois gtkpod fermé, vous pourrez déconnecter en toute sécurité votre iPod (le message &ldquo;Ne pas déconnecter&rdquo; apparaîtra).
+</p>
+
+</div>
+
+<a name="pour_plus_d_informations"></a><h5> Pour plus d'informations </h5>
+<div class="level5">
+
+<p>
+ Divers: 
+</p>
+<ul>
+<li class="level1"><span class="li"> La page wiki <a href="/applications/itunes" class="wikilink1" title="applications:itunes" onclick="return svchk()" onkeypress="return svchk()">itunes</a> contient des informations afin d&rsquo;installer des encodeurs/décodeurs AAC et d&rsquo;utiliser l&rsquo;iTunes Music Store avec Linux</span>
+</li>
+</ul>
+
+<p>
+ Autres sites internet: 
+</p>
+<ul>
+<li class="level1"><span class="li"> [<a href="http://gtkpod.sourceforge.net/" class="urlextern" title="http://gtkpod.sourceforge.net/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://gtkpod.sourceforge.net/</a> Page du Projet gtkpod]</span>
+</li>
+<li class="level1"><span class="li"> [<a href="http://ubuntuforums.org/archive/index.php/t-4305.html" class="urlextern" title="http://ubuntuforums.org/archive/index.php/t-4305.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://ubuntuforums.org/archive/index.php/t-4305.html</a> Discussion en anglais sur les forums Ubuntu]</span>
+</li>
+<li class="level1"><span class="li"> [<a href="http://www.google.com/search?q=gtkpod+ubuntu&amp;start=0&amp;start=0" class="urlextern" title="http://www.google.com/search?q=gtkpod+ubuntu&amp;start=0&amp;start=0" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.google.com/search?q=gtkpod+ubuntu&amp;start=0&amp;start=0</a> Recherche Google]</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [1231-] -->

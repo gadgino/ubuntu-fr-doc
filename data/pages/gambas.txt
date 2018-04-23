@@ -1,0 +1,183 @@
+{{tag>Programmation Langage}}
+----
+
+{{ http://gambas.sourceforge.net/gambas.png}}
+====== Gambas, le Visual Basic™ libre, mais en mieux ! ======
+
+{{ applications:gambas.png?250}}
+
+**Gambas** est un langage de programmation pour Linux qui a pour objectif de s'inspirer de la facilité d'utilisation de Visual Basic™, mais en améliorant les fonctionnalités du langage tout en s'efforçant d'en éviter les travers.
+
+Bien que Gambas n'ait pas un code source intrinsèquement compatible avec Visual Basic, c'est un interpréteur de langage BASIC avec des extensions orientées objet. \\
+Dans Gambas2, vous pouvez importer des projets VB. __Le projet **VBtoGB2**__ vous permet d'importer vos fichiers-source vers Gambas. \\
+Gambas est diffusé sous la licence GNU GPL.
+
+Gambas est l'acronyme récursif de //Gambas almost means basic// (en français, « //Gambas signifie Basic, ou presque// »). \\
+Gambas permet de fabriquer très facilement des programmes sous GNU/Linux avec une GUI. Il utilise le toolkit Qt. \\
+Mais il peut également utiliser le toolkit Gtk+.
+
+{{ applications:gambas:1.png?250}}
+
+Gambas est développé depuis 1999 par **Benoît Minisini**, à Paris.
+
+Gambas est très modulaire. Chaque « module » du langage tel que le composant OpenGL, SDL et j'en passe, est développée de façon indépendante.
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+
+===== Installation =====
+
+==== Depuis les dépôts (version stable) ====
+
+[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>gambas2]]** jusqu'à la version 12.04 ou depuis la version 13.04 **[[apt>gambas3]]**
+
+<note IMPORTANT>
+Il est à noter que les paquets de Gambas2 des dépôts officiels d'Ubuntu ne sont pas à jour, en plus d'avoir un paquet nommé incorrectement et pouvant causer problème. [[http://gambasdoc.org/help/doc/package?view&fr|Le site officiel déconseille leur utilisation et leur préfère ceux de l'un des PPA ci-dessous]].</note>
+
+==== Depuis le PPA ====
+=== Gambas version 2 (Ubuntu 10.04 LTS et 11.04) ===
+Ce dépôt [[PPA]] dispose d'une version plus à jour que celle des dépôts officiels.
+
+  * [[:PPA|Ajoutez le PPA]] **ppa:madnessmike/gambas**((https://launchpad.net/~madnessmike/+archive/gambas)) dans vos sources de logiciels.
+  * [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Recharger votre liste de paquets]] ;
+  * [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>gambas2]]**.
+
+=== Gambas version 3 ===
+Ce dépôt [[PPA]] dispose de la toute dernière version 3.
+
+<code bash>
+sudo add-apt-repository ppa:gambas-team/gambas3
+sudo apt-get update
+sudo apt-get install gambas3</code>
+
+=== Version de développement (Daily Build) ===
+
+Le dépôt PPA **ppa:gambas-team/gambas-daily**((https://launchpad.net/~gambas-team/+archive/ubuntu/gambas-daily)) propose un paquet **gambas3** construit quotidiennement depuis les sources du projet. Il permet donc d'en suivre à la trace le développement sans devoir compiler.
+
+
+==== À partir des sources ====
+
+<note>(Voir les explications originales en anglais sur cette page : http://gambasdoc.org/help/install/ubuntu?view) <del>lien brisé </del></note>
+
+Pour installer **Gambas** à partir des sources, récupérez-les sur le [[http://gambas.sourceforge.net/fr/main.html|site officiel de Gambas]]. \\
+Une fois les sources récupérées, on va les extraire dans notre **home** par exemple :
+
+<code bash>
+tar xvjf gambas2-2.21.0.tar.bz2
+</code>
+
+Avant toute compilation vérifiez que vous avez les paquets de développement de ces programmes : bzlib2, zlib, corba, mysql, odbc, postegresql, sqlite, gtk, svg, sdl, opengl, qt, kde, xml, v4l.
+
+Il faut donc [[:tutoriel:comment_installer_un_paquet|installer les paquets]] **[[apt>build-essential,g++,automake,autoconf,libbz2-dev,libgnorba-dev,libfbclient2,libmysqlclient15-dev,unixodbc-dev,libpq-dev,libsqlite0-dev,libsqlite3-dev,libgtk2.0-dev,libldap2-dev,libcurl3-dev,libgtkglext1-dev,libqt3-mt-dev,kdebase-dev,libpcre3-dev,libsdl-sound1.2-dev,libsdl-mixer1.2-dev,libsdl-image1.2-dev,libsage-dev,libxml2-dev,libxslt1-dev,build-essential,libbonobo2-dev,libcos4-dev,libomniorb4-dev,firebird2.0-dev,librsvg2-dev,libpoppler-dev,libpoppler-dev,libpoppler-glib-dev,libasound2-dev,libartsc0-dev,libesd0-dev,libesd-alsa0,libdirectfb-dev,libaa1-dev,libarts1-dev,kdelibs4-dev,libffi4-dev,libxtst-dev,gettext|build-essential g++ automake autoconf libbz2-dev libgnorba-dev libfbclient2 libmysqlclient15-dev unixodbc-dev libpq-dev libsqlite0-dev libsqlite3-dev libgtk2.0-dev libldap2-dev libcurl3-dev libgtkglext1-dev libqt3-mt-dev kdebase-dev libpcre3-dev libsdl-sound1.2-dev libsdl-mixer1.2-dev libsdl-image1.2-dev libsage-dev libxml2-dev libxslt1-dev build-essential libbonobo2-dev libcos4-dev libomniorb4-dev firebird2.0-dev librsvg2-dev libpoppler-dev libpoppler-dev libpoppler-glib-dev libasound2-dev libartsc0-dev libesd0-dev libesd-alsa0 libdirectfb-dev libaa1-dev libarts1-dev kdelibs4-dev libffi4-dev libxtst-dev gettext]]**.
+
+Nous allons configurer l'ensemble du projet Gambas :
+
+<code bash>
+cd gambas2-2.21.0
+./reconf-all
+</code>
+
+Patientez un moment, le temps qu'il passe par tous les composants puis vous pouvez faire un :
+
+<code bash>
+./configure
+</code>
+
+Si vous avez l'impression que le « ./configure » tourne en rond c'est normal, il lance tous les « ./configure » de chaque composant donc une fois lancé, laissez-le faire. À la fin du « ./configure », vous aurez un message vous indiquant les composants désactivés. Si vous obtenez des composants désactivés comme ceux-là :
+
+  *corba
+  *pdf
+  *ldap
+
+C'est tout bon :-) . Les plus importants sont surtout Qt et Gtk. Maintenant, vous pouvez lancer la compilation de chaque composant :
+
+<code bash>
+make
+</code>
+
+Patientez le temps de la compilation. Si vous obtenez une erreur de compilation, c'est qu'il vous manque des fichiers de développement indispensables. Regardez les messages et installez les paquets de développements ad hoc. Une fois compilé, vous pouvez installer Gambas2 :
+
+<code bash>
+sudo make install
+</code>
+Gambas2 est maintenant installé sur votre Ubuntu ^_^ . Pour lancer Gambas2, cliquez dessus depuis le menu //Applications → Programmation → Gambas2// ou bien, faites « Alt + F2 » et tapez comme nom de commande :
+
+<code bash>
+gambas2
+</code>
+
+Sinon vous pouvez créer un lanceur sur votre bureau avec le nom de commande cité ci-dessus.
+
+=== Problèmes rencontrés sous Ubuntu 8.10 et 9.04 ===
+
+<note>
+À noter qu'avec les dernières versions de Gambas, ce dernier se compile avec la version 2.x de libtool donc sans problème avec la version installée avec Ubuntu pour libtool :-) .
+Pas besoin de suivre les manipulations présentées ci-dessous.
+</note>
+
+Si vous comptez compiler la version SVN de Gambas, vous risquez de rencontrer des problèmes concernant **libtool** mais également sur des fichiers de KDE qui ne sont plus disponibles en paquets.
+
+Donc si vous utilisez Ubuntu 8.10, voici ce que vous devez faire :
+
+* Premièrement, supprimer la version actuelle de //libtool// :
+
+<code bash>
+sudo apt-get remove libtool
+</code>
+
+* Puis télécharger la version inférieure de //libtool// ici :
+
+[[http://fr.archive.ubuntu.com/ubuntu/pool/main/libt/libtool/libtool_1.5.26-1ubuntu1_i386.deb|Pour i386]]
+[[http://fr.archive.ubuntu.com/ubuntu/pool/main/libt/libtool/libtool_1.5.26-1ubuntu1_amd64.deb|Pour amd64]]
+
+* Installer ensuite le paquet fraîchement téléchargé.\\
+
+* Procéder enfin à une reconfiguration globale du projet :
+
+<code bash>
+./reconf-all
+</code>
+
+Si vous utilisez GNOME, désactivez KDE :
+
+<code bash>
+ ./configure -C --enable-kde=false
+</code>
+
+* Et pour terminer, les deux commandes classiques :
+
+<code bash>
+make
+sudo make install
+</code>
+Et voilà :-) .
+===== Utilisation =====
+
+FIXME
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application sera conservée ou supprimée. Les fichiers de préférences des utilisateurs (dans leurs dossiers personnels) ainsi que les journaux du système seront toujours conservés.
+===== Documentation =====
+
+  * **(en)** [[http://gambas.sourceforge.net/fr/main.html|Gambas Almost Means Basic - Site officiel de Gambas]] - Francisé à coups de lance-pierres !...
+  * ** (en)** [[http://gambaswiki.org/wiki|Documentation officielle de Gambas]] - Page officielle en Anglais de la documentation de Gambas - Privilégier cette page ; les pages localisées peuvent contenir des informations plus anciennes !
+  * **(fr)** [[http://gambaswiki.org/wiki?l=fr|Documentation officielle de Gambas]] - Page officielle en Français de la documentation de Gambas - Les pages localisées peuvent contenir des informations plus anciennes !
+  * **(fr)** [[http://gambasforge.fr/index.html|Le site de la communauté francophone des utilisateurs de Gambas]]
+  * **(fr)** [[http://www.gambasforge.org/forum.html|Le forum sur le site officiel de la communauté francophone de Gambas]].
+  * **(fr)** [[http://gambasforge.fr/forge.html|La Forge Gambas - Le site officiel francophone de Gambas]] - Des appli, des sources...
+
+----
+
+//Contributeurs principaux : [[:utilisateurs:garulfounix]], [[:utilisateurs:Lancelin]] Créateur de la page : inconnu ; date de création de la page : inconnue ; dernière mise à jour : 27 mai 2016.//\\
+//Autres contributeurs principaux : [[:utilisateurs:eagle08]] mise à jour des liens, édition.//
+
+|Liens connexes|**(en)** [[http://gambas.sourceforge.net/fr/main.html|Gambas Almost Means Basic - Site officiel de Gambas]]|
+| ::: | ** (en)** [[http://gambaswiki.org/wiki|Documentation officielle de Gambas]] - Page officielle en Anglais de la documentation de Gambas|
+| ::: | **(fr)** [[http://gambaswiki.org/wiki?l=fr|Documentation officielle de Gambas]] - Page officielle en Français de la documentation de Gambas|
+| ::: | **(fr)** [[http://gambasforge.fr/index.html|Le site de la communauté francophone des utilisateurs de Gambas]]|
+| ::: | **(fr)** [[http://www.gambasforge.org/forum.html|Le forum sur le site officiel de la communauté francophone de Gambas]].|
+| ::: | **(fr)** [[http://gambasforge.fr/forge.html|La Forge Gambas - Le site officiel francophone de Gambas]] - Des appli, des sources...|

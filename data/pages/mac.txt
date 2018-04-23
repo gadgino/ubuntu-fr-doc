@@ -1,0 +1,107 @@
+{{tag>portail apple}}
+----
+====== Ubuntu et Apple ======
+
+Sur les ordinateurs de la marque [[wpfr>Apple]] (appelés aussi "Mac" depuis la série des Macintosh), Ubuntu est généralement utilisable en faisant un simple redémarrage avec le CD d'ubuntu approprié (i386 ou PPC).
+
+Nous verrons ci-dessous comment résoudre les difficultés d'installation liées à des incompatibilités, à la configuration de la cohabitation avec MacOS. Une partie sera consacrée aux solutions pour les ordinateurs avec architecture hpPC dont les distributions qui ne sont plus officiellement soutenues (c'est maintenant la communauté qui a la charge de poursuivre leur développement comme c'est le cas pour de grandes distributions telles que Debian).
+
+La page [[:débutant|débutant]] aborde les bases concernant **GNU/Linux** en général et Ubuntu en particulier.
+
+===== Tester Ubuntu =====
+Pour tester Ubuntu il suffit de redémarrer avec un CD d'Ubuntu dans sa version Desktop i386 ou powerpc suivant les machines. Cette procédure permet d'utiliser Ubuntu sans l'installer et de revenir au fonctionnement habituel au démarrage suivant.
+==== Identification de l'ordinateur ====
+  * **"[[mac?&#particularites_pour_une_installation_sur_macintel|MacIntel]]"** : depuis 2005, les ordinateurs Apple ont un processeur [[wpfr>Intel]], on parle de [[wpfr>MacIntel]]. Ils sont compatibles avec la version classique d'Ubuntu notée i386 (de plus, les Core 2 Duo sont des processeurs 64bit, il est donc possible d'y installer une version AMD64). Voir la [[apple_imac|page iMac]] pour plus de détails sur ces machines-ci et l'installation d'Ubuntu sur celles-ci.
+  * **[[mac?&#particularites_pour_une_installation_sur_powerpc|PowerPC]]** : avant 2005, les Macs ont un processeur [[wpfr>PowerPC]] : iBook, iMac, PowerBook, PowerMac et globalement tous les G3 (sauf les gris), G4, G5. Ils nécessitent une version spécifique d'Ubuntu (disponible [[https://wiki.ubuntu.com/PowerPCDownloads|ici]] ou [[http://old-releases.ubuntu.com/releases/ports/releases/|là]] ou encore en regardant [[distributions_ppc|là]] et surtout en choisissant un fichier "powerpc").
+  * **"[[mac?&#particularites_pour_une_installation_sur_powerpc_old-world|Old-World]]"** : avant 1998, les machines d'Apple, y compris la génération PowerPC, sont globalement incompatibles avec Ubuntu. Et pourtant...
+
+==== Préparation d'un CD d'ubuntu ====
+  * Télécharger la version appropriée au format iso. (éventuellement vérifier son intégrité, cette procédure est facultative mais recommandée : [[https://help.ubuntu.com/community/HowToMD5SUM#MD5SUM%20on%20Mac%20OS%20X|Vérifier la somme MD5 d'une image sous Mac OS X]] //en anglais//). Dans certains cas l'iso. habituelle que nous utilisons pour le pc compatible ibm ne passe pas, les fimwares "inventés" par Apple n'ont pas toujours suivi la compatibilité ofs. Il faut alors essayer l'iso. hybride pour mac disponible [[http://cdimage.ubuntu.com/ubuntu/releases/14.04.1/release/| sur cette page]]
+  * Graver le DVD ([[tutoriel:graver_cd_ubuntu_depuis_mac_os|Graver l'image du disque d'installation d'Ubuntu dans Apple Mac OS X]])
+  * Démarrer sur le DVD : un maintien de la touche C ou Alt peut être nécessaire au redémarrage.
+===== Installation =====
+==== Ubuntu =====
+Pour installer Ubuntu il suffit de lancer l'installation depuis le CD et de suivre la procédure d'installation. (Voir aussi la page générale : [[Installation]])
+
+Si Ubuntu identifie un autre système d'exploitation, il propose par défaut une installation en cohabitation en utilisant l'espace disponible quand c'est possible.
+
+S'il est nécessaire de redimensionner des partitions au format HFS ou HFS+ de mac, cela peut se faire à partir du CD d'Ubuntu.
+
+<note important>**Attention :** Une mauvaise manipulation peut entraîner la perte de OS X et de toutes les données précédentes, faire des sauvegardes au préalable est toujours recommandé.</note>
+
+====MacBook====
+Pour des informations plus détaillées sur l'installation, la compatibilité et les bug d'un modèle particulier de MacBook, MacBook Pro et Air consultez la page [[macbook|Ubuntu et la famille MacBook]]
+====OS X====
+
+L'installation de OS X après celle de Ubuntu impose de reconfigurer le logiciel de démarrage après l'installation ([[rEFIt]] pour les MacIntel et [[Yaboot]] pour les PowerPC). En partant de zéro il est donc préférable d'installer Mac OS **avant** Ubuntu pour éviter ce désagrément.
+
+Pour les MacIntels, il est possible de sauvegarder la partie //boot// du disque pour pourvoir la restaurer ensuite : [[tutoriel:comment_sauvegarder_le_mbr|sauvegarder votre MBR]].
+
+=== Choix de L'OS de démarrage ===
+Le choix du boot peut se faire en configurant  le logiciel de démarrage. Plusieurs possibilités si vous êtes sur MacIntels : [[Grub]] (fourni avec Ubuntu), [[http://refit.sourceforge.net/doc/c1s3_remove.html|rEFIt]] //(en anglais)//.
+Si vous utilisez un PowerPC, il vous faudra vous tourner vers [[Yaboot]].
+==== Particularités pour une installation sur "MacIntel" ====
+Pages de la documentation associées aux installations sur Macintel :
+  * [[apple_imac|Apple iMac 21,5'']] pour la version fin 2009 du iMac
+  * [[dual_boot_macos_x_ubuntu|Installation d'Ubuntu sur un MacBook en dual boot avec Mac OS X]],
+  * [[installation_macbook_sans_macosx|Installation d'Ubuntu sur un MacBook en simple boot sans Mac OS X]],
+  * [[macpro|Installation sur MacPro octo-core]],
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?id=1781281|Installation d'Ubuntu sur un iMac (intel de 2006)]]
+==== Particularités pour une installation sur PowerPC ====
+Pour installer Ubuntu sur un PowerPC, il vous faudra une version adaptée. Les versions spécifiques PPC d'Ubuntu sont disponibles [[http://cdimage.ubuntu.com/ports/releases/|ici]], [[http://old-releases.ubuntu.com/releases/ports/releases/|là]] ou encore en regardant [[distributions_ppc|là]] (mais surtout en choisissant bien un fichier "powerpc").
+
+Pour la suite, voici les pages de la documentation associées aux installations et solutions pour les PowerPC :
+  * [[:powerpc|Installation sur PowerPC]] (Page à jour d'informations sur la LTS 14.04)
+  * [[distributions_ppc|Les distributions et dépôts Ubuntu pour les PowerPC]]
+  * [[:tutoriel:ppc_rescue|Démarrer en mode rescue]] - en cas de dysfonctionnement de Yaboot
+  * Le gestionnaire d'amorcage pour PPC : [[:Yaboot]] - pour tout comprendre du démarrage de votre PowerPC
+Pour les anciennes versions (plus du tout maintenues) :
+  
+  //Lien Externe// :
+  * [[https://wiki.ubuntu.com/PowerPCKnownIssues|Dépannage pour PPC]] (en)
+
+==== Particularités pour une installation sur PowerPC "Old-World" ====
+Tous les ordinateurs Apple d'avant mai 1998 (avant l'iMac G3) sont dits [[https://help.ubuntu.com/community/OldWorld|Old-World]].
+
+L'installation d'Ubuntu n'est officiellement pas possible. Il existe des méthodes proposées par des utilisateurs (par exemple : [[http://www.linux-france.org/macintosh/ubuntu504_G3.html|sur PowerMac G3 Beige]]) qui y sont tout de même parvenus.
+
+Si l'installation vous tente, voici quelques [[https://help.ubuntu.com/community/Installation/OldWorldMacs|conseils (en anglais)]]. //(peut-être une page à créer en français avec quelqu'un qui aurait déjà fait une installation sur une de ces machines)// FIXME
+
+En tous cas, l'installation sur OldWorld Macs passe par le //bootloader// [[:BootX]]. FIXME
+
+===== Utilisation =====
+==== L'esthétique Mac OS X ====
+Ubuntu peut être adapté pour ressembler a MacOS avec gnome ou KDE : voir [[:tutoriel:theme_osx|ici]].
+
+==== Réseau et partage ====
+=== Données ===
+Les données sous Mac OS sont stockées dans des partitions au format HFS+ (ou HFS). Ce type de partition n'est que partiellement géré par défaut sous Ubuntu. Le paquet [[ap>hfsplus]] peut être utile à la lecture des données.
+
+Pour créer, gérer, manipuler ou réparer ces partitions, les paquets [[apt>hfsprogs]] (pour le HFS+) et [[apt>hfsutils]] (pour le HFS) fournissent des fonctionnalités supplémentaire utilisables notamment avec [[:gparted]].
+
+Liens internes utiles :
+  * [[:NetaTalk]] - Partage de données avec des machines Mac OS
+  * [[:Disques]] - Comment accéder à ses partitions Mac OS à partir d'Ubuntu ? (Méthode graphique)
+
+=== Imprimantes ===
+  *[[:partage_imprimante_macosx|Partager une imprimante entre Mac OS X et Ubuntu dans un réseau local]]
+
+
+==== Logiciels ====
+Les logiciels utilisés sous Mac OS X ne sont naturellement pas compatibles Ubuntu et réciproquement.
+
+Par contre, les deux plate-forme partagent une l'architecture issue de [[wpfr>unix]] qui crée des similitudes et, parfois, des facilités de partages d'une plate-forme à l'autre.
+
+D'autre part Mac OS X utilise des éléments logiciels libre qui donnent de forts liens de parenté à certains logiciels : par exemple les explorateur internet Safari (mac) et epiphany (gnome) partagent le même moteur libre ; [[wpfr>webkit]]. De même on peut utiliser l'[[cups|Interface Web de CUPS]] sous Mac OS X. Plus de détails sur les [[http://www.lea-linux.org/documentations/index.php/Equivalence_de_logiciels_Mac_OS_X_Linux|équivalences entre les logiciels Mac OS X et ceux du monde de GNU/Linux]].
+
+===== Voir aussi =====
+
+  * Si vous êtes possesseur d'un [[:iPod]]
+  * Pages consacrées aux discussions sur Ubuntu sur Mac dans le [[http://forum.ubuntu-fr.org/viewforum.php?id=20|forum Ubuntu-fr]]
+  * Autres discussions en rapport sur le [[http://www.google.fr/search?q=mac+site%3Aforum.ubuntu-fr.org|forum Ubuntu-fr]]
+  * (en) [[https://help.ubuntu.com/community/MacBook|Page MacBook]] du wiki Ubuntu anglophone
+   * Cours Shell Unix Commandes et Programmation PDF http://filestore.to/?d=OHY27LIBG7
+
+===== Pages ayant le tag "mac" =====
+
+{{topic>mac}}

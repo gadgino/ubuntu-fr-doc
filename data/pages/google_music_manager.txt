@@ -1,0 +1,23 @@
+====== Google Music Manager ======
+
+Google Music Manager est un logiciel permettant de gérer ses musiques avec quelques concepts intéressants :
+  * Les musiques sont stockées dans le cloud Google et synchronisées avec vos appareils (ordinateur, smartphone, tablette)
+  * On peut importer jusqu'à 50 000 titres / chansons
+  * On peut acheter de la musique
+
+Cette [[https://support.google.com/googleplay/answer/1229970?hl=fr|page du site officiel de Google]] vous donnera plus d'informations.
+
+====== Installation ======
+
+===== Installation Linux =====
+**Installation via le téléchargement du paquet**
+Rendez vous sur [[https://play.google.com/music/listen?u=0#/manager|cette page]] du Google Play
+
+**Installation via l'ajout du dépot Google**
+<code>
+wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+sudo sh -c 'echo "deb http://dl.google.com/linux/musicmanager/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+sudo apt-get update
+sudo apt-get install google-musicmanager-beta
+</code>
+

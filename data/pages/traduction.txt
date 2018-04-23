@@ -1,0 +1,38 @@
+{{tag>portail bureautique logiciels}}
+----
+
+====== Logiciels de traduction ======
+
+Cette page a pour but de recenser les logiciels de traduction fonctionnant sur Ubuntu.
+En complément, on pourra consulter [[:ubuntu-l10n-fr/aide_a_la_traduction|cette page]] qui liste des ressources (hors-logiciels) utiles aux traducteurs.
+
+A tout seigneur tout honneur : [[https://docs.google.com/document/d/1pFLtEMX1-364XHheBB7zf6F-ZU3E65SeCC7bij_Z0tI/edit|Une rapide introduction à la traduction d’Ubuntu]] (Guide d'utilisation de l'outil de traduction en ligne Launchpad).
+
+
+
+=====Éditeurs de fichiers de traduction=====
+
+  * [[apt>poedit]] : éditeur sans option de fichiers PO, 
+  * [[apt>gtranslator]] : éditeur plus complet de fichier PO, Documentation:[[gtranslator]]
+  * [[Po4a]] (acronyme de "PO 4 (for) Anything") : programme d'aide à la traduction et à la maintenance des traductions de logiciels et de documents. 
+  * [[apt>virtaal]] : traduire par segment un fichier po. Son avantage : un clic droit permet d'aller chercher le sens du mot (ou de l'expression) sur google translate, urban dictionnary, dictionnaire de synonymes et autres (c'est entièrement configurable dans les préférences).
+  * [[http://qt.nokia.com/products/developer-tools?currentflipperobject=cf2f1a5149cecc583f8f2733206343ca|Qt Linguist]]: le programme officiel pour traduire des applications développées en Qt.
+
+===== Convertisseurs de fichiers PO =====
+
+  * [[apt>translate-toolkit|Translate toolkit]] permet de transformer n'importe quel fichier (texte, srt) en fichier po pour la traduction. Attention à l'encodage du fichier d'origine, il faut le passer impérativemnet en UTF-8 (voir iconv pour la conversion).
+ Utilisez la commande : <code>msgfmt mon_fichier.po -o mon_fichier.mo</code>
+Et dans l'autre sens :
+<code>msgfmt -o mon_fichier.mo -v mon_fichier.po</code>
+
+===== Convertisseurs de fichiers ts =====
+Pour tout ce qui est écrit en [[:QT]] le format des fichiers de langues estt est le .ts. Pour pouvoir être lu par les logiciels concernés il faut les convertir en .qm. Ce que vous pouvez faire avec la commande : <code>lrelease file.ts</code>
+
+=====Autre logiciel de traduction=====
+* [[:omegaT]] : application professionnelle libre d'aide à la traduction (équivalente au logiciel Trados sous Windows),
+===== Voir aussi =====
+
+  * Discussion "[[http://forum.ubuntu-fr.org/viewtopic.php?pid=9835661#p9835661|Ressources et logiciels de traduction]]" sur le forum ubuntu-fr
+  * [[:ubuntu-l10n-fr:aide_a_la_traduction|Ressources de traduction]] du groupe de traducteurs ubuntu-l10n-fr
+  * le portail [[bureautique]]
+  * [[https://github.com/vslavik/poedit|Github de poedit]]

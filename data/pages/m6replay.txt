@@ -1,0 +1,84 @@
+ forme{{tag> Precise Trusty internet télévision }}
+
+----
+====== Faire fonctionner 6play sous Ubuntu ======
+
+Si vous tentez de faire fonctionner [[http://www.6play.fr/|6play]] sous %%GNU/Linux%%, vous risquez d'être déçus : après la publicité, pas de vidéo. [[:Flashplayer]]  est bien sûr nécessaire, mais ce n'est pas suffisant...
+
+{{ http://m6pub.fr/wp-content/uploads/2013/11/slider-6play-1200x490.jpg?950 }}
+
+===== Explications =====
+Pourquoi la vidéo ne se lance pas? Tout simplement car 6play utilise un contenu "protégé" avec des [[wpfr>Gestion_des_droits_numériques|DRM (Digital Rights Management)]] et malheureusement, la version %%GNULinux%%, de [[:Flashplayer]] ne les gère pas. Par conséquent, **__ni le direct ou le replay ne sont donc accessibles avec les navigateurs utilisables sous GNU/Linux__**.\\
+La solution consiste alors à utiliser la version Flashplayer de Windows® gérant les [[wpfr>Gestion_des_droits_numériques|DRM]].
+
+<note>(MAJ du 01/12/15): Toutefois, 6Play est en train de se passer de :[[Flashplayer]] et utilise la technologie [[wpfr>HTML5|HTML5]] pour son interface et les publicités, mais pas encore pour les vidéos. Les responsables du service espèrent passer au tout %%HTML début 2016, « quand les DRM HTML5%% donneront satisfaction aux ayants-droit ».
+
+Pour profiter du service, vous devez avoir recours à une des méthodes expliquées ci-après. </note>
+
+===== Pré-requis =====
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+
+===== Solution avec Pipelight et Firefox =====
+
+En utilisant la version Flashplayer de Windows®, Pipelight permet aux navigateurs [[:Firefox]] et [[:Midori]] de s'affranchir de l'arrêt du développement de [[:Flashplayer]] pour %%GNU/Linux%% et ce, __avec__ la gestion des [[wpfr>Gestion_des_droits_numériques|DRM]]. 
+<note important>**Pipelight** n'est pas disponible depuis les [[:depots|dépôts officiels]] mais depuis un [[:PPA]]. Installer un paquet hors des [[:depots|dépôts officiels]] peut présenter un risque d'instabilité pour votre système.</note>
+
+====Installation====
+Voici les [[commande_shell|commandes]] à taper dans un [[:terminal]] :
+  - [[:ppa#ajout_d_un_ppa_a_vos_sources_logicielles|Ajouter à vos sources de logiciels le PPA]] suivant : **ppa:pipelight/stable**((https://launchpad.net/~pipelight/+archive/stable)), <code>sudo add-apt-repository ppa:pipelight/stable</code>
+  - [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Recharger la liste des paquets]],<code>sudo apt-get update</code>
+  - [[:tutoriel:comment_installer_un_paquet|Installer le paquet]] **Pipelight-multi**.<code>sudo apt-get install --install-recommends pipelight-multi</code> Vous serez amené à valider les [[wpfr>Licence_de_logiciel#Contrat_de_licence_utilisateur_final|licences (EULA)]]. //(Pour déplacer le curseur dans [[ :terminal#une_sorte_d_interface_graphique_dans_le_terminal|ce type d'interface graphique]], utiliser la touche <tab>).//
+  - Mettre à jour la base de données des plugins: <code>sudo pipelight-plugin --update</code>
+  - :!: Avant de continuer plus loin, vous devez fermer [[:Firefox]] :!:. \\ Sans cela, il se peut que votre navigateur plante ou se ferme de façon brusque ou même que l'installation ne fonctionne pas correctement.
+  - Pour que Firefox prenne en compte les plugins de Pipelight: <code>sudo pipelight-plugin --create-mozilla-plugins</code>
+  - Supprimer les  anciennes versions de Flashplayer:<code>sudo apt-get remove flashplugin-installer adobe-flashplugin --purge</code>
+  - Activer le plugin Flash:<code>sudo pipelight-plugin --enable flash</code> (Confirmer en saisissant **y**. Ne rien saisir entraînera l'abandon).
+  - Supprimer la liste des plugins de Firefox (Il mettra à jour le fichier tout seul) <code>mv ~/.mozilla/firefox/*.default/pluginreg.dat ~/.mozilla/firefox/old_pluginreg.dat</code> //[[http://lehollandaisvolant.net/?d=2015/05/25/12/20/43-firefox-gnulinux-et-flash-a-jour|Source]]//
+Et pour vérifier la version de Flash utilisée, une fois [[:Firefox]] redémarré, saisir dans la barre d'adresse de [[:Firefox]] : //about:addons//. Dans la rubrique "plugins", vérifier que le plugin **Shockwave Flash** soit actif et de version supérieure à 11.2.
+====Utilisation====
+Redémarrer [[:Firefox]]. (La première fois, une petite fenêtre "wine-flash-installer" apparaîtra. Patientez, elle se fermera toute seule).
+
+
+
+===== Solution avec Wine et la version Windows® de Firefox =====
+Cette solution a l'avantage de circonscrire complètement les composants windows ( plugin flash + firefox ) dans un seul « endroit » ( le firefox dans wine ) contrairement à pipelight qui va intégrer un composant windows dans le navigateur firefox linux natif, intégration potentiellement sources d'instabilités.
+====Installation====
+  - [[:tutoriel:comment_installer_un_paquet|Installer le paquet]] **[[apt>wine]]**
+  - Télécharger la dernière version de Firefox pour Windows®, depuis le site [[http://www.mozilla.org/en-US/firefox/all/|Mozilla]], et exécuter l'installateur avec [[:wine]].
+  - Télécharger la dernière version de Adobe Flash player pour Firefox, depuis le [[http://get.adobe.com/fr/flashplayer/otherversions/|site d'Adobe]], et exécuter l'installateur avec [[:wine]].
+====Utilisation====
+Utiliser avec [[:wine]] la version Windows® de Firefox que vous venez d'installer  pour aller sur 6play.fr
+
+=====Problèmes connus=====
+====Mise à jour d'Ubuntu====
+Il est possible qu'après une [[:mise a jour|mise à jour d'Ubuntu]], la version Pipelight de Flashplayer ne fonctionne plus. Redémarrer votre système puis si le problème persiste, faire une nouvelle mise à jour du plugin:
+  - Fermer [[:Firefox]] puis dans un [[:terminal]], saisir les [[:commande_shell|commandes]] suivantes:
+  - Remettre à jour la base de données des plugins: <code>sudo pipelight-plugin --update</code>
+  - Activer le plugin Flash:<code>sudo pipelight-plugin --enable flash</code> (Confirmer en saisissant **y**. Ne rien saisir entraînera l'abandon);
+  - Redémarrer [[:Firefox]].
+
+====Flashplayer ne fonctionne toujours pas avec M6play====
+ Si les plugins n'apparaissent pas dans la liste des plugins.
+On peut aussi vérifier le dossier:
+
+''@desktop:/usr/lib/mozilla/plugins$ ls -alrt "
+
+"total 8"
+
+"drwxr-xr-x 3 root root 4096 mai   19 10:49 .."
+
+"lrwxrwxrwx 1 root root   49 mai   22 19:09 libpipelight-silverlight5.1.so -> /usr/lib/pipelight/libpipelight-silverlight5.1.so"
+
+"lrwxrwxrwx 1 root root   40 mai   23 10:43 libpipelight-flash.so -> /usr/lib/pipelight/libpipelight-flash.so"
+
+"drwxr-xr-x 2 root root 4096 mai   23 11:16 ."
+
+Vous pouvez désormais profiter des programmes sur 6play
+
+===== Voir aussi =====
+  * **(en)** [[http://fds-team.de/cms/articles/2013-08/pipelight-using-silverlight-in-linux-browsers.html|Le site de Pipelight]]
+  * **(fr)** [[http://www.6play.fr/|M6 Replay]]
+
+----
+//Contributeurs:  //

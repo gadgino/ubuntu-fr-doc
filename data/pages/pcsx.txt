@@ -1,0 +1,280 @@
+{{tag>Lucid émulation émulateurs_console jeu BROUILLON}}
+----
+
+====== PCSX, un émulateur PSX libre ======
+
+PCSX est un émulateur Playstation libre pour GNU/Linux utilisant un système de plugins pour le support des éléments, audio, vidéo, carte mémoire, ... d'une PSX.
+
+Il peut émuler la très grande majorité des titres ps1, et ce sans bios ps1 pour un grand nombre de titre grâce à son émulation HLE.
+
+<note important>Ni PCSX, ni PCSX-df ne sont développés activement de nos jours. Je vous conseille [[PCSX-Reloaded]] qui est en fin de compte exactement le même programme avec un bon nombre de corrections et d'améliorations</note>
+
+{{pcsx_main.png}}
+
+===== Prérequis =====
+
+  * Minimum Pentium 3, 500 Mhz, avec [[:materiel#carte_video|une accélération 3D]] fonctionnelle est vivement conseillé pour avoir une bonne qualité graphique.
+
+  * Minimum Pentium 4, 3 ghz, si vous n'avez pas d'accélération 3d. La qualité graphique sera moins bonne qu'avec une carte accélératrice 3d, mais le tout est quand même jouable sans problème.
+
+  * Une image du bios Playstation est recomandée pour une émulation optimale: recherchez sur Google pour savoir comment dumper le bios de votre console, ou faite une recherche sur internet en utilisant **scph7502.bin** ou **scph1001.bin** comme mot clé. Référez-vous aux lois en vigueur dans votre pays concernant l'utilisation du bios (En général vous avez le droit de posséder ce bios si vous possédez la console originale).
+
+<note important>Pas de lien vers des fichiers non libres. Merci.</note>
+
+<note>Grâce à l'émulation HLE de cet émulateur, le bios n'est pas indispensable, mais il est quand même conseillé de l'utiliser pour obtenir une  compatibilité correcte avec les jeux commerciaux.</note>
+
+
+
+===== Installation =====
+
+==== Ubuntu 10.04 LTS ====
+
+
+Sous Ubuntu 10.04 LTS cet émulateur à malheureusement été retiré des dépôts, pour l'installer vous devrez donc télécharger les paquets manuellement.
+
+Téléchargez et installez les paquets suivants :
+
+  * Ubuntu 32 bits:
+    * [[http://fr.archive.ubuntu.com/ubuntu/pool/universe/p/pcsx-df/pcsx-df_1.816-1_i386.deb | pcsx-df_1.816-1_i386.deb]]
+    * [[http://ppa.launchpad.net/fabien-beosfrance/ppa/ubuntu/pool/main/p/pcsx-df/pcsx_1.1000-2_i386.deb | pcsx_1.1000-2_i386.deb]] (source issue du[[PPA]] [[https://launchpad.net/~fabien-beosfrance/+archive/ppa?field.series_filter=|ppa:fabien-beosfrance/ppa]])
+
+  * Ubuntu 64 bits:
+    *[[http://ppa.launchpad.net/fabien-beosfrance/ppa/ubuntu/pool/main/p/pcsx-df/pcsx-df_1.1000-2_amd64.deb|pcsx-df_1.816-1_amd64.deb]]
+    * [[http://ppa.launchpad.net/fabien-beosfrance/ppa/ubuntu/pool/main/p/pcsx-df/pcsx_1.1000-2_amd64.deb|pcsx_1.1000-2_amd64.deb]] (source issue du [[PPA]] [[https://launchpad.net/~fabien-beosfrance/+archive/ppa?field.series_filter=|ppa:fabien-beosfrance/ppa]])
+  
+
+==== Dernière version ====
+
+La version dans les dépôts étant légèrement bancale et âgée, je(([[utilisateurs:Fabien26]])) mets à disposition mon paquet pour installer la dernière version de PCSX-df.
+
+Les améliorations comprennent:
+  * Amélioration de la fenêtre de sélection d'iso
+  * Correction du bug du plugin software intégré
+  * Nouveau plugin graphique avec accélération 3d intégré
+  * Amélioration de la compatibilité Ubuntu 64 bits (mais bug toujours présent voir les problèmes plus bas pour le corriger)
+  * Amélioration sensible de la compatibilité des jeux avec le bios émulé HLE
+
+<note important>Les paquets proposés ci-dessous ne proviennent pas d'une source officielle. Vous ne pourrez bénéficier d'aucun support de Canonical ou Ubuntu-fr à leurs sujets.</note>
+
+Téléchargez le paquet:
+  * Ubuntu 32 bits: [[http://ppa.launchpad.net/fabien-beosfrance/ppa/ubuntu/pool/main/p/pcsx-df/pcsx_1.1000-2_i386.deb|pcsx_1.1000-2_i386.deb]] (source issue du [[PPA]] [[https://launchpad.net/~fabien-beosfrance/+archive/ppa?field.series_filter=|ppa:fabien-beosfrance/ppa]])
+  * Ubuntu 64 bits: [[http://ppa.launchpad.net/fabien-beosfrance/ppa/ubuntu/pool/main/p/pcsx-df/pcsx_1.1000-2_amd64.deb|pcsx_1.1000-2_amd64.deb]] (source issue du [[PPA]] [[https://launchpad.net/~fabien-beosfrance/+archive/ppa?field.series_filter=|ppa:fabien-beosfrance/ppa]])
+
+Puis [[:tutoriel:comment_installer_un_paquet|installez le !]]
+
+==== rippeur facile cdpsx2bin ====
+<note note>  Je vous propose un petit programme "cdpsx2bin" pour ripper facilement une image de cd playstation 1, afin de pouvoir l'utiliser avec un émulateur type pcsx ou epsxe et autre.\\
+un ppa est maintenant disponible pour **Lucid** Lynx et **Precise** Pangolin [[https://launchpad.net/~muglia/+archive/ppa]].
+
+Pour ajouter ce ppa à vos sources:
+<code>sudo add-apt-repository ppa:muglia/ppa 
+sudo apt-get update
+sudo apt-get install cdpsx2bin
+</code></note>
+
+Si cdpsxbin ne fonctionne pas pour vous, il va falloir passer par le terminal. Pour déterminer le nom de votre lecteur de disque optique, entrez la commande suivante:
+<code>cdrdao scanbus</code>
+
+Dans l'exemple suivant, nous obtenons ceci:
+<code>Cdrdao version 1.2.3 - (C) Andreas Mueller <andreas@daneb.de>
+/dev/sr0 : hp      , CDDVDW SH-216ALN, HA5A
+/dev/sr1 : WD      , Virtual CD 070A , 1032</code>
+
+
+/dev/sr0 est le nom du lecteur de disque optique
+Il va falloir ensuite le démonter : 
+
+<code>umount /dev/sr0</code>
+
+
+Enfin, et en partant du principe que votre lecteur de disque optique est /dev/sr0, nous allons extraire les données du jeu. GAME_NAME sera le nom donné par défaut. Vous pouvez le changer dans la commande ci-dessous mais ne mettez pas d'espace.
+<code>cdrdao read-cd --read-raw --read-subchan rw_raw --datafile GAME_NAME.bin --device /dev/sr0 --driver generic-mmc-raw GAME_NAME.toc</code>
+
+Au bout de quelques minutes, vous aurez une extraction de votre jeu PlayStation qui sera dans votre home sous le nom GAME_NAME.bin et GAME_NAME.toc
+===== Configuration =====
+
+<note important>Les manipulations suivantes sont à faire pour tous les utilisateurs utilisant ce programme.</note>
+
+==== installation du bios ====
+
+Avant d'installer le bios, ouvrez, puis fermez une première fois PCSX !
+
+Copiez l'image du bios téléchargé dans le dossier **~/.pcsx/bios** (un dossier .pcsx a été crée dans votre dossier personnel lors de l'installation du paquet). N'oubliez pas d'afficher les fichiers cachés si vous faites l'opération en affichage graphique afin de voir le dossier .pcsx (<ctrl>+h)
+
+Une fois le Bios copié lancez pcsx, puis allez dans le menu configuration->plugin & bios et sélectionnez votre bios.
+
+
+==== installation de plugins ====
+
+Un plugin, est une partie détachable d'un programme, qui assure une fonction spécifique, par exemple, un plugin permettant de gérer les manettes, ou gérant les graphismes.
+
+Des plugins libres sont directement fournis avec le logiciel, mais d'autres peuvent dans certains cas être téléchargés, puis ajoutés par la suite. Cependant ce n'est pas indispensable en général.
+
+Voici la liste des plugins disponible pour PCSX:
+
+  * Les plugins suivant permettent l'utilisation de l'accélération graphique, pour améliorer les graphismes, et libérer des ressources processeur:
+    * **Pete's XGL2 Linux PSX GPU**: si vous avez une carte ATI ou NVidia supportant l'OpenGL2: **[[http://www.pbernert.com/gpupetexgl208.tar.gz|Téléchargement uniquement 32bits]]**
+    * **Pete's MesaGL Linux PSX GPU**: pour toutes les autres cartes disposant d'une accélération graphique: **[[http://www.pbernert.com/gpupetemesagl176.tar.gz|Téléchargement uniquement 32bits]]**
+    * **PCSX-df OpenGL Plugin**: Plugin OpenGL opensource encore en développement: **Fourni en standard avec PCSX-df version 1.818 et suivants**
+
+  * Si des problèmes de compatibilité sur certains jeux (ex: FF7) surviennent avec les plugins précédents, ou si vous ne disposez pas d'accélération graphique, utilisez un plugin software, ils utilisent le processeur pour créer l'image, et non pas la carte graphique, il faut donc un ordinateur sensiblement plus puissant pour les utiliser sans encombres:
+    * **PeopsSoftGpu**: Sûrement le meilleur plugin software à ce jour, faible utilisation processeur pour un rendu plus que correct: **[[http://pascale.lusseau.free.fr/gpuPeopsSoftX-1.0.18.tar.bz2|Téléchargement uniquement 32bits]]**
+    * **X11 video soft driver**: Un bon plugin software, n'a pas l'air de marcher sous Hardy ...: **Fourni en standard avec PCSX**
+
+  * Plugins Son:
+    * **ALSA Sound**: Plugin son assurant une très bonne compatibilité: **Fourni en standard avec PCSX**
+
+  * Plugins Clavier/Manette:
+    * **Gamepad/Keyboard Input**: Très bon plugin, il supporte les manettes analogiques, ainsi que les claviers: **Fourni en standard avec PCSX**
+    * **Omnijoy**: Bon plugin, il ne supporte pas les joystick: **[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] psemu-input-omnijoy**
+
+  * Plugins CD-ROM:
+    * **CD-ROM Drive Reader**: Un plugin permettant l'utilisation d'un cd original, ou d'une copie de sauvegarde insérée dans le lecteur de votre ordinateur: **Fourni en standard avec PCSX**
+    * **Mooby2 cd disk image driver**: Plugin permettant l'utilisation d'une copie de sauvegarde d'un cd playstation au format **.iso** ou **.bin**: **[[:tutoriel:comment_installer_un_paquet|Installez le paquet]] psemu-drive-cdrmooby**
+    * **ISO Image Reader**: Plugin permettant l'utilisation d'une copie de sauvegarde d'un cd playstation au format **.iso** ou **.bin**: **Fourni en standard avec PCSX**
+
+  * Plugins Network (permet de jouer à des jeux multijoueurs en réseau):
+    * Pas encore disponible.
+
+Avant d'installer des plugins, installez le paquet suivant:
+
+  * [[apt://libgtk1.2|{{apt.png}}]] [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **libgtk1.2**
+  * Si le paquet n'est pas disponible pour votre distribution, installer dans l'ordre:
+    * [[http://fr.archive.ubuntu.com/ubuntu/pool/universe/g/glib1.2/libglib1.2ldbl_1.2.10-19build1_i386.deb | libglib1.2ldbl]] (32 bits)
+    * [[http://de.archive.ubuntu.com/ubuntu/pool/universe/g/gtk+1.2/libgtk1.2-common_1.2.10-18.1build2_all.deb | libgtk1.2-common]] (32 bits)
+    * [[http://fr.archive.ubuntu.com/ubuntu/pool/universe/g/gtk+1.2/libgtk1.2_1.2.10-18.1build2_i386.deb | libgtk1.2]] (32 bits)
+
+Ce paquet est nécessaire pour la configuration de certains plugins plutôt anciens, mais pas forcement obsolètes ;)
+
+Ensuite, pour installer un plugin, décompressez l'archive contenant le plugin souhaité dans le dossier **~/.pcsx/plugins**
+
+En ligne de commande:
+<code>cd ~/.pcsx/plugins
+tar -xf <chemin_du_dossier/contenant_l'archive>
+</code>
+
+Avec l'interface graphique (Ubuntu seulement):
+
+Décompressez l'archive contenant le plugin que vous souhaitez installer (**//Clic-droit->Extraire ici//**)
+
+**//Raccourcis->Dossier personnel//**
+
+Puis, **//Affichage->Afficher les fichiers cachés//**
+
+Ensuite, recherchez le dossier **.pcsx**, puis le dossier **plugins**, déplacez ensuite les fichiers du plugin ( libquelquechose.so.unnuméro, quelquechose.cfg et cfgQuelquechose; n'oubliez aucun de ces trois fichiers !) dans ce dossier, c'est fini ;)
+
+===== Utilisation =====
+
+La configuration des plugins se fait dans le menu Configuration -> Plugins & Bios
+
+Les panneaux de configuration des différents plugins sont disponibles en cliquant sur cette icône: {{pcsx_conf_ico.png|}}
+
+  * Dans Bios, sélectionnez le bios que vous voullez utiliser.
+  * Dans Graphics, sélectionnez le plugin que vous voulez utiliser et configurez-le selon vos préférences.
+
+<note warning>L'étape qui va suivre est indispensable et permet d'éviter un plantage de l'émulateur au lancement des jeux </note>
+
+FIXME Uniquement valable pour Feisty ??
+
+  * Dans Controlleur1 (et 2), sélectionnez le plugin **OmniJoy** et configurez-le selon vos préférences.
+
+
+
+
+
+==== Utilisation du clavier avec le plugin omnijoy ====
+
+Si vous n'avez pas (ne voulez pas utiliser) un joypad, le clavier peut être utile.
+
+Avec le plugin d'origine, il n'y a rien de spécial à faire, mais avec omnijoy, allez:
+
+  * Dans le panneau de contrôle du plugin **OmniJoy**
+    * cocher "Keyboard Support"
+    * changer "/dev/js0" en "/dev/null"
+
+
+
+===== Problèmes =====
+
+==== Les sons, mais pas de musique dans certains jeux ====
+
+Certains jeux, comme Rayman, Lunar 1 & 2, Wipeout, ou même Rollcage, et sûrement d'autres; ont leurs musiques séparées sur une partition "CDDA" qui doit être lue par la Playstation comme un CD-Audio pendant la partie, le problème est que certains ordinateurs n'ont pas de sortie analogique Audio sur leurs lecteur CD, ou que vous utilisez une ISO ...
+
+Sous windows il semble que Alcohol 120% permet d'outrepasser ce problème ...
+
+Malheureusement sous linux nous n'avons pas de solution aussi simple pour outrepasser ce problème tout en utilisant cet émulateur.
+
+Fort heureusement, un émulateur nommé [[pSX]] permet de faire passer ces jeux sans aucun problème.
+
+<note idée>Les prochaines versions de pcsx-df, seront fournies avec un nouveau plugin "**dfbinimage**" qui permettra de solutionner ce problème avec les images .bin !</note>
+
+==== Plus de son avec Ubuntu 10.10 ====
+
+Le support d'[[:audio|OSS]] ayant été abandonné, /dev/dsp a disparu et les plugins audios **ALSA Sound** et **P.E.Op.S. OSS 1.0.9** ne fonctionnent plus ( Sound device no available! ).
+
+Le plugin **Eternal SPU** qui utilise SDL permet de résoudre ce problème. Il nécessite libstdc++-libc6.2-2.so.3 (lien ci-dessous) et libSDL.so qui peut-être récupéré avec Synaptic en installant **libSDL1.2-dev**.
+
+  * Ubuntu 32 bits:
+    * [[http://fr.archive.ubuntu.com/ubuntu/pool/universe/g/gcc-2.95/libstdc++2.10-glibc2.2_2.95.4-24_i386.deb | libstdc++-libc6.2-2.so.3]]
+
+
+Dans la configuration du plugin, sélectionner "SDL" dans Audio device.
+
+==== L'interface de configuration de certains plugins tiers, ne fonctionne pas ! ====
+
+Certains plugins nécessitent la présence des librairies GTK 1.2, mais ces dernières ne sont plus disponibles depuis la version 9.04 d'ubuntu.
+
+Voici l'installation en une seule commande (récupération depuis les dépôts d'ubuntu Hardy)
+
+  * Ubuntu 32 bits:
+<code>wget http://mirrors.kernel.org/ubuntu/pool/universe/g/glib1.2/libglib1.2ldbl_1.2.10-19build1_i386.deb && wget http://mirrors.kernel.org/ubuntu/pool/universe/g/gtk+1.2/libgtk1.2_1.2.10-18.1build2_i386.deb && wget http://mirrors.kernel.org/ubuntu/pool/universe/g/gtk+1.2/libgtk1.2-common_1.2.10-18.1build2_all.deb && sudo dpkg -i libgtk1.2-common_1.2.10-18.1build2_all.deb  libglib1.2ldbl_1.2.10-19build1_i386.deb libgtk1.2_1.2.10-18.1build2_i386.deb</code>
+
+  * Ubuntu 64 bits:
+<code>wget http://mirrors.kernel.org/ubuntu/pool/universe/g/glib1.2/libglib1.2ldbl_1.2.10-19build1_amd64.deb && wget http://mirrors.kernel.org/ubuntu/pool/universe/g/gtk+1.2/libgtk1.2_1.2.10-18.1build2_amd64.deb && wget http://mirrors.kernel.org/ubuntu/pool/universe/g/gtk+1.2/libgtk1.2-common_1.2.10-18.1build2_all.deb && sudo dpkg -i libgtk1.2-common_1.2.10-18.1build2_all.deb  libglib1.2ldbl_1.2.10-19build1_amd64.deb libgtk1.2_1.2.10-18.1build2_amd64.deb</code>
+==== X11 video soft driver sous Ubuntu Hardy ====
+
+Attention, chez moi le plugin Software "**X11 video soft driver**" ne marche pas du tout, l'installation d'un plugin d'accélération graphique, ou d'un autre plugin software comme le "**PeopsSoftGpu**", est donc nécessaire pour faire tourner un jeu, ne vous inquiétez donc pas si votre émulateur plante lamentablement avec le plugin X11, il marchera mieux avec un autre plugin graphique.
+
+<note>Ce bug peut être corrigé, par utilisation de la dernière version de pcsx-df, mais ce plugin software, n'est pour le moment clairement pas au niveau du "**PeopsSoftGpu**" ...</note>
+
+==== Ubuntu 64 bits ====
+
+Sur certains ordinateurs, l'émulateur ne démarre que si l'on fait dans les préférences de pcsx:
+
+//**Configuration->CPU**//
+
+Puis dans la fenêtre affichée, cochez **Enable Interpreter CPU**.
+
+De plus seul le plugin graphique **Xvideo Driver** est utilisable en 64bits (à moins que ce soit un bug avec ma carte graphique Intel), mais au vu des performances des processeurs 64bits ce n'est pas très handicapant.
+
+===== Compatibilité =====
+
+**__Final Fantasy VIII__**
+
+Le jeu PAL est pleinement compatible, sous condition toutefois d'être patché, afin d'en supprimer la protection. Pour information, une archive contenant les patch PPF de chaque CD se nomme **ff8fr.zip**.
+
+-Peut fonctionner sans le bios officiel !
+
+<note important>Il est conseillé d'utiliser le plugin Eternal SPU 1.41 pour une qualité sonore optimale, sans décalage.
+Pensez à cocher la case dédiée aux jeux squaresoft</note>
+
+**__Final Fantasy IX :__**
+
+Le Jeu Pal est également pleinement compatible, sous condition également de patcher le jeu pour éliminer la protection, attention néanmoins, il ne faut pas utiliser le patch Paradox permettant également de switcher au choix entre Pal et NTSC mais celui de la team hydRoGeN que vous pourrez trouver sous le nom de **hydff9fr.zip**.
+
+-Peut fonctionner sans le bios officiel !
+
+<note important>Il est conseillé d'utiliser le plugin Eternal SPU 1.41 pour une qualité sonore optimale, sans décalage.
+Pensez à cocher la case dédiée aux jeux squaresoft</note>
+ 
+
+===== Liens =====
+
+  * Site officiel de PCSX-df: http://pcsx-df.sourceforge.net/
+  * PCSX-df sur SourceForge: http://sourceforge.net/projects/pcsx-df/
+  * PSCX-Reloaded (Fork): http://pcsxr.codeplex.com/ 
+  * Page du projet P.E.Op.S. (Plugins): http://sourceforge.net/projects/peops/
+  * Rippeur de CD facile pour PS1 [[http://2020linux.free.fr/download.php?categorie=Utilitaire|2020Linux - cdpsx2bin]]
+
+----
+Contributeurs : [[utilisateurs:Milambert]], [[utilisateurs:Fabien26]], [[utilisateurs:soued031]]

@@ -1,0 +1,129 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#premiere_phase_de_l_installation" class="toc"> Première phase de l'installation </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#debut_de_l_installation" class="toc"> Début de l'installation </a></span></li>
+<li class="level2"><span class="li"><a href="#partitionner_le_disque" class="toc"> Partitionner le disque </a></span></li>
+<li class="level2"><span class="li"><a href="#installation_du_boot-loader" class="toc"> Installation du boot-loader </a></span></li>
+</ul>
+</li>
+<li class="level1"><span class="li"><a href="#deuxieme_partie_de_l_installation" class="toc"> Deuxième partie de l'installation </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#compte_utilisateur" class="toc"> Compte Utilisateur </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">
+pour Ubuntu Warty
+</pre>
+
+<p>
+Ce document décrit comment installer Ubuntu 4,10 &ldquo;Warty Warthog&rdquo; pour l&rsquo;Amd Athlon 64, AMD Opteron, et DP d&rsquo;Intel Xeon (&rdquo;amd64&rdquo;).  C&rsquo;est un descriptif (walkthrough) rapide du procédé d&rsquo;installation qui devrait contenir  l&rsquo;information que vous aurez besoin pour la plupart des installations.
+</p>
+
+<p>
+ Ce How To est libre; vous pouvez le redistribuer et/ou le modifier en vertu de la licence <acronym title="GNU General Public License">GPL</acronym>/GNU.
+</p>
+
+<a name="premiere_phase_de_l_installation"></a><h1> Première phase de l'installation </h1>
+<div class="level1">
+<ul>
+<li class="level1"><span class="li"> Télécharger l&rsquo;image <acronym title="International Organization for Standardization">ISO</acronym> et gravez là sur un CD: <a href="http://releases.ubuntu.com/warty/" class="urlextern" title="http://releases.ubuntu.com/warty/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">AMD64</a></span>
+</li>
+</ul>
+<ul>
+<li class="level1"><span class="li"> Pour booter sur le CD, vous devez configurer le BIOS de votre machine pour &ldquo;booter&rdquo; sur le CD-ROM. Une installation &ldquo;netboot&rdquo; est également possible, mais elle n&rsquo;est pas abordée dans ce How To.</span>
+</li>
+<li class="level1"><span class="li"> Une fois que l&rsquo;installation commence, vous aurez un premier écran de boot.</span>
+</li>
+<li class="level1"><span class="li"> Tapez sur la touche Entrée, ou utilisez les touches de fonction pour lire les instructions pour les autres méthodes et paramètres de &ldquo;boot&rdquo;.  Si vous avez des problèmes pour l&rsquo;installation, des instructions sont documentées pour un certain nombre d&rsquo;environnement qui peuvent être utiles selon votre matériel.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [431-1182] -->
+<a name="debut_de_l_installation"></a><h2> Début de l'installation </h2>
+<div class="level2">
+
+<p>
+ Après quelques instants, vous serez invités à choisir votre langue. 
+</p>
+<ul>
+<li class="level1"><span class="li"> Employez les touches de déplacement du curseur pour sélectionner une langue et pressez Entrée pour continuer.  Après vous serez invités à choisir un pays, dans la liste des pays où votre langue est parlée.  Si elle n&rsquo;est pas sur la liste courte, choisissez &ldquo;autre&rdquo; pour voir une liste de tous les pays dans le monde.</span>
+</li>
+<li class="level1"><span class="li">&ldquo;Reposez-vous&rdquo; maintenant <img src="/smileys/icon_wink.gif" align="middle" alt=";-)" /> tandis que l&rsquo;installateur d&rsquo;Ubuntu détecte une partie de votre matériel, et chargez les modules à partir  du CD.</span>
+</li>
+<li class="level1"><span class="li"> Après l&rsquo;installateur d&rsquo;Ubuntu essayera de détecter votre matériel réseau et si votre réseau utilise l&rsquo;adressage par &ldquo;DHCP&rdquo;.  Si vous n&rsquo;êtes pas sur un réseau ou n&rsquo;avez pas DHCP, vous devrez configurer le réseau manuellement selon les choix proposés.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [1183-2034] -->
+<a name="partitionner_le_disque"></a><h2> Partitionner le disque </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> D&rsquo;abord vous aurez la possibilité d&rsquo;effacer et partitionner automatiquement le (les) disque(s) en  entier.  Ceci est recommandé pour les nouveaux utilisateurs, mais si vous avez des données sur le disque, vous devez les avoir sauvegardé avant. Ou vous devez choisir le partionnement manuel si vous avez besoin de plus d&rsquo;une partition (multiboot). Attention une fois le partitionnement lancé tous les fichiers sur le disque seront effacés.</span>
+</li>
+<li class="level1"><span class="li"> Si vous ne voulez pas effacer un disque entier, ou si vous voulez adapter la disposition partition, choisissez &ldquo;éditer manuellement la table de partition&rdquo; dans le menu, et l&rsquo; écran suivant vous montrera votre table de partition, comment et où les partitions seront  montées.</span>
+</li>
+<li class="level1"><span class="li"> Choisissez la partition que vous voulez modifier ou supprimer.  Rappelez-vous de créer au moins, une partition pour l&rsquo;espace d&rsquo;échange (SWAP), une pour monter  / (la racine ou Root Files System), et une pour l&rsquo;autre système d&rsquo;exploitation (si vous voulez un multi boot).</span>
+</li>
+<li class="level1"><span class="li"> Choisissez &ldquo;partitionnement terminer et écrire les changements sur le disque&rdquo; quand vous aurez finis.</span>
+</li>
+<li class="level1"><span class="li"> Après confirmation, l&rsquo;installateur d&rsquo;Ubuntu construit vos partitions puis commence à installer le système de base, cela peut prendre un moment.  Ensuite le Kernel est installé et enfin les paquets sont copiés sur le disque pour ne plus dépendre du CD.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [2035-3450] -->
+<a name="installation_du_boot-loader"></a><h2> Installation du boot-loader </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> Si l&rsquo;installateur d&rsquo;Ubuntu détecte d&rsquo;autres système d&rsquo;exploitation sur votre ordinateur, il les ajoutera au menu de boot.</span>
+</li>
+<li class="level1"><span class="li"> L&rsquo;installateur vous indiquera maintenant que la première étape est fini.  Enlevez le CD et tapez Entrée pour redémarrer votre machine. Une fois redémarré l&rsquo;installeur lance la deuxième étape du procédé d&rsquo;installation.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [3451-3851] -->
+<a name="deuxieme_partie_de_l_installation"></a><h1> Deuxième partie de l'installation </h1>
+<div class="level1">
+
+<p>
+Après le reboot, vous serez invité à faire la configuration de votre système.
+</p>
+<ul>
+<li class="level1"><span class="li"> Après un écran de bienvenu, vous serez invité à configurer votre fuseau horaire.  Selon le pays choisi au début de l&rsquo;installation, vous aurez le choix entre un &ldquo;timezone&rdquo; simple ou une liste de &ldquo;timezones&rdquo; appropriés pour cet endroit.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [3852-4228] -->
+<a name="compte_utilisateur"></a><h2> Compte Utilisateur </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> Écrivez votre nom et prénom, puis choisissez un &ldquo;username&rdquo; pour le compte d&rsquo;utilisateur;  généralement votre prénom (ou quelque chose de semblable) suffit et vous sera proposé par défaut.</span>
+</li>
+<li class="level1"><span class="li"> Finalement, choisissez un mot de passe.  Notez que le compte administratif &ldquo;root&rdquo; est bloqué ;  vous pouvez y accéder en employant la commande &ldquo;sudo&rdquo; avec le compte d&rsquo;utilisateur que vous créez en ce moment.  Si vous souhaitez donner un mot de passe à root, tapez dans un terminal: sudo passwd root.</span>
+</li>
+<li class="level1"><span class="li"> Si votre système n&rsquo;est pas relié à un réseau, mais à un FAI vous pourrez donnés les paramêtres de connexion lors de l&rsquo;installation de PPP.</span>
+</li>
+<li class="level1"><span class="li"> Après ceci, un ensemble de paquets appropriés pour l&rsquo;usage de bureau ordinaire sera automatiquement installé.  Dans le processus, selon votre carte graphique et le moniteur, on vous posera une ou deux questions sur le genre de carte de graphiques que vous avez et la résolution d&rsquo;écran vous voudriez employer.</span>
+</li>
+<li class="level1"><span class="li"> Allez vous chercher à boire <img src="/smileys/icon_wink.gif" align="middle" alt=";-)" /> pendant que les messages d&rsquo;installation des derniers paquets s&rsquo;affichent à l&rsquo;écran puis quand tout sera fini vous aurez une bannière graphique pour vous loguer (connecter)</span>
+</li>
+<li class="level1"><span class="li"> Tapez &ldquo;l&rsquo;username&rdquo; que vous avez choisi plus tôt, suivi du mot de passe pour ce compte d&rsquo;utilisateur, et le bureau d&rsquo;Ubuntu vous apparaîtra.</span>
+</li>
+<li class="level1"><span class="li"> Prenez du plaisir à employer Ubuntu, et partagez-le avec vos amis!</span>
+</li>
+</ul>
+
+<p>
+ Copyright &copy; 2004, the Debian Installer team Copyright &copy; 2004, Canonical Ltd. 
+</p>
+
+</div>
+<!-- SECTION [4229-] -->

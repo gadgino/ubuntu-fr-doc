@@ -1,0 +1,73 @@
+{{tag>sgbd mysql serveur réseau }}
+
+----
+
+====== MariaDB ======
+
+**MariaDB** est un système de gestion de base de données relationnelles. Après le rachat de [[:MySQL]] par Sun Microsystems, puis de Sun par Oracle Corporation, le fondateur de MySQL (Michael Widenius) démissionne pour lancer une version alternative, sous licence GPL et 100% compatible avec MySQL.
+MariaDB se base sur le code source de MySQL 5.1.
+
+--- //Source: [[http://fr.wikipedia.org/wiki/MariaDB|Wikipédia]]//
+
+===== Installation =====
+
+=== Ubuntu 16.04 ===
+Depuis la version 16.04, mariadb est dans les dépôts officiels.\\
+ [[:mariadb#Installer les paquets|Pour l'installer, cf. ci-dessous "Installer les paquets"]]
+
+Pour la version 14.04, mariadb est dans les dépôts officiels. Cependant, le numéro de version figure encore(([[http://packages.ubuntu.com/trusty/database/mariadb-server-5.5]])).
+
+==== Recharger la liste des paquets ====
+
+<code bash>
+sudo apt-get update
+</code>
+
+==== Installer les paquets ====
+
+Pour installer le serveur MariaDB : [[apt>mariadb-server]] ou
+<code bash>
+sudo apt-get install mariadb-server
+</code>
+Pour installer le client MariaDB : [[apt>mariadb-client]] ou
+<code bash>
+sudo apt-get install mariadb-client
+</code>
+
+===== PHP =====
+
+Pour que PHP dialogue avec le serveur MariaDB, il ne faut pas oublier d'installer le paquet :\\
+pour le support de PHP7: [[apt>php-mysql]] \\
+pour le support de PHP5: [[apt>php5-mysql]].
+
+
+===== Définir/Redéfinir le mot de passe root et les différentes sécurités =====
+
+Lors de la première installation vous devrez définir le mot de passe root :
+<code bash>sudo mysql_secure_installation</code>
+
+Permet aussi de limiter l'accès root uniquement en local… si vous rencontrez l'erreur \\
+//ERROR 1698 (28000): Access denied for user 'root'@'localhost'// \\
+pensez bien à être en sudo
+<code bash>sudo mysql -u root</code>
+Pour phpmyadmin, il faut utiliser le compte éponyme… //phpmyadmin// avec le mot de passe définit lors de l'installation (de phpmyadmin).
+
+Si vous avez oublié votre mot de passe root :\\
+//ERROR 1045 (28000): Access denied for user 'root'@'localhost'// \\
+les solutions classiques à mysql ne résolve pas le problème. Il faut relancer 
+<code bash>sudo mysql_secure_installation
+…
+Change the root password? [Y/n] 
+New password: 
+</code>
+===== Liens =====
+
+  * [[http://mariadb.org/|MariaDB.org]] [en]
+  * [[https://downloads.mariadb.org/mariadb/repositories/|Setting up MariaDB Repositories]] [en]
+  * [[http://ourdelta.org/ubuntu|OurDelta]] [en]
+  * [[https://launchpad.net/maria|MariaDB sur launchpad]] [en]
+  * La page [[:mysql_outils|Outils MySQL]] -> Divers outils pour administrer les bases de données MySQL qui seront compatibles avec MariaDB
+  * La page des [[:SGBD]]
+
+----
+//Contributeurs : [[:utilisateurs:time132|time132]], [[:utilisateurs/bcag2]]//

@@ -1,0 +1,115 @@
+{{tag>jeu tbs}}
+------
+
+
+====== Battle for Wesnoth ======
+
+
+
+{{ wesnoth-logo.jpg|Le logo de Battle for Wesnoth}}
+
+La [[http://fr.wikipedia.org/wiki/Battle_for_Wesnoth|bataille pour Wesnoth]], ou **Battle for Wesnoth**, est un jeu en tour par tour mêlant stratégie et jeu de rôle dans un univers médiéval-fantastique. Aujourd'hui très abouti, il est développé suivant le modèle communautaire open-source, sous licence libre. La durée de vie du jeu est colossale : un grand nombre de campagnes de qualité sont disponibles, et la difficulté relativement élevée fait de chaque scénario un challenge à relever.
+
+{{https://a.fsdn.com/con/app/proj/wesnoth/screenshots/322302.jpg?300}}
+{{wesnoth-1.3.4-g.jpg?300}} 
+{{wesnoth1-4.jpg?225|Une attaque d'un mage puissant}}
+
+
+Il devrait plaire aux fans de jeux de stratégie/wargames mais aussi aux nostalgiques de la série des //Heroes of Might & Magic// par certains de ses aspects. D'un point de vue graphique, tout est entièrement en 2D et le terrain de jeu est un assemblage de cases hexagonales. Les différentes ressources artistiques, telles que les graphismes des unités, sont le résultat des contributions d'une large communauté d'artistes bénévoles, qui ont su, malgré leur nombre, maintenir une cohérence graphique pour un résultat final très réussi.
+
+Du côté du //gameplay// l'emphase est placée sur la qualité des unités plutôt que sur leur quantité. Pour bien jouer il faudra donc savoir conserver ses unités et les faire évoluer (par un système de gain d'expérience au combat), élément clé du jeu. Chaque membre de son armée porte un nom et peut être rappelé d'un scénario à l'autre au cours d'une campagne. \\
+Le terrain joue également un rôle vital, puisque chaque unité a son environnement de prédilection (les elfes dans les bois, les orcs sur les collines, etc.)\\
+
+Enfin, la disposition des unités est tout aussi importante puisque les unités ont une "zone of control" (ou //ZoC//) leur permettant d'empêcher les unités adverses de se mouvoir plus loin. Ceci permet d'adopter une position défensive (s'exposer à moins de cases) et de protéger ses unités les plus faibles.\\
+
+Un mode multi-joueurs est disponible, si l'intelligence artificielle (supérieure à la moyenne des jeux du genre) n'est pas assez coriace pour vous!
+
+En bref, un jeu très prenant passé les premières difficultés, à la réalisation impeccable, aux règles simples mais aux implications stratégiques profondes.
+
+
+===== Configuration minimum/recommandée =====
+
+
+  * Processeur : Pentium® 1 GHz ou AMD Athlon 800 MHz
+  * Mémoire RAM : 512 Mo, 1 Go recommandé
+  * Carte graphique : pas besoin d'accélération 3D
+  * Périphériques : souris, clavier
+  * Installation : 500 Mo d'espace disque libre
+
+
+===== Installation et lancement =====
+
+Vous pouvez installer le jeu de différentes manières : 
+  - [[:wesnoth#installation_via_les_depots_officiels|Via les dépôts officiels]], ce qui est la méthode la plus simple et la plus rapide. En revanche, vous ne disposerez pas de la version la plus récente.
+  - [[:wesnoth#installation_via_un_ppa|Via ppa]], non officiel mais permet d'avoir la dernière version.
+
+
+
+==== Installation via les dépôts officiels ====
+C'est la méthode la plus simple, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt://wesnoth-all|wesnoth-all]]** pour ubuntu 12.04 ou d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt://wesnoth|wesnoth]]** , disponible dans [[:depots#universe_et_multiverse|le dépôt Universe]], et qui contient les dépendances nécessaires pour disposer de différentes campagnes, de l'éditeur de scénario, des musiques.
+
+En revanche, vous ne bénéficierez pas nécessairement de la version la plus récente du jeu.
+
+Vous pouvez aussi choisir de n'installer qu'une partie du jeu (pour économiser de l'espace disque par exemple), dans ce cas il vous faut [[:tutoriel:comment_installer_un_paquet|installer au minimum le paquet]] **[[apt://wesnoth|wesnoth]]** et ensuite d'installer les paquets complémentaires qu'il vous faut :
+  * **[[apt://wesnoth-music|wesnoth-music]]** -- Profitez des musiques dans le jeu
+  * **[[apt://wesnoth-editor|wesnoth-editor]]** -- Éditeur de niveau
+  * **[[apt://wesnoth-server|wesnoth-server]]** -- Serveur de réseau multijoueur
+  * **[[apt://wesnoth-ei|wesnoth-ei]]** -- Campagne **Eastern Invasion**
+  * **[[apt://wesnoth-httt|wesnoth-httt]]** -- Campagne **Heir to the Throne**
+  * **[[apt://wesnoth-trow|wesnoth-trow]]** -- Campagne **The Rise of Wesnoth**
+  * **[[apt://wesnoth-tsg|wesnoth-tsg]]** -- Campagne **The South Guard** 
+  * **[[apt://wesnoth-ttb|wesnoth-ttb]]** -- Campagne **A Tale of Two Brothers**
+  * **[[apt://wesnoth-utbs|wesnoth-utbs]]** -- Campagne **Under the Burning Suns** 
+  * **[[apt://wesnoth-sotbe|wesnoth-sotbe]]** -- Campagne **Son of the Black Eye**
+  * **[[apt://wesnoth-aoi|wesnoth-aoi]]** -- Campagne **An Orcish Incursion**
+  * **[[apt://wesnoth-did|wesnoth-did]]** -- Campagne **Descent into Darkness**
+  * **[[apt://wesnoth-l|wesnoth-l]]** -- Campagne **Liberty**
+  * **[[apt://wesnoth-nr|wesnoth-nr]]** -- Campagne **Northern Rebirth**
+  * **[[apt://wesnoth-sof|wesnoth-sof]]** -- Campagne **Sceptre of Fire** 
+  * **[[apt://wesnoth-thot|wesnoth-thot]]** -- Campagne **The Hammer of Thursagan** 
+FIXME : liste des campagnes [[http://packages.ubuntu.com/search?suite=default&section=all&arch=any&searchon=names&keywords=wesnoth-|à mettre à jour]].
+
+==== Installation via un ppa ====
+Permet d'installer la dernière version.
+
+  * [[:PPA|Ajoutez le PPA]] **ppa:vincent-c/wesnoth**((https://launchpad.net/~vincent-c/+archive/wesnoth)) dans vos sources de logiciels, [[apt-get#mise_a_jour_depots|mettez à jour vos sources de logiciels]], puis [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>wesnoth-1.12]]**
+
+== en ligne de commande ==
+  sudo add-apt-repository ppa:vincent-c/wesnoth
+  sudo apt-get update
+  sudo apt-get install wesnoth-1.12
+
+===== Lancement du jeu et astuces =====
+
+
+Pour lancer le jeu, utilisez le raccourci dans le menu **Applications -> Jeux -> La Bataille pour Wesnoth** ou bien utilisez la commande **wesnoth**
+
+Si vous découvrez le jeu, n'hésitez pas à effectuer le tutoriel qui est très bien réalisé et qui vous permettra de vous familiariser avec les principes du jeu.
+
+Voici quelques astuces qui devraient vous aider à remporter la victoire :
+  * Pour commencer, choisissez une campagne simple (//Heir to The Throne// par exemple, soit L'héritier du trône) et un niveau de difficulté faible afin d'apprendre les mécanismes du jeu.
+  * Utilisez le terrain à votre avantage : Par exemple si vous jouez des elfes, combattez de préférence en forêt, si vous jouez des orcs, combattez de préférence en colline. 
+  * Essayez d'engager le combat au moment de la journée qui vous est le plus propice : la nuit pour les unités d'alignement chaotiques, la journée pour les unités d'alignement loyal. Vous bénéficierez ainsi de bonus.
+  * Conservez vos unités expérimentées en vie, quitte à sacrifier pour cela vos unités inexpérimentées. Rappelez vos unités expérimentées au début de chaque scénario.
+  * Il est possible d'avoir une description des unités et des terrains au sein même du jeu en faisait un clic droit sur leurs cases et en choisissant "description". 
+
+Pour plus d'aide (notamment, au niveau de la stratégie), il existe le [[http://wiki.wesnoth.org/|wiki anglophone]] qui propose des conseils divers, mais aussi un [[http://www.wesnoth.org/wiki/HeirToTheThrone|guide pour la campagne Heir to The Throne]]. 
+
+=== Sauvegarder ses parties ===
+
+Les parties sauvegardées sont placées par défaut dans <code>/home/utilisateur/.local/share/wesnoth/1.12/saves</code> (remplacer 1.12 par votre version)
+===== Désinstallation =====
+
+
+Pour désinstaller le jeu, il vous suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer ses paquets]]. Votre configuration et vos sauvegardes seront conservées ou pas, selon la méthode de désinstallation que vous choisirez.
+
+
+===== Liens =====
+
+
+  *[[http://www.wesnoth.org/|Site officiel]] (en)
+  * [[http://jeuxlibres.net/showgame/battle_for_wesnoth.html|Fiche de Battle For Wesnoth du site Jeux Libres]] (fr)
+  * [[http://www.framasoft.net/article2293.html|Fiche de Battle For Wesnoth du site Framasoft]] (fr)
+
+----
+//Contributeur : rédigé par [[utilisateurs:crypto178]], amélioré par [[utilisateurs:Omnisilver]], [[utilisateurs:DarkShade]]//

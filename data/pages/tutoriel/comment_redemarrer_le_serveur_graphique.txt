@@ -1,0 +1,56 @@
+{{tag> Precise Trusty Xenial carte_graphique tutoriel}}
+
+----
+
+====== Comment redémarrer le serveur graphique ? ======
+
+Pour redémarrer le serveur graphique, vous pouvez procéder de deux manières équivalentes.
+
+<note important>
+Toutes les applications ouvertes seront brutalement arrêtées.
+Aussi, afin d'éviter de perdre des données, quittez-les proprement avant de procéder à l'une de ces manipulations.
+</note>
+
+
+===== Méthode générique =====
+
+Appuyez simultanément sur les touches **Alt+SysRq+K**. Parfois, il faut utiliser **AltGr+Syst+K** à la place.
+
+<note tip>
+La touche « SysRq » (aussi nommée « Syst. » sur certains clavier français) est en fait celle de l'impression d'écran : « Impr. écran », « Print screen » ou autre. Elle est généralement située en haut à droite du clavier.
+</note>
+
+===== Méthode plus violente =====
+
+La combinaison de touches Ctrl+Alt+⌫ tue toutes les applications et relance le serveur graphique.
+Elle est désactivée par défaut (afin d'éviter un redémarrage accidentel).
+
+Si vous le souhaitez, ce raccourci peut être rétabli : 
+  * Graphiquement, pour Ubuntu 11.10 et ultérieures, cliquez sur le bouton du [[:unity#tableau_de_bord_dash|Dash]], faites une recherche pour  « clavier », en bas de la fenêtre cliquez sur « Paramètres d'agencement » puis sur « Options ». Enfin dans la fenêtre qui vient de s'ouvrir cochez la case dans la section « Séquence de touches pour fermer le serveur X ».
+  * En ligne de commande, ouvrez un terminal et entrez ceci :
+<code>sudo dpkg-reconfigure keyboard-configuration</code>
+  *  Ou bien consultez la page « **[[:dontzap]]** ».
+
+<note tip>
+« ⌫ » (retour arrière, //backspace// en anglais) est la touche « ← » ou « Ret. arr. », généralement située au-dessus de la touche « Entrée ».
+</note>
+
+
+===== Méthode dépendant de votre variante d'Ubuntu =====
+
+==== Pour Ubuntu, Lubuntu et Xubuntu  ====
+Exécutez dans un terminal la commande suivante :<code>sudo restart lightdm</code>
+
+==== Pour Kubuntu ====
+Exécutez dans un terminal la commande suivante :
+
+  sudo invoke-rc.d kdm restart
+
+
+===== Pour en savoir plus =====
+
+  * [[:xorg|À propos du serveur graphique]]
+
+----
+
+//Contributeurs principaux : [[utilisateurs:kindersurpriz|KinderSurpriZ]], [[utilisateurs:johndescs]].//

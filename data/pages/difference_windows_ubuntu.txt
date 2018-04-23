@@ -1,0 +1,111 @@
+{{tag>windows débutant}}
+------
+
+====== Principales différences de fonctionnement entre Windows et Ubuntu ======
+
+
+
+===== Introduction =====
+
+**Ubuntu n'est pas Windows**. Ubuntu est une alternative à Windows, qui a pour avantages :
+  * Facilité d'utilisation
+  * Liberté
+  * Gratuité
+  * Modularité
+  * Sécurité((voir la page : [[sécurité]])). 
+
+**Vous ne pourrez pas utiliser Ubuntu comme si vous étiez sur Windows**, car les philosophies et les mécanismes de ces 2 systèmes d'exploitation sont différents. 
+
+Ubuntu vous permet de faire toutes les tâches courantes d'un pc de bureau :
+  * Bureautique
+  * Internet
+  * Graphisme
+  * Son
+  * Vidéo
+  * Jeux
+  * Etc.
+
+Si vous souhaitez découvrir Ubuntu, une autre manière d'utiliser votre ordinateur, que vous êtes ouvert d'esprit et patient, nous serons heureux de vous aider à faire la transition vers Ubuntu. 
+
+===== Programmes =====
+
+
+==== Équivalences Windows/Ubuntu ====
+
+Les applications disponibles sur Ubuntu sont rarement les mêmes que celles disponibles sur Windows.
+
+Consultez les **[[:logiciels|équivalences entre les logiciels Windows et les logiciels Ubuntu]]**.
+
+==== Installation de programmes ====
+
+**Windows :** il faut généralement télécharger puis lancer un exécutable « .exe ».
+
+**Ubuntu** : il suffit d'__1 clic__ sur les liens que vous trouverez sur la Documentation du site Ubuntu-fr. Il existe aussi un annuaire de logiciels intégré (//Logithèque Ubuntu//) très pratique : voir [[:installation_logiciel|Comment installer un logiciel sous Ubuntu]].
+
+==== Mise à jour des programmes ====
+
+**Windows :** télécharger la nouvelle version sur internet, puis installer la nouvelle et redémarrer.
+
+**Ubuntu** : il suffit d'__1 clic__ pour mettre à jour automatiquement tous vos logiciels, vous gagnez beaucoup de temps !
+
+
+===== Les environnements de bureau ====
+Vous ne modifiez généralement l'apparence de **Windows®** que par l'utilisation de thèmes alors qu'**Ubuntu** peut être « habillé » par différents [[:environnements|environnement de bureau]], ce qui va bien plus loin que changer l'apparence (le thème) de votre système d'exploitation: les menus, raccourcis, applications sont différents... la manière d'utiliser le système d'exploitation aussi. \\
+====Les effets 3D====
+**Ubuntu**, en utilisant **[[:compizconfig-settings-manager|Compiz]]** permet d'aller encore plus loin avec des effets 3D à couper le souffle! \\
+|{{:application:compizconfig_settings_manager:ccsm_cube_14_04.png?400|Le cube sous Unity}}|{{:application:compizconfig_settings_manager:ccsm_expo_14_04_.png?400|Effet Expo "curve" sous Unity}}|
+//En résumé, les habits sont à l'homme ce que l'environnement de bureau est au système d'exploitation (Ubuntu). Comme vous pouvez changer d'habits, vous pouvez sous Ubuntu changer d'environnement de bureau selon vos envies.//
+===== Système de fichiers =====
+
+**Windows** ne peut utiliser que deux systèmes de fichiers : FAT ou NTFS. 
+
+**Ubuntu** (Linux) peut utiliser quasiment tous les [[:systeme_de_fichiers|systèmes de fichiers]]. Le principal étant l'EXT4.
+
+Les deux systèmes d'exploitations organisent différemment les fichiers dans la racine (**C:\** ou **/**) .
+
+^ Utilité ^ Windows ^ Ubuntu ^
+^ **Partition principale** | La partition où vous avez installé Windows (généralement C:\) | Toujours "/" |
+^ **Autres partitions** | A:\ D:\ E:\ F:\ ... | **Par défaut**, tout se trouve dans /media/ \\ (Pour aller plus loin voir [[:mount_fstab|ici]]) |
+^ **Programmes** | Généralement C:\Program Files\ | **Exécutables :** /bin/ **&** /usr/bin **&** /usr/local/bin/ \\ **Fichiers supplémentaires :** /usr/ |
+^ **Dossiers personnels** | C:\Documents and Settings\ \\ C:\Users\ ** (Vista & 7 & 8) **| /home/ |
+^ **Fichiers de l'utilisateur** | C:\Mes Documents\ ** (Win98) ** \\ C:\Documents and Settings\utilisateur\Mes Documents\ ** (WinNT/XP) ** \\ C:\Users\utilisateur\Documents\ ** (Vista & 7 & 8) ** | /home/utilisateur/|
+^ **Configuration des programmes** | C:\Documents and Settings\utilisateur\ \\ **Regedit** // (éditeur de registre) // | /home/utilisateur/ (sous forme de [[fichier_cache|fichiers cachés]]) \\ **[[gconf]]** (éditeur graphique de configuration) \\  |
+
+Bien entendu, ce sont les configurations de base, et vous n'êtes pas obligé de mettre vos documents dans ces dossiers (et dans une certaine mesure, certains programmes).
+
+[[:arborescence|Plus d'informations sur l'arborescence des répertoires d'Ubuntu…]]
+
+==== Administration ====
+
+**Sous Windows comme sous Ubuntu**, il faut avoir un compte //administrateur// pour réaliser les tâches sensibles, c'est-à-dire celles qui sont susceptibles de modifier le comportement du système (installation de nouveaux logiciels, création de connexions, modification des paramètres des fonctions du système, ...). A la mise sous tension du PC, il est conseillé de s'identifier en tant qu'utilisateur et de recourir à la commande d'administration (("runas" pour Windows, "sudo" pour Ubuntu)) pour réaliser ces tâches sensibles. Cette manière de procéder permet d'éviter que des logiciels malveillants, préalablement installés à l'insu de l'utilisateur lorsque celui-ci navigue sur Internet en tant qu'administrateur, ne viennent insidieusement perturber le fonctionnement de l'ordinateur ou voler des informations confidentielles.
+
+**Sous Windows**, l'utilisateur dispose par défaut d'un compte //administrateur//. Il doit donc faire un effort pour, d'une part, créer un compte //utilisateur//, puis, d'autre part, s'astreindre ensuite à l'utilisation systématique de ce compte. Trop fréquemment, l'utilisateur se soustrait à ces contraintes, ce qui peut poser des problèmes de sécurité.
+
+**Sous Ubuntu**, l'utilisateur dispose par défaut d'un compte //utilisateur// et, pour réaliser les tâches sensibles, il doit utiliser la commande d'administration. Celle-ci lui demande son mot de passe, et ce mot de passe reste valable pendant quelques minutes, afin de permettre à l'utilisateur d'enchaîner plusieurs commandes avec une seule saisie. Cette méthode apparaît comme un bon compromis entre sécurité et légèreté d'utilisation.
+
+
+
+==== Gestion des droits ====
+
+Le systèmes de fichiers EXT4 gère les droits utilisateurs. Ceux-ci se révèlent très pratiques. Les permissions pour les fichiers (ou des dossiers) se présentent comme ceci :
+
+^ Type ^ Propriétaire (root/utilisateur) ^ Groupe (admin/plugdev/... ^ Autres ^
+^ Lecture | x | x | x |
+^ Écriture | x | x | |
+^ Exécution | x | | |
+
+Ici par exemple, nous avons un fichier dont le propriétaire a tous les droits, que le groupe peut lire et modifier, et que les "autres" peuvent seulement regarder (Sans modifier le fichier).
+
+[[:droits|... en savoir plus sur les droits]]  :-) 
+===== Le montage de partitions et de périphériques ======
+
+Une des particularités de Linux est le "montage" des partitions et périphériques systèmes. En fait, toutes les partitions autres que "**/**" doivent être "montées" dans un dossier. Par défaut, lors de l'installation de Ubuntu, toutes vos partitions reconnues seront montées dans le dossier /media/.
+L'interface graphique d'Ubuntu vous permettra de gérer facilement tout ce qui concerne le montage de périphériques.
+
+Si vous voulez en savoir plus sur "comment monter automatiquement ses partitions", allez voir :
+
+  * [[:mount_fstab]]
+
+
+----
+//Contributeurs : [[utilisateurs:SombrErrancE]], [[utilisateurs:adam0509]], [[utilisateurs:YannUbuntu]] //

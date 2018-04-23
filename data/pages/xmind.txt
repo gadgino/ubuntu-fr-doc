@@ -1,0 +1,62 @@
+{{tag>carte_heuristique}}
+----
+====== Xmind : logiciel d'édition de carte heuristique ======
+{{ http://www.xmind.net/s/B/112/img/xm7.hero.macbook.png?300}}
+
+**XMind** est un logiciel Open Source qui permet de créer des cartes heuristiques. Ce logiciel se base sur Eclipse et un framework graphique (lequel ?) ce qui assure une portabilité de l'application sur les principales plateformes informatiques actuelles (les trois systèmes d'exploitation : linux, Mc OS X, Windows). Pour bénéficier de fonctions avancées notamment en terme d'export, ce qui est souvent indispensable dans le cadre du travail professionnel, il faut passer à la version payante qui est disponible auprès de la société XMind. 
+
+===== Fonctions  =====
+<note warning>De nombreuses options sont payantes ! Il s'agit d'un logiciel de type «freemium» ou «open core» qui n'est pas totalement libre ; alors méfiance ! Préférez-lui le logiciel [[freemind]] ou [[freeplane]] par exemple.</note>
+  * export : image, [[freemind]]/[[freeplane]], HTML, Texte, MarkerPage
+  * import : [[freemind]]/[[freeplane]], MarkerPage, MindManager, Xmind 2008
+  * upload sur site Web [[freemind]] : facilité de mise en ligne de document ([[http://share.xmind.net/marcquinton/ubuntu/|ex]])
+  * plusieurs types de graphismes pour les cartes (thèmes),
+  * fonction carte heuristique, gestion de projet, rendez-vous, arbres descendants,
+  * liens entre les noeuds,
+  * étiquettes, notes et attachement,
+  * iconographie (marqueur), liens
+
+===== Installation  =====
+
+Xmind est disponible sous forme de paquet logiciel que l'on doit télécharger  [[http://www.xmind.net|sur le site de la société]]. Si la licence le permet, il devrait être possible d'intégrer cette application dans les dépôts standards Ubuntu.
+
+<note warning>[[http://www.xmind.net/blog/en/2016/11/ui-does-not-work-properly-in-ubuntu-16-04/|Problème d'interface utilisateur avec Ubunut 16.04]]</note>
+
+===== Lancement =====
+
+Le lanceur d'Xmind se trouve dans le menu //Bureautique>Xmind//
+
+<note warning>La version 7.5 update 1 de Xmind sous Ubuntu 16.04 retourne un message d'erreur au démarrage et invite à consulter les logs. Le problème est lié la version java openjdk-9-jre installée par défaut. Pour contourner le problème le temps qu'un correctif apporte une solution, il est possible d'opter pour la version 8 en suivant [[:java#changer_la_version_de_java_utilisee_par_defaut|ces instructions sur la page java]]. Si la version 8 n'est pas disponible, cliquer ici pour l'installer [[apt>openjdk-8-jre]].</note>
+===== Ajout de l'icone pour les fichiers .xmind =====
+
+Aucune icone n'est définie pour les fichiers .xmind (il faudrait que ça soit corrigé dans le paquet ...)
+
+Pour y remédier, on peut simplement utiliser celui du logiciel avec ces lignes de commandes :
+<code>sudo ln -s /usr/share/pixmaps/XMind.png /usr/share/icons/gnome/48x48/mimetypes/application-xmind.png
+sudo gtk-update-icon-cache /usr/share/icons/gnome/ -f</code>
+
+===== Fonctionnalités particulières d'XMind =====
+
+==== Export ====
+Avec la version gratuite, vous pourrez exporter en :
+  * carte Freemind
+  * HTML
+  * Texte
+  * Image (PNG)
+
+La version payante [plus] ouvre la possibilité d'exports :
+  * PDF
+  * SVG
+  * Word, Powerpoint, Excel
+  * OpenDocument (texte, classeur, présentation)
+ 
+La version payante [pro] :
+  * diagrammes de Gantt (MS Project)
+
+===== Liens  =====
+  * XMind : http://www.xmind.net/
+  * téléchargement : http://www.xmind.net/downloads/
+
+----
+
+//Contributeurs principaux : [[:utilisateurs:Bionet]], [[:utilisateurs:_Enchained]]//

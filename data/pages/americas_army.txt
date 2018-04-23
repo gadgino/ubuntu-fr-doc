@@ -1,0 +1,85 @@
+{{tag>Intrepid jeu fps}}
+----
+
+
+
+
+====== America's Army ======
+
+<note important>
+**America's Army n'est plus développé sous Linux depuis la version 2.6.** Pour jouer vous avez besoin de [[:Wine]]. America's Army fonctionne très bien (d'après les tests), mais personne n'a testé des serveurs où Punkbuster est utilisé (de peur d'avoir son compte banni pour utilisation de logiciels tiers, ici Wine)
+</note>
+
+===== Présentation =====
+{{applications:jeux:americasarmy.png}}
+
+America's Army est un jeu de tir à la première personne (appelé communément FPS) créé par les Forces armées des Etats-Unis d'Amérique afin de promouvoir l'US Army. La procédure d'installation de ce jeu, qui d'ordinaire dans un environnement propriétaire est payante, se voit attribuer une gratuité vous permettant d'installer ce jeu sans vous préoccuper d'une saignée sur portefeuille.
+
+===== Téléchargement =====
+Prenez la dernière version [[http://www.americasarmy.com/downloads/|ici]].
+
+Comme signalé ci-dessus depuis la version 2.6 la version Linux a cessé d'être développée, mais la version windows fonctionne sous wine.
+
+
+===== Installation =====
+==== Version Linux ====
+Pour commencer, assurez-vous d'avoir activé [[:acceleration_graphique|l'accélération graphique]].
+
+Exécutez le fichier que vous avez téléchargé
+<code>
+sudo sh ./armyopsXXX-linux.run
+</code>
+"XXX" étant le numéro de version !
+
+L'installation est très longue...
+
+Pour démarrer le jeu ensuite, dans un [[:terminal]], entrez juste:
+<code>
+armyops
+</code>
+Il peut aussi y avoir une icône dans la catégorie « Jeux » ou « Debian => Jeux » du menu **Application**.
+
+Sous [[8.10|Ubuntu 8.10]] la version 2.50 linux du jeux nécessite l'[[:tutoriel:comment_installer_un_paquet|installation du paquet]] **[[apt://libstdc++5|libstdc++5]]**.
+
+==== Installation d'un patch ====
+Si vous avez déjà installé une version antérieure de America's Army, vous pouvez télécharger un patch.
+
+Lancez le fichier à l'emplacement du téléchargement
+<code>
+sudo sh ./armyops-lnx-patch-XXXtoXXX.run
+</code>
+"XXX" étant le numéro de version !
+
+==== Version Windows sous Wine ====
+//Testé avec Wine 0.9.24 dispo dans les dépôts officiels [[:wine]]//
+
+Il vous faut télécharger le fichier DLL MSVCR71.dll, que vous trouverez: [[http://www.dll-files.com/dllindex/dll-files.shtml?msvcr71|ici]]
+Mettez cette DLL dans le dossier ~/.wine/drive_c/windows/system32/
+
+Pour lancer le jeux, placez vous dans le dossier du jeux décompressé.
+Aller dans /votre_dossier_america/system/ et lancez ArmyOps.exe avec wine, en faisant la commande:
+<code>wine ArmyOps.exe</code>
+
+Bon jeu aux Ubuntuistes :)
+
+===== Jouer à America's Army =====
+
+AA est un très bon jeu, suivi avec mises à jour et surtout gratuit!
+
+La seule et non des moindres difficulté pour les linuxiens réside en l'utilisation de Punkbuster (logiciel anti-triche) indispensable au jeu car beaucoup de tricheurs dans cette communauté (il en existe des versions sous linux, à voir).
+
+Il est désormais possible avec les dernières versions de jouer sans s'inscrire dans un premier temps afin d'essayer le jeu.
+L'inscription servira uniquement afin de récupérer des statistiques, la montée de niveau (dénommée "honneur") n'entrainant que peu de modification sur votre personnage (utilisation du mode sniper débloqué aux niveaux 15 et supérieurs si les entrainements nécessaires ont été validés).
+
+L'intérêt du jeu résulte donc essentiellement de la dextérité du joueur.
+
+**La version 3 développée sous Unreal 3 est arrivée malheureusement sans version linux**.
+
+
+===== Ressources =====
+  * [[http://www.americasarmy.com/|Site officiel]]
+  *  [[https://wiki.ubuntu.com/AmericasArmy|Traduction effectuée à partir de cette page]]
+  * [[http://forum.ubuntu-fr.org/viewtopic.php?pid=688525#p688525|Un débat sur le forum]]
+
+----
+//Contributeur : Traduit par [[utilisateurs:kmeleon|Kmeleon]], version wine [[utilisateurs:JigSaw]] //

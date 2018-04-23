@@ -1,0 +1,53 @@
+{{tag>Precise Trusty dvd multimédia vidéo}}
+----
+
+{{ :application:bombono:bombono-dvd_icone.png?100|}}
+====== Bombono-DVD ======
+
+**Bombono-DVD** est une application pour créer des DVDs et CDs, lisibles par des lecteurs DVD de salon. Elle permet aussi la reconstruction d'un DVD en important directement de la vidéo depuis un DVD.
+
+{{http://www.bombono.org/cgi-bin/wiki/Screenshots?action=AttachFile&do=get&target=BombonoDVD-0.png?350|}} {{http://www.bombono.org/cgi-bin/wiki/Screenshots?action=AttachFile&do=get&target=BombonoDVD-1.png?350|}}
+===== Pré-requis =====
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir la [[:lire_un_dvd|lecture des films DVD]] activée.
+
+===== Installation =====
+
+==== Via les dépôts officiels====
+[[:tutoriel:comment_installer_un_paquet#paquet_present_dans_les_depots|Installer le paquet]] **[[apt>bombono-dvd|bombono-dvd]]**. \\
+<note>__Précision pour [[:precise|Ubuntu Précise 12.04]]:__ La version de **Bombono-DVD** disponible dans les [[:dépôts]] officiels de [[:precise|Précise 12.04]] ne permet pas l'encodage en 2 passes pour améliorer le résultat. Si vous souhaitez utiliser cette dernière possibilité, il suffit d'installer la version disponible depuis le [[:PPA]] ci-dessous.</note>
+
+====Via un PPA====
+<note important>
+  * Les [[:PPA|dépôts PPA]] sont des [[:dépôts]] non-officiels. Installer un paquet hors des [[:dépôts]] officiels peut présenter un risque d'instabilité pour votre système. 
+  * À ce jour (02/06/15), il n'y a pas dans ce PPA de paquet disponible pour [[:Trusty|Trusty 14.04 LTS]] et les [[:versions|versions d'Ubuntu]] suivantes.
+</note>
+Vous souhaite utiliser une version plus récente de **Bombono** ? Elle  peut être disponible depuis un [[PPA|dépôt PPA]]. \\
+Pour cela il suffit: 
+  - d'[[:ppa|ajouter à vos sources de logiciels le PPA]] suivant : **ppa:muravjov-il/ppa**((https://launchpad.net/~muravjov-il/+archive/ppa));
+  - puis [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]];
+  - et enfin, [[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>bombono-dvd|bombono-dvd]]**
+
+Ou, dans un [[:terminal]], saisir les [[:commande_shell|commandes]] suivantes:
+<code>sudo add-apt-repository ppa:muravjov-il/ppa
+sudo apt-get update
+sudo apt-get install bombono-dvd</code>
+
+===== Utilisation =====
+Lancer l'application depuis le [[:unity#tableau_de_bord_dash|tableau de bord]] d'Unity. L'application se trouve dans la catégorie "Médias" une fois "filtrer les résultats" de la [[:unity-lens|loupe]] "application" .\\
+(Pour les menus classiques :  //Applications -> Multimédia -> Bombono DVD//.) \\
+Ou dans un [[:terminal]] (toutes versions d'Ubuntu), saisir la [[:commande_shell|commande]] suivante :
+<code>bombono-dvd</code>
+Et pour vous aider, vous trouverez un excellent [[http://www.bombono.org/cgi-bin/wiki/action/show/Bombono_Tutorial?action=show&redirect=Bombono_French_Tutorial|tutoriel en français sur le site officiel]].
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi =====
+
+  * [[http://www.bombono.org|Site officiel]]
+  * [[http://www.bombono.org/cgi-bin/wiki/action/show/Bombono_Tutorial?action=show&redirect=Bombono_French_Tutorial|tutoriel sur le site officiel]]
+
+----
+//Contributeurs: [[utilisateurs:YannUbuntu|YannUbuntu]].//

@@ -1,0 +1,40 @@
+{{tag> accessibilité audio}}
+----
+======Gespeaker=====
+**Gespeaker** est une interface graphique pour le [[:synthese_vocale#espeak|synthétiseur vocal]] **eSpeak**, similaire à **eSpeaker** mais pour l’environnement de bureau Gnome. Il permet de charger un fichier de texte à faire lire ou lire le texte que vous tapez dans la case du texte. Vous pouvez mettre en pause la lecture et l’enregistrer dans un fichier WAV. En plus des voix d’eSpeak vous pouvez utiliser les voix [[synthese_vocale#mbrola|Mbrola]] qui seront à installer à part.
+
+|{{:gespeakerlicence.png?200}}|{{:gespeaker.png?200}}|
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+===== Installation =====
+
+Pour installer ce logiciel, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>gespeaker|gespeaker]]**.
+
+===== Utilisation =====
+Lancez l'application depuis le menu //Applications->Son et vidéo->Gespeaker// ou depuis un [[:terminal]] saisissez la [[:commande_shell|commande]] suivante :
+<code>gespeaker</code>
+
+===== Problèmes connus =====
+==== Ne se lance pas dans Ubuntu 16.04 ====
+Erreur "module dbus non trouvé"
+
+Gespeaker nécessite le paquet python-dbus.
+
+Celui-ci n'est pas installé (problème de dépendances ?)
+
+L'installer manuellement résous le problème.
+
+===== Désinstallation =====
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi =====
+  * [[http://www.muflone.com/gespeaker/|Site officiel de gespeaker]].
+  * Sources : [[https://github.com/muflone/gespeaker/]]
+  * Basé sur [[http://www.simple-linux.com/fr/gespeaker-une-interface-graphique-pour-espeak/|cet article]] sur « Simple-Linux ». FIXME il s'agit vraiment de l' auteur original ?
+  * [[http://www.guideubuntu.com/2011/04/laissez-votre-ubuntu-lire-des-documents.html|Laissez votre Ubuntu lire des documents à haute voix avec Gespeaker ]] sur << guideubuntu.com >> (lien mort 10 mars 2014)
+
+
+ ----
+//Contributeurs principaux : [[utilisateurs:mario_26]], légères retouches : [[utilisateurs:fabux]].//

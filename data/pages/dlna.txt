@@ -1,0 +1,50 @@
+{{tag>réseau UPnP vidéo audio}}
+----
+====== DLNA: accès aux fichiers multimédia du réseau ======
+
+<note>**D'après [[wpfr>Digital_Living_Network_Alliance|Wikipédia]]** : La Digital Living Network Alliance, abrégé sous le sigle DLNA, est une alliance de sociétés de production d'appareils électroniques, de périphériques mobiles et d'ordinateurs personnels.
+
+Son but est de définir un standard de service de fichiers multimédia, avec des objectifs d'interopérabilité entre marques et de convergence des appareils électroniques très variés.
+
+Ainsi tout appareil compatible (téléviseur, chaîne hifi, cadre photo, etc.) pourra récupérer des éléments (vidéo, musique, photos) sur un serveur DLNA. Ce serveur pourra être installé sur un ordinateur, ou être un boîtier autonome à disque dur. Les liens réseaux pourront être de l'Ethernet ou du Wi-Fi.
+
+Pour cela l'association DLNA préconise l'utilisation de la norme **UPnP**, le standard DLNA équivalent à l'UPnP AV (Audio/Video).</note>
+
+DLNA utilise Universal Plug and Play ([[UPnP]]) pour la communication entre 3 acteurs : les serveurs (server), le restitueur (renderer) et le contrôleur (controller). Un serveur stocke le contenu, typiquement du son et de la vidéo, le restitueur l'affiche ou le joue à l'utilisateur, et le contrôleur fait office de télécommande. Le contrôleur est généralement inclus dans le restitueur mais ce n'est pas obligatoire : un contrôleur peut être installé sur un téléphone portable qui sert de télécommande à un ordinateur (le serveur) et une console de jeu (le restitueur).
+
+Vous trouverez une [[wp>List_of_UPnP_AV_media_servers_and_clients|liste très complète de logiciels et matériels compatibles]] sur Wikipédia en anglais.
+
+===== Les serveurs (server) =====
+
+
+  * [[gMediaServer]] : serveur UPnP du projet GNU, [[https://apps.ubuntu.com/cat/applications/gmediaserver/|disponible dans la Logithèque]]
+  * [[MediaTomb]] : [[https://apps.ubuntu.com/cat/applications/mediatomb/|disponible dans la Logithèque]]
+  * [[MythTV]] : [[https://apps.ubuntu.com/cat/applications/mythtv/|disponible dans la Logithèque]]
+  * [[Rygel]] : serveur spécialement conçu pour Gnome, [[https://apps.ubuntu.com/cat/applications/rygel/|disponible dans la Logithèque]]
+  * [[ushare|uShare]]
+  * [[serviio|Serviio]]
+  * [[xbmc|XBMC]] ou [[kodi|Kodi]] (depuis la version 14.0) : à la fois client et serveur
+  * [[minidlna|MiniDLNA]] : mini serveur DLNA simple et compatible
+  * [[pms-linux|PS3 Media Server]] : serveur multiplateforme (Java) écrit à la base pour la PS3
+  * [[Universal Media Server]] : serveur multiplateforme (Java) [[http://www.universalmediaserver.com/]]
+  * [[FreeMi]]
+  * [[Freeplayer]] : serveur multiplateforme basé sur VLC et fourni par Free
+
+  * Freebox Server : le boîtier modem de la Freebox V6 Révolution
+  * De nombreuses tablettes et téléphones portables (Nokia avec l'application Play to, etc...)
+  * Twonkymedia d'Orange fonctionne bien. Il est simple et facile à installer. Voir Serveur Média d'Orange sur le site d'Orange
+
+Wikipédia a une [[http://en.wikipedia.org/wiki/Comparison_of_UPnP_AV_media_servers|page en anglais comparant les fonctionnalités des serveurs UPnP]].
+
+
+===== Les restitueurs-contrôleurs (renderer, controller) =====
+
+  * [[VLC]] : menu Vue / Liste de lecture / Réseau local / Découverte Universal Plug'n'Play
+  * [[xbmc|XBMC]] : à la fois client et serveur
+  * [[djmount]]
+  * [[eezUPNP]] : petit logiciel fonctionnant comme un lecteur, il permet de choisir la source contenant les chansons (PC local ou serveur) ainsi que le système qui diffusera la musique (PC local, lecteur multimédia HiFi ...), il fonctionne avec Ubuntu 32 ou 64 bits (http://www.eezupnp.de/)
+
+  * Playstation 3
+  * XBox 360
+  * Freebox HD et Freebox Media Center : les boîtiers multimédia des Freebox V5 (via l'onglet Magnéto) et Freebox V6 Révolution (via Disques > Mes disques) respectivement
+  * De nombreuses tablettes et téléphones portables (toutes tablettes Archos depuis la génération 5, des téléphones Nokia, Samsung et Sony Ericsson, ainsi que Android avec des applications telles que BubbleUPnP, ArkMC, Pixel Media ou MediaHouse)

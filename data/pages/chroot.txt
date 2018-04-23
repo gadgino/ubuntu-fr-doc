@@ -1,0 +1,65 @@
+{{tag>système BROUILLON sécurité}}
+----
+
+====== Chroot : changement de dossier racine ======
+
+La commande **chroot** permet de changer le répertoire racine vers un nouvel emplacement.
+
+Cette opération peut être utilisée dans divers cas :
+  * prison : empêche un utilisateur ou un programme de remonter dans l'arborescence et le cantonne à une nouvelle arborescence restreinte.
+  * changement d'environnement : permet de basculer vers un autre système linux (autre architecture, autre distribution, autre version). Nous détaillerons ici cette technique.
+
+===== Utilisation =====
+
+
+
+
+
+==== Changer de système ====
+
+Cette technique est le plus souvent utilisée pour récupérer une installation endommagée.
+
+Ici le chroot sera utilisé après le démarrage sur un système sain pour se retrouver dans l'environnement endommagé et faire des modifications directement dans ce dernier environnement.
+
+Astuce : Vous pouvez taper <code>sudo -i</code> avant de faire les opérations suivantes pour devenir "root" et ne pas devoir entrer "sudo".
+  - Démarrez sur un système sain. Par exemple : un live CD
+  - Montez la partition racine du système endommagé : <code>sudo mkdir /media/system
+sudo mount </dev/partition> /media/system</code> par exemple, si sda2 est la partition racine, la commande sera : "sudo mount /dev/sda2 /media/system"
+  - Préparez les dossiers spéciaux /proc et /dev : <code>sudo mount --bind /dev /media/system/dev
+sudo mount -t proc /proc /media/system/proc</code>
+  - Dans certains cas (réparation de Grub avec update-grub par exemple) vous devrez lier le /run : <code>sudo mount --bind /run  /media/system/run</code>
+
+**Note : ** Vous pourriez aussi avoir besoin de monter /sys : <code>sudo mount -t sysfs /sys /media/system/sys</code>
+
+  - Pour démarrer la connexion internet: <code> net-setup eth0 </code>
+  - Copiez le /etc/resolv.conf pour la connexion internet (à faire seulement si votre connexion internet ne marche pas directement sans rien faire dans l'environnement chrooté) : <code>sudo cp /etc/resolv.conf /media/system/etc/resolv.conf</code>
+  - Changez d'environnement : <code>sudo chroot /media/system</code>
+  - En cas d'erreur à propos de "/bin/zsh" remplacer cette commande par<code>sudo chroot /media/system /bin/bash </code>.
+
+Maintenant vous êtes sur l'installation endommagée et vous pouvez travailler dessus pour y corriger les problèmes.
+
+
+Pour quitter l'environnement, il suffit d'un : <code>exit</code>
+
+Pour démonter la partition racine du système endommagé : <code>sudo umount /media/system/dev
+sudo umount /media/system/proc
+sudo umount /media/system/sys
+sudo umount /media/system/run
+sudo umount /media/system</code>
+==== Utiliser un environnement 32 bits sur une installation 64 bits ====
+
+Cette option devient de plus en plus désuète puisque la plupart des machines sont maintenant en 64 bits.
+Préférez toujours utiliser 'chroot' entre deux systèmes de même architecture.\\
+CD Live 32bit pour une installation système 32bits et de même pour 64bits.
+
+Sinon, voir le tutoriel [[tutoriel:chroot32bits]]
+
+===== Liens =====
+
+  * [[schroot|schroot]]
+  * [[http://linuxfr.org/news/care-et-la-reproductibilite-des-executions|care]]
+  * [[http://linuxfr.org/tags/cde/public|cde]]
+
+----
+
+//Contributeurs : [[utilisateurs:Id2ndR]].//

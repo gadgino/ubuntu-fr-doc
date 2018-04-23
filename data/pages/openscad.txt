@@ -1,0 +1,53 @@
+{{tag>Precise cao mecanique}}
+----
+ 
+====== OpenSCAD ======
+ 
+**OpenSCAD** est un logiciel libre((sous licence GPL)) qui n'est pas un modeleur 3D interactif conventionnel. Il s'agit plutôt d'un compilateur 3D qui lit un langage scripté. Une vision qui peut plaire à un programmeur. Son langage permet de créer des pièces paramétriques, c'est-à-dire que leurs caractéristiques (hauteur, longueur, profondeur, etc.) peuvent être contrôlées par quelques variables modifiables.
+
+Il travaille avec deux méthodes de modélisation :
+  * la [[wpfr>Géométrie_de_construction_de_solides|géométrie de construction de solides]]
+  * l'extrusion d'un profil 2D au format DXF (préalablement dessiné par exemple à l'aide de [[LibreCAD]] ou [[Inkscape]]).
+
+Grâce à l'exportation au format STL et un langage scripté relativement simple, OpenSCAD est très populaire auprès de la communauté des hobbyistes possesseurs d'[[http://www.monunivers3d.com|imprimantes 3D]] personnelles, un mouvement lancé par le projet libre [[wpfr>RepRap]].
+
+Il est à noter que son interface n'est disponible qu'en anglais.
+
+{{:applications:openscad_precise_01.jpg?500|La fenêtre de OpenSCAD}}
+
+===== Pré-requis =====
+ 
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  * Avoir activé l'[[accéleration graphique]].
+ 
+===== Installation =====
+ 
+Avec [[vivid|Ubuntu 15.04]], OpenSCAD s'installe simplement via la [[software-center|Logithèque Ubuntu]]. Le [[depots|dépot Universe]] contient actuellement  (ce 09/08/2015) la version 14.03 de [[http://www.openscad.org/downloads.html#linux|OpenSCAD]].
+
+OpenSCAD est présent dans les dépôts à partir de [[quantal|Ubuntu 12.10]]. Pour l'installer, il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[apt>openscad]]**.
+
+Pour l'installer sous les versions précédentes d'Ubuntu, il faut d'abord [[:PPA|ajouter le PPA]] **ppa:chrysn/openscad**((https://launchpad.net/~chrysn/+archive/openscad)) dans vos sources de logiciels, puis [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]].
+ 
+===== Utilisation =====
+ 
+Lancez l'application via le [[:unity#tableau_de_bord_dash|dash]] (Ubuntu 11.04 et ultérieures), via le menu //Applications -> Graphisme -> OpenSCAD//, ou via le [[:terminal]] (toutes versions d'Ubuntu) avec la [[:commande_shell|commande]] suivante :
+<code>openscad</code>
+ <note tip>Des pièces existent dont le code est disponible sur la page [[http://www.openscad.org/gallery.html]]</note>
+===== Désinstallation =====
+ 
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+ 
+===== Voir aussi =====
+
+  * **(en)** [[http://www.openscad.org/|Site officiel du logiciel]]
+  * **(en)** [[http://en.wikibooks.org/wiki/OpenSCAD_User_Manual|Manuel utilisateur OpenSCAD]]
+   * **(fr)** [[https://www.youtube.com/watch?v=VHUWV_Ao9Ak&list=PLXFMUfzq5U4QvHGHRwuSr4KmzZBiqW1iP&index=1|Des tutoriels en vidéo sur la modélisation 3D avec OpenScad]]
+  * **(fr)** [[http://fablab-lannion.org/wp-content/tutos/openscad/|Un tutoriel interactif axé sur la modélisation pratique de plusieurs objets, édité par le Fablab de Lannion]]
+  * **(fr)** [[http://reprapide.fr/tutoriel-openscad-introduction|Un tutoriel OpenSCAD assez complet en dix pages]]
+  * **(fr)** [[http://www.linuxgraphic.org/wp/categorie/tutoriels/|Débuter avec OpenSCAD]], tutoriel sur LinuxGraphic.org (à noter que les images sont invalides depuis la reconstruction du site suite à son [[http://www.linuxgraphic.org/wp/linuxgraphic-retour-a-la-normale/|piratage]])
+  * **(fr)** [[http://www.equinoxefr.org/post/2012/05/20/limpression-3d-la-tete-dimpression-et-openscad-lopensource-a-la-rescousse/|L’impression 3D, la « tête » d’impression et Openscad: l’OpenSource à la rescousse]], un exemple détaillé de création de pièce à l'aide d'OpenSCAD
+  * **(en)** [[http://www.thingiverse.com/tag:openscad|Une liste de fichiers OpenSCAD sur Thingiverse]], un site de partage de modèles 3D à imprimer
+
+----
+//Contributeur principal : [[utilisateurs:Gemnoc]].//

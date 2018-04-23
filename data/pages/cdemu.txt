@@ -1,0 +1,117 @@
+{{tag>Xenial gravure cd dvd}}
+----
+{{  http://upload.wikimedia.org/wikipedia/commons/c/c4/Cdemu_192x192.png?80}}
+====== CDemu, émulateur de lecteur CD/DVD ======
+
+**CDemu** est un logiciel qui sert à émuler un ou des faux lecteurs de CD/DVD comme le fait [[http://www.daemon-tools.cc/|Daemon Tools]].
+
+L'intérêt d'un tel outil est de pouvoir monter simplement des fichiers images tel que des ISO, MDS/MDF, etc...
+
+Son principe de fonctionnement est simpliste car il se compose d'une simple icône dans la barre de tâches qui vous permettra de monter/démonter des images disque en cliquant simplement dessus.
+
+Il vous est possible de créer autant de faux lecteurs de CD/DVD que vous désirez.
+
+Il supporte les images disque marquées comme invalide par les outils tel que [[:tutoriel:convertir_des_images_cd|mdf2iso ou encore iat]] !
+
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée  activée.
+
+
+===== Installation =====
+
+Pour le moment, cdemu n'est pas dans les dépôts officiel d'Ubuntu. Il est possible de l'installer depuis un dépôt [[:ppa|PPA]] :
+  * [[:PPA|Ajoutez le PPA]] **ppa:cdemu/ppa**((https://launchpad.net/~cdemu/+archive/ppa)) dans vos sources de logiciels, puis 
+  * [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargez la liste des paquets]].
+  * Ensuite, [[:tutoriel:comment_installer_un_paquet|installez le paquet]] **[[apt>gcdemu]]**.
+  * il peut être utile de lancer les commande suivant pour éviter des erreurs d-bus.
+
+   sudo -s
+   echo vhba >  /etc/modules-load.d/cdemu.conf
+   modprobe vhba
+   exit
+
+   
+
+
+===== Utilisation =====
+====Sous Unity====
+Lancez l'application via le [[:unity#tableau_de_bord_dash|tableau de bord Unity]] ou via le [[:terminal]] (toutes versions d'Ubuntu) avec la [[:commande_shell|commande]] suivante :
+<code>gcdemu</code>
+
+Vous devez donc avoir une icône __grisé__ (Car nous n'avons pas encore créé de faux lecteurs de CD/DVD) dans la barre de taches comme ceci:
+
+{{cdemu_lucid_02.png?&nolink}}
+
+====Sous XFCE====
+
+Dans le cas où le tableau de bord XFCE ne vous propose pas l’affichage de l'applet gCDEmu, vous trouverez le raccourci dans le menu, sous l'onglet système. L'icône apparaîtra dans le greffon indicateur du tableau de bord.  
+
+==== Créer un ou plusieurs faux lecteur de CD/DVD ====
+
+{{cdemu_lucid_03.png}}
+
+=== Pour 1 lecteur ===
+
+Lancer la commande suivante dans un [[:terminal]] :
+<code>
+sudo cdemud -d
+</code>
+
+Ensuite cliquez (bouton droit) sur l'icône de gCDemu et "Utiliser le bus système"
+
+=== Pour 2 lecteurs et plus ===
+
+Lancer la commande suivante dans un [[:terminal]] :
+<code>
+sudo cdemud -d -n 2
+</code>
+
+Changer la valeur du paramètre **-n** si vous désirez plus de lecteurs.
+
+
+
+==== Supprimer les faux lecteurs de CD/DVD ====
+
+Lancer la commande suivante dans un [[:terminal]] :
+<code>sudo cdemud -k</code>
+
+
+
+==== Monter une image dans un faux lecteur de CD/DVD ====
+
+Là ça devient simple comme bonjour !
+
+Cliquez sur l'icône de gCDemu, puis sélectionnez l'emplacement où vous désirez monter l'image, puis une boîte de dialogue va s'ouvrir afin que vous puissiez définir le fichier image à monter, cliquez sur **Charger** et naviguez jusqu'à votre fichier :
+
+{{cdemu_lucid_04.png}}
+
+{{:applications:cdemu_xenial.png?500}}
+
+Puis CDemu monte votre image, et vous le fais savoir avec une jolie notification du système:
+
+{{cdemu_lucid_06.png}}
+
+
+
+==== Démonter une image dans un faux lecteur de CD/DVD ====
+
+Encore une fois c'est très simple.
+
+  - Soit vous cliquez sur l'icône de gCDemu pour afficher le ou les emplacements, puis de cliquer sur celui que vous désirez vider
+  - Soit vous utilisez le menu Éjecter lorsque vous faites un clique droit sur l'icône du CD.
+
+===== Désinstallation =====
+
+Pour supprimer cette application, il faut [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. Selon la méthode choisie, la configuration globale de l'application est conservée ou supprimée. Les journaux du système, et les fichiers de préférence des utilisateurs dans leurs dossiers personnels sont toujours conservés.
+
+===== Voir aussi =====
+
+  * **(en)** [[http://cdemu.sourceforge.net/|Site officiel du logiciel]]
+  * [[https://launchpad.net/~cdemu/+archive/ppa|PPA de CDemu]] 
+
+----
+
+//Contributeur principal : [[:utilisateurs:zedtux]].//

@@ -1,0 +1,185 @@
+{{tag>Trusty bureautique Windows}}
+
+----
+
+
+====== Microsoft Office ======
+
+**Microsoft™ Office®** (MS Office) est une suite bureautique propriétaire et payante. Elle est conçue pour fonctionner sous Microsoft Windows et Apple OS X et peut être installée sur un ordinateur fonctionnant avec Ubuntu.
+
+===== Avez-vous essayé LibreOffice ? =====
+
+  * **L'installation de la suite Microsoft Office est superflue pour la plupart des utilisateurs**, c'est pourquoi nous vous conseillons d'utiliser la suite [[:LibreOffice]], qui est installée par défaut sur Ubuntu.
+  * Pour lancer l'application faites une recherche dans [[:unity#tableau_de_bord_dash|le tableau de bord Unity]] avec le mot clé **LibreOffice**.
+
+//Vous pouvez aussi consulter les pages du **[[:bureautique|portail Bureautique]]**.//
+
+<note tip>Sous [[:LibreOffice]], si vous avez des problèmes de police avec des documents provenant de MS Office, installez [[:msttcorefonts|les polices de caractères de Microsoft Office]] : **[[apt>ttf-mscorefonts-installer|ici]]** !</note>
+
+===== Un Microsoft Office 2007 Gratuit : WPS Office =====
+    
+WPS Office est une suite de bureautique non libre, gratuite pour Linux en concurrence directe avec Microsoft Office : Son atout ? La prise en charge native des extensions telles que le DOCX, le PPTX, XLSX, PPSX et les formats PPT, DOC, XLS, PPS et PDF ainsi que sa ressemblance avec Microsoft Office (Ce logiciel possède un gestionnaire d'apparence pour lui donner des airs de LibreOffice ou de MSO 2007 décliné en 4 thèmes). 
+
+Cette suite est composé de WPS Writer (Microsoft Word), WPS Presentation (Microsoft PowerPoint), WPS Spreadsheets (Microsoft Excel)
+
+Il est disponible en téléchargement sur le [[http://wps-community.org/downloads|site officiel]] et si vous voulez en savoir plus sur ce projet, il faut aller voir [[https://www.wps.com/linux?lang=fr|ici]].
+
+Bien que la dernière version de cette suite soit une alpha (WPS Office 10 alpha 21), elle fonctionne sans heurts et son interface est facile à modifier et à franciser. Cependant, le dictionnaire par défaut est "en_US". Pour corriger ce problème, deux solutions s'offrent à vous
+
+  * Télécharger le dictionnaire français officiel (mais incomplet) : [[http://wps-community.org/download/dicts/fr_FR.zip|sur ce site]]
+  *  Télécharger un dictionnaire français non-officiel (mais plus complet à l'exception de la grammaire) [[http://www.labathome.net/wp-content/uploads/2014/09/DictionnaireFR.7z|sur ce site]]
+
+<note warning>Des polices commes Wingdings, Wingdings2, Wingdings3 et MT Extra sont nécessaire pour certaines formulations dans WPS Spreadsheets. Ces polices de Microsoft ne sont pas nativement installées sur WPS Office !</note>
+
+<note important>Attention : Symbol.ttf est aussi à copier puis coller dans Fonts d'Ubuntu, avec les 4 autres polices Microsoft citées plus haut. Il faut faire cet ajout pour que disparaisse le message d'erreur au démarrage de WPS Writer. WPS Spreadsheets ne prend pas charge la langue arabe  (lettres isolées et de gauche a droite au lieu de l'inverse).</note>
+
+Si vous voulez toutes les polices citées plus haut et plein d'autres en un seul pack, c'est [[https://1drv.ms/f/s!Ah4vpmVYCzSxs25JuVD-zuInraKx|ici]]
+
+<note important>Le copyright concernant les polices étant très vague, il est recommadé d'utiliser [[msttcorefonts|TTF MS Corefonts.]] Cependant ce lien renvoie à un dossier contenant    toutes les polices de Microsoft et de Linux en un seul dossier</note>
+===== Pourquoi faut-il éviter autant que possible d'utiliser Microsoft Office =====
+
+  * L'installation de la suite Microsoft Office est rarement pleinement fonctionnelle sous Linux.
+  * Pourquoi payer pour MS Office alors que vous pouvez utiliser gratuitement [[:LibreOffice]] ?
+  * Sachez que si vraiment pour des questions de compatibilité (école,entreprise...) vous ne pouvez pas utiliser LibreOffice, il existe Word Online pour pouvoir modifier gratuitement ses .doc et .docx sans soucis de compatibilité.
+
+Si vous avez encore quelques hésitations, vous pourrez trouver [[https://drive.google.com/open?id=0B71NyqICD074UVJPeVFfSW1tTkU|ici]] une documentation qui décrit bien la problèmatique.\\
+Néanmoins, l'utilisation de la suite Microsoft Office peut être recommandée lors d'un travail en commun avec des utilisateurs qui possèdent cette suite. En effet, un même document ouvert sous LibreOffice ou Microsoft Office peut présenter des différences de formes (marges, tableaux etc.)
+===== Installation =====
+
+Si vous avez besoin de Microsoft Office, il est possible d'installer certaines versions de MS Office dans Ubuntu en utilisant [[:Wine]] ou [[:PlayonLinux]] et éventuellement en dernier recours, la [[:virtualisation]]. 
+Si vous rencontrez des difficultés, laissez un message sur [[http://forum.ubuntu-fr.org/viewtopic.php?id=230575|cette page du forum]].
+Si vous n'arrivez pas à rentrer la clé de validation (champ non cliquable/inactif), voyez [[http://forum.ubuntu-fr.org/viewtopic.php?pid=4287101#p4287101|ce post]].
+
+====PlayOnLinux====
+Vous pouvez installer toutes les versions de MSOffice avec [[:PlayonLinux]], 2000 (Outlook2000 ne fonctionne pas), 2003, 2007 <note important>Pour utiliser l'ensemble des outils tels que Groove, Lync, Outlook et OneNote, il faut utiliser PlayOnLinux avec Wine version 1.8 ou 1.9 et non celle du script qui ne permet de faire tourner que Word, Excel et PowerPoint</note> et 2010 <note important>Bien que Microsoft Outlook 2010 se lance sans soucis, il est quasiment impossible de configurer son compte Microsoft (Testé sur Ubuntu 16.04 avec Microsoft Office 2010 installé depuis le script POL)</note> marche sans trop de bugs mais Microsoft Office 2013 présente beaucoup de bugs et instabilités. Quant aux dernières versions (2016.0.4266.1003 et suivantes), inutile d'en parler, elles ne fonctionnent pas du tout (ne serait-ce qu'au niveau de l'installateur).
+====Wine====
+
+ [[:tutoriel:comment_installer_un_paquet|Installez les paquets]] [[:wine]] et **[[apt>wine-gecko wine-mono|wine-gecko wine-mono]]** (normalement installé lors de l'installation de Wine).
+===Architecture 32 bits===
+En [[:architecture_materielle|architecture]] 32 bits, pour installer MSOffice 2007 et 2010 avec [[:Wine]] (1.6 minimum de préférence)  vous n'avez rien à faire. Utilisez Wine de façon habituelle, en lançant le ''SETUP.exe'' des différentes version d'Office.
+===Architecture 64 bits===
+En [[:architecture_materielle|architecture]] 64 bits, il vous faudra au préalable créer un [[:wine_profils|profil wine]] en 32 bits pour pouvoir utiliser Office 2007 et/ou 2010.\\
+Pour cela, suivez les instructions suivantes :
+  * Commencez par créer le profil adéquat en entrant cette commande dans un [[:terminal]]: <code>WINEARCH=win32 WINEPREFIX=/$HOME/.win32 winecfg</code> 
+  * Dans ''winecfg'' qui s'ouvre, allez dans l'onglet **bibliothèques** et ajouter la bibliothèque ''riched20''. 
+  * Puis lancez l'installation grâce à la commande : <code>WINEARCH=win32 WINEPREFIX=/$HOME/.win32 wine "/Chemin_vers_votre_OFFICE20xx_SETUP.EXE"</code> Adaptez le chemin à l'endroit ou se trouve le setup de MSOffice.
+
+===Bibliothèques supplémentaires===
+Les macros VBA ont besoin des runtimes microsoft visual basic qui sont disponibles à l'installation via [[:winetricks]].
+En effet certaines documentations prétendent qu'il est nécessaire d'installer ces librairies supplémentaires. Si jamais vous rencontrez des problèmes d'utilisation de MSOffice vous pouvez toujours essayer de les ajouter dans ''winecfg'' ou via [[:Winetricks]]: vcrun2008, dotnet20, dotnet40, msxml6, riched20, riched30, gdiplus, vb3run, vb4run, vb5run, vb6run.
+Ou bien en les récupérant [[http://oernst.f5lvg.free.fr/linux/dllwindows/|ici]] et les coller à la place des anciens dans **.wine/drive_c/windows/system32**.\\
+Une autre possibilité est de télécharger toutes les dépendances à partir de ce [[https://copy.com/jDDc9gcePLZG|lien]]  et les extraire dans le dossier //.cache/winetricks//, puis de lancer [[:Winetricks]] avec la commande: <code>winetricks vcrun2008 dotnet20 dotnet40 msxml6 riched20 riched30 gdiplus winetricks vb3run vb4run vb5run vb6run corefonts</code>.
+Puis cliquez une fois sur le bouton "Annuler" pour retourner à l'écran où on peut sélectionner //"Install a font"// puis installer //corefonts//.\\
+Fermer winetricks et lancez à nouveau ''winecfg''.
+Dans la fenêtre de "Configuration de wine" qui apparaît, aller dans l'onglet "Bibliothèques". Dans la section //Remplacements existants//, sélectionner chaque composant et les passer à //native// en cliquant sur le bouton //Modifier//. Cliquer sur OK
+
+{{ wine:winecfg_native.png }}
+
+
+===Ouverture de fichier par défaut===
+Si le menu contextuel ne vous propose pas les modules MSOffice pour ouvrir des fichiers lors du clic droit -> //Ouvrir avec//, ajoutez les lignes suivantes dans le fichier //~/.local/share/applications/mimeaaps.list//, elles doivent être ajoutées à la fois sous la section ''[Default Applications]'' et sous la section ''[Added Associations]'':
+<file>
+application/msonenote=wine-extension-onepkg.desktop;wine-extension-one.desktop;
+application/msword=wine-extension-wbk.desktop;wine-extension-doc.desktop;
+application/msword-template=wine-extension-dot.desktop;
+application/pdf=mendeleydesktop.desktop;
+application/pics-rules=wine-extension-prf.desktop;
+application/rat-file=wine-extension-rat.desktop;
+application/rtf=wine-extension-rtf.desktop;
+application/vnd.ms-excel=wine-extension-xlw.desktop;wine-extension-xls.desktop;wine-extension-xlk.desktop;wine-extension-xll.desktop;wine-extension-xlm.desktop;wine-extension-xlt.desktop;wine-extension-xla.desktop;
+application/vnd.ms-excel.addin.macroEnabled.12=wine-extension-xlam.desktop;
+application/vnd.ms-excel.sheet.binary.macroEnabled.12=wine-extension-xlsb.desktop;
+application/vnd.ms-excel.sheet.macroEnabled.12=wine-extension-xlsm.desktop;
+application/vnd.ms-excel.template.macroEnabled.12=wine-extension-xltm.desktop;
+application/vnd.ms-htmlhelp=wine-extension-chm.desktop;
+application/vnd.ms-mediapackage=wine-extension-mpf.desktop;
+application/vnd.ms-officetheme=wine-extension-thmx.desktop;
+application/vnd.ms-powerpoint=wine-extension-ppa.desktop;wine-extension-pps.desktop;wine-extension-pwz.desktop;wine-extension-pot.desktop;wine-extension-ppt.desktop;
+application/vnd.ms-powerpoint.addin.macroEnabled.12=wine-extension-ppam.desktop;
+application/vnd.ms-powerpoint.presentation.macroEnabled.12=wine-extension-pptm.desktop;
+application/vnd.ms-powerpoint.slide.macroEnabled.12=wine-extension-sldm.desktop;
+application/vnd.ms-powerpoint.slideshow.macroEnabled.12=wine-extension-ppsm.desktop;
+application/vnd.ms-powerpoint.template.macroEnabled.12=wine-extension-potm.desktop;
+application/vnd.ms-visio.viewer=wine-extension-vdx.desktop;
+application/vnd.ms-word.document.macroEnabled.12=wine-extension-docm.desktop;
+application/vnd.ms-word.template.macroEnabled.12=wine-extension-dotm.desktop;
+application/vnd.oasis.opendocument.presentation=wine-extension-odp.desktop;
+application/vnd.oasis.opendocument.spreadsheet=wine-extension-ods.desktop;
+application/vnd.oasis.opendocument.text=wine-extension-odt.desktop;
+application/vnd.openxmlformats-officedocument.presentationml.presentation=wine-extension-pptx.desktop;
+application/vnd.openxmlformats-officedocument.presentationml.slide=wine-extension-sldx.desktop;
+application/vnd.openxmlformats-officedocument.presentationml.slideshow=wine-extension-ppsx.desktop;
+application/vnd.openxmlformats-officedocument.presentationml.template=wine-extension-potx.desktop;
+application/vnd.openxmlformats-officedocument.spreadsheetml.sheet=wine-extension-xlsx.desktop;
+application/vnd.openxmlformats-officedocument.spreadsheetml.template=wine-extension-xltx.desktop;
+application/vnd.openxmlformats-officedocument.wordprocessingml.document=wine-extension-docx.desktop;
+application/vnd.openxmlformats-officedocument.wordprocessingml.template=wine-extension-dotx.desktop;
+application/vnd.visio=wine-extension-vsd.desktop;
+application/x-ms-application=wine-extension-application.desktop;
+application/x-ms-vsto=wine-extension-vsto.desktop;
+application/x-ms-xbap=wine-extension-xbap.desktop;
+application/x-mswinurl=wine-extension-url.desktop;
+application/x-mswrite=wine-extension-wri.desktop;
+application/x-vbscript=wine-extension-vbs.desktop;
+application/x-wine-extension-appref-ms=wine-extension-appref-ms.desktop;
+application/x-wine-extension-compositefont=wine-extension-compositefont.desktop;
+application/x-wine-extension-dic=wine-extension-dic.desktop;
+application/x-wine-extension-dochtml=wine-extension-dochtml.desktop;
+application/x-wine-extension-dothtml=wine-extension-dothtml.desktop;
+application/x-wine-extension-dqy=wine-extension-dqy.desktop;
+application/x-wine-extension-exc=wine-extension-exc.desktop;
+application/x-wine-extension-fkdm=wine-extension-fkdm.desktop;
+application/x-wine-extension-hlp=wine-extension-hlp.desktop;
+application/x-wine-extension-msp=wine-extension-msp.desktop;
+application/x-wine-extension-onetoc=wine-extension-onetoc.desktop;
+application/x-wine-extension-onetoc2=wine-extension-onetoc2.desktop;
+application/x-wine-extension-pothtml=wine-extension-pothtml.desktop;
+application/x-wine-extension-ppthtml=wine-extension-ppthtml.desktop;
+application/x-wine-extension-pptxml=wine-extension-pptxml.desktop;
+application/x-wine-extension-rels=wine-extension-rels.desktop;
+application/x-wine-extension-xevgenxml=wine-extension-xevgenxml.desktop;
+application/x-wine-extension-xlshtml=wine-extension-xlshtml.desktop;
+application/x-wine-extension-xlthtml=wine-extension-xlthtml.desktop;
+application/xaml+xml=wine-extension-xaml.desktop;
+application/xml=wine-extension-xml.desktop;
+image/gif=wine-extension-gif.desktop;
+image/jpeg=wine-extension-jfif.desktop;wine-extension-jpe.desktop;
+image/png=wine-extension-png.desktop;
+inode/directory=pcmanfm.desktop;
+message/rfc822=wine-extension-mht.desktop;
+text/csv=wine-extension-csv.desktop;
+</file>
+
+====Imprimante pdf====
+
+En installant le paquet **[[apt>cups-pdf]]**, on peut avoir une imprimante pdf dans Wine. De cette façon, on peut exporter en pdf mais pas seulement pour MS Office : aussi pour toute application installée dans wine.
+
+
+==== Visionneuse PowerPoint ====
+Voir la page [[:powerpoint|Comment installer la visionneuse Powerpoint sous Ubuntu?]]
+
+==== Visionneuses Word et Excel====
+
+Téléchargez les visionneuses pour Microsoft office sur [[http://www.microsoft.com/downloads/details.aspx?familyid=C8378BF4-996C-4569-B547-75EDBD03AAF0&displaylang=fr#RelatedLinks|ce lien]].
+Exécutez avec [[:Wine]] les fichiers, et vous devriez les retrouver dans le menu dédié à Wine. 
+
+=====Configuration=====
+Vous pourrez trouvez les différents modules de MSOffice  en faisant une recherche dans [[:unity#tableau_de_bord_dash|le tableau de bord Unity]].
+
+==== Ouvrir un fichier en cliquant dessus ====
+
+Vous pouvez ouvrir un fichier de la suite Office avec un clic droit dessus et choisir simplement le module requis. Vous pouvez aussi le mettre par défaut par un clic droit -> //Propriétés//, choisir le module et cocher la case //Définir par défaut//.
+==== Créer un raccourcis ====
+
+Pour créer un raccourcis, reportez-vous à [[:raccourci-lanceur|la page dédiée]]. Vous trouverez la commande [[:wine#lancer_un_programme_windows|ici]] et les icônes via le chemin **.local/share/application/wine/Programs/Microsoft Office**.
+Vous pouvez également, à partir du tableau de bord Unity glisser directement les icônes dans la barre d'application.
+
+===== Liens =====
+
+  * (en) [[https://help.ubuntu.com/community/Microsoft_Office|Wiki Ubuntu anglais]],
+  * forum Ubuntu-fr : [[http://forum.ubuntu-fr.org/viewtopic.php?id=230575|post sur le sujet]],
+  * forum Ubuntu-fr : [[http://forum.ubuntu-fr.org/viewtopic.php?id=179700|autre post sur le sujet]],
+  * Procédure sur ce [[http://nithinaneeshsct06bt.blogspot.fr/2013/02/install-microsoft-office-2010-in-ubuntu.html|site]] en anglais
+----
+
+//Contributeurs principaux : [[:utilisateurs:yannubuntu|YannUbuntu]],  [[utilisateurs:lapinter|lapinter]], Robert DEDENON (Roberto Melomaniaque).//

@@ -1,0 +1,114 @@
+{{tag>matériel scanner}}
+----
+
+====== Scanner Epson ======  
+
+{{:scanner:scanner.png|}}
+
+<note>Il se peut que votre scanner soit déjà supporté nativement. Connectez votre scanner, et lancez votre [[:scanner#logiciels|logiciel de numérisation]] favori. Vous pouvez consulter au préalable [[:liste_imprimantes_epson#Scanner Perfection|la liste des scanners epson]], ou la page [[http://www.sane-project.org/lists/sane-mfgs-cvs.html#Z-EPSON|Sane]] pour connaître le niveau de prise en charge de votre scanner.\\
+- Si votre scanner est reconnu, n'allez pas plus loin! \\
+- Si votre scanner n'est pas reconnu, essayez les différentes méthodes proposées ci-dessous.</note>
+
+<note important>Une alternative consiste à utiliser [[http://download.ebz.epson.net/dsc/search/01/search/searchModuleFromResult|le pilote pour imprimante et le logiciel Iscan développés par Epson]].  Il suffit d'entrer dans la barre de recherche son type de matériel. Comment installer après l'extraction ? Il suffit de lance "install.sh" puis de démarrer le logiciel Iscan.
+Cette methode est la meilleure pour les Epson Stylus SX series (SX230,215...)
+install.sh ne demarre pas -) Allez dans le dossier iscan-blablabla.deb puis faite clique droit ouvrir dans un terminal, puis dans le terminal faite ./install.sh et suivez les instructions.   </note>
+
+===== Installation du scanner =====
+====Méthode 1====
+Reportez-vous à la méthode décrite [[:tutoriel:installer_imprimante_epson#Installation du scanner pour les multifonctions|pour les multifonctions Epson]]. Si votre scanner n'est pas reconnu après cela, regardez du côté de la [[#Méthode 2 : Pour périphériques anciens|méthode 2]] ou de la [[#Méthode 3: Cas particuliers avec Snapscan|méthode 3]].
+
+====Méthode 2 : Pour périphériques anciens ====
+<note>Dans le cas d'une mise à jour, commencez par nettoyer votre ancienne installation en :
+    * [[:tutoriel:comment_supprimer_un_paquet|supprimant tous les paquets]] iscan,
+    * en supprimant le fichier "/etc/udev/rules.d/45-libsane.rules",
+    *en tapant dans un [[:terminal]] la ligne suivante :
+<code>sudo /etc/init.d/udev restart</code>
+</note>
+Pour certains périphériques anciens, les paquets ne sont parfois pas disponibles en **.deb** mais uniquement en **.rpm**. Voici la conversion en **.deb** de ces paquets créés par la communauté :
+  * {{driver:iscan_2.10.0-2_i386.deb|iscan_2.10.0-2_i386.deb}} et le plugin {{driver:driver:iscan-plugin-gt-f520_1.0.0-2_i386.deb|iscan-plugin-gt-f520_1.0.0-2_i386.deb}}, pour Epson : GT-F520/F570, Perfection 1260, Perfection 3940 photo, Perfection 3590, Perfection 4180 photo.\\
+  * {{driver:iscan-plugin-gt-f600_1.0.0-2_i386.deb|iscan-plugin-gt-f600_1.0.0-2_i386.deb}} pour Epson Perfection 4180 photo.\\
+  * {{:driver:iscan-plugin-gt-7300-1.0.0-1.c2.i386.rpm|}} (Epson : Perfection 1260) \\
+  * {{:iscan-plugin-gt-s600_2.0.0-2_i386.deb}} pour Epson : Perfection V10,Perfection V100 PHOTO, GT-S600, GT-F650 (Si encore utile). \\ 
+<note warning> Ces liens-là sont morts (mars 2017). </note>
+
+Si le paquet **.deb** que vous cherchez n'est pas présent ici, vous pouvez créer un paquet **deb** à partir du **rpm** avec [[:alien|alien]].
+
+====Méthode 3: Cas particuliers avec Snapscan====
+===À l'aide de fichiers binaire===
+==En téléchargement==
+Quelques modèles s'installent différemment, au moyen des fichiers binaires de leurs pilotes propriétaires pris en charge par le module //Snapscan// de Sane. Les pilotes sont pour :
+  * Epson Perfection 660 (tail_058.bin),
+  * Epson Perfection 1270 (esfw3e.bin),
+  * Epson Perfection 1670 (esfw30.bin),
+  * Epson Perfection 3490 (esfw52.bin)
+  * Pour Epson Perfection 1240U voire [[http://lea-linux.org/documentations/Driver:Scanners]]
+
+Voir http://snapscan.sourceforge.net/ pour la liste exhaustive des scanners supportés par le backend Snapscan. Selon cette même adresse, les modèles Perfection 1270, Perfection 1670, Perfection 2480, Perfection 3490, Perfection 3590, sont désormais supportés nativement. Le paquet **[[apt>libsane-extras]]** est peut-être requis.
+
+Pour les modèles particuliers (660, 1270, 1670, 2580, 3490, GT-F500 et GT-F550), téléchargez le pilote //iscan-plugin-gt-*.i386.rpm//  correspondant (fichier **esfw__XX__.bin**) à votre modèle. Pour les Perfection 2480 Photo, Perfection 2580 Photo, GT-F500 et GT-F550 [[http://download.ebz.epson.net/dsc/du/02/DriverDownloadInfo.do?LG2=FR&CN2=&DSCMI=15854&DSCCHK=7488eaf56192a685c1614419038bec9daf680ce6|ici]].
+Pour le Perfection 3490 et 3590 vous le trouverez [[http://download.ebz.epson.net/dsc/du/02/DriverDownloadInfo.do?LG2=FR&CN2=&DSCMI=15855&DSCCHK=9189f64ff96429ccb6d232a1ad0dfc2c3996824a|ici]].
+N'installez pas le **rpm**, mais extrayez-en (double-clic sur le fichier pour l'ouvrir) le firmware (.bin).
+
+//Voir aussi un [[http://www.leshirondellesdunet.com/scanner_epson_3490|tutoriel dédié au modèle 3490]] (avec Snapscan) sur les Hirondelles du Net.//
+
+==En les récupérant sur le CD du scanner==
+Si vous ne trouvez pas le pilote sur Internet, il peut aussi être récupéré sur le CD livré avec le scanner dans une archive //cab// dont on peut l'extraire :
+  * Installez **[[apt>cabextract]]** si ce n'est pas encore fait,
+  *  Entrez les commandes suivantes :
+<code>
+mkdir dossier_cab
+cd dossier_cab
+cp /cdrom/ESCAN/ModUsd.cab .
+cabextract ModUsd.cab
+</code>
+  * Avec les [[:sudo|droits d'administrateur]], créez le dossier **/usr/share/sane/snapscan/** puis copiez le pilote dedans (le renommage en lettres minuscules semble important):
+<code>sudo mkdir /usr/share/sane/snapscan
+sudo cp ESFW30.BIN /usr/share/sane/snapscan/esfw30.bin
+</code>
+  * Modifiez ensuite le fichier de configuration de Sane **/etc/sane.d/snapscan.conf** et décommentez la ligne suivante au début du fichier pour indiquer le chemin du pilote en question :
+<code>
+# Change to the fully qualified filename of your firmware file, if
+# firmware upload is needed by the scanner
+firmware /usr/share/sane/snapscan/esfw30.bin
+</code>
+
+ === Via un dépôt tiers ===
+<note warning>Vous allez installer un dépôt non officiel. Les logiciels installés à partir de ce dépôt n'auront pas de support officiel. Contactez le mainteneur du dépôt si vous avez un problème.
+</note>
+
+  * [[:tutoriel:comment_modifier_sources_maj#modifier_les_sources_de_mises_a_jour|Modifiez vos sources de mises à jour]] pour ajouter le [[:depots|dépôt]] suivant :<code>
+deb http://download.tuxfamily.org/arakhne/ubuntu VERSION-arakhne universe
+</code> Où VERSION sera remplacé par votre version. Par exemple pour [[:xenial|Ubuntu 16.04]] remplacez **VERSION** par **xenial**
+  * [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|Rechargez la liste des paquets]],
+  * [[:tutoriel:comment_installer_un_paquet|Installez le paquet]] **[[apt>libsane-epson-perfection-2580]]** (par exemple).
+ 
+===== Comment scanner une image ? =====
+
+ 	 {{:icons:sane_crystal.png|}}
+Plusieurs choix sont possibles :
+  * utiliser directement [[:simple-scan]] ou [[:xsane|xSane]], 
+  * utiliser Image Scan, si vous avez installé le logiciel propriétaire fourni par Epson,
+  * utiliser le plugin Image Scan avec [[:gimp|The GIMP]] (dans The Gimp :menu //Fichiers => Créer => Scanning (iscan),ou xscanimage//), il faut avoir créé un nouveau fichier ou en éditer un pour que le plugin soit actif avec le premier raccourci. Il faut peut-être créer un lien symbolique de /usr/bin/iscan vers /usr/lib/gimp/2.0/plug-ins/iscan.
+(Attention le lien peut avoir été créé lors de l'installation du package, cela dépend)
+  * utiliser le plugin Xsane avec [[:gimp|The GIMP]] (dans The GIMP : menu //Fichiers => Créer => xSane//).
+Pour d'autres méthodes ou logiciel pour scanner, reportez-vous à la page [[:scanner|scanner]]
+
+Avec [[:xsane]], vous obtiendrez une fenêtre comme celle-ci :
+
+{{applications:xSane-epson-select.png}}
+
+Vous remarquerez qu'il y a deux versions de pilote disponible: le pilote Epson Epkowa et le pilote Epson standard. Utilisez toujours la version **Epson Epkowa** pour profiter du pilote iScan.
+Si vous ne voulez pas que le pilote Epson non Epkowa apparaisse, [[:tutoriel:comment_editer_un_fichier|éditez le fichier]] **/etc/sane.d/dll.conf** et mettez en commentaire la ligne avec ''epson'' ce qui donnera :
+<file>
+#epson
+</file>
+Si vous ne voulez pas que votre webcam ou carte TV apparaisse, [[:tutoriel:comment_editer_un_fichier|éditez le fichier]] **/etc/sane.d/dll.conf** et mettez en commentaire la ligne avec ''v4l'' ce qui donnera :
+<file>
+#v4l
+</file>
+
+====Numériser une diapositive ou un négatif====
+Utilisez le logiciel que nous avons installé au tout début de l'installation : iScan.
+
+----
+//Contributeurs : [[utilisateurs:ostaquet]], [[utilisateurs:fidji-florian]], [[utilisateurs:juju_theseaman]],[[utilisateurs:Mysteroïd]], [[utilisateurs:laurentb]], [[:utilisateurs:l_africain|L'Africain]].//

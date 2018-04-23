@@ -1,0 +1,163 @@
+{{tag>jeu fps }}
+----
+
+====== Quake Live ======
+
+<note warning>Quake Live n'est plus disponible pour GNU/Linux et est désormais payant. Les informations qui suivent sont obsolètes.</note>
+
+<note warning>Quake Live n'est pas libre et est également "verrouillé" (impossibilité de voter, de créer ses propres cartes, serveurs centralisés, etc). Préférer [[openarena]] qui lui est 100% libre et non-verrouillé.</note>
+
+Quake live c'est Quake 3 dans votre navigateur, et ca fonctionne sous GNU/Linux !
+
+Quake 3 est l'indémodable fps, dont le moteur est passé dans le domaine du libre grâce à son entreprise, il nous revient ici dans une version entièrement gratuite qui conserve le gameplay original et se joue directement dans un navigateur internet.
+
+Vous jouerez toujours contre des personnes de votre niveau - selon vos victoires.
+
+Le moteur graphique est fluide et offre des sensations comparables à celles du jeu original : il ne s'agit pas d'un jeu en flash, mais d'un véritable jeu.
+
+La principale nouveauté attirante de Quake Live est surtout son aspect "communautaire", design, et accessible par le web. 
+
+[[http://www.quakelive.com/#guide|Voir le guide sur le site officiel]].
+
+{{ http://wiki.quakelive.fr/images/8/8b/Header_quakelive.png?300 }}
+===== Installation =====
+
+Créer un compte sur le [[http://www.quakelive.com/|site officiel]].
+
+Une fois enregistré avec votre adresse email et votre compte validé, vous accédez à un petit tutorial qui vous montre les rudiments du jeu. Vous devez ensuite effectuer un match pour déterminer votre niveau avant de pouvoir rejoindre les parties en ligne.
+
+Les réglages et le choix des parties s'effectuent via le site de Quake Live mais si vous le souhaitez vous pouvez aussi lancer le jeu en plein écran. 
+=====Configurer le jeu =====
+
+La configuration dans le jeu est assez simple.
+
+À savoir tout de même :
+  * Le moteur de vertex est plus léger.
+
+==== Dans quake live ====
+
+==== Les commandes ====
+  * [[http://wiki.quakelive.fr/index.php/Commandes|Voir les commandes sur le wiki de quake live fr]]
+==== Configurer ====
+
+Le répertoire du jeux est :
+<code>~/.quakelive/quakelive</code>
+
+Le fichier de configuration se nomme **repconfig.cfg** et se trouve dans :
+<code>~/.quakelive/quakelive/home/baseq3</code>
+
+Néanmoins, ce fichier pouvant être écrasé par le jeux, il est préférable de créer un fichier **autoexec.cfg** dans le même répertoire et d'y mettre ses options de configurations personnalisées. Ce fichier est automatiquement chargé par le jeux.
+
+  * [[http://wiki.quakelive.fr/index.php/La_base_CFG|Les bases du fichier de config cfg]] (en français).
+
+  * Des Options a configurer :
+<code>
+seta com_maxfps "60"
+seta cg_noprojectiletrail "1"
+seta r_drawSun "0"
+seta r_dynamiclight "0"
+seta cg_bob "0"
+seta cg_kickscale "0"
+seta r_picmip "10"
+seta cg_trueLightning "1"
+bind F1 "vote yes"
+bind F2 "vote no"
+bind F3 "readyup"
+bind F4 "say oh sorry ! :)"
+bind F5 "say Too young to Die."
+bind F6 "say AH ! Ah ! ah !."
+bind F7 "say give me a break"
+bind F8 "say I want to frag some ass up."
+bind F9 "say Damn !"
+bind p "messagemode"
+bind m "messagemode2"
+bind = "sizeup"
+bind _ "sizedown"
+seta g_allowVote "1"
+
+</code>
+
+
+    * Générateur de configuration en ligne :
+          o http://www.holysh1t.net/quake-live-config-generator/
+    * Générateur de configuration à télécharger :
+          o http://www.holysh1t.net/unofficial-quake-live-config-generator-by-yamanaka/
+  * [[http://www.holysh1t.net/how-to-customize-your-quake-live-config/|Customizing your Quake Live config]]
+
+  * [[http://www.holysh1t.net/how-to-customize-your-quake-live-config/|Quake Live and your config (.cfg) file]].
+  * [[http://www.quakeliveconfig.com/#first|Quake live config Online generator]]
+===== Problèmes et solutions =====
+==== Firefox plante au lancement du jeu ====
+Firefox peut parfois planter quand vous rentrez sur un serveur. 
+Cela est dû aux publicités ; pour y remédier, deux solutions : 
+  * installer l'extension Greasemonkey pour firefox, puis installer le script complémentaire [[http://userscripts.org/scripts/show/83176|Quake Live no pregame ads]]
+  * installer l'extension Flashblock pour firefox
+
+Lien du sujet http://forum.ubuntu-fr.org/viewtopic.php?pid=3667689#p3667689
+
+==== Problèmes de son ====
+En cas de problèmes de son (pas de son, son en retard, grésillements...), la configuration suivante peut corriger :
+<code>
+seta s_alsa_pcm "plughw:0"
+</code>
+
+==== 60 images par secondes maximum ====
+
+Quakelive permet de régler le nombre d'images par seconde à un maximum de 125 grâce au paramètre ''com_maxfps'' (cela est vérifiable avec le paramètre ''cg_drawFPS 1'').  Voici exemple de paramétrage :
+
+<code>
+seta cg_drawFPS "1"
+seta com_maxfps "124"
+//synchronisation verticale "ingame"
+seta r_swapInterval "0"
+</code>
+
+=== nvidia ===
+
+La configuration du driver Nvidia permet de réaliser une synchronisation verticale ce qui a pour effet de limiter le framerate à 60 images par seconde sur toutes les applications utilisant openGL. 
+Il faut donc faire l'inverse de ce qui est préconisé dans la documentation de [[nvidia#synchronisation_verticale|Cartes graphiques nVidia]] : décocher la case **Sync to VBlank**.
+===== Configuration Matérielle =====
+
+==== Configuration minimale ====
+    * Processeur: 800 MHz
+    * Firefox 2 
+    * Carte graphique avec accélération 3D même vieillissante. ( tout dépend de votre configuration graphique dans le jeux )
+    * Connexion Internet haut-débit
+    * Inscrivez-vous gratuitement: Site web de l'éditeur
+
+
+===== Gameplay =====
+ 
+Quake live évalue automatiquement le niveau des joueurs afin de leur opposer des adversaires adaptés. Il gère un historique des matches joués et des adversaires rencontrés, une liste d'amis ainsi que des statistiques détaillées sur les performances des joueurs telles que leur efficacité avec chaque arme, leurs cartes préférées et leur récompenses. Il est possible de consulter les statistiques de n'importe quel inscrit dont on connaît le pseudonyme, de voir les dernières parties qu'il a disputées et de jouer avec ou contre lui s'il est en ligne.
+
+Huit modes de jeux sont disponibles : instagib, duel, team deathmatch, pro team deathmatch, capture the flag, instangib capture the flag, free for all et clan arena.
+
+De nouvelles cartes sont ajoutées au jeu au fur et à mesure des mise à jours.
+
+===== Technologie =====
+
+Quake Live nécéssite l'installation d'un plugin dans le navigateur du joueur. Le contenu (cartes de jeu, ...) se met à jour directement lorsque le navigateur est ouvert sur la page du site.
+
+Sur le site web, le joueur à le choix entre plusieurs matches, dont le niveau des joueurs a été choisi pour lui correspondre. Il est alors possible de jouer directement dans le navigateur ou en mode plein écran.
+
+Le client est disponible sur Windows, Mac OS X et Linux. Le programme est exécuté par le processeur comme du code natif et non interprété (comme un logiciel et non comme une animation Flash).
+
+=====Historique =====
+
+Quake Live (annoncé sous le titre de Quake Zero) est un projet de jeu vidéo de type tir subjectif créé par id Software et annoncé en 2007. Il s'agit de Quake 3 et de son supplément Quake III: Team Arena revisités afin de se lancer via un navigateur web.
+
+Quake live est pour le moment en phase de beta test. Depuis le 24 février 2009, cette phase est ouverte au public ; il suffit de s'inscrire sur le site officiel pour y participer.
+
+Depuis le 18 août 2009, les clients pour Linux (Firefox) et Mac OS X (Safari) sont également disponibles
+
+===== Autres liens =====
+
+  * [[http://www.quakelive.com/forum/|Forum officiel]]
+
+  * [[http://www.holysh1t.net/|Communauté de joueurs de Quake Live (anglais)]]
+
+  * [[http://wiki.quakelive.fr/index.php/Accueil|Wiki Quake Live français.]]
+
+---- 
+
+//Contributeurs :  [[:utilisateurs:psychederic|Psychederic]].//

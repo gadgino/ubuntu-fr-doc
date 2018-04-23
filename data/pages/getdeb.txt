@@ -1,0 +1,66 @@
+{{tag>Precise Trusty Xenial dépôts installation_logiciel}}
+
+----
+
+{{ :depots:getdeb:logo.png?200|}}
+====== GetDeb et Playdeb======
+
+**GetDeb** (aussi appelé **PlayDeb** concernant la partie jeux vidéos) est un site permettant d'installer de nombreux logiciels pour Ubuntu, dans des versions plus récentes que celles des dépôts officiels, ou des logiciels qui ne se trouvent pas encore dans les dépôts Ubuntu / Linux / Debian.
+
+<note warning>**Attention : les logiciels du dépôt GetDeb ne sont pas contrôlés par les développeurs d'Ubuntu; leur installation peut rendre votre système instable**.
+Comme tout dépôt non officiel, l'utilisation de GetDeb n'est pas recommandée. **À utiliser en toute connaissance de cause**. Par exemple : si vous installez une application via GetDeb, et que cela modifie une librairie qui est utilisée par d'autres applications, ces autres applications risquent de ne plus pouvoir fonctionner. **Réparer ces librairies n'est pas chose facile, et peut parfois se révéler impossible! 
+
+**Notamment lorsqu'un trop grand nombre de librairies ont été modifiées).
+Si vous décidez d'utiliser tout de même le dépôt GetDeb, il est fortement **recommandé de le désactiver après l'installation du logiciel souhaité et de ne l'activer que très ponctuellement.**</note>
+
+Il y a deux dépôts différents,
+  * **GetDeb**, proposant des logiciels hors jeux vidéos,
+  * **PlayDeb**, proposant uniquement des jeux vidéos.
+
+===== Comment ajouter le dépôt de Getdeb =====
+
+  * Méthode facile : il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[http://archive.getdeb.net/install_deb/getdeb-repository_0.1-1~getdeb1_all.deb|Getdeb]]** disponible sur le site www.getdeb.net, ou de coller dans un [[:terminal]]:    
+<code>echo "deb http://archive.getdeb.net/ubuntu `lsb_release -cs`-getdeb apps" | sudo tee /etc/apt/sources.list.d/getdeb.list &&  wget -q http://archive.getdeb.net/getdeb-archive.key -O- | sudo apt-key add -</code>
+FIXME Cette méthode peut ne pas fonctionner avec certaines versions de Linux Mint.
+
+  * Méthode plus complexe : il suffit d'[[:tutoriel:comment_modifier_sources_maj|ajouter le dépôt]] suivant (changez "trusty" par votre [[:versions|version d' Ubuntu]]) :
+
+<file>deb http://archive.getdeb.net/ubuntu trusty-getdeb apps</file>
+
+Puis saisissez dans un [[:terminal]] la commande suivante : <code>wget -q http://archive.getdeb.net/getdeb-archive.key -O- | sudo apt-key add -</code>
+
+===== Comment ajouter le dépôt de Playdeb =====
+
+  * Méthode facile : il suffit d'[[:tutoriel:comment_installer_un_paquet|installer le paquet]] **[[http://archive.getdeb.net/install_deb/playdeb_0.3-1~getdeb1_all.deb|Playdeb]]** disponible sur le site www.playdeb.net, ou de coller dans un [[:terminal]]:    
+<code>echo "deb http://archive.getdeb.net/ubuntu `lsb_release -cs`-getdeb games" | sudo tee /etc/apt/sources.list.d/getdeb.list &&  wget -q http://archive.getdeb.net/getdeb-archive.key -O- | sudo apt-key add -</code>
+  * Méthode plus complexe : il suffit d'[[:tutoriel:comment_modifier_sources_maj|ajouter le dépôt]] suivant (changez "trusty" par votre [[:versions|version d' Ubuntu]]) :
+
+<file>deb http://archive.getdeb.net/ubuntu trusty-getdeb games</file>
+
+<note tip> Pas besoin de désactiver le PPA de **PlayDeb** il ne fera que les mises à jour des jeux </note>
+
+Puis saisissez dans un [[:terminal]] la commande suivante : <code>wget -q http://archive.getdeb.net/getdeb-archive.key -O- | sudo apt-key add -</code>
+
+===== Utilisation=====
+
+Une fois ce paquet installé et après avoir [[:tutoriel:comment_modifier_sources_maj#recharger_la_liste_des_paquets|rechargé la liste des paquets]], vous pourrez installer les logiciels de getdeb.net via votre logiciel d'installation de paquet favori.
+
+> **Rappel : il est fortement recommandé de désactiver le PPA de Getdeb après l'installation d'une application via Getdeb.**\\ Pour cela, allez dans vos [[:tutoriel/comment_modifier_sources_maj#modifier_les_sources_de_mises_a_jour|Sources de logiciels]], et dans l'onglet "Autres logiciels" décochez le dépôt de Getdeb.
+
+===== Problèmes rencontrés =====
+
+Si les dépôts ci-dessus sont HS, il est possible d'utiliser ces miroirs suivants : 
+<file>deb http://mirrors.dotsrc.org/getdeb/ubuntu trusty-getdeb apps</file>
+ou
+<file>deb http://mirrors.dotsrc.org/getdeb/ubuntu trusty-getdeb games</file>
+
+=====Voir aussi=====
+
+  * **(en)** [[http://www.getdeb.net|Site officiel GetDeb]]
+  * **(en)** [[http://www.playdeb.net|Site officiel PlayDeb]]
+  * **(fr)** [[http://blog.nicolargo.com/2010/05/depots-getdeb-inaccessibles.html|Dépôts Getdeb temporairement inaccessibles ? une solution]]
+  * **(en)** [[http://blog.getdeb.net|Le blog de Getdeb]], utile pour avoir des infos, si le site n'est pas accessible par exemple.
+
+----
+
+//Contributeurs : [[:utilisateurs:yannubuntu|YannUbuntu]], [[:utilisateurs:trhilkil|trhilkil]], [[:utilisateurs:axel55|Axelos]]//

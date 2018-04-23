@@ -1,0 +1,48 @@
+{{tag> Precise Trusty matériel wifi usb}}
+----
+======Installation des clés avec chipset rtl8192CU======
+Les clés usb wifi  basées sur un chipset Realtek **RTL8192CU** sont reconnues par défaut mais un [[https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1365844|bug]] du pilote entraîne des coupures de connexion récurrentes. [[:Network-manager|Network Manager]] vous demande sans cesse le mot de passe de connexion sans arriver à se connecter.\\
+Pour résoudre ce problème suivez la procédure plus bas. 
+Afin de vérifier que ce tutoriel vous est bien destiné, insérez votre clé USB wi-fi puis saisissez dans un [[:terminal]] la [[:commande_shell|commande]] suivante:
+<code>lsusb</code>
+Vous devrez obtenir une ligne contenant ceci 
+<code>ID 06f8:e033 Guillemot Corp.</code>
+ou bien une ligne avec :
+<code>[Realtek RTL8192CU]</code>
+
+===== Pré-requis =====
+  * Disposer des [[:sudo|droits d'administration]].
+  * Disposer d'une connexion à Internet configurée et activée.
+  
+=====Installation=====
+====Méthode 1====
+Téléchargez sur [[http://www.realtek.com.tw/downloads/downloadsView.aspx?Langid=1&PNid=21&PFid=48&Level=5&Conn=4&DownTypeID=3&GetDown=false&Downloads=true| cette page]],le pilote Unix (Linux) RTL8192CU, puis :
+  * extraire l'archive RTL819xCU_USB_linux_v3.4.2_3727.20120404.zip ce qui génère un dossier nommé RTL8188C_8192C_8192D_USB_linux_v3.4.2_3727.20120404
+  * ouvrir un terminal et se placer dans le dossier ci-dessus<code>cd ~/Téléchargements/RTL8188C_8192C_8192D_USB_linux_v3.4.2_3727.20120404</code>
+  *  installer le pilote Realtek<code>sudo sh install.sh</code>et choisir **1**  //RTL8192cu//
+  * supprimer du noyau le pilote défectueux<code>sudo rmmod rtl8192cu</code>
+  * inclure dans le noyau le pilote fonctionnel<code>sudo modprobe 8192cu</code>(à ce stade, la connexion devrait être fonctionnelle)
+  * pour empêcher la réutilisation du pilote défectueux, ouvrir le fichier //blacklist.conf//<code>gksudo gedit /etc/modprobe.d/blacklist.conf</code>et ajouter à la fin une ligne //blacklist rtl8192cu// puis sauvegarder
+  * pour inclure le pilote fonctionnel définitivement, ouvrir le fichier //modules//<code>gksudo gedit /etc/modules</code>et ajouter à la fin une ligne //8192cu// puis sauvegarder
+  * redémarrer et tout devrait être fonctionnel.
+====Méthode 2====
+Il se peut que sur Ubuntu 14.04 et 16.04 la première méthode ne fonctionne pas, dans ce cas :
+  * [[:tutoriel:comment_installer_un_paquet|Installez les paquets]] **[[apt>linux-headers-generic,build-essential,dkms,git]]**
+  * Téléchargez les sources du pilote grâce à [[:git]] en utilisant cette commande : <code>git clone https://github.com/pvaret/rtl8192cu-fixes.git</code>
+  * Ajoutez le pilote comme le module DKMS : <code>sudo dkms add ./rtl8192cu-fixes</code>
+  * Installez le nouveau pilote : <code>sudo dkms install 8192cu/1.10</code>
+  * supprimer du noyau le pilote défectueux : <code>sudo rmmod rtl8192cu</code>
+  * Inclure dans le noyau le pilote fonctionnel : <code>sudo modprobe 8192cu</code>
+  * Mettez à jour la liste des modules : <code>sudo depmod -a</code>
+  * Blacklistez le pilote fautif : <code>sudo cp ./rtl8192cu-fixes/blacklist-native-rtl8192.conf /etc/modprobe.d/</code>
+  * Si ça ne suffit pas, blacklistez également le pilote dans blacklist.conf : <code>gksu gedit /etc/modprobe.d/blacklist.conf</code> Ajouter les lignes suivantes et enregistrer : <code>blacklist rtl8192cu</code><code>blacklist rtl8xxxu</code>
+  * Enfin pour inclure le pilote fonctionnel définitivement : <code>echo '8192cu' | sudo tee -a /etc/modules</code>
+  * Redémarrez votre ordinateur.
+
+
+=====Voir aussi=====
+  * Ce [[http://forum.ubuntu-fr.org/viewtopic.php?id=951711&p=1|fil de discussion]] traite du problème
+  * [[https://forum.ubuntu-fr.org/viewtopic.php?id=1170821|autre post]]
+  * [[https://github.com/pvaret/rtl8192cu-fixes|Repackaging of Realtek's own 8192CU USB WiFi driver for Ubuntu 13.10 and later]]
+----
+//Contributeurs principaux : gontran//

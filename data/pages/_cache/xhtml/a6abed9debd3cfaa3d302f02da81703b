@@ -1,0 +1,250 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#les_scripts" class="toc"> Les scripts </a></span></li>
+<li class="level1"><span class="li"><a href="#le_dossier_templates" class="toc"> Le dossier Templates </a></span></li>
+<li class="level1"><span class="li"><a href="#gtweakui" class="toc"> gTweakUi </a></span></li>
+<li class="level1"><span class="li"><a href="#le_mode_spatial" class="toc"> Le mode spatial </a></span></li>
+<li class="level1"><span class="li"><a href="#raccourcis_clavier_pour_nautilus" class="toc"> Raccourcis Clavier pour Nautilus </a></span></li>
+<li class="level1"><span class="li"><a href="#rajouter_des_themes_icones_splashscreens" class="toc"> Rajouter des Thèmes, Icônes, SplashScreens </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#gtk2_et_windowgtk2" class="toc"> GTK2 et WINDOWGTK2 </a></span></li>
+<li class="level2"><span class="li"><a href="#gdm" class="toc"> GDM </a></span></li>
+<li class="level2"><span class="li"><a href="#icon" class="toc"> ICON </a></span></li>
+<li class="level2"><span class="li"><a href="#mcity" class="toc"> MCity </a></span></li>
+<li class="level2"><span class="li"><a href="#splashscreen" class="toc"> SplashScreen </a></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code"> Version Hoary</pre>
+ Rédigé par <a href="/utilisateurs/herbie" class="wikilink1" title="utilisateurs:herbie" onclick="return svchk()" onkeypress="return svchk()">Herbie</a> <br/>
+ Article provenant de <a href="http://debuntu.tuxfamily.org" class="urlextern" title="http://debuntu.tuxfamily.org" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://debuntu.tuxfamily.org</a>
+<p>
+Une page pour réunir les astuces des utilisateurs quotidiens de Gnome.
+</p>
+
+<p>
+Gnome est un environnement à la fois accessible et personnalisable. Voici quelques astuces pour le personnaliser.
+</p>
+
+<a name="les_scripts"></a><h1> Les scripts </h1>
+<div class="level1">
+
+<p>
+ Il est possible de personnaliser Nautilus. En faisant un clic droit sur un fichier ou un dossier, on peut lancer une action définie par un script. Par exemple, on peut demander à faire des conversions sur un fichier (waw&rarr;ogg, bmp&rarr;jpg etc.).
+</p>
+
+<p>
+Le dossier où l&rsquo;on doit stocker les scripts se situe dans votre home 
+</p>
+<pre class="code">/home/votre_login/.gnome2/nautilus-scripts/</pre>
+
+<p>
+ Pour afficher le dossier .gnome2 il suffit de faire afficher les dossiers cachés (CTRL+H)
+</p>
+
+<p>
+Choisissez les scripts qui vous intéressent : <a href="http://g-scripts.sourceforge.net/" class="urlextern" title="http://g-scripts.sourceforge.net/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Scripts Nautilus (EN)</a> et copiez les dans le dossier <em>nautilus-script</em>s. N&rsquo;oubliez pas de leur ajouter le droit en exécution sur chacun d&rsquo;eux : 
+</p>
+<ul>
+<li class="level1"><span class="li"> en ligne de commande <em>chmod</em> ; voir <a href="/console/learn_unix_in_10_minutes" class="wikilink1" title="console:learn_unix_in_10_minutes" onclick="return svchk()" onkeypress="return svchk()">Apprendre Unix en 10 minutes</a> section <em>Modifier les permissions et les droits</em>.</span>
+</li>
+<li class="level1"><span class="li"> ou en graphique : en faisant ALT-ENTREE sur le fichier, aller dans l&rsquo;onglet permission et cocher &ldquo;execution&rdquo;.</span>
+</li>
+</ul>
+
+<p>
+ Maintenant lorsque vous faites un clic droit, vous avez un menu Scripts <em>Nautilus</em>...
+</p>
+
+<p>
+La plupart des scripts nécessitent l&rsquo;installation de <em>zenity</em>. Un autre lien (Français cette fois) <a href="http://jmyarel.free.fr/index.php?idm=mss&amp;ide=nscpt" class="urlextern" title="http://jmyarel.free.fr/index.php?idm=mss&amp;ide=nscpt" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Yarel Contrib</a>
+</p>
+
+</div>
+<!-- SECTION [303-1554] -->
+<a name="le_dossier_templates"></a><h1> Le dossier Templates </h1>
+<div class="level1">
+
+<p>
+ Peut-être avez vous déjà remarqué qu&rsquo;un clic droit sur le bureau ouvre un menu &ldquo;Créer un document&rdquo; mais que celui-ci est vide.
+</p>
+
+<p>
+Pour créer un modèle Writer, Gedit, Calc et Drawing, il vous suffit d&rsquo;aller dans <em>/home/votre_login</em> et de créer un dossier &ldquo;Templates&rdquo;.
+</p>
+
+<p>
+Les documents créés, les déplacer dans le dossier Templates.
+</p>
+
+<p>
+Vous pourrez créer tous les documents que vous souhaitez à partir de ces modèles. 
+</p>
+
+</div>
+<!-- SECTION [1555-2016] -->
+<a name="gtweakui"></a><h1> gTweakUi </h1>
+<div class="level1">
+
+<p>
+ Si vous souhaitez modifier les différents splashscreen de démarrage de Gnome et modifier son comportement de façon simple, vous pouvez installer GTweakUi : 
+</p>
+<pre class="code">  sudo apt-get install gtweakui</pre>
+
+<p>
+ Sous Ubuntu, vous aurez alors y accéder par Système /Préférences, ou en console, en tapant [gtweakui] Il y a 4 outils de configuration :
+</p>
+<ul>
+<li class="level1"><span class="li"> Galeon</span>
+</li>
+<li class="level1"><span class="li"> Nautilus</span>
+</li>
+<li class="level1"><span class="li"> Menu</span>
+</li>
+<li class="level1"><span class="li"> Session</span>
+</li>
+</ul>
+
+<p>
+ L&rsquo;utilisation en est très intuitive.
+</p>
+
+</div>
+<!-- SECTION [2017-2461] -->
+<a name="le_mode_spatial"></a><h1> Le mode spatial </h1>
+<div class="level1">
+
+<p>
+ Sous Gnome et par défaut, le mode de navigation dans Nautilus (l&rsquo;explorateur de Gnome) est en &ldquo;Mode Spatial&rdquo;. (Editions/Préférences/Comportement/Toujours ouvrir dans les fenêtres de navigation)
+</p>
+
+<p>
+Voici une présentation de son intérêt :
+</p>
+
+<p>
+Le mode spatial génère un grand nombre de fenêtres, c&rsquo;est pourquoi il n&rsquo;est pas apprécié. Pourtant il semblerait qu&rsquo;en l&rsquo;utilisant régulièrement, ce mode ait de nombreux avantages. Le plus évident est qu&rsquo;il est extrêmement simple de faire des copier/coller (entre deux fenêtres en utilisant la souris).
+</p>
+
+<p>
+Voici donc les différentes manipulations à connaître pour essayer ce mode :
+</p>
+<ul>
+<li class="level1"><span class="li"> ouvrir dans la même fenêtre : double clic gauche</span>
+</li>
+<li class="level1"><span class="li"> ouvrir dans une autre fenêtre : double clic du milieu</span>
+</li>
+<li class="level1"><span class="li"> fermer la fenêtre précédente : CTRL-SHIFT-W</span>
+</li>
+<li class="level1"><span class="li"> femer la fenêtre en cours : CTRL-W</span>
+</li>
+<li class="level1"><span class="li"> remonter au dossier parent : ALT-Flèche du haut</span>
+</li>
+<li class="level1"><span class="li"> fermer toutes les fenêtres : CTRL-Q</span>
+</li>
+<li class="level1"><span class="li"> afficher les propriétés d&rsquo;un dossier/fichier : ALT-ENTREE</span>
+</li>
+</ul>
+
+<p>
+ Par défaut le drag’n’drop (glisser-déposer) fait une copie de fichier, si vous voulez le déplacer, il suffit de le faire avec le bouton du milieu et de choisir [déplacer].
+</p>
+
+<p>
+Une dernière astuce sympathique : dans les propriétés d&rsquo;un dossier/fichier il y a un onglet emblèmes. Cochez l&rsquo;un d&rsquo;entre eux et voyez le résultat. Vous pouvez en ajouter autant que vous voulez si vous êtes en mode icônes. C&rsquo;est très pratique pour organiser ces fichiers de façon visuelle. : <br/>
+  <br/>
+ <a href="/fetch.php?cache=cache&amp;media=wiki%3Aexemple.png" class="media" title="wiki:exemple.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=wiki%3Aexemple.png" class="mediacenter" alt="" /></a>
+</p>
+
+</div>
+
+<a name="enlever_le_mode_spatial"></a><h4>Enlever le mode spatial</h4>
+<div class="level4">
+
+<p>
+Pour enlever le mode spatial et revenir à une navigation classique (comme sous Konqueror ou l&rsquo;Explorateur Windows), deux possibilités :
+</p>
+<ul>
+<li class="level1"><span class="li"> via nautilus : Editions/Préférences/Comportement/Toujours ouvrir dans les fenêtres de navigation à cocher/décocher. Attention il faut redémarrer Nautilus pour que les modifications soient prises en compte</span>
+</li>
+<li class="level1"><span class="li"> ou allez dans <em>Applications</em> &rarr; <em>Outils système</em> &rarr; <em>Editeur de configuration GConf</em>. Ensuite, déroulez les rubriques <em>apps</em> puis <em>nautilus</em>. Cliquez sur <em>preferences</em>. Dans la colonne de droite, cochez la première case (en face de <em>always_use_browser</em>). La modification a été prise en compte. Vous pouvez quitter GConf. Pour revenir au mode spatial, recochez cette case.</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [2462-4784] -->
+<a name="raccourcis_clavier_pour_nautilus"></a><h1> Raccourcis Clavier pour Nautilus </h1>
+<div class="level1">
+<ul>
+<li class="level1"><span class="li"> ALT F10 pour aggrandir les fenêtres</span>
+</li>
+<li class="level1"><span class="li"> CTRL H pour afficher/cacher les fichiers/dossiers commençant par un ' . '</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [4785-4953] -->
+<a name="rajouter_des_themes_icones_splashscreens"></a><h1> Rajouter des Thèmes, Icônes, SplashScreens </h1>
+<div class="level1">
+<ul>
+<li class="level1"><span class="li"> <a href="http://art.gnome.org/" class="urlextern" title="http://art.gnome.org/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Art Gnome</a> <br/>
+</span>
+</li>
+<li class="level1"><span class="li"> <a href="http://gnomelook.org/" class="urlextern" title="http://gnomelook.org/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">Gnome Look</a></span>
+</li>
+</ul>
+
+<p>
+ Sur les sites de thèmes, icônes et autres graphismes, vous pouvez télécharger des archives. il en existe divers types (en début de nom de fichier) :
+</p>
+
+</div>
+<!-- SECTION [4954-5252] -->
+<a name="gtk2_et_windowgtk2"></a><h2> GTK2 et WINDOWGTK2 </h2>
+<div class="level2">
+
+<p>
+Sert à l&rsquo;installation de thèmes complets.  Pour ce faire, ouvrez le dossier où vous avez sauvegardé l&rsquo;archive téléchargée.  Ouvrez <em>Système/Préférences/Thèmes</em> par le menu principal, puis [détails des thèmes]  Sélectionnez et déplacez l&rsquo;archive  vers cet emplacement (glisser-déposer).  La fenêtre qui s&rsquo;affiche vous propose d&rsquo;installer le thème, cliquez sur &ldquo;Installer&rdquo;. C&rsquo;est fait.
+</p>
+
+</div>
+<!-- SECTION [5253-5688] -->
+<a name="gdm"></a><h2> GDM </h2>
+<div class="level2">
+
+<p>
+Gère le Gnome Display Manager, ce qui s&rsquo;affiche quand vous démarrez une session. Vous configurez ceci avec <em>Administration/Configuration de l&rsquo;écran de connexion</em> puis sur l&rsquo;onglet <em>Bannière graphique</em>. Cliquez sur <em>Installer un nouveau thème</em> et sélectionnez l&rsquo;archive téléchargée. Vous pouvez directement mettre les archives dans le répertoire /usr/share/
+</p>
+
+</div>
+<!-- SECTION [5689-6078] -->
+<a name="icon"></a><h2> ICON </h2>
+<div class="level2">
+
+<p>
+Pour installer des icônes, la procédure est identique à l&rsquo;installation d&rsquo;un nouveau thème.  Il suffit simplement de remplacer le dossier [thème] par un dossier [icones]
+</p>
+
+</div>
+<!-- SECTION [6079-6270] -->
+<a name="mcity"></a><h2> MCity </h2>
+<div class="level2">
+
+<p>
+Ce sont les bordures de fenêtres. Suivez la même procédure que pour les icônes ou les thèmes.
+</p>
+
+</div>
+<!-- SECTION [6271-6388] -->
+<a name="splashscreen"></a><h2> SplashScreen </h2>
+<div class="level2">
+
+<p>
+voir plus haut : gTweakUi 
+</p>
+
+</div>
+<!-- SECTION [6389-] -->

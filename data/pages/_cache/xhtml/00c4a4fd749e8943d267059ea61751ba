@@ -1,0 +1,114 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="level1"><span class="li"><a href="#speedtouch_330" class="toc"> SpeedTouch 330 </a></span><ul class="toc">
+<li class="level2"><span class="li"><a href="#1._visiter_la_page_originale" class="toc"> 1. Visiter la page originale </a></span></li>
+<li class="level2"><span class="li"><a href="#2._la_methode_expliquee_brievement" class="toc"> 2. La méthode expliquée brièvement </a></span></li>
+<li class="level2"><span class="li"><a href="#3._la_methode_en_detail" class="toc"> 3. La méthode en détail </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#a._recuperez_l_utilitaire_speedtouchconf" class="toc"> A. Récupérez l'utilitaire speedtouchconf </a></span></li>
+<li class="level3"><span class="li"><a href="#b._recuperez_le_microcode_du_speedtouch" class="toc"> B. Récupérez le microcode du SpeedTouch </a></span></li>
+<li class="level3"><span class="li"><a href="#c._preparez_l_installation" class="toc"> C. Préparez l'installation </a></span></li>
+<li class="level3"><span class="li"><a href="#d._finalisez_l_installation" class="toc"> D. Finalisez l'installation </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#4._problemes_courants" class="toc"> 4. Problèmes courants </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#la_connexion_ne_fonctionne_plus_apres_redemarrage" class="toc"> La connexion ne fonctionne plus après redémarrage. </a></span></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<a name="speedtouch_330"></a><h1> SpeedTouch 330 </h1>
+<div class="level1">
+
+<p>
+<strong>Installer le modem ADSL USB de Thomson/Alcatel sur Ubuntu Hoary 5.04, simplement, même si vous êtes chez <acronym title="America Online">AOL</acronym> !</strong>
+</p>
+
+<p>
+<em>Publié par Shinkan de <a href="http://www.pcextreme-fr.com" class="urlextern" title="http://www.pcextreme-fr.com" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.pcextreme-fr.com</a>, d&rsquo;après la méthode énoncée sur speedtouchconf.sourceforge.net, utilisant elle même les ressources de speedtouch.sourceforge.net.</em>
+</p>
+
+</div>
+<!-- SECTION [1-342] -->
+<a name="1._visiter_la_page_originale"></a><h2> 1. Visiter la page originale </h2>
+<div class="level2">
+
+<p>
+ Vous pourrez trouver ici la page explicant en anglais la méthode à suivre, et fournissant un utilitaire très précieux : speedtouchconf <a href="http://speedtouchconf.sourceforge.net" class="urlextern" title="http://speedtouchconf.sourceforge.net" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://speedtouchconf.sourceforge.net</a>
+</p>
+
+</div>
+<!-- SECTION [343-566] -->
+<a name="2._la_methode_expliquee_brievement"></a><h2> 2. La méthode expliquée brièvement </h2>
+<div class="level2">
+<ul>
+<li class="level1"><span class="li"> Vous vous procurez speedtouchconf et le &ldquo;microcode&rdquo; du modèle SpeedTouch 330</span>
+</li>
+<li class="level1"><span class="li"> Vous exécutez speedtouchconf</span>
+</li>
+<li class="level1"><span class="li"> Vous entrez le VPI/VCI de votre fournisseur ainsi que votre login, et c&rsquo;est fini !</span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [567-821] -->
+<a name="3._la_methode_en_detail"></a><h2> 3. La méthode en détail </h2>
+<div class="level2">
+
+</div>
+<!-- SECTION [822-860] -->
+<a name="a._recuperez_l_utilitaire_speedtouchconf"></a><h3> A. Récupérez l'utilitaire speedtouchconf </h3>
+<div class="level3">
+
+<p>
+Rendez-vous sur la page de téléchargement de la dernière version stable de speedtouchconf, et téléchargez le : <a href="http://sourceforge.net/project/showfiles.php?group_id=68502" class="urlextern" title="http://sourceforge.net/project/showfiles.php?group_id=68502" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://sourceforge.net/project/showfiles.php?group_id=68502</a>.
+</p>
+
+</div>
+<!-- SECTION [861-1095] -->
+<a name="b._recuperez_le_microcode_du_speedtouch"></a><h3> B. Récupérez le microcode du SpeedTouch </h3>
+<div class="level3">
+
+<p>
+Rendez vous sur <a href="http://www.speedtouchdsl.com/dvrreg_lx.htm" class="urlextern" title="http://www.speedtouchdsl.com/dvrreg_lx.htm" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.speedtouchdsl.com/dvrreg_lx.htm</a>, remplissez les informations demandées et  téléchargez le microcode officiel du lien &ldquo;Binary&rdquo; (alternative Open Source non testée).
+</p>
+
+</div>
+<!-- SECTION [1096-1347] -->
+<a name="c._preparez_l_installation"></a><h3> C. Préparez l'installation </h3>
+<div class="level3">
+
+<p>
+Sous Ubuntu Hoary 5.04, placez vous dans le répertoire où vous avez copié l&rsquo;utilitaire (.tar.gz) et le microcode (.zip). Décompressez l&rsquo;utilitaire : <code>tar xzf nom_du_speedtouchconf_telecharge.tar.gz</code> Copiez le microcode dans le répertoire de l&rsquo;utilitaire décompressé : <code>cp nom_du_microcode_telecharge.zip nom_du_speedtouchconf_telecharge</code> Lancez l&rsquo;utilitaire : <code>sudo ./speedtouchconf.sh</code>
+</p>
+
+</div>
+<!-- SECTION [1348-1786] -->
+<a name="d._finalisez_l_installation"></a><h3> D. Finalisez l'installation </h3>
+<div class="level3">
+
+<p>
+L&rsquo;utilitaire va vous demander les VPI/VCI de votre fournisseur d&rsquo;accès (Pour <acronym title="America Online">AOL</acronym> il faudra rentrer 8 35, 8 étant le VPI, 35 le VCI). Une liste des VPI/VCI selon les fournisseurs est publiée ici (non exhaustive, demandez à votre fournisseur d&rsquo;accès si vous ne les trouvez pas) : <a href="http://damien.bergamini.free.fr/ueagle/vpivci.html" class="urlextern" title="http://damien.bergamini.free.fr/ueagle/vpivci.html" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://damien.bergamini.free.fr/ueagle/vpivci.html</a> Vous devrez renseigner également votre login (souvent pseudo@fournisseur.xxx, pour <acronym title="America Online">AOL</acronym> : pseudo@aol.com), puis votre mot de passe. L&rsquo;utilitaire vous demandera également si vous souhaitez que la connexion s&rsquo;initialise automatiquement au démarrage, vous pouvez répondre Yes.
+</p>
+
+</div>
+<!-- SECTION [1787-2440] -->
+<a name="4._problemes_courants"></a><h2> 4. Problèmes courants </h2>
+<div class="level2">
+
+</div>
+<!-- SECTION [2441-2476] -->
+<a name="la_connexion_ne_fonctionne_plus_apres_redemarrage"></a><h3> La connexion ne fonctionne plus après redémarrage. </h3>
+<div class="level3">
+
+<p>
+L&rsquo;initialisation automatique n&rsquo;a pas fonctionné. Ajoutez &ldquo;pppoatm&rdquo; à la fin de votre fichier /etc/modules. Puis dans /etc/speedtouch.conf, changez LOAD_USBCORE et LOAD_USBINTERFACE de =1 à =0 
+</p>
+
+</div>
+<!-- SECTION [2477-] -->

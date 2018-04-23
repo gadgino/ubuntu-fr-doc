@@ -1,0 +1,160 @@
+{{tag>Hardy matériel audio baladeur BROUILLON}}
+
+----
+
+====== Baladeur MEIZU m6 by Dane-Elec ======
+
+{{http://www.informanews.net/tests/Meizu/all.jpeg|meizu m6 all}}
+
+Le lecteur audio/vidéo **Meizu m6** est compact et offre un design autre qu'un produit Apple. Il vous est possible d'acquérir ce lecteur multimédia en version 2Go, 4Go et 8Go en noir ou blanc et depuis Septembre 2007 en version slim (SL) (épaisseur réduite).
+
+
+Depuis 2006, le Meizu fait des émules, à tel point que des forums sont consacrés uniquement au lecteur. Si vous souhaitez regarder vos séries préférées, écouter l’album musical de l’année, votre radio préférée ou regarder vos photos de vacances, le Meizu devrait vous plaire...
+
+
+Le **Meizu m6** est parfaitement intégré au système Ubuntu.
+
+{{rhythmbox_et_meizu.png|rhythmbox et meizu}}
+
+
+
+===== Compatibilité =====
+Le lecteur Meizu m6 est détecté automatiquement par le système lors de son branchement via le cordon USB.
+
+
+
+===== Pré-requis =====
+
+
+Pour pouvoir importer et visualiser les vidéos il vous faudra:
+  * Disposer des [[:sudo|droits d'administration]] ;
+  * Disposer d'une connexion à Internet configurée et activée ;
+  * Avoir activé l'accès aux [[:depots#universe_et_multiverse|dépôts Universe et Multiverse]] ;
+
+
+===== Descriptif =====
+
+Pour les spécifications détaillée se reporter au site constructeur fournit à la section [[#Voir aussi]]
+
+  * Ecran : 2,4" TFT
+  * Musique : formats MP3, WMA, WAV et OGG
+  * Vidéo : format AVI
+  * Image : formats JPG, GIF et BMP, fonction album et diaporama
+  * Dimensions : 79mm x 48,2mm x 10mm (format carte de visite)
+  * Poids : 55g
+  * Microphone intégré
+  * Interface intuitive à sélecteur tactile
+  * Jusqu'à 20h d'autonomie pour la batterie en mode audio (Donnée constructeur)
+  * Connexion : USB 2.0
+
+
+
+==== Avantages ====
+
+Le lecteur Meizu m6 est compatible GNU/Linux. Il est reconnu comme un périphérique de masse. C'est à dire comme une clé USB. L'ajout et/ou la suppression de musiques, dessins ou vidéos se fait par simple copier/coller dans les répertoires appropriés du lecteur.
+
+
+Le lecteur Meizu m6 est capable de lire le format OGG nous permettant entre autre de récupérer directement les musiques de [[http://www.jamendo.com/|Jamendo]] via [[:RhythmBox]] par exemple.
+
+==== Inconvénient ====
+Le format vidéo du lecteur Meizu m6 n'est pas du xvid classique. Il faudra retailler la vidéo pour l'exporter sur le lecteur.
+
+
+===== Installation =====
+
+
+Pour pouvoir importer et visualiser les vidéos il vous faut:
+  * Avoir [[:tutoriel:comment_installer_un_paquet|installé le paquet]] **mencoder**.
+
+
+===== Utilisation =====
+
+==== Ajout/Suppression de fichiers de musique, d'images, de vidéos ====
+Le lecteur Meizu m6 étant reconnu comme une clé USB par le système, l'ajout, la suppression ou même la modification de fichiers images, sons et vidéos s'effectue comme pour une clé USB, selon votre interface préféré (Nautilus, ligne de commande,...)
+
+
+==== Import de vidéo ====
+
+=== Principe ===
+
+Le format vidéo du lecteur Meizu m6 n'est pas du xvid classique. Il faut donc retailler la vidéo pour l'exporter sur le lecteur.
+
+
+Dans cet exemple nous utiliserons l'application [[:mencoder]] via la ligne de commande. Voici la commande à adapter en fonction du nom de vos fichiers vidéos:
+
+    mencoder -quiet -msglevel all=-1 "nom_du_fichier_d_entrée" 
+    -idx -noodml -ignore-start -delay -0.3 
+    -ofps 20 
+    -vf scale=320:-2,expand=:240:::1,crop=320:240,rotate=1 
+    -af volnorm -ovc lavc -ffourcc XVID 
+    -lavcopts vcodec=mpeg4:vbitrate=384:vmax_b_frames=0:vhq -sws 9 -srate 44100 
+    -oac mp3lame 
+    -lameopts cbr:br=192:mode=0 
+    -o "nom_du_fichier_de_sortie"
+ 
+<note important>La conversion de format peut prendre quelques secondes à plusieurs dizaines de minutes en fonction de la taille du la vidéo à traiter et de la puissance de la machine utilisée.</note>
+
+FIXME : La commande ci-dessus peut poser des problèmes de décalage du son par rapport à l'image, à corriger...
+
+
+=== Automatisation de la conversion/compression ===
+
+Grâce à la fonctionnalité des scripts Nautilus, il est possible d'ajouter un item à la boite de dialogue (disponible par clic droit) pour proposer la compression vidéo.
+
+
+[[:tutoriel:comment_editer_un_fichier|Créer le fichier script]] **meizu.sh** suivant:
+
+<code bash>#!/bin/sh
+for file in $@
+do
+      mencoder $file -idx -noodml -ofps 20 -vf scale=320:-2,expand=:240:::1,crop=320:240,rotate=1 -ovc lavc -ffourcc XVID -lavcopts vcodec=mpeg4:vbitrate=384:vmax_b_frames=0:vhq -sws 9 -srate 44100 -oac mp3lame -lameopts cbr:br=128:mode=0 -o $file[mz].avi
+done
+</code>
+
+  * $@ correspond à la liste des fichiers sélectionnés
+  * $file correspond au fichier courant
+
+
+Afin de rendre le script disponible via l'interface Nautilus, il vous faut:
+
+
+Placer le script dans le répertoire suivant
+    ~/.gnome2/nautilus-scripts/meizu.sh
+
+Rendre le script exécutable via la ligne de commande
+    chmod +x ~/.gnome2/nautilus-scripts/meizu.sh
+
+
+<note>Les actions Nautilus permettent une meilleure intégration dans la boite de dialogue Nautilus et une gestion des exceptions. Exemple je clique droit sur un fichier.jpg en aucun cas je verrais "Compressez pour Meizu" dans le menu. Si vous avez réussi à intégrer la compression vidéo dans Nautilus Action merci d'apporter votre réponse via les commentaires.</note>
+
+
+
+===== Problèmes connus =====
+La conversion vidéo peut générer un déphasage du son par rapport à l'image. Si FIX connu, merci de mettre à jour la page.
+
+le nom du fichier à convertir ne doit pas comporter d'espace, ni de caractère spéciaux.
+
+La mise en place du script Nautilus est erronée. Source [[http://blog.creaone.fr/post/2007/10/02/Convertir-des-videos-au-format-Meizu-M6-sous-Ubuntu|Convertir des vidéos au format Meizu m6]].
+
+
+ 
+La solution décrite ici : http://www.meizume.com/video-imaging/5618-yet-another-mencoder-script.html , fonctionne.
+Il faudrait la traduire pour refaire cette page.
+
+===== Voir aussi =====
+
+== firmaware 2004.3 pour  meizu m6 sp ==
+  * **(fr)** [[http://www.megaupload.com/?d=2GBMGDSV|http://www.megaupload.com/?d=2GBMGDSV]] - firmaware sur  megaupload 
+
+Des références particulièrement intéressantes pour approfondir le sujet peuvent être utiles.
+
+  * **(en)** [[http://www.meizu.com/]] - site constructeur
+  * **(fr)** [[http://www.danedigital.com/1-MEIZU-by-Dane-Elec/1-presentation.html|Dane Elec]] - site distributeur français
+  * **(fr)** [[http://www.meizu-fr.info/]] - forum
+  * **(en)** [[http://www.meizume.com/]] - forum
+  * **(en)** [[http://www.meizume.com/miniplayer-m6-sl/]] - forum dédié au m6
+  * **(fr)** [[http://www.danedigital.com/UserFiles/File/meizu/Download/M6manual%20FR.pdf|Le manuel complet du Meizu m6]]
+
+----
+
+//Contributeurs : [[:utilisateurs:RemyBig]], sloter.//

@@ -1,0 +1,88 @@
+{{tag>Xenial audio}}
+
+----
+
+====== Mp3gain ====== 
+
+**Mp3Gain** est un logiciel de normalisation du volume des musiques __en ligne de commande__. Il permet donc de faire en sorte que des fichiers mp3 ayant initialement des volumes différents se retrouvent avec des volumes de sortie similaires. 
+
+Le logiciel peut travailler sur tous les fichiers d'un dossier, ou fichier par fichier.
+
+Il existe une interface graphique permettant un accès plus simple aux fonctions de Mp3Gain, mais aussi à la normalisation des fichiers OGG via vorbigain : **EasyMp3Gain**.
+
+Les logiciels équivalents à Mp3Gain pour les formats OGG et AAC sont respectivement [[apt://vorbisgain|vorbisgain]] et aacgain.
+
+**__ATTENTION__ : Mp3Gain** ne se trouve plus dans les dépôts Ubuntu à partir de la version 16.04 (ou 15.10?), et EasyMp3Gain depuis la version 16.10.
+
+===== Installation  avant Ubuntu 16.04=====
+
+Sur les versions antérieures à Ubuntu 16.04, **mp3gain** et **easymp3gain** sont dans les dépôts officiels. Vous pouvez :
+  * en ligne de commande  : taper dans un terminal **sudo apt-get install mp3gain** (logiciel utilisable uniquement en ligne de commande) ou **sudo apt-get install easymp3gain-gtk** (version utilisable graphiquement, qui installe automatiquement **mp3gain**).
+  * En mode graphique : dans la [[logitheque|logithèque]], chercher la version que vous souhaitez installer.
+
+===== Installation  sur Ubuntu 16.04=====
+EasyMp3Gain est encore dans les dépôts officiels, contrairement à Mp3Gain. En effet, EasyMp3Gain marche aussi pour les fichiers OGG, avec vorbisgain, qui est toujours dans les dépôts.
+
+Pour Mp3Gain, il faut passer par le PPA suivant :
+<code>sudo add-apt-repository ppa:flexiondotorg/audio
+sudo apt-get update
+sudo apt-get install mp3gain</code>
+
+Et pour EaysMp3Gain, une installation via la logithèque ou via un **sudo apt-get install easymp3gain-gtk** suffira.
+
+===== Installation  à partir de Ubuntu 16.10=====
+
+Pour les versions postérieures à Ubuntu 16.04, ce sont les 2 logiciels (si vous souhaitez les 2) qui doivent être installés hors dépôts (à vos risques et périls comme toujours dans ces cas là !).
+
+Pour la version en ligne de commande **mp3gain**, utilisez le PPA :
+<code>sudo add-apt-repository ppa:flexiondotorg/audio
+sudo apt-get update
+sudo apt-get install mp3gain</code>
+
+Pour avoir la surcouche graphique **EasyMp3Gain**, vous devez __ajouter__ à l'installation PPA ci-dessus **2 fichiers** récupérés sur la dernière version d'Ubuntu intégrant EasyMp3Gain, à savoir la 16.04 (testé et fonctionnel sur Ubuntu 16.10).
+  * [[https://www.ubuntuupdates.org/package/core/xenial/universe/base/easymp3gain-data|easymp3gain-data]] (dans la page de téléchargement, cliquez sur **All arch deb package).**
+  * [[https://www.ubuntuupdates.org/package/core/xenial/universe/base/easymp3gain-gtk|easymp3gain-gtk]] (dans la page de téléchargement, cliquez sur la version 32 bits ou 64 bits, selon votre système. Normalement, vous êtes en 64 bits).
+
+Après avoir récupéré ces 2 fichiers, il faudra les installer avec le logiciel [[gdebi|gdebi]] (en commençant par **easymp3gain-data**), ou en ligne de commande (après vous être placé dans le répertoire ou se trouvent les fichiers téléchargés) :  **sudo dpkg -i easy*.deb**
+
+Attention, cette version de **EasyMp3Gain** de contient pas **Mp3Gain**, donc il faudra bien avoir installé ce dernier logiciel à partir du PPA pour que cela fonctionne.
+===== Utilisation en ligne de commande =====
+
+Tout seul, **EasyMp3** est utilisable uniquement en ligne de commande. Par défaut, la normalisation du son se fait à **89.0 décibels**
+
+Pour normaliser le volume de tous les fichiers d'un même dossier, placez-vous dans le dossier à traiter, et utilisez la commande :
+<code>mp3gain -a -k *mp3</code>
+
+Pour un seul fichier :
+<code>mp3gain -r -k nom_du_fichier.mp3</code>
+
+Cette ligne traitera TOUS les mp3 de votre disque dur (toujours à 89 dcb) :
+<code>find . -name *mp3 -exec mp3gain -a -k {} \;</code>
+
+Pour ajuster à 5 dcb au-dessus des 89 dcb par défaut (donc 94 dcb).
+<code>mp3gain -r -d 5.0 nom_du_fichier.mp3</code>
+Pour ajuster 3 dcb en dessous (donc 86 dcb) :
+<code>mp3gain -r -d -3 nom_du_fichier.mp3</code>
+
+Normalement pour annuler une modification du volume, allez dans le répertoire concerné, puis :
+<code>mp3gain -u *mp3</code>
+ou pour un seul fichier :
+<code>mp3gain -u nom_du_fichier.mp3</code>
+
+__Soyez prudents__ : malgré l'option d'annulation, si vous avez peur de faire une bêtise, il peut être prudent de sauvegarder vos fichiers **mp3** avant de les modifier (sur une clé USB ou un disque externe, par exemple).
+
+Le détail des autres fonctions est accessible en tapant **man mp3gain** dans un terminal ou en ligne [[http://pwet.fr/man/linux/commandes/mp3gain|ici]].
+
+===== Utilisation graphique avec EasyMP3Gain =====
+
+Une fois lancé **EasyMp3Gain** : 
+  * choisissez **file > add folder** pour définir le répertoire de fichier que vous souhaitez analyser. 
+  * Puis **Analysis > Album analysis** (il peut y avoir un peu d'attente) pour afficher le volume actuel de sortie de chaque fichier (colonne "volume").
+  * Si vous souhaitez normaliser, saisissez le volume souhaité dans "**target volume**" (dans la barre d'icônes - par défaut c'est 89 dcb), puis **Modify Gain > Apply album gain**.
+
+{{:wiki:easymp3gain.png|}}
+
+===== Désinstallation =====
+
+mp3gain et easyMP3Gain se désinstallent avec le gestionnaire de paquet, ou
+<code>sudo apt-get remove --purge nom_du_paquet</code>

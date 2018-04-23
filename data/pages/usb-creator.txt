@@ -1,0 +1,65 @@
+{{tag>Xenial Trusty installation usb live_usb}}
+
+----
+
+====== USB Creator ======
+
+C'est un outil qui permet, à partir d'une [[wpfr>Image_disque|image ISO]], de créer une version [[Live Usb]] des systèmes d'exploitation Ubuntu ou Debian. C'est la méthode pour **essayer** un système d'exploitation avant de l'installer sur le disque dur. Cela nécessite un BIOS permettant le démarrage depuis un périphérique USB.
+
+<note warning>Usb-creator **endommage** gravement les clés usb, si vous voulez les réutiliser après avoir créé votre live-usb vous vous rendrez compte qu'il est difficile de les formater. Dans ce cas il est préférable d'utiliserun autre programme appelé [[:Unetbootin]] qui permet d'installer des live USB sur des clé USB. Il supporte l'installation de nombreuses distributions linux autre qu'Ubuntu.
+
+Dans tout les cas pensez à vérifier l'installation sur votre clé USB avec la commande md5sum -c ...
+</note>
+
+[[wpfr>Ubuntu_Live_USB_creator|Description de usb-creator sur Wikipedia]]
+
+===== Pré-requis =====
+
+  * Disposer des [[:sudo|droits d'administration]] ;
+  * Disposer d'un support USB **d'au moins 1,5 Gio** (l'image .iso faisant 970 Mio à partir de 14.04) **formaté en FAT32** ;
+  * Disposer d'une [[http://www.ubuntu-fr.org/telechargement|image CD d'Ubuntu]], ou simplement d'un CD //live//.
+
+===== Installation =====
+
+**USB Creator** est normalement installé par défaut. Si ce n'est pas le cas, [[:tutoriel:comment_installer_un_paquet|installez les paquets]] **[[apt>usb-creator-common,usb-creator-gtk|usb-creator-common et usb-creator-gtk]]**.
+
+=====Utilisation=====
+
+Lancez l'application via le [[:unity#tableau_de_bord_dash|tableau de bord]] avec le mot clé **Créateur de disque**.
+<note help>dans l’environnement graphique il peut s'appeler : **Créateur de disque de démarrage**</note>
+
+La création de votre Live-USB est effective si **USB Creator** vous demande votre mot de passe lors de la création du chargeur d'amorçage. Si ce n'est pas le cas, consultez la rubrique traitant des bogues.
+
+
+=====Problèmes connus=====
+
+====Message "gfxboot.c32: not a COM32R image"====
+
+Il s'agit d'un bug présent sur la version 14.04 d'Ubuntu. Ce message s'affiche lorsque l'on utilise la clef réalisée avec usb-creator pour une tentative de boot. Il bloque l'installation complète de la version Live et notamment la montée de l'interface graphique.
+
+Lorsque le message apparaît, tapez :
+<code>live</code>
+
+Cela devrait normalement permettre au processus d'installation de s'achever et à la session Live de se lancer.
+
+Merci à Arturpio pour avoir [[https://forum.ubuntu-fr.org/viewtopic.php?id=1705601|donné la solution]] sur le forum.
+====ISO dans le dossier 'Téléchargement'====
+
+Il faut éviter de positionner l'image à installer dans le dossier "//Téléchargement//" car cela produit une impossibilité d'installation. Usb Creator ne semble pas gérer le codage utf-8 et n'apprécie donc pas les accents.
+Placez votre image à la racine de votre dossier personnel pour que cela fonctionne.
+
+
+Rapport de bug fait [[https://bugs.launchpad.net/ubuntu/+source/usb-creator/+bug/458334|ici]].
+====La clé n'est pas proposée au démarrage de l'ordinateur====
+Sur certains ordinateurs le bios a besoin d'un exécutable en 32 bits sur la clé pour démarrer, or par défaut Ubuntu le propose en 64 bits. Voir la solution [[:live_usb#Cas des bios uefi en 32 bits|ici]].
+===== Désinstallation =====
+
+Pour supprimer cette application, il suffit de [[:tutoriel:comment_supprimer_un_paquet|supprimer son paquet]]. La configuration de l'application sera conservée ou supprimée selon la méthode de désinstallation que vous choisirez.
+
+Pour supprimer la partition live-USB, il suffit de la formater, par exemple avec [[:gparted]].
+
+===== Voir aussi =====
+
+  * [[http://www.pendrivelinux.com/creating-an-xubuntu-live-usb-from-cd/ |Autre tutorial en anglais]].
+  * [[https://rudd-o.com/linux-and-free-software/a-better-way-to-create-a-customized-ubuntu-live-usb-drive |Explications détaillées en anglais du processus pour constituer une clé usb en mode persistant]].
+  * [[http://gornthorn.over-blog.fr/article-live-usb-en-mode-persistant-avec-l-integralite-de-la-cle-usb-74373994.html | Tutorial (donné dans un renvoi de la discussion du forum au §4.1) expliquant comment faire pour utiliser toute l'espace de la clè]].

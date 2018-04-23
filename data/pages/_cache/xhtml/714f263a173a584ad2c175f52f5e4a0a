@@ -1,0 +1,282 @@
+<div class="toc">
+<div class="tocheader">Table of Contents <script type="text/javascript">showTocToggle("+","-")</script></div>
+<div id="tocinside">
+<ul class="toc">
+<li class="clear"><ul class="toc">
+<li class="level2"><span class="li"><a href="#preface" class="toc"> Preface </a></span></li>
+<li class="level2"><span class="li"><a href="#preparations" class="toc"> Preparations </a></span></li>
+<li class="level2"><span class="li"><a href="#configuration" class="toc"> Configuration </a></span></li>
+<li class="level2"><span class="li"><a href="#dlls_requises" class="toc"> DLLs requises </a></span></li>
+<li class="level2"><span class="li"><a href="#installation_de_steam_et_connexion" class="toc"> Installation de Steam et connexion </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#steam" class="toc">  Steam </a></span></li>
+<li class="level3"><span class="li"><a href="#half-life_2" class="toc"> Half-Life 2 </a></span></li>
+<li class="level3"><span class="li"><a href="#login" class="toc"> Login </a></span></li>
+</ul>
+</li>
+<li class="level2"><span class="li"><a href="#script_de_demarrage_d_half_life_2" class="toc">  Script de démarrage d'Half Life 2 </a></span><ul class="toc">
+<li class="level3"><span class="li"><a href="#optimisations" class="toc"> Optimisations </a></span></li>
+<li class="level3"><span class="li"><a href="#remerciements" class="toc"> Remerciements </a></span></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<pre class="code">Version Hoary</pre>
+ Rédigée par Ju.  / Traduction de l&rsquo;article <a href="http://www.linux-gamers.net/modules/wfsection/article.php?articleid=17" class="urlextern" title="http://www.linux-gamers.net/modules/wfsection/article.php?articleid=17" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">GSteam, Half-Life 2, CS and CS:Source with Wine</a>
+<a name="preface"></a><h2> Preface </h2>
+<div class="level2">
+
+<p>
+ Half Life 2 et Counter Strike sont les deux jeux les plus populaires du type First Person Shooter actuellement. Ces jeux ont été developpés pour Microsoft Windows. Un nombre grandissant de personnes utilise Linux sans pour autant renoncer à jouer à leurs jeux favoris.
+</p>
+
+<p>
+Ce guide devrait rendre possible, pour n&rsquo;importe qui, d&rsquo;avoir une version fonctionnelle de Steam sous Linux. Il peut sembler judicieux d&rsquo;avoir suivi au préalable les guides d&rsquo;installation des matériels <a href="/materiel/ati" class="wikilink1" title="materiel:ati" onclick="return svchk()" onkeypress="return svchk()">ATI</a> et <a href="/materiel/nvidia" class="wikilink1" title="materiel:nvidia" onclick="return svchk()" onkeypress="return svchk()">NVidia</a>.
+</p>
+
+<p>
+Merci de suivre chaque étape décrite ci dessous. 
+</p>
+<pre class="code">Ce guide n'est pas encore fonctionnel ! Je suis bloqué à l'etape installation de Half Life 2... Ju.</pre>
+
+</div>
+<!-- SECTION [187-888] -->
+<a name="preparations"></a><h2> Preparations </h2>
+<div class="level2">
+
+<p>
+ Installation des paquets necessaires :  
+</p>
+<pre class="code">sudo apt-get install cvs build-essential bison flex-old libasound2-dev x-window-system-dev libpng12-dev libjpeg62-dev libfreetype6-dev libxrender-dev libttf2 libttf-dev msttcorefonts libfontconfig1-dev</pre>
+
+<p>
+ Récupérons et exécutons le script d&rsquo;installation de WineCVS, ouvrez un terminal : 
+</p>
+<pre class="code">wget http://winecvs.linux-gamers.net/WineCVS.sh &amp;&amp;  sh WineCVS.sh</pre>
+
+<p>
+J&rsquo;ai eu un probleme à l&rsquo;installation : conflit sur libGL.a j&rsquo;ai contourné en faisant : 
+</p>
+<pre class="code">cd /usr/X11R6/lib/ &amp;&amp; sudo mv libGL.a libGL.a.ubuntu</pre>
+
+<p>
+ Ce script télécharge avec wget un fichier <em>defaults.tar.gz</em> et les scripts d&rsquo;installation nécessaires. Une fois terminé vous devriez voir  son menu d&rsquo;installation.
+</p>
+
+<p>
+Choissisez le profil dx9wine_head_userinstall... suivez les étapes, la compilation prend un certain temps, les textes ecrits en rouge sont juste des conseils : <strong>il n&rsquo;y a rien à faire pendant la compilation</strong>...
+</p>
+
+<p>
+...C&rsquo;est fini !
+</p>
+
+<p>
+Compilation et installation réussite
+</p>
+<pre class="code">dx9wine</pre>
+
+<p>
+ va créer la configuration les dossiers windows dans <em>~/.dx9wine</em>.
+</p>
+
+<p>
+Pour ajouter un lecteur &lsquo;virtuel&rsquo; il faut faire un lien symbolique, par exemple chez moi : 
+</p>
+<pre class="code">ln -s /data/wine w:</pre>
+
+<p>
+ Chez moi /data est une partition avec pas mal de place...
+</p>
+
+</div>
+<!-- SECTION [889-2160] -->
+<a name="configuration"></a><h2> Configuration </h2>
+<div class="level2">
+
+<p>
+C&rsquo;est là qu&rsquo;arrive la partie délicate...
+</p>
+
+<p>
+Ouvrez le fichier wineconf du dossier d&rsquo;installation de dx9wine.<br/>
+ Ajoutez les lignes suivantes à la fin du fichier avant <strong># [/wineconf]</strong> : 
+</p>
+<pre class="code">;; Steam/Half-Life/Half-Life 2
+[AppDefaults\\steam.exe\\DllOverrides]
+&quot;shdocvw&quot; = &quot;native,builtin&quot;
+&quot;shlwapi&quot; = &quot;native,builtin&quot;
+[AppDefaults\\hl.exe\\DllOverrides]
+&quot;shdocvw&quot; = &quot;native,builtin&quot;
+&quot;shlwapi&quot; = &quot;native,builtin&quot;
+[AppDefaults\\hl.exe\\dsound]  
+&quot;HardwareAcceleration&quot; = &quot;Emulation&quot;
+[AppDefaults\\hl2.exe\\DllOverrides]
+&quot;shdocvw&quot; = &quot;native,builtin&quot;
+&quot;shlwapi&quot; = &quot;native,builtin&quot;
+[AppDefaults\\hl2.exe\\dsound]
+&quot;HardwareAcceleration&quot; = &quot;Emulation&quot;</pre>
+
+</div>
+<!-- SECTION [2161-2861] -->
+<a name="dlls_requises"></a><h2> DLLs requises </h2>
+<div class="level2">
+
+<p>
+La derniére version de Steam a besoin de  <strong>msvcr70.dll</strong>, <strong>shdocvw.dll</strong> et <strong>shlwapi.dll</strong>.  Vous pouvez les récupérer sur <a href="http://www.dll-files.com/" class="urlextern" title="http://www.dll-files.com/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.dll-files.com/</a> déplacez les dans le dossier <em>~/.dx9wine/drive_c/windows/System</em> selon ce que vous avez installé
+</p>
+
+</div>
+<!-- SECTION [2862-3152] -->
+<a name="installation_de_steam_et_connexion"></a><h2> Installation de Steam et connexion </h2>
+<div class="level2">
+
+</div>
+<!-- SECTION [3153-3200] -->
+<a name="steam"></a><h3>  Steam </h3>
+<div class="level3">
+
+<p>
+ Récupérons le client Steam sur  <a href="http://www.filemirrors.com/search.src?file=steaminstall_cs.exe" class="urlextern" title="http://www.filemirrors.com/search.src?file=steaminstall_cs.exe" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.filemirrors.com/search.src?file=steaminstall_cs.exe</a> 380Mo  puis :  
+</p>
+<pre class="code">dx9wine SteamInstall_CS.exe</pre>
+
+<p>
+ <a href="/fetch.php?cache=cache&amp;media=applications%3Ajeux%3Asteam-installing.png" class="media" title="applications:jeux:steam-installing.png" onclick="return svchk()" onkeypress="return svchk()"><img src="/fetch.php?w=&amp;h=&amp;cache=cache&amp;media=applications%3Ajeux%3Asteam-installing.png" class="media" alt="" /></a>
+</p>
+
+<p>
+L&rsquo;nstallation devrait bien se passer, à la fin de l&rsquo;opération il proposera un reboot, acceptez. <a href="#fn1" name="fnt1" class="fn_top">1)</a>
+</p>
+
+</div>
+<!-- SECTION [3201-3589] -->
+<a name="half-life_2"></a><h3> Half-Life 2 </h3>
+<div class="level3">
+
+<p>
+Pour faire fonctionner l&rsquo;installeur vous devez avoir DCOM98 au préalable. C&rsquo;est téléchargeable ici :
+</p>
+<pre class="code">http://www.microsoft.com/downloads/details.aspx?FamilyID=08b1ac1b-7a11-43e8-b59d-0867f9bdda66&amp;DisplayLang=en</pre>
+
+<p>
+ puis executer la commande : 
+</p>
+<pre class="code">WINEDLLOVERRIDES=&quot;ole32=n&quot; dx9wine dcom98.exe</pre>
+
+<p>
+ L&rsquo;installeur d&rsquo;Half Life 2 est un installeur MSI et fonctionne avec un utilitaire appellé Windows Installer. Vous pouvez télécharger cet installeur sur la page : 
+</p>
+<pre class="code">http://www.microsoft.com/downloads/details.aspx?FamilyID=cebbacd8-c094-4255-b702-de3bb768148f&amp;DisplayLang=en#filelist</pre>
+
+<p>
+ et l&rsquo;installer via la commande :  
+</p>
+<pre class="code">dx9wine instmsia.exe</pre>
+
+<p>
+ A présent ajouter les lignes suivantes à la section [DllOverrides] du fichier <em>~/.dx9wine/config</em> : 
+</p>
+<pre class="code">&quot;msi&quot; = &quot;native, builtin&quot;
+&quot;msiexec.exe&quot; = &quot;native, builtin&quot;</pre>
+
+<p>
+ Executer la commande 
+</p>
+<pre class="code"> dx9wine msiexec /i /chemin/vers/steam.msi</pre>
+
+<p>
+ et Half Life 2 sera installé
+</p>
+
+</div>
+<!-- SECTION [3590-4525] -->
+<a name="login"></a><h3> Login </h3>
+<div class="level3">
+
+<p>
+ Si vous ne pouvez pas taper votre mot de passe / Emai, vous devrez lancer Wine en mode Bureau. Cela va imiter le bureau windows et lancera les applications dans une grande fenetre.
+</p>
+
+<p>
+Ajoutez une autre  &ldquo;<em>AppDefaults</em>&quot; options dans ~/.wine/config : 
+</p>
+<pre class="code">[AppDefaults\\Steam.exe\\x11drv]
+&quot;Desktop&quot; = &quot;1027x768&quot;</pre>
+
+<p>
+ mettez la résolution que vous voulez. Cela lancera Steam en mode bureau.
+</p>
+
+</div>
+<!-- SECTION [4526-4928] -->
+<a name="script_de_demarrage_d_half_life_2"></a><h2>  Script de démarrage d'Half Life 2 </h2>
+<div class="level2">
+<pre class="code">#!/bin/bash
+cd /path/to/Steam
+wine Steam.exe -fullscreen -width 1024 -height 768 -applaunch 220 -heapsize 512000 +map_background none &amp;</pre>
+
+<p>
+ La script ci dessus va lancer Half Life 2 (-applaunch 220) avec 500Mo de mémoire réservée (-heapsize 512000) et Half Life 2 sera lancé sans le fond 3D du menu principal (+map_background none).  De la mêmme façon que vous pouvez ajouter des variables au lancement de Steam, vous pouvez en ajouter au script de démarrage d&rsquo;Half Life 2. Vous pouvez ajouter autant de varibles que vous souhaitez.
+</p>
+
+</div>
+
+<a name="options_de_la_ligne_de_commande"></a><h4> Options de la ligne de commande </h4>
+<div class="level4">
+
+<p>
+ -heapsize [Kilobytes]: This command tells Half Life 2 to allocate more RAM to the game system heap, where it can be accessed by the game to improve performance by storing more game information in RAM and hence reducing loading pauses. The default heapsize is 64MB, however you can safely allocate around 128MB (i.e. -heapsize 128000) for most systems. You can use higher values if you have more RAM, but I don&rsquo;t recommend exceeding half your physical RAM (e.g. for 1GB RAM, set heapsize of 512000).
+</p>
+
+<p>
+-console: Accélere le chargement de Half Life 2  au démarrage en ne chargeant pas les images 3D de fond sur le menu principal et en affichant à la place une image simple et la console Half Life. Vous pouvez fermer la console en appuyant sur la touche &lsquo;~&rsquo;.
+</p>
+
+<p>
+-width [pixels] -height [pixels]: En utilisant ces deux commandes vous pouvez personnaliser la résolution en nombre pixel pour la hauteur (height) et la largeur (width) (e.g. -width 640 –height 480 démarre HL2 avec la résolution 640&times;480). Assurez vous que la résolution que vous avez choisie soit supportée par votre écran avec un rapport corect entre la largeur et la hauteur (généralement 4:3).
+</p>
+
+<p>
+-dxlevel [version]: En utilisant cette commande vous forcez Half Life à utiliser la version passée en paramêtre de DirectX. Par exemple, utilisez -dxlevel 70 Pour forcer l&rsquo;utilisation de DirectX7.0. Cela provoque une perte en qualité d&rsquo;image mais un gain de performances. D&rsquo;autre valeurs sont possible comme -dxlevel 80 -dxlevel 81 et -dxlevel90. Ceci n&rsquo;est possible seulement si vous choisissez une version de directX qui est infèrieure à celle supportée par votre carte graphique. Regardez la documentation du jeu à ce sujet pour plus de détails.
+</p>
+
+<p>
+-refresh [Hz]: Spécifie le taux de rafraichissement que vous allez utiliser au chargement du jeu.Ce n&rsquo;est normalement pas nécéssaire car le systeme utilise généralement le taux optimal pour la résolution choisie. Si ce n&rsquo;est pas le cas vous pouvez forcer la valeur pour ce taux de raffraichissement (e.g. -rate 85). Soyez certains que le taux que vous indiquez ne depasse pas les possibilitées de votre écran au risque de l&rsquo;endommager - Surtout si vous changez la résolution et oubliez de changer cette option.
+</p>
+
+</div>
+<!-- SECTION [4929-7812] -->
+<a name="optimisations"></a><h3> Optimisations </h3>
+<div class="level3">
+
+<p>
+ Un guide d&rsquo;astuces en anglais pour Half-life 2 se trouve ici : <a href="http://www.linux-gamers.net/modules/wfsection/article.php?articleid=60" class="urlextern" title="http://www.linux-gamers.net/modules/wfsection/article.php?articleid=60" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.linux-gamers.net/modules/wfsection/article.php?articleid=60</a>
+</p>
+
+</div>
+<!-- SECTION [7813-7973] -->
+<a name="remerciements"></a><h3> Remerciements </h3>
+<div class="level3">
+
+<p>
+ Merci infiniment à 
+</p>
+<ul>
+<li class="level1"><span class="li"> leadazide</span>
+</li>
+<li class="level1"><span class="li"> Thunderbird,</span>
+</li>
+<li class="level1"><span class="li"> <a href="http://www.frankscorner.org/" class="urlextern" title="http://www.frankscorner.org/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.frankscorner.org/</a></span>
+</li>
+<li class="level1"><span class="li"> <a href="http://www.winehq.org/" class="urlextern" title="http://www.winehq.org/" onclick="return svchk()" onkeypress="return svchk()" rel="nofollow">http://www.winehq.org/</a></span>
+</li>
+</ul>
+
+</div>
+<!-- SECTION [7974-] --><div class="footnotes">
+<div class="fn"><a href="#fnt1" name="fn1" class="fn_bot">1)</a> 
+il lance en paralléle <strong>steam</strong> qui n&rsquo;est pas encore pret et qui va planter</div>
+</div>
