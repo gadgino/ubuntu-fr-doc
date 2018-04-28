@@ -1,0 +1,80 @@
+/*font-charger */
+@font-face {
+  font-family: "Ubuntu Tiling";
+  src: url("data/media/font/UbuntuTitling-Bold.ttf");
+}
+body{
+    font-family: "Ubuntu Tiling","Ubuntu",Tahoma,"Helvetica Neue",Helvetica,Arial,sans-serif,FontAwesome;
+}
+
+
+/*_______________________________ENTÊTE_______________________________________________*/
+#dw__navbar{
+    border-width: 0px;
+    border-radius: 0em 0em 0.3em 0.3em;
+    box-shadow: 0px 0.3em 0.3em;
+    z-index: 100;
+   
+}
+#dw__logo{
+    display:none;
+}
+#dw__title{
+    margin: 0px;
+}
+
+.navbar-brand{
+    padding:15px;
+    text-shadow: 0px 2px 2px #0c1753;
+}
+.navbar-brand::before{
+    content:'\E0FF';
+    font-size: 2em;
+    margin-right: 0.3em;
+    width: 1.28571429em;
+    text-align: center;
+}
+.navbar-nav a::before{
+    font-size: 2em;
+    margin-right: 0.3em;
+    width: 1.28571429em;
+    text-align: center;
+}
+.navbar a[href*="Accueil"]:before{
+    content:"\e0ff";
+}
+.navbar a[href*="//ubuntu-fr.org/"]::before{
+    content: "\f015";
+}
+.navbar a[href*="forum"]::before{
+    content:"\f086";
+}
+.navbar a[href*="planet"]::before{
+    content: "\f0ac";
+}
+.navbar li.level1{
+    text-shadow: 0px 2px 2px #0c1753;
+}
+#dw__navbar a.dropdown-toggle{
+    text-shadow: 0px 2px 2px #0c1753;
+}
+#dw__navbar ul.dropdown-menu{
+    border-radius: 0em 0em 0.3em 0.3em;
+    box-shadow: 0px 0.3em 0.3em;
+    z-index:99;
+}
+.navbar-default .navbar-nav > li > a{
+    height: 3.7em;
+}
+/________________________________TABLE DES MATIÈRES TDM(TOC)_________________________________*/
+#dw__toc{
+    box-shadow: 0px 0.3em 0.3em black;
+    border-radius: 0.3em;
+    margin-top: 1em;
+}
+
+/*effet de bord du pied de page */
+#dw__footer{
+    border-radius: 0.3em 0.3em 0em 0em;
+    box-shadow: 0px -0.3em 0.3em;
+}

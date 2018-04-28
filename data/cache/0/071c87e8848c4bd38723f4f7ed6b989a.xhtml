@@ -1,0 +1,717 @@
+<div class="tags"><span>
+	<a href="/ubuntu-fr-doc/doku.php/systeme" class="wikilink1" title="systeme" rel="tag">système</a>,
+	<a href="/ubuntu-fr-doc/doku.php/installation" class="wikilink1" title="installation" rel="tag">installation</a>,
+	<a href="/ubuntu-fr-doc/doku.php/amorcage" class="wikilink1" title="amorcage" rel="tag">amorçage</a>
+</span></div>
+<hr />
+
+<h1 class="sectionedit1" id="ordinateurs_avec_uefi_efi">Ordinateurs avec UEFI (~EFI)</h1>
+<div class="level1">
+
+<p>
+<a href="/ubuntu-fr-doc/lib/exe/detail.php/visual_bios.jpg?id=uefi" class="media wikilink2" title="visual_bios.jpg"><img src="/ubuntu-fr-doc/lib/exe/fetch.php/visual_bios.jpg" class="mediaright" title="Intel Visual BIOS, l&#039;une des nombreuses interfaces UEFI" alt="Intel Visual BIOS, l&#039;une des nombreuses interfaces UEFI" /></a>
+</p>
+
+<p>
+<strong>Unified Extensible Firmware Interface</strong> (<a href="https://fr.wikipedia.org/wiki/UEFI" class="interwiki iw_wpfr" title="https://fr.wikipedia.org/wiki/UEFI">UEFI</a>) est une interface logicielle désormais commune à tous les ordinateurs récents, particulièrement ceux vendus depuis 2010. Elle vient se placer entre le micrologiciel (<em>firmware</em>) et le système d&#039;exploitation pour permettre de contrôler les paramètres de l&#039;ordinateur. A ce titre, elle remplace la traditionnelle interface du BIOS. Puisqu&#039;il s&#039;agit d&#039;un système différent du BIOS, il est important de comprendre ce qu&#039;est l&#039;UEFI avant d&#039;entreprendre l&#039;installation d&#039;Ubuntu.
+</p>
+
+<p>
+<em>(On retrouve parfois l&#039;appellation « EFI » pour désigner cette interface. A l&#039;origine, EFI était développé par Intel. Les spécifications ont été reprises par un ensemble d&#039;acteurs informatiques réunis en un seul groupe, l&#039;UEFI Forum, puis distribuées sous l&#039;appellation « UEFI ». Dans le présent document et dans les forums d&#039;aide, à moins d&#039;un avis contraire, ces deux termes désignent essentiellement la même chose.)</em>
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Ordinateurs avec UEFI (~EFI)&quot;,&quot;hid&quot;:&quot;ordinateurs_avec_uefi_efi&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:1,&quot;range&quot;:&quot;47-1154&quot;} -->
+<h2 class="sectionedit2" id="installer_rapidement_ubuntu_sur_un_pc_recent_sans_se_soucier_de_l_efi">Installer rapidement Ubuntu sur un PC récent (sans se soucier de l&#039;EFI)</h2>
+<div class="level2">
+
+<p>
+&lt;note important&gt; L&#039;installateur d&#039;Ubuntu ne reconnaît la présence de Windows-8/10® pré-installé en mode EFI qu&#039;à partir de <a href="/ubuntu-fr-doc/doku.php/trusty" class="wikilink1" title="trusty">Trusty 14.04.2</a> <em>(<a href="/ubuntu-fr-doc/doku.php/trusty" class="wikilink1" title="trusty">14.04.3</a> pour certaines <a href="/ubuntu-fr-doc/doku.php/variantes" class="wikilink1" title="variantes">variantes</a>)</em>. De plus, ces versions d&#039;Ubuntu s&#039;affranchissent de la <a href="/ubuntu-fr-doc/doku.php/desactiver_secure_boot" class="wikilink1" title="desactiver_secure_boot">désactivation du secure-boot</a>.<br/>
+
+Sauf à savoir ce que vous faites, n’utilisez pas de version d&#039;Ubuntu antérieure à <a href="/ubuntu-fr-doc/doku.php/trusty" class="wikilink1" title="trusty">Trusty 14.04.2</a> pour une installation en conservant Windows® pré-installé en mode EFI.<br/>
+
+&lt;/note&gt;
+Si votre ordinateur est récent (&gt;2010) et que vous ne savez pas ou vous n&#039;avez pas besoin d&#039;installer Ubuntu en mode UEFI, vous devriez être en mesure d&#039;installer Ubuntu rapidement et correctement en suivant les étapes suivantes :
+</p>
+<ol>
+<li class="level1"><div class="li"> <a href="/ubuntu-fr-doc/doku.php/tutoriel/obtenir_cd_ubuntu" class="wikilink1" title="tutoriel:obtenir_cd_ubuntu">Procurez-vous un média d&#039;installation d&#039;Ubuntu (un DVD ou un liveUSB)</a>  <strong>64bits</strong> international &gt;=<a href="/ubuntu-fr-doc/doku.php/trusty" class="wikilink1" title="trusty">Trusty 14.04.2</a> <em>(ou <a href="/ubuntu-fr-doc/doku.php/trusty" class="wikilink1" title="trusty">14.04.3</a> pour certaines <a href="/ubuntu-fr-doc/doku.php/variantes" class="wikilink1" title="variantes">variantes</a>)</em></div>
+</li>
+<li class="level1"><div class="li"> Prenez les <a href="/ubuntu-fr-doc/doku.php/cohabitation_ubuntu_windows" class="wikilink1" title="cohabitation_ubuntu_windows">précautions habituelles pour la cohabitation d&#039;Ubuntu avec Windows</a></div>
+</li>
+<li class="level1"><div class="li"> Dans le BIOS, désactiver le <strong>QuickBoot</strong> (parfois appelé <strong>FastBoot</strong>)<sup><a href="#fn__1" id="fnt__1" class="fn_top">1)</a></sup> et <a href="http://ubuntuforums.org/showpost.php?p=12460938&amp;postcount=6" class="urlextern" title="http://ubuntuforums.org/showpost.php?p=12460938&amp;postcount=6" rel="nofollow">Intel Smart Response Technology</a> (SRT). Si vous avez Windows-8/10® pré-installé, <a href="http://www.zebulon.fr/astuces/273-desactiver-le-demarrage-rapide-de-windows-8.html" class="urlextern" title="http://www.zebulon.fr/astuces/273-desactiver-le-demarrage-rapide-de-windows-8.html" rel="nofollow">désactivez le démarrage rapide</a> (<a href="http://www.eightforums.com/tutorials/6320-fast-startup-turn-off-windows-8-a.html" class="urlextern" title="http://www.eightforums.com/tutorials/6320-fast-startup-turn-off-windows-8-a.html" rel="nofollow">&quot;Fast Startup&quot; Off</a>).</div>
+</li>
+<li class="level1 node"><div class="li"> <a href="/ubuntu-fr-doc/doku.php/tutoriel/amorcer_sur_cd_ubuntu" class="wikilink1" title="tutoriel:amorcer_sur_cd_ubuntu">Démarrez votre ordinateur sur ce média d&#039;installation, choisissez &quot;Try Ubuntu without installing&quot;</a>. <br/>
+<em class="u">Remarques</em>:</div>
+<ul>
+<li class="level2"><div class="li"> Pour ceux qui ont Windows-8/10® pré-installé, assurez-vous que l&#039;ordinateur démarre en mode EFI depuis le média d&#039;installation (Présence de l&#039;interface GNU GRUB 2) comme expliqué au paragraphe <a href="#identifier_si_l_ordinateur_demarre_sur_le_cd_ou_la_live_usb_en_mode_efi" title="uefi ↵" class="wikilink1">Identifier si l&#039;ordinateur démarre sur le CD (ou la live USB) en mode EFI</a> : cela permet d&#039;éviter d&#039;avoir à <a href="#convertir_ubuntu_en_mode_efi" title="uefi ↵" class="wikilink1">Convertir Ubuntu en mode EFI</a> ultérieurement.</div>
+</li>
+<li class="level2"><div class="li"> Si vous avez une erreur <strong>Secure boot</strong> ou <strong>wrong signature</strong>, désactivez le SecureBoot comme indiqué dans <a href="#activerdesactiver_le_secure_boot" title="uefi ↵" class="wikilink1">ce paragraphe</a> ou dans cette documentation <a href="/ubuntu-fr-doc/doku.php/desactiver_secure_boot" class="wikilink1" title="desactiver_secure_boot">Comment désactiver le secure boot</a></div>
+</li>
+</ul>
+</li>
+<li class="level1"><div class="li"> <a href="/ubuntu-fr-doc/doku.php/tutoriel/installer_ubuntu_avec_le_live_cd" class="wikilink1" title="tutoriel:installer_ubuntu_avec_le_live_cd">Installez Ubuntu normalement</a> (sans vous préoccuper de l&#039;EFI), </div>
+</li>
+<li class="level1"><div class="li"> Redémarrez l&#039;ordinateur. </div>
+</li>
+</ol>
+
+<p>
+Une fois redémarré:
+</p>
+<ul>
+<li class="level1"><div class="li"> Si Windows® démarre sur un écran bleu &quot;Your PC needs to be repaired&quot;, suivez <a href="http://forum.ubuntu-fr.org/viewtopic.php?pid=12399801#p12399801" class="urlextern" title="http://forum.ubuntu-fr.org/viewtopic.php?pid=12399801#p12399801" rel="nofollow">ces instructions</a></div>
+</li>
+<li class="level2"><div class="li"> Si l&#039;ordinateur ne démarre pas sur Ubuntu (mais directement sur Windows® par exemple), il suffira de <a href="/ubuntu-fr-doc/doku.php/tutoriel/amorcer_sur_cd_ubuntu" class="wikilink1" title="tutoriel:amorcer_sur_cd_ubuntu">démarrer à nouveau sur votre Média d&#039;installation Ubuntu, choisir &quot;Essayer Ubuntu&quot;</a> puis lancer <a href="/ubuntu-fr-doc/doku.php/boot-repair" class="wikilink1" title="boot-repair">Boot-Repair</a> afin de mettre Ubuntu dans le bon mode (normalement il suffit d&#039;1 clic sur le bouton &quot;Réparation recommandée&quot;, sinon voir <a href="/ubuntu-fr-doc/doku.php/accueil#convertir_ubuntu_en_mode_efi_ou_non-efi" class="wikilink1" title="accueil">ce paragraphe</a>).</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Installer rapidement Ubuntu sur un PC r\u00e9cent (sans se soucier de l&#039;EFI)&quot;,&quot;hid&quot;:&quot;installer_rapidement_ubuntu_sur_un_pc_recent_sans_se_soucier_de_l_efi&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:2,&quot;range&quot;:&quot;1155-4541&quot;} -->
+<h2 class="sectionedit3" id="installer_ubuntu_en_mode_efi">Installer Ubuntu en mode EFI</h2>
+<div class="level2">
+
+<p>
+Avertissement: si vous êtes débutant, mieux vaut suivre les conseils du paragraphe précédent.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Installer Ubuntu en mode EFI&quot;,&quot;hid&quot;:&quot;installer_ubuntu_en_mode_efi&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:3,&quot;range&quot;:&quot;4542-4682&quot;} -->
+<h3 class="sectionedit4" id="cas_ou_il_faut_installer_ubuntu_en_mode_efi">Cas où il faut installer Ubuntu en mode EFI</h3>
+<div class="level3">
+
+<p>
+ Le fait d&#039;avoir un ordinateur équipé du système UEFI n&#039;implique pas nécessairement que Ubuntu soit installé en mode EFI.
+</p>
+<ul>
+<li class="level1"><div class="li">  si <em class="u">les autres systèmes</em>  (Windows Vista/7/8, GNU/Linux…) de votre ordinateur sont installés en mode EFI, alors il faut installer Ubuntu en mode EFI.</div>
+</li>
+</ul>
+
+<p>
+      Pour le savoir :
+Sous Windows ouvrir le terminal en mode admin (démarrer → taper &quot;cmd&quot; et CTRL-MAJ-ENTER) et taper &quot;bcdedit&quot;. S&#039;affichent deux blocs d&#039;informations. Dans le deuxième le &quot;path&quot; est le révélateur : s&#039;il finit en efi le système est installé en efi.
+</p>
+<pre class="code">....
+Windows Boot Loader
+-------------------
+identifier              {current}
+device                  partition=C:
+path                    \Windows\system32\winload.efi
+description             Windows 7 Home Premium (recovered)
+....</pre>
+
+<p>
+&lt;note&gt;
+</p>
+<ul>
+<li class="level1"><div class="li"> Si les autres systèmes (Windows, GNU/Linux…) de votre ordinateur sont installés en mode classique (hérité/legacy), alors il faut installer Ubuntu en mode classique (hérité/legacy).  → C&#039;est le cas si votre ordinateur est ancien (&lt;2010), est 32bits, ou possédait un Windows XP pré-installé par exemple.</div>
+</li>
+</ul>
+<ul>
+<li class="level1"><div class="li">   Si Ubuntu est le seul système sur votre ordinateur, alors peu importe, vous pouvez l&#039;installer en mode EFI ou pas (hérité/legacy).</div>
+</li>
+</ul>
+
+<p>
+&lt;/note&gt;
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Cas o\u00f9 il faut installer Ubuntu en mode EFI&quot;,&quot;hid&quot;:&quot;cas_ou_il_faut_installer_ubuntu_en_mode_efi&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:4,&quot;range&quot;:&quot;4683-6029&quot;} -->
+<h3 class="sectionedit5" id="principe_general">Principe général</h3>
+<div class="level3">
+
+<p>
+Pour installer Ubuntu en mode EFI:
+</p>
+<ul>
+<li class="level1"><div class="li"> Il faut utiliser une version d&#039;Ubuntu compatible avec l&#039;EFI (voir <em><a href="/ubuntu-fr-doc/doku.php/efi#versions_d_ubuntu_demarrables_en_mode_efi" class="wikilink1" title="efi">Versions d&#039;Ubuntu démarrables en mode EFI</a></em> ci-après)</div>
+</li>
+<li class="level1"><div class="li"> Il faut que l&#039;ordinateur soit réglé pour démarrer sur le média d&#039;installation en mode UEFI (voir <em><a href="/ubuntu-fr-doc/doku.php/efi#identifier_si_l_ordinateur_demarre_sur_le_cd_en_mode_efi" class="wikilink1" title="efi">Identifier si l&#039;ordinateur démarre sur le CD en mode EFI</a></em> ci-après)</div>
+</li>
+<li class="level1 node"><div class="li"> Puis:</div>
+<ul>
+<li class="level2"><div class="li"> cela ne change rien si vous utilisez l&#039;installation automatique d&#039;Ubuntu (<a href="/ubuntu-fr-doc/doku.php/tutoriel/installer_ubuntu_avec_le_live_cd#etape_3allouer_de_l_espace_disque" class="wikilink1" title="tutoriel:installer_ubuntu_avec_le_live_cd">&quot;Installer Ubuntu à côté de Windows Boot Manager&quot; ou &quot;Effacer le disque et installer Ubuntu&quot;</a>).<br/>
+<img src="/ubuntu-fr-doc/lib/images/smileys/icon_exclaim.gif" class="icon" alt=":!:" /> <em class="u">Important</em>: si vous avez Windows pré-installé et que vous souhaitez le conserver, ne choisissez pas &quot;Effacer le disque et installer Ubuntu&quot; car Windows serait écrasé par Ubuntu. <br/>
+</div>
+</li>
+<li class="level2"><div class="li"> par contre, si vous utilisez le partitionnement manuel (&quot;Autre chose&quot;), la différence est qu&#039;il doit exister une partition EFI (voir <em>Créer une partition EFI</em> ci-après).</div>
+</li>
+</ul>
+</li>
+</ul>
+
+<p>
+<a href="/ubuntu-fr-doc/lib/exe/detail.php/installation/type_installation_14.04.png?id=uefi" class="media wikilink2" title="installation:type_installation_14.04.png"><img src="/ubuntu-fr-doc/lib/exe/fetch.php/installation/type_installation_14.04.png?w=800&amp;tok=d1e1c3" class="media" title="Type d&#039;installation" alt="Type d&#039;installation" width="800" /></a>
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Principe g\u00e9n\u00e9ral&quot;,&quot;hid&quot;:&quot;principe_general&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:5,&quot;range&quot;:&quot;6030-7233&quot;} -->
+<h3 class="sectionedit6" id="versions_d_ubuntu_amorcables_en_mode_efi">Versions d&#039;Ubuntu amorçables en mode EFI</h3>
+<div class="level3">
+<ul>
+<li class="level1"><div class="li"> Seule la <a href="http://www.ubuntu.com/download/desktop" class="urlextern" title="http://www.ubuntu.com/download/desktop" rel="nofollow">version internationale d&#039;Ubuntu</a> <strong>64bits</strong>, et ses variantes 64 bits (Kubuntu, Xubuntu, Lubuntu) permettent de démarrer en mode EFI.   </div>
+</li>
+<li class="level1"><div class="li"> Seul l&#039;installateur des <a href="/ubuntu-fr-doc/doku.php/versions" class="wikilink1" title="versions">versions d&#039;Ubuntu</a> supérieures ou égales à <a href="/ubuntu-fr-doc/doku.php/trusty" class="wikilink1" title="trusty">Trusty.14.04.2</a> reconnaît la présence de Windows® pré-installé en mode EFI. <br/>
+<img src="/ubuntu-fr-doc/lib/images/smileys/icon_exclaim.gif" class="icon" alt=":!:" /> Certaines <a href="/ubuntu-fr-doc/doku.php/variantes" class="wikilink1" title="variantes">variantes</a> de <strong>Trusty 14.04.2 64bits</strong> peuvent ne pas détecter Windows®. Pour avoir l&#039;assurance d&#039;une bonne détection de Windows® en mode EFI, utilisez au minimum <strong>Trusty 14.04.3. 64bits</strong> ou <a href="/ubuntu-fr-doc/doku.php/versions" class="wikilink1" title="versions">versions</a> supérieures.</div>
+</li>
+<li class="level1"><div class="li"> Ubuntu Edition Francophone 64bits ne peut pas démarrer en mode EFI (<a href="http://forum.ubuntu-fr.org/viewtopic.php?pid=9731041#p9731041" class="urlextern" title="http://forum.ubuntu-fr.org/viewtopic.php?pid=9731041#p9731041" rel="nofollow">bug</a>), mais une fois installée, elle peut être <a href="/ubuntu-fr-doc/doku.php/efi#convertir_ubuntu_en_mode_efi" class="wikilink1" title="efi">convertie en mode UEFI</a>.</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Versions d&#039;Ubuntu amor\u00e7ables en mode EFI&quot;,&quot;hid&quot;:&quot;versions_d_ubuntu_amorcables_en_mode_efi&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:6,&quot;range&quot;:&quot;7234-8156&quot;} -->
+<h3 class="sectionedit7" id="identifier_si_l_ordinateur_demarre_sur_le_disque_dur_en_mode_efi">Identifier si l&#039;ordinateur démarre sur le disque dur en mode EFI</h3>
+<div class="level3">
+
+<p>
+Cela n&#039;est possible que si vous avez déjà installé Ubuntu sur le disque dur. Ou bien en regardant dans les réglages du BIOS (voir paragraphe ci-dessous).
+</p>
+
+<p>
+Depuis une session Ubuntu installée sur le disque (à noter que ça fonctionne aussi pour une session liveCD ou liveUSB), il suffit d&#039;ouvrir un <a href="/ubuntu-fr-doc/doku.php/terminal" class="wikilink1" title="terminal">terminal</a>, et saisir la commande suivante:
+</p>
+<pre class="code">[ -d /sys/firmware/efi ] &amp;&amp; echo &quot;Session EFI&quot; || echo &quot;Session non-EFI&quot;</pre>
+
+<p>
+Remarque: si le démarrage est en mode classique (le résultat de la commande est &quot;Session non-EFI&quot;), soit le BIOS n&#039;est pas de type UEFI, soit le BIOS est de type UEFI mais n&#039;est pas réglé pour démarrer sur le disque dur en mode UEFI.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Identifier si l&#039;ordinateur d\u00e9marre sur le disque dur en mode EFI&quot;,&quot;hid&quot;:&quot;identifier_si_l_ordinateur_demarre_sur_le_disque_dur_en_mode_efi&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:7,&quot;range&quot;:&quot;8157-8901&quot;} -->
+<h3 class="sectionedit8" id="identifier_si_l_ordinateur_demarre_sur_le_cd_ou_la_live_usb_en_mode_efi">Identifier si l&#039;ordinateur démarre sur le CD (ou la live USB) en mode EFI</h3>
+<div class="level3">
+
+<p>
+Remarque: même si votre PC démarre sur le CD  (ou la <a href="/ubuntu-fr-doc/doku.php/live_usb" class="wikilink1" title="live_usb">Live USB</a>) en mode EFI, il est possible qu&#039;il démarre sur le disque dur en mode classique (et inversement). 
+</p>
+
+<p>
+Lorsqu&#039;on démarre sur un CD Ubuntu compatible EFI:
+</p>
+<ul>
+<li class="level1"><div class="li"> Si l&#039;ordinateur est réglé pour démarrer sur le CD en mode EFI, vous verrez apparaître l&#039;écran ci-dessous (avec la ligne &quot;Try Ubuntu without installing&quot; présélectionnée) :</div>
+</li>
+</ul>
+
+<p>
+<a href="/ubuntu-fr-doc/lib/exe/fetch.php?tok=41b77e&amp;media=http%3A%2F%2Fpix.toile-libre.org%2Fupload%2Foriginal%2F1347270133.png" class="media" title="http://pix.toile-libre.org/upload/original/1347270133.png"><img src="/ubuntu-fr-doc/lib/exe/fetch.php?w=200&amp;tok=6cc3b2&amp;media=http%3A%2F%2Fpix.toile-libre.org%2Fupload%2Foriginal%2F1347270133.png" class="media" alt="" width="200" /></a>
+</p>
+<ul>
+<li class="level1"><div class="li"> Si l&#039;ordinateur est réglé pour démarrer sur le CD en mode classique (non-EFI), ou si le CD n&#039;est pas compatible avec l&#039;EFI, vous verrez apparaître l&#039;écran ci-dessous:</div>
+</li>
+</ul>
+
+<p>
+<a href="/ubuntu-fr-doc/lib/exe/detail.php/installation/live_cd_maverick1.png?id=uefi" class="media wikilink2" title="installation:live_cd_maverick1.png"><img src="/ubuntu-fr-doc/lib/exe/fetch.php/installation/live_cd_maverick1.png?w=200&amp;tok=63ecaa" class="media" alt="" width="200" /></a>
+</p>
+
+<p>
+Dans le cas d&#039;une live USB <a href="/ubuntu-fr-doc/doku.php/multisystem" class="wikilink1" title="multisystem">MultiSystem</a>, ce moyen d&#039;identification à l&#039;écran n&#039;est pas possible : à la place, on peut utiliser depuis la session live la commande du paragraphe <span class="curid"><a href="/ubuntu-fr-doc/doku.php/uefi#identifier_si_l_ordinateur_demarre_sur_le_disque_dur_en_mode_efi" class="wikilink1" title="uefi">Identifier si l&#039;ordinateur démarre sur le disque dur en mode EFI</a></span>
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Identifier si l&#039;ordinateur d\u00e9marre sur le CD (ou la live USB) en mode EFI&quot;,&quot;hid&quot;:&quot;identifier_si_l_ordinateur_demarre_sur_le_cd_ou_la_live_usb_en_mode_efi&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:8,&quot;range&quot;:&quot;8902-10028&quot;} -->
+<h3 class="sectionedit9" id="regler_le_demarrage_en_mode_efi_ou_classique">Régler le démarrage en mode EFI ou classique</h3>
+<div class="level3">
+
+<p>
+Certains ordinateurs récents (2011 et +) permettent de régler le démarrage soit en mode classique (=mode BIOS) soit en mode UEFI.
+La manière d&#039;effectuer ce réglage varie selon les ordinateurs, mais généralement ce réglage se situe dans l&#039;onglet &quot;Boot order&quot; du BIOS/UEFI (il faut généralement appuyer sur une touche à l&#039;allumage du PC pour y accéder, voir <a href="/ubuntu-fr-doc/doku.php/tutoriel/modifier_ordre_amorcage_du_bios" class="wikilink1" title="tutoriel:modifier_ordre_amorcage_du_bios">ce tutoriel</a>).
+</p>
+
+<p>
+Remarque: certains BIOS permettent de régler séparément le mode de démarrage sur CD et celui sur disque dur.
+</p>
+
+<p>
+Par exemple, ci-dessous:
+</p>
+<ul>
+<li class="level1"><div class="li"> la ligne &quot;UEFI Hitachi&quot; permet de démarrer sur le disque dur en mode EFI,</div>
+</li>
+<li class="level1"><div class="li"> la ligne &quot;P1: Hitachi&quot; permet de démarrer sur le disque dur en mode classique (non-EFI),</div>
+</li>
+<li class="level1"><div class="li"> la ligne &quot;P3: DVD&quot; permet de démarrer sur le CD Ubuntu en mode classique</div>
+</li>
+<li class="level1"><div class="li"> la ligne &quot;UEFI: USB&quot; permet de démarrer sur le <a href="/ubuntu-fr-doc/doku.php/live_usb" class="wikilink1" title="live_usb">liveUSB</a> Ubuntu en mode EFI</div>
+</li>
+</ul>
+
+<p>
+<a href="/ubuntu-fr-doc/lib/exe/fetch.php?tok=3f1b4f&amp;media=http%3A%2F%2Fpix.toile-libre.org%2Fupload%2Foriginal%2F1347270285.jpg" class="media" title="http://pix.toile-libre.org/upload/original/1347270285.jpg"><img src="/ubuntu-fr-doc/lib/exe/fetch.php?w=300&amp;tok=764518&amp;media=http%3A%2F%2Fpix.toile-libre.org%2Fupload%2Foriginal%2F1347270285.jpg" class="media" title="1347270285.jpg" alt="1347270285.jpg" width="300" /></a>
+</p>
+
+<p>
+et voici un 2e exemple, plus simple, où le paramètre &quot;Boot Mode&quot; permet de choisir le mode de démarrage (&quot;UEFI&quot; ou &quot;Legacy&quot;) sur tous les médias (disque dur, CD, USB…).
+</p>
+
+<p>
+<a href="/ubuntu-fr-doc/lib/exe/fetch.php?tok=9bf37b&amp;media=http%3A%2F%2Fpix.toile-libre.org%2Fupload%2Foriginal%2F1347270332.jpg" class="media" title="http://pix.toile-libre.org/upload/original/1347270332.jpg"><img src="/ubuntu-fr-doc/lib/exe/fetch.php?w=400&amp;tok=08ba76&amp;media=http%3A%2F%2Fpix.toile-libre.org%2Fupload%2Foriginal%2F1347270332.jpg" class="media" title="1347270332.jpg" alt="1347270332.jpg" width="400" /></a>
+</p>
+
+<p>
+Il existe aussi des firmwares qui proposent une option &quot;UEFI/Legacy Boot:&quot; avec les choix [Legacy only], [UEFI only] et [Both], ce dernier démarrant en priorité en mode EFI, puis en mode Legacy si aucun fichier EFI n&#039;est détecté.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;R\u00e9gler le d\u00e9marrage en mode EFI ou classique&quot;,&quot;hid&quot;:&quot;regler_le_demarrage_en_mode_efi_ou_classique&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:9,&quot;range&quot;:&quot;10029-11542&quot;} -->
+<h3 class="sectionedit10" id="creer_une_partition_efi">Créer une partition EFI</h3>
+<div class="level3">
+
+<p>
+Si le seul disque de votre ordinateur est neuf, il faut d&#039;abord créer une table de partitionnement au format &#039;GPT&#039; avec l&#039;onglet &#039;périphériques&#039; de gparted.
+Une partition EFI est indispensable pour installer Ubuntu en mode EFI via l&#039;installateur manuel. 
+Ubuntu ne sait actuellement utiliser que la partition EFI du premier disque. En cas d&#039;installation de Ubuntu sur un second disque, ce n&#039;est pas la peine de créer une partition EFI sur le second disque. C&#039;est celle du premier disque qui sera utilisée.
+</p>
+
+<p>
+&lt;note&gt;
+Attention. Depuis déjà avant 2017 une partition EFI créée sur une seconde unité est utilisable, et… utile. <br/>
+Si on a configuré l&#039;ordinateur pour qu&#039;il démarre en priorité sur la seconde unité, disque ou clé USB, et que celle-ci comporte une partition EFI l&#039;ordinateur ira bien y chercher le programme de démarrage \EFI\boot\bootx64.efi et le lancer s&#039;il s&#039;y en trouve un. <br/>
+Celui-ci pourra être le grubx64.efi d&#039;Ubuntu installé sous ce nom. <br/>
+À ce moment on n&#039;est encore ni sous Ubuntu, ni sous Windows ni un autre linux. <br/>
+Si c&#039;est bien le grubx64.efi celui-ci va aller lire dans la même partition EFI de notre seconde unité le petit fichier \EFI\ubuntu\grub.cfg. Son contenu permet de pointer vers la partition Ubuntu de notre seconde unité pour y lire le gros fichier /boot/grub/grub.cfg et continuer le processus de démarrage. Ce fichier peut être différent d&#039;un homonyme installé sur le premier disque. <br/>
+En cas de multiboots on peut ainsi avoir des menus différents suivant que l&#039;on démarre depuis le premier disque ou depuis une unité USB. <br/>
+La partition EFI de la seconde unité est donc bien utilisable, même si en 2016 on doive encore la remplir manuellement avec les répertoires \boot et \ubuntu lors de l&#039;installation. <br/>
+<br/>
+Mais curieusement après le démarrage c&#039;est celle du premier disque qui est effectivement montée, ce qui à ce stade ne semble d&#039;ailleurs plus servir à grand&#039;chose.<br/>
+Pire, lors d&#039;une mise à jour du chargeur grub celle-ci se fait alors sur la mauvaise unité (la première). En outre le fichier \EFI\ubuntu\grub.cfg du premier disque se fait couramment écraser et renvoie lors d&#039;un boot ultérieur à tort vers /boot/grub/grub.cfg de la seconde unité.<br/>
+Si celle-ci n&#039;est plus en place (unité USB retirée) on ne démarre plus.<br/>
+Ceci élève cette anomalie au rang de bug.
+&lt;/note&gt;
+</p>
+<ul>
+<li class="level1 node"><div class="li"> Dans le cas de Windows 8 ou 10 préinstallé (et certains Windows 7 préinstallés), une partition EFI existe déjà. Il ne faut pas en créer une autre : cette partition sera réutilisée par l&#039;installateur manuel de Ubuntu sans qu&#039;on ait besoin de définir quoi que ce soit pour elle. </div>
+<ul>
+<li class="level2"><div class="li"> Dans le cas d&#039;une installation windows10 après une installation ubuntu, il semble nécessaire de libérer 60Go en début du premier disque et déconnecter les autres disques. Les 4 partitions nécessaires à windows10 seront alors automatiquement créées.</div>
+</li>
+</ul>
+</li>
+<li class="level1 node"><div class="li"> Une partition EFI peut être créée via une version récente de <a href="/ubuntu-fr-doc/doku.php/gparted" class="wikilink1" title="gparted">gParted</a>, et doit posséder les caractéristiques suivantes:</div>
+<ul>
+<li class="level2"><div class="li"> <em> Taille : </em> entre 35 Mo et 250Mo    mais une taille de 5 Mo est  suffisante si vous n&#039;installez pas windows mais impossible à faire accepter par gparted.</div>
+</li>
+<li class="level2"><div class="li"> <em> Type : </em> FAT32</div>
+</li>
+<li class="level2"><div class="li"> <em> Drapeau :</em>  BOOT      (ou ESP si cette option est présente dans  GPARTED)</div>
+</li>
+<li class="level2"><div class="li"> <em> Autre : </em> doit être située en début<sup><a href="#fn__2" id="fnt__2" class="fn_top">2)</a></sup> d&#039;un disque partitionné en <a href="/ubuntu-fr-doc/doku.php/gpt" class="wikilink1" title="gpt">GPT</a>, </div>
+</li>
+<li class="level2"><div class="li"> Elle sera automatiquement reconnue par l&#039;installateur de ubuntu qui lui attribuera le point de montage suivant: <code>/boot/efi</code>. <sup><a href="#fn__3" id="fnt__3" class="fn_top">3)</a></sup></div>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Cr\u00e9er une partition EFI&quot;,&quot;hid&quot;:&quot;creer_une_partition_efi&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:10,&quot;range&quot;:&quot;11543-15419&quot;} -->
+<h2 class="sectionedit11" id="identifier_un_ubuntu_installe_en_efi">Identifier un Ubuntu installé en EFI</h2>
+<div class="level2">
+
+<p>
+Depuis l&#039;Ubuntu installé, ouvrir un terminal (Ctrl+Alt+T) et saisir la commande suivante:
+</p>
+<pre class="code">[ -d /sys/firmware/efi ] &amp;&amp; echo &quot;Installé en mode EFI&quot; || echo &quot;Installé en mode classique&quot;</pre>
+
+<p>
+Sinon, en analysant le <a href="/ubuntu-fr-doc/doku.php/tutoriel/boot-info" class="wikilink1" title="tutoriel:boot-info">Boot-Info</a> réalisé depuis une session live, on peut trouver les indices suivants d&#039;un Ubuntu installé en mode EFI :
+</p>
+<ul>
+<li class="level1"><div class="li"> son fichier /etc/fstab contient une partition EFI (point de montage /boot/efi)</div>
+</li>
+<li class="level1"><div class="li"> il utilise l&#039;amorceur grub-efi (et pas grub-pc)</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Identifier un Ubuntu install\u00e9 en EFI&quot;,&quot;hid&quot;:&quot;identifier_un_ubuntu_installe_en_efi&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:11,&quot;range&quot;:&quot;15420-15965&quot;} -->
+<h2 class="sectionedit12" id="convertir_ubuntu_en_mode_efi_ou_non-efi">Convertir Ubuntu en mode EFI ou non-EFI</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Convertir Ubuntu en mode EFI ou non-EFI&quot;,&quot;hid&quot;:&quot;convertir_ubuntu_en_mode_efi_ou_non-efi&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:12,&quot;range&quot;:&quot;15966-16018&quot;} -->
+<h3 class="sectionedit13" id="convertir_ubuntu_en_mode_efi">Convertir Ubuntu en mode EFI</h3>
+<div class="level3">
+
+<p>
+Pour que cette conversion soit possible, il faut régler votre BIOS pour qu&#039;il démarre sur le disque dur en mode EFI (voir le paragraphe &quot;<a href="#regler_le_demarrage_en_mode_efi_ou_classique" title="uefi ↵" class="wikilink1">Régler le démarrage en mode EFI ou classique</a>&quot; ci-dessus). De plus, il faut opérer depuis une <a href="/ubuntu-fr-doc/doku.php/live_cd#session_livequ_est-ce_que_c_est" class="wikilink1" title="live_cd">session live</a> démarrée en mode EFI (voir le paragraphe &quot;<a href="#identifier_si_l_ordinateur_demarre_sur_le_cd_ou_la_live_usb_en_mode_efi" title="uefi ↵" class="wikilink1">Identifier si l&#039;ordinateur démarre sur le CD (ou la live USB) en mode EFI</a>&quot;). 
+</p>
+<ul>
+<li class="level1"><div class="li"> Démarrer <a href="/ubuntu-fr-doc/doku.php/boot-repair" class="wikilink1" title="boot-repair">Boot-Repair</a>, cliquer sur &quot;Options avancées&quot;, et aller dans l&#039;onglet &quot;Emplacement de GRUB&quot;.</div>
+</li>
+<li class="level1"><div class="li"> Si vous ne voyez pas une ligne &quot;Partition /boot/efi séparée&quot;, cela signifie que votre PC n&#039;a pas de partition EFI. Dans ce cas, quittez Boot-Repair, puis créez une partition EFI (voir paragraphe &quot;<a href="/ubuntu-fr-doc/doku.php/efi#creer_une_partition_efi" class="wikilink1" title="efi">Créer une partition EFI</a>&quot; ci-dessus).</div>
+</li>
+<li class="level1"><div class="li"> Si vous voyez une ligne &quot;Partition /boot/efi séparée&quot;, cochez-la puis cliquez sur le bouton &quot;Appliquer&quot;. </div>
+</li>
+</ul>
+
+<p>
+<a href="/ubuntu-fr-doc/lib/exe/fetch.php?tok=2fb0ba&amp;media=http%3A%2F%2Fpix.toile-libre.org%2Fupload%2Foriginal%2F1343745232.png" class="media" title="http://pix.toile-libre.org/upload/original/1343745232.png"><img src="/ubuntu-fr-doc/lib/exe/fetch.php?w=500&amp;tok=7cf531&amp;media=http%3A%2F%2Fpix.toile-libre.org%2Fupload%2Foriginal%2F1343745232.png" class="media" alt="" width="500" /></a>
+</p>
+
+<p>
+&lt;note important&gt;Si vous voyez plusieurs partitions possibles sur plusieurs disques, cochez ce que vous vous voulez car cela sera toujours la première de la liste qui sera prise en compte y compris en version 16.04&lt;/note&gt;
+</p>
+
+<p>
+&lt;note tip&gt;Il me semble énormément plus sage de recommencer l&#039;installation en positionnant correctement le bios.   Voir argumentaire <a href="https://forum.ubuntu-fr.org/viewtopic.php?pid=21686360#p21686360" class="urlextern" title="https://forum.ubuntu-fr.org/viewtopic.php?pid=21686360#p21686360" rel="nofollow">https://forum.ubuntu-fr.org/viewtopic.php?pid=21686360#p21686360</a>&lt;/note&gt;
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Convertir Ubuntu en mode EFI&quot;,&quot;hid&quot;:&quot;convertir_ubuntu_en_mode_efi&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:13,&quot;range&quot;:&quot;16019-17597&quot;} -->
+<h3 class="sectionedit14" id="convertir_ubuntu_en_mode_classique">Convertir Ubuntu en mode classique</h3>
+<div class="level3">
+<ul>
+<li class="level1"><div class="li"> Démarrer <a href="/ubuntu-fr-doc/doku.php/boot-repair" class="wikilink1" title="boot-repair">Boot-Repair</a>, cliquer sur &quot;Options avancées&quot;, aller dans l&#039;onglet &quot;Emplacement de GRUB&quot;</div>
+</li>
+<li class="level1"><div class="li"> <strong>Décocher</strong> l&#039;option &quot;Partition /boot/efi séparée&quot;</div>
+</li>
+<li class="level1"><div class="li"> Appliquer</div>
+</li>
+<li class="level1"><div class="li"> Régler votre BIOS pour qu&#039;il démarre sur le disque dur en mode classique (voir le paragraphe &quot;<a href="#regler_le_demarrage_en_mode_efi_ou_classique" title="uefi ↵" class="wikilink1">Régler le démarrage en mode EFI ou classique</a>&quot; ci-dessus).</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Convertir Ubuntu en mode classique&quot;,&quot;hid&quot;:&quot;convertir_ubuntu_en_mode_classique&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:14,&quot;range&quot;:&quot;17598-18034&quot;} -->
+<h2 class="sectionedit15" id="activerdesactiver_le_secure_boot">Activer / désactiver le Secure Boot</h2>
+<div class="level2">
+
+<p>
+Le <a href="https://fr.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface#Lancement_s.C3.A9curis.C3.A9_.28secure_boot.29" class="interwiki iw_wpfr" title="https://fr.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface#Lancement_s.C3.A9curis.C3.A9_.28secure_boot.29">Secure Boot</a> est une nouvelle fonctionnalité de l&#039;UEFI, apparue en 2012 avec les ordinateurs pré-installés Windows 8. Sa prise en charge par Ubuntu a commencé avec 12.10 (et 12.04.2), mais elle n&#039;est pas complète, donc vous risquez de devoir le désactiver pour pouvoir démarrer Ubuntu.
+&lt;note help&gt;Il ne faut surtout pas désactiver le Secure Boot sur les ordinateurs ACER récents.  Après l&#039;installation il faut définir shimx64.efi  comme appartenant aux <abbr title="Operating System">OS</abbr> &quot;trusted&quot;.&lt;/note&gt;&#039;
+</p>
+
+<p>
+Ci-dessous un exemple de BIOS indiquant que le Secure Boot est activé :
+</p>
+
+<p>
+<a href="/ubuntu-fr-doc/lib/exe/fetch.php?tok=b953cb&amp;media=http%3A%2F%2Fpix.toile-libre.org%2Fupload%2Foriginal%2F1353511012.jpg" class="media" title="http://pix.toile-libre.org/upload/original/1353511012.jpg"><img src="/ubuntu-fr-doc/lib/exe/fetch.php?tok=b953cb&amp;media=http%3A%2F%2Fpix.toile-libre.org%2Fupload%2Foriginal%2F1353511012.jpg" class="media" title="1353511012.jpg" alt="1353511012.jpg" /></a>
+</p>
+
+<p>
+Pour désactiver ou activer le Secure Boot, trouvez une option similaire dans votre BIOS et utilisez le clavier pour passer cette ligne de l&#039;état Activé (Enabled) à Désactivé (Disabled).
+</p>
+
+<p>
+Chaque constructeur ayant une manière différente de faire, si vous n&#039;avez pas trouvé comment désactiver le Secure Boot, faites un tour dans cette documentation : <a href="/ubuntu-fr-doc/doku.php/desactiver_secure_boot" class="wikilink1" title="desactiver_secure_boot">Comment désactiver le secure boot</a>
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Activer \/ d\u00e9sactiver le Secure Boot&quot;,&quot;hid&quot;:&quot;activerdesactiver_le_secure_boot&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:15,&quot;range&quot;:&quot;18035-19227&quot;} -->
+<h2 class="sectionedit16" id="contourner_le_demarrage_force_sur_windows_8">Contourner le démarrage forcé sur Windows 8</h2>
+<div class="level2">
+
+<p>
+&lt;note important&gt; Cette méthode de contournement du bridage des ordis <strong>HP</strong> est à réserver aux utilisateurs confirmés. <del>Pour les novices, il est préférable d&#039;en rester à la configuration obtenue après installation de Ubuntu : <br/>
+- démarrage par défaut sur Windows 8 <br/>
+- pour aller sur Ubuntu : appui sur la touche Échap au démarrage puis sur la touche F9 et sélection de &quot;ubuntu&quot; dans le menu de démarrage </del><br/>
+Pour les ordinateurs <strong>HP</strong> une mise à jour de l&#039;UEFI suffit pour que les 2 <abbr title="Operating System">OS</abbr> cohabitent (il faut que votre UEFI soit minimum en version F30??). Que cela fonctionne ou pas, c&#039;est de la roulette russe: si vous avez dans l&#039;UEFI une flèche au niveau de <abbr title="Operating System">OS</abbr> selection, c&#039;est tout bon; sinon, il faut suivre la méthode ci-dessous.&lt;/note&gt;
+</p>
+
+<p>
+&lt;note help&gt;Les ordinateurs <strong>ACER</strong> récents exigent que l&#039;utilisateur définisse Ubuntu comme un <abbr title="Operating System">OS</abbr> <a href="http://itsfoss.itsfoss.netdna-cdn.com/wp-content/uploads/2015/08/No_Bootable_Device_Found_2.jpg" class="urlextern" title="http://itsfoss.itsfoss.netdna-cdn.com/wp-content/uploads/2015/08/No_Bootable_Device_Found_2.jpg" rel="nofollow">habilité.</a> Cela permettra aussi de gérer les priorités de boot. Voir aussi <a href="https://forum.ubuntu-fr.org/viewtopic.php?pid=21468818#p21468818" class="urlextern" title="https://forum.ubuntu-fr.org/viewtopic.php?pid=21468818#p21468818" rel="nofollow">https://forum.ubuntu-fr.org/viewtopic.php?pid=21468818#p21468818</a>&lt;/note&gt;
+</p>
+
+<p>
+&lt;note help&gt;Sur les machines <strong>HP</strong> vendues avec Windows 8, le bios UEFI démarre toujours sur Windows même après l&#039;installation d&#039;Ubuntu.<br/>
+L&#039;installation d&#039;Ubuntu est pourtant bonne, et ce fonctionnement est dû <del> au partenariat entre le constructeur de l&#039;ordinateur et Microsoft, les 2 cherchant à verrouiller le démarrage</del> au fait que les premiers UEFI d&#039;HP étaient mal implémentés. Il faut donc les mettre à jour via le site de HP.<br/>
+Ceci est fait en identifiant la signature du programme efi dans l&#039;un des 3 emplacements possibles indiqués plus bas, et en démarrant sur celui qui a la bonne signature même si les 2 autres ont été remplacés.&lt;/note&gt;
+</p>
+
+<p>
+&lt;note help&gt;Sur certaines machines <strong>HP</strong> vendues avec Windows10, le bios UEFI permet de choisir le gestionnaire de démarrage du SE qu&#039;il faut positionner sur   <a href="http://pix.toile-libre.org/?img=1464778129.jpg" class="urlextern" title="http://pix.toile-libre.org/?img=1464778129.jpg" rel="nofollow">ubuntu</a> &lt;/note&gt;
+</p>
+
+<p>
+&lt;note help&gt;Sur les machines <strong>Lenovo</strong>, il est possible de faire  la commande administrative <strong>bcdedit /set {bootmgr} path \EFI\ubuntu\shimx64.efi</strong>   sous windows&lt;/note&gt;
+</p>
+
+<p>
+&lt;note help&gt;La technique qui suit semble devoir être utilisée pour certains ordinateurs <strong>MSI</strong> (en date du 31/10/2015) ainsi que <strong>SONY</strong>.&lt;/note&gt;
+</p>
+
+<p>
+&lt;note&gt;Sur les machines <strong>Toshiba</strong> vendues avec Windows 8, le bios UEFI démarre à l&#039;origine avec le fichier <strong>/EFI/Boot/bootx64.efi</strong> (qui est à ce moment une copie du fichier <strong>/EFI/Microsoft/Boot/bootmgfw.efi</strong>).<br/>
+Une fois l&#039;installation d&#039;Ubuntu réalisée (mais elle est en fait incomplète), remplacer ce même fichier<br/>
+<strong>/boot/efi/EFI/Boot/bootx64.efi</strong> qui est resté le chargeur Windows par le fichier<br/>
+<strong>/boot/efi/EFI/ubuntu/shimx64.efi</strong> qui est le chargeur-menu Ubuntu en Secure Boot.<br/>
+<br/>
+Depuis une mise à jour début 2017 du chargeur grub, signé, la suite de la présente note semble être devenue sans objet, le démarrage forcé vers Windows ne se produisant plus, notamment sur les machines où cela avait lieu auparavant.<br/>
+Si personne ne rencontre plus de problème (dans le cas contraire l&#039;indiquer ici) il y aura lieu de l&#039;archiver fin 2017 après une convenable période d&#039;observation. <br/>
+<br/>
+Si après un premier démarrage réussi vers le menu Ubuntu la machine redémarre sous Windows les fois suivantes il semble se passer ce qui suit:<br/>
+le bios UEFI s&#039;est rendu compte du changement et démarre Windows par l&#039;un des chargeurs suivants:<br/>
+- <strong>/EFI/toshiba/Boot/bootmgfw.efi</strong>;<br/>
+- <strong>/EFI/Microsoft/Boot/bootmgfw.efi</strong>.<br/>
+On doit s&#039;arranger pour que le bios UEFI ne les trouve plus, et se rabatte sur <strong>/EFI/Boot/bootx64.efi</strong>.<br/>
+Procéder par exemple comme suit:<br/>
+- renommer <strong>/boot/efi/EFI/toshiba/Boot/bootmgfw.efi</strong> en <strong>bootmgfw_W.efi</strong>    (ne sera plus utilisé) ;<br/>
+- renommer <strong>/boot/efi/EFI/Microsoft/Boot/bootmgfw.efi</strong> en <strong>bootmgfw_W.efi</strong>  (démarrera Windows) ;<br/>
+- dans <strong>/boot/grub/grub.cfg</strong> (oui, le fichier où il est explicitement indiqué au début qu&#039;on ne doit pas l&#039;éditer), remplacer la ligne<br/>
+&quot;<strong>  chainloader  /EFI/Microsoft/Boot/bootmgfw.efi</strong>&quot; par<br/>
+&quot;<strong>  chainloader  /EFI/Microsoft/Boot/bootmgfw_W.efi</strong>&quot;.<br/>
+À ce stade le démarrage vers le menu Ubuntu et le menu lui-même doivent fonctionner de façon fiable.<br/>
+Si par la suite un <strong>update-grub</strong> doit être effectué penser à renommer temporairement le fichier<br/>
+<strong>/EFI/Microsoft/Boot/bootmgfw_W.efi</strong> en <strong>bootmgfw.efi</strong> pour que Windows puisse être détecté.<br/>
+Solution proposée ici le 17.11.2016 pour les machines qui se comportent de cette façon (proportion inconnue, toutes?).<br/>
+Plus concis et fichiers mieux rangés que dans le § 6.2 ci-dessous qui traite un cas analogue pour <strong>HP</strong>.
+&lt;/note&gt;La méthode <a href="/ubuntu-fr-doc/doku.php/boot-repair" class="wikilink1" title="boot-repair">Boot-Repair</a> prend en charge ce cas-là mais n&#039;explique pas ce qui se passe. Voici donc une méthode alternative détaillée mais nécessitant de savoir utiliser un <a href="/ubuntu-fr-doc/doku.php/terminal" class="wikilink1" title="terminal">terminal</a>). Voici les étapes à suivre, détaillées dans les sous-paragraphes suivants :
+</p>
+<ol>
+<li class="level1"><div class="li"> sauvegarder les programmes d&#039;amorçage EFI d&#039;origine</div>
+</li>
+<li class="level1"><div class="li"> renommer le programme d&#039;amorçage standard de Microsoft, et écraser toutes les copies que peut charger le bios UEFI par le programme d&#039;amorçage de grub</div>
+</li>
+<li class="level1"><div class="li"> modifier le système de détection des autres <abbr title="Operating System">OS</abbr> de grub</div>
+</li>
+</ol>
+
+<p>
+PS: Cette méthode fonctionne avec Debian Jessie, en veillant toutefois à remplacer ubuntu/shimx64.efi par le fichier présent dans /debian
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Contourner le d\u00e9marrage forc\u00e9 sur Windows 8&quot;,&quot;hid&quot;:&quot;contourner_le_demarrage_force_sur_windows_8&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:16,&quot;range&quot;:&quot;19228-24754&quot;} -->
+<h3 class="sectionedit17" id="sauvegarder_l_existant">Sauvegarder l&#039;existant</h3>
+<div class="level3">
+<ul>
+<li class="level1 node"><div class="li"> Démarrer l&#039;ordinateur. Sous Windows 8, redémarrer pour démarrer ensuite sous Ubuntu:</div>
+<ul>
+<li class="level2"><div class="li"> aller en bas à droite, périphérique, rester appuyé sur la touche Majuscule, choisir l&#039;icône de mise sous tension, et choisir redémarrer;</div>
+</li>
+<li class="level2"><div class="li"> dans le menu sur fond blanc, choisir &lt;à compléter&gt;, et ensuite Ubuntu.</div>
+</li>
+</ul>
+</li>
+<li class="level1"><div class="li"> Sous Ubuntu, faire une copie des fichiers EFI dans un terminal: <pre class="code">sudo cp -R /boot/efi/ ~/EFI_sauvegarde/</pre>
+</div>
+</li>
+<li class="level1 node"><div class="li"> Vérifier les différentes copies (somme de contrôle md5) : <pre class="code">find /boot/efi/ ~/EFI_sauvegarde/ -name &quot;*.efi&quot; -exec md5sum {} \; | sort</pre>
+</div>
+<ul>
+<li class="level2"><div class="li"> On observe en général que /boot/efi/EFI/Microsoft/Boot/bootmgfw.efi et /boot/efi/EFI/Boot/bootx64.efi sont identiques:<pre class="code">dbed1f7ed9e19e53bfc7f43122ce3d83  /boot/efi/EFI/Boot/bootx64.efi 
+dbed1f7ed9e19e53bfc7f43122ce3d83  /boot/efi/EFI/HP/boot/bootmgfw.efi 
+dbed1f7ed9e19e53bfc7f43122ce3d83  /boot/efi/EFI/Microsoft/Boot/bootmgfw.efi </pre>
+</div>
+</li>
+<li class="level2"><div class="li"> Le système Ubuntu peut utiliser shimx64.efi ou grubx64.efi pour démarrer, le premier étant compatible avec Secure-Boot, alors que le second ne l&#039;est pas.</div>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Sauvegarder l&#039;existant&quot;,&quot;hid&quot;:&quot;sauvegarder_l_existant&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:17,&quot;range&quot;:&quot;24755-25897&quot;} -->
+<h3 class="sectionedit18" id="remplacer_le_programme_d_amorcage_standard">Remplacer le programme d&#039;amorçage standard</h3>
+<div class="level3">
+
+<p>
+Toujours sous Ubuntu :
+</p>
+<ul>
+<li class="level1"><div class="li"> Renommer /boot/efi/EFI/Microsoft/Boot/bootmgfw.efi en /boot/efi/EFI/Microsoft/Boot/bootmgfw_orig.efi :</div>
+</li>
+</ul>
+<pre class="code">sudo mv /boot/efi/EFI/Microsoft/Boot/bootmgfw.efi /boot/efi/EFI/Microsoft/Boot/bootmgfw_orig.efi </pre>
+<ul>
+<li class="level1"><div class="li"> Supprimer sous /boot/efi/ toutes les copies du programme EFI ayant la même somme de contrôle que /boot/efi/EFI/Microsoft/Boot/bootmgfw.efi :</div>
+</li>
+</ul>
+<pre class="code">sudo rm /boot/efi/EFI/Boot/bootx64.efi 
+sudo rm /boot/efi/EFI/HP/boot/bootmgfw.efi </pre>
+<ul>
+<li class="level1"><div class="li"> Copier le programme d&#039;amorçage /boot/efi/EFI/ubuntu/shimx64.efi sous /boot/efi/EFI/Microsoft/Boot/bootmgfw.efi :</div>
+</li>
+</ul>
+<pre class="code">sudo cp  /boot/efi/EFI/ubuntu/shimx64.efi /boot/efi/EFI/Microsoft/Boot/bootmgfw.efi </pre>
+
+<p>
+/!\ il arrive parfois à windows de réécrire <em>/boot/efi/EFI/Microsoft/Boot/bootmgfw.efi</em> en cas de mise à jour… Dans ce cas, recommencer les étapes décrites ci-dessus /!\
+</p>
+<ul>
+<li class="level1"><div class="li"> Redémarrer l&#039;ordinateur.</div>
+</li>
+</ul>
+
+<p>
+&lt;note tip&gt;A cette étape là, le bios UEFI de l&#039;ordinateur démarrera sur grub, et grub ne pourra démarrer que le système Ubuntu, le programme d&#039;amorçage de Microsoft ayant été <del>supprimé</del> renommé.&lt;/note&gt;
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Remplacer le programme d&#039;amor\u00e7age standard&quot;,&quot;hid&quot;:&quot;remplacer_le_programme_d_amorcage_standard&quot;,&quot;codeblockOffset&quot;:4,&quot;secid&quot;:18,&quot;range&quot;:&quot;25898-27093&quot;} -->
+<h3 class="sectionedit19" id="permettre_le_demarrage_de_windows">Permettre le démarrage de Windows</h3>
+<div class="level3">
+
+<p>
+Grub n&#039;est plus en mesure de détecter correctement le programme d&#039;amorçage de Windows car il n&#039;est plus disponible sous son nom standard. Il faut donc lui permettre de retrouver le nouveau nom.
+</p>
+
+</div>
+
+<h4 id="solution_1">Solution 1</h4>
+<div class="level4">
+
+<p>
+Principes :
+ - Grub utilise la commande os-prober pour détecter les autres <abbr title="Operating System">OS</abbr>. Cette commande cherche un chemin standard pour détecter Windows. L&#039;objectif est de modifier le résultat en sortie de cette commande pour tenir compte du renommage effectué plus tôt (bootmgfw.efi renommé en bootmgfw_orig.efi).
+</p>
+<pre class="code">sudo os-prober</pre>
+
+<p>
+Le système Ubuntu étant régulièrement mis-à-jour, il faut que la modification opérée ne soit pas écrasée lors des mises-à-jour. Il faut donc créer un script supplémentaire, qui ne soit pas fourni par un paquet existant.
+</p>
+<ul>
+<li class="level1"><div class="li"> Créer le script /tmp/za-windows8-hp</div>
+</li>
+</ul>
+<pre class="code">touch /tmp/za-windows8-hp ; sudo xdg-open /tmp/za-windows8-hp</pre>
+<ul>
+<li class="level1"><div class="li"> Renseigner son contenu comme ceci :</div>
+</li>
+</ul>
+<pre class="file">#! /bin/sh
+set -e
+
+sed -i -e &quot;s/item_in_dir bootmgfw.efi/item_in_dir bootmgfw_orig.efi/&quot; /usr/lib/os-probes/mounted/efi/20microsoft
+
+exit 0</pre>
+<ul>
+<li class="level1"><div class="li"> Enregistrer le fichier et fermer l’éditeur de texte.</div>
+</li>
+<li class="level1"><div class="li"> Créer le script /etc/kernel/postinst.d/za-windows8-hp :</div>
+</li>
+</ul>
+<pre class="code">sudo mv /tmp/za-windows8-hp /etc/kernel/postinst.d/za-windows8-hp</pre>
+<ul>
+<li class="level1"><div class="li"> Il doit être rendu exécutable (même droits que le script /etc/kernel/postinst.d/zz-update-grub) :</div>
+</li>
+</ul>
+<pre class="code">sudo chmod ugo+x /etc/kernel/postinst.d/za-windows8-hp
+sudo chown root:root /etc/kernel/postinst.d/za-windows8-hp</pre>
+<ul>
+<li class="level1"><div class="li"> Exécuter le script une première fois (les fois suivantes, il sera exécuté lors de l&#039;installation d&#039;un nouveau noyau linux) :</div>
+</li>
+</ul>
+<pre class="code">sudo /etc/kernel/postinst.d/za-windows8-hp</pre>
+<ul>
+<li class="level1"><div class="li"> Vérifier que le nom du programme EFI renvoyé par os-prober est bien le nom modifié (/EFI/Microsoft/Boot/bootmgfw_orig.efi) :</div>
+</li>
+</ul>
+<pre class="code">sudo os-prober</pre>
+<ul>
+<li class="level1"><div class="li"> Mettre-à-jour les entrées de grub :</div>
+</li>
+</ul>
+<pre class="code">sudo update-grub</pre>
+<ul>
+<li class="level1"><div class="li"> Redémarrer et tester le démarrage sous Windows.</div>
+</li>
+</ul>
+
+</div>
+
+<h4 id="solution_2">Solution 2</h4>
+<div class="level4">
+
+<p>
+Souvent l&#039;utilisateur a tenté de faire un boot-repair qui n&#039;a rien donné comme résultat positif sauf de fabriquer un fichier 25_custom  contenant  3 entrées standards de boot.
+</p>
+<ul>
+<li class="level1"><div class="li"> Lire ce fichier.</div>
+</li>
+<li class="level1"><div class="li"> Éliminer la dernière entrée.</div>
+</li>
+<li class="level1"><div class="li"> Rectifier le nom de fichier de boot prévu pour windows (bootmgrfw.efi)  par le nouveau nom que vous avez attribué (BKbootmgrfw.efi). Éventuellement remplacer le nom  de l&#039;entrée par un nom plus pratique.</div>
+</li>
+<li class="level1"><div class="li"> Ajouter toutes ces lignes au fichier  /etc/grub.d/40_custom.</div>
+</li>
+<li class="level1"><div class="li"> Commenter  ou supprimer toutes les lignes contenues dans le fichier 25_custom.</div>
+</li>
+<li class="level1"><div class="li"> Mettre à jour les entrées du grub.</div>
+</li>
+</ul>
+<pre class="code">sudo update-grub</pre>
+
+<p>
+.
+</p>
+<ul>
+<li class="level1"><div class="li"> Redémarrer et tester le démarrage sous windows.</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Permettre le d\u00e9marrage de Windows&quot;,&quot;hid&quot;:&quot;permettre_le_demarrage_de_windows&quot;,&quot;codeblockOffset&quot;:7,&quot;secid&quot;:19,&quot;range&quot;:&quot;27094-29899&quot;} -->
+<h2 class="sectionedit20" id="depannage_du_dual-boot_avec_windows_8_ou_windows_10">Dépannage du dual-boot avec Windows 8 ou Windows 10</h2>
+<div class="level2">
+
+<p>
+Même si le démarrage par défaut se fait sur Ubuntu après installation, il peut arriver qu&#039;il se remette sur Windows 8. Il suffit alors d&#039;utiliser les &quot;Options de démarrage avancées&quot; de Windows (voir <a href="http://forum.ubuntu-fr.org/viewtopic.php?pid=15030301#p15030301" class="urlextern" title="http://forum.ubuntu-fr.org/viewtopic.php?pid=15030301#p15030301" rel="nofollow">ici</a>) pour redémarrer sur Ubuntu et depuis la session Ubuntu, passer la commande qui va remettre Ubuntu en priorité de démarrage :
+</p>
+<pre class="code">sudo grub-install</pre>
+
+<p>
+ A noter : il est possible que cette réparation simple ne fonctionne pas si le système UEFI a été bridé par le fabricant de l&#039;ordinateur pour forcer le démarrage sur Windows.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;D\u00e9pannage du dual-boot avec Windows 8 ou Windows 10&quot;,&quot;hid&quot;:&quot;depannage_du_dual-boot_avec_windows_8_ou_windows_10&quot;,&quot;codeblockOffset&quot;:16,&quot;secid&quot;:20,&quot;range&quot;:&quot;29900-30585&quot;} -->
+<h2 class="sectionedit21" id="demarrage_sur_cle_usb_impossible">Démarrage sur clé usb impossible</h2>
+<div class="level2">
+
+<p>
+Sur certains ordinateurs le bios a besoin d&#039;un exécutable en 32 bits sur la clé pour démarrer, or par défaut Ubuntu le propose en 64 bits. Voir la solution <a href="/ubuntu-fr-doc/doku.php/live_usb#cas_des_uefi_en_32_bits" class="wikilink1" title="live_usb">ici</a>.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;D\u00e9marrage sur cl\u00e9 usb impossible&quot;,&quot;hid&quot;:&quot;demarrage_sur_cle_usb_impossible&quot;,&quot;codeblockOffset&quot;:17,&quot;secid&quot;:21,&quot;range&quot;:&quot;30586-30833&quot;} -->
+<h2 class="sectionedit22" id="depannage_du_boot_uefi">Dépannage du Boot UEFI</h2>
+<div class="level2">
+
+<p>
+<a href="http://www.rodsbooks.com/refind/getting.html" class="urlextern" title="http://www.rodsbooks.com/refind/getting.html" rel="nofollow">rEFInd</a> est un utilitaire à avoir en cas de problème avec le boot UEFI. En effet, il  permet de redémarrer son système en mode UEFI, et donc de faire une réparation de celui-ci à partir d&#039;Ubuntu, lancé sans passer par chroot ou autre.
+</p>
+
+<p>
+Pour l&#039;installer, coller cette commande dans un terminal:
+</p>
+<pre class="code">sudo grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ubuntu --recheck --debug /dev/sdaX</pre>
+
+<p>
+<strong>En remplaçant X (dans sdaX) par le numéro de votre partition</strong>
+</p>
+
+<p>
+A noter: seule la version <strong>CD-R image</strong> supporte le boot avec Secure Boot activé, pas la version  <strong>USB flash drive image file</strong>
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;D\u00e9pannage du Boot UEFI&quot;,&quot;hid&quot;:&quot;depannage_du_boot_uefi&quot;,&quot;codeblockOffset&quot;:17,&quot;secid&quot;:22,&quot;range&quot;:&quot;30834-31548&quot;} -->
+<h2 class="sectionedit23" id="voir_aussi">Voir aussi</h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li"> <a href="http://forum.ubuntu-fr.org/viewtopic.php?id=986671" class="urlextern" title="http://forum.ubuntu-fr.org/viewtopic.php?id=986671" rel="nofollow">Discussion &quot;Installer Ubuntu en mode EFI ou en mode Bios&quot;</a> sur le forum ubuntu-fr</div>
+</li>
+<li class="level1"><div class="li">  <a href="http://linuxfr.org/news/uefi-à-la-découverte-du-nouveau-bios" class="urlextern" title="http://linuxfr.org/news/uefi-à-la-découverte-du-nouveau-bios" rel="nofollow"> Tuto Bios UEFI / EFI </a></div>
+</li>
+<li class="level1"><div class="li"> <a href="/ubuntu-fr-doc/doku.php/efibootmgr" class="wikilink1" title="efibootmgr">EFIBootmgr: Gestionnaire du chargeur de démarrage UEFI</a></div>
+</li>
+</ul>
+<hr />
+
+<p>
+<em>Contributeurs principaux : <a href="/ubuntu-fr-doc/doku.php/utilisateurs/yannubuntu" class="wikilink1" title="utilisateurs:yannubuntu">YannUbuntu</a>, <a href="/ubuntu-fr-doc/doku.php/utilisateurs/fnx" class="wikilink1" title="utilisateurs:fnx">fnx</a></em>
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Voir aussi&quot;,&quot;hid&quot;:&quot;voir_aussi&quot;,&quot;codeblockOffset&quot;:18,&quot;secid&quot;:23,&quot;range&quot;:&quot;31549-&quot;} --><div class="footnotes">
+<div class="fn"><sup><a href="#fnt__1" id="fn__1" class="fn_bot">1)</a></sup> 
+<div class="content"><a href="http://ubuntuforums.org/showpost.php?p=12397979&amp;postcount=9" class="urlextern" title="http://ubuntuforums.org/showpost.php?p=12397979&amp;postcount=9" rel="nofollow">http://ubuntuforums.org/showpost.php?p=12397979&amp;postcount=9</a></div></div>
+<div class="fn"><sup><a href="#fnt__2" id="fn__2" class="fn_bot">2)</a></sup> 
+<div class="content">= n&#039;importe quel emplacement entièrement inclus dans les 100 premiers Go du disque</div></div>
+<div class="fn"><sup><a href="#fnt__3" id="fn__3" class="fn_bot">3)</a></sup> 
+<div class="content">inutile de préciser ce point de montage si vous créez cette partition via l&#039;installateur Ubuntu, cf <a href="http://forum.ubuntu-fr.org/viewtopic.php?pid=10719471#p10719471" class="urlextern" title="http://forum.ubuntu-fr.org/viewtopic.php?pid=10719471#p10719471" rel="nofollow">cette discussion</a></div></div>
+</div>

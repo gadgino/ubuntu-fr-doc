@@ -1,0 +1,101 @@
+/*!
+ * DokuWiki Bootstrap3 Template: ubuntufr
+ *
+ * Home     http://dokuwiki.org/template:bootstrap3
+ * Author   Giuseppe Di Terlizzi <giuseppe.diterlizzi@gmail.com>
+ * License  GPL 2 (http://www.gnu.org/licenses/gpl.html)
+ */
+.testMe {
+ color:blue;
+ }
+ #dw__toc {
+   .toc-body > ul                     { overflow-y: auto !important; padding-left: 0px;}
+   .nav > li.level1                   {counter-increment: step-counter-lvl1;}
+   .nav > li.level1 > a::before       {content: counter(step-counter-lvl1); margin-right: 5px;}
+   .nav > li.level2                   {counter-increment: step-counter-lvl2;}
+   .nav > li.level2 > a::before       {content: counter(step-counter-lvl1) " - " counter(step-counter-lvl2); margin-right: 5px;}
+}
+
+.dw-content {
+  h2 {counter-increment: h2-counter;}
+  h2::before {content: counter(h2-counter) ".";margin-right: 5px}
+  h3 {counter-increment: h3-counter;}
+  h3::before {content: counter(h2-counter) "." counter(h3-counter);margin-right: 5px}
+  h4 {counter-increment: h4-counter;}
+  h4::before {content: counter(h2-counter) "." counter(h3-counter) "." counter(h4-counter);margin-right: 5px}
+}
+
+.uf{
+  display:inline-block;
+  font:normal normal normal 14px Ubuntu;
+  font-size:inherit;
+  text-rendering:auto;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale
+}
+.uf-cof:before {
+  content:"\E0FF";
+}
+.uf-ubuntu:before {
+  content:"\F200";
+}
+.uf-cofsup:before {
+  content:"\F0FF";
+}
+
+.navbar-brand {
+  padding-top: 5px;
+}
+
+@media screen and (min-width: 1000px) and (max-width: 1200px) {
+  .navbar-nav > li > a > span {
+      display: none;
+  }
+}
+
+.noteclassic, .noteimportant, .notewarning, .notetip, .notehelp {
+  width: 100% !important;
+  background-image: none;
+  padding: 15px 20px 15px 70px;
+  &:before {
+    font-family: FontAwesome;
+    margin-left: -50px;
+    margin-top: -20px;
+    font-size: 3em;
+    position:absolute;
+  }
+}
+.noteclassic {
+  background-color: #eef;
+  &:before {
+    content:"\F249";
+  }
+}
+
+.noteimportant {
+  background-color: #fda;
+  &:before {
+    content:"\F06A";
+  }
+}
+
+.notewarning {
+  background-color: #fdd;
+  &:before {
+    content:"\F071";
+  }
+}
+
+.notetip {
+  background-color: #ffd;
+  &:before {
+    content:"\F0EB";
+  }
+}
+
+.notehelp {
+  background-color: #ddf;
+  &:before {
+    content:"\F059";
+  }
+}
