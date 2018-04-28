@@ -31,55 +31,26 @@ $home_link        = (bootstrap3_conf('homePageURL') ? bootstrap3_conf('homePageU
         <span class="icon-bar"></span>
       </button>
 
-       <?php
- 
-	$logo_accueil=tpl_getMediaFile(array(':wiki:accueil.png', ':accueil.png', 'images/accueil.png'), false, $logoSize);
-	$logo_forum=tpl_getMediaFile(array(':wiki:forum.png', ':forum.png', 'images/forum.png'), false, $logoSize);
-	$logo_planet=tpl_getMediaFile(array(':wiki:planet.png', ':planet.png', 'images/planet.png'), false, $logoSize);
-	$logo_documentation=tpl_getMediaFile(array(':wiki:documentation.png', ':documentation.png', 'images/documentation.png'), false, $logoSize);
- 
+      <?php
+
         // get logo either out of the template images folder or data/media folder
         $logoSize  = array();
         $logo      = tpl_getMediaFile(array(':wiki:logo.png', ':logo.png', 'images/logo.png'), false, $logoSize);
         $title     = $conf['title'];
         $tagline   = ($conf['tagline']) ? '<span id="dw__tagline">'.$conf['tagline'].'</span>' : '';
         $logo_size = 'height="20"';
- 
+
         if ($tagline) {
           $logo_size = 'height="32" style="margin-top:-5px"';
         }
- 
+
         // display logo and wiki title in a link to the home page
         tpl_link(
-            '//www.ubuntu-fr.org',
-            '<img src="'.$logo_accueil.'" alt="Accueil" class="pull-left" id="dw__accueil" '.$logo_size.' /> ',
-            'accesskey="a" title="Accueil" class="navbar-brand"'
+            $home_link,
+            '<img src="'.$logo.'" alt="'.$title.'" class="pull-left'.(($tagline) ? ' dw-logo-tagline' : '').'" id="dw__logo" '.$logo_size.' /> <span id="dw__title" '.($tagline ? 'style="margin-top:-5px"': '').'>'. $title . $tagline .'</span>',
+            'accesskey="h" title="[H]" class="navbar-brand"'
         );
- 
-	tpl_link(
-            wl(),
-            '<img src="'.$logo_documentation.'" alt="'.$title.'" class="pull-left" id="dw__logo" '.$logo_size.' /> ',
-            'accesskey="h" title="[H]Documentation" class="navbar-brand"'
-        );
- 
-	tpl_link(
-            '//forum.ubuntu-fr.org',
-            '<img src="'.$logo_forum.'" alt="Forum" class="pull-left" id="dw__forum" '.$logo_size.' /> ',
-            'accesskey="f" title="[F]" class="navbar-brand"'
-        );
- 
-	tpl_link(
-            '//planet.ubuntu-fr.org',
-            '<img src="'.$logo_planet.'" alt="Planet" class="pull-left" id="dw__planet" '.$logo_size.' /> ',
-            'accesskey="p" title="[P]" class="navbar-brand"'
-        );
- 
-	tpl_link(
-            wl(),
-            '<span id="dw__title" '.($tagline ? 'style="margin-top:-5px"': '').'>'. $title . $tagline .'</span>',
-            'accesskey="t" title="[T]" class="navbar-brand"'
-        );
- 
+
       ?>
 
     </div>

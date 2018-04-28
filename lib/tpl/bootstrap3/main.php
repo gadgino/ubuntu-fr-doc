@@ -148,20 +148,7 @@ header('X-UA-Compatible: IE=edge,chrome=1');
 
     </main>
 
-    
-
-    <a href="#dokuwiki__top" class="back-to-top hidden-print btn btn-default btn-sm" title="<?php echo $lang['skip_to_content'] ?>" accesskey="t"><i class="fa fa-chevron-up"></i></a>
-
-    <div id="screen__mode"><?php /* helper to detect CSS media query in script.js */ ?>
-      <span class="visible-xs-block"></span>
-      <span class="visible-sm-block"></span>
-      <span class="visible-md-block"></span>
-      <span class="visible-lg-block"></span>
-    </div>
-    
-
-  </div>
-<?php
+    <?php
       // DokuWiki badges
 #      require_once('tpl_badges.php');
 
@@ -177,5 +164,17 @@ header('X-UA-Compatible: IE=edge,chrome=1');
       // Provide DokuWiki housekeeping, required in all templates
       tpl_indexerWebBug();
     ?>
+
+    <a href="#dokuwiki__top" class="back-to-top hidden-print btn btn-default btn-sm" title="<?php echo $lang['skip_to_content'] ?>" accesskey="t"><i class="fa fa-chevron-up"></i></a>
+
+    <div id="screen__mode"><?php /* helper to detect CSS media query in script.js */ ?>
+      <span class="visible-xs-block"></span>
+      <span class="visible-sm-block"></span>
+      <span class="visible-md-block"></span>
+      <span class="visible-lg-block"></span>
+    </div>
+
+  </div>
+
 </body>
 </html>
