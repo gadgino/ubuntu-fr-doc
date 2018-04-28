@@ -1,0 +1,40 @@
+<?php
+/*
+ * Paramètres de configuration propres à votre serveur de travail
+ *
+ * 1- Renomez ce fichier en local.protected.php
+ * 2- Changez les paramètres dans ce fichier pour correspondre à votre
+ *    environnement de travail, comme par exemple les paramètres déjà
+ *    renseignés ci-dessous.
+ *
+ */
+
+$conf['is_dev'] = 1;
+
+/* Gestion des connexions utilisateurs pour le serveur de DEV.
+ * Décommenter les lignes ci dessous pour utiliser une connexion
+ * à la base de donnée du forum fluxBB.
+ * Attention le include doit être placé après les paramètres
+ */
+//$conf['authtype']    = 'authmysql';  
+//$conf['passcrypt']   = 'sha1';  
+//$conf['plugin']['authmysql']['server']   = '';
+//$conf['plugin']['authmysql']['user']     = '';
+//$conf['plugin']['authmysql']['password'] = '';
+//$conf['plugin']['authmysql']['database'] = '';
+//$conf['plugin']['authmysql']['prefix']   = '';
+//@include(DOKU_CONF.'mysql.conf.php');
+$conf['authtype']='authplain';
+$conf['useacl']  =1;
+$conf['defaultgroup']= 'Members';
+
+// Suivi des modifications non nécessaires en DEV
+$conf['notify'] = '';
+
+//Gestion du thème
+$conf['template']    = 'ubuntu-2010';
+$conf['tpl']['ubuntu-2010']['static_host'] = '//www-static.dev.ubuntu-fr.org';
+
+// Pour NGinX uniquement
+// activation de X-Accel-Redirect permettant de servir les images de façon plus efficace
+//$conf['xsendfile'] = 3;
