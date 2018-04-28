@@ -1,10 +1,10 @@
 /*font-charger */
 @font-face {
-  font-family: "Ubuntu Tiling";
-  src: url("data/media/font/UbuntuTitling-Bold.ttf");
+	font-family: 'Ubuntu';
+	src: url('lib/tpl/bootstrap3/assets/fonts/Ubuntu-R.ttf') format('truetype');
 }
 body{
-    font-family: "Ubuntu Tiling","Ubuntu",Tahoma,"Helvetica Neue",Helvetica,Arial,sans-serif,FontAwesome;
+    font-family: "Ubuntu",Tahoma,"Helvetica Neue",Helvetica,Arial,sans-serif,FontAwesome;
 }
 
 
@@ -27,8 +27,10 @@ body{
     padding:15px;
     text-shadow: 0px 2px 2px #0c1753;
 }
+
 .navbar-brand::before{
     content:'\E0FF';
+//    font-family: "Ubuntu";
     font-size: 2em;
     margin-right: 0.3em;
     width: 1.28571429em;
@@ -40,6 +42,7 @@ body{
     width: 1.28571429em;
     text-align: center;
 }
+/*
 .navbar a[href*="Accueil"]:before{
     content:"\e0ff";
 }
@@ -52,9 +55,11 @@ body{
 .navbar a[href*="planet"]::before{
     content: "\f0ac";
 }
+*/
 .navbar li.level1{
     text-shadow: 0px 2px 2px #0c1753;
 }
+
 #dw__navbar a.dropdown-toggle{
     text-shadow: 0px 2px 2px #0c1753;
 }
