@@ -32,17 +32,53 @@ $wiki_home_link = (bootstrap3_conf('homePageURL') ? bootstrap3_conf('homePageURL
     <div class="small navbar-text">
 
       <?php if ($wiki_info_is_enabled): ?>
-      <div class="footer-dw-title">
-        <div class="media">
-          <div class="media-left">
+      <div class="footer-dw-title row">
+        <div class="media col-sm-4">
+          <!--<div class="media-left">
             <img src="<?php echo $wiki_logo ?>" alt="<?php echo $wiki_title ?>" class="media-object" style="width:32px" />
-          </div>
+          </div> -->
           <div class="media-body">
-            <h4 class="media-heading"><?php echo $wiki_title ?></h4>
+            <h4 class="media-heading">Documentation <i class="uf uf-ubuntu"></i></h4>
             <p>
-              <?php echo $wiki_tagline ?>
+              Les pages de cette documentation sont rédigées par les utilisateurs
+              pour les utilisateurs. Apportez-nous votre aide pour améliorer
+              le contenu de cette documentation.
             </p>
           </div>
+        </div>
+        <div class="col-sm-4">
+          <h4>Liens utiles</h4>
+          <ul class="list-group list-unstyled">
+            <li>
+              <?php tpl_link('/debutant', '<i class="fa fa-fw fa-child" style="font-size: 1.3em;"></i> Débuter sur Ubuntu') ?>
+            </li>
+            <li>
+              <?php tpl_link('/wiki/participer_wiki', '<i class="fa fa-fw fa-edit" style="font-size: 1.3em;"></i> Participer à la documentation') ?>
+            </li>
+            <li>
+              <?php tpl_link('/documentation_hors_ligne', '<i class="fa fa-fw fa-book" style="font-size: 1.3em;"></i> Documentation hors ligne') ?>
+            </li>
+            <li>
+              <?php tpl_link('//www.ubuntu-fr.org/telechargement', '<i class="fa fa-fw fa-arrow-circle-down" style="font-size: 1.3em;"></i> Télécharger Ubuntu') ?>
+            </li>
+          </ul>
+        </div>
+        <div class="col-sm-4">
+          <h4>Obtenir de l'aide</h4>
+          <ul class="list-group list-unstyled">
+            <li>
+              <?php tpl_link("/tutoriel/comment_obtenir_une_reponse_satisfaisante", '<i class="fa fa-fw fa-info-circle" style="font-size: 1.3em;"></i> Chercher de laide') ?>
+            </li>
+            <li>
+              <?php tpl_link('//doc.ubuntu-fr.org/', '<i class="fa fa-fw fa-book" style="font-size: 1.3em;"></i> Consulter la documentation') ?>
+            </li>
+            <li>
+              <?php tpl_link('//forum.ubuntu-fr.org/', '<i class="fa fa-fw fa-comments" style="font-size: 1.3em;"></i> Consulter le Forum') ?>
+            </li>
+            <li>
+              <?php tpl_link('//guide.ubuntu-fr.org/', '<i class="fa fa-fw fa-question-circle" style="font-size: 1.3em;"></i> Lisez le guide') ?>
+            </li>
+          </ul>
         </div>
         <p>&nbsp;</p>
       </div>

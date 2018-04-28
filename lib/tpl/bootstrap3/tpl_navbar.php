@@ -47,7 +47,7 @@ $home_link        = (bootstrap3_conf('homePageURL') ? bootstrap3_conf('homePageU
         // display logo and wiki title in a link to the home page
         tpl_link(
             $home_link,
-            '<img src="'.$logo.'" alt="'.$title.'" class="pull-left'.(($tagline) ? ' dw-logo-tagline' : '').'" id="dw__logo" '.$logo_size.' /> <span id="dw__title" '.($tagline ? 'style="margin-top:-5px"': '').'>'. $title . $tagline .'</span>',
+            '<span class="uf uf-cof" id="dw__accueil" style="font-size: 35px;" ></span> <span id="dw__title" '.($tagline ? 'style="margin-top:-5px"': '').'>'. $title . $tagline .'</span>',
             'accesskey="h" title="[H]" class="navbar-brand"'
         );
 
@@ -64,6 +64,18 @@ $home_link        = (bootstrap3_conf('homePageURL') ? bootstrap3_conf('homePageU
         </li>
       </ul>
       <?php endif; ?>
+
+      <ul class="nav navbar-nav">
+        <li>
+          <?php tpl_link('//ubuntu-fr.org/', '<i class="fa fa-fw fa-home" style="font-size: 2em;"></i><span> Accueil</span>') ?>
+        </li>
+        <li>
+          <?php tpl_link('//forum.ubuntu-fr.org/', '<i class="fa fa-fw fa-comments" style="font-size: 2em;"></i><span> Forum</span>') ?>
+        </li>
+        <li>
+          <?php tpl_link('//planet.ubuntu-fr.org/', '<i class="fa fa-fw fa-globe" style="font-size: 2em;"></i><span> Planet</span>') ?>
+        </li>
+      </ul>
 
       <?php echo bootstrap3_navbar() // Include the navbar for different namespaces ?>
       <?php echo bootstrap3_dropdown_page('dropdownpage') ?>
@@ -155,4 +167,3 @@ $home_link        = (bootstrap3_conf('homePageURL') ? bootstrap3_conf('homePageU
     </div>
   </div>
 </nav>
-
