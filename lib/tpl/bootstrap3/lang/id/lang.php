@@ -10,7 +10,6 @@
 $lang['discussion']              = 'Diskusi';
 $lang['back_to_article']         = 'Kembali ke artikel';
 $lang['userpage']                = 'Halaman pengguna';
-$lang['purge_cache_page']        = 'Purge page cache';
 $lang['themes']                  = 'Tema';
 $lang['expand_container']        = 'Perluas/Persempit';
 $lang['administrative_tasks']    = 'Tugas Administratif';
@@ -18,7 +17,6 @@ $lang['additional_plugins']      = 'Plugin Tambahan';
 $lang['share_on']                = 'Bagikan pada';
 $lang['send_mail']               = 'Kirim e-Mail';
 $lang['print']                   = 'Cetak';
-$lang['permalink']               = 'Permalink';
 $lang['add_new_page']            = 'Tambah Halaman Baru';
 
 // Configuration Manager Template Sections
@@ -29,7 +27,6 @@ $lang['config_semantic']         = 'Semantik';
 $lang['config_layout']           = 'Tata Latak';
 $lang['config_toc']              = 'Daftar Isi';
 $lang['config_discussion']       = 'Diskusi';
-$lang['config_avatar']           = 'Avatar';
 $lang['config_cookie_law']       = 'Aturan Cookie';
 $lang['config_google_analytics'] = 'Google Analytics';
 $lang['config_browser_title']    = 'Judul Peramban';

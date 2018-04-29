@@ -382,7 +382,7 @@ function bootstrap3_action_item($action, $icon = null, $return = false) {
     if ($return) return $link;
 
     # Pagetools
-    return '<li' . (($ACT == $action) ? ' class="active"' : ''). '>' . $link . '</li>'; 
+    return '<li' . (($ACT == $action) ? ' class="active"' : ''). '>' . $link . '</li>';
 
   }
 
@@ -505,14 +505,8 @@ function bootstrap3_sidebar($sidebar, $return = false) {
   $html = new simple_html_dom;
   $html->load($out);
 
-  # TODO 'page-header' will be removed in the next release of Bootstrap
   foreach ($html->find('h1, h2, h3, h4, h5, h6') as $elm) {
-
-    # Skip panel title on sidebar
-    if (preg_match('/panel-title/', $elm->class)) continue;
-
     $elm->class .= ' page-header';
-
   }
 
   $out = $html->save();
@@ -689,15 +683,18 @@ function bootstrap3_searchform() {
 
     if (! bootstrap3_conf('showSearchForm')) return false;
 
-    print '<form action="'.wl().'" accept-charset="utf-8" class="navbar-form navbar-left search" id="dw__search" method="get" role="search"><div class="no">';
+    //print '<form action="'.wl().'" accept-charset="utf-8" class="navbar-form navbar-left search" id="dw__search" method="get" role="search"><div class="no">';
+    print '<form action="//forum.ubuntu-fr.org/search_ubuntufr.php" accept-charset="utf-8" class="navbar-form navbar-left search" id="dw__search" method="get" role="search"><div class="no">';
 
     print '<input ';
     if ($ACT == 'search') print 'value="'.htmlspecialchars($QUERY).'" ';
-    print 'id="qsearch" autocomplete="off" type="search" placeholder="'.$lang['btn_search'].'" accesskey="f" name="id" class="form-control" title="[F]" />';
+    //print 'id="qsearch" autocomplete="off" type="search" placeholder="'.$lang['btn_search'].'" accesskey="f" name="id" class="form-control" title="[F]" />';
+    print 'id="qsearch" autocomplete="off" type="search" placeholder="'.$lang['btn_search'].'" accesskey="f" name="q" class="form-control" title="[F]" />';
 
     print '<button type="submit" title="'.$lang['btn_search'].'"><i class="fa fa-fw fa-search"></i></button>';
 
     print '<input type="hidden" name="do" value="search" />';
+    print '<input type="hidden" name="tsearch" value="wiki" />';
     print '</div></form>';
 
     return true;
@@ -1703,7 +1700,7 @@ function bootstrap3_metaheaders(Doku_Event &$event, $param) {
         ? $tpl_basedir . 'assets/bootstrap'
         : '//maxcdn.bootstrapcdn.com/bootswatch/3.3.7';
 
-      if (@file_exists($tpl_basedir . "assets/fonts/$bootswatch_theme.fonts.css")) {
+      if (file_exists($tpl_basedir . "assets/fonts/$bootswatch_theme.fonts.css")) {
         $stylesheets[] = $tpl_basedir . "assets/fonts/$bootswatch_theme.fonts.css";
       }
 
@@ -1830,9 +1827,6 @@ function bootstrap3_content($content) {
 
   # FIX :-\ smile
   $content = str_replace(array('alt=":-\"', "alt=':-\'"), 'alt=":-&#92;"', $content);
-
-  # Workaround for ToDo Plugin
-  $content = str_replace('checked="checked"', ' checked="checked"', $content);
 
   # Import HTML string
   $html = str_get_html($content);
@@ -2222,7 +2216,7 @@ function bootstrap3_content($content) {
           $elm->outertext = '</div>' . $elm->outertext;
         }
 
-        foreach($cm_elm->find('fieldset') as $elm) {  
+        foreach($cm_elm->find('fieldset') as $elm) {
           $elm->innertext .= $save_button;
         }
 

@@ -103,9 +103,7 @@ header('X-UA-Compatible: IE=edge,chrome=1');
               if (bootstrap3_conf('tocCollapsed')) $content_classes[] = 'dw-toc-closed';
 
               echo '<div class="dw-content-page '. implode(' ', $content_classes) .'">';
-
-              if ($toc) echo '<div class="dw-toc hidden-print">' . $toc . '</div>';
-
+              echo '<div class="dw-toc hidden-print">' . $toc . '</div>';
               echo '<!-- CONTENT -->';
               echo '<div class="dw-content">';
               echo bootstrap3_content($content);
