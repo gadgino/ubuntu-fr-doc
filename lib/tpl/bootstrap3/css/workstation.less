@@ -42,6 +42,14 @@ body{
 }
 
 /*tools flotant dw__pagetools */
-/*suppression de la bordure 
-.panel-body { padding: unset; }
-.panel { border:unset; }
+@media screen and (max-width: 479px) {
+  main {margin: 0px;}
+  .panel{
+		boder: unset;
+		background-color: unset;
+	}
+	#dw__pagetools { display : none; }
+	.panel-body { padding: unset; }
+	.panel { border:unset; }
+}
+
