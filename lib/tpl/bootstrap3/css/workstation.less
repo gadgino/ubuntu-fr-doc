@@ -6,39 +6,38 @@
  * License  GPL 2 (http://www.gnu.org/licenses/gpl.html)
  */
  
-/* font-charger */
+/* font-charger 
 @font-face {
 	font-family: Ubuntu;
 	src: url('../tpl/bootstrap3/assets/fonts/Ubuntu-R.ttf') format('truetype');
 }
 body{
     font-family: Ubuntu,Tahoma,"Helvetica Neue",Helvetica,Arial,sans-serif,FontAwesome;
-}
+}*/
 
 /* hauteur regulière pour les bouton de la nav barre */
 .navbar-default .navbar-nav > li > a{
     height: 3.7em;
 }
 
-/*effet de bord entête*/
+/*effet de bord*/
+.navbar-default {
+	box-shadow: 0 0 0.3em;
+}
 #dw__navbar ul.dropdown-menu{
     border-radius: 0em 0em 0.3em 0.3em;
-    box-shadow: 0px 0.3em 0.3em;
     z-index:99;
 }
 
-#dw__navbar{
+#dw__navbar {
     border-width: 0px;
     border-radius: 0em 0em 0.3em 0.3em;
-    box-shadow: 0px 0.3em 0.3em;
     z-index: 100;
    
 }
 
-/*effet de bord du pied de page */
-#dw__footer{
+#dw__footer {
     border-radius: 0.3em 0.3em 0em 0em;
-    box-shadow: 0px -0.3em 0.3em;
 }
 
 //coloration de l'urlexter
@@ -57,12 +56,67 @@ a {
 /*tools flotant dw__pagetools */
 @media screen and (max-width: 479px) {
   main {margin: 0px;}
-  .panel{
+	.panel{
 		boder: unset;
-		background-color: unset;
+//		background-color: unset;
 	}
 	#dw__pagetools { display : none; }
 	.panel-body { padding: unset; }
 	.panel { border:unset; }
+	
+	
+	.toc-title {
+		display: flex;
+		align-items: center;
+	}
+	.toc-title>i.fa{ font-size: 3em; }
+	.toc-title>span { margin-left: 1em; }
+	.toc-title>i.caret { display: none; }
+}	
+	
+#dw__toc {
+	position: fixed;
+}
+
+//css pour la fenêtre modal
+.modal{
+    display: none;
+    background-color: #0000001f;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    top: 0;
+    flex-flow: column;
+    justify-content: space-around;
+    align-items: center;
+}
+.modal:target {
+	display: flex;
+}
+.modal>article {
+	padding: 1em;
+	border-radius: 0.3em;
+	background-color: darkslategrey;
+	opacity: 1;
+	color: white;
+	line-height: 1.6em ;
+}
+.modal article {
+	border: aliceblue 2px;
+	padding: 1em;
+	border-top: solid 1px;
+}
+.modal form > p {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.modal input[type="color"] {
+	padding: 0.3em;
+	margin: 0;
+	height: 1.6em;
+	width: 4em;
 }
 
