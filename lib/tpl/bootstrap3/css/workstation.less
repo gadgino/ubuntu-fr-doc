@@ -53,7 +53,20 @@ a {
 		color: #c73200;
 	}
 }
+
+//coloration syntaxique mot1
+.code .kw1, .code .kw8 {
+	color: blue;
+	font-weight: bolder;
+}
+
 /*tools flotant dw__pagetools */
+	
+body {
+		margin-top: 3.7em;
+	}
+
+
 @media screen and (max-width: 479px) {
   main {margin: 0px;}
 	.panel{
@@ -65,18 +78,34 @@ a {
 	.panel { border:unset; }
 	
 	
-	.toc-title {
-		display: flex;
-		align-items: center;
+	.dw-toc {
+		position : absolute;
+		top:   0;
+		left:  0;
+		right: 0;
+		margin: 0;
+		width:100%
 	}
-	.toc-title>i.fa{ font-size: 3em; }
-	.toc-title>span { margin-left: 1em; }
+	#dw__toc {
+		border:unset;
+	}
+	#dw__toc>h6 {
+		border: unset;
+		font-size: 1.2em;
+		color:white;
+		background-color: #e95420;  
+	}
+	.toc-title>span { 
+		margin-left: 1em;
+		display:block;
+	 }
 	.toc-title>i.caret { display: none; }
+	.toc-body { 
+		margin-left: 3em;
+		width: 100%;
+	}
 }	
-	
-#dw__toc {
-	position: fixed;
-}
+
 
 //css pour la fenêtre modal
 .modal{

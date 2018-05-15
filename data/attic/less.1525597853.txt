@@ -1,0 +1,140 @@
+/*! ~~NOCACHE~~
+  * Atelier pour le thème de ubuntu-fr-doc
+  * Home     http://www.wwwinterface.toile-libre.org/
+  * Author   youssoufb <youssouf.bologna@lilo.org>
+<note> 
+Attention ceci n'est pas un exercice! le code de **cette page** est utilisé pour le formatage css du site. Voir [[:le_css_en_live|cette page explicative]].
+
+Une foie la page enregistré les modifications serons effectives.
+</note>
+
+===== hauteur regulière pour les bouton de la nav barre =====
+*/
+//le code://<code >
+.navbar-default .navbar-nav > li > a{
+    height: 3.7em;
+}
+// //</code>
+/*//fin//
+===== effet de bord =====
+*/
+//le code//<code>
+.navbar-default {
+  box-shadow: 0 0 0.3em;
+}
+#dw__navbar ul.dropdown-menu{
+//    border-radius: 0em 0em 1em 1em;
+    z-index:99;
+}
+#dw__navbar {
+    border-width: 0px;
+//    border-radius: 0em 0em 1em 1em;
+    z-index: 100;
+}
+#dw__footer {
+//    border-radius: 0.3em 0.3em 0em 0em;
+}
+// //</code>
+/*//fin//
+===== couleur =====
+==== des liens ====
+*/
+//le code://<code>
+a {
+	color: #e95420;
+	&:hover, &:focus {
+		color: #c73200;
+	}
+}
+// //</code>
+/*//fin//
+==== des hyperliens ====
+*/
+//le code://<code>
+a.urlextern {
+	color: #00aaff;
+	&:hover, &:focus {
+		color: #00ccff;
+	}
+}
+// //</code>
+/*//fin//
+==== Dans les code ====
+*/
+//le code://<code>
+.code .kw1, .code .kw8 {
+	color: blue;
+	font-weight: bolder;
+}
+// //</code>
+/*//fin//
+===== Autres objets raportés =====
+==== Fenêtre de configuration ====
+*/
+//le code://<code>
+.modal{
+    display: none;
+    background-color: #0000001f;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    top: 0;
+    flex-flow: column;
+    justify-content: space-around;
+    align-items: center;
+}
+.modal:target {
+	display: flex;
+}
+.modal>article {
+	padding: 1em;
+	border-radius: 0.3em;
+	background-color: darkslategrey;
+	opacity: 1;
+	color: white;
+	line-height: 1.6em ;
+}
+.modal article {
+	border: aliceblue 2px;
+	padding: 1em;
+	border-top: solid 1px;
+}
+.modal form > p {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.modal input[type="color"] {
+	padding: 0.3em;
+	margin: 0;
+	height: 1.6em;
+	width: 4em;
+}
+// //</code> 
+/*//fin//
+===== Les échangeurs =====
+j'appelle échangeurs une directive qui permet l'affichage ou non du élément.
+==== Table des matière (TOC) et Panneau d'outils ====
+*/
+//le code://<code>
+#dw__toc_menu {
+	display:none;
+}
+@media screen and (max-width: 479px) {
+	#main {margin: 0px;}
+	.panel{
+		boder: unset;
+	}
+	#dw__pagetools { display : none; }
+	.panel-body { padding: unset; }
+	.panel { border:unset; }
+	#dw__toc_menu {
+		display:table;
+	}
+	.dw-toc {
+		display:none;
+	}
+}
+// //</code> 

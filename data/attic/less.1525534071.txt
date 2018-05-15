@@ -1,0 +1,118 @@
+/*!
+ * Atelier pour le thème de ubuntu-fr-doc
+ *
+ * Home     http://www.wwwinterface.toile-libre.org/
+ * Author   youssoufb <youssouf.bologna@lilo.org>
+ * 
+ * <note> 
+ *   Attention ceci nest pas un exercice le code present dans cette page impacte le site.  
+ * </note>
+ */
+ 
+// hauteur regulière pour les bouton de la nav barre
+.navbar-default .navbar-nav > li > a{
+    height: 3.7em;
+}
+
+// effet de bord
+.navbar-default {
+  box-shadow: 0 0 0.3em;
+}
+#dw__navbar ul.dropdown-menu{
+    border-radius: 0em 0em 0.3em 0.3em;
+    z-index:99;
+}
+#dw__navbar {
+    border-width: 0px;
+    border-radius: 0em 0em 0.3em 0.3em;
+    z-index: 100;
+}
+#dw__footer {
+    border-radius: 0.3em 0.3em 0em 0em;
+}
+
+// coloration de l'urlexter
+a.urlextern {
+	color: #00aaff;
+	&:hover, &:focus {
+		color: #00ccff;
+	}
+}
+a {
+	color: #e95420;
+	&:hover, &:focus {
+		color: #c73200;
+	}
+}
+
+// coloration syntaxique mot1
+.code .kw1, .code .kw8 {
+	color: blue;
+	font-weight: bolder;
+}
+
+// tools flotant dw__pagetools 
+#dw__toc_menu {
+	display:none;
+}
+.testHook { color:blue;}
+@media (max-width: 479px) {
+	#main {margin: 0px;}
+	.panel{
+		boder: unset;
+	}
+	#dw__pagetools { display : none; }
+	.panel-body { padding: unset; }
+	.panel { border:unset; }
+	#dw__toc_menu {
+		display:table;
+	}
+	.dw-toc {
+		display:none;
+	}
+}	
+
+
+/*css pour la fenêtre modal */
+.modal{
+    display: none;
+    background-color: #0000001f;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    top: 0;
+    flex-flow: column;
+    justify-content: space-around;
+    align-items: center;
+}
+.modal:target {
+	display: flex;
+}
+.modal>article {
+	padding: 1em;
+	border-radius: 0.3em;
+	background-color: darkslategrey;
+	opacity: 1;
+	color: white;
+	line-height: 1.6em ;
+}
+.modal article {
+	border: aliceblue 2px;
+	padding: 1em;
+	border-top: solid 1px;
+}
+.modal form > p {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.modal input[type="color"] {
+	padding: 0.3em;
+	margin: 0;
+	height: 1.6em;
+	width: 4em;
+}
+
+ 
